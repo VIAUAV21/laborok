@@ -1,0 +1,91 @@
+site_name: BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok
+site_author: Ekler Péter, Gazdi László, Kövesdán Gábor, Pásztor Dániel, Pomázi Krisztián, Tóth Tibor
+copyright: Copyright &copy; BME VIK AUT
+repo_name: viauav21/laborok
+repo_url: https://github.com/viauav21/laborok
+
+theme:
+  name: material
+  custom_dir: overrides
+  language: hu
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: aut
+      primary: red
+      accent: red
+      toggle:
+        icon: material/lightbulb-outline
+        name: Váltás sötét témára
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: red
+      toggle:
+        icon: material/lightbulb
+        name: Váltás világos témára
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.tabs
+    - navigation.instant
+    - navigation.top
+    - search.suggest
+  logo: logo-bme-aut.png
+  favicon: favicon.ico
+
+extra_css:
+  - extra-material-theme.css
+
+extra:
+  generator: false
+
+markdown_extensions:
+  - admonition
+  - meta
+  - toc:
+      permalink: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tabbed
+  - pymdownx.tilde
+  - md_in_html
+  - pymdownx.keys
+
+plugins:
+  - search:
+      prebuild_index: true
+  - git-revision-date-localized:
+      enable_creation_date: false
+      type: timeago
+      timezone: Europe/Budapest
+      locale: hu
+  - git-committers:
+      repository: VIAUAV21/laborok
+      branch: master
+
+nav:
+  - "Tudnivalók":
+      - index.md
+      - tudnivalok/github/GitHub.md
+      - tudnivalok/github/GitHub-Actions.md
+      - tudnivalok/github/GitHub-credentials.md
+      - tudnivalok/github/contributing.md
+  - "Laborok":
+      - laborok/00-basics/index.md
+      - laborok/01-tictactoe/index.md
+  - "Házi feladat":
+      - hf/index.md

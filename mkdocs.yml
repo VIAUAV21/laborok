@@ -85,7 +85,7 @@ nav:
       - tudnivalok/github/GitHub-credentials.md
       - tudnivalok/github/contributing.md
   - "Laborok":
-      - laborok/01-basics/index.md
-      - laborok/02-tictactoe/index.md
+      - laborok/basics/index.md
+      - laborok/tictactoe/index.md
   - "Házi feladat":
       - hf/index.md

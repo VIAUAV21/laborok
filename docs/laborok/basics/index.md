@@ -1,4 +1,4 @@
-# Labor 00 - Alapok (HelloWorld)
+# Labor 01 - Alapok (HelloWorld)
 
 Az első labor rendhagyó a többihez képest. Itt kevés kóddal fogunk találkozni, inkább az alapok átnézésén van a hangsúly.
 

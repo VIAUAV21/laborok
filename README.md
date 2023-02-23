@@ -1,6 +1,6 @@
 # Androidalapú szoftverfejlesztés - Laborok
 
-![Build docs](https://github.com/bmeviauav21/laborok/workflows/Build%20docs/badge.svg?branch=master)
+![Build docs](https://github.com/viauav21/laborok/workflows/Build%20docs/badge.svg?branch=master)
 
 [BMEVIAUAV21 - Androidalapú szoftverfejlesztés](https://www.aut.bme.hu/Course/android) tárgy laborfeladatai.
 

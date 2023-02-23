@@ -68,6 +68,7 @@ markdown_extensions:
 plugins:
   - search:
       prebuild_index: true
+  - glightbox
   - git-revision-date-localized:
       enable_creation_date: false
       type: timeago

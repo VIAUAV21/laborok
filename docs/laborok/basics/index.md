@@ -1,8 +1,8 @@
-# Labor 01 - Alapok (HelloWorld)
+# Labor 01 - Alapok (HighLowGame)
 
 Az első labor rendhagyó a többihez képest. Itt kevés kóddal fogunk találkozni, inkább az alapok átnézésén van a hangsúly.
 
-A labor célja, hogy bemutassa az Android fejlesztőkörnyezetet, az alkalmazáskészítés, illetve a tesztelés és fordítás folyamatát, az alkalmazás felügyeletét, valamint az emulátor és a fejlesztőkörnyezet funkcióit. Ismertetjük egy Hello World alkalmazás elkészítésének módját és labor során a laborvezető részletesen bemutatja az eszközöket.
+A labor célja, hogy bemutassa az Android fejlesztőkörnyezetet, az alkalmazáskészítés, illetve a tesztelés és fordítás folyamatát, az alkalmazás felügyeletét, valamint az emulátor és a fejlesztőkörnyezet funkcióit. Ismertetjük egy egyszerű barchoba alkalmazás elkészítésének módját és labor során a laborvezető részletesen bemutatja az eszközöket.
 
 A labor végén egy jegyzőkönyvet kell beadni a jegy megszerzéséhez.
 
@@ -182,12 +182,159 @@ Tesztelés céljából nagyon jól használható az emulátor, amely az alábbi 
  Android fejlesztésre a labor során a JetBrains IntelliJ alapjain nyugvó Android Studio-t fogjuk használni. A Studio-val ismerkedők számára hasznos funkció a *Tip of the day*, érdemes egyből kipróbálni, megnézni az adott funkciót. Induláskor alapértelmezetten a legutóbbi projekt nyílik meg, ha nincs ilyen, vagy ha minden projektünket bezártuk, akkor a nyitó képernyő. (A legutóbbi projekt újranyitását a *Settings -> Appeareance & Behavior -> System Settings -> Reopen last project on startup* opcióval ki is kapcsolhatjuk.)
 
 
-## Hello World
+## High Low Game
 
-A laborvezető segítségével készítsenek egy egyszerű Hello World alkalmazást, a varázsló nézeten az *Include Kotlin support* legyen bepipálva! 
+A laborvezető segítségével készítsenek egy új alkalmazást!
+
+### Projekt létrehozása
+
+Első lépésként indítsuk el az Android Studio-t, majd:
+
+1. Hozzunk létre egy új projektet, válasszuk az *Empty Activity* lehetőséget.
+1. A projekt neve legyen `HighLowGame`, a kezdő package pedig `hu.bme.aut.android.highlowgame`.
+1. Nyelvnek válasszuk a *Kotlin*-t.
+1. A minimum API szint legyen *API21: Android 5.0*.
+1. A *legacy android.support* könyvtár használatot NE pipáljuk be.
 
 !!!warning "FILE PATH"
-	A projekt a repository-ban lévő HelloWorld könyvtárba kerüljön!
+	A projekt a repository-ban lévő HighLowGame könyvtárba kerüljön!
+
+A laborvezető segítségével tekintsék át a létrejött projekt struktúráját!
+
+Miután áttekintettük a projektet, valósítsuk meg a barchóba játékot! Először is kapcsoljuk be a modulunkra a `ViewBinding`-ot a felületi elemek eléréhez. Az `app` modulhoz tartozó `build.gradle` fájlban az `android` tagen belülre illesszük be az engedélyezést:
+
+```kotlin
+android {
+    ...
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+```
+
+Az alkalmazásunk felülete (`activity_main.xml`) a következő lesz:
+- lesz két beviteli mezőnk: egy a tippnek, egy a névnek
+- lesz egy gombunk a tipp leadásához
+- lesz egy eredmény mező az eredmény megjelenítéséhez.
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter number here">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etGuess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+			android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter a name here" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnGuess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guess" />
+
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="have fun :)"
+        android:textSize="28sp" />
+    
+</LinearLayout>
+```
+
+A játék kódja pedig a következőképpen alakul (`MainActivity.kt`):
+
+```kotlin
+class MainActivity : AppCompatActivity() {
+
+    companion object {
+        const val KEY_NUM = "KEY_NUM"
+    }
+
+    lateinit var binding: ActivityMainBinding
+
+    var generatedNum = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        if (savedInstanceState != null && savedInstanceState!!.containsKey(KEY_NUM)) {
+            generatedNum = savedInstanceState.getInt(KEY_NUM)
+        } else {
+            generateNewNumber()
+        }
+
+        binding.btnGuess.setOnClickListener {
+            try {
+
+                if (binding.etGuess.text!!.isNotEmpty()) {
+                    val myNum = binding.etGuess.text.toString().toInt()
+
+                    if (myNum == generatedNum) {
+                        binding.tvResult.text = "$binding.etName.text.toString(), You have won!"
+
+                    } else if (myNum < generatedNum) {
+                        binding.tvResult.text = "The number is higher"
+                    } else if (myNum > generatedNum) {
+                        binding.tvResult.text = "The number is lower"
+                    }
+                } else {
+                    binding.etGuess.error = "This value is not valid"
+
+                }
+
+            } catch (e: Exception) {
+                binding.etGuess.error = e.message
+            }
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt(KEY_NUM, generatedNum)
+
+        super.onSaveInstanceState(outState)
+    }
+
+
+    fun generateNewNumber() {
+        val rand = Random(System.currentTimeMillis())
+        generatedNum = rand.nextInt(3) // 0..2
+    }
+}
+```
+
+Az *Activty* első indulásakor sorsol egy kitalálandó számot. A tippelés gombnyomásra történik, aminek hatására frissül az eredmény mező.
+
+Figyeljük meg, hogy a játék túléli a forgatásokat is! Ez annak köszönhető, hogy az *Activity*-n belül eltárolt célszámot konfiguráció váltáskor elmentjük, majd új *Activity* indítása esetén betöltjük.
+
 
 ### Android Studio
 
@@ -292,15 +439,15 @@ A készüléken lévő fájlrendszert is [böngészhetjük](https://developer.an
 ## Feladatok (10 x 0.5 pont)
 
 1.  Az új alkalmazást futtassák emulátoron (akinek saját készüléke van, az is próbálja ki)!
-2.  Helyezzenek breakpointot a kódba, és debug módban indítsák az alkalmazást! (Érdemes megyfigyelni, hogy most másik Gradle Task fut a képernyő alján.)
-3.  Indítsanak hívást és küldjenek SMS-t az emulátorra! Mit tapasztalnak?
-4.  Indítsanak hívást és küldjenek SMS-t az emulátorról! Mit tapasztalnak?
-5.  Tekintse át az Android Profiler nézet funkcióit a laborvezető segítségével!
-6.  Változtassa meg a készülék tartózkodási helyét az emulátor megfelelő paneljének segítségével!
-7.  Vizsgálja meg az elindított `HelloWorld` projekt nyitott szálait, memóriafoglalását!
-8.  Vizsgálja meg a Logcat panel tartalmát!
-9.  Vizsgálja meg az Code -> Inspect code eredményét!
-10.  Keresse ki a létrehozott `HelloWorld` projekt mappáját és a build könyvtáron belül vizsgálja meg az `.apk` állomány tartalmát! Hol található a lefordított kód? 
+1.  Helyezzenek breakpointot a kódba, és debug módban indítsák az alkalmazást! (Érdemes megyfigyelni, hogy most másik Gradle Task fut a képernyő alján.)
+1.  Indítsanak hívást és küldjenek SMS-t az emulátorra! Mit tapasztalnak?
+1.  Indítsanak hívást és küldjenek SMS-t az emulátorról! Mit tapasztalnak?
+1.  Tekintse át az Android Profiler nézet funkcióit a laborvezető segítségével!
+1.  Változtassa meg a készülék tartózkodási helyét az emulátor megfelelő paneljének segítségével!
+1.  Vizsgálja meg az elindított `HighLowGame` projekt nyitott szálait, memóriafoglalását!
+1.  Vizsgálja meg a Logcat panel tartalmát!
+1.  Vizsgálja meg a Code -> Inspect code eredményét!
+1.  Keresse ki a létrehozott `HighLowGame` projekt mappáját és a build könyvtáron belül vizsgálja meg az `.apk` állomány tartalmát! Hol található a lefordított kód? 
 
 !!! example "BEADANDÓ"
 	A labor teljesítéséhez a fenti feladatokat kell végrehajtani és az eredményeket dokumentálni. Ezt minden egyes feladatnál egy képernyőképpel és rövid, néhány mondatos magyarázattal kell megtenni. A jegyzőkönyvet a repository-ban lévő `README.md` fájlban kell elkészíteni.

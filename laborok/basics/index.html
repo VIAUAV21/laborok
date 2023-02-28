@@ -21,7 +21,7 @@
     
     
       
-        <title>Labor 01 - Alapok (HelloWorld) - BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok</title>
+        <title>Labor 01 - Alapok (HighLowGame) - BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok</title>
       
     
     
@@ -77,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#labor-01-alapok-helloworld" class="md-skip">
+        <a href="#labor-01-alapok-highlowgame" class="md-skip">
           Kihagyás
         </a>
       
@@ -109,7 +109,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Labor 01 - Alapok (HelloWorld)
+              Labor 01 - Alapok (HighLowGame)
             
           </span>
         </div>
@@ -445,12 +445,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Labor 01 - Alapok (HelloWorld)
+          Labor 01 - Alapok (HighLowGame)
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Labor 01 - Alapok (HelloWorld)
+        Labor 01 - Alapok (HighLowGame)
       </a>
       
         
@@ -544,12 +544,19 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#hello-world" class="md-nav__link">
-    Hello World
+  <a href="#high-low-game" class="md-nav__link">
+    High Low Game
   </a>
   
-    <nav class="md-nav" aria-label="Hello World">
+    <nav class="md-nav" aria-label="High Low Game">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#projekt-letrehozasa" class="md-nav__link">
+    Projekt létrehozása
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#android-studio" class="md-nav__link">
@@ -799,12 +806,19 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#hello-world" class="md-nav__link">
-    Hello World
+  <a href="#high-low-game" class="md-nav__link">
+    High Low Game
   </a>
   
-    <nav class="md-nav" aria-label="Hello World">
+    <nav class="md-nav" aria-label="High Low Game">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#projekt-letrehozasa" class="md-nav__link">
+    Projekt létrehozása
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#android-studio" class="md-nav__link">
@@ -893,9 +907,9 @@
 
 
 
-<h1 id="labor-01-alapok-helloworld">Labor 01 - Alapok (HelloWorld)<a class="headerlink" href="#labor-01-alapok-helloworld" title="Permanent link">&para;</a></h1>
+<h1 id="labor-01-alapok-highlowgame">Labor 01 - Alapok (HighLowGame)<a class="headerlink" href="#labor-01-alapok-highlowgame" title="Permanent link">&para;</a></h1>
 <p>Az első labor rendhagyó a többihez képest. Itt kevés kóddal fogunk találkozni, inkább az alapok átnézésén van a hangsúly.</p>
-<p>A labor célja, hogy bemutassa az Android fejlesztőkörnyezetet, az alkalmazáskészítés, illetve a tesztelés és fordítás folyamatát, az alkalmazás felügyeletét, valamint az emulátor és a fejlesztőkörnyezet funkcióit. Ismertetjük egy Hello World alkalmazás elkészítésének módját és labor során a laborvezető részletesen bemutatja az eszközöket.</p>
+<p>A labor célja, hogy bemutassa az Android fejlesztőkörnyezetet, az alkalmazáskészítés, illetve a tesztelés és fordítás folyamatát, az alkalmazás felügyeletét, valamint az emulátor és a fejlesztőkörnyezet funkcióit. Ismertetjük egy egyszerű barchoba alkalmazás elkészítésének módját és labor során a laborvezető részletesen bemutatja az eszközöket.</p>
 <p>A labor végén egy jegyzőkönyvet kell beadni a jegy megszerzéséhez.</p>
 <p>A mérés az alábbi témákat érinti:</p>
 <ul>
@@ -1083,12 +1097,144 @@
 <p><img alt="" src="assets/avd_extras.png" /></p>
 <h2 id="fejlesztoi-kornyezet">Fejlesztői környezet<a class="headerlink" href="#fejlesztoi-kornyezet" title="Permanent link">&para;</a></h2>
 <p>Android fejlesztésre a labor során a JetBrains IntelliJ alapjain nyugvó Android Studio-t fogjuk használni. A Studio-val ismerkedők számára hasznos funkció a <em>Tip of the day</em>, érdemes egyből kipróbálni, megnézni az adott funkciót. Induláskor alapértelmezetten a legutóbbi projekt nyílik meg, ha nincs ilyen, vagy ha minden projektünket bezártuk, akkor a nyitó képernyő. (A legutóbbi projekt újranyitását a <em>Settings -&gt; Appeareance &amp; Behavior -&gt; System Settings -&gt; Reopen last project on startup</em> opcióval ki is kapcsolhatjuk.)</p>
-<h2 id="hello-world">Hello World<a class="headerlink" href="#hello-world" title="Permanent link">&para;</a></h2>
-<p>A laborvezető segítségével készítsenek egy egyszerű Hello World alkalmazást, a varázsló nézeten az <em>Include Kotlin support</em> legyen bepipálva! </p>
+<h2 id="high-low-game">High Low Game<a class="headerlink" href="#high-low-game" title="Permanent link">&para;</a></h2>
+<p>A laborvezető segítségével készítsenek egy új alkalmazást!</p>
+<h3 id="projekt-letrehozasa">Projekt létrehozása<a class="headerlink" href="#projekt-letrehozasa" title="Permanent link">&para;</a></h3>
+<p>Első lépésként indítsuk el az Android Studio-t, majd:</p>
+<ol>
+<li>Hozzunk létre egy új projektet, válasszuk az <em>Empty Activity</em> lehetőséget.</li>
+<li>A projekt neve legyen <code>HighLowGame</code>, a kezdő package pedig <code>hu.bme.aut.android.highlowgame</code>.</li>
+<li>Nyelvnek válasszuk a <em>Kotlin</em>-t.</li>
+<li>A minimum API szint legyen <em>API21: Android 5.0</em>.</li>
+<li>A <em>legacy android.support</em> könyvtár használatot NE pipáljuk be.</li>
+</ol>
 <div class="admonition warning">
 <p class="admonition-title">FILE PATH</p>
-<p>A projekt a repository-ban lévő HelloWorld könyvtárba kerüljön!</p>
+<p>A projekt a repository-ban lévő HighLowGame könyvtárba kerüljön!</p>
 </div>
+<p>A laborvezető segítségével tekintsék át a létrejött projekt struktúráját!</p>
+<p>Miután áttekintettük a projektet, valósítsuk meg a barchóba játékot! Először is kapcsoljuk be a modulunkra a <code>ViewBinding</code>-ot a felületi elemek eléréhez. Az <code>app</code> modulhoz tartozó <code>build.gradle</code> fájlban az <code>android</code> tagen belülre illesszük be az engedélyezést:</p>
+<div class="highlight"><pre><span></span><code><span class="n">android</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="n">buildFeatures</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">viewBinding</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Az alkalmazásunk felülete (<code>activity_main.xml</code>) a következő lesz:
+- lesz két beviteli mezőnk: egy a tippnek, egy a névnek
+- lesz egy gombunk a tipp leadásához
+- lesz egy eredmény mező az eredmény megjelenítéséhez.</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;LinearLayout</span><span class="w"> </span><span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+<span class="w">    </span><span class="na">xmlns:tools=</span><span class="s">&quot;http://schemas.android.com/tools&quot;</span>
+<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">&quot;match_parent&quot;</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">&quot;match_parent&quot;</span>
+<span class="w">    </span><span class="na">android:orientation=</span><span class="s">&quot;vertical&quot;</span>
+<span class="w">    </span><span class="na">tools:context=</span><span class="s">&quot;.MainActivity&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;com.google.android.material.textfield.TextInputLayout</span>
+<span class="w">        </span><span class="na">style=</span><span class="s">&quot;@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox&quot;</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">&quot;match_parent&quot;</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
+<span class="w">        </span><span class="na">android:hint=</span><span class="s">&quot;Enter number here&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;com.google.android.material.textfield.TextInputEditText</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">&quot;@+id/etGuess&quot;</span>
+<span class="w">            </span><span class="na">android:layout_width=</span><span class="s">&quot;match_parent&quot;</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/com.google.android.material.textfield.TextInputLayout&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;com.google.android.material.textfield.TextInputLayout</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">&quot;match_parent&quot;</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;EditText</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">&quot;@+id/etName&quot;</span>
+<span class="w">            </span><span class="na">android:layout_width=</span><span class="s">&quot;match_parent&quot;</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
+<span class="w">            </span><span class="na">android:hint=</span><span class="s">&quot;Enter a name here&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/com.google.android.material.textfield.TextInputLayout&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;Button</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">&quot;@+id/btnGuess&quot;</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">&quot;wrap_content&quot;</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
+<span class="w">        </span><span class="na">android:text=</span><span class="s">&quot;Guess&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;TextView</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">&quot;@+id/tvResult&quot;</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">&quot;wrap_content&quot;</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
+<span class="w">        </span><span class="na">android:text=</span><span class="s">&quot;have fun :)&quot;</span>
+<span class="w">        </span><span class="na">android:textSize=</span><span class="s">&quot;28sp&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/LinearLayout&gt;</span>
+</code></pre></div>
+<p>A játék kódja pedig a következőképpen alakul (<code>MainActivity.kt</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">MainActivity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">AppCompatActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">KEY_NUM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;KEY_NUM&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">binding</span><span class="p">:</span><span class="w"> </span><span class="n">ActivityMainBinding</span>
+
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">generatedNum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
+
+
+<span class="w">        </span><span class="n">binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ActivityMainBinding</span><span class="p">.</span><span class="na">inflate</span><span class="p">(</span><span class="n">layoutInflater</span><span class="p">)</span>
+<span class="w">        </span><span class="n">setContentView</span><span class="p">(</span><span class="n">binding</span><span class="p">.</span><span class="na">root</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">savedInstanceState</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">savedInstanceState</span><span class="o">!!</span><span class="p">.</span><span class="na">containsKey</span><span class="p">(</span><span class="n">KEY_NUM</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">generatedNum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">savedInstanceState</span><span class="p">.</span><span class="na">getInt</span><span class="p">(</span><span class="n">KEY_NUM</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">generateNewNumber</span><span class="p">()</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">binding</span><span class="p">.</span><span class="na">btnGuess</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">binding</span><span class="p">.</span><span class="na">etGuess</span><span class="p">.</span><span class="na">text</span><span class="o">!!</span><span class="p">.</span><span class="na">isNotEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="kd">val</span><span class="w"> </span><span class="nv">myNum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">binding</span><span class="p">.</span><span class="na">etGuess</span><span class="p">.</span><span class="na">text</span><span class="p">.</span><span class="na">toString</span><span class="p">().</span><span class="na">toInt</span><span class="p">()</span>
+
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">myNum</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">generatedNum</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="n">binding</span><span class="p">.</span><span class="na">tvResult</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;</span><span class="si">$</span><span class="n">binding</span><span class="s">.etName.text.toString(), You have won!&quot;</span>
+
+<span class="w">                    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">myNum</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">generatedNum</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="n">binding</span><span class="p">.</span><span class="na">tvResult</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;The number is higher&quot;</span>
+<span class="w">                    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">myNum</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">generatedNum</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="n">binding</span><span class="p">.</span><span class="na">tvResult</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;The number is lower&quot;</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">binding</span><span class="p">.</span><span class="na">etGuess</span><span class="p">.</span><span class="na">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;This value is not valid&quot;</span>
+
+<span class="w">                </span><span class="p">}</span>
+
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">binding</span><span class="p">.</span><span class="na">etGuess</span><span class="p">.</span><span class="na">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">message</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onSaveInstanceState</span><span class="p">(</span><span class="n">outState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">outState</span><span class="p">.</span><span class="na">putInt</span><span class="p">(</span><span class="n">KEY_NUM</span><span class="p">,</span><span class="w"> </span><span class="n">generatedNum</span><span class="p">)</span>
+
+<span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onSaveInstanceState</span><span class="p">(</span><span class="n">outState</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">generateNewNumber</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">rand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Random</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">currentTimeMillis</span><span class="p">())</span>
+<span class="w">        </span><span class="n">generatedNum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rand</span><span class="p">.</span><span class="na">nextInt</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="c1">// 0..2</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Az <em>Activty</em> első indulásakor sorsol egy kitalálandó számot. A tippelés gombnyomásra történik, aminek hatására frissül az eredmény mező.</p>
+<p>Figyeljük meg, hogy a játék túléli a forgatásokat is! Ez annak köszönhető, hogy az <em>Activity</em>-n belül eltárolt célszámot konfiguráció váltáskor elmentjük, majd új <em>Activity</em> indítása esetén betöltjük.</p>
 <h3 id="android-studio">Android Studio<a class="headerlink" href="#android-studio" title="Permanent link">&para;</a></h3>
 <p>Ez a rész azoknak szól, akik korábban már használták az Eclipse nevű IDE-t, és szeretnék megismerni a különbségeket az Android Studio-hoz képest.</p>
 <ul>
@@ -1186,10 +1332,10 @@
 <li>Indítsanak hívást és küldjenek SMS-t az emulátorról! Mit tapasztalnak?</li>
 <li>Tekintse át az Android Profiler nézet funkcióit a laborvezető segítségével!</li>
 <li>Változtassa meg a készülék tartózkodási helyét az emulátor megfelelő paneljének segítségével!</li>
-<li>Vizsgálja meg az elindított <code>HelloWorld</code> projekt nyitott szálait, memóriafoglalását!</li>
+<li>Vizsgálja meg az elindított <code>HighLowGame</code> projekt nyitott szálait, memóriafoglalását!</li>
 <li>Vizsgálja meg a Logcat panel tartalmát!</li>
-<li>Vizsgálja meg az Code -&gt; Inspect code eredményét!</li>
-<li>Keresse ki a létrehozott <code>HelloWorld</code> projekt mappáját és a build könyvtáron belül vizsgálja meg az <code>.apk</code> állomány tartalmát! Hol található a lefordított kód? </li>
+<li>Vizsgálja meg a Code -&gt; Inspect code eredményét!</li>
+<li>Keresse ki a létrehozott <code>HighLowGame</code> projekt mappáját és a build könyvtáron belül vizsgálja meg az <code>.apk</code> állomány tartalmát! Hol található a lefordított kód? </li>
 </ol>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ</p>
@@ -1206,8 +1352,8 @@
           </path>
         </svg>
       </span>
-      <span title="2023. február 6. 15:53:06">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-02-06T15:53:06+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-02-06</span>
+      <span title="2023. február 28. 05:39:26">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-02-28T05:39:26+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-02-28</span>
       </span>
     </span>
 

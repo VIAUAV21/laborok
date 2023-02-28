@@ -299,7 +299,7 @@ class MainActivity : AppCompatActivity() {
                     val myNum = binding.etGuess.text.toString().toInt()
 
                     if (myNum == generatedNum) {
-                        binding.tvResult.text = "$binding.etName.text.toString(), You have won!"
+                        binding.tvResult.text = "${binding.etName.text.toString()}, You have won!"
 
                     } else if (myNum < generatedNum) {
                         binding.tvResult.text = "The number is higher"

@@ -494,7 +494,7 @@
 </code></pre></div>
 <p>Győződjünk meg arról, hogy a függőségként felvett könyvtárak verziója a lehető legfrissebb. (Ez akkor áll fenn, ha egyik könyvtár sincs sárga színnel (<em>Warning</em>) kiemelve.)</p>
 <blockquote>
-<p>Ha szerepelnének ilyen figyelmeztetések, akkor a kurzoronkat a megfelelő könyvtár felé vive megjelenik egy ablak, amin belül a <code>Change to 'some_version'</code>-re kattintva módosíthatjuk az aktuális verziót egy újabbra.</p>
+<p>Ha szerepelnének ilyen figyelmeztetések, akkor a kurzorunkat a megfelelő könyvtár felé vive megjelenik egy ablak, amin belül a <code>Change to 'some_version'</code>-re kattintva módosíthatjuk az aktuális verziót egy újabbra.</p>
 </blockquote>
 <p>Vegyük fel azokat a további függőségeket, amikre még szükségünk lesz a projekt során. Ehhez a pluginok közé még vegyük fel a <code>androidx.navigation.safeargs.kotlin</code>-t.</p>
 <div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="o">{</span>
@@ -585,7 +585,7 @@
 </div>
 <p>Következő lépésként nyissuk meg a <code>nav_graph.xml</code>-t (<code>res/navigation</code>) <em>Design</em> módban. Kattintsunk a <em>New Destination</em> gombra, majd válasszuk ki a <em>Create New Destination</em> és <em>Fragment (Blank)</em> opciókat. A <em>Fragment</em> neve legyene <code>CalculatorFragment</code>. Majd véglegesítsük a létrehozást a <em>Next</em> és <em>Finish</em> gombra való kattintással.</p>
 <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="assets/new_destination.png"><img alt="" src="assets/new_destination.png"/></a></p>
-<p>Hozzunk létre ugyanezzel a módszerrel egy újabb <em>Fragment</em>-t <code>HistoryFragment</code> néven. Ha ezzel megvagyunk, vigyük a kurzorunkat a <code>CalculatorFragment</code> fölé, ekkor megjelenik egy karika a <em>Fragment</em> jobb oldalán. Kattintsunk rá, majd húzzuk az <em>bal</em> klikket lenyomva húzzuk a kurzort a másik <em>Fragment</em> fölé majd engedjük el. Így létrejött egy útvonal a <code>CalculatorFragment</code> és a <code>HistoryFragment</code> között. Végezzük el ugyanezt visszafelé. Ha ezzel megvagyunk, akkor következőt kell látnunk:</p>
+<p>Hozzunk létre ugyanezzel a módszerrel egy újabb <em>Fragment</em>-t <code>HistoryFragment</code> néven. Ha ezzel megvagyunk, vigyük a kurzorunkat a <code>CalculatorFragment</code> fölé, ekkor megjelenik egy karika a <em>Fragment</em> jobb oldalán. Kattintsunk rá, majd a <em>bal</em> klikket lenyomva húzzuk a kurzort a másik <em>Fragment</em> fölé majd engedjük el. Így létrejött egy útvonal a <code>CalculatorFragment</code> és a <code>HistoryFragment</code> között. Végezzük el ugyanezt visszafelé. Ha ezzel megvagyunk, akkor következőt kell látnunk:</p>
 <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="assets/nav_graph_done.png"><img alt="" src="assets/nav_graph_done.png"/></a></p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
@@ -594,7 +594,7 @@ A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <h2 id="calculatoroperator">CalculatorOperator<a class="headerlink" href="#calculatoroperator" title="Permanent link">¶</a></h2>
 <p>A labor következő szakaszában a <code>CalculatorOperator</code> nevű segédosztályt fogjuk implementálni, aminek a feladata, hogy eltárolja a számológép állapotát, és kiszámítsa a támogatott műveletek eredményét. Ezt a <em>Kotlin</em> <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/"><code>Regex</code></a> könyvtárának segítségével végzi el.</p>
-<p>Első lépésként hozzunk létre egy új <code>util</code> package-t (jobb klikk <em>calculator</em> package-en → <em>New</em> → <em>package</em>), benne <code>Util</code> nevű <em>Kotlin</em> objektummal. Ez az objektum fogja tartalmazni olyan konstansokat és segédváltozókat, amik a számológép működtetéséhez szükségesek.</p>
+<p>Első lépésként hozzunk létre egy új <code>util</code> package-t (jobb klikk <em>calculator</em> package-en → <em>New</em> → <em>package</em>), benne <code>Util</code> nevű <em>Kotlin</em> objektummal. Ez az objektum fogja tartalmazni az olyan konstansokat és segédváltozókat, amik a számológép működtetéséhez szükségesek.</p>
 <div class="highlight"><pre><span></span><code><span class="kd">object</span><span class="w"> </span><span class="nc">Util</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">COMMA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"."</span>
 
@@ -1149,7 +1149,7 @@ Ezután implementáljuk az <code>initButtons()</code> metódust. </p>
 </code></pre></div>
 <p>Itt először inicializáljuk <code>Set</code>-eket. Majd egy <code>forEachIndexed</code> ciklissal beállítjuk az eseménykezelőjüket. Ezután sorra elvégezzük az eseménykezelők beállítását azokra a gombokra is, amikből csak egy-egy példány létezik.</p>
 <blockquote>
-<p>A <a href="https://kotlinlang.org/docs/scope-functions.html#with"><code>with</code></a> egy olyan <code>scope</code> függvény, aminek segítségével azt tudjuk kifejezni, hogy: <em>ezzel az objektummal csináld a következőt</em>. Így kicsit leegyszerűsíthető kód, mivel a <code>context</code> objektumra <code>this</code>-ként hivatkozhatunk. Vannak más <code>scope</code> függvények is különböző felhasználási esetekre. Róluk <a href="https://kotlinlang.org/docs/scope-functions.html">ezen</a> a linken lehet olvasni.</p>
+<p>A <a href="https://kotlinlang.org/docs/scope-functions.html#with"><code>with</code></a> egy olyan <code>scope</code> függvény, aminek segítségével azt tudjuk kifejezni, hogy: <em>ezzel az objektummal csináld a következőt</em>. Így sok esetben kicsit átláthatóbbá lehet tenni a kódot, mivel a <code>context</code>-ként megadott <code>binding</code> objektumra <code>this</code>-ként hivatkozhatunk. Vannak más <code>scope</code> függvények is különböző felhasználási esetekre. Róluk <a href="https://kotlinlang.org/docs/scope-functions.html">ezen</a> a linken lehet olvasni.</p>
 </blockquote>
 <p>Végezetőül hívjuk meg ezt az <code>initButtons()</code> metódust az <code>onViewCreated()</code>-ben.</p>
 <div class="highlight"><pre><span></span><code><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onViewCreated</span><span class="p">(</span><span class="n">view</span><span class="p">:</span><span class="w"> </span><span class="n">View</span><span class="p">,</span><span class="w"> </span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
@@ -1455,7 +1455,7 @@ A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="navigacio">Navigáció<a class="headerlink" href="#navigacio" title="Permanent link">¶</a></h2>
-<p>Most már csak a <em>Fragment</em>-ek közti navigáció véglegesítése van hatrá. A <code>CalculatorFragment</code>-ről a konzolért felelős <code>TextView</code>-ra kattintva térhetünk át a <code>HistoryFragment</code>-re. Ehhez térjünk vissza a <code>CalculatorFragment</code> <code>onViewCreated()</code> metódusára, ahol a <em>View</em> komponensek inicializálást végeztük el. Vegyük fel a következő esemény kezelőt és engedélyezzük, hogy a <code>View</code> kattintható legyen:</p>
+<p>Most már csak a <em>Fragment</em>-ek közti navigáció véglegesítése van hátra. A <code>CalculatorFragment</code>-ről a konzolért felelős <code>TextView</code>-ra kattintva térhetünk át a <code>HistoryFragment</code>-re. Ehhez térjünk vissza a <code>CalculatorFragment</code> <code>onViewCreated()</code> metódusára, ahol a <em>View</em> komponensek inicializálást végeztük el. Vegyük fel a következő eseménykezelőt és engedélyezzük, hogy a <code>View</code> kattintható legyen:</p>
 <div class="highlight"><pre><span></span><code><span class="n">with</span><span class="p">(</span><span class="n">binding</span><span class="p">.</span><span class="na">consoleTextView</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">isClickable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
 <span class="w">    </span><span class="n">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
@@ -1464,7 +1464,7 @@ A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>A navigáció kezeléséért az ún. <code>NavController</code> felel, amit a <code>findNavController()</code> metódussal érhetünk el, rajta pedig a <code>navigate(action)</code> metódushívással ki tudjuk váltani a navigációt. Az <code>action</code>-ben most a navigációs "útvonal" szerepel, de ha szükséges ez kiegészíthető további argumentumokkal (lásd a <a href="https://developer.android.com/guide/navigation/navigation-pass-data">dokumentációban</a>). A <code>findNavController()</code>-hez <code>androidx.navigation.fragment.findNavController</code> importálására lesz szükségünk.</p>
+<p>A navigáció kezeléséért az ún. <code>NavController</code> felel, amit a <code>findNavController()</code> metódussal érhetünk el, rajta pedig a <code>navigate(action)</code> metódushívással ki tudjuk váltani a navigációt. Az <code>action</code>-ben most a navigációs "útvonal" szerepel, de ha szükséges, akkor ez kiegészíthető további argumentumokkal (lásd a <a href="https://developer.android.com/guide/navigation/navigation-pass-data">dokumentációban</a>). A <code>findNavController()</code>-hez <code>androidx.navigation.fragment.findNavController</code> importálására lesz szükségünk.</p>
 <p>Ha ezzel megvagyunk térjünk át a <code>HistoryFragment</code>-re, ahol a vissza gombra fogjuk beállítani, hogy megnyomásra lépjen vissza a <code>CalculatorFragment</code>-re. Itt is az <code>onViewCreated()</code> metódusban vagyük fel következő eseménykezelőt:</p>
 <div class="highlight"><pre><span></span><code><span class="n">binding</span><span class="p">.</span><span class="na">topAppBar</span><span class="p">.</span><span class="na">setNavigationOnClickListener</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">findNavController</span><span class="p">().</span><span class="na">popBackStack</span><span class="p">()</span>
@@ -1537,8 +1537,8 @@ A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </path>
 </svg>
 </span>
-<span title="2023. március 4. 14:28:39">
-<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-03-04T14:28:39+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-03-04</span>
+<span title="2023. március 4. 15:43:55">
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-03-04T15:43:55+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-03-04</span>
 </span>
 </span>
 <span class="md-source-file__fact">

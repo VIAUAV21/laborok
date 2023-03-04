@@ -70,7 +70,7 @@ android {
 
 Győződjünk meg arról, hogy a függőségként felvett könyvtárak verziója a lehető legfrissebb. (Ez akkor áll fenn, ha egyik könyvtár sincs sárga színnel (*Warning*) kiemelve.)
 
-> Ha szerepelnének ilyen figyelmeztetések, akkor a kurzoronkat a megfelelő könyvtár felé vive megjelenik egy ablak, amin belül a `Change to 'some_version'`-re kattintva módosíthatjuk az aktuális verziót egy újabbra.
+> Ha szerepelnének ilyen figyelmeztetések, akkor a kurzorunkat a megfelelő könyvtár felé vive megjelenik egy ablak, amin belül a `Change to 'some_version'`-re kattintva módosíthatjuk az aktuális verziót egy újabbra.
 
 Vegyük fel azokat a további függőségeket, amikre még szükségünk lesz a projekt során. Ehhez a pluginok közé még vegyük fel a `androidx.navigation.safeargs.kotlin`-t.
 
@@ -184,7 +184,7 @@ Következő lépésként nyissuk meg a `nav_graph.xml`-t (`res/navigation`) *Des
 
 ![](./assets/new_destination.png)
 
-Hozzunk létre ugyanezzel a módszerrel egy újabb *Fragment*-t `HistoryFragment` néven. Ha ezzel megvagyunk, vigyük a kurzorunkat a `CalculatorFragment` fölé, ekkor megjelenik egy karika a *Fragment* jobb oldalán. Kattintsunk rá, majd húzzuk az *bal* klikket lenyomva húzzuk a kurzort a másik *Fragment* fölé majd engedjük el. Így létrejött egy útvonal a `CalculatorFragment` és a `HistoryFragment` között. Végezzük el ugyanezt visszafelé. Ha ezzel megvagyunk, akkor következőt kell látnunk:
+Hozzunk létre ugyanezzel a módszerrel egy újabb *Fragment*-t `HistoryFragment` néven. Ha ezzel megvagyunk, vigyük a kurzorunkat a `CalculatorFragment` fölé, ekkor megjelenik egy karika a *Fragment* jobb oldalán. Kattintsunk rá, majd a *bal* klikket lenyomva húzzuk a kurzort a másik *Fragment* fölé majd engedjük el. Így létrejött egy útvonal a `CalculatorFragment` és a `HistoryFragment` között. Végezzük el ugyanezt visszafelé. Ha ezzel megvagyunk, akkor következőt kell látnunk:
 
 ![](./assets/nav_graph_done.png)
 
@@ -196,7 +196,7 @@ Hozzunk létre ugyanezzel a módszerrel egy újabb *Fragment*-t `HistoryFragment
 
 A labor következő szakaszában a `CalculatorOperator` nevű segédosztályt fogjuk implementálni, aminek a feladata, hogy eltárolja a számológép állapotát, és kiszámítsa a támogatott műveletek eredményét. Ezt a *Kotlin* [`Regex`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/) könyvtárának segítségével végzi el.
 
-Első lépésként hozzunk létre egy új `util` package-t (jobb klikk *calculator* package-en --> *New* --> *package*), benne `Util` nevű *Kotlin* objektummal. Ez az objektum fogja tartalmazni olyan konstansokat és segédváltozókat, amik a számológép működtetéséhez szükségesek.
+Első lépésként hozzunk létre egy új `util` package-t (jobb klikk *calculator* package-en --> *New* --> *package*), benne `Util` nevű *Kotlin* objektummal. Ez az objektum fogja tartalmazni az olyan konstansokat és segédváltozókat, amik a számológép működtetéséhez szükségesek.
 
 ```kotlin
 object Util {
@@ -808,7 +808,7 @@ private fun initButtons() {
 
 Itt először inicializáljuk `Set`-eket. Majd egy `forEachIndexed` ciklissal beállítjuk az eseménykezelőjüket. Ezután sorra elvégezzük az eseménykezelők beállítását azokra a gombokra is, amikből csak egy-egy példány létezik.
 
-> A [`with`](https://kotlinlang.org/docs/scope-functions.html#with) egy olyan `scope` függvény, aminek segítségével azt tudjuk kifejezni, hogy: *ezzel az objektummal csináld a következőt*. Így kicsit leegyszerűsíthető kód, mivel a `context` objektumra `this`-ként hivatkozhatunk. Vannak más `scope` függvények is különböző felhasználási esetekre. Róluk [ezen](https://kotlinlang.org/docs/scope-functions.html) a linken lehet olvasni.
+> A [`with`](https://kotlinlang.org/docs/scope-functions.html#with) egy olyan `scope` függvény, aminek segítségével azt tudjuk kifejezni, hogy: *ezzel az objektummal csináld a következőt*. Így sok esetben kicsit átláthatóbbá lehet tenni a kódot, mivel a `context`-ként megadott `binding` objektumra `this`-ként hivatkozhatunk. Vannak más `scope` függvények is különböző felhasználási esetekre. Róluk [ezen](https://kotlinlang.org/docs/scope-functions.html) a linken lehet olvasni.
 
 Végezetőül hívjuk meg ezt az `initButtons()` metódust az `onViewCreated()`-ben.
 
@@ -1143,7 +1143,7 @@ class HistoryFragment: Fragment(), HistoryAdapter.ClickListener {
 
 ## Navigáció
 
-Most már csak a *Fragment*-ek közti navigáció véglegesítése van hatrá. A `CalculatorFragment`-ről a konzolért felelős `TextView`-ra kattintva térhetünk át a `HistoryFragment`-re. Ehhez térjünk vissza a `CalculatorFragment` `onViewCreated()` metódusára, ahol a *View* komponensek inicializálást végeztük el. Vegyük fel a következő esemény kezelőt és engedélyezzük, hogy a `View` kattintható legyen:
+Most már csak a *Fragment*-ek közti navigáció véglegesítése van hátra. A `CalculatorFragment`-ről a konzolért felelős `TextView`-ra kattintva térhetünk át a `HistoryFragment`-re. Ehhez térjünk vissza a `CalculatorFragment` `onViewCreated()` metódusára, ahol a *View* komponensek inicializálást végeztük el. Vegyük fel a következő eseménykezelőt és engedélyezzük, hogy a `View` kattintható legyen:
 
 ```kotlin
 with(binding.consoleTextView) {
@@ -1155,7 +1155,7 @@ with(binding.consoleTextView) {
 }
 ```
 
-A navigáció kezeléséért az ún. `NavController` felel, amit a `findNavController()` metódussal érhetünk el, rajta pedig a `navigate(action)` metódushívással ki tudjuk váltani a navigációt. Az `action`-ben most a navigációs "útvonal" szerepel, de ha szükséges ez kiegészíthető további argumentumokkal (lásd a [dokumentációban](https://developer.android.com/guide/navigation/navigation-pass-data)). A `findNavController()`-hez `androidx.navigation.fragment.findNavController` importálására lesz szükségünk.
+A navigáció kezeléséért az ún. `NavController` felel, amit a `findNavController()` metódussal érhetünk el, rajta pedig a `navigate(action)` metódushívással ki tudjuk váltani a navigációt. Az `action`-ben most a navigációs "útvonal" szerepel, de ha szükséges, akkor ez kiegészíthető további argumentumokkal (lásd a [dokumentációban](https://developer.android.com/guide/navigation/navigation-pass-data)). A `findNavController()`-hez `androidx.navigation.fragment.findNavController` importálására lesz szükségünk.
 
 Ha ezzel megvagyunk térjünk át a `HistoryFragment`-re, ahol a vissza gombra fogjuk beállítani, hogy megnyomásra lépjen vissza a `CalculatorFragment`-re. Itt is az `onViewCreated()` metódusban vagyük fel következő eseménykezelőt:
 

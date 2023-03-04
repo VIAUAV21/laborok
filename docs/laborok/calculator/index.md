@@ -175,10 +175,12 @@ Keressük meg a `MainActivity`-hez tartozó `activity_main.xml` fájlt (`res/lay
 ```
 
 !!!note "Megjegyzés"
-	Ez egy egyedi *layout* típus, ami a *Fragment*-ek megjelenítésére használatos. 
-	- Az **android:name** attribútum tartalmazza a `NavHost` implementációnk osztálynevét.
-	- Az **app:navGraph** attribútum hivatkozik arra a navigációs erőforrásra, amit korábban generáltunk.
-	- Az **app:defaultNavhost="true"** attribútum biztosítja, hogy a `NavHostFragment` kezelni tudja a visszafelé navigálást (amit egy dedikált fizikai gombbal vagy interakcióval válthatunk ki). Csak egyetlen `NavHost` lehet alapértelmezettnek (*default*) beállítva.
+	Ez egy egyedi *layout* típus, ami a *Fragment*-ek megjelenítésére használatos.
+	<ul> 
+		<li>Az **android:name** attribútum tartalmazza a `NavHost` implementációnk osztálynevét.</li>
+		<li>Az **app:navGraph** attribútum hivatkozik arra a navigációs erőforrásra, amit korábban generáltunk.</li>
+	<li>Az **app:defaultNavhost="true"** attribútum biztosítja, hogy a `NavHostFragment` kezelni tudja a visszafelé navigálást (amit egy dedikált fizikai gombbal vagy interakcióval válthatunk ki). Csak egyetlen `NavHost` lehet alapértelmezettnek (*default*) beállítva.</li>
+	</ul>
 
 Következő lépésként nyissuk meg a `nav_graph.xml`-t (`res/navigation`) *Design* módban. Kattintsunk a *New Destination* gombra, majd válasszuk ki a *Create New Destination* és *Fragment (Blank)* opciókat. A *Fragment* neve legyene `CalculatorFragment`. Majd véglegesítsük a létrehozást a *Next* és *Finish* gombra való kattintással.
 

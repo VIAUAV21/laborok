@@ -1227,7 +1227,7 @@ binding.topAppBar.setOnMenuItemClickListener { menuItem ->
 }
 ```
 
-> Itt fontos megjegyezni, hogy az `adapter`-t értesítenünk kell arról, hogy milyen intervallumot érintett a változtatás. Ezt a `adapter.notifyItemRangeRemoved()`-al tudjuk elvégezni. Ha esetleg új elemet vennénk fel vagy valamilyen egyéb változtatást csinálnánk az `adapter` által megjelenített adathalmazon, arról ugyanígy értesíteni kell az `adapter`-t.
+> Itt fontos megjegyezni, hogy az `adapter`-t értesítenünk kell arról, hogy milyen intervallumot érintett a változtatás. Ezt az `adapter.notifyItemRangeRemoved()`-al tudjuk elvégezni. Ha esetleg új elemet vennénk fel vagy valamilyen egyéb változtatást csinálnánk az `adapter` által megjelenített adathalmazon, arról ugyanígy értesíteni kell az `adapter`-t.
 
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy képernyő képet, amin látszódik a `HistoryFragment` osztály `setOnMenuItemClickListener` metódusának kódja (benne szerepeljen valahol a NEPTUN KÓD kommentezve) mellette `History` képernyő üresen.

@@ -1,0 +1,1585 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="hu">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="Ekler Péter, Gazdi László, Kövesdán Gábor, Pásztor Dániel, Pomázi Krisztián, Tóth Tibor" name="author"/>
+<link href="../tictactoe/" rel="prev"/>
+<link href="../compose/" rel="next"/>
+<link href="../../favicon.ico" rel="icon"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-9.0.14" name="generator"/>
+<title>Labor03 - Számológép - BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok</title>
+<link href="../../assets/stylesheets/main.113286f1.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../../css/timeago.css" rel="stylesheet"/>
+<link href="../../extra-material-theme.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            
+                .gscrollbar-fixer { padding-right: 15px; }
+                .gdesc-inner { font-size: 0.75rem; }
+                body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+                body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+                body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+                </style><script src="../../assets/javascripts/glightbox.min.js"></script></head>
+<body data-md-color-accent="red" data-md-color-primary="red" data-md-color-scheme="aut" dir="ltr">
+<script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#labor03-szamologep">
+          Kihagyás
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Élőfej" class="md-header__inner md-grid">
+<a aria-label="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" class="md-header__button md-logo" data-md-component="logo" href="../.." title="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok">
+<img alt="logo" src="../../logo-bme-aut.png"/>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Labor03 - Számológép
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Váltás sötét témára" class="md-option" data-md-color-accent="red" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="red" data-md-color-scheme="aut" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_2" hidden="" title="Váltás sötét témára">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"></path></svg>
+</label>
+<input aria-label="Váltás világos témára" class="md-option" data-md-color-accent="" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="red" data-md-color-scheme="slate" id="__palette_2" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Váltás világos témára">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"></path></svg>
+</label>
+</form>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Keresés" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Keresés" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+</label>
+<nav aria-label="Keresés" class="md-search__options">
+<button aria-label="Törlés" class="md-search__icon md-icon" tabindex="-1" title="Törlés" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Keresés inicializálása
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/viauav21/laborok" title="Főoldalra ugrás">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+</div>
+<div class="md-source__repository">
+    viauav21/laborok
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<nav aria-label="Lapok" class="md-tabs" data-md-component="tabs">
+<div class="md-grid">
+<ul class="md-tabs__list">
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../..">
+        Tudnivalók
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link md-tabs__link--active" href="../basics/">
+        Laborok
+      </a>
+</li>
+<li class="md-tabs__item">
+<a class="md-tabs__link" href="../../hf/">
+        Házi feladat
+      </a>
+</li>
+</ul>
+</div>
+</nav>
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigáció" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok">
+<img alt="logo" src="../../logo-bme-aut.png"/>
+</a>
+    BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/viauav21/laborok" title="Főoldalra ugrás">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+</div>
+<div class="md-source__repository">
+    viauav21/laborok
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_1" type="checkbox"/>
+<label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+          Tudnivalók
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_1_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_1">
+<span class="md-nav__icon md-icon"></span>
+          Tudnivalók
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+        Tárgy ismertető
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tudnivalok/github/GitHub/">
+        Feladatok beadása (GitHub)
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tudnivalok/github/GitHub-Actions/">
+        GitHub Actions ismertető
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tudnivalok/github/GitHub-credentials/">
+        Egyetemi laborokban: GitHub belépés
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tudnivalok/github/contributing/">
+        Hozzájárulás az anyaghoz
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Laborok
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+          Laborok
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../basics/">
+        Labor 01 - Alapok (HighLowGame)
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../tictactoe/">
+        Labor02 - Egyszerű felhasználói felület több Activity segítségével (TicTacToe)
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+          Labor03 - Számológép
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+        Labor03 - Számológép
+      </a>
+<nav aria-label="Tartalomjegyzék" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Tartalomjegyzék
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#a-labor-celja">
+    A labor célja
+  </a>
+<nav aria-label="A labor célja" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#felhasznalt-technologiak">
+    Felhasznált technológiák:
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#elokeszuletek">
+    Előkészületek
+  </a>
+<nav aria-label="Előkészületek" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#git-repository-letrehozasa-es-letoltese">
+    Git repository létrehozása és letöltése
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#projekt-letrehozasa">
+    Projekt létrehozása
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#jetpack-navigation">
+    Jetpack Navigation
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#calculatoroperator">
+    CalculatorOperator
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#calculatorfragment">
+    CalculatorFragment
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#recyclerview">
+    RecyclerView
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#historyfragment">
+    HistoryFragment
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#navigacio">
+    Navigáció
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#onallo-resz-elozmenyek-torlese">
+    Önálló rész - Előzmények törlése
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../compose/">
+        Labor04 - Felhasználói felületek készítése a Jetpack Compose segítségével
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Házi feladat
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+          Házi feladat
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../hf/">
+        Házi feladat információk - TODO
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Tartalomjegyzék" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Tartalomjegyzék
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#a-labor-celja">
+    A labor célja
+  </a>
+<nav aria-label="A labor célja" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#felhasznalt-technologiak">
+    Felhasznált technológiák:
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#elokeszuletek">
+    Előkészületek
+  </a>
+<nav aria-label="Előkészületek" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#git-repository-letrehozasa-es-letoltese">
+    Git repository létrehozása és letöltése
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#projekt-letrehozasa">
+    Projekt létrehozása
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#jetpack-navigation">
+    Jetpack Navigation
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#calculatoroperator">
+    CalculatorOperator
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#calculatorfragment">
+    CalculatorFragment
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#recyclerview">
+    RecyclerView
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#historyfragment">
+    HistoryFragment
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#navigacio">
+    Navigáció
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#onallo-resz-elozmenyek-torlese">
+    Önálló rész - Előzmények törlése
+  </a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="labor03-szamologep">Labor03 - Számológép<a class="headerlink" href="#labor03-szamologep" title="Permanent link">¶</a></h1>
+<h2 id="a-labor-celja">A labor célja<a class="headerlink" href="#a-labor-celja" title="Permanent link">¶</a></h2>
+<p>A legfontosabb <code>XML</code>-alapú UI fejlesztési komponensek használatának bemutatása. A labor során megismerkedünk a <code>Jetpack Navigation</code> könyvtárral, a <code>Fragment</code>-ekkel és <code>RecyclerView</code> elkészítési lépéseivel.</p>
+<h3 id="felhasznalt-technologiak">Felhasznált technológiák:<a class="headerlink" href="#felhasznalt-technologiak" title="Permanent link">¶</a></h3>
+<ul>
+<li>Activity</li>
+<li>Fragment</li>
+<li>Jetpack Navigation</li>
+<li>RecyclerView és Adapter</li>
+<li>TableLayout, TextView, Button</li>
+<li>View Binding</li>
+</ul>
+<h2 id="elokeszuletek">Előkészületek<a class="headerlink" href="#elokeszuletek" title="Permanent link">¶</a></h2>
+<p>A feladatok megoldása során ne felejtsd el követni a <a href="../../tudnivalok/github/GitHub/">feladat beadás folyamatát</a>.</p>
+<h3 id="git-repository-letrehozasa-es-letoltese">Git repository létrehozása és letöltése<a class="headerlink" href="#git-repository-letrehozasa-es-letoltese" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Moodle-ben keresd meg a laborhoz tartozó meghívó URL-jét és annak segítségével hozd létre a saját repository-dat.</p>
+</li>
+<li>
+<p>Várd meg, míg elkészül a repository, majd checkout-old ki.</p>
+<div class="admonition tip">
+<p>Egyetemi laborokban, ha a checkout során nem kér a rendszer felhasználónevet és jelszót, és nem sikerül a checkout, akkor valószínűleg a gépen korábban megjegyzett felhasználónévvel próbálkozott a rendszer. Először töröld ki a mentett belépési adatokat (lásd <a href="../../tudnivalok/github/GitHub-credentials/">itt</a>), és próbáld újra.</p>
+</div>
+</li>
+<li>
+<p>Hozz létre egy új ágat <code>megoldas</code> néven, és ezen az ágon dolgozz.</p>
+</li>
+<li>
+<p>A <code>neptun.txt</code> fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.</p>
+</li>
+</ol>
+<h2 id="projekt-letrehozasa">Projekt létrehozása<a class="headerlink" href="#projekt-letrehozasa" title="Permanent link">¶</a></h2>
+<p>Első lépésként indítsuk el az Android Studio-t, majd:</p>
+<ol>
+<li>Hozzunk létre egy új projektet, válasszuk ki a <strong>No Activity</strong> opciót, majd kattintsunk a <em>Next</em> gombra.</li>
+<li>A projekt neve legyen <code>Calculator</code>, a kezdő package pedig <code>hu.bme.aut.android.calculator</code>.</li>
+<li>Nyelvnek továbbra is a <strong>Kotlin</strong>-t használjuk.</li>
+<li>A minimum API szint pedig legyen <strong>24: Android 7.0 (Nougat)</strong>.</li>
+</ol>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="assets/new_project.png"><img alt="" src="assets/new_project.png"/></a></p>
+<div class="admonition danger">
+<p class="admonition-title">FILE PATH</p>
+<p>A projekt a repository-ban lévő <code>Calculator</code> könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!</p>
+</div>
+<p>Ha ezzel megvagyunk, akkor térjünk rá a <em>Gradle</em> fájlokra, amik a projektünk build-elési folyamatának konfigurációjáért felelnek. Elsőre nézzük a <strong>project</strong> szintű <em>Gradle</em> fájlt:</p>
+<p>A <em>Jetpack Navigation</em> könyvtár használata miatt vegyük fel a többi plugin mellé a <code>androidx.navigation.safeargs</code>-ot:</p>
+<div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="o">...</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="s1">'androidx.navigation.safeargs'</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s1">'2.5.3'</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Nyissuk meg a <strong>module</strong> szintű <em>Gradle</em> fájlunkat.</p>
+<p>Engedélyezzük a View Binding-ot:</p>
+<div class="highlight"><pre><span></span><code><span class="o">...</span>
+<span class="n">android</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="o">...</span>
+<span class="w">    </span><span class="n">buildFeatures</span><span class="w"> </span><span class="o">{</span>
+<span class="w">        </span><span class="n">viewBinding</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Győződjünk meg arról, hogy a függőségként felvett könyvtárak verziója a lehető legfrissebb. (Ez akkor áll fenn, ha egyik könyvtár sincs sárga színnel (<em>Warning</em>) kiemelve.)</p>
+<blockquote>
+<p>Ha szerepelnének ilyen figyelmeztetések, akkor a kurzoronkat a megfelelő könyvtár felé vive megjelenik egy ablak, amin belül a <code>Change to 'some_version'</code>-re kattintva módosíthatjuk az aktuális verziót egy újabbra.</p>
+</blockquote>
+<p>Vegyük fel azokat a további függőségeket, amikre még szükségünk lesz a projekt során. Ehhez a pluginok közé még vegyük fel a <code>androidx.navigation.safeargs.kotlin</code>-t.</p>
+<div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="o">...</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="s1">'androidx.navigation.safeargs.kotlin'</span>
+<span class="o">}</span>
+
+<span class="n">android</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="o">...</span><span class="w"> </span><span class="o">}</span>
+
+<span class="n">dependencies</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="o">...</span>
+<span class="w">    </span><span class="kt">def</span><span class="w"> </span><span class="n">nav_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'2.5.3'</span>
+<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s2">"androidx.navigation:navigation-fragment-ktx:$nav_version"</span>
+<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s2">"androidx.navigation:navigation-ui-ktx:$nav_version"</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>Ha végeztünk szinkronizáljuk a <em>Gradle</em> fájlokat. (Ha esetleg nem lenne, meg hogy ezt hol lehet, akkor a <em>SHIFT</em> gomb dupla lenyomásával megnyílik egy kereső, amiben a <em>Sync project with Gradle files</em>-t megadva ez elvégezhető.) </p>
+<p>Szükségünk lesz még néhány <em>string</em> és <em>drawable</em> erőforrásra, amit most érdemes előre felvenni. A <em>string</em> erőforrások eléréséhez nyissuk meg a <code>res/values/string.xml</code> fájlt és vegyük fel az alábbi erőforrásokat:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;resources&gt;</span>
+<span class="w">    </span>...
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"text_calculator_console"</span><span class="nt">&gt;</span>0<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"text_operation"</span><span class="nt">&gt;</span>%1$.2f<span class="w"> </span>%2$s<span class="w"> </span>%3$.2f<span class="w"> </span>=<span class="w"> </span>%4$.2f<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_delete"</span><span class="nt">&gt;</span>C<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_sign"</span><span class="nt">&gt;</span>+/-<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_modulo"</span><span class="nt">&gt;</span>%<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_division"</span><span class="nt">&gt;</span>/<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_number_seven"</span><span class="nt">&gt;</span>7<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_number_eight"</span><span class="nt">&gt;</span>8<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_number_nine"</span><span class="nt">&gt;</span>9<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_multiplication"</span><span class="nt">&gt;</span>*<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_number_four"</span><span class="nt">&gt;</span>4<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_number_five"</span><span class="nt">&gt;</span>5<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_number_six"</span><span class="nt">&gt;</span>6<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_subtraction"</span><span class="nt">&gt;</span>-<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_number_one"</span><span class="nt">&gt;</span>1<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_number_two"</span><span class="nt">&gt;</span>2<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_number_three"</span><span class="nt">&gt;</span>3<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_addition"</span><span class="nt">&gt;</span>+<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_number_zero"</span><span class="nt">&gt;</span>0<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_come"</span><span class="nt">&gt;</span>,<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_equivalence"</span><span class="nt">&gt;</span>=<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"menu_item_title_delete"</span><span class="nt">&gt;</span>Delete<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"menu_item_content_description_delete"</span><span class="nt">&gt;</span>Action<span class="w"> </span>to<span class="w"> </span>delete<span class="w"> </span>history<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_text_load"</span><span class="nt">&gt;</span>Load<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"app_bar_title_history"</span><span class="nt">&gt;</span>History<span class="nt">&lt;/string&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</code></pre></div>
+<p>Majd nyissuk meg a <em>ResourceManager</em>-t (bal oldali menüsáv), válasszuk ki a <em>drawable</em> erőforrásokat, majd kattintsunk a <strong>+</strong> gombra, ahol válasszuk ki a <strong>Vector Asset</strong> lehetőséget.</p>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="assets/rm_drawable.png"><img alt="" src="assets/rm_drawable.png"/></a></p>
+<p>Ekkor megnyílik az <em>Asset Studio</em>. Itt kattintsunk a <em>Clip art</em> mellett lévő gombra, és keressük meg az <strong>arrow back</strong> nevű ikont. Az <em>Name</em> attribútumot állítsuk át <code>ic_arrow_back_24</code>-re. Kattintsunk a <em>Next</em> majd a <em>Finish</em> gombra.</p>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="assets/asset_studio.png"><img alt="" src="assets/asset_studio.png"/></a></p>
+<p>Végezetőül szeretnénk a <em>Material You</em> keretrendszerre áttérni a UI kinézete esetében. Ehhez nyissuk a <code>res/values/</code> elérési úton lévő <code>themes.xml</code> fájlt, és írjuk át a tartalmát a következőre:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;resources</span><span class="w"> </span><span class="na">xmlns:tools=</span><span class="s">"http://schemas.android.com/tools"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!-- Base application theme. --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;style</span><span class="w"> </span><span class="na">name=</span><span class="s">"Base.Theme.Calculator"</span><span class="w"> </span><span class="na">parent=</span><span class="s">"Theme.Material3.DayNight.NoActionBar"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- Customize your light theme here. --&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- &lt;item name="colorPrimary"&gt;@color/my_light_primary&lt;/item&gt; --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/style&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;style</span><span class="w"> </span><span class="na">name=</span><span class="s">"Theme.Calculator"</span><span class="w"> </span><span class="na">parent=</span><span class="s">"Base.Theme.Calculator"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</code></pre></div>
+<p>Majd töröljük ki a <code>night</code> erőforrásminősítővel ellátott verziót.</p>
+<h2 id="jetpack-navigation">Jetpack Navigation<a class="headerlink" href="#jetpack-navigation" title="Permanent link">¶</a></h2>
+<p>A következő részben a <em>Jetpack Navigation</em> könyvtárral fogunk megismerkedni. Segítségével <em>Activity</em>-k és <em>Fragment</em>-ek közötti navigációt lehet megvalósítani úgy, hogy az egyes képernyők közti útvonalakat egy gráffal modellezzük.</p>
+<p>Első lépésként a <em>ResourceManager</em> segítségével, hozzunk létre egy navigációs gráfot. Válasszuk ki a <em>Navigation</em> opciót, majd kattintsunk a <strong>+</strong> gombra, ahol válasszuk a <em>Navigation Resource File</em> lehetőséget. Az erőforrás fájl neve legyen <code>nav_graph</code>.</p>
+<p>Ezután hozzunk létre egy új <em>Empty Activity</em>-t (jobb klikk <em>calculator</em> package-n → <em>New</em> → <em>Activity</em> → <em>Empty Activity</em>). Itt pipáljuk be a <em>Launcher Activity</em> opciót, ugyanis szeretnénk, hogy az <em>Activity</em> a futtató eszköz menüjéből indítható legyen. Majd kattintsunk a <em>Finish</em> gombra.</p>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="assets/new_activity.png"><img alt="" src="assets/new_activity.png"/></a></p>
+<p>Keressük meg a <code>MainActivity</code>-hez tartozó <code>activity_main.xml</code> fájlt (<code>res/layout</code>), és vegyük fel benne a következő <em>View</em> komponenst:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;androidx.fragment.app.FragmentContainerView</span>
+<span class="w">    </span><span class="na">android:id=</span><span class="s">"@+id/nav_host_fragment"</span>
+<span class="w">    </span><span class="na">android:name=</span><span class="s">"androidx.navigation.fragment.NavHostFragment"</span>
+<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"0dp"</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"0dp"</span>
+<span class="w">    </span><span class="na">app:layout_constraintLeft_toLeftOf=</span><span class="s">"parent"</span>
+<span class="w">    </span><span class="na">app:layout_constraintRight_toRightOf=</span><span class="s">"parent"</span>
+<span class="w">    </span><span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">"parent"</span>
+<span class="w">    </span><span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">"parent"</span>
+<span class="w">    </span><span class="na">app:defaultNavHost=</span><span class="s">"true"</span>
+<span class="w">    </span><span class="na">app:navGraph=</span><span class="s">"@navigation/nav_graph"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Megjegyzés</p>
+<p>Ez egy egyedi <em>layout</em> típus, ami a <em>Fragment</em>-ek megjelenítésére használatos. 
+- Az <strong>android:name</strong> attribútum tartalmazza a <code>NavHost</code> implementációnk osztálynevét.
+- Az <strong>app:navGraph</strong> attribútum hivatkozik arra a navigációs erőforrásra, amit korábban generáltunk.
+- Az <strong>app:defaultNavhost="true"</strong> attribútum biztosítja, hogy a <code>NavHostFragment</code> kezelni tudja a visszafelé navigálást (amit egy dedikált fizikai gombbal vagy interakcióval válthatunk ki). Csak egyetlen <code>NavHost</code> lehet alapértelmezettnek (<em>default</em>) beállítva.</p>
+</div>
+<p>Következő lépésként nyissuk meg a <code>nav_graph.xml</code>-t (<code>res/navigation</code>) <em>Design</em> módban. Kattintsunk a <em>New Destination</em> gombra, majd válasszuk ki a <em>Create New Destination</em> és <em>Fragment (Blank)</em> opciókat. A <em>Fragment</em> neve legyene <code>CalculatorFragment</code>. Majd véglegesítsük a létrehozást a <em>Next</em> és <em>Finish</em> gombra való kattintással.</p>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="assets/new_destination.png"><img alt="" src="assets/new_destination.png"/></a></p>
+<p>Hozzunk létre ugyanezzel a módszerrel egy újabb <em>Fragment</em>-t <code>HistoryFragment</code> néven. Ha ezzel megvagyunk, vigyük a kurzorunkat a <code>CalculatorFragment</code> fölé, ekkor megjelenik egy karika a <em>Fragment</em> jobb oldalán. Kattintsunk rá, majd húzzuk az <em>bal</em> klikket lenyomva húzzuk a kurzort a másik <em>Fragment</em> fölé majd engedjük el. Így létrejött egy útvonal a <code>CalculatorFragment</code> és a <code>HistoryFragment</code> között. Végezzük el ugyanezt visszafelé. Ha ezzel megvagyunk, akkor következőt kell látnunk:</p>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="assets/nav_graph_done.png"><img alt="" src="assets/nav_graph_done.png"/></a></p>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy képernyő képet, amin látszódik a <code>nav_graph.xml</code> <em>Code</em> módban (az XML kódban valahol szerepeljen a NEPTUN KÓD kommentezve) és az alkalmazást futtató <em>Emulator</em>-ral.
+A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
+</div>
+<h2 id="calculatoroperator">CalculatorOperator<a class="headerlink" href="#calculatoroperator" title="Permanent link">¶</a></h2>
+<p>A labor következő szakaszában a <code>CalculatorOperator</code> nevű segédosztályt fogjuk implementálni, aminek a feladata, hogy eltárolja a számológép állapotát, és kiszámítsa a támogatott műveletek eredményét. Ezt a <em>Kotlin</em> <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/"><code>Regex</code></a> könyvtárának segítségével végzi el.</p>
+<p>Első lépésként hozzunk létre egy új <code>util</code> package-t (jobb klikk <em>calculator</em> package-en → <em>New</em> → <em>package</em>), benne <code>Util</code> nevű <em>Kotlin</em> objektummal. Ez az objektum fogja tartalmazni olyan konstansokat és segédváltozókat, amik a számológép működtetéséhez szükségesek.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">object</span><span class="w"> </span><span class="nc">Util</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">COMMA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"."</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">numberPattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"0[.][0-9]+|[1-9][0-9]*[.][0-9]+|[1-9][0-9]*|0|^[\\s]"</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">numberRegex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Regex</span><span class="p">(</span><span class="n">numberPattern</span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">halfOperation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"[/*%+-](</span><span class="si">$</span><span class="n">numberPattern</span><span class="s">)|^[\\s]"</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">halfOperationRegex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Regex</span><span class="p">(</span><span class="n">halfOperation</span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">operationSymbolPattern</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"[/*%+-]|^[\\s]"</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">operationSymbol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Regex</span><span class="p">(</span><span class="n">operationSymbolPattern</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Ha ezzel megvagyunk hozzunk létre egy új <code>model</code> package-t a <em>calculator</em> package-n belül, majd hozzunk létre benne egy új <code>enum</code> osztályt <code>OperationSymbol</code> néven, ami a számológéppel elvégezhető műveleteket reprezentálja. Az <code>enum</code> osztályunk rendelkezzen egy konstruktorral, ami a műveletekhez a hozzájuk tartozó szimbólumot rendeli <code>String</code>-ként.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">OperationSymbol</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">symbol</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">DIVISION</span><span class="p">(</span><span class="s">"/"</span><span class="p">),</span><span class="w">   </span><span class="c1">// 0</span>
+<span class="w">    </span><span class="n">MULTIPLICATION</span><span class="p">(</span><span class="s">"*"</span><span class="p">),</span><span class="w">   </span><span class="c1">// 1</span>
+<span class="w">    </span><span class="n">SUBTRACTION</span><span class="p">(</span><span class="s">"-"</span><span class="p">),</span><span class="w">   </span><span class="c1">// 2</span>
+<span class="w">    </span><span class="n">ADDITION</span><span class="p">(</span><span class="s">"+"</span><span class="p">),</span><span class="w">   </span><span class="c1">// 3</span>
+<span class="w">    </span><span class="n">MODULO</span><span class="p">(</span><span class="s">"-"</span><span class="p">);</span><span class="w">   </span><span class="c1">// 4</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Következő lépésként egészítsük ki egy <code>companion object</code>-el benne egy olyan <code>getByOrdinal()</code> nevű segédfüggvénnyel, ami a sorrend szerinti index alapján visszaadja a megfelelő <code>OperationSymbol</code>-t. Tehát <code>0</code> esetén a <code>DIVISION</code>-t, <code>1</code> esetén <code>MULTIPLICATION</code>-t és így tovább.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getByOrdinal</span><span class="p">(</span><span class="n">ordinal</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">):</span><span class="w"> </span><span class="n">OperationSymbol? </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">var</span><span class="w"> </span><span class="nv">operation</span><span class="p">:</span><span class="w"> </span><span class="n">OperationSymbol? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">values</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="na">ordinal</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">ordinal</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span>
+<span class="w">                </span><span class="k">break</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">operation</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<blockquote>
+<p>Az <code>enum</code> osztályhoz tartozó <code>values()</code> metódus az osztályban definiált <code>enum</code> objektumok tömbjét adja vissza.</p>
+</blockquote>
+<p>Ezután a <em>util</em> package-ben hozzunk létre egy <code>CalculatorOperator</code> nevű <em>Kotlin</em> <code>object</code>-t (<code>Singleton</code> osztály). Ez a <code>Singleton</code> felel a számológép vezérléséért.</p>
+<p>Első lépésként a <code>CalculatorOperator</code> osztályon belül vegyünk fel egy <code>CalculatorState</code> nevű <code>data class</code>-t. Ez a számológép állapotának tárolásáért felel, ami a <code>CalculatorOperator</code> metódusai számára írható és olvasható, más osztályok számára pedig csak olvasható.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">object</span><span class="w"> </span><span class="nc">CalculatorOperator</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">state</span><span class="p">:</span><span class="w"> </span><span class="n">CalculatorState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CalculatorState</span><span class="p">()</span>
+<span class="w">        </span><span class="n">private</span><span class="w"> </span><span class="k">set</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">CalculatorState</span><span class="p">(</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">input</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">number1</span><span class="p">:</span><span class="w"> </span><span class="kt">Double</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">number2</span><span class="p">:</span><span class="w"> </span><span class="kt">Double</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">operation</span><span class="p">:</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">ADDITION</span><span class="p">,</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">result</span><span class="p">:</span><span class="w"> </span><span class="kt">Double</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<blockquote>
+<p>A <a href="https://kotlinlang.org/docs/data-classes.html"><code>data class</code></a> egy nagyon hasznos funkció a Kotlin nyelvben. Segítségével az elsődleges konstruktorban (ami közvetlenül az osztálynév után áll) deklarált változókra automatikusan generálódik a <code>hashCode()</code>, <code>equals()</code>, illetve <code>toString()</code> függvények, melyek hasznosak a különböző adathalmazok kezelése esetére. Bár megengedett, az adat osztályoknál lehetőleg kerüljük a változtatható változókat (<code>var</code>).</p>
+</blockquote>
+<p>Importáljuk a hiányzó referenciákat, majd implementáljuk a számok beviteléért felelős <code>onNumberPressed()</code> metódust:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="nf">onNumberPressed</span><span class="p">(</span><span class="n">number</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">        </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">input</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"</span><span class="si">$</span><span class="n">number</span><span class="s">"</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<blockquote>
+<p>A számok bevitele úgy történik, hogy az állapot <code>input</code> attribútumát mindig egy hozzáfűzött számmal megváltoztatott értékkel "frissítjük".</p>
+</blockquote>
+<p>Következő lépésként implementáljuk a műveletek elvégzéséért felelős metódust:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="nf">onOperationPressed</span><span class="p">(</span><span class="n">operation</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">input</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Util</span><span class="p">.</span><span class="na">numberRegex</span><span class="p">.</span><span class="na">matches</span><span class="p">(</span><span class="n">input</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">            </span><span class="n">number1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Util</span><span class="p">.</span><span class="na">numberRegex</span><span class="p">.</span><span class="na">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="o">!!</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">toDouble</span><span class="p">(),</span>
+<span class="w">            </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">getByOrdinal</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span><span class="o">!!</span><span class="p">,</span>
+<span class="w">            </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">getByOrdinal</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span><span class="o">!!</span><span class="p">.</span><span class="na">symbol</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Util</span><span class="p">.</span><span class="na">halfOperationRegex</span><span class="p">.</span><span class="na">matches</span><span class="p">(</span><span class="n">input</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">number2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Util</span><span class="p">.</span><span class="na">numberRegex</span><span class="p">.</span><span class="na">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="o">!!</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">toDouble</span><span class="p">()</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">countResult</span><span class="p">(</span><span class="n">number2</span><span class="p">)</span>
+<span class="w">        </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">            </span><span class="n">number1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">,</span>
+<span class="w">            </span><span class="n">number2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span><span class="p">,</span>
+<span class="w">            </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">getByOrdinal</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span><span class="o">!!</span><span class="p">,</span>
+<span class="w">            </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">getByOrdinal</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span><span class="o">!!</span><span class="p">.</span><span class="na">symbol</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Util</span><span class="p">.</span><span class="na">operationSymbol</span><span class="p">.</span><span class="na">matches</span><span class="p">(</span><span class="n">input</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">            </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">getByOrdinal</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span><span class="o">!!</span><span class="p">,</span>
+<span class="w">            </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">getByOrdinal</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span><span class="o">!!</span><span class="p">.</span><span class="na">symbol</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">            </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">getByOrdinal</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span><span class="o">!!</span><span class="p">,</span>
+<span class="w">            </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">getByOrdinal</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span><span class="o">!!</span><span class="p">.</span><span class="na">symbol</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<details close="">
+<summary>Ha érdekel az `onOperationPressed()` működési elve, akkor ezt a fület lenyitva tudod megismerni.</summary>
+A műveletek kezelése során három esetet különböztetünk meg egymástól. Az első eset, amikor az `input` string már tartalmaz valamilyen számot. Ekkor ezt a számot eltároljuk a számológép állapotának (`state`) `number1` attribútumában, majd az `input`-ot felülírjük a bevitt művelet szimbólumával, illetve az `operation` attribútumba is elmentjük a megfelelő `OperationSymbol` `enum` objektumot.
+<br/>
+<br/>
+A második eset akkor történik, amikor az `input`-ban egy szimbólumot valamilyen szám is követ (pl. "*5"). Ekkor a `number1` attribútum már tartalmaz egy számot (az 1. eset már lezajlott), így az első esetben felvett műveleti szimbólummal és az azt követő számmal már el is végezhető egy művelet. A művelet eredményével felülírjuk a `number1` értékét, majd a korábbiakhoz hasonlóan eltároljuk az új művelet szimbólumát.
+<br/>
+<br/>
+A harmadik eset, akkor áll fenn, amikor csak egy műveleti szimbólum van az `input`-ban (pl. "*"), ami helyett mást akarunk elvégezni, ekkor csak simán lecseréljük az `operation`-t és az `input`-ot.
+<br/>
+<br/>
+Végső esetben, amikor az `input` teljesen üres, akkor inicializáljuk az új műveleti értékekkel a `state`-et.
+</details>
+<p>Még szükségünk van a <code>countResult()</code> metódusra, aminek segítségével kiszámíthatóak a műveletek eredményei:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">countResult</span><span class="p">(</span><span class="n">number2</span><span class="p">:</span><span class="w"> </span><span class="kt">Double</span><span class="p">):</span><span class="w"> </span><span class="kt">Double</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">operation</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">DIVISION</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">number1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">number2</span>
+<span class="w">        </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">MULTIPLICATION</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">number1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">number2</span>
+<span class="w">        </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">MODULO</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">number1</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">number2</span>
+<span class="w">        </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">ADDITION</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">number1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">number2</span>
+<span class="w">        </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">SUBTRACTION</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">number1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">number2</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Végezetőül vegyük fel az előjelváltásért, a tizedesjegyért, a művelet elvégzéséért (<code>=</code>) és a törtlésért felelős metódusokat. Ezekben a metódusokban a számológép állapotának frissítése a fentiekhez hasonlóan történik.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="nf">onSignChange</span><span class="p">():</span><span class="w"> </span><span class="kt">Double</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">input</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Util</span><span class="p">.</span><span class="na">numberRegex</span><span class="p">.</span><span class="na">matches</span><span class="p">(</span><span class="n">input</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">number1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">Util</span><span class="p">.</span><span class="na">numberRegex</span><span class="p">.</span><span class="na">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="o">!!</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">toDouble</span><span class="p">()</span>
+<span class="w">        </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">            </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span><span class="p">,</span>
+<span class="w">            </span><span class="n">number1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number1</span><span class="p">,</span>
+<span class="w">            </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">        </span><span class="n">number1</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Util</span><span class="p">.</span><span class="na">halfOperationRegex</span><span class="p">.</span><span class="na">matches</span><span class="p">(</span><span class="n">input</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">number2</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="o">-</span><span class="n">Util</span><span class="p">.</span><span class="na">numberRegex</span><span class="p">.</span><span class="na">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="o">!!</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">toDouble</span><span class="p">()</span>
+<span class="w">        </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">            </span><span class="n">number2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number2</span><span class="p">,</span>
+<span class="w">            </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">        </span><span class="n">number2</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span>
+<span class="p">}</span>
+
+<span class="kd">fun</span><span class="w"> </span><span class="nf">addComa</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">        </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">input</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Util</span><span class="p">.</span><span class="na">COMMA</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">fun</span><span class="w"> </span><span class="nf">onEquivalence</span><span class="p">():</span><span class="w"> </span><span class="kt">Double</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">input</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Util</span><span class="p">.</span><span class="na">halfOperationRegex</span><span class="p">.</span><span class="na">matches</span><span class="p">(</span><span class="n">input</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">number2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Util</span><span class="p">.</span><span class="na">numberRegex</span><span class="p">.</span><span class="na">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="o">!!</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">toDouble</span><span class="p">()</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">countResult</span><span class="p">(</span><span class="n">number2</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">            </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">,</span>
+<span class="w">            </span><span class="n">number1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">,</span>
+<span class="w">            </span><span class="n">number2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span><span class="p">,</span>
+<span class="w">            </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">ADDITION</span><span class="p">,</span>
+<span class="w">            </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">        </span><span class="n">result</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">state</span><span class="p">.</span><span class="na">number2</span><span class="p">.</span><span class="na">isNaN</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">countResult</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">number2</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">            </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">,</span>
+<span class="w">            </span><span class="n">number1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">,</span>
+<span class="w">            </span><span class="n">number2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span><span class="p">,</span>
+<span class="w">            </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">ADDITION</span><span class="p">,</span>
+<span class="w">            </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">        </span><span class="n">result</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span>
+<span class="p">}</span>
+
+<span class="kd">fun</span><span class="w"> </span><span class="nf">onDelete</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">        </span><span class="n">number1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span><span class="p">,</span>
+<span class="w">        </span><span class="n">number2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span><span class="p">,</span>
+<span class="w">        </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span><span class="p">,</span>
+<span class="w">        </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="calculatorfragment">CalculatorFragment<a class="headerlink" href="#calculatorfragment" title="Permanent link">¶</a></h2>
+<p>Első lépésként keressük meg a <code>res/layout</code> alatt található <code>fragment_calculator.xml</code> fájlt, ahol <code>CalculatorFragment</code> <em>View</em> komponenseit és azok elrendezését fogjuk meghatározni. </p>
+<p>A laborra fordítható idő miatt csak ismerkedjünk meg az <em>XML</em> felépítési elvével és másoljuk át a kész <code>View hierarchiát</code>, ami az alábbi részt követően elérhető egy lenyíló részt kinyitva.</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;TableLayout</span><span class="w"> </span><span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;TableRow</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"fill_parent"</span>
+<span class="w">        </span><span class="na">android:layout_weight=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+<span class="w">        </span>...
+<span class="w">    </span><span class="nt">&lt;/TableRow&gt;</span>
+<span class="w">    </span>...
+<span class="nt">&lt;/TableLayout&gt;</span>
+</code></pre></div>
+<p>A <code>CalculatorFragment</code>-ünk táblázatos elrendezését egy <code>TableLayout</code> határozza meg, aminek a sorait <code>TableRow</code>-k segítségével tudjuk megadni. A táblázat mind a 6 sora ugyanolyan magasságú, amit úgy tudunk elérni, hogy a <code>TableRow</code>-k esetén az <code>android:layout_weight="1"</code> attribútumot felvesszük. Emellett minden gomb rendelkezik <em>5dp</em> margin-nal, hogy ne legyenek túl közel egymáshoz.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;TextView</span>
+<span class="w">    </span><span class="na">android:id=</span><span class="s">"@+id/consoleTextView"</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">    </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">    </span><span class="na">android:text=</span><span class="s">"@string/text_calculator_console"</span><span class="w"> </span>
+<span class="w">    </span><span class="na">android:textSize=</span><span class="s">"40sp"</span>
+<span class="w">    </span><span class="na">android:gravity=</span><span class="s">"center_vertical|end"</span>
+<span class="w">    </span><span class="na">android:fontFamily=</span><span class="s">"sans-serif-medium"</span><span class="nt">/&gt;</span>
+</code></pre></div>
+<p>A táblázat első sorában a konzol szerepét betöltő <code>TextView</code> szerepel. Az általa megjelenített szöveg a <code>View</code>-n belül jobb oldalt, függőlegesen középre igazítva látható félkövér betűtípussal. Ez az <code>android:gravity</code> és <code>android:fontFamily</code> attribútumokkal érhető el.</p>
+<p>A konzol alatt lévő sorokban a művelet és szám gombok következnek. A gombok egyenletesen töltik ki a sorokban elfoglalható teret, ami ugyancsak az <code>android:layout_weight="1"</code> attribútum felvételével érhető el.</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="nt">&lt;Button</span>
+<span class="w">    </span><span class="na">android:id=</span><span class="s">"@+id/deleteButton"</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">    </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">    </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">    </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">    </span><span class="na">android:text=</span><span class="s">"@string/button_text_delete"</span>
+<span class="w">    </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button"</span><span class="nt">/&gt;</span>
+</code></pre></div>
+<details close="">
+<summary>`CalculatorFragment` XML kódja</summary>
+<br/>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;TableLayout</span><span class="w"> </span><span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;TableRow</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"fill_parent"</span>
+<span class="w">        </span><span class="na">android:layout_weight=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;TextView</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/consoleTextView"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">android:clickable=</span><span class="s">"true"</span>
+<span class="w">            </span><span class="na">android:focusable=</span><span class="s">"true"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/text_calculator_console"</span>
+
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"40sp"</span>
+<span class="w">            </span><span class="na">android:gravity=</span><span class="s">"center_vertical|end"</span>
+<span class="w">            </span><span class="na">android:fontFamily=</span><span class="s">"sans-serif-medium"</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/TableRow&gt;</span>
+<span class="w">    </span><span class="nt">&lt;TableRow</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"fill_parent"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_weight=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/deleteButton"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_delete"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button"</span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/signButton"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_sign"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button"</span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/modulo_button"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_modulo"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button"</span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/operationDivisionButton"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_division"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button"</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/TableRow&gt;</span>
+<span class="w">    </span><span class="nt">&lt;TableRow</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"fill_parent"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_weight=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/number7Button"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button.ElevatedButton.Icon"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_number_seven"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/number8Button"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button.ElevatedButton.Icon"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_number_eight"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/number9Button"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button.ElevatedButton.Icon"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_number_nine"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/operationMultiplicationButton"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_multiplication"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button"</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/TableRow&gt;</span>
+<span class="w">    </span><span class="nt">&lt;TableRow</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"fill_parent"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_weight=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/number4Button"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button.ElevatedButton.Icon"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_number_four"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/number5Button"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button.ElevatedButton.Icon"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_number_five"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/number6Button"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button.ElevatedButton.Icon"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_number_six"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/operationSubtractionButton"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_subtraction"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button"</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/TableRow&gt;</span>
+<span class="w">    </span><span class="nt">&lt;TableRow</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"fill_parent"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_weight=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/number1Button"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button.ElevatedButton.Icon"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_number_one"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/number2Button"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button.ElevatedButton.Icon"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_number_two"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/number3Button"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button.ElevatedButton.Icon"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_number_three"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/operationAdditionButton"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_addition"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button"</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/TableRow&gt;</span>
+<span class="w">    </span><span class="nt">&lt;TableRow</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"fill_parent"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">        </span><span class="na">android:weightSum=</span><span class="s">"4"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/number0Button"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button.ElevatedButton.Icon"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_number_zero"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/commaButton"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button.ElevatedButton.Icon"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_come"</span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button.ElevatedButton.Icon"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:enabled=</span><span class="s">"false"</span>
+<span class="w">            </span><span class="na">android:visibility=</span><span class="s">"invisible"</span><span class="nt">/&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;Button</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/operationEquivalenceButton"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">            </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">            </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">            </span><span class="na">android:text=</span><span class="s">"@string/button_text_equivalence"</span>
+<span class="w">            </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button"</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/TableRow&gt;</span>
+<span class="nt">&lt;/TableLayout&gt;</span>
+</code></pre></div>
+</details>
+<p>Térjünk át a <code>CalculatorFragment</code> osztályra, ahol a fájl tartalmát cseréljük le a következőre:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">CalculatorFragment</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Fragment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">_binding</span><span class="p">:</span><span class="w"> </span><span class="n">FragmentCalculatorBinding? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">binding</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_binding</span><span class="o">!!</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreateView</span><span class="p">(</span>
+<span class="w">        </span><span class="n">inflater</span><span class="p">:</span><span class="w"> </span><span class="n">LayoutInflater</span><span class="p">,</span><span class="w"> </span><span class="n">container</span><span class="p">:</span><span class="w"> </span><span class="n">ViewGroup?,</span>
+<span class="w">        </span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?</span>
+<span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="n">View</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">_binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FragmentCalculatorBinding</span><span class="p">.</span><span class="na">inflate</span><span class="p">(</span><span class="n">inflater</span><span class="p">,</span><span class="w"> </span><span class="n">container</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">binding</span><span class="p">.</span><span class="na">root</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onViewCreated</span><span class="p">(</span><span class="n">view</span><span class="p">:</span><span class="w"> </span><span class="n">View</span><span class="p">,</span><span class="w"> </span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onViewCreated</span><span class="p">(</span><span class="n">view</span><span class="p">,</span><span class="w"> </span><span class="n">savedInstanceState</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onDestroyView</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onDestroyView</span><span class="p">()</span>
+<span class="w">        </span><span class="n">_binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Importáljuk a <code>FragmentCalculatorBinding</code> hiányzó referenciáját.</p>
+<p>Mielőtt rátérnénk a <em>Fragment</em> által kezelt <em>View</em> komponensek inicializálására, vegyünk fel még két <code>Set</code>-et, amikben a szám és művelet gombokhoz tartozó <em>View</em>-k referenciáit fogjuk tárolni. Bevezetésükkel az inicalizálás könnyebben elvégezhető. Importáljuk a hiányzó referenciákat.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">numberButtons</span><span class="p">:</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Button</span><span class="o">&gt;</span>
+
+<span class="kd">private</span><span class="w"> </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">operationButtons</span><span class="p">:</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Button</span><span class="o">&gt;</span>
+</code></pre></div>
+<p>Ha ezzel megvagyunk tároljunk el egy referenciát a számológép állapotáról.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">calcState</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CalculatorOperator</span><span class="p">.</span><span class="na">state</span>
+</code></pre></div>
+<p>Importáljuk a hiányzó referenciát. Majd térjünk át az <code>onViewCreated()</code> metódusra, ahol megadhatjuk a <em>View</em> komponensek eseményekre adott viselkedését.</p>
+<p>Első lépésként szervezzük ki a számok megjelenítésének elvét egy <code>setResult()</code> nevű metódusba. Ez segíti, hogy az egész és a valós számok különböző módon jelenjenek meg a képernyőn.</p>
+<p><div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">setResult</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="kt">Double</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="na">isNaN</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">binding</span><span class="p">.</span><span class="na">consoleTextView</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="m">1.0</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">binding</span><span class="p">.</span><span class="na">consoleTextView</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="na">toInt</span><span class="p">().</span><span class="na">toString</span><span class="p">()</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">binding</span><span class="p">.</span><span class="na">consoleTextView</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">"%.2f"</span><span class="p">,</span><span class="n">value</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+Ezután implementáljuk az <code>initButtons()</code> metódust. </p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">initButtons</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Init number and operation button sets</span>
+<span class="w">    </span><span class="n">with</span><span class="p">(</span><span class="n">binding</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">numberButtons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">setOf</span><span class="p">(</span>
+<span class="w">            </span><span class="n">number0Button</span><span class="p">,</span><span class="w"> </span><span class="n">number1Button</span><span class="p">,</span><span class="w"> </span><span class="n">number2Button</span><span class="p">,</span>
+<span class="w">            </span><span class="n">number3Button</span><span class="p">,</span><span class="w"> </span><span class="n">number4Button</span><span class="p">,</span><span class="w"> </span><span class="n">number5Button</span><span class="p">,</span>
+<span class="w">            </span><span class="n">number6Button</span><span class="p">,</span><span class="w"> </span><span class="n">number7Button</span><span class="p">,</span><span class="w"> </span><span class="n">number8Button</span><span class="p">,</span>
+<span class="w">            </span><span class="n">number9Button</span>
+<span class="w">        </span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">operationButtons</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">setOf</span><span class="p">(</span>
+<span class="w">            </span><span class="n">operationDivisionButton</span><span class="p">,</span>
+<span class="w">            </span><span class="n">operationMultiplicationButton</span><span class="p">,</span>
+<span class="w">            </span><span class="n">operationSubtractionButton</span><span class="p">,</span>
+<span class="w">            </span><span class="n">operationAdditionButton</span><span class="p">,</span>
+<span class="w">            </span><span class="n">moduloButton</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Init click listeners for number buttons</span>
+<span class="w">    </span><span class="n">numberButtons</span><span class="p">.</span><span class="na">forEachIndexed</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">number</span><span class="p">,</span><span class="w"> </span><span class="n">button</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">        </span><span class="n">button</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">CalculatorOperator</span><span class="p">.</span><span class="na">onNumberPressed</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+<span class="w">            </span><span class="n">binding</span><span class="p">.</span><span class="na">consoleTextView</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">numberRegex</span><span class="p">.</span><span class="na">find</span><span class="p">(</span><span class="n">calcState</span><span class="p">.</span><span class="na">input</span><span class="p">)</span><span class="o">?.</span><span class="na">value</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="s">""</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Init click listeners for number buttons</span>
+<span class="w">    </span><span class="n">operationButtons</span><span class="p">.</span><span class="na">forEachIndexed</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">operation</span><span class="p">,</span><span class="w"> </span><span class="n">button</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">        </span><span class="n">button</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">CalculatorOperator</span><span class="p">.</span><span class="na">onOperationPressed</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span>
+<span class="w">            </span><span class="n">setResult</span><span class="p">(</span><span class="n">calcState</span><span class="p">.</span><span class="na">result</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Init click listener for sign button</span>
+<span class="w">    </span><span class="n">binding</span><span class="p">.</span><span class="na">signButton</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">setResult</span><span class="p">(</span><span class="n">CalculatorOperator</span><span class="p">.</span><span class="na">onSignChange</span><span class="p">())</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Init click listener for delete button</span>
+<span class="w">    </span><span class="n">binding</span><span class="p">.</span><span class="na">deleteButton</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">CalculatorOperator</span><span class="p">.</span><span class="na">onDelete</span><span class="p">()</span>
+<span class="w">        </span><span class="n">setResult</span><span class="p">(</span><span class="n">calcState</span><span class="p">.</span><span class="na">result</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Init click listener for comma button</span>
+<span class="w">    </span><span class="n">binding</span><span class="p">.</span><span class="na">commaButton</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">CalculatorOperator</span><span class="p">.</span><span class="na">addComa</span><span class="p">()</span>
+<span class="w">        </span><span class="n">binding</span><span class="p">.</span><span class="na">consoleTextView</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">calcState</span><span class="p">.</span><span class="na">input</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Init click listener for equivalence button</span>
+<span class="w">    </span><span class="n">binding</span><span class="p">.</span><span class="na">operationEquivalenceButton</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">setResult</span><span class="p">(</span><span class="n">CalculatorOperator</span><span class="p">.</span><span class="na">onEquivalence</span><span class="p">())</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Itt először inicializáljuk <code>Set</code>-eket. Majd egy <code>forEachIndexed</code> ciklissal beállítjuk az eseménykezelőjüket. Ezután sorra elvégezzük az eseménykezelők beállítását azokra a gombokra is, amikből csak egy-egy példány létezik.</p>
+<blockquote>
+<p>A <a href="https://kotlinlang.org/docs/scope-functions.html#with"><code>with</code></a> egy olyan <code>scope</code> függvény, aminek segítségével azt tudjuk kifejezni, hogy: <em>ezzel az objektummal csináld a következőt</em>. Így kicsit leegyszerűsíthető kód, mivel a <code>context</code> objektumra <code>this</code>-ként hivatkozhatunk. Vannak más <code>scope</code> függvények is különböző felhasználási esetekre. Róluk <a href="https://kotlinlang.org/docs/scope-functions.html">ezen</a> a linken lehet olvasni.</p>
+</blockquote>
+<p>Végezetőül hívjuk meg ezt az <code>initButtons()</code> metódust az <code>onViewCreated()</code>-ben.</p>
+<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onViewCreated</span><span class="p">(</span><span class="n">view</span><span class="p">:</span><span class="w"> </span><span class="n">View</span><span class="p">,</span><span class="w"> </span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">super</span><span class="p">.</span><span class="na">onViewCreated</span><span class="p">(</span><span class="n">view</span><span class="p">,</span><span class="w"> </span><span class="n">savedInstanceState</span><span class="p">)</span>
+
+<span class="w">    </span><span class="n">initButtons</span><span class="p">()</span><span class="w">   </span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy képernyő képet, amin látszódik a <code>CalculatorFragment</code> osztály kódja (benne szerepeljen valahol a NEPTUN KÓD kommentezve) és a futó alkalmazás egy beírt számmal.
+A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
+</div>
+<h2 id="recyclerview">RecyclerView<a class="headerlink" href="#recyclerview" title="Permanent link">¶</a></h2>
+<p>A <em>RecyclerView</em> könyvtár megkönnyíti a nagy adathalmazok hatékony megjelenítését. Meg kell határozni, hogy az egyes elemek hogyan nézzenek ki. Így az adathalmazt átadva egy <em>Adapter</em> nevű komponensnek az dinamikusan létrehozza az elemeket akkor, amikor éppen szükség van rájuk.</p>
+<p>Ahogy a név is sugallja, a <em>RecyclerView</em> újrahasznosítja ezeket a <em>View</em> elemeket. Amikor egy elem eltűnik a képernyőről, a RecyclerView nem szabadítja fel, hanem újra felhasználja azt a képernyőn megjelenő új elemhez. Ennek köszönhetően a <em>RecyclerView</em> bevezetésével javul a teljesítmény és az alkalmazás válaszideje, továbbá csökkenti az energiafogyasztást.</p>
+<p>A <em>RecyclerView</em> implementálása így három lépésből áll:</p>
+<ol>
+<li>lépés: <em>View</em> elem <em>layout</em>-jának meghatározása</li>
+<li>lépés: <em>Adapter</em> osztály implementálása</li>
+<li>lépés: <em>RecyclerView</em> felvétele a <em>Fragment</em>/<em>Activity</em>-ben és inicializálása a megfelelő osztályban</li>
+</ol>
+<p>Hozzunk lére egy új <em>XML</em> fájlt <code>view_history_item.xml</code> néven a<code>res/layout</code> mappában. A lista elem <code>LinearLayout</code>-ot használ a komponensei vízszintes sorba történő elrendezéséhez (<code>android:orientation="horizontal"</code>). A <code>LinearLayout</code> esetén is rendelhetünk súlyozást (arányokat) az egyes <em>View</em> komponensekhez az <code>android:weightSum</code> és az <code>android:layout_weight</code> attribútumok segítségével.</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;LinearLayout</span><span class="w"> </span><span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+<span class="w">    </span><span class="na">android:id=</span><span class="s">"@+id/historyView"</span>
+<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">    </span><span class="na">xmlns:tools=</span><span class="s">"http://schemas.android.com/tools"</span>
+<span class="w">    </span><span class="na">android:orientation=</span><span class="s">"horizontal"</span>
+<span class="w">    </span><span class="na">android:gravity=</span><span class="s">"center_vertical"</span>
+<span class="w">    </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">    </span><span class="na">android:weightSum=</span><span class="s">"5"</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;TextView</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/operationTextView"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">tools:text=</span><span class="s">"1 + 1 = 2"</span>
+<span class="w">        </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">        </span><span class="na">android:layout_weight=</span><span class="s">"4"</span>
+<span class="w">        </span><span class="na">android:textSize=</span><span class="s">"22sp"</span>
+<span class="w">        </span><span class="na">android:layout_gravity=</span><span class="s">"start"</span>
+<span class="w">        </span><span class="na">android:fontFamily=</span><span class="s">"sans-serif-medium"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;Button</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/loadButton"</span>
+<span class="w">        </span><span class="na">style=</span><span class="s">"?attr/materialButtonOutlinedStyle"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_margin=</span><span class="s">"5dp"</span>
+<span class="w">        </span><span class="na">android:text=</span><span class="s">"@string/button_text_load"</span>
+<span class="w">        </span><span class="na">android:layout_weight=</span><span class="s">"1"</span><span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/LinearLayout&gt;</span>
+</code></pre></div>
+<p>Következő lépésként készítsük el a <code>HistoryAdapter</code> osztályunkat. Ehhez hozzunk létre egy új <em>adapter</em> package-et, majd benne egy új <em>Kotlin</em> osztályt <code>HistoryAdapter</code> néven. Az osztályunk belsejében vegyünk fel egy <code>ViewHolder</code> nevű <code>inner class</code>-t, aminek konstruktorában egy <code>ViewHistoryItemBinding</code> szerepeljen, amit majd ez egyes <em>View</em> referenciák inicializálásához használunk fel. Importáljuk a hiányzó <code>ViewHistoryItemBinding</code> referenciát.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">HistoryAdapter</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">inner</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">ViewHolder</span><span class="p">(</span><span class="n">binding</span><span class="p">:</span><span class="w"> </span><span class="n">ViewHistoryItemBinding</span><span class="p">)</span><span class="w"> </span><span class="p">:</span>
+<span class="w">        </span><span class="n">RecyclerView</span><span class="p">.</span><span class="na">ViewHolder</span><span class="p">(</span><span class="n">binding</span><span class="p">.</span><span class="na">historyView</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">operationTextView</span><span class="p">:</span><span class="w"> </span><span class="n">TextView</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">loadButton</span><span class="p">:</span><span class="w"> </span><span class="n">Button</span>
+
+<span class="w">        </span><span class="k">init</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">operationTextView</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">binding</span><span class="p">.</span><span class="na">operationTextView</span>
+<span class="w">            </span><span class="n">loadButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">binding</span><span class="p">.</span><span class="na">loadButton</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>A <code>HistoryAdapter</code>-t származtassuk le a <code>RecyclerView.Adapter</code> <em>absztrakt</em> osztályból, és az elsődleges konstruktorában vegyünk fel egy <em>history</em> változót, ami a számológép által elmentett korábbi műveleteket tartalmazza. Importáljuk a hiányzó referenciákat.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">HistoryAdapter</span><span class="p">(</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">history</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">CalculatorOperator</span><span class="p">.</span><span class="na">CalculatorState</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">context</span><span class="p">:</span><span class="w"> </span><span class="n">Context</span>
+<span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">RecyclerView</span><span class="p">.</span><span class="na">Adapter</span><span class="o">&lt;</span><span class="n">HistoryAdapter</span><span class="p">.</span><span class="na">ViewHolder</span><span class="o">&gt;</span><span class="p">()</span>
+</code></pre></div>
+<p>Az <em>AndroidStudio</em> most hibát jelez ez azért van, mert implementálnunk kell az <code>onCreateViewHolder()</code>, <code>onBindViewHolder()</code> és a <code>getItemCount()</code> metódusokat.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreateViewHolder</span><span class="p">(</span><span class="n">parent</span><span class="p">:</span><span class="w"> </span><span class="n">ViewGroup</span><span class="p">,</span><span class="w"> </span><span class="n">viewType</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">):</span><span class="w"> </span><span class="n">ViewHolder</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ViewHistoryItemBinding</span><span class="p">.</span><span class="na">inflate</span><span class="p">(</span><span class="n">LayoutInflater</span><span class="p">.</span><span class="na">from</span><span class="p">(</span><span class="n">parent</span><span class="p">.</span><span class="na">context</span><span class="p">),</span><span class="n">parent</span><span class="p">,</span><span class="kc">false</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">ViewHolder</span><span class="p">(</span><span class="n">binding</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onBindViewHolder</span><span class="p">(</span><span class="n">holder</span><span class="p">:</span><span class="w"> </span><span class="n">ViewHolder</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">history</span><span class="o">[</span><span class="n">position</span><span class="o">]</span>
+<span class="w">    </span><span class="n">holder</span><span class="p">.</span><span class="na">operationTextView</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span>
+<span class="w">        </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">text_operation</span><span class="p">,</span>
+<span class="w">        </span><span class="n">operation</span><span class="p">.</span><span class="na">number1</span><span class="p">,</span>
+<span class="w">        </span><span class="n">operation</span><span class="p">.</span><span class="na">operation</span><span class="p">.</span><span class="na">symbol</span><span class="p">,</span>
+<span class="w">        </span><span class="n">operation</span><span class="p">.</span><span class="na">number2</span><span class="p">,</span>
+<span class="w">        </span><span class="n">operation</span><span class="p">.</span><span class="na">result</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">    </span><span class="n">holder</span><span class="p">.</span><span class="na">loadButton</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// TODO: implement event handler</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getItemCount</span><span class="p">():</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">history</span><span class="p">.</span><span class="na">size</span>
+</code></pre></div>
+<blockquote>
+<p>Ha a <code>String</code> erőforrásunkban valamilyen változó értékét szeretnénk megjeleníteni (formázás), akkor azt úgy tehetjük meg, hogy az erőforrásunkban argumantumokat helyezünk el. Esetünkben egy ilyen argumentum például a <code>%1$.2f</code>, ami kettő tizedesjegyig jeleníti meg a számokat. 
+A <code>Context</code>-ből elérhető <code>getString()</code> metódus segítségével pedig az erőforrás <code>id</code>-jának megadását követően felsorolhatjuk az argumentumainkat, amik alapján a <code>getString()</code> elvégzi azok beszúrását.</p>
+</blockquote>
+<p>A lista elemre való kattintás kezeléséhez szükségünk lesz egy <code>interface</code>-re, amit majd a listát megjelenító <em>Fragment</em> fog implementálni. Vegyünk fel egy belső <code>interface</code>-t <code>ClickListener</code> néven, ami rendelkezzen egy <code>onClick(loadedData: String)</code> metódussal. És egészítsük ki az <em>Adapter</em> konstruktorát egy <code>onClickListener</code> változóval.  </p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">HistoryAdapter</span><span class="p">(</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">onClickListener</span><span class="p">:</span><span class="w"> </span><span class="n">ClickListener</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">history</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">CalculatorOperator</span><span class="p">.</span><span class="na">CalculatorState</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">context</span><span class="p">:</span><span class="w"> </span><span class="n">Context</span>
+<span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">RecyclerView</span><span class="p">.</span><span class="na">Adapter</span><span class="o">&lt;</span><span class="n">HistoryAdapter</span><span class="p">.</span><span class="na">ViewHolder</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="p">...</span>
+
+<span class="w">    </span><span class="kd">interface</span><span class="w"> </span><span class="nc">ClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onClick</span><span class="p">(</span><span class="n">loadedData</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy képernyő képet, amin látszódik az <code>Adpater</code> osztály kódja (benne szerepeljen valahol a NEPTUN KÓD kommentezve).
+A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
+</div>
+<h2 id="historyfragment">HistoryFragment<a class="headerlink" href="#historyfragment" title="Permanent link">¶</a></h2>
+<p>Első lépésként térjünk vissza a <code>CalculatorOperator</code>-ra, hogy kezelni tudja az elvégzett műveletek mentését. Egészítsük ki az osztályt egy <code>history</code> változóval, egy <code>loadState()</code> és egy <code>addStateToHsitory()</code> metódussal, illetve módosítsuk az <code>onOperationPressed()</code> és <code>onEquaivalence()</code> metódusokat.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">object</span><span class="w"> </span><span class="nc">CalculatorOperator</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="p">...</span>
+
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">history</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mutableListOf</span><span class="o">&lt;</span><span class="n">CalculatorState</span><span class="o">&gt;</span><span class="p">()</span>
+
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadState</span><span class="p">(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">            </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">,</span>
+<span class="w">            </span><span class="n">number1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="na">toDouble</span><span class="p">(),</span>
+<span class="w">            </span><span class="n">number2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.0</span><span class="p">,</span>
+<span class="w">            </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.0</span><span class="p">,</span>
+<span class="w">            </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">ADDITION</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">addStateToHistory</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">history</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="p">...</span>
+
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onOperationPressed</span><span class="p">(</span><span class="n">operation</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">input</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Util</span><span class="p">.</span><span class="na">numberRegex</span><span class="p">.</span><span class="na">matches</span><span class="p">(</span><span class="n">input</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                </span><span class="n">number1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Util</span><span class="p">.</span><span class="na">numberRegex</span><span class="p">.</span><span class="na">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="o">!!</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">toDouble</span><span class="p">(),</span>
+<span class="w">                </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">getByOrdinal</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span><span class="o">!!</span><span class="p">,</span>
+<span class="w">                </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">getByOrdinal</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span><span class="o">!!</span><span class="p">.</span><span class="na">symbol</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Util</span><span class="p">.</span><span class="na">halfOperationRegex</span><span class="p">.</span><span class="na">matches</span><span class="p">(</span><span class="n">input</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">number2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Util</span><span class="p">.</span><span class="na">numberRegex</span><span class="p">.</span><span class="na">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="o">!!</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">toDouble</span><span class="p">()</span>
+<span class="w">            </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                </span><span class="n">number2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number2</span><span class="p">,</span>
+<span class="w">                </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">countResult</span><span class="p">(</span><span class="n">number2</span><span class="p">),</span>
+<span class="w">            </span><span class="p">)</span>
+
+<span class="w">            </span><span class="n">addStateToHistory</span><span class="p">()</span>
+
+<span class="w">            </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                </span><span class="n">number1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">result</span><span class="p">,</span>
+<span class="w">                </span><span class="n">number2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span><span class="p">,</span>
+<span class="w">                </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">getByOrdinal</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span><span class="o">!!</span><span class="p">,</span>
+<span class="w">                </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">getByOrdinal</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span><span class="o">!!</span><span class="p">.</span><span class="na">symbol</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Util</span><span class="p">.</span><span class="na">operationSymbol</span><span class="p">.</span><span class="na">matches</span><span class="p">(</span><span class="n">input</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">getByOrdinal</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span><span class="o">!!</span><span class="p">,</span>
+<span class="w">                </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">getByOrdinal</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span><span class="o">!!</span><span class="p">.</span><span class="na">symbol</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">getByOrdinal</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span><span class="o">!!</span><span class="p">,</span>
+<span class="w">                </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">getByOrdinal</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span><span class="o">!!</span><span class="p">.</span><span class="na">symbol</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="p">...</span>
+
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onEquivalence</span><span class="p">():</span><span class="w"> </span><span class="kt">Double</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">input</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Util</span><span class="p">.</span><span class="na">halfOperationRegex</span><span class="p">.</span><span class="na">matches</span><span class="p">(</span><span class="n">input</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">number2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Util</span><span class="p">.</span><span class="na">numberRegex</span><span class="p">.</span><span class="na">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span><span class="o">!!</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">toDouble</span><span class="p">()</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">countResult</span><span class="p">(</span><span class="n">number2</span><span class="p">)</span>
+
+<span class="w">            </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                </span><span class="n">number2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">number2</span><span class="p">,</span>
+<span class="w">                </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span>
+<span class="w">            </span><span class="p">)</span>
+
+<span class="w">            </span><span class="n">addStateToHistory</span><span class="p">()</span>
+
+<span class="w">            </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">,</span>
+<span class="w">                </span><span class="n">number1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">,</span>
+<span class="w">                </span><span class="n">number2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span><span class="p">,</span>
+<span class="w">                </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">ADDITION</span><span class="p">,</span>
+<span class="w">                </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">            </span><span class="n">result</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">state</span><span class="p">.</span><span class="na">number2</span><span class="p">.</span><span class="na">isNaN</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">countResult</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">number2</span><span class="p">)</span>
+<span class="w">            </span><span class="n">addStateToHistory</span><span class="p">()</span>
+<span class="w">            </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                </span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">,</span>
+<span class="w">                </span><span class="n">number1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">result</span><span class="p">,</span>
+<span class="w">                </span><span class="n">number2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span><span class="p">,</span>
+<span class="w">                </span><span class="n">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OperationSymbol</span><span class="p">.</span><span class="na">ADDITION</span><span class="p">,</span>
+<span class="w">                </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">            </span><span class="n">result</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="kt">Double</span><span class="p">.</span><span class="na">NaN</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Ha ezzel megvagyunk keressük meg a <code>res/layout</code> mappában lévő <code>fragment_history.xml</code> fájlt és módosítsuk a következő módon.</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span><span class="w"> </span><span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">    </span><span class="na">xmlns:app=</span><span class="s">"http://schemas.android.com/apk/res-auto"</span>
+<span class="w">    </span><span class="na">xmlns:tools=</span><span class="s">"http://schemas.android.com/tools"</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;com.google.android.material.appbar.AppBarLayout</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/historyAppBar"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">"parent"</span><span class="nt">&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;com.google.android.material.appbar.MaterialToolbar</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/topAppBar"</span>
+<span class="w">            </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"?attr/actionBarSize"</span>
+<span class="w">            </span><span class="na">app:navigationIcon=</span><span class="s">"@drawable/ic_arrow_back_24"</span>
+<span class="w">            </span><span class="na">app:title=</span><span class="s">"@string/app_bar_title_history"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;/com.google.android.material.appbar.AppBarLayout&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;androidx.recyclerview.widget.RecyclerView</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/historyRecyclerView"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:clipToPadding=</span><span class="s">"false"</span>
+<span class="w">        </span><span class="na">android:orientation=</span><span class="s">"vertical"</span>
+<span class="w">        </span><span class="na">app:layoutManager=</span><span class="s">"androidx.recyclerview.widget.LinearLayoutManager"</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">"@id/historyAppBar"</span>
+<span class="w">        </span><span class="na">tools:listitem=</span><span class="s">"@layout/view_history_item"</span><span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
+</code></pre></div>
+<blockquote>
+<p>A <code>HistoryFragment</code> egy <code>AppBar</code>-t és egy <code>RecyclerView</code> jelenít meg. Az <code>AppBar</code> rendelkezik egy vissza gombbal, amihez az ikont a labor elején már létrehoztuk. A <code>RecyclerView</code> pedig egy függőlegesen görgethető listát jelenít meg.</p>
+</blockquote>
+<p>Térjünk át a <code>HistoryFragment</code> osztályra. Az osztálynak most a <code>Fragment</code>-ből való származás mellett a <code>HistoryAdapter.ClickListener</code> interfészét is implementálnia kell. Az <em>Adapter</em> inicializálása most is egy <code>lateinit var</code> változó és az <code>onViewCreated()</code> metódus segítségével történik. Először inicializáljuk, és utána a <code>binding</code> segítséségével összekötjük a <em>Fragment</em> által megjelenített <code>RecyclerView</code> komponenssel. Végső soron pedig hozzárendelünk egy eseménykezeleőt az <code>AppBar</code>-ban lévő vissza gombhoz.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">HistoryFragment</span><span class="p">:</span><span class="w"> </span><span class="n">Fragment</span><span class="p">(),</span><span class="w"> </span><span class="n">HistoryAdapter</span><span class="p">.</span><span class="na">ClickListener</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">_binding</span><span class="p">:</span><span class="w"> </span><span class="n">FragmentHistoryBinding? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">binding</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_binding</span><span class="o">!!</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">adapter</span><span class="p">:</span><span class="w"> </span><span class="n">HistoryAdapter</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreateView</span><span class="p">(</span>
+<span class="w">        </span><span class="n">inflater</span><span class="p">:</span><span class="w"> </span><span class="n">LayoutInflater</span><span class="p">,</span>
+<span class="w">        </span><span class="n">container</span><span class="p">:</span><span class="w"> </span><span class="n">ViewGroup?,</span>
+<span class="w">        </span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?</span>
+<span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="n">View</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">_binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FragmentHistoryBinding</span><span class="p">.</span><span class="na">inflate</span><span class="p">(</span><span class="n">inflater</span><span class="p">,</span><span class="w"> </span><span class="n">container</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">binding</span><span class="p">.</span><span class="na">root</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onViewCreated</span><span class="p">(</span><span class="n">view</span><span class="p">:</span><span class="w"> </span><span class="n">View</span><span class="p">,</span><span class="w"> </span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onViewCreated</span><span class="p">(</span><span class="n">view</span><span class="p">,</span><span class="w"> </span><span class="n">savedInstanceState</span><span class="p">)</span>
+
+<span class="w">        </span><span class="c1">// Init RecyclerView</span>
+<span class="w">        </span><span class="n">adapter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HistoryAdapter</span><span class="p">(</span><span class="k">this</span><span class="nd">@HistoryFragment</span><span class="p">,</span><span class="w"> </span><span class="n">CalculatorOperator</span><span class="p">.</span><span class="na">history</span><span class="p">,</span><span class="w"> </span><span class="n">requireContext</span><span class="p">())</span>
+<span class="w">        </span><span class="n">binding</span><span class="p">.</span><span class="na">historyRecyclerView</span><span class="p">.</span><span class="na">adapter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adapter</span>
+
+<span class="w">        </span><span class="n">binding</span><span class="p">.</span><span class="na">topAppBar</span><span class="p">.</span><span class="na">setNavigationOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// TODO: navigate back to CalculatorFragment</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onClick</span><span class="p">(</span><span class="n">loadedData</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// TODO: implement method</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onDestroyView</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onDestroyView</span><span class="p">()</span>
+<span class="w">        </span><span class="n">_binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="navigacio">Navigáció<a class="headerlink" href="#navigacio" title="Permanent link">¶</a></h2>
+<p>Most már csak a <em>Fragment</em>-ek közti navigáció véglegesítése van hatrá. A <code>CalculatorFragment</code>-ről a konzolért felelős <code>TextView</code>-ra kattintva térhetünk át a <code>HistoryFragment</code>-re. Ehhez térjünk vissza a <code>CalculatorFragment</code> <code>onViewCreated()</code> metódusára, ahol a <em>View</em> komponensek inicializálást végeztük el. Vegyük fel a következő esemény kezelőt és engedélyezzük, hogy a <code>View</code> kattintható legyen:</p>
+<div class="highlight"><pre><span></span><code><span class="n">with</span><span class="p">(</span><span class="n">binding</span><span class="p">.</span><span class="na">consoleTextView</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">isClickable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="n">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">action</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CalculatorFragmentDirections</span><span class="p">.</span><span class="na">actionCalculatorFragmentToHistoryFragment</span><span class="p">()</span>
+<span class="w">        </span><span class="n">findNavController</span><span class="p">().</span><span class="na">navigate</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>A navigáció kezeléséért az ún. <code>NavController</code> felel, amit a <code>findNavController()</code> metódussal érhetünk el, rajta pedig a <code>navigate(action)</code> metódushívással ki tudjuk váltani a navigációt. Az <code>action</code>-ben most a navigációs "útvonal" szerepel, de ha szükséges ez kiegészíthető további argumentumokkal (lásd a <a href="https://developer.android.com/guide/navigation/navigation-pass-data">dokumentációban</a>). A <code>findNavController()</code>-hez <code>androidx.navigation.fragment.findNavController</code> importálására lesz szükségünk.</p>
+<p>Ha ezzel megvagyunk térjünk át a <code>HistoryFragment</code>-re, ahol a vissza gombra fogjuk beállítani, hogy megnyomásra lépjen vissza a <code>CalculatorFragment</code>-re. Itt is az <code>onViewCreated()</code> metódusban vagyük fel következő eseménykezelőt:</p>
+<div class="highlight"><pre><span></span><code><span class="n">binding</span><span class="p">.</span><span class="na">topAppBar</span><span class="p">.</span><span class="na">setNavigationOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">findNavController</span><span class="p">().</span><span class="na">popBackStack</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Végezetőül implementáljuk a <code>HistoryFragment</code> <code>onClick()</code> metódusát.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onClick</span><span class="p">(</span><span class="n">loadedData</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">action</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HistoryFragmentDirections</span><span class="p">.</span><span class="na">actionHistoryFragmentToCalculatorFragment</span><span class="p">()</span>
+<span class="w">    </span><span class="n">CalculatorOperator</span><span class="p">.</span><span class="na">loadState</span><span class="p">(</span><span class="n">loadedData</span><span class="p">)</span>
+<span class="w">    </span><span class="n">findNavController</span><span class="p">().</span><span class="na">navigate</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Ebben az esetben is a <code>findNavController()</code>-hez <code>androidx.navigation.fragment.findNavController</code> importálására lesz szükségünk. </p>
+<p>Ahhoz, hogy az adatok betöltése megfelelően megtörténnyen térjünk vissza a <code>HistoryAdapter</code> <code>onBindViewHolder()</code> metódusára, és állítsuk be, hogy a <code>Load</code> gombra való kattintás során a <code>HistoryFragment</code> által implementált <code>onClick()</code> metódust hívja meg:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onBindViewHolder</span><span class="p">(</span><span class="n">holder</span><span class="p">:</span><span class="w"> </span><span class="n">ViewHolder</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">operation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">history</span><span class="o">[</span><span class="n">position</span><span class="o">]</span>
+<span class="w">    </span><span class="n">holder</span><span class="p">.</span><span class="na">operationTextView</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span>
+<span class="w">        </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">text_operation</span><span class="p">,</span>
+<span class="w">        </span><span class="n">operation</span><span class="p">.</span><span class="na">number1</span><span class="p">,</span>
+<span class="w">        </span><span class="n">operation</span><span class="p">.</span><span class="na">operation</span><span class="p">.</span><span class="na">symbol</span><span class="p">,</span>
+<span class="w">        </span><span class="n">operation</span><span class="p">.</span><span class="na">number2</span><span class="p">,</span>
+<span class="w">        </span><span class="n">operation</span><span class="p">.</span><span class="na">result</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">    </span><span class="n">holder</span><span class="p">.</span><span class="na">loadButton</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">operation</span><span class="p">.</span><span class="na">result</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="m">1.0</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0.0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">onClickListener</span><span class="p">.</span><span class="na">onClick</span><span class="p">(</span><span class="n">operation</span><span class="p">.</span><span class="na">result</span><span class="p">.</span><span class="na">toInt</span><span class="p">().</span><span class="na">toString</span><span class="p">())</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">onClickListener</span><span class="p">.</span><span class="na">onClick</span><span class="p">(</span><span class="kt">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">"%.10f"</span><span class="p">,</span><span class="w"> </span><span class="n">operation</span><span class="p">.</span><span class="na">result</span><span class="p">))</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy képernyő képet, amin látszódik a <code>HistoryFragment</code> osztály <code>onClick()</code> metódusának kódja (benne szerepeljen valahol a NEPTUN KÓD kommentezve) mellette <code>Calculator</code> képernyő egy visszatöltött eredménnyel.
+A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
+</div>
+<h2 id="onallo-resz-elozmenyek-torlese">Önálló rész - Előzmények törlése<a class="headerlink" href="#onallo-resz-elozmenyek-torlese" title="Permanent link">¶</a></h2>
+<ol>
+<li>Vegyünk fel egy új törlés <code>Vector Asset</code>-et a vissza gombhoz hasonlóan.</li>
+<li>A <code>ResourceManager</code> segítségével készítsünk egy <code>menu</code> erőforrást <code>menu_top_app_bar</code> néven, ami törlés menü elemet tartalmazza. <a href="https://developer.android.com/develop/ui/views/components/menus#xml">Hint</a></li>
+<li>Implementáljunk egy a törlésért felelős <code>clearHistory()</code> metódust a <code>CalculatorOperator</code>-ban.</li>
+<li>A <code>FragmentHistory</code>-hoz tartozó XML <code>layout</code> fájlban vagyük fel a <code>Toolbar</code>-hoz tartozó <code>app:menu="@menu/menu_top_app_bar"</code> attribútumot.</li>
+<li>A <code>FragmentHistory</code>-ban vegyük fel a <code>menu</code> eseménykezelőjét. </li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="n">binding</span><span class="p">.</span><span class="na">topAppBar</span><span class="p">.</span><span class="na">setOnMenuItemClickListener</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">menuItem</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">    </span><span class="k">when</span><span class="p">(</span><span class="n">menuItem</span><span class="p">.</span><span class="na">itemId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">R</span><span class="p">.</span><span class="na">id</span><span class="p">.</span><span class="na">delete</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CalculatorOperator</span><span class="p">.</span><span class="na">history</span><span class="p">.</span><span class="na">size</span>
+<span class="w">            </span><span class="n">CalculatorOperator</span><span class="p">.</span><span class="na">clearHistory</span><span class="p">()</span>
+<span class="w">            </span><span class="n">adapter</span><span class="p">.</span><span class="na">notifyItemRangeRemoved</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="n">size</span><span class="p">)</span>
+<span class="w">            </span><span class="kc">true</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<blockquote>
+<p>Itt fontos megjegyezni, hogy az <code>adapter</code>-t értesítenünk kell arról, hogy milyen intervallumot érintett a változtatás. Ezt a <code>adapter.notifyItemRangeRemoved()</code>-al tudjuk elvégezni. Ha esetleg új elemet vennénk fel vagy valamilyen egyéb változtatást csinálnánk az <code>adapter</code> által megjelenített adathalmazon, arról ugyanígy értesíteni kell az <code>adapter</code>-t.</p>
+</blockquote>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy képernyő képet, amin látszódik a <code>HistoryFragment</code> osztály <code>setOnMenuItemClickListener</code> metódusának kódja (benne szerepeljen valahol a NEPTUN KÓD kommentezve) mellette <code>History</code> képernyő üresen.
+A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
+</div>
+<hr/>
+<div class="md-source-file">
+<span class="md-source-file__fact"> <span class="md-icon" title="Utolsó frissítés"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z">
+</path>
+</svg>
+</span>
+<span title="2023. március 4. 14:28:39">
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-03-04T14:28:39+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-03-04</span>
+</span>
+</span>
+<span class="md-source-file__fact">
+<span class="md-icon" title="Szerzők">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z">
+</path>
+</svg>
+</span>
+<span>Szerzők</span>
+<nav><a class="md-author" href="https://github.com/hlev97" rel="noopener noreferrer" target="_blank" title="@hlev97">
+<img alt="@hlev97" src="https://avatars.githubusercontent.com/u/60049137?size=72"/>
+</a></nav>
+</span>
+</div>
+</article>
+</div>
+</div>
+<a class="md-top md-icon" data-md-component="top" hidden="" href="#">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg>
+            Vissza a tetejére
+          </a>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+<div class="md-copyright__highlight">
+      Copyright © BME VIK AUT
+    </div>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.instant", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "V\u00e1g\u00f3lapra m\u00e1solva", "clipboard.copy": "M\u00e1sol\u00e1s v\u00e1g\u00f3lapra", "search.result.more.one": "1 tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.more.other": "# tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.none": "Nincs tal\u00e1lat", "search.result.one": "1 egyez\u0151 dokumentum", "search.result.other": "# egyez\u0151 dokumentum", "search.result.placeholder": "Keres\u00e9shez \u00edrj ide valamit", "search.result.term.missing": "\u00dcres", "select.version": "Verzi\u00f3v\u00e1lt\u00e1s"}}</script>
+<script src="../../assets/javascripts/bundle.2a6f1dda.min.js"></script>
+<script src="../../js/timeago.min.js"></script>
+<script src="../../js/timeago_mkdocs_material.js"></script>
+<script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>

@@ -1,7 +1,12 @@
 # Labor03 - Számológép
 
 ## A labor célja
-A legfontosabb `XML`-alapú UI fejlesztési komponensek használatának bemutatása. A labor során megismerkedünk a `Jetpack Navigation` könyvtárral, a `Fragment`-ekkel és `RecyclerView` elkészítési lépéseivel.
+A legfontosabb `XML`-alapú UI fejlesztési komponensek használatának bemutatása egy számológép alkalmazáson keresztül. A labor során megismerkedünk a `Jetpack Navigation` könyvtárral, a `Fragment`-ekkel és `RecyclerView` elkészítési lépéseivel.
+
+<p float="left">
+<img src="./assets/calc_fragment.png" width="200" align="middle">
+<img src="./assets/history_fragment.png" width="200" align="middle">
+</p>
 
 ### Felhasznált technológiák:
 
@@ -133,7 +138,7 @@ Ekkor megnyílik az *Asset Studio*. Itt kattintsunk a *Clip art* mellett lévő 
 
 ![](./assets/asset_studio.png)
 
-Végezetőül szeretnénk a *Material You* keretrendszerre áttérni a UI kinézete esetében. Ehhez nyissuk a `res/values/` elérési úton lévő `themes.xml` fájlt, és írjuk át a tartalmát a következőre:
+Végezetül szeretnénk a *Material You* keretrendszerre áttérni a UI kinézete esetében. Ehhez nyissuk a `res/values/` elérési úton lévő `themes.xml` fájlt, és írjuk át a tartalmát a következőre:
 
 ```xml
 <resources xmlns:tools="http://schemas.android.com/tools">

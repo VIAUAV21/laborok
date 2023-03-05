@@ -196,7 +196,7 @@ Hozzunk létre ugyanezzel a módszerrel egy újabb *Fragment*-t `HistoryFragment
 ![](./assets/nav_graph_done.png)
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik a `nav_graph.xml` *Code* módban (az XML kódban valahol szerepeljen a NEPTUN KÓD kommentezve) és az alkalmazást futtató *Emulator*-ral.
+	Készíts egy képernyő képet, amin látszódik a `nav_graph.xml` *Code* módban (az XML kódban valahol szerepeljen a NEPTUN KÓD kommentezve) az alkalmazást futtató *Emulator*-ral.
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 ## CalculatorOperator
@@ -828,7 +828,7 @@ Végezetőül hívjuk meg ezt az `initButtons()` metódust az `onViewCreated()`-
 ```
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik a `CalculatorFragment` osztály kódja (benne szerepeljen valahol a NEPTUN KÓD kommentezve) és a futó alkalmazás egy beírt számmal.
+	Készíts egy képernyő képet, amin látszódik a `CalculatorFragment` osztály kódja (benne szerepeljen valahol a NEPTUN KÓD kommentezve) és az Emulatorral futtatott alkalmazás egy beírt számmal.
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 ## RecyclerView
@@ -1207,7 +1207,7 @@ override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 ```
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik a `HistoryFragment` osztály `onClick()` metódusának kódja (benne szerepeljen valahol a NEPTUN KÓD kommentezve) mellette `Calculator` képernyő egy visszatöltött eredménnyel.
+	Készíts egy képernyő képet, amin látszódik a `HistoryFragment` osztály `onClick()` metódusának kódja (benne szerepeljen valahol a NEPTUN KÓD kommentezve) és mellette az Emulator a `Calculator` képernyővel, ami egy visszatöltött eredményt jelenít meg.
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 	
 ## Önálló rész - Előzmények törlése
@@ -1235,5 +1235,5 @@ binding.topAppBar.setOnMenuItemClickListener { menuItem ->
 > Itt fontos megjegyezni, hogy az `adapter`-t értesítenünk kell arról, hogy milyen intervallumot érintett a változtatás. Ezt az `adapter.notifyItemRangeRemoved()`-al tudjuk elvégezni. Ha esetleg új elemet vennénk fel vagy valamilyen egyéb változtatást csinálnánk az `adapter` által megjelenített adathalmazon, arról ugyanígy értesíteni kell az `adapter`-t.
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik a `HistoryFragment` osztály `setOnMenuItemClickListener` metódusának kódja (benne szerepeljen valahol a NEPTUN KÓD kommentezve) mellette `History` képernyő üresen.
+	Készíts egy képernyő képet, amin látszódik a `HistoryFragment` osztály `setOnMenuItemClickListener` metódusának kódja (benne szerepeljen valahol a NEPTUN KÓD kommentezve) mellette az Emulator az üres `History` képernyővel.
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.

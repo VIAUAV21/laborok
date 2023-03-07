@@ -262,8 +262,8 @@
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#activityk-letrehozasa">
-    Activityk létrehozása
+<a class="md-nav__link" href="#az-alkalmazas-mukodese">
+    Az alkalmazás működése
   </a>
 </li>
 <li class="md-nav__item">
@@ -278,7 +278,7 @@
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#mainactivity-felulet">
-    MainActivity felület:
+    MainActivity felület
   </a>
 </li>
 <li class="md-nav__item">
@@ -292,13 +292,13 @@
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#jatek-logika">
-    Játék logika
+<a class="md-nav__link" href="#navigacio-megvalositasa-activityk-kozt">
+    Navigáció megvalósítása Activityk közt
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#navigacio-megvalositasa-activityk-kozt">
-    Navigáció megvalósítása Activityk közt
+<a class="md-nav__link" href="#jatek-logika">
+    Játék logika
   </a>
 </li>
 <li class="md-nav__item">
@@ -391,8 +391,8 @@
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#activityk-letrehozasa">
-    Activityk létrehozása
+<a class="md-nav__link" href="#az-alkalmazas-mukodese">
+    Az alkalmazás működése
   </a>
 </li>
 <li class="md-nav__item">
@@ -407,7 +407,7 @@
 </li>
 <li class="md-nav__item">
 <a class="md-nav__link" href="#mainactivity-felulet">
-    MainActivity felület:
+    MainActivity felület
   </a>
 </li>
 <li class="md-nav__item">
@@ -421,13 +421,13 @@
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#jatek-logika">
-    Játék logika
+<a class="md-nav__link" href="#navigacio-megvalositasa-activityk-kozt">
+    Navigáció megvalósítása Activityk közt
   </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#navigacio-megvalositasa-activityk-kozt">
-    Navigáció megvalósítása Activityk közt
+<a class="md-nav__link" href="#jatek-logika">
+    Játék logika
   </a>
 </li>
 <li class="md-nav__item">
@@ -462,8 +462,10 @@
 <li>TicTacToe nézet</li>
 <li>Játék logika elkezdése</li>
 </ul>
-<p>A laborhoz kapcsolódó önálló feladat:
-* Játék logika megvalósítása: győzelem ellenőrzése </p>
+<p>A laborhoz kapcsolódó önálló feladat:</p>
+<ul>
+<li>Játék logika megvalósítása: győzelem ellenőrzése </li>
+</ul>
 <p>A megvalósítandó játék felhasználói felületét az alábbi képernyőképek szemléltetik:</p>
 <p float="left">
 <a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="./assets/main.png"><img align="middle" src="./assets/main.png" width="300"/></a>
@@ -479,7 +481,8 @@
 </li>
 <li>
 <p>Várd meg, míg elkészül a repository, majd checkout-old ki.</p>
-<div class="admonition tip">
+<div class="admonition warning">
+<p class="admonition-title">Checkout</p>
 <p>Egyetemi laborokban, ha a checkout során nem kér a rendszer felhasználónevet és jelszót, és nem sikerül a checkout, akkor valószínűleg a gépen korábban megjegyzett felhasználónévvel próbálkozott a rendszer. Először töröld ki a mentett belépési adatokat (lásd <a href="../../tudnivalok/github/GitHub-credentials/">itt</a>), és próbáld újra.</p>
 </div>
 </li>
@@ -499,14 +502,20 @@
 <p>Első lépésként indítsuk el az Android Studio-t, majd:</p>
 <ol>
 <li>Hozzunk létre egy új projektet, válasszuk az <em>Empty Activity</em> lehetőséget.</li>
-<li>A projekt neve legyen <code>TicTacToe</code>, a kezdő package pedig <code>hu.bme.aut.android.tictactoe</code>.</li>
+<li>A projekt neve legyen <code>TicTacToe</code>, a kezdő package <code>hu.bme.aut.android.tictactoe</code>, a mentési hely pedig a kicheckoutolt repository-n belül a <code>TicTacToe</code> mappa.</li>
 <li>Nyelvnek válasszuk a <em>Kotlin</em>-t.</li>
 <li>A minimum API szint legyen <em>API21: Android 5.0</em>.</li>
-<li>Az <em>instant app</em> támogatást NE pipáljuk be.</li>
 <li>A <em>legacy android.support</em> könyvtár használatot NE pipáljuk be.</li>
 </ol>
+<div class="admonition danger">
+<p class="admonition-title">FILE PATH</p>
+<p>A projekt mindenképpen a repository-ban lévő TicTacToe könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!</p>
+</div>
 <p>Sikeres projekt létrehozás után a laborvezető vezetésével vizsgálja meg a forrás felépítését.</p>
-<h2 id="activityk-letrehozasa">Activityk létrehozása<a class="headerlink" href="#activityk-letrehozasa" title="Permanent link">¶</a></h2>
+<div class="admonition info">
+<p>A projekt létrehozásakor, a fordító keretrendszernek rengeteg függőséget kell letöltenie. Amíg ez nem történt meg, addig a projektben nehézkes navigálni, hiányzik a kódkiegészítés, stb... Éppen ezért ezt tanácsos kivárni, azonban ez akár 5 percet is igénybe vehet az első alkalommal! Az ablak alján látható információs sávot kell figyelni.</p>
+</div>
+<h2 id="az-alkalmazas-mukodese">Az alkalmazás működése<a class="headerlink" href="#az-alkalmazas-mukodese" title="Permanent link">¶</a></h2>
 <p>A megvalósítandó alkalmazás működési elve a következő:</p>
 <ol>
 <li>Az alkalmazás indításakor a <code>MainActivity</code> jelenik meg.</li>
@@ -526,56 +535,54 @@
 <span class="nt">&lt;/resources&gt;</span>
 </code></pre></div>
 <h2 id="szukseges-tovabbi-activityk-letrehozasa">Szükséges további Activityk létrehozása<a class="headerlink" href="#szukseges-tovabbi-activityk-letrehozasa" title="Permanent link">¶</a></h2>
-<p>A fentiek alapján látható tehát, hogy a meglévő <code>MainActivity</code> mellett még két másik <code>Activity</code>-t, a <code>GameActivity</code>-t és az <code>AboutActivity</code>-t kell létrehoznunk. <code>Activity</code> létrehozásakor tipikusan az alábbi forrás állományok változnak:</p>
+<p>A fentiek alapján látható tehát, hogy a meglévő <code>MainActivity</code> mellett még két másik <code>Activity</code>-t, a <code>GameActivity</code>-t és az <code>AboutActivity</code>-t kell létrehoznunk. </p>
+<div class="admonition info">
+<p><code>Activity</code> létrehozásakor tipikusan az alábbi forrás állományok változnak:</p>
 <ul>
 <li>Létrejön az <code>Activity</code>-hez tartozó Kotlin fájl.</li>
 <li>Létrejön az <code>Activity</code>-hez tartozó layout XML.</li>
 <li>Az <code>AndroidManifest.xml</code>-be bekerül az <code>Activity</code> az <code>&lt;application&gt;</code> tag-en belül.</li>
 </ul>
 <p>Az <code>Activity</code> létrehozást azonban megkönnyíti az Android Studio és a fenti lépéseket nem kell egyesével elvégeznie a fejlesztőnek.</p>
+</div>
 <ol>
+<li>A meglévő <code>Activity</code>-t tartalmazó package-re jobb egérgombbal kattintva válasszuk a <em>New -&gt; Activity -&gt; Empty Activity</em> opciót és hozzuk létre a másik két <code>Activity</code>-t (<code>AboutActivity</code>, <code>GameActivity</code>), <em>Source Language</em>-nek válasszuk a Kotlint.</li>
+<li>Létrehozás után a <code>res/values/strings.xml</code>-ben a <code>&lt;resources&gt;</code> tagen belül vegyük fel a két új <code>Activity</code> címét: 
+    <div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"title_activity_about"</span><span class="nt">&gt;</span>Az<span class="w"> </span>alkalmazásról<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"title_activity_game"</span><span class="nt">&gt;</span>Játék<span class="nt">&lt;/string&gt;</span>
+</code></pre></div></li>
 <li>
-<p>A meglévő <code>Activity</code>-t tartalmazó package-re jobb egérgombbal kattintva válasszuk a <em>New -&gt; Activity -&gt; Empty Activity</em> opciót és hozzuk létre a másik két <code>Activity</code>-t (<code>AboutActivity</code>, <code>GameActivity</code>), <em>Source Language</em>-nek válasszuk a Kotlint.</p>
-</li>
-<li>
-<p>Létrehozás után a <code>res/values/strings.xml</code>-ben a <code>&lt;resources&gt;</code> tagen belül vegyük fel a két új <code>Activity</code> címét: </p>
-</li>
-</ol>
-<div class="highlight"><pre><span></span><code><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"title_activity_about"</span><span class="nt">&gt;</span>Az<span class="w"> </span>alkalmazásról<span class="nt">&lt;/string&gt;</span>
-<span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"title_activity_game"</span><span class="nt">&gt;</span>Játék<span class="nt">&lt;/string&gt;</span>
-</code></pre></div>
-<ol>
-<li>
-<p>Állítsuk be a Manifestben azt, hogy az <code>AboutActivity</code> dialógus formában jelenjen meg, a <code>theme</code> attribútum beállításával </p>
-</li>
-<li>
-<p>a kódkiegészítés segít megtalálni a megfelelő témát a lehetőségek közül, kezdjük el a kezdő betűket beírni</p>
-</li>
-</ol>
-<div class="highlight"><pre><span></span><code><span class="nt">&lt;activity</span>
-<span class="w">    </span><span class="na">android:name=</span><span class="s">".AboutActivity"</span>
-<span class="w">    </span><span class="na">android:label=</span><span class="s">"@string/title_activity_about"</span>
-<span class="w">    </span><span class="na">android:parentActivityName=</span><span class="s">".MainActivity"</span>
-<span class="w">    </span><span class="na">android:theme=</span><span class="s">"@style/Theme.AppCompat.Light.Dialog"</span><span class="nt">&gt;</span>
-<span class="w">    </span><span class="nt">&lt;meta-data</span>
-<span class="w">        </span><span class="na">android:name=</span><span class="s">"android.support.PARENT_ACTIVITY"</span>
-<span class="w">        </span><span class="na">android:value=</span><span class="s">"hu.bme.aut.android.tictactoe.MainActivity"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="nt">&lt;/activity&gt;</span>
+<p>Állítsuk be a Manifestben azt, hogy az <code>AboutActivity</code> dialógus formában jelenjen meg, a <code>theme</code> attribútum beállításával</p>
+<div class="admonition tip">
+<p>A kódkiegészítés segít megtalálni a megfelelő témát a lehetőségek közül, kezdjük el a kezdő betűket beírni!</p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&lt;activity</span>
+<span class="w">        </span><span class="na">android:name=</span><span class="s">".AboutActivity"</span>
+<span class="w">        </span><span class="na">android:exported=</span><span class="s">"false"</span>
+<span class="w">        </span><span class="na">android:label=</span><span class="s">"@string/title_activity_about"</span>
+<span class="w">        </span><span class="na">android:parentActivityName=</span><span class="s">".MainActivity"</span>
+<span class="w">        </span><span class="na">android:theme=</span><span class="s">"@style/Theme.AppCompat.Light.Dialog"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;meta-data</span>
+<span class="w">            </span><span class="na">android:name=</span><span class="s">"android.support.PARENT_ACTIVITY"</span>
+<span class="w">            </span><span class="na">android:value=</span><span class="s">".MainActivity"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/activity&gt;</span>
 </code></pre></div>
 <blockquote>
 <p>A fenti kódrészletben az <code>AboutActivity</code> címét is beállítjuk a <code>label</code> attribútum beállításával</p>
 </blockquote>
-<ol>
-<li>Állítsuk be a <code>GameActivity</code> címét is</li>
+</li>
+<li>
+<p>Állítsuk be a <code>GameActivity</code> címét is
+    <div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&lt;activity</span>
+<span class="w">        </span><span class="na">android:name=</span><span class="s">".GameActivity"</span>
+<span class="w">        </span><span class="na">android:exported=</span><span class="s">"false"</span>
+<span class="w">        </span><span class="na">android:label=</span><span class="s">"@string/title_activity_game"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div></p>
+</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="nt">&lt;activity</span>
-<span class="w">    </span><span class="na">android:name=</span><span class="s">".GameActivity"</span>
-<span class="w">    </span><span class="na">android:label=</span><span class="s">"@string/title_activity_game"</span><span class="nt">&gt;</span>
-<span class="nt">&lt;/activity&gt;</span>
-</code></pre></div>
 <p><em>Létrehozás után ellenőrizzük a laborvezető segítségével a létrejött kódokat!</em></p>
-<h2 id="mainactivity-felulet">MainActivity felület:<a class="headerlink" href="#mainactivity-felulet" title="Permanent link">¶</a></h2>
-<p>A <code>MainActivity</code> a fenti ábra alapján három menüpontot tartalmaz középre igazítva. Ezt a felületet a hozzá tartozó <code>res/layout/activity_main.xml</code>-ben hozhatjuk létre. Mivel a Studio már alapértelmezetten <code>ConstraintLayout</code> alapú nézetet generál, így most ezt fogjuk használni a megvalósításra. Az anyagban ennek működése csak később következik, így alább megtalálható a kész XML leíró. Akinek van kedve, a gif alapján kipróbálhatja a használatát:</p>
+<h2 id="mainactivity-felulet">MainActivity felület<a class="headerlink" href="#mainactivity-felulet" title="Permanent link">¶</a></h2>
+<p>A <code>MainActivity</code> a fenti ábra alapján három menüpontot tartalmaz középre igazítva. Ezt a felületet a hozzá tartozó <code>res/layout/activity_main.xml</code>-ben hozhatjuk létre. Mivel az AndroidStudio már alapértelmezetten <code>ConstraintLayout</code> alapú nézetet generál, így most ezt fogjuk használni a megvalósításra. Az anyagban ennek működése csak később következik, így alább megtalálható a kész XML leíró. Akinek van kedve, a gif alapján kipróbálhatja a használatát:</p>
 <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="assets/constraint_layout_1.gif"><img alt="" src="assets/constraint_layout_1.gif"/></a></p>
 <blockquote>
 <p>Tipp: Shift + Kattintással lehet több elemet kijelölni</p>
@@ -593,10 +600,9 @@
 <span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"0dp"</span>
 <span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
 <span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">"8dp"</span>
 <span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">"8dp"</span>
 <span class="w">        </span><span class="na">android:text=</span><span class="s">"@string/btn_start"</span>
-<span class="w">        </span><span class="na">app:layout_constraintBottom_toTopOf=</span><span class="s">"@+id/btnHighScore"</span>
+<span class="w">        </span><span class="na">app:layout_constraintBottom_toTopOf=</span><span class="s">"@+id/btnHighScores"</span>
 <span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
 <span class="w">        </span><span class="na">app:layout_constraintHorizontal_bias=</span><span class="s">"0.5"</span>
 <span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
@@ -604,7 +610,7 @@
 <span class="w">        </span><span class="na">app:layout_constraintVertical_chainStyle=</span><span class="s">"packed"</span><span class="w"> </span><span class="nt">/&gt;</span>
 
 <span class="w">    </span><span class="nt">&lt;Button</span>
-<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/btnHighScore"</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/btnHighScores"</span>
 <span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"0dp"</span>
 <span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
 <span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">"8dp"</span>
@@ -624,25 +630,34 @@
 <span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">"8dp"</span>
 <span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">"8dp"</span>
 <span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">android:layout_marginBottom=</span><span class="s">"8dp"</span>
 <span class="w">        </span><span class="na">android:text=</span><span class="s">"@string/btn_about"</span>
 <span class="w">        </span><span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">"parent"</span>
 <span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
 <span class="w">        </span><span class="na">app:layout_constraintHorizontal_bias=</span><span class="s">"0.5"</span>
 <span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">"@+id/btnHighScore"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">"@+id/btnHighScores"</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
 </code></pre></div>
+<p>Nézzük át a laborvezetővel a felület felépítését!</p>
 <h2 id="highscore-gomb-esemenykezelo">Highscore gomb eseménykezelő<a class="headerlink" href="#highscore-gomb-esemenykezelo" title="Permanent link">¶</a></h2>
 <p>Az <em>Eredmények</em> menüpontra kattintva egy <code>Toast</code> üzenetet kell megjeleníteni. Ehhez meg kell keresni az <em>Eredmények</em> menüpont gombját és be kell állítani neki az alábbi eseménykezelőt a <code>MainActivity</code> <code>onCreate()</code> függvényén belül:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">btnHighScore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">findViewById</span><span class="o">&lt;</span><span class="n">Button</span><span class="o">&gt;</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="na">id</span><span class="p">.</span><span class="na">btnHighScore</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">btnHighScore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">findViewById</span><span class="o">&lt;</span><span class="n">Button</span><span class="o">&gt;</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="na">id</span><span class="p">.</span><span class="na">btnHighScores</span><span class="p">)</span>
 <span class="n">btnHighScore</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">Toast</span><span class="p">.</span><span class="na">makeText</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">getString</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">toast_highscore</span><span class="p">),</span><span class="w"> </span><span class="n">Toast</span><span class="p">.</span><span class="na">LENGTH_LONG</span><span class="p">).</span><span class="na">show</span><span class="p">()</span>
+<span class="w">    </span><span class="n">Toast</span><span class="p">.</span><span class="na">makeText</span><span class="p">(</span>
+<span class="w">        </span><span class="k">this</span><span class="nd">@MainActivity</span><span class="p">,</span>
+<span class="w">        </span><span class="n">getString</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">toast_highscore</span><span class="p">),</span>
+<span class="w">        </span><span class="n">Toast</span><span class="p">.</span><span class="na">LENGTH_LONG</span>
+<span class="w">    </span><span class="p">).</span><span class="na">show</span><span class="p">()</span>
 <span class="p">}</span>
 </code></pre></div>
-<blockquote>
+<div class="admonition info">
+<p class="admonition-title">onClickListener</p>
 <p>A <a href="https://developer.android.com/reference/android/view/View.html#setOnClickListener(android.view.View.OnClickListener)"><code>setOnClickListener</code></a> függvény valójában egy <a href="https://developer.android.com/reference/android/view/View.OnClickListener"><code>View.OnClickListener</code></a> interfészt megvalósító objektumot vár paraméterként, amelynek egyetlen megvalósítandó függvénye van. Ezt létrehozhatnánk a Java-s <a href="https://kotlinlang.org/docs/reference/object-declarations.html#object-expressions">anonim osztályok stílusában</a> is, de helyette kihasználjuk, hogy a függvények elsőrendű tagjai a Kotlin nyelvnek, így rendelkezünk igazi függvény típusokkal. Jelen esetben a paraméterben egy olyan <a href="https://kotlinlang.org/docs/reference/lambdas.html#lambda-expressions-and-anonymous-functions">lambda kifejezést</a> adunk át, amely fejléce megegyezik az elvárt interfész egyetlen függvényének fejlécével, a <a href="https://kotlinlang.org/docs/reference/java-interop.html#sam-conversions">SAM conversion</a> nyelvi funkció pedig a háttérben a lambda alapján létrehozza a megfelelő <code>View.OnClickListener</code> példányt. </p>
-</blockquote>
+</div>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>highscores Toast üzenet</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a <strong>az ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. A képet a megoldásban a repository-ba f1.png néven töltsd föl.</p>
+</div>
 <h2 id="aboutactivity-felulet">AboutActivity felület<a class="headerlink" href="#aboutactivity-felulet" title="Permanent link">¶</a></h2>
 <p>Ahogy korábban említettük, az <em>Infó</em> menü elindítja az <code>AboutActivity</code>-t. Elsőként készítsük el az <code>AboutActivity</code> felületét, melyet a <code>res/layout/activity_about.xml</code> ír le. Mint korábban, itt is lehet <code>ConstraintLayout</code>-ot készíteni a segítséggel, vagy alább megtalálható az XML:</p>
 <p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="assets/constraint_layout_2.gif"><img alt="" src="assets/constraint_layout_2.gif"/></a></p>
@@ -653,18 +668,15 @@
 <span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
 <span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
 <span class="w">    </span><span class="na">tools:context=</span><span class="s">".AboutActivity"</span>
-<span class="w">    </span><span class="na">tools:showIn=</span><span class="s">"@layout/activity_about"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="na">tools:viewBindingIgnore=</span><span class="s">"true"</span><span class="nt">&gt;</span>
 
 <span class="w">    </span><span class="nt">&lt;TextView</span>
 <span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/textView"</span>
 <span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
 <span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
-<span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">android:layout_marginBottom=</span><span class="s">"8dp"</span>
+<span class="w">        </span><span class="na">android:layout_margin=</span><span class="s">"8dp"</span>
 <span class="w">        </span><span class="na">android:text=</span><span class="s">"@string/txt_about"</span>
-<span class="w">        </span><span class="na">android:textSize=</span><span class="s">"30sp"</span>
+<span class="w">        </span><span class="na">android:textSize=</span><span class="s">"32sp"</span>
 <span class="w">        </span><span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">"parent"</span>
 <span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
 <span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
@@ -672,6 +684,80 @@
 
 <span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
 </code></pre></div>
+<h2 id="navigacio-megvalositasa-activityk-kozt">Navigáció megvalósítása Activityk közt<a class="headerlink" href="#navigacio-megvalositasa-activityk-kozt" title="Permanent link">¶</a></h2>
+<p>A következő lépésként valósítsuk meg a navigációt (váltást) az <code>Activity</code>-k között. Az <em>Új játék</em> menüpont hatására a <code>GameActivity</code>-re, az <em>Infó</em> menüpont hatására pedig az <code>AboutActivity</code>-re kell átváltanunk. <code>Activity</code>-k közti váltást egy  <code>Intent</code> segítségével tudunk implementálni - beszéljük meg a laborvezetővel az <code>Intent</code>-ek alapjait. Ezt a témát előadáson később mélyebben fogjuk még érinteni.</p>
+<p>Valósítsuk meg ezen két gomb eseménykezelőjét szintén a <code>MainActivity</code> <code>onCreate()</code> függvényében!</p>
+<div class="admonition tip">
+<p class="admonition-title">findViewById</p>
+<p>Ezt csinálhatnánk az előzőhöz hasonlóan, azaz példányosítunk egy gombot, a <code>findViewById</code> metódussal referenciát szerzünk a felületen lévő vezérlőre, és a példányon beállítjuk az eseménykezelőt. Azonban a <code>findViewById</code> hívásnak számos problémája <a href="https://developer.android.com/topic/libraries/view-binding#findviewbyid">van</a>. Ezekről bővebben az előadáson lesz szó (pl.: <em>Null safety</em>, <em>type safety</em>). Ezért e helyett "nézetkötést", azaz <code>ViewBinding</code>-ot fogunk használni.
+A <a href="https://developer.android.com/topic/libraries/view-binding"><code>ViewBinding</code></a> a kódírást könnyíti meg számunkra. Amennyiben ezt használjuk, az automatikusan generálódó <em>binding</em> osztályokon keresztül közvetlen referencián keresztül tudunk elérni minden <em>ID</em>-val rendelkező erőforrást az <code>XML</code> fájljainkban.</p>
+</div>
+<p>Először is be kell kapcsolnunk a modulunkra a <code>ViewBinding</code>-ot. Az <code>app</code> modulhoz tartozó <code>build.gradle</code> fájlban az <code>android</code> tagen belülre illesszük be az engedélyezést:</p>
+<div class="highlight"><pre><span></span><code><span class="n">android</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="n">buildFeatures</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">viewBinding</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Majd nyomjunk jobb felül a megjelenő <code>Sync Now</code> gombra. Ezzel a <code>gradle</code> betölti szükséges változtatásokat.</p>
+<div class="admonition info">
+<p class="admonition-title">ViewBinding</p>
+<p>Ebben az esetben a modul minden egyes XML layout fájljához generálódik egy úgynevezett binding osztály. Minden binding osztály tartalmaz referenciát az adott XML layout erőforrás gyökér elemére és az összes ID-val rendelkező view-ra. A generált osztály neve úgy áll elő, hogy az XML layout nevét Pascal formátumba alakítja a rendszer és a végére illeszti, hogy <code>Binding</code>. Azaz például a <code>activity_login.xml</code> erőforrásfájlból az alábbi binding osztály generálódik: <code>ActivityLoginBinding</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;LinearLayout</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;TextView</span><span class="w"> </span><span class="na">android:id=</span><span class="s">"@+id/name"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;ImageView</span><span class="w"> </span><span class="na">android:cropToPadding=</span><span class="s">"true"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Button</span><span class="w"> </span><span class="na">android:id=</span><span class="s">"@+id/button"</span>
+<span class="w">        </span><span class="na">android:background=</span><span class="s">"@drawable/rounded_button"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/LinearLayout&gt;</span>
+</code></pre></div>
+<p>A generált osztálynak két mezője van. A <code>name</code> id-val rendelkező <code>TextView</code> és a <code>button</code> id-jú <code>Button</code>. A layout-ban szereplő ImageView-nak nincs id-ja, ezért nem szerepel a binding osztályban.</p>
+<p>Minden generált osztály tartalmaz egy <code>getRoot()</code> metódust, amely direkt referenciaként szolgál a layout gyökerére. A példában a <code>getRoot()</code> metódus a <code>LinearLayout</code>-tal tér vissza.</p>
+</div>
+<p>Ezzel után már a teljes modulunkban automatikusan elérhetővé vált a <code>ViewBinging</code>. Használatához az <code>Activity</code>-nkben csak példányosítanunk kell a <code>binding</code> objektumot, amin keresztül majd elérhetjük az erőforrásainkat.
+A <code>binding</code> példány működéséhez három dolgot kell tennünk:</p>
+<ol>
+<li>A generált <code>binding</code> osztály <em>statikus</em> <code>inflate</code> függvényével példányosítjuk a <code>binding</code> osztályunkat az <code>Activity</code>-hez,</li>
+<li>Szerzünk egy referenciát a gyökér nézetre a <code>getRoot()</code> függvénnyel,</li>
+<li>Ezt a gyükérelemet odaadjuk a <code>setContentView()</code> függvénynek, hogy ez legyen az aktív <em>view</em> a képernyőn:</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">binding</span><span class="p">:</span><span class="w"> </span><span class="n">ActivityMainBinding</span>
+
+<span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
+<span class="w">    </span><span class="n">binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ActivityMainBinding</span><span class="p">.</span><span class="na">inflate</span><span class="p">(</span><span class="n">layoutInflater</span><span class="p">)</span>
+<span class="w">    </span><span class="n">setContentView</span><span class="p">(</span><span class="n">binding</span><span class="p">.</span><span class="na">root</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">lateinit</p>
+<p>A <a href="https://kotlinlang.org/docs/reference/properties.html#late-initialized-properties-and-variables"><code>lateinit</code></a> kulcsszóval megjelölt property-ket a fordító megengedi inicializálatlanul hagyni az osztály konstruktorának lefutása utánig, anélkül, hogy nullable-ként kéne azokat megjelölnünk (ami később kényelmetlenné tenné a használatukat, mert mindig ellenőriznünk kéne, hogy <code>null</code>-e az értékük). Ez praktikus olyan esetekben, amikor egy osztály inicializálása nem a konstruktorában történik (például ahogy az <code>Activity</code>-k esetében az <code>onCreate</code>-ben), mert később az esetleges <code>null</code> eset lekezelése nélkül használhatjuk majd a property-t. A <code>lateinit</code> használatával átvállaljuk a felelősséget a fordítótól, hogy a property-t az első használata előtt inicializálni fogjuk - ellenkező esetben kivételt kapunk.</p>
+</div>
+<p>Ezek után már be is állíthatjuk a gombjaink eseménykezelőit. (Cseréljük le a <code>btnHighScores</code>-t is.):</p>
+<div class="highlight"><pre><span></span><code><span class="n">binding</span><span class="p">.</span><span class="na">btnHighScores</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Toast</span><span class="p">.</span><span class="na">makeText</span><span class="p">(</span>
+<span class="w">        </span><span class="k">this</span><span class="nd">@MainActivity</span><span class="p">,</span>
+<span class="w">        </span><span class="n">getString</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">toast_highscore</span><span class="p">),</span>
+<span class="w">        </span><span class="n">Toast</span><span class="p">.</span><span class="na">LENGTH_LONG</span>
+<span class="w">    </span><span class="p">).</span><span class="na">show</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="n">binding</span><span class="p">.</span><span class="na">btnStart</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">startActivity</span><span class="p">(</span><span class="n">Intent</span><span class="p">(</span><span class="k">this</span><span class="nd">@MainActivity</span><span class="p">,</span><span class="w"> </span><span class="n">GameActivity</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">))</span>
+<span class="p">}</span>
+
+<span class="n">binding</span><span class="p">.</span><span class="na">btnAbout</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">startActivity</span><span class="p">(</span><span class="n">Intent</span><span class="p">(</span><span class="k">this</span><span class="nd">@MainActivity</span><span class="p">,</span><span class="w"> </span><span class="n">AboutActivity</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition danger">
+<p class="admonition-title">setContentView</p>
+<p>Gyakori hiba, hogy a <code>setContentView</code> függvénynek a gyökér nézet helyett véletlenül az <em>ID</em>-val hivatkozott <em>layout</em>-ot adjuk oda. (<code>R.layout.activity_main.xml</code>). Ilyenkor kétszer is példányosodik a felület, ráadásul a képernyőn az egyik jelenik meg, míg a <code>binding</code>-ok a másikra lesznek beállítva.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>az AboutActivity</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), egy <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a TextView szövegeként</strong>. A képet a megoldásban a repository-ba f2.png néven töltsd föl.</p>
+</div>
 <h2 id="jatek-logika">Játék logika<a class="headerlink" href="#jatek-logika" title="Permanent link">¶</a></h2>
 <p>A 3x3-as TicTacToe táblajáték logikáját külön osztályban valósítjuk meg egy <a href="https://en.wikipedia.org/wiki/Singleton_pattern"><em>Singleton</em></a> formájában, így könnyen hozzáférhetünk majd.</p>
 <blockquote>
@@ -719,56 +805,18 @@
 
 <span class="p">}</span>
 </code></pre></div>
-<blockquote>
+<div class="admonition info">
+<p class="admonition-title">Singleton</p>
 <p>Kotlinban nyelvi szintű támogatás van a singletonok létrehozására. Ahelyett, hogy nekünk kéne egyetlen statikus példányt felvennünk, elég csak a <code>class</code> kulcsszó helyett az <a href="https://kotlinlang.org/docs/reference/object-declarations.html#object-declarations"><code>object</code></a> kulcsszóval létrehoznunk az osztályt hogy egy singletont kapjunk.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">const</p>
 <p>A fordítás időben konstans értékeket érdemes a <a href="https://kotlinlang.org/docs/reference/properties.html#compile-time-constants"><code>const</code></a> kulcsszóval megjelölnünk (erre a fejlesztőkörnyezet is figyelmeztet, ha nem tennénk), ezzel teljesítmény optimalizációkat érhetünk el, illetve a szándékainkat is tisztábban jelezzük.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">collection</p>
 <p>A Kotlin standard library számos függvényt nyújt különböző collection-ök egyszerű létrehozására. Figyeljük meg a kódban az <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/array-of.html"><code>arrayOf</code></a> és a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/byte-array-of.html"><code>byteArrayOf</code></a> használatát, amelyek meghívásával létrehozunk tömböket, és azonnal fel is töltjük őket elemekkel.</p>
-</blockquote>
-<h2 id="navigacio-megvalositasa-activityk-kozt">Navigáció megvalósítása Activityk közt<a class="headerlink" href="#navigacio-megvalositasa-activityk-kozt" title="Permanent link">¶</a></h2>
-<p>A következő lépésként valósítsuk meg a navigációt (váltást) az <code>Activity</code>-k között. Az <em>Új játék</em> menüpont hatására a <code>GameActivity</code>-re, az <em>Infó</em> menüpont hatására pedig az <code>AboutActivity</code>-re kell átváltanunk. <code>Activity</code>-k közti váltást egy  <code>Intent</code> segítségével tudunk implementálni - beszéljék meg a laborvezetővel az <code>Intent</code>-ek alapjait. Ezt a témát előadáson később mélyebben fogjuk még érinteni.</p>
-<p>Valósítsuk meg ezen két gomb eseménykezelőjét szintén a <code>MainActivity</code> <code>onCreate()</code> függvényében. Ezt csinálhatnánk az előzőhöz hasonlóan, azaz példányosítunk egy gombot, a <code>findViewById</code> metódussal referenciát szerzünk a felületen lévő vezérlőre, és a példányon beállítjuk az eseménykezelőt. Azonban a <code>findViewById</code> hívásnak számos problémája <a href="https://developer.android.com/topic/libraries/view-binding#findviewbyid">van</a>. Ezekről bővebben az előadáson lesz szó (pl.: <em>Null safety</em>, <em>type safety</em>). Ezért e helyett "nézetkötést", azaz <code>ViewBinding</code>-ot fogunk használni.</p>
-<blockquote>
-<p>A <a href="https://developer.android.com/topic/libraries/view-binding"><code>ViewBinding</code></a> a kódítást könnyíti meg számunkra. Amennyiben ezt használjuk, az automatikusan generálódó <em>binding</em> osztályokon keresztül közvetlen referencián keresztül tudunk elérni minden <em>ID</em>-val rendelkező erőforrást az <code>XML</code> fájljainkban.</p>
-</blockquote>
-<p>Először is be kell kapcsolnunk a modulunkra a <code>ViewBinding</code>-ot. Az <code>app</code> modulhoz tartozó <code>build.gradle</code> fájlban az <code>android</code> tagen belülre illesszük be az engedélyezést:</p>
-<div class="highlight"><pre><span></span><code><span class="n">android</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="p">...</span>
-<span class="w">    </span><span class="n">buildFeatures</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">viewBinding</span><span class="w"> </span><span class="kc">true</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Ezzel után már a teljes modulunkban automatikusan elérhetővé vált a <code>ViewBinging</code>. Használatához az <code>Activity</code>-nkben csak példányosítanunk kell a <code>binding</code> objektumot, amin keresztül majd elérhetjük az erőforrásainkat.
-A <code>binding</code> példány működéséhez három dolgot kell tennünk:
-1. A generált <code>binding</code> osztály <em>statikus</em> <code>inflate</code> függvényével példányosítjuk a <code>binding</code> osztályunkat az <code>Activity</code>-hez,
-2. Szerzünk egy referenciát a gyökér nézetre a <code>getRoot()</code> függvénnyel,
-3.  Ezt a gyükérelemet odaadjuk a <code>setContentView()</code> függvénynek, hogy ez legyen az aktív <em>view</em> a képernyőn:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">binding</span><span class="p">:</span><span class="w"> </span><span class="n">ActivityMainBinding</span>
-
-<span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
-<span class="w">    </span><span class="n">binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ActivityMainBinding</span><span class="p">.</span><span class="na">inflate</span><span class="p">(</span><span class="n">layoutInflater</span><span class="p">)</span>
-<span class="w">    </span><span class="n">setContentView</span><span class="p">(</span><span class="n">binding</span><span class="p">.</span><span class="na">root</span><span class="p">)</span>
-<span class="p">}</span>
-</code></pre></div>
-<blockquote>
-<p>A <a href="https://kotlinlang.org/docs/reference/properties.html#late-initialized-properties-and-variables"><code>lateinit</code></a> kulcsszóval megjelölt property-ket a fordító megengedi inicializálatlanul hagyni az osztály konstruktorának lefutása utánig, anélkül, hogy nullable-ként kéne azokat megjelölnünk (ami később kényelmetlenné tenné a használatukat, mert mindig ellenőriznünk kéne, hogy <code>null</code>-e az értékük). Ez praktikus olyan esetekben, amikor egy osztály inicializálása nem a konstruktorában történik (például ahogy az <code>Activity</code>-k esetében az <code>onCreate</code>-ben), mert később az esetleges <code>null</code> eset lekezelése nélkül használhatjuk majd a property-t. A <code>lateinit</code> használatával átvállaljuk a felelősséget a fordítótól, hogy a property-t az első használata előtt inicializálni fogjuk - ellenkező esetben kivételt kapunk.</p>
-</blockquote>
-<p>Ezek után már be is állíthatjuk a gombjaink eseménykezelőit. (Állítsuk át a <code>btnHighScores</code>-t is.) A <code>GameActivity</code>-re való navigáció előtt az előbb létrehozott <code>TicTacToeModel</code>-t alapállapotba állítjuk, hogy új játék kezdődjön:</p>
-<p><div class="highlight"><pre><span></span><code><span class="n">binding</span><span class="p">.</span><span class="na">btnHighScore</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">Toast</span><span class="p">.</span><span class="na">makeText</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">getString</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">toast_highscore</span><span class="p">),</span><span class="w"> </span><span class="n">Toast</span><span class="p">.</span><span class="na">LENGTH_LONG</span><span class="p">).</span><span class="na">show</span><span class="p">()</span>
-<span class="p">}</span>
-
-<span class="n">binding</span><span class="p">.</span><span class="na">btnStart</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">TicTacToeModel</span><span class="p">.</span><span class="na">resetModel</span><span class="p">()</span>
-<span class="w">    </span><span class="n">startActivity</span><span class="p">(</span><span class="n">Intent</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">GameActivity</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">))</span>
-<span class="p">}</span>
-
-<span class="n">binding</span><span class="p">.</span><span class="na">btnAbout</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">startActivity</span><span class="p">(</span><span class="n">Intent</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="n">AboutActivity</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">))</span>
-<span class="p">}</span>
-</code></pre></div>
-Gyakori hiba, hogy a <code>setContentView</code> függvénynek a gyökér nézet helyett véletlenül az <em>ID</em>-val hivatkozott <em>layout</em>-ot adjuk oda. (<code>R.layout.activity_main.xml</code>). Ilyenkor kétszer is példányosodik a felület, ráadásul a képernyőn az egyik jelenik meg, míg a <code>binding</code>-ok a másikra lesznek beállítva.</p>
+</div>
 <h2 id="jatekter-kirajzolasa">Játéktér kirajzolása<a class="headerlink" href="#jatekter-kirajzolasa" title="Permanent link">¶</a></h2>
 <p>A következő lépés a játéktér kirajzolása és annak hozzárendelése a <code>GameActivity</code>-hez.</p>
 <p>Első lépésként a meglévő <code>tictactoe</code> package-ben hozzunk létre egy <code>view</code> package-et , majd abban egy <code>TicTacToeView</code> osztályt, mely a <code>View</code> ősosztályból származik:</p>
@@ -834,21 +882,48 @@ Gyakori hiba, hogy a <code>setContentView</code> függvénynek a gyökér nézet
 <p>Az osztály egyik leglényegesebb függvénye az <code>onDraw</code>, mely a kapott <code>canvas</code> objektumra rajzolja ki a nézet tartalmát. A jelenlegi implementáció feketére festi a területet és meghívja a játéktér kirajzolásért (négyzetrács) és a játékosok (X és O) kirajzolásáért felelős – egyelőre még üres – függvényeket.</p>
 <p>Az <code>onMeasure</code> függvény felüldefiniálásával biztosítható, hogy a nézet mindig négyzetes formában jelenjen meg, azaz ugyanakkora legyen a szélessége, mint a magassága.</p>
 <p>Végül az <code>onTouchEvent</code> függvényben tudjuk kezelni az érintés eseményeket. Jelenleg az <code>ACTION_DOWN</code> eseményt vizsgáljuk, de más érintés események is hasonlóan kezelhetők itt.</p>
-<blockquote>
+<div class="admonition info">
+<p class="admonition-title">init</p>
 <p>Az <a href="https://kotlinlang.org/docs/reference/classes.html#constructors"><code>init</code></a> blokkban végezhetjük el az osztályunk olyan inicializálási feladatait, amelyekre bármilyen konstruktor meghívásakor szükségünk van.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">when</p>
 <p>Figyeljük meg a <a href="https://kotlinlang.org/docs/reference/control-flow.html#when-expression"><code>when</code></a> kétféle használatát. Az <code>onTouchEvent</code> függvényben egy Java-s <code>switch</code>-hez hasonlóan futtat kódot a paraméterként megkapott kifejezés értékétől függően, míg az <code>onMeasure</code> függvényben egy kevésbé olvasható <code>if-else</code> lánc helyett használjuk, paraméter nélkül.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">kasztolás</p>
 <p>Kotlinban a <code>(float) x</code> és <code>(int) y</code> stílusú castolások helyett a numerikus típusok között a <code>toInt()</code>, <code>toFloat()</code>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-number/index.html">és hasonló függvényekkel</a> végezhetünk konverziót.</p>
-</blockquote>
-<p>Ahhoz, hogy a <code>GameActivity</code> ezt a játékteret megjelenítse, módosítsuk a hozzá tartozó <code>res/layout/activity_game.xml</code> fájlt. A felület egy szürkés hátterű <code>ConstraintLayout</code> közepén jelenítse meg a <code>TicTacToeView</code> nézetet:</p>
+</div>
+<p>Ahhoz, hogy a <code>GameActivity</code> ezt a játékteret megjelenítse, módosítsuk a hozzá tartozó <code>res/layout/activity_game.xml</code> fájlt. A felület egy <em>Fragment</em> konténert tartalmaz, amibe majd a játéktér kerül:</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
 <span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span><span class="w"> </span><span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
 <span class="w">    </span><span class="na">xmlns:app=</span><span class="s">"http://schemas.android.com/apk/res-auto"</span>
 <span class="w">    </span><span class="na">xmlns:tools=</span><span class="s">"http://schemas.android.com/tools"</span>
 <span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
 <span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
-<span class="w">    </span><span class="na">android:background=</span><span class="s">"#888888"</span>
 <span class="w">    </span><span class="na">tools:context=</span><span class="s">".GameActivity"</span>
-<span class="w">    </span><span class="na">tools:showIn=</span><span class="s">"@layout/activity_game"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="na">tools:viewBindingIgnore=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;androidx.fragment.app.FragmentContainerView</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/fragmentGameArea"</span>
+<span class="w">        </span><span class="na">android:name=</span><span class="s">"hu.bme.aut.android.tictactoe.fragments.GameFragment"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"0dp"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"0dp"</span>
+<span class="w">        </span><span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">tools:layout=</span><span class="s">"@layout/fragment_game"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
+</code></pre></div>
+<p>Következő lépésként készítsük el a játékteret tartalmazó <em>Fragmentet</em>. Ezt készíthetjük az <em>Activity</em>-hez hasonlóan varázslóval is, (jobb klinn -&gt; New -&gt; Fragment...) azonban ez túl sok olyan kódot generálna, amire nekünk most nincs szükségünk. Csináljunk tehát egy új layout fájlt, aminek a neve legyen <code>fragment_game</code>. Ez egy szürkés hátterű <code>ConstraintLayout</code> közepén jelenítse meg a <code>TicTacToeView</code> nézetet:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span><span class="w"> </span><span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+<span class="w">    </span><span class="na">xmlns:app=</span><span class="s">"http://schemas.android.com/apk/res-auto"</span>
+<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">    </span><span class="na">android:background=</span><span class="s">"#888888"</span><span class="nt">&gt;</span>
 
 <span class="w">    </span><span class="nt">&lt;hu.bme.aut.android.tictactoe.view.TicTacToeView</span>
 <span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/ticTacToeView"</span>
@@ -866,7 +941,31 @@ Gyakori hiba, hogy a <code>setContentView</code> függvénynek a gyökér nézet
 
 <span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
 </code></pre></div>
-<p><em>Fontos, hogy az itt szereplő package név a saját <code>TicTacToeView</code> osztályunk neve előtt azonos legyen a nézet forrásának tetején szereplő package névvel, egyébként hibát fogunk kapni, amikor megpróbáljuk megnyitni ezt a képernyőt.</em></p>
+<div class="admonition warning">
+<p class="admonition-title">package</p>
+<p>Fontos, hogy az itt szereplő package név a saját <code>TicTacToeView</code> osztályunk neve előtt azonos legyen a nézet forrásának tetején szereplő package névvel, egyébként hibát fogunk kapni, amikor megpróbáljuk megnyitni ezt a képernyőt. - De szerencsére a kódkiegészítő ebben is segít.</p>
+</div>
+<p>A felület után készítsük el egy külön <code>fragments</code> <em>package</em>-be magát a <code>GameFragment</code>-et is, aminek egyetlen feladata, hogy megjelenítse a felületünket:</p>
+<p><div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">GameFragment</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Fragment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">binding</span><span class="p">:</span><span class="w"> </span><span class="n">FragmentGameBinding</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreateView</span><span class="p">(</span>
+<span class="w">        </span><span class="n">inflater</span><span class="p">:</span><span class="w"> </span><span class="n">LayoutInflater</span><span class="p">,</span>
+<span class="w">        </span><span class="n">container</span><span class="p">:</span><span class="w"> </span><span class="n">ViewGroup?,</span>
+<span class="w">        </span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?</span>
+<span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="n">View</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FragmentGameBinding</span><span class="p">.</span><span class="na">inflate</span><span class="p">(</span><span class="n">layoutInflater</span><span class="p">,</span><span class="w"> </span><span class="n">container</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">binding</span><span class="p">.</span><span class="na">root</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+Próbáljuk ki az alkalmazást! Most már az <em>Új játék</em> gombra nyomva meg kell, hogy jelenjen a (még erősen hiányos) játékterünk.</p>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="./assets/fragment.png"><img align="middle" src="./assets/fragment.png" width="300"/></a></p>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>játéktér</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a <strong>GameFragmenthez tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. A képet a megoldásban a repository-ba f3.png néven töltsd föl.</p>
+</div>
 <p>Következő lépésként valósítsuk meg a játéktér kirajzolását a <code>TicTacToeView</code> <code>drawGameArea</code> függvényében, azaz rajzoljuk meg a vízszintes és függőleges vonalakat:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">drawGameArea</span><span class="p">(</span><span class="n">canvas</span><span class="p">:</span><span class="w"> </span><span class="n">Canvas</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">widthFloat</span><span class="p">:</span><span class="w"> </span><span class="kt">Float</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">width</span><span class="p">.</span><span class="na">toFloat</span><span class="p">()</span>
@@ -918,9 +1017,10 @@ Gyakori hiba, hogy a <code>setContentView</code> függvénynek a gyökér nézet
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<blockquote>
+<div class="admonition info">
+<p class="admonition-title">for ciklus</p>
 <p>A Kotlin <a href="https://kotlinlang.org/docs/reference/control-flow.html#for-loops"><code>for</code> ciklusának</a> nincs három részre bontott, <code>;</code>-vel elválasztott verziója. Csak a fenti kódban is látható <em>for each</em> stílusú <code>for</code> ciklust támogatja a nyelv, amellyel azonban bármilyen iterálható objektumon ugyanúgy tudunk iterálni. Ha egyszerűen számokon szeretnénk ezt megtenni, létrehozhatunk egy iterálható <a href="https://kotlinlang.org/docs/reference/ranges.html"><code>Range</code></a>-et például a <code>0..3</code> szintaxissal amivel egy zárt intervallumot kapunk, vagy a fent használt <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/until.html"><code>0 until 3</code></a> szintaxissal, ami egy jobbról nyílt intervallumot hoz létre, tehát a <code>3</code> értéket már nem fogja felvenni a ciklus változó.</p>
-</blockquote>
+</div>
 <p>Végül valósítsuk meg az érintés eseményre való reagálást úgy, hogy a megfelelő mezőbe – ha az üres – elhelyezzük az aktuális játékost, melyet a modell <code>nextPlayer</code> változója reprezentál. </p>
 <p><em>A modell frissítése után az újrarajzolást az <code>invalidate()</code> függvény meghívásával tudjuk elérni.</em></p>
 <div class="highlight"><pre><span></span><code><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onTouchEvent</span><span class="p">(</span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="n">MotionEvent?)</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"> </span><span class="p">{</span>
@@ -939,10 +1039,73 @@ Gyakori hiba, hogy a <code>setContentView</code> függvénynek a gyökér nézet
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="alkalmazas-ikon-lecserelese">Alkalmazás ikon lecserélése<a class="headerlink" href="#alkalmazas-ikon-lecserelese" title="Permanent link">¶</a></h2>
-<p>Az alkalmazás ikonját jelenleg a <code>res/mipmap[-ldpi/mdpi/hdpi/xhdpi/...]</code> mappákban található <code>ic_launcher.png</code> jelképezi. A laborvezető segítségével keressen egy új ikont és cserélje le. Nem muszáj az ikont minden felbontásban elkészíteni, egyszerűen elhelyezhet egy méretet a <code>mipmap</code> mappában is (melyet létre kell hozni), ekkor természetesen különböző felbontású eszközökön torzulhat az ikon képe.</p>
+<p>Az alkalmazás ikonját jelenleg a <code>res/mipmap[-ldpi/mdpi/hdpi/xhdpi/...]</code> mappákban található <code>ic_launcher.png</code> jelképezi. A laborvezető segítségével keressünk egy új ikont és cseréljük le. Nem muszáj az ikont minden felbontásban elkészíteni, egyszerűen elhelyezhet egy méretet a <code>mipmap</code> mappában is (melyet létre kell hozni), ekkor természetesen különböző felbontású eszközökön torzulhat az ikon képe.</p>
+<p>Próbáljuk ki az alkalmazást!</p>
+<p>Észrevehetjük, hogy ha a játéktérről visszalépünk és megint új játékot kezdünk, a játéktér nem törlődik. Ezért a <code>GameActivity</code>-re való navigáció előtt a <code>TicTacToeModel</code>-t alapállapotba kell állítanunk, hogy új játék kezdődjön (<code>MainActivity.kt</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="n">binding</span><span class="p">.</span><span class="na">btnStart</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">TicTacToeModel</span><span class="p">.</span><span class="na">resetModel</span><span class="p">()</span>
+<span class="w">    </span><span class="n">startActivity</span><span class="p">(</span><span class="n">Intent</span><span class="p">(</span><span class="k">this</span><span class="nd">@MainActivity</span><span class="p">,</span><span class="w"> </span><span class="n">GameActivity</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">))</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>játéktér játék közben</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a <strong>TicTacToeView kódjának egy részlete</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. A képet a megoldásban a repository-ba f4.png néven töltsd föl.</p>
+</div>
 <h2 id="jateklogika-ellenorzese-onallo-feladat">Játéklogika ellenőrzése - önálló feladat<a class="headerlink" href="#jateklogika-ellenorzese-onallo-feladat" title="Permanent link">¶</a></h2>
-<p>Valósítson meg egy függvényt, mely minden lépés után leellenőrzi, hogy győzött-e valamelyik játékos, vagy nincs-e döntetlen. Amennyiben vége a játéknak, egy <code>Toast</code> üzenettel jelezze ezt a felhasználónak és lépjen vissza a főmenübe. A laborvezető segítségével vizsgálja meg, hogy a <code>View</code> osztályból hogyan érhető el az őt tartalmazó "host" <code>Activity</code>, aminek így például egy <code>endGame()</code> függvénye meghívható, ami megvalósítja a fent leírt játék befejezést.</p>
+<p>Valósítson meg egy függvényt, mely minden lépés után leellenőrzi, hogy győzött-e valamelyik játékos, vagy nincs-e döntetlen. Amennyiben vége a játéknak, egy <code>Toast</code> üzenettel jelezze ezt a felhasználónak és lépjen vissza a főmenübe. A laborvezető segítségével vizsgálja meg, hogy a <code>View</code> osztályból hogyan érhető el az őt tartalmazó "host" <code>Activity</code>, aminek így például egy <code>gameOver()</code> függvénye meghívható, ami megvalósítja a fent leírt játék befejezést.</p>
 <p>Jó munkát kívánunk!</p>
+<details class="success">
+<summary>Segítség</summary>
+<p>A játékállapot ellenőrzése a <code>TicTacToeModel</code> feladata, így oda készítsünk egy függvényt, ami ezt teszi meg:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="nf">checkGameState</span><span class="p">():</span><span class="w"> </span><span class="kt">Byte</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">    </span><span class="c1">///TODO 4 állapottal térhet vissza: </span>
+<span class="w">    </span><span class="c1">// kör nyert</span>
+<span class="w">    </span><span class="c1">// kereszt nyert</span>
+<span class="w">    </span><span class="c1">// döntetlen</span>
+<span class="w">    </span><span class="c1">// még nincs vége</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">CIRCLE</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Játék állapotot ellenőrizni új jel lehelyezése után érdemes, tehát pl. a <code>TicTacToeView</code> <code>onTouchEvent()</code> függvényében:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onTouchEvent</span><span class="p">(</span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="n">MotionEvent?)</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="o">?.</span><span class="na">action</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">MotionEvent</span><span class="p">.</span><span class="na">ACTION_DOWN</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">tX</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="na">x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">width</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">3</span><span class="p">)).</span><span class="na">toInt</span><span class="p">()</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">tY</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="na">y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">height</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">3</span><span class="p">)).</span><span class="na">toInt</span><span class="p">()</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">tX</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">tY</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">TicTacToeModel</span><span class="p">.</span><span class="na">getFieldContent</span><span class="p">(</span><span class="n">tX</span><span class="p">,</span><span class="w"> </span><span class="n">tY</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">TicTacToeModel</span><span class="p">.</span><span class="na">EMPTY</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">TicTacToeModel</span><span class="p">.</span><span class="na">setFieldContent</span><span class="p">(</span><span class="n">tX</span><span class="p">,</span><span class="w"> </span><span class="n">tY</span><span class="p">,</span><span class="w"> </span><span class="n">TicTacToeModel</span><span class="p">.</span><span class="na">nextPlayer</span><span class="p">)</span>
+<span class="w">                </span><span class="n">invalidate</span><span class="p">()</span>
+<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TicTacToeModel</span><span class="p">.</span><span class="na">checkGameState</span><span class="p">()</span>
+<span class="w">                </span><span class="c1">///vége van, tehát tovább hívunk</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">TicTacToeModel</span><span class="p">.</span><span class="na">EMPTY</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="p">(</span><span class="n">context</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">GameActivity</span><span class="p">).</span><span class="na">gameOver</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="k">super</span><span class="p">.</span><span class="na">onTouchEvent</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition warning">
+<p>A <code>context</code> ilyen kasztolása nem szép, és veszélyes is. Itt csak az egyszerűsége miatt használjuk. A félév későbbi részében tanulunk szebb megoldást erre a problémára.</p>
+</div>
+<p>A <em>Toast</em>-ot pedig a <code>GameActivity</code>-ből dobjuk az eredmény alapján, majd bezárjuk az <em>Activity</em>-t:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="nf">gameOver</span><span class="p">(</span><span class="n">result</span><span class="p">:</span><span class="w"> </span><span class="kt">Byte</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">///TODO több eset</span>
+<span class="w">        </span><span class="n">TicTacToeModel</span><span class="p">.</span><span class="na">CIRCLE</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Toast</span><span class="p">.</span><span class="na">makeText</span><span class="p">(</span><span class="k">this</span><span class="nd">@GameActivity</span><span class="p">,</span><span class="w"> </span><span class="s">"A kör nyert"</span><span class="p">,</span><span class="w"> </span><span class="n">Toast</span><span class="p">.</span><span class="na">LENGTH_LONG</span><span class="p">).</span><span class="na">show</span><span class="p">()</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">finish</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>játék végét jelző Toast üzenet</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a <strong>játékállapot ellenőrzéséhez tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. A képet a megoldásban a repository-ba f5.png néven töltsd föl.</p>
+</div>
 <hr/>
 <div class="md-source-file">
 <span class="md-source-file__fact"> <span class="md-icon" title="Utolsó frissítés"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -950,8 +1113,8 @@ Gyakori hiba, hogy a <code>setContentView</code> függvénynek a gyökér nézet
 </path>
 </svg>
 </span>
-<span title="2023. február 6. 15:53:06">
-<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-02-06T15:53:06+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-02-06</span>
+<span title="2023. március 7. 04:07:08">
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-03-07T04:07:08+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-03-07</span>
 </span>
 </span>
 <span class="md-source-file__fact">

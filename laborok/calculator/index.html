@@ -724,7 +724,7 @@ Végső esetben, amikor az `input` teljesen üres, akkor inicializáljuk az új 
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Végezetőül vegyük fel az előjelváltásért, a tizedesjegyért, a művelet elvégzéséért (<code>=</code>) és a törtlésért felelős metódusokat. Ezekben a metódusokban a számológép állapotának frissítése a fentiekhez hasonlóan történik.</p>
+<p>Végezetül vegyük fel az előjelváltásért, a tizedesjegyért, a művelet elvégzéséért (<code>=</code>) és a törtlésért felelős metódusokat. Ezekben a metódusokban a számológép állapotának frissítése a fentiekhez hasonlóan történik.</p>
 <div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="nf">onSignChange</span><span class="p">():</span><span class="w"> </span><span class="kt">Double</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">input</span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Util</span><span class="p">.</span><span class="na">numberRegex</span><span class="p">.</span><span class="na">matches</span><span class="p">(</span><span class="n">input</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
@@ -1157,7 +1157,7 @@ Ezután implementáljuk az <code>initButtons()</code> metódust. </p>
 <blockquote>
 <p>A <a href="https://kotlinlang.org/docs/scope-functions.html#with"><code>with</code></a> egy olyan <code>scope</code> függvény, aminek segítségével azt tudjuk kifejezni, hogy: <em>ezzel az objektummal csináld a következőt</em>. Így sok esetben kicsit átláthatóbbá lehet tenni a kódot, mivel a <code>context</code>-ként megadott <code>binding</code> objektumra <code>this</code>-ként hivatkozhatunk. Vannak más <code>scope</code> függvények is különböző felhasználási esetekre. Róluk <a href="https://kotlinlang.org/docs/scope-functions.html">ezen</a> a linken lehet olvasni.</p>
 </blockquote>
-<p>Végezetőül hívjuk meg ezt az <code>initButtons()</code> metódust az <code>onViewCreated()</code>-ben.</p>
+<p>Végezetül hívjuk meg ezt az <code>initButtons()</code> metódust az <code>onViewCreated()</code>-ben.</p>
 <div class="highlight"><pre><span></span><code><span class="w"> </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onViewCreated</span><span class="p">(</span><span class="n">view</span><span class="p">:</span><span class="w"> </span><span class="n">View</span><span class="p">,</span><span class="w"> </span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">super</span><span class="p">.</span><span class="na">onViewCreated</span><span class="p">(</span><span class="n">view</span><span class="p">,</span><span class="w"> </span><span class="n">savedInstanceState</span><span class="p">)</span>
 
@@ -1476,7 +1476,7 @@ A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 <span class="w">    </span><span class="n">findNavController</span><span class="p">().</span><span class="na">popBackStack</span><span class="p">()</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Végezetőül implementáljuk a <code>HistoryFragment</code> <code>onClick()</code> metódusát.</p>
+<p>Végezetül implementáljuk a <code>HistoryFragment</code> <code>onClick()</code> metódusát.</p>
 <div class="highlight"><pre><span></span><code><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onClick</span><span class="p">(</span><span class="n">loadedData</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">action</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">HistoryFragmentDirections</span><span class="p">.</span><span class="na">actionHistoryFragmentToCalculatorFragment</span><span class="p">()</span>
 <span class="w">    </span><span class="n">CalculatorOperator</span><span class="p">.</span><span class="na">loadState</span><span class="p">(</span><span class="n">loadedData</span><span class="p">)</span>
@@ -1543,8 +1543,8 @@ A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </path>
 </svg>
 </span>
-<span title="2023. március 5. 22:09:21">
-<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-03-05T22:09:21+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-03-05</span>
+<span title="2023. március 11. 20:27:08">
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-03-11T20:27:08+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-03-11</span>
 </span>
 </span>
 <span class="md-source-file__fact">

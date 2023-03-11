@@ -350,7 +350,7 @@ private fun countResult(number2: Double): Double {
 }
 ```
 
-Végezetőül vegyük fel az előjelváltásért, a tizedesjegyért, a művelet elvégzéséért (`=`) és a törtlésért felelős metódusokat. Ezekben a metódusokban a számológép állapotának frissítése a fentiekhez hasonlóan történik.
+Végezetül vegyük fel az előjelváltásért, a tizedesjegyért, a művelet elvégzéséért (`=`) és a törtlésért felelős metódusokat. Ezekben a metódusokban a számológép állapotának frissítése a fentiekhez hasonlóan történik.
 
 ```kotlin
 fun onSignChange(): Double {
@@ -817,7 +817,7 @@ Itt először inicializáljuk `Set`-eket. Majd egy `forEachIndexed` ciklissal be
 
 > A [`with`](https://kotlinlang.org/docs/scope-functions.html#with) egy olyan `scope` függvény, aminek segítségével azt tudjuk kifejezni, hogy: *ezzel az objektummal csináld a következőt*. Így sok esetben kicsit átláthatóbbá lehet tenni a kódot, mivel a `context`-ként megadott `binding` objektumra `this`-ként hivatkozhatunk. Vannak más `scope` függvények is különböző felhasználási esetekre. Róluk [ezen](https://kotlinlang.org/docs/scope-functions.html) a linken lehet olvasni.
 
-Végezetőül hívjuk meg ezt az `initButtons()` metódust az `onViewCreated()`-ben.
+Végezetül hívjuk meg ezt az `initButtons()` metódust az `onViewCreated()`-ben.
 
 ```kotlin
  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -1172,7 +1172,7 @@ binding.topAppBar.setNavigationOnClickListener {
 }
 ```
 
-Végezetőül implementáljuk a `HistoryFragment` `onClick()` metódusát.
+Végezetül implementáljuk a `HistoryFragment` `onClick()` metódusát.
 
 ```kotlin
 override fun onClick(loadedData: String) {

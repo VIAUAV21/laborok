@@ -1240,7 +1240,7 @@ override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 ```
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amin látszódik **a `Calculator` képernyő egy visszatöltött eredménnyel** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a **`HistoryFragment` osztály `onClick()` metódusának kódja,** valamint a **neptun kódod a kódban valahol kommentként**.
+	Készíts egy **képernyőképet**, amin látszódik **a `HistoryFragment` néhány bejegyzéssel** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a **`HistoryFragment` osztály `onClick()` metódusának kódja,** valamint a **neptun kódod a kódban valahol kommentként**.
 
 	A képet a megoldásban a repository-ba f4.png néven töltsd föl.
 

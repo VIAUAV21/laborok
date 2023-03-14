@@ -206,7 +206,7 @@ Hozzunk létre ugyanezzel a módszerrel egy újabb *Fragment*-t `HistoryFragment
 ![](./assets/nav_graph_done.png)
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amin látszódik **a futó alkalmazás** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a ** `nav_graph.xml` kódja,** valamint a **neptun kódod a kódban valahol kommentként**.
+	Készíts egy **képernyőképet**, amin látszódik **a futó alkalmazás** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a **`nav_graph.xml` kódja,** valamint a **neptun kódod a kódban valahol kommentként**.
 
 	A képet a megoldásban a repository-ba f1.png néven töltsd föl.
 

@@ -1,7 +1,7 @@
-# Labor03 - Számológép
+# Labor03 - Számológép (Calculator)
 
 ## A labor célja
-A legfontosabb `XML`-alapú UI fejlesztési komponensek használatának bemutatása egy számológép alkalmazáson keresztül. A labor során megismerkedünk a `Jetpack Navigation` könyvtárral, a `Fragment`-ekkel és `RecyclerView` elkészítési lépéseivel.
+A legfontosabb `XML`-alapú UI fejlesztési komponensek használatának bemutatása egy számológép alkalmazáson keresztül. A labor során megismerkedünk a `Jetpack Navigation` könyvtárral, a `Fragment`-ekkel és a `RecyclerView` elkészítési lépéseivel.
 
 <p float="left">
 <img src="./assets/calc_fragment.png" width="200" align="middle">
@@ -10,12 +10,12 @@ A legfontosabb `XML`-alapú UI fejlesztési komponensek használatának bemutat�
 
 ### Felhasznált technológiák:
 
-- Activity
-- Fragment
-- Jetpack Navigation
-- RecyclerView és Adapter
-- TableLayout, TextView, Button
-- View Binding
+- `Activity`
+- `Fragment`
+- `Jetpack Navigation`
+- `RecyclerView` és `RecyclerViewAdapter`
+- `TableLayout`, `TextView`, `Button`
+- `View Binding`
 
 ## Előkészületek
 
@@ -48,7 +48,7 @@ Első lépésként indítsuk el az Android Studio-t, majd:
 !!!danger "FILE PATH"
 	A projekt a repository-ban lévő `Calculator` könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!
 	
-Ha ezzel megvagyunk, akkor térjünk rá a *Gradle* fájlokra, amik a projektünk build-elési folyamatának konfigurációjáért felelnek. Elsőre nézzük a **project** szintű *Gradle* fájlt:
+Ha ezzel megvagyunk, akkor térjünk rá a *Gradle* fájlokra, amik a projektünk buildelési folyamatának konfigurációjáért felelnek. Elsőre nézzük a **project** szintű *Gradle* fájlt:
 
 A *Jetpack Navigation* könyvtár használata miatt vegyük fel a többi plugin mellé a `androidx.navigation.safeargs`-ot:
 
@@ -75,7 +75,8 @@ android {
 
 Győződjünk meg arról, hogy a függőségként felvett könyvtárak verziója a lehető legfrissebb. (Ez akkor áll fenn, ha egyik könyvtár sincs sárga színnel (*Warning*) kiemelve.)
 
-> Ha szerepelnének ilyen figyelmeztetések, akkor a kurzorunkat a megfelelő könyvtár felé vive megjelenik egy ablak, amin belül a `Change to 'some_version'`-re kattintva módosíthatjuk az aktuális verziót egy újabbra.
+!!!info ""
+	Ha szerepelnének ilyen figyelmeztetések, akkor a kurzorunkat a megfelelő könyvtár felé vive megjelenik egy ablak, amin belül a `Change to 'some_version'`-re kattintva módosíthatjuk az aktuális verziót egy újabbra.
 
 Vegyük fel azokat a további függőségeket, amikre még szükségünk lesz a projekt során. Ehhez a pluginok közé még vegyük fel a `androidx.navigation.safeargs.kotlin`-t.
 
@@ -101,7 +102,7 @@ Szükségünk lesz még néhány *string* és *drawable* erőforrásra, amit mos
 
 ```xml
 <resources>
-	...
+    <string name="app_name">Calculator</string>
     <string name="text_calculator_console">0</string>
     <string name="text_operation">%1$.2f %2$s %3$.2f = %4$.2f</string>
     <string name="button_text_delete">C</string>
@@ -163,41 +164,54 @@ Ezután hozzunk létre egy új *Empty Activity*-t (jobb klikk *calculator* packa
 
 ![](./assets/new_activity.png)
 
-Keressük meg a `MainActivity`-hez tartozó `activity_main.xml` fájlt (`res/layout`), és vegyük fel benne a következő *View* komponenst:
+Keressük meg a `MainActivity`-hez tartozó `activity_main.xml` fájlt (`res/layout`), és vegyünk fel benne egy `FragmentContainerView` komponenst:
 
 ```xml
-<androidx.fragment.app.FragmentContainerView
-    android:id="@+id/nav_host_fragment"
-    android:name="androidx.navigation.fragment.NavHostFragment"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:defaultNavHost="true"
-    app:navGraph="@navigation/nav_graph" />
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/nav_graph" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-!!!note "Megjegyzés"
+!!!note "FragmentContainerView"
 	Ez egy egyedi *layout* típus, ami a *Fragment*-ek megjelenítésére használatos.
-	<ul> 
-		<li>Az **android:name** attribútum tartalmazza a `NavHost` implementációnk osztálynevét.</li>
-		<li>Az **app:navGraph** attribútum hivatkozik arra a navigációs erőforrásra, amit korábban generáltunk.</li>
-	<li>Az **app:defaultNavhost="true"** attribútum biztosítja, hogy a `NavHostFragment` kezelni tudja a visszafelé navigálást (amit egy dedikált fizikai gombbal vagy interakcióval válthatunk ki). Csak egyetlen `NavHost` lehet alapértelmezettnek (*default*) beállítva.</li>
-	</ul>
 
-Következő lépésként nyissuk meg a `nav_graph.xml`-t (`res/navigation`) *Design* módban. Kattintsunk a *New Destination* gombra, majd válasszuk ki a *Create New Destination* és *Fragment (Blank)* opciókat. A *Fragment* neve legyene `CalculatorFragment`. Majd véglegesítsük a létrehozást a *Next* és *Finish* gombra való kattintással.
+	- Az **android:name** attribútum tartalmazza a `NavHost` implementációnk osztálynevét.
+	- Az **app:navGraph** attribútum hivatkozik arra a navigációs erőforrásra, amit korábban generáltunk.
+	- Az **app:defaultNavhost="true"** attribútum biztosítja, hogy a `NavHostFragment` kezelni tudja a visszafelé navigálást (amit egy dedikált fizikai gombbal vagy interakcióval válthatunk ki). Csak egyetlen `NavHost` lehet alapértelmezettnek (*default*) beállítva.
+
+Következő lépésként nyissuk meg a `nav_graph.xml`-t (`res/navigation`) *Design* módban. Kattintsunk a *New Destination* gombra, ott válasszuk ki a *Create New Destination* majd *Fragment (Blank)* opciókat. A *Fragment* neve legyene `CalculatorFragment`. Ezután véglegesítsük a létrehozást a *Next* és *Finish* gombra való kattintással.
 
 ![](./assets/new_destination.png)
 
-Hozzunk létre ugyanezzel a módszerrel egy újabb *Fragment*-t `HistoryFragment` néven. Ha ezzel megvagyunk, vigyük a kurzorunkat a `CalculatorFragment` fölé, ekkor megjelenik egy karika a *Fragment* jobb oldalán. Kattintsunk rá, majd a *bal* klikket lenyomva húzzuk a kurzort a másik *Fragment* fölé majd engedjük el. Így létrejött egy útvonal a `CalculatorFragment` és a `HistoryFragment` között. Végezzük el ugyanezt visszafelé. Ha ezzel megvagyunk, akkor következőt kell látnunk:
+Hozzunk létre ugyanezzel a módszerrel egy újabb *Fragment*-t `HistoryFragment` néven. Ha ezzel megvagyunk, vigyük a kurzorunkat a `CalculatorFragment` fölé, ekkor megjelenik egy karika a *Fragment* jobb oldalán. Kattintsunk rá, majd a *bal* klikket lenyomva húzzuk a kurzort a másik *Fragment* fölé és ott engedjük el. Így létrejött egy útvonal a `CalculatorFragment` és a `HistoryFragment` között. Végezzük el ugyanezt visszafelé. Ha ezzel megvagyunk, akkor következőt kell látnunk:
 
 ![](./assets/nav_graph_done.png)
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik a `nav_graph.xml` *Code* módban (az XML kódban valahol szerepeljen a NEPTUN KÓD kommentezve) az alkalmazást futtató *Emulator*-ral.
+	Készíts egy **képernyőképet**, amin látszódik **a futó alkalmazás** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a **a `nav_graph.xml` *Code* módban,** valamint a **neptun kódod a kódban valahol kommentként**.
+
+	A képet a megoldásban a repository-ba f1.png néven töltsd föl.
+
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
+
 
 ## CalculatorOperator
 
@@ -232,7 +246,7 @@ enum class OperationSymbol(val symbol: String) {
 }
 ``` 
 
-Következő lépésként egészítsük ki egy `companion object`-el benne egy olyan `getByOrdinal()` nevű segédfüggvénnyel, ami a sorrend szerinti index alapján visszaadja a megfelelő `OperationSymbol`-t. Tehát `0` esetén a `DIVISION`-t, `1` esetén `MULTIPLICATION`-t és így tovább.
+Következő lépésként egészítsük ki az osztályt egy `companion object`-el benne egy olyan `getByOrdinal()` nevű segédfüggvénnyel, ami a sorrend szerinti index alapján visszaadja a megfelelő `OperationSymbol`-t. Tehát `0` esetén a `DIVISION`-t, `1` esetén `MULTIPLICATION`-t és így tovább.
 
 ```kotlin
 companion object {
@@ -250,7 +264,8 @@ companion object {
 
 ```
 
-> Az `enum` osztályhoz tartozó `values()` metódus az osztályban definiált `enum` objektumok tömbjét adja vissza.
+!!!info ""
+	Az `enum` osztályhoz tartozó `values()` metódus az osztályban definiált `enum` objektumok tömbjét adja vissza.
 
 Ezután a *util* package-ben hozzunk létre egy `CalculatorOperator` nevű *Kotlin* `object`-t (`Singleton` osztály). Ez a `Singleton` felel a számológép vezérléséért.
 
@@ -272,7 +287,8 @@ object CalculatorOperator {
 }
 ```
 
-> A [`data class`](https://kotlinlang.org/docs/data-classes.html) egy nagyon hasznos funkció a Kotlin nyelvben. Segítségével az elsődleges konstruktorban (ami közvetlenül az osztálynév után áll) deklarált változókra automatikusan generálódik a `hashCode()`, `equals()`, illetve `toString()` függvények, melyek hasznosak a különböző adathalmazok kezelése esetére. Bár megengedett, az adat osztályoknál lehetőleg kerüljük a változtatható változókat (`var`).
+!!!info "data class"
+	 A [`data class`](https://kotlinlang.org/docs/data-classes.html) egy nagyon hasznos funkció a Kotlin nyelvben. Segítségével az elsődleges konstruktorban (ami közvetlenül az osztálynév után áll) deklarált változókra automatikusan generálódnak a `hashCode()`, `equals()`, illetve `toString()` függvények, melyek hasznosak a különböző adathalmazok kezelésére. Bár megengedett, az adat osztályoknál lehetőleg kerüljük a változtatható változókat (`var`).
 
 Importáljuk a hiányzó referenciákat, majd implementáljuk a számok beviteléért felelős `onNumberPressed()` metódust:
 
@@ -284,7 +300,8 @@ fun onNumberPressed(number: Int) {
 }
 ```
 
-> A számok bevitele úgy történik, hogy az állapot `input` attribútumát mindig egy hozzáfűzött számmal megváltoztatott értékkel "frissítjük".
+!!!info ""
+	A számok bevitele úgy történik, hogy az állapot `input` attribútumát mindig egy hozzáfűzött számmal megváltoztatott értékkel "frissítjük".
 
 Következő lépésként implementáljuk a műveletek elvégzéséért felelős metódust:
 
@@ -319,22 +336,21 @@ fun onOperationPressed(operation: Int) {
     }
 }
 ```
-<details close>
-<summary>Ha érdekel az `onOperationPressed()` működési elve, akkor ezt a fület lenyitva tudod megismerni.</summary>
-A műveletek kezelése során három esetet különböztetünk meg egymástól. Az első eset, amikor az `input` string már tartalmaz valamilyen számot. Ekkor ezt a számot eltároljuk a számológép állapotának (`state`) `number1` attribútumában, majd az `input`-ot felülírjük a bevitt művelet szimbólumával, illetve az `operation` attribútumba is elmentjük a megfelelő `OperationSymbol` `enum` objektumot.
-<br>
+???note "Ha érdekel az `onOperationPressed()` működési elve, akkor ezt a fület lenyitva tudod megismerni."
+	A műveletek kezelése során három esetet különböztetünk meg egymástól:
 
-<br>
-A második eset akkor történik, amikor az `input`-ban egy szimbólumot valamilyen szám is követ (pl. "*5"). Ekkor a `number1` attribútum már tartalmaz egy számot (az 1. eset már lezajlott), így az első esetben felvett műveleti szimbólummal és az azt követő számmal már el is végezhető egy művelet. A művelet eredményével felülírjuk a `number1` értékét, majd a korábbiakhoz hasonlóan eltároljuk az új művelet szimbólumát.
-<br>
+	
+	Az első eset, amikor az `input` string már tartalmaz valamilyen számot. Ekkor ezt a számot eltároljuk a számológép állapotának (`state`) `number1` attribútumában, majd az `input`-ot felülírjük a bevitt művelet szimbólumával, illetve az `operation` attribútumba is elmentjük a megfelelő `OperationSymbol` `enum` objektumot.
 
-<br>
-A harmadik eset, akkor áll fenn, amikor csak egy műveleti szimbólum van az `input`-ban (pl. "*"), ami helyett mást akarunk elvégezni, ekkor csak simán lecseréljük az `operation`-t és az `input`-ot.
-<br>
 
-<br>
-Végső esetben, amikor az `input` teljesen üres, akkor inicializáljuk az új műveleti értékekkel a `state`-et.
-</details>
+	A második eset akkor történik, amikor az `input`-ban egy szimbólumot valamilyen szám is követ (pl. "*5"). Ekkor a `number1` attribútum már tartalmaz egy számot (az 1. eset már lezajlott), így az első esetben felvett műveleti szimbólummal és az azt követő számmal már el is végezhető egy művelet. A művelet eredményével felülírjuk a `number1` értékét, majd a korábbiakhoz hasonlóan eltároljuk az új művelet szimbólumát.
+
+
+	A harmadik eset, akkor áll fenn, amikor csak egy műveleti szimbólum van az `input`-ban (pl. "*"), ami helyett mást akarunk elvégezni, ekkor csak simán lecseréljük az `operation`-t és az `input`-ot.
+
+
+	Végső esetben, amikor az `input` teljesen üres, akkor inicializáljuk az új műveleti értékekkel a `state`-et.
+
 
 Még szükségünk van a `countResult()` metódusra, aminek segítségével kiszámíthatóak a műveletek eredményei:
 
@@ -421,7 +437,7 @@ fun onDelete() {
 
 Első lépésként keressük meg a `res/layout` alatt található `fragment_calculator.xml` fájlt, ahol `CalculatorFragment` *View* komponenseit és azok elrendezését fogjuk meghatározni. 
 
-A laborra fordítható idő miatt csak ismerkedjünk meg az *XML* felépítési elvével és másoljuk át a kész `View hierarchiát`, ami az alábbi részt követően elérhető egy lenyíló részt kinyitva.
+A laborra fordítható idő miatt csak ismerkedjünk meg az *XML* felépítési elvével és másoljuk át a kész *View hierarchiát*, ami az alábbi részt követően elérhető egyben, egy lenyíló részt kinyitva.
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -452,8 +468,6 @@ A `CalculatorFragment`-ünk táblázatos elrendezését egy `TableLayout` határ
 
 A táblázat első sorában a konzol szerepét betöltő `TextView` szerepel. Az általa megjelenített szöveg a `View`-n belül jobb oldalt, függőlegesen középre igazítva látható félkövér betűtípussal. Ez az `android:gravity` és `android:fontFamily` attribútumokkal érhető el.
 
-A konzol alatt lévő sorokban a művelet és szám gombok következnek. A gombok egyenletesen töltik ki a sorokban elfoglalható teret, ami ugyancsak az `android:layout_weight="1"` attribútum felvételével érhető el.
-
 ```xml
  <Button
     android:id="@+id/deleteButton"
@@ -465,233 +479,243 @@ A konzol alatt lévő sorokban a művelet és szám gombok következnek. A gombo
     style="@style/Widget.Material3.Button"/>
 ```
 
-<details close>
-<summary>`CalculatorFragment` XML kódja</summary>
-<br>
+A konzol alatt lévő sorokban a művelet és szám gombok következnek. A gombok egyenletesen töltik ki a sorokban elfoglalható teret, ami ugyancsak az `android:layout_weight="1"` attribútum felvételével érhető el.
 
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_weight="1">
-        <TextView
-            android:id="@+id/consoleTextView"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:focusable="true"
-            android:text="@string/text_calculator_console"
-
-            android:textSize="40sp"
-            android:gravity="center_vertical|end"
-            android:fontFamily="sans-serif-medium"/>
-    </TableRow>
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-        <Button
-            android:id="@+id/deleteButton"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:textSize="22sp"
-            android:text="@string/button_text_delete"
-            style="@style/Widget.Material3.Button"/>
-
-        <Button
-            android:id="@+id/signButton"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:textSize="22sp"
-            android:text="@string/button_text_sign"
-            style="@style/Widget.Material3.Button"/>
-
-        <Button
-            android:id="@+id/modulo_button"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:textSize="22sp"
-            android:text="@string/button_text_modulo"
-            style="@style/Widget.Material3.Button"/>
-
-        <Button
-            android:id="@+id/operationDivisionButton"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:textSize="22sp"
-            android:text="@string/button_text_division"
-            style="@style/Widget.Material3.Button"/>
-    </TableRow>
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-        <Button
-            android:id="@+id/number7Button"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:textSize="22sp"
-            android:text="@string/button_text_number_seven" />
-
-        <Button
-            android:id="@+id/number8Button"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:textSize="22sp"
-            android:text="@string/button_text_number_eight" />
-
-        <Button
-            android:id="@+id/number9Button"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:textSize="22sp"
-            android:text="@string/button_text_number_nine" />
-
-        <Button
-            android:id="@+id/operationMultiplicationButton"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:textSize="22sp"
-            android:text="@string/button_text_multiplication"
-            style="@style/Widget.Material3.Button"/>
-    </TableRow>
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-        <Button
-            android:id="@+id/number4Button"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:textSize="22sp"
-            android:text="@string/button_text_number_four" />
-
-        <Button
-            android:id="@+id/number5Button"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:textSize="22sp"
-            android:text="@string/button_text_number_five" />
-
-        <Button
-            android:id="@+id/number6Button"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:textSize="22sp"
-            android:text="@string/button_text_number_six" />
-
-        <Button
-            android:id="@+id/operationSubtractionButton"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:textSize="22sp"
-            android:text="@string/button_text_subtraction"
-            style="@style/Widget.Material3.Button"/>
-    </TableRow>
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
-        <Button
-            android:id="@+id/number1Button"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:textSize="22sp"
-            android:text="@string/button_text_number_one" />
-
-        <Button
-            android:id="@+id/number2Button"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:textSize="22sp"
-            android:text="@string/button_text_number_two" />
-
-        <Button
-            android:id="@+id/number3Button"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:textSize="22sp"
-            android:text="@string/button_text_number_three" />
-
-        <Button
-            android:id="@+id/operationAdditionButton"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:textSize="22sp"
-            android:text="@string/button_text_addition"
-            style="@style/Widget.Material3.Button"/>
-    </TableRow>
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:weightSum="4">
-        <Button
-            android:id="@+id/number0Button"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:textSize="22sp"
-            android:text="@string/button_text_number_zero" />
-
-        <Button
-            android:id="@+id/commaButton"
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:textSize="22sp"
-            android:text="@string/button_text_come"/>
-
-        <Button
-            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:enabled="false"
-            android:visibility="invisible"/>
-
-        <Button
-            android:id="@+id/operationEquivalenceButton"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
-            android:textSize="22sp"
-            android:text="@string/button_text_equivalence"
-            style="@style/Widget.Material3.Button"/>
-    </TableRow>
-</TableLayout>
-```
-</details>
+???success "CalculatorFragment teljes XML kódja"
+	```xml
+	<?xml version="1.0" encoding="utf-8"?>
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent">
+	
+	    <TableRow
+	        android:layout_width="fill_parent"
+	        android:layout_weight="1">
+	
+	        <TextView
+	            android:id="@+id/consoleTextView"
+	            android:layout_height="match_parent"
+	            android:layout_weight="1"
+	            android:clickable="true"
+	            android:focusable="true"
+	            android:fontFamily="sans-serif-medium"
+	
+	            android:gravity="center_vertical|end"
+	            android:text="@string/text_calculator_console"
+	            android:textSize="40sp" />
+	    </TableRow>
+	
+	    <TableRow
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1">
+	
+	        <Button
+	            android:id="@+id/deleteButton"
+	            style="@style/Widget.Material3.Button"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_delete"
+	            android:textSize="22sp" />
+	
+	        <Button
+	            android:id="@+id/signButton"
+	            style="@style/Widget.Material3.Button"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_sign"
+	            android:textSize="22sp" />
+	
+	        <Button
+	            android:id="@+id/modulo_button"
+	            style="@style/Widget.Material3.Button"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_modulo"
+	            android:textSize="22sp" />
+	
+	        <Button
+	            android:id="@+id/operationDivisionButton"
+	            style="@style/Widget.Material3.Button"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_division"
+	            android:textSize="22sp" />
+	    </TableRow>
+	
+	    <TableRow
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1">
+	
+	        <Button
+	            android:id="@+id/number7Button"
+	            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_number_seven"
+	            android:textSize="22sp" />
+	
+	        <Button
+	            android:id="@+id/number8Button"
+	            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_number_eight"
+	            android:textSize="22sp" />
+	
+	        <Button
+	            android:id="@+id/number9Button"
+	            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_number_nine"
+	            android:textSize="22sp" />
+	
+	        <Button
+	            android:id="@+id/operationMultiplicationButton"
+	            style="@style/Widget.Material3.Button"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_multiplication"
+	            android:textSize="22sp" />
+	    </TableRow>
+	
+	    <TableRow
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1">
+	
+	        <Button
+	            android:id="@+id/number4Button"
+	            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_number_four"
+	            android:textSize="22sp" />
+	
+	        <Button
+	            android:id="@+id/number5Button"
+	            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_number_five"
+	            android:textSize="22sp" />
+	
+	        <Button
+	            android:id="@+id/number6Button"
+	            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_number_six"
+	            android:textSize="22sp" />
+	
+	        <Button
+	            android:id="@+id/operationSubtractionButton"
+	            style="@style/Widget.Material3.Button"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_subtraction"
+	            android:textSize="22sp" />
+	    </TableRow>
+	
+	    <TableRow
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1">
+	
+	        <Button
+	            android:id="@+id/number1Button"
+	            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_number_one"
+	            android:textSize="22sp" />
+	
+	        <Button
+	            android:id="@+id/number2Button"
+	            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_number_two"
+	            android:textSize="22sp" />
+	
+	        <Button
+	            android:id="@+id/number3Button"
+	            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_number_three"
+	            android:textSize="22sp" />
+	
+	        <Button
+	            android:id="@+id/operationAdditionButton"
+	            style="@style/Widget.Material3.Button"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_addition"
+	            android:textSize="22sp" />
+	    </TableRow>
+	
+	    <TableRow
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1"
+	        android:weightSum="4">
+	
+	        <Button
+	            android:id="@+id/number0Button"
+	            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_number_zero"
+	            android:textSize="22sp" />
+	
+	        <Button
+	            android:id="@+id/commaButton"
+	            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_come"
+	            android:textSize="22sp" />
+	
+	        <Button
+	            style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:enabled="false"
+	            android:visibility="invisible" />
+	
+	        <Button
+	            android:id="@+id/operationEquivalenceButton"
+	            style="@style/Widget.Material3.Button"
+	            android:layout_height="match_parent"
+	            android:layout_margin="5dp"
+	            android:layout_weight="1"
+	            android:text="@string/button_text_equivalence"
+	            android:textSize="22sp" />
+	    </TableRow>
+	</TableLayout>
+	```
 
 Térjünk át a `CalculatorFragment` osztályra, ahol a fájl tartalmát cseréljük le a következőre:
 
@@ -707,10 +731,6 @@ class CalculatorFragment : Fragment() {
     ): View {
         _binding = FragmentCalculatorBinding.inflate(inflater, container, false)
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun onDestroyView() {
@@ -815,7 +835,8 @@ private fun initButtons() {
 
 Itt először inicializáljuk `Set`-eket. Majd egy `forEachIndexed` ciklissal beállítjuk az eseménykezelőjüket. Ezután sorra elvégezzük az eseménykezelők beállítását azokra a gombokra is, amikből csak egy-egy példány létezik.
 
-> A [`with`](https://kotlinlang.org/docs/scope-functions.html#with) egy olyan `scope` függvény, aminek segítségével azt tudjuk kifejezni, hogy: *ezzel az objektummal csináld a következőt*. Így sok esetben kicsit átláthatóbbá lehet tenni a kódot, mivel a `context`-ként megadott `binding` objektumra `this`-ként hivatkozhatunk. Vannak más `scope` függvények is különböző felhasználási esetekre. Róluk [ezen](https://kotlinlang.org/docs/scope-functions.html) a linken lehet olvasni.
+!!!info ""
+	A [`with`](https://kotlinlang.org/docs/scope-functions.html#with) egy olyan `scope` függvény, aminek segítségével azt tudjuk kifejezni, hogy: *ezzel az objektummal csináld a következőt*. Így sok esetben kicsit átláthatóbbá lehet tenni a kódot, mivel a `context`-ként megadott `binding` objektumra `this`-ként hivatkozhatunk. Vannak más `scope` függvények is különböző felhasználási esetekre. Róluk [ezen](https://kotlinlang.org/docs/scope-functions.html) a linken lehet olvasni.
 
 Végezetül hívjuk meg ezt az `initButtons()` metódust az `onViewCreated()`-ben.
 
@@ -828,21 +849,24 @@ Végezetül hívjuk meg ezt az `initButtons()` metódust az `onViewCreated()`-be
 ```
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik a `CalculatorFragment` osztály kódja (benne szerepeljen valahol a NEPTUN KÓD kommentezve) és az Emulatorral futtatott alkalmazás egy beírt számmal.
+	Készíts egy **képernyőképet**, amin látszódik **a *CalculatorFragment* egy beleírt számmal** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az **ahhoz tartozó kódrészlet,** valamint a **neptun kódod a kódban valahol kommentként**.
+
+	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
+
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 ## RecyclerView
 
-A *RecyclerView* könyvtár megkönnyíti a nagy adathalmazok hatékony megjelenítését. Meg kell határozni, hogy az egyes elemek hogyan nézzenek ki. Így az adathalmazt átadva egy *Adapter* nevű komponensnek az dinamikusan létrehozza az elemeket akkor, amikor éppen szükség van rájuk.
+A `RecyclerView` könyvtár megkönnyíti a nagy adathalmazok hatékony megjelenítését. Meg kell határozni, hogy az egyes elemek hogyan nézzenek ki. Így az adathalmazt átadva egy *Adapter* nevű komponensnek az dinamikusan létrehozza az elemeket akkor, amikor éppen szükség van rájuk.
 
-Ahogy a név is sugallja, a *RecyclerView* újrahasznosítja ezeket a *View* elemeket. Amikor egy elem eltűnik a képernyőről, a RecyclerView nem szabadítja fel, hanem újra felhasználja azt a képernyőn megjelenő új elemhez. Ennek köszönhetően a *RecyclerView* bevezetésével javul a teljesítmény és az alkalmazás válaszideje, továbbá csökkenti az energiafogyasztást.
+Ahogy a név is sugallja, a `RecyclerView` újrahasznosítja ezeket a *View* elemeket. Amikor egy elem eltűnik a képernyőről, a RecyclerView nem szabadítja fel, hanem újra felhasználja azt a képernyőn megjelenő új elemhez. Ennek köszönhetően a `RecyclerView` bevezetésével javul a teljesítmény és az alkalmazás válaszideje, továbbá csökkenti az energiafogyasztást.
 
-A *RecyclerView* implementálása így három lépésből áll:
+A `RecyclerView` implementálása így három lépésből áll:
 
 
 1. lépés: *View* elem *layout*-jának meghatározása
-2. lépés: *Adapter* osztály implementálása
-3. lépés: *RecyclerView* felvétele a *Fragment*/*Activity*-ben és inicializálása a megfelelő osztályban
+1. lépés: *Adapter* osztály implementálása
+1. lépés: `RecyclerView` felvétele a *Fragment*/*Activity*-ben és inicializálása a megfelelő osztályban
 
 Hozzunk lére egy új *XML* fájlt `view_history_item.xml` néven a`res/layout` mappában. A lista elem `LinearLayout`-ot használ a komponensei vízszintes sorba történő elrendezéséhez (`android:orientation="horizontal"`). A `LinearLayout` esetén is rendelhetünk súlyozást (arányokat) az egyes *View* komponensekhez az `android:weightSum` és az `android:layout_weight` attribútumok segítségével.
 
@@ -934,8 +958,10 @@ override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 override fun getItemCount(): Int = history.size
 ```
 
-> Ha a `String` erőforrásunkban valamilyen változó értékét szeretnénk megjeleníteni (formázás), akkor azt úgy tehetjük meg, hogy az erőforrásunkban argumantumokat helyezünk el. Esetünkben egy ilyen argumentum például a `%1$.2f`, ami kettő tizedesjegyig jeleníti meg a számokat. 
-> A `Context`-ből elérhető `getString()` metódus segítségével pedig az erőforrás `id`-jának megadását követően felsorolhatjuk az argumentumainkat, amik alapján a `getString()` elvégzi azok beszúrását.
+!!!info "getString()"
+	Ha a `String` erőforrásunkban valamilyen változó értékét szeretnénk megjeleníteni (formázás), akkor azt úgy tehetjük meg, hogy az erőforrásunkban argumantumokat helyezünk el. Esetünkben egy ilyen argumentum például a `%1$.2f`, ami kettő tizedesjegyig jeleníti meg a számokat. 
+	
+	A `Context`-ből elérhető `getString()` metódus segítségével pedig az erőforrás `id`-jának megadását követően felsorolhatjuk az argumentumainkat, amik alapján a `getString()` elvégzi azok beszúrását.
 
 A lista elemre való kattintás kezeléséhez szükségünk lesz egy `interface`-re, amit majd a listát megjelenító *Fragment* fog implementálni. Vegyünk fel egy belső `interface`-t `ClickListener` néven, ami rendelkezzen egy `onClick(loadedData: String)` metódussal. És egészítsük ki az *Adapter* konstruktorát egy `onClickListener` változóval.  
 
@@ -945,27 +971,30 @@ class HistoryAdapter(
     private val history: List<CalculatorOperator.CalculatorState>,
     private val context: Context
 ) : RecyclerView.Adapter<HistoryAdapter.ViewHolder>() {
-
     ...
+```
 
-    interface ClickListener {
-        fun onClick(loadedData: String)
-    }
+```kotlin
+interface ClickListener {
+    fun onClick(loadedData: String)
 }
 ```
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik az `Adpater` osztály kódja (benne szerepeljen valahol a NEPTUN KÓD kommentezve).
+	Készíts egy **képernyőképet**, amin látszódik a **HistoryAdapter osztály kódja,** valamint a **neptun kódod a kódban valahol kommentként**.
+
+	A képet a megoldásban a repository-ba f3.png néven töltsd föl.
+
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
+
+
 	
 ## HistoryFragment
 
-Első lépésként térjünk vissza a `CalculatorOperator`-ra, hogy kezelni tudja az elvégzett műveletek mentését. Egészítsük ki az osztályt egy `history` változóval, egy `loadState()` és egy `addStateToHsitory()` metódussal, illetve módosítsuk az `onOperationPressed()` és `onEquaivalence()` metódusokat.
+Térjünk vissza a `CalculatorOperator`-ra, hogy kezelni tudja az elvégzett műveletek mentését. Egészítsük ki az osztályt egy `history` változóval, egy `loadState()` és egy `addStateToHsitory()` metódussal, illetve módosítsuk az `onOperationPressed()` és `onEquaivalence()` metódusokat.
 
 ```kotlin
 object CalculatorOperator {
-
-    ...
 
     val history = mutableListOf<CalculatorState>()
 
@@ -982,83 +1011,81 @@ object CalculatorOperator {
     private fun addStateToHistory() {
         history.add(state)
     }
-
     ...
+```
 
-    fun onOperationPressed(operation: Int) {
-        val input = state.input
-        if (Util.numberRegex.matches(input)) {
-            state = state.copy(
-                number1 = Util.numberRegex.find(input)!!.value.toDouble(),
-                operation = OperationSymbol.getByOrdinal(operation)!!,
-                input = OperationSymbol.getByOrdinal(operation)!!.symbol
-            )
-        } else if (Util.halfOperationRegex.matches(input)) {
-            val number2 = Util.numberRegex.find(input)!!.value.toDouble()
-            state = state.copy(
-                number2 = number2,
-                result = countResult(number2),
-            )
+```kotlin
+fun onOperationPressed(operation: Int) {
+    val input = state.input
+    if (Util.numberRegex.matches(input)) {
+        state = state.copy(
+            number1 = Util.numberRegex.find(input)!!.value.toDouble(),
+            operation = OperationSymbol.getByOrdinal(operation)!!,
+            input = OperationSymbol.getByOrdinal(operation)!!.symbol
+        )
+    } else if (Util.halfOperationRegex.matches(input)) {
+        val number2 = Util.numberRegex.find(input)!!.value.toDouble()
+        state = state.copy(
+            number2 = number2,
+            result = countResult(number2),
+        )
 
-            addStateToHistory()
+        addStateToHistory()
 
-            state = state.copy(
-                number1 = state.result,
-                number2 = Double.NaN,
-                operation = OperationSymbol.getByOrdinal(operation)!!,
-                input =  OperationSymbol.getByOrdinal(operation)!!.symbol
-            )
-        } else if (Util.operationSymbol.matches(input)) {
-            state = state.copy(
-                operation = OperationSymbol.getByOrdinal(operation)!!,
-                input = OperationSymbol.getByOrdinal(operation)!!.symbol
-            )
-        } else {
-            state = state.copy(
-                operation = OperationSymbol.getByOrdinal(operation)!!,
-                input = OperationSymbol.getByOrdinal(operation)!!.symbol
-            )
-        }
+        state = state.copy(
+            number1 = state.result,
+            number2 = Double.NaN,
+            operation = OperationSymbol.getByOrdinal(operation)!!,
+            input =  OperationSymbol.getByOrdinal(operation)!!.symbol
+        )
+    } else if (Util.operationSymbol.matches(input)) {
+        state = state.copy(
+            operation = OperationSymbol.getByOrdinal(operation)!!,
+            input = OperationSymbol.getByOrdinal(operation)!!.symbol
+        )
+    } else {
+        state = state.copy(
+            operation = OperationSymbol.getByOrdinal(operation)!!,
+            input = OperationSymbol.getByOrdinal(operation)!!.symbol
+        )
     }
+}
+```
 
-    ...
+```kotlin
+fun onEquivalence(): Double {
+    val input = state.input
+    return if (Util.halfOperationRegex.matches(input)) {
+        val number2 = Util.numberRegex.find(input)!!.value.toDouble()
+        val result = countResult(number2)
 
-    fun onEquivalence(): Double {
-        val input = state.input
-        return if (Util.halfOperationRegex.matches(input)) {
-            val number2 = Util.numberRegex.find(input)!!.value.toDouble()
-            val result = countResult(number2)
+        state = state.copy(
+            number2 = number2,
+            result = result
+        )
 
-            state = state.copy(
-                number2 = number2,
-                result = result
-            )
+        addStateToHistory()
 
-            addStateToHistory()
-
-            state = state.copy(
-                input = "",
-                number1 = result,
-                number2 = Double.NaN,
-                operation = OperationSymbol.ADDITION,
-                result = Double.NaN
-            )
-            result
-        } else if (!state.number2.isNaN()) {
-            val result = countResult(state.number2)
-            addStateToHistory()
-            state = state.copy(
-                input = "",
-                number1 = result,
-                number2 = Double.NaN,
-                operation = OperationSymbol.ADDITION,
-                result = Double.NaN
-            )
-            result
-        } else Double.NaN
-    }
-
-    ...
+        state = state.copy(
+            input = "",
+            number1 = result,
+            number2 = Double.NaN,
+            operation = OperationSymbol.ADDITION,
+            result = Double.NaN
+        )
+        result
+    } else if (!state.number2.isNaN()) {
+        val result = countResult(state.number2)
+        addStateToHistory()
+        state = state.copy(
+            input = "",
+            number1 = result,
+            number2 = Double.NaN,
+            operation = OperationSymbol.ADDITION,
+            result = Double.NaN
+        )
+        result
+    } else Double.NaN
 }
 ```
 
@@ -1067,10 +1094,10 @@ Ha ezzel megvagyunk keressük meg a `res/layout` mappában lévő `fragment_hist
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/historyAppBar"
@@ -1099,12 +1126,13 @@ Ha ezzel megvagyunk keressük meg a `res/layout` mappában lévő `fragment_hist
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/historyAppBar"
-        tools:listitem="@layout/view_history_item"/>
+        tools:listitem="@layout/view_history_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-> A `HistoryFragment` egy `AppBar`-t és egy `RecyclerView` jelenít meg. Az `AppBar` rendelkezik egy vissza gombbal, amihez az ikont a labor elején már létrehoztuk. A `RecyclerView` pedig egy függőlegesen görgethető listát jelenít meg.
+!!!info ""
+	A `HistoryFragment` egy `AppBar`-t és egy `RecyclerView` jelenít meg. Az `AppBar` rendelkezik egy vissza gombbal, amihez az ikont a labor elején már létrehoztuk. A `RecyclerView` pedig egy függőlegesen görgethető listát jelenít meg.
 
 Térjünk át a `HistoryFragment` osztályra. Az osztálynak most a `Fragment`-ből való származás mellett a `HistoryAdapter.ClickListener` interfészét is implementálnia kell. Az *Adapter* inicializálása most is egy `lateinit var` változó és az `onViewCreated()` metódus segítségével történik. Először inicializáljuk, és utána a `binding` segítséségével összekötjük a *Fragment* által megjelenített `RecyclerView` komponenssel. Végső soron pedig hozzárendelünk egy eseménykezeleőt az `AppBar`-ban lévő vissza gombhoz.
 
@@ -1148,6 +1176,12 @@ class HistoryFragment: Fragment(), HistoryAdapter.ClickListener {
 }
 ```
 
+Azért, hogy a visszatöltött eredmény a felhasználó számára is láthatóvá váljon, egészítsük ki a `CalculatorFragment` `onViewCreated` függvényét:
+
+```kotlin
+if (CalculatorOperator.state.number1.toString() != "NaN")
+    binding.consoleTextView.text = CalculatorOperator.state.number1.toString()
+```
 ## Navigáció
 
 Most már csak a *Fragment*-ek közti navigáció véglegesítése van hátra. A `CalculatorFragment`-ről a konzolért felelős `TextView`-ra kattintva térhetünk át a `HistoryFragment`-re. Ehhez térjünk vissza a `CalculatorFragment` `onViewCreated()` metódusára, ahol a *View* komponensek inicializálást végeztük el. Vegyük fel a következő eseménykezelőt és engedélyezzük, hogy a `View` kattintható legyen:
@@ -1207,13 +1241,16 @@ override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 ```
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik a `HistoryFragment` osztály `onClick()` metódusának kódja (benne szerepeljen valahol a NEPTUN KÓD kommentezve) és mellette az Emulator a `Calculator` képernyővel, ami egy visszatöltött eredményt jelenít meg.
+	Készíts egy **képernyőképet**, amin látszódik **a `Calculator` képernyő egy visszatöltött eredménnyel** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a **`HistoryFragment` osztály `onClick()` metódusának kódja,** valamint a **neptun kódod a kódban valahol kommentként**.
+
+	A képet a megoldásban a repository-ba f4.png néven töltsd föl.
+
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 	
 ## Önálló rész - Előzmények törlése
 
 1. Vegyünk fel egy új törlés `Vector Asset`-et a vissza gombhoz hasonlóan.
-2. A `ResourceManager` segítségével készítsünk egy `menu` erőforrást `menu_top_app_bar` néven, ami törlés menü elemet tartalmazza. [Hint](https://developer.android.com/develop/ui/views/components/menus#xml)
+2. A `ResourceManager` segítségével készítsünk egy *menu* erőforrást `menu_top_app_bar` néven, ami törlés menü elemet tartalmazza. [Hint](https://developer.android.com/develop/ui/views/components/menus#xml)
 3. Implementáljunk egy a törlésért felelős `clearHistory()` metódust a `CalculatorOperator`-ban.
 4. A `FragmentHistory`-hoz tartozó XML `layout` fájlban vagyük fel a `Toolbar`-hoz tartozó `app:menu="@menu/menu_top_app_bar"` attribútumot.
 5. A `FragmentHistory`-ban vegyük fel a `menu` eseménykezelőjét. 
@@ -1232,8 +1269,12 @@ binding.topAppBar.setOnMenuItemClickListener { menuItem ->
 }
 ```
 
-> Itt fontos megjegyezni, hogy az `adapter`-t értesítenünk kell arról, hogy milyen intervallumot érintett a változtatás. Ezt az `adapter.notifyItemRangeRemoved()`-al tudjuk elvégezni. Ha esetleg új elemet vennénk fel vagy valamilyen egyéb változtatást csinálnánk az `adapter` által megjelenített adathalmazon, arról ugyanígy értesíteni kell az `adapter`-t.
+!!!tip ""
+	Itt fontos megjegyezni, hogy az *adapter*-t értesítenünk kell arról, hogy milyen intervallumot érintett a változtatás. Ezt az `adapter.notifyItemRangeRemoved()`-al tudjuk elvégezni. Ha esetleg új elemet vennénk fel vagy valamilyen egyéb változtatást csinálnánk az `adapter` által megjelenített adathalmazon, arról ugyanígy értesíteni kell az `adapter`-t.
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik a `HistoryFragment` osztály `setOnMenuItemClickListener` metódusának kódja (benne szerepeljen valahol a NEPTUN KÓD kommentezve) mellette az Emulator az üres `History` képernyővel.
+	Készíts egy **képernyőképet**, amin látszódik az **üres *History* képernyő** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a **`HistoryFragment` osztály `setOnMenuItemClickListener` metódusának kódja,** valamint a **neptun kódod a kódban valahol kommentként**.
+
+	A képet a megoldásban a repository-ba f5.png néven töltsd föl.
+
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.

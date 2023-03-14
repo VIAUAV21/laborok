@@ -1468,8 +1468,7 @@ Ezután implementáljuk az <code>initButtons()</code> metódust. </p>
 <span class="p">}</span>
 </code></pre></div>
 <p>Azért, hogy a visszatöltött eredmény a felhasználó számára is láthatóvá váljon, egészítsük ki a <code>CalculatorFragment</code> <code>onViewCreated</code> függvényét:</p>
-<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">CalculatorOperator</span><span class="p">.</span><span class="na">state</span><span class="p">.</span><span class="na">number1</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s">"NaN"</span><span class="p">)</span>
-<span class="w">    </span><span class="n">binding</span><span class="p">.</span><span class="na">consoleTextView</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CalculatorOperator</span><span class="p">.</span><span class="na">state</span><span class="p">.</span><span class="na">number1</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span>
+<div class="highlight"><pre><span></span><code><span class="n">setResult</span><span class="p">(</span><span class="n">CalculatorOperator</span><span class="p">.</span><span class="na">state</span><span class="p">.</span><span class="na">number1</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="navigacio">Navigáció<a class="headerlink" href="#navigacio" title="Permanent link">¶</a></h2>
 <p>Most már csak a <em>Fragment</em>-ek közti navigáció véglegesítése van hátra. A <code>CalculatorFragment</code>-ről a konzolért felelős <code>TextView</code>-ra kattintva térhetünk át a <code>HistoryFragment</code>-re. Ehhez térjünk vissza a <code>CalculatorFragment</code> <code>onViewCreated()</code> metódusára, ahol a <em>View</em> komponensek inicializálást végeztük el. Vegyük fel a következő eseménykezelőt és engedélyezzük, hogy a <code>View</code> kattintható legyen:</p>
@@ -1556,8 +1555,8 @@ Ezután implementáljuk az <code>initButtons()</code> metódust. </p>
 </path>
 </svg>
 </span>
-<span title="2023. március 14. 04:10:25">
-<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-03-14T04:10:25+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-03-14</span>
+<span title="2023. március 14. 18:41:33">
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-03-14T18:41:33+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-03-14</span>
 </span>
 </span>
 <span class="md-source-file__fact">

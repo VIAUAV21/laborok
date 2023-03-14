@@ -1179,8 +1179,7 @@ class HistoryFragment: Fragment(), HistoryAdapter.ClickListener {
 Azért, hogy a visszatöltött eredmény a felhasználó számára is láthatóvá váljon, egészítsük ki a `CalculatorFragment` `onViewCreated` függvényét:
 
 ```kotlin
-if (CalculatorOperator.state.number1.toString() != "NaN")
-    binding.consoleTextView.text = CalculatorOperator.state.number1.toString()
+setResult(CalculatorOperator.state.number1)
 ```
 ## Navigáció
 

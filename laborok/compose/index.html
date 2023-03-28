@@ -10,7 +10,7 @@
 <link href="../../hf/" rel="next"/>
 <link href="../../favicon.ico" rel="icon"/>
 <meta content="mkdocs-1.4.2, mkdocs-material-9.0.14" name="generator"/>
-<title>Labor04 - Felhasználói felületek készítése a Jetpack Compose segítségével - BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok</title>
+<title>Labor04 - Felhasználói felületek készítése a Jetpack Compose segítségével (ComposeBasics) - BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok</title>
 <link href="../../assets/stylesheets/main.113286f1.min.css" rel="stylesheet"/>
 <link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -37,7 +37,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#labor04-felhasznaloi-feluletek-keszitese-a-jetpack-compose-segitsegevel">
+<a class="md-skip" href="#labor04-felhasznaloi-feluletek-keszitese-a-jetpack-compose-segitsegevel-composebasics">
           Kihagyás
         </a>
 </div>
@@ -61,7 +61,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Labor04 - Felhasználói felületek készítése a Jetpack Compose segítségével
+              Labor04 - Felhasználói felületek készítése a Jetpack Compose segítségével (ComposeBasics)
             
           </span>
 </div>
@@ -235,11 +235,11 @@
 <li class="md-nav__item md-nav__item--active">
 <input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
 <label class="md-nav__link md-nav__link--active" for="__toc">
-          Labor04 - Felhasználói felületek készítése a Jetpack Compose segítségével
+          Labor04 - Felhasználói felületek készítése a Jetpack Compose segítségével (ComposeBasics)
           <span class="md-nav__icon md-icon"></span>
 </label>
 <a class="md-nav__link md-nav__link--active" href="./">
-        Labor04 - Felhasználói felületek készítése a Jetpack Compose segítségével
+        Labor04 - Felhasználói felületek készítése a Jetpack Compose segítségével (ComposeBasics)
       </a>
 <nav aria-label="Tartalomjegyzék" class="md-nav md-nav--secondary">
 <label class="md-nav__title" for="__toc">
@@ -267,8 +267,8 @@
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#a-projekt-letrehozasa">
-    A projekt létrehozása
+<a class="md-nav__link" href="#projekt-letrehozasa">
+    Projekt létrehozása
   </a>
 </li>
 <li class="md-nav__item">
@@ -366,8 +366,8 @@
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#a-projekt-letrehozasa">
-    A projekt létrehozása
+<a class="md-nav__link" href="#projekt-letrehozasa">
+    Projekt létrehozása
   </a>
 </li>
 <li class="md-nav__item">
@@ -412,19 +412,15 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="labor04-felhasznaloi-feluletek-keszitese-a-jetpack-compose-segitsegevel">Labor04 - Felhasználói felületek készítése a Jetpack Compose segítségével<a class="headerlink" href="#labor04-felhasznaloi-feluletek-keszitese-a-jetpack-compose-segitsegevel" title="Permanent link">¶</a></h1>
+<h1 id="labor04-felhasznaloi-feluletek-keszitese-a-jetpack-compose-segitsegevel-composebasics">Labor04 - Felhasználói felületek készítése a Jetpack Compose segítségével (ComposeBasics)<a class="headerlink" href="#labor04-felhasznaloi-feluletek-keszitese-a-jetpack-compose-segitsegevel-composebasics" title="Permanent link">¶</a></h1>
 <h2 id="bevezetes">Bevezetés<a class="headerlink" href="#bevezetes" title="Permanent link">¶</a></h2>
-<p>A labor célja a Jetpack Compose használata felhasználói felületek egyszerű, egymásba ágyazhat
-("composable") metódusok segítségével, XML leírók használata nélkül. A labor során egy
-egyszerű alkalmazást fogunk készíteni, amelyben regisztrációs, bejelentkezési és főképernyők
-találhatók.</p>
-<p>Az alkalmazásban tényleges regisztrációs és bejelentkeztetési logika nem kap helyet,
-pusztán a felhasználói felület létrehozásának módjára koncentrálunk.</p>
+<p>A labor célja a Jetpack Compose használatának bemutatása: felhasználói felületek készítése egyszerű, egymásba ágyazható <em>composable</em> metódusok segítségével, XML leírók használata nélkül. A labor során egy egyszerű alkalmazást fogunk készíteni, amelyben regisztrációs, bejelentkezési és főképernyők találhatók.</p>
+<p>Az alkalmazásban a tényleges regisztrációs és bejelentkeztetési logika most nem kap helyet, pusztán a felhasználói felület létrehozásának módjára koncentrálunk.</p>
 <p>A megvalósítandó felhasználói felületet az alábbi képernyőképek szemléltetik:</p>
 <p float="left">
-<a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="./images/register.png"><img align="middle" src="./images/register.png" width="300"/></a>
-<a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="./images/login.png"><img align="middle" src="./images/login.png" width="300"/></a>
-<a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="./images/home.png"><img align="middle" src="./images/home.png" width="300"/></a>
+<a class="glightbox" data-desc-position="bottom" data-height="auto" data-type="image" data-width="100%" href="./assets/register.png"><img align="middle" src="./assets/register.png" width="300"/></a>
+<a class="glightbox" data-desc-position="bottom" data-height="auto" data-type="image" data-width="100%" href="./assets/login.png"><img align="middle" src="./assets/login.png" width="300"/></a>
+<a class="glightbox" data-desc-position="bottom" data-height="auto" data-type="image" data-width="100%" href="./assets/home.png"><img align="middle" src="./assets/home.png" width="300"/></a>
 </p>
 <h2 id="elokeszuletek">Előkészületek<a class="headerlink" href="#elokeszuletek" title="Permanent link">¶</a></h2>
 <p>A feladatok megoldása során ne felejtsd el követni a <a href="../../tudnivalok/github/GitHub/">feladat beadás folyamatát</a>.</p>
@@ -435,7 +431,8 @@ pusztán a felhasználói felület létrehozásának módjára koncentrálunk.</
 </li>
 <li>
 <p>Várd meg, míg elkészül a repository, majd checkout-old ki.</p>
-<div class="admonition tip">
+<div class="admonition warning">
+<p class="admonition-title">Checkout</p>
 <p>Egyetemi laborokban, ha a checkout során nem kér a rendszer felhasználónevet és jelszót, és nem sikerül a checkout, akkor valószínűleg a gépen korábban megjegyzett felhasználónévvel próbálkozott a rendszer. Először töröld ki a mentett belépési adatokat (lásd <a href="../../tudnivalok/github/GitHub-credentials/">itt</a>), és próbáld újra.</p>
 </div>
 </li>
@@ -446,22 +443,25 @@ pusztán a felhasználói felület létrehozásának módjára koncentrálunk.</
 <p>A <code>neptun.txt</code> fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.</p>
 </li>
 </ol>
-<h2 id="a-projekt-letrehozasa">A projekt létrehozása<a class="headerlink" href="#a-projekt-letrehozasa" title="Permanent link">¶</a></h2>
+<h2 id="projekt-letrehozasa">Projekt létrehozása<a class="headerlink" href="#projekt-letrehozasa" title="Permanent link">¶</a></h2>
 <p>Első lépésként indítsuk el az Android Studio-t, majd:</p>
 <ol>
 <li>Hozzunk létre egy új projektet, válasszuk az <em>Empty Compose Activity (Material3)</em> lehetőséget.</li>
-<li>A projekt neve legyen <code>Compose</code>, a kezdő package pedig <code>hu.aut.bme.android.composebasics</code>.</li>
+<li>A projekt neve legyen <code>ComposeBasics</code>, a kezdő package pedig <code>hu.bme.aut.android.composebasics</code>.</li>
 <li>A minimum API szint legyen <em>API24: Android 7.0 (Nougat)</em>.</li>
 </ol>
-<p>Sikeres projekt létrehozás után a laborvezető vezetésével vizsgálja meg a forrás felépítését:</p>
+<div class="admonition danger">
+<p class="admonition-title">FILE PATH</p>
+<p>A projekt mindenképpen a repository-ban lévő ComposeBasics könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!</p>
+</div>
+<p>Sikeres projekt létrehozás után a laborvezető vezetésével vizsgáljuk meg a forrás felépítését:</p>
 <ul>
-<li>Tekintsük át, hogyan működnek a felületet leíró "composable functionök".</li>
+<li>Tekintsük át, hogyan működnek a felületet leíró *composable function*ök.</li>
 <li>Buildeljük le a projektet, és próbáljuk ki az előnézetet.</li>
 <li>Nézzük meg, hogyan frissül az előnézet, ahogyan módosítjuk a kódunkat.</li>
 </ul>
 <h2 id="szoveges-eroforrasok-definialasa">Szöveges erőforrások definiálása<a class="headerlink" href="#szoveges-eroforrasok-definialasa" title="Permanent link">¶</a></h2>
-<p>A <code>strings.xml</code> fájl működését már ismerjük, töltsük fel ezt előre a később szükséges szöveges
-címkékkel, hogy később a lényeges elemekre tudjunk koncentrálni:</p>
+<p>A <code>strings.xml</code> fájl működését már ismerjük, töltsük fel ezt előre a később szükséges szöveges címkékkel, hogy később a lényeges elemekre tudjunk koncentrálni:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;resources&gt;</span>
 <span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"app_name"</span><span class="nt">&gt;</span>compose-basics<span class="nt">&lt;/string&gt;</span>
 <span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_label_dont_have_account"</span><span class="nt">&gt;</span>I<span class="w"> </span>don\'t<span class="w"> </span>have<span class="w"> </span>an<span class="w"> </span>account<span class="w"> </span>yet<span class="nt">&lt;/string&gt;</span>
@@ -484,10 +484,10 @@ címkékkel, hogy később a lényeges elemekre tudjunk koncentrálni:</p>
 <span class="nt">&lt;/resources&gt;</span>
 </code></pre></div>
 <h2 id="fuggosegek-frissitese">Függőségek frissítése<a class="headerlink" href="#fuggosegek-frissitese" title="Permanent link">¶</a></h2>
-<p>Az Android Studio a projekt létrehozásakor felveszi ugyan a Compose-t a függésegek közé, de
-némileg elavult verziókat használ. Frissítsük a modul szintű <code>build.gradle</code> fájlban a függőségeket
-az alábbiakra, majd szinkronizáljuk is a projektet:</p>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="kt">def</span><span class="w"> </span><span class="n">composeBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">platform</span><span class="o">(</span><span class="s1">'androidx.compose:compose-bom:2023.01.00'</span><span class="o">)</span>
+<p>Az Android Studio a projekt létrehozásakor felveszi ugyan a <em>Compose</em>-t a függésegek közé, de némileg elavult verziókat használ. Frissítsük a modul szintű <code>build.gradle</code> fájlban a függőségeket az alábbiakra, majd szinkronizáljuk is a projektet:</p>
+<div class="highlight"><pre><span></span><code><span class="n">dependencies</span><span class="w"> </span><span class="o">{</span>
+
+<span class="w">    </span><span class="kt">def</span><span class="w"> </span><span class="n">composeBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">platform</span><span class="o">(</span><span class="s1">'androidx.compose:compose-bom:2023.01.00'</span><span class="o">)</span>
 <span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="n">composeBom</span>
 <span class="w">    </span><span class="n">androidTestImplementation</span><span class="w"> </span><span class="n">composeBom</span>
 
@@ -508,21 +508,12 @@ az alábbiakra, majd szinkronizáljuk is a projektet:</p>
 <span class="w">    </span><span class="n">testImplementation</span><span class="w"> </span><span class="s1">'junit:junit:4.13.2'</span>
 <span class="w">    </span><span class="n">androidTestImplementation</span><span class="w"> </span><span class="s1">'androidx.test.ext:junit:1.1.5'</span>
 <span class="w">    </span><span class="n">androidTestImplementation</span><span class="w"> </span><span class="s1">'androidx.test.espresso:espresso-core:3.5.1'</span>
+<span class="o">}</span>
 </code></pre></div>
 <h2 id="elemi-ui-epitoelemek-elkeszitese">Elemi UI építőelemek elkészítése<a class="headerlink" href="#elemi-ui-epitoelemek-elkeszitese" title="Permanent link">¶</a></h2>
-<p>A fenti képeken látható, hogy a bejelentkeztetési és a regisztrációs formok egyedi kinézetű szövegmezőkből
-és címkékből épülnek fel. A Compose alapelve - ahogyan a neve is tükrözi, - hogy a felhasználói felületünket
-hierarchikusan építhetjük fel, és a kisebb építőelemekből összetettebbeket állíthatunk össze. Ez egyrészt
-segíti a fejlesztői gondolkodást, hiszen könnyen tudunk a felhasználói felület adott részére koncentrálni,
-és ezeket függetlenül elkészíteni, és így idővel a részekből már könnyen összerakható lesz a teljes kívánt
-felhasználói felület is. Másrészt, ez a megközelítés segíti az újrafelhasználást, hiszen a kisebb felületi
-elemek könnyen újrafelhasználhatók az alkalmazás különböző részeiben is.</p>
-<p>Készítsünk először egy igen általános szövegmezőt, amelyet majd az éppen aktuális igényeknek megfelelően
-gazdagon tudunk paraméterezni. Tulajdonképpen a rendszer részét képező <code>TextField</code> is sokrétű funkcionalitással
-rendelkezik, azonban szeretnénk egy magasabb szintű komponenst, amely számunkra könnyebben használható,
-és a hibajelzés megjelenítését is megoldja.</p>
-<p>Először hozzunk létre ehhez egy <code>hu.aut.bme.android.composebasics.ui.common</code> package-et, ebbe fognak kerülni
-az alapvető fontosságú UI építőelemeink.</p>
+<p>A fenti képeken látható, hogy a bejelentkeztetési és a regisztrációs formok egyedi kinézetű szövegmezőkből és címkékből épülnek fel. A <em>Compose</em> alapelve - ahogyan a neve is tükrözi, - hogy a felhasználói felületünket hierarchikusan építhetjük fel, és a kisebb építőelemekből összetettebbeket állíthatunk össze. Ez egyrészt segíti a fejlesztői gondolkodást, hiszen könnyen tudunk a felhasználói felület adott részére koncentrálni, ezeket függetlenül elkészíteni, és így idővel a részekből már könnyen összerakható lesz a teljes kívánt UI is. Másrészt, ez a megközelítés segíti az újrafelhasználást, hiszen a kisebb felületi elemek könnyen újrafelhasználhatók az alkalmazás különböző részeiben is.</p>
+<p>Készítsünk először egy igen általános szövegmezőt, amelyet majd az éppen aktuális igényeknek megfelelően gazdagon tudunk paraméterezni. Tulajdonképpen a rendszer részét képező <code>TextField</code> is sokrétű funkcionalitással rendelkezik, azonban szeretnénk egy magasabb szintű komponenst, amely számunkra könnyebben használható, és a hibajelzés megjelenítését is megoldja.</p>
+<p>Először hozzunk létre ehhez egy <code>hu.bme.aut.android.composebasics.ui.common</code> package-et. Ebbe fognak kerülni az alapvető fontosságú UI építőelemeink.</p>
 <p>Ezen belül készítsünk egy <code>NormalTextField</code> komponenst a következő tartalommal:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Composable</span>
@@ -570,53 +561,29 @@ az alapvető fontosságú UI építőelemeink.</p>
 <span class="w">    </span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<blockquote>
-<p>A Kotlin nyelv megengedi, hogy a függvényparamétereket függvényhíváskor nevesítve adjuk meg,
-így a paraméterek sorrendje változhat, mivel a név alapján a fordító össze tudja
-kapcsolni a paramétereket a megadott értékekkel. Egy másik hasznos tulajdonsága a Kotlin
-nyelvnek, hogy a paramétereknek alapértelmezett (default) érték adható meg a függvénydefinícióban,
-és ezzel elkerülhetjük, hogy egy függvénynek sok overloadolt változatát kelljen elkészítenünk.
-A két funkciót kombinálva nagyon rugalmasan tudjuk az így definiált függvényeket hívni,
-és ezt a Compose technológia remekül kihasználja.</p>
-</blockquote>
+<div class="admonition info">
+<p>A Kotlin nyelv megengedi, hogy a függvényparamétereket függvényhíváskor nevesítve adjuk meg, így a paraméterek sorrendje változhat, mivel a név alapján a fordító össze tudja kapcsolni a paramétereket a megadott értékekkel. Egy másik hasznos tulajdonsága a Kotlin nyelvnek, hogy a paramétereknek alapértelmezett (default) érték adható meg a függvénydefinícióban, és ezzel elkerülhetjük, hogy egy függvénynek sok overloadolt változatát kelljen elkészítenünk. A két funkciót kombinálva nagyon rugalmasan tudjuk az így definiált függvényeket hívni, és ezt a Compose technológia remekül kihasználja.</p>
+</div>
 <p>Tekintsük át a fenti kódot! A komponens a konstruktoron keresztül számos paramétert át tud venni:</p>
 <ul>
-<li>value: a szövegmező tartalma; ezt egyszerűen továbbadjuk a felhasznált <code>TextField</code> komponensnek,
-de az eleji/végi whitespace karaktereket a <code>trim()</code> segítségével levágjuk</li>
-<li>label: a szövegmező címkéje, amely magyarázza annak tartalmát; ezt egy <code>Text</code> composable-be
-csomagolva továbbadjuk</li>
-<li>onValueChange: eseménykezelő, amely a tartalom megváltoztatásakor hívódik; egyszerűen továbbadjuk</li>
-<li>leadingIcon és traliningIcon: a szövegmező elején és végén megjelenítendő ikonok, amelyeket
-egy újabb composable függvényként lehet megadni; a komponensünk beépített hibajelzést valósít meg,
-ezért ha hiba van beállítva, akkor a szöveg végén nem a beállított ikon, hanem hibajelzés jelenik meg</li>
-<li>modifier: a megjelenést módosító paraméterek; itt továbbadjuk a megadottakat, és még hozzáadjuk, hogy
-a téma szerinti minimális szélesség lépjen érvényre</li>
-<li>enabled: engedélyezve van-e a szövegmező?</li>
-<li>readOnly: csak olvasható-e a szövegmező?</li>
-<li>isError: ha a szövegmező tartalma nem érvényes, akkor beállíthatjuk <code>true</code> értékre, és a szövegmező
-végén egy hibajelző ikon fog megjelenni.</li>
-<li>onDone: eseménykezelő, hogy mi történjen, ha a szerkesztést a felhasználó befejezte</li>
+<li><strong>value</strong>: a szövegmező tartalma; ezt egyszerűen továbbadjuk a felhasznált <code>TextField</code> komponensnek, de az eleji/végi whitespace karaktereket a <code>trim()</code> segítségével levágjuk</li>
+<li><strong>label</strong>: a szövegmező címkéje, amely magyarázza annak tartalmát; ezt egy <code>Text</code> composable-be csomagolva továbbadjuk</li>
+<li><strong>onValueChange</strong>: eseménykezelő, amely a tartalom megváltoztatásakor hívódik; egyszerűen továbbadjuk</li>
+<li><strong>leadingIcon</strong> és <strong>traliningIcon</strong>: a szövegmező elején és végén megjelenítendő ikonok, amelyeket egy újabb composable függvényként lehet megadni; a komponensünk beépített hibajelzést valósít meg, ezért ha hiba van beállítva, akkor a szöveg végén nem a beállított ikon, hanem hibajelzés jelenik meg</li>
+<li><strong>modifier</strong>: a megjelenést módosító paraméterek; itt továbbadjuk a megadottakat, és még hozzáadjuk, hogy a téma szerinti minimális szélesség lépjen érvényre</li>
+<li><strong>enabled</strong>: engedélyezve van-e a szövegmező?</li>
+<li><strong>readOnly</strong>: csak olvasható-e a szövegmező?</li>
+<li><strong>isError</strong>: ha a szövegmező tartalma nem érvényes, akkor beállíthatjuk <code>true</code> értékre, és a szövegmező végén egy hibajelző ikon fog megjelenni.</li>
+<li><strong>onDone</strong>: eseménykezelő, hogy mi történjen, ha a szerkesztést a felhasználó befejezte</li>
 </ul>
-<p>A <code>modifier</code> értékeként a komponens felhasználásakor nagyon sok paraméter megadható. Erre számos példát
-láthatunk az Android hivatalos dokumentációjában: <a href="https://developer.android.com/jetpack/compose/modifiers">https://developer.android.com/jetpack/compose/modifiers</a></p>
-<p>A felhasznált <code>TextField</code> komponensen további jellemzőket is beállítottunk, amelyeket egyébként a
-<code>NormalTextField</code> nem tud kívülről felülbírálhatóvá tenni. Ezek jelentése:</p>
+<p>A <code>modifier</code> értékeként a komponens felhasználásakor nagyon sok paraméter megadható. Erre számos példát láthatunk az Android hivatalos dokumentációjában: <a href="https://developer.android.com/jetpack/compose/modifiers">https://developer.android.com/jetpack/compose/modifiers</a></p>
+<p>A felhasznált <code>TextField</code> komponensen további jellemzőket is beállítottunk, amelyeket egyébként a <code>NormalTextField</code> nem tud kívülről felülbírálhatóvá tenni. Ezek jelentése:</p>
 <ul>
-<li>singleLine: csak egy sort lehet begépelni a szövegmezőbe</li>
-<li>keyboardOptions: ez állítja be, hogy milyen jellegű billentyűzet jelenjen meg a képernyőn, és milyen
-IME gyorsgomb tartozzon a szerkesztőhöz. Itt mindig egyszerű szöveges billentyűzetet és "kész" gombot
-választunk. Ha emailt vagy telefonszámot gépeltetnénk be, akkor megjeleníthetünk ehhez alkalmasabb
-billentyűzetet is.</li>
-<li>keyboardActions: mi történjen az egyes IME akciók kiváltásakor. Itt csak a korábban megadott <code>onDone</code>
-eseménykezelőt hívjuk meg.</li>
+<li><strong>singleLine</strong>: csak egy sort lehet begépelni a szövegmezőbe</li>
+<li><strong>keyboardOptions</strong>: ez állítja be, hogy milyen jellegű billentyűzet jelenjen meg a képernyőn, és milyen IME gyorsgomb tartozzon a szerkesztőhöz. Itt mindig egyszerű szöveges billentyűzetet és "kész" gombot választunk. Ha emailt vagy telefonszámot gépeltetnénk be, akkor megjeleníthetünk ehhez alkalmasabb billentyűzetet is.</li>
+<li><strong>keyboardActions</strong>: mi történjen az egyes IME akciók kiváltásakor. Itt csak a korábban megadott <code>onDone</code> eseménykezelőt hívjuk meg.</li>
 </ul>
-<p>Ezzel elkészült az első composable komponensünk, de mivel még sok hiányzik a felhasználói felületből,
-ezért ezt csak soká tudnánk valójában kipróbálni. Szerencsére a Compose technológia lehetőséget ad rá,
-hogy fejlesztés közben is pontos előnézetet kapjunk a komponenseinkből. Ezt célszerűen úgy tesszük meg,
-hogy definiálunk egy előnézeti függvényt, amely a kívánt paraméterezéssel meghívja a composable függvényünket,
-majd erre a függvényre is rátesszük a <code>@Composable</code> és az <code>@ExperimentalMaterial3Api</code> annotációkat,
-illetve az előnézet generálásáért felelős <code>@Preview</code> annotációt is. Próbáljuk ki a komponensünket az
-alábbi tesztfüggvénnyel, amit betehetünk a <code>NormalTextField</code> fájljába:</p>
+<p>Ezzel elkészült az első composable komponensünk, de mivel még sok hiányzik a felhasználói felületből, ezért ezt csak soká tudnánk valójában kipróbálni. Szerencsére a Compose technológia lehetőséget ad rá, hogy fejlesztés közben is pontos előnézetet kapjunk a komponenseinkből. Ezt célszerűen úgy tesszük meg, hogy definiálunk egy előnézeti függvényt, amely a kívánt paraméterezéssel meghívja a composable függvényünket, majd erre a függvényre is rátesszük a <code>@Composable</code> és az <code>@ExperimentalMaterial3Api</code> annotációkat, illetve az előnézet generálásáért felelős <code>@Preview</code> annotációt is. Próbáljuk ki a komponensünket az alábbi tesztfüggvénnyel, amit betehetünk a <code>NormalTextField</code> fájljába:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Preview</span>
 <span class="nd">@Composable</span>
@@ -649,13 +616,11 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <span class="p">}</span>
 </code></pre></div>
 <div class="admonition example">
-<p class="admonition-title">1. a) Feladat beadandó (0.5 pont)</p>
-<ul>
-<li>A két előnézet a szövegmező komponensünkről, saját neved írd bele</li>
-</ul>
+<p class="admonition-title">BEADANDÓ (0.5 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>két előnézet a szövegmező komponensről</strong> és <strong>az ahhoz tartozó kódrészlet</strong>. A név mezőbe a <strong>saját neved</strong> kerüljön. </p>
+<p>A képet a megoldásban a repository-ba f1.png néven töltsd föl.</p>
 </div>
-<p>A fentihez hasonlóan készítsünk egy újatt komponenst <code>PasswordFieldText</code> néven az alábbi tartalommal.
-Ez is a <code>ui.common</code> package-be kerüljön:</p>
+<p>A fentihez hasonlóan a <code>ui.common</code> package-be készítsünk egy újabb komponenst <code>PasswordTextField</code> néven az alábbi tartalommal:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">PasswordTextField</span><span class="p">(</span>
@@ -715,19 +680,15 @@ Ez is a <code>ui.common</code> package-be kerüljön:</p>
 <p>Ez a komponens csak két apró dologban tér el az előzőtől:</p>
 <ol>
 <li>
-<p>Mivel jelszavak begépeléséhez használjuk, a jelszó kitakarása vagy mutatása is állítható a komponensben.
-Ezt úgy valósítjuk meg, hogy nem lehet külön ikont megadni a szövegmező végéhez, hanem ott egy csukott vagy
-nyitott szem jelenik meg, és az erre történő kattintással lehet a láthatóságot állítani. A láthatóság
-állapota és az eseménykezelő paraméterekként vannak megadva, tehát a láthatóság állapotát és az eseménykezelőt
-a komponens bennfoglaló komponensében kell megvalósítani.</p>
+<p>Mivel jelszavak begépeléséhez használjuk, a jelszó kitakarása vagy mutatása is állítható a komponensben. Ezt úgy valósítjuk meg, hogy nem lehet külön ikont megadni a szövegmező végéhez, hanem ott egy csukott vagy nyitott szem jelenik meg, és az erre történő kattintással lehet a láthatóságot állítani. A láthatóság állapota és az eseménykezelő paraméterekként vannak megadva, tehát a láthatóság állapotát és az eseménykezelőt a komponens bennfoglaló komponensében kell megvalósítani.</p>
 </li>
 <li>
-<p>A komponensnek a láthatóság állapotától függően egy vizuális transzformáció is be van állítva, hogy
-a tartalmát ne közvetlen, hanem kitakartan jelenítse meg.</p>
+<p>A komponensnek a láthatóság állapotától függően egy vizuális transzformáció is be van állítva, hogy a tartalmát ne közvetlen, hanem kitakartan jelenítse meg.</p>
 </li>
 </ol>
 <p>A harmadik alapvető komponensünk a <code>BottomTextButton</code> lesz. Ennek a kódja a következő:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
+<span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">BottomTextButton</span><span class="p">(</span>
 <span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
 <span class="w">    </span><span class="n">onClick</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
@@ -758,23 +719,11 @@ a tartalmát ne közvetlen, hanem kitakartan jelenítse meg.</p>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Ez a gomb majd a bejelentkeztetési képernyő alján jelenik meg, hogy a rákattintással át tudjunk navigálni
-a regisztrációs felületre. Ezért egy visszafogott, de jól látható megjelenést szeretnénk, és ezt úgy érjük
-el, hogy egy teljes szélességű keskeny csíkként jelenítjük meg a gombot a felületen. A megvalósítást
-tekintve ezt valójában egy színes háttéren elhelyezett szöveges címkével érjük el.</p>
-<p>A Compose Material témájának ehhez használt egyik fontos építőköve a <code>Surface</code>, azaz felszín. A Material
-témában egy logikai egységet egy felszín jelképez, ez a többi felszínhez képest térbeli pozíciót kap,
-és azokhoz képest hátrébb, vagy előrebb lehet. A felszíneknek alapja is van, ezt itt most egy lekerekített
-téglalapra állítjuk. A megfelelő modifierekkel beállítjuk azt is, hogy a felszín kitöltse a teljes
-szélességet, illetve gombként kattintható legyen. Beállítjuk továbbá, hogy az aktuálisan használt Material
-téma szerinti elsődleges konténer színt kapja meg. A szöveget <code>Text</code> elemként jelenítjük meg a felszínen.
-Ehhez beállítunk még paddingot, középre igazítást, a színét a téma szerint elsődleges konténeren elhelyezett
-elemek meghatározott színére állítjuk, illetve <code>16sp</code> fontméretet adunk meg.</p>
-<p>Ezt a komponenst úgy tudjuk jól vizualizálni, ha befoglaljuk egy teljes képernyő magas területre, hiszen
-mindig a képernyő alján fog megjelenni. Ezt megtehetjük egy <code>Box</code> elemmel. Illetve az is hasznos, ha a
-teljes hátteret kirajzoltatjuk, hogy a tényleges háttérszín mellett lássuk a megejelenését. Ehhez
-használjuk az alábbi függvényt:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Preview</span><span class="p">(</span><span class="n">showBackground</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<p>Ez a gomb majd a bejelentkeztetési képernyő alján jelenik meg, hogy a rákattintással át tudjunk navigálni a regisztrációs felületre. Ezért egy visszafogott, de jól látható megjelenést szeretnénk. Ezt úgy érjük el, hogy egy teljes szélességű keskeny csíkként jelenítjük meg a gombot a felületen. A megvalósítást tekintve ez valójában egy színes háttéren elhelyezett szöveges címke.</p>
+<p>A Compose <em>Material</em> témájának ehhez használt egyik fontos építőköve a <code>Surface</code>, azaz felszín. A <em>Material</em> témában egy logikai egységet egy felszín jelképez, ez a többi felszínhez képest térbeli pozíciót kap, és azokhoz képest hátrébb, vagy előrebb lehet. A felszíneknek alapja is van, ezt itt most egy lekerekített téglalapra állítjuk. A megfelelő modifierekkel beállítjuk azt is, hogy a felszín kitöltse a teljes szélességet, illetve gombként kattintható legyen. Beállítjuk továbbá, hogy az aktuálisan használt <em>Material</em> téma szerinti elsődleges konténer színt kapja meg. A szöveget <code>Text</code> elemként jelenítjük meg a felszínen. Ehhez beállítunk még paddinget, középre igazítást, a színét a téma szerint elsődleges konténeren elhelyezett elemek meghatározott színére állítjuk, illetve <code>16sp</code> fontméretet adunk meg.</p>
+<p>Ezt a komponenst úgy tudjuk jól vizualizálni, ha befoglaljuk egy teljes képernyő magas területre, hiszen mindig a képernyő alján fog megjelenni. Ezt megtehetjük egy <code>Box</code> elemmel. Illetve az is hasznos, ha a teljes hátteret kirajzoltatjuk, hogy a tényleges háttérszín mellett lássuk a megejelenését. Ehhez használjuk az alábbi függvényt:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
+<span class="nd">@Preview</span><span class="p">(</span><span class="n">showBackground</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">TextButton_Preview</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">Box</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
@@ -787,18 +736,13 @@ használjuk az alábbi függvényt:</p>
 <span class="p">}</span>
 </code></pre></div>
 <div class="admonition example">
-<p class="admonition-title">1. b) Feladat beadandó (0.5 pont)</p>
-<ul>
-<li>Az előnézet a BottomTextButton komponensről, Neptun-kódod írd bele</li>
-</ul>
+<p class="admonition-title">BEADANDÓ (0.5 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik az <strong>előnézet a BottomTextButton komponensről</strong> és <strong>az ahhoz tartozó kódrészlet</strong>. A gomb szövege a <strong>saját neptun-kódod</strong> legyen. </p>
+<p>A képet a megoldásban a repository-ba f2.png néven töltsd föl.</p>
 </div>
 <h2 id="az-alkalmazas-fo-kepernyoinek-elkeszitese">Az alkalmazás fő képernyőinek elkészítése<a class="headerlink" href="#az-alkalmazas-fo-kepernyoinek-elkeszitese" title="Permanent link">¶</a></h2>
-<p>Most, hogy a képernyők minden fontos alkotórésze a rendelkezésünkre áll, elkezdhetjük maguknak
-a képernyőknek az elkészítését. Kezdjük sorban a bejelentkező képernyővel!</p>
-<p>A képernyőknek és a hozzájuk kapcsolódó kódoknak hozzunk létre egy közös
-<code>hu.aut.bme.android.composebasics.feature</code> package-et, majd ezen belül a bejelentkező
-képernyő a <code>login</code> package-be kerüljön! Készítsük el a képernyő kódját
-<code>LoginScreen</code> néven, majd adjuk meg a következő kódot:</p>
+<p>Most, hogy a képernyők minden fontos alkotórésze a rendelkezésünkre áll, elkezdhetjük maguknak a képernyőknek az elkészítését. Kezdjük sorban a bejelentkező képernyővel!</p>
+<p>A képernyőknek és a hozzájuk kapcsolódó kódoknak hozzunk létre egy közös <code>hu.bme.aut.android.composebasics.feature</code> package-et, majd ezen belül a bejelentkező képernyő a <code>login</code> package-be kerüljön! Készítsük el a képernyő kódját <code>LoginScreen</code> néven, majd adjuk meg a következő kódot:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">LoginScreen</span><span class="p">(</span>
@@ -880,37 +824,12 @@ képernyő a <code>login</code> package-be kerüljön! Készítsük el a képern
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Egy fontos eddig nem látott elem, hogy a felhasználói felület elemeinek állapottárolására
-(pl. szövegmező tartalma, látható-e valami, jelölőnégyzet be van pipálva stb.)
-<code>MutableState</code> típusú tárolókat kell létrehoznunk. Ezt a <code>mutableStateOf()</code> factory-metódussal
-tudjuk megtenni, és ennek meg kell adni a kezdőállapotot. Mindezt az inicializációt
-lazy betöltéssel akarjuk végezni, hogy a felület felépítése közben történjen. Ehhez használjuk
-a <code>remember</code> kulcsszót.</p>
-<p>Feltűnnek még különböző konténerelemek, amelyek segítségével a felületi elemek elrendezését
-tudjuk meghatározni. Ilyen a korábban már érintett <code>Box</code>. Ez alkalmas a teljes képernyőtartalmak
-befoglalására. Ezzel állítjuk be a hátteret a Material témánk szerintire, illetve hogy a
-képernyő teljes tartalmát töltse ki a befoglalt tartalom. Ezen belül látunk egy
-<code>Column</code> elemet, amellyel egy oszlopba vannak rendezve egymás alá a szövegmezők. A vízszintes
-igazítás az oszlopon középre van állítva. Az oszlopon kívül helyezkedik el a <code>BottomTextButton</code>,
-ami majd a regisztrációs oldalra visz. A középső oszlopon a normál és a jelszavas saját
-szövegmezőn, valamint alattuk egy bejelentkeztető gomb van megadva, köztük térelválasztó
-<code>Spacer</code> komponenssel.</p>
-<p>Összességében azt figyelhetjük meg, hogy a logika egy része már itt fel van oldva, hiszen az
-állapot egyes részeit itt kezeljük, és ehhez kapcsolódóan eseménykezelőket is adunk tovább
-az építőelemként szolgáló kisebb komponenseknek. Viszont vannak olyan dolgok, mint pl. a login
-és a regisztráció gomb eseménykezelője, ezek még mindig felülről jönnek. Alapvetően a Compose-ban
-úgy kell gondolkodnunk, hogy az állapotot, amire több felületi elemnek szüksége van, azt
-feljebb kell emelnünk egy közös ősbe. Ezt az Android terminológia úgy hívja, hogy
-<code>state hoisting</code>: <a href="https://developer.android.com/jetpack/compose/state-hoisting">https://developer.android.com/jetpack/compose/state-hoisting</a>
-Pl. a begépelt felhasználónevet a szövegmező is használja, illetve a befoglaló bejelentkező
-képernyőnél is szükség van rá. Maga a bejelentkező képernyő a legfelső komponens a hierarchiában,
-amelyik használja, ezért itt tudjuk ezt az állapotot kezelni. A navigáció viszont, hogy mi
-történjen a gombokra kattintáskor, az már más komponenseket is érint, ezért azt fentebbi szinten
-kell kezelni, ezért ez még mindig paraméterként érkezik a képernyőt megtestesítő komponenshez.</p>
-<blockquote>
-<p>Aki fejlesztett már a React webes keretrendszerben, annak ismerős lehet ez a koncepció,
-mert nagyon hasonló a React komponensek működéséhez.</p>
-</blockquote>
+<p>Egy fontos eddig nem látott elem, hogy a felhasználói felület elemeinek állapottárolására (pl. szövegmező tartalma, látható-e valami, jelölőnégyzet be van pipálva stb.) <code>MutableState</code> típusú tárolókat kell létrehoznunk. Ezt a <code>mutableStateOf()</code> factory-metódussal tudjuk megtenni, és ennek meg kell adni a kezdőállapotot. Mindezt az inicializációt lazy betöltéssel akarjuk végezni, hogy a felület felépítése közben történjen. Ehhez használjuk a <code>remember</code> kulcsszót.</p>
+<p>Feltűnnek még különböző konténerelemek, amelyek segítségével a felületi elemek elrendezését tudjuk meghatározni. Ilyen a korábban már érintett <code>Box</code>. Ez alkalmas a teljes képernyőtartalmak befoglalására. Ezzel állítjuk be a hátteret a Material témánk szerintire, illetve hogy a képernyő teljes tartalmát töltse ki a befoglalt tartalom. Ezen belül látunk egy <code>Column</code> elemet, amellyel egy oszlopba vannak rendezve egymás alá a szövegmezők. A vízszintes igazítás az oszlopon középre van állítva. Az oszlopon kívül helyezkedik el a <code>BottomTextButton</code>, ami majd a regisztrációs oldalra visz. A középső oszlopon a normál és a jelszavas saját szövegmezőn, valamint alattuk egy bejelentkeztető gomb van megadva, köztük térelválasztó <code>Spacer</code> komponenssel.</p>
+<p>Összességében azt figyelhetjük meg, hogy a logika egy része már itt fel van oldva, hiszen az állapot egyes részeit itt kezeljük, és ehhez kapcsolódóan eseménykezelőket is adunk tovább az építőelemként szolgáló kisebb komponenseknek. Viszont vannak olyan dolgok, mint pl. a login és a regisztráció gomb eseménykezelője, ezek még mindig felülről jönnek. Alapvetően a Compose-ban úgy kell gondolkodnunk, hogy az állapotot, amire több felületi elemnek szüksége van, azt feljebb kell emelnünk egy közös ősbe. Ezt az Android terminológia úgy hívja, hogy <a href="https://developer.android.com/jetpack/compose/state-hoisting"><code>state hoisting</code></a> Pl. a begépelt felhasználónevet a szövegmező is használja, illetve a befoglaló bejelentkező képernyőnél is szükség van rá. Maga a bejelentkező képernyő a legfelső komponens a hierarchiában, amelyik használja, ezért itt tudjuk ezt az állapotot kezelni. A navigáció viszont, hogy mi történjen a gombokra kattintáskor, az már más komponenseket is érint, ezért azt fentebbi szinten kell kezelni, ezért ez még mindig paraméterként érkezik a képernyőt megtestesítő komponenshez.</p>
+<div class="admonition note">
+<p>Aki fejlesztett már a React webes keretrendszerben, annak ismerős lehet ez a koncepció, mert nagyon hasonló a React komponensek működéséhez.</p>
+</div>
 <p>Nézzük is meg az elkészült komponenst:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Preview</span><span class="p">(</span><span class="n">showBackground</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
@@ -923,29 +842,22 @@ mert nagyon hasonló a React komponensek működéséhez.</p>
 <span class="p">}</span>
 </code></pre></div>
 <div class="admonition example">
-<p class="admonition-title">2. a) Feladat beadandó (0.5 pont)</p>
-<ul>
-<li>Az előnézet a login képernyőről</li>
-</ul>
+<p class="admonition-title">BEADANDÓ (0.5 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik az <strong>előnézet a bejelentkező képernyőről</strong> és <strong>az ahhoz tartozó kódrészlet</strong>. </p>
+<p>A képet a megoldásban a repository-ba f3.png néven töltsd föl.</p>
 </div>
-<p>Most készítsük el a regisztrációs képernyőt! Ezt tegyük egy <code>register</code> package-be a
-<code>feature</code> package-en belül. Először egy <code>Gender</code> enumot készítünk a nemválasztó
-értékeinek reprezentálásához:</p>
+<p>Most készítsük el a regisztrációs képernyőt! Ezt tegyük egy <code>register</code> package-be a <code>feature</code> package-en belül. Először egy <code>Gender</code> enumot készítünk a nemválasztó értékeinek reprezentálásához:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Gender</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">nameId</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">MALE</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">gender_male</span><span class="p">),</span>
 <span class="w">    </span><span class="n">FEMALE</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">gender_female</span><span class="p">),</span>
 <span class="w">    </span><span class="n">OTHER</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">other</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<blockquote>
-<p>A Java és a Kotlin nyelvben az enumok valójában speciális osztályok, amelyeknek csak a
-felsorolt értékeknek megfelelő számú példánya létezik. Ezek rendelkezhetnek tagváltozókkal
-és metódusokkal is. Jelen esetben a nemekhez tartozó szöveges erőforrás kódját is
-tagváltozóként adjunk meg.</p>
-</blockquote>
-<p>Ez az enum segít benne, hogy a kódunkban olvashatóan, típusbiztosan használjuk a nemválasztó
-lehetséges értékeit, viszont egyébként lokalizáltan a címkéket jelenítsük meg, amelyek szöveges
-erőforrásként vannak definiálva a <code>strings.xml</code> fájlban. </p>
+<div class="admonition info">
+<p class="admonition-title">enum</p>
+<p>A Java és a Kotlin nyelvben az enumok valójában speciális osztályok, amelyeknek csak a felsorolt értékeknek megfelelő számú példánya létezik. Ezek rendelkezhetnek tagváltozókkal és metódusokkal is. Jelen esetben a nemekhez tartozó szöveges erőforrás kódját is tagváltozóként adjunk meg.</p>
+</div>
+<p>Ez az enum segít benne, hogy a kódunkban olvashatóan, típusbiztosan használjuk a nemválasztó lehetséges értékeit, viszont egyébként lokalizáltan a címkéket jelenítsük meg, amelyek szöveges erőforrásként vannak definiálva a <code>strings.xml</code> fájlban. </p>
 <p>Ezután elkészíthetjük a regisztrációs képernyő komponensét:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Composable</span>
@@ -1086,15 +998,10 @@ erőforrásként vannak definiálva a <code>strings.xml</code> fájlban. </p>
 <p>Ezen a képernyők két kisebb újdonságot látunk:</p>
 <ol>
 <li>
-<p>A nemet tároló állapotváltozó mellett egy eseménykezelőt is létrehozunk már az inicializálásnál.
-Ezt tudjuk használni az állapotváltozó beállítására, ez lejjebb a kódban látható a rádiógombok
-létrehozásánál.</p>
+<p>A nemet tároló állapotváltozó mellett egy eseménykezelőt is létrehozunk már az inicializálásnál. Ezt tudjuk használni az állapotváltozó beállítására, ez lejjebb a kódban látható a rádiógombok létrehozásánál.</p>
 </li>
 <li>
-<p>A rádiógombokat "ciklusosan" egy <code>forEach()</code> hívással generáljuk le. Ebből látható, hogy a
-felhasználói felület mennyire dinamikus is lehet. Ha a lehetséges választások listáját bővítenénk
-az enumban egy új elemmel, akkor az is legenerálódna a felhasználói felületre. De hasonlóan
-oldhatunk meg pl. adatbázisból lekérdezett elemek listázását is.</p>
+<p>A rádiógombokat "ciklusosan" egy <code>forEach()</code> hívással generáljuk le. Ebből látható, hogy a felhasználói felület mennyire dinamikus is lehet. Ha a lehetséges választások listáját bővítenénk az enumban egy új elemmel, akkor az is legenerálódna a felhasználói felületre. De hasonlóan oldhatunk meg pl. adatbázisból lekérdezett elemek listázását is.</p>
 </li>
 </ol>
 <p>Nézzük meg, hogyan mutat az elkészített képernyő:</p>
@@ -1109,18 +1016,11 @@ oldhatunk meg pl. adatbázisból lekérdezett elemek listázását is.</p>
 <span class="p">}</span>
 </code></pre></div>
 <div class="admonition example">
-<p class="admonition-title">2. b) Feladat beadandó (0.5 pont)</p>
-<ul>
-<li>Az előnézet a regisztrációs képernyőről</li>
-</ul>
+<p class="admonition-title">BEADANDÓ (0.5 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik az <strong>előnézet a regisztrációs képernyőről</strong> és <strong>az ahhoz tartozó kódrészlet</strong>. </p>
+<p>A képet a megoldásban a repository-ba f4.png néven töltsd föl.</p>
 </div>
-<p>A harmadik elkészítendő képernyőnk az alkalmazás "főképernyője", amit sikeres bejelentkezés után
-lát a felhasználó. Viszont itt már részben érintenünk kell a képernyők közti navigáció kérdését
-is, hiszen a képernyőnek lesz egy menüje, ahonnan majd más képernyőkre lehet navigálni. Ehhez egy
-<code>navigation</code> package-et hozzunk létre, és ebbe kerüljön az alábbi <code>Screen</code> osztály. Most nem enumot,
-hanem <code>sealed classot</code> alkalmazunk, mert a főképernyő kezelése kicsit speciális lesz, az
-argumentumot is kaphat. Az osztály előtt definiált konstansokat később fogjuk használni, amikor
-teljesen összerakjuk a navigációs gráfot.</p>
+<p>A harmadik elkészítendő képernyőnk az alkalmazás "főképernyője", amit sikeres bejelentkezés után lát a felhasználó. Viszont itt már részben érintenünk kell a képernyők közti navigáció kérdését is, hiszen a képernyőnek lesz egy menüje, ahonnan majd más képernyőkre lehet navigálni. Ehhez egy <code>navigation</code> package-et hozzunk létre, és ebbe kerüljön az alábbi <code>Screen</code> osztály. Most nem enumot, hanem <code>sealed classot</code> alkalmazunk, mert a főképernyő kezelése kicsit speciális lesz, az argumentumot is kaphat. Az osztály előtt definiált konstansokat később fogjuk használni, amikor teljesen összerakjuk a navigációs gráfot.</p>
 <div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">ROOT_GRAPH_ROUTE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"root"</span>
 <span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">AUTH_GRAPH_ROUTE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"auth"</span>
 <span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">MAIN_GRAPH_ROUTE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"main"</span>
@@ -1138,16 +1038,11 @@ teljesen összerakjuk a navigációs gráfot.</p>
 <span class="w">    </span><span class="kd">object</span><span class="w"> </span><span class="nc">Settings</span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"settings"</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<blockquote>
-<p>A Kotlin sealed class-ai olyan osztályok, amelyekből korlátozott az öröklés, és
-fordítási időben minden leszármazott osztálya ismert. Ezeket az osztályokat az
-enumokhoz hasonló módon tudjuk alkalmazni. Jelen esetben a <code>Home</code> valójában nem
-a <code>Screen</code> közvetlen leszármazottja, hanem anonim leszármazott osztálya, mivel
-a felhasználónév paraméterként történő kezelését is tartalmazza.</p>
-</blockquote>
-<p>Maga a főképernyő egy <code>home</code> subpackage-be kerüljön. Először itt is egy segédosztályt
-hozunk létre. Jelen esetben a menüpontokat fogjuk enumban modellezni. Minden menüpontra
-jellemző a neve, az ikonja, illetve egy azonosító, ahova navigál:</p>
+<div class="admonition info">
+<p class="admonition-title">sealed class</p>
+<p>A Kotlin sealed class-ai olyan osztályok, amelyekből korlátozott az öröklés, és fordítási időben minden leszármazott osztálya ismert. Ezeket az osztályokat az enumokhoz hasonló módon tudjuk alkalmazni. Jelen esetben a <code>Home</code> valójában nem a <code>Screen</code> közvetlen leszármazottja, hanem anonim leszármazott osztálya, mivel a felhasználónév paraméterként történő kezelését is tartalmazza.</p>
+</div>
+<p>Maga a főképernyő egy <code>home</code> subpackage-be kerüljön. Először itt is egy segédosztályt hozunk létre. Jelen esetben a menüpontokat fogjuk enumban modellezni. Minden menüpontra jellemző a neve, az ikonja, illetve egy azonosító, ahova navigál:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">MenuItemUiModel</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">text</span><span class="p">:</span><span class="w"> </span><span class="nd">@Composable</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">icon</span><span class="p">:</span><span class="w"> </span><span class="nd">@Composable</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
@@ -1169,15 +1064,7 @@ jellemző a neve, az ikonja, illetve egy azonosító, ahova navigál:</p>
 <span class="w">    </span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>A menüben szerepelnek profil és beállítás lehetőségek is, amelyekről korábban nem volt szó.
-Ezek nem lesznek igazi kidolgozott képernyők, de példaképp szerepelnek itt, hogy bemutassuk,
-hogyan lehetne a főmenüből további oldalakra is elnavigálni.
-Látható, hogy itt a menüpontoknál meghivatkoztuk a korábban a <code>Screen</code> osztályban definiált
-képernyőket is. A leírt menüpontokból még fel kell építenünk a menüt is. Elvileg ezt
-megtehetnénk a teljes főképernyő részeként, de átláthatóbb struktúrát kapunk, ha ezt külön
-composable komponensbe szervezzük. Ahogyan általában véve a metódusoknál sem átlátható a túl
-hosszú, úgy a felületi komponenseinket is érdemes kisebb, jobban kezelhető egységekre osztani.
-Készítsünk tehát egy <code>Menu</code> komponenst:</p>
+<p>A menüben szerepelnek profil és beállítás lehetőségek is, amelyekről korábban nem volt szó. Ezek nem lesznek igazi kidolgozott képernyők, de példaképp szerepelnek itt, hogy bemutassuk, hogyan lehetne a főmenüből további oldalakra is elnavigálni. Látható, hogy itt a menüpontoknál meghivatkoztuk a korábban a <code>Screen</code> osztályban definiált képernyőket is. A leírt menüpontokból még fel kell építenünk a menüt is. Elvileg ezt megtehetnénk a teljes főképernyő részeként, de átláthatóbb struktúrát kapunk, ha ezt külön composable komponensbe szervezzük. Ahogyan általában véve a metódusoknál sem átlátható a túl hosszú, úgy a felületi komponenseinket is érdemes kisebb, jobban kezelhető egységekre osztani. Készítsünk tehát egy <code>Menu</code> komponenst:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">Menu</span><span class="p">(</span>
 <span class="w">    </span><span class="n">expanded</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
@@ -1205,9 +1092,7 @@ Készítsünk tehát egy <code>Menu</code> komponenst:</p>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Látjuk, hogy a menüelemek látrehozása is ciklussal történik, és a menüpontok igen
-könnyen bővíthetőek. A bejárásnál a menüpontok indexét is felhasználjuk, hogy
-a menüpontok után - az utolsó kivételével - elválasztót is generáljunk.</p>
+<p>Látjuk, hogy a menüelemek látrehozása is ciklussal történik, és a menüpontok igen könnyen bővíthetőek. A bejárásnál a menüpontok indexét is felhasználjuk, hogy a menüpontok után - az utolsó kivételével - elválasztót is generáljunk.</p>
 <p>Most rátérhetünk a tényleges főképernyő létrehozására:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Composable</span>
@@ -1282,22 +1167,16 @@ a menüpontok után - az utolsó kivételével - elválasztót is generáljunk.<
 <p>A képernyőn több újdonságot is felfedezhetünk:</p>
 <ol>
 <li>
-<p>A <code>Scaffold</code> elem szolgál komplexebb Material stílusú képernyők felépítésére. A paraméterezéséből
-látható, hogy ez az elem beépítetten támogat több gyakran megszokott képernyőelemet, mint a
-<code>SnackBar</code>, <code>TopBar</code> vagy a <code>FloatingActionButton</code>. Ezeket a paraméterezéssel adjuk meg neki, és
-gondoskodik a megfelelő elrendezésről.</p>
+<p>A <code>Scaffold</code> elem szolgál komplexebb Material stílusú képernyők felépítésére. A paraméterezéséből látható, hogy ez az elem beépítetten támogat több gyakran megszokott képernyőelemet, mint a <code>SnackBar</code>, <code>TopBar</code> vagy a <code>FloatingActionButton</code>. Ezeket a paraméterezéssel adjuk meg neki, és gondoskodik a megfelelő elrendezésről.</p>
 </li>
 <li>
-<p>A képernyőn <code>SnackBar</code> is lesz, és ennek az állapotát nem <code>MutableState</code>, hanem
-<code>SnackbarHostState</code> típusként tudjuk létrehozni.</p>
+<p>A képernyőn <code>SnackBar</code> is lesz, és ennek az állapotát nem <code>MutableState</code>, hanem <code>SnackbarHostState</code> típusként tudjuk létrehozni.</p>
 </li>
 <li>
-<p>A <code>SnackBar</code> üzenetek megjelenítését coroutine fogja végezni, és ehhez scope-ot Compose
-környezetben a <code>rememberCoroutineScope()</code> függvénnyel tudunk kérni.</p>
+<p>A <code>SnackBar</code> üzenetek megjelenítését coroutine fogja végezni, és ehhez scope-ot Compose környezetben a <code>rememberCoroutineScope()</code> függvénnyel tudunk kérni.</p>
 </li>
 <li>
-<p>A <code>LocalContext.current</code> kifejezéssel kaphatunk egy kontextust Compose környezetben,
-amellyel a rendszerszintű erőforrásokhoz - pl. a szöveges címkékhez - hozzáférhetünk.</p>
+<p>A <code>LocalContext.current</code> kifejezéssel kaphatunk egy kontextust Compose környezetben, amellyel a rendszerszintű erőforrásokhoz - pl. a szöveges címkékhez - hozzáférhetünk.</p>
 </li>
 </ol>
 <p>A képernyő többi része a korábbi példák alapján már könnyen érthető.</p>
@@ -1314,11 +1193,7 @@ amellyel a rendszerszintű erőforrásokhoz - pl. a szöveges címkékhez - hozz
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="a-kepernyok-kozotti-navigacio-elkeszitese">A képernyők közötti navigáció elkészítése<a class="headerlink" href="#a-kepernyok-kozotti-navigacio-elkeszitese" title="Permanent link">¶</a></h2>
-<p>Most már csak össze kell kötnünk a meglévő képetnyőket a navigációs szabályokkal.
-Ehhez navigációs gráfokat fogunk definiálni. Egyrészt definiálunk egy gráfot az
-authentikáció előtti képernyőkre, amely a bejelentkezés és a regisztráció képernyők
-közti navigációs lehetőségeket írja le. Ezeket a korábban létrehozott <code>navigation</code>
-package-be tegyük. Az authentikáció előtti gráf a következőképpen néz ki:</p>
+<p>Most már csak össze kell kötnünk a meglévő képetnyőket a navigációs szabályokkal. Ehhez navigációs gráfokat fogunk definiálni. Egyrészt definiálunk egy gráfot az authentikáció előtti képernyőkre, amely a bejelentkezés és a regisztráció képernyők közti navigációs lehetőségeket írja le. Ezeket a korábban létrehozott <code>navigation</code> package-be tegyük. Az authentikáció előtti gráf a következőképpen néz ki:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
 <span class="kd">fun</span><span class="w"> </span><span class="n">NavGraphBuilder</span><span class="p">.</span><span class="nf">authNavGraph</span><span class="p">(</span>
 <span class="w">    </span><span class="n">navController</span><span class="p">:</span><span class="w"> </span><span class="n">NavHostController</span>
@@ -1348,18 +1223,7 @@ package-be tegyük. Az authentikáció előtti gráf a következőképpen néz k
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>A kódból azt tudjuk megállapítani, hogy a navigációs gráf a bejelentkeztetési képernyőn kezdődik,
-és neki is van egy útvonalazonosítója, amelyet most a korábban definiált <code>AUTH_GRAPH_ROUTE</code>
-konstanssal adtunk meg. A navigációban composable felületi elemeket adhatunk meg, mindegyikhez
-tartozik egy-egy útvonal, ezekhez a <code>Screen</code> osztályból hivatkozzuk meg a megfelelő útvonalat.
-Látható, hogy a hierarchikusan összeállított felhasználói felületek "utolsó" paraméterei itt
-kapnak konkrét értétek. Konkréten a regisztráció és a bejelentkezés gombok eseménykezelői
-vannak itt lambda-kifejezésekként megadva. Ezek a lambda-kifejezések valójában a navigációs
-kontrollert hívják meg, és azzal navigáltatnak a megfelelő útvonalra, amit a kontroller a
-navigációs gráf alapján felold. Figyeljük meg, hogy a bejelentkezés után a főképernyő útvonalába
-a felhasználónevet mint paramétert is belekódoljuk. Azt is láthatjuk, hogy tényleges
-bejelentkeztető logika itt nem történik, de ha erre lenne szükségünk, azt itt megtehetnénk,
-hiszen itt van megadva a bejelentkezés gomb eseménykezelője.</p>
+<p>A kódból azt tudjuk megállapítani, hogy a navigációs gráf a bejelentkeztetési képernyőn kezdődik, és neki is van egy útvonalazonosítója, amelyet most a korábban definiált <code>AUTH_GRAPH_ROUTE</code> konstanssal adtunk meg. A navigációban composable felületi elemeket adhatunk meg, mindegyikhez tartozik egy-egy útvonal, ezekhez a <code>Screen</code> osztályból hivatkozzuk meg a megfelelő útvonalat. Látható, hogy a hierarchikusan összeállított felhasználói felületek "utolsó" paraméterei itt kapnak konkrét értétek. Konkréten a regisztráció és a bejelentkezés gombok eseménykezelői vannak itt lambda-kifejezésekként megadva. Ezek a lambda-kifejezések valójában a navigációs kontrollert hívják meg, és azzal navigáltatnak a megfelelő útvonalra, amit a kontroller a navigációs gráf alapján felold. Figyeljük meg, hogy a bejelentkezés után a főképernyő útvonalába a felhasználónevet mint paramétert is belekódoljuk. Azt is láthatjuk, hogy tényleges bejelentkeztető logika itt nem történik, de ha erre lenne szükségünk, azt itt megtehetnénk, hiszen itt van megadva a bejelentkezés gomb eseménykezelője.</p>
 <p>A másik navigációs gráf a bejelentkezés utáni navigációt írja le:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
 <span class="kd">fun</span><span class="w"> </span><span class="n">NavGraphBuilder</span><span class="p">.</span><span class="nf">mainNavGraph</span><span class="p">(</span>
@@ -1434,7 +1298,7 @@ Itt történik az alkalmazás témájának a megadása is:</p>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
 <span class="w">        </span><span class="n">setContent</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">ComposeTheme</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">ComposeBasicsTheme</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberNavController</span><span class="p">()</span>
 <span class="w">                </span><span class="n">NavGraph</span><span class="p">(</span><span class="n">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">navController</span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span>
@@ -1444,20 +1308,18 @@ Itt történik az alkalmazás témájának a megadása is:</p>
 </code></pre></div>
 <p>Próbáljuk ki az alkalmazást!</p>
 <div class="admonition example">
-<p class="admonition-title">3. Feladat beadandó (1 pont)</p>
-<ul>
-<li>Az alkalmazás főképernyője belépés után a saját neveddel, emulátoron működés közben</li>
-</ul>
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik az <strong>alkalmazás főképernyője belépés után a saját neveddel</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), <strong>az ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>A képet a megoldásban a repository-ba f5.png néven töltsd föl.</p>
 </div>
 <h2 id="onallo-feladat-1">Önálló feladat 1.<a class="headerlink" href="#onallo-feladat-1" title="Permanent link">¶</a></h2>
 <p>A Compose alkalmazás beépítetten támogatja az éjszakai módot. Keresd meg az emulált készülék
 beállításai közt a sötét téma használatát, és kapcsold be! (Settings -&gt; Display -&gt; Dark theme)
 Próbáld ki így az alkalmazást!</p>
 <div class="admonition example">
-<p class="admonition-title">5. Feladat beadandó (1 pont)</p>
-<ul>
-<li>A dark mode emulátoron működés közben</li>
-</ul>
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik az <strong>alkalmazás dark mode</strong>-ban (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), <strong>az ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>A képet a megoldásban a repository-ba f6.png néven töltsd föl.</p>
 </div>
 <h2 id="onallo-feladat-2">Önálló feladat 2.<a class="headerlink" href="#onallo-feladat-2" title="Permanent link">¶</a></h2>
 <p>Készítsd el a profil oldalt úgy, hogy külön composable komponensbe szervezed ki,
@@ -1465,10 +1327,9 @@ Próbáld ki így az alkalmazást!</p>
 félkövérrel, majd alatta középen egy placeholder képet, mint a felhasználó profilképét. Ezen
 a képernyőn ugyanaz a menü legyen mint a főképernyőn!</p>
 <div class="admonition example">
-<p class="admonition-title">4. Feladat beadandó (1 pont)</p>
-<ul>
-<li>Az előnézet a profil oldalról</li>
-</ul>
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik az <strong>előnézet a profil képernyőről</strong> és <strong>az ahhoz tartozó kódrészlet</strong>. </p>
+<p>A képet a megoldásban a repository-ba f7.png néven töltsd föl.</p>
 </div>
 <hr/>
 <div class="md-source-file">
@@ -1477,8 +1338,8 @@ a képernyőn ugyanaz a menü legyen mint a főképernyőn!</p>
 </path>
 </svg>
 </span>
-<span title="2023. március 3. 13:40:32">
-<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-03-03T13:40:32+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-03-03</span>
+<span title="2023. március 28. 03:40:05">
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-03-28T03:40:05+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-03-28</span>
 </span>
 </span>
 <span class="md-source-file__fact">
@@ -1489,7 +1350,9 @@ a képernyőn ugyanaz a menü legyen mint a főképernyőn!</p>
 </svg>
 </span>
 <span>Szerzők</span>
-<nav><a class="md-author" href="https://github.com/gaborbsd" rel="noopener noreferrer" target="_blank" title="@gaborbsd">
+<nav><a class="md-author" href="https://github.com/gazdilaci" rel="noopener noreferrer" target="_blank" title="@gazdilaci">
+<img alt="@gazdilaci" src="https://avatars.githubusercontent.com/u/23335752?size=72"/>
+</a><a class="md-author" href="https://github.com/gaborbsd" rel="noopener noreferrer" target="_blank" title="@gaborbsd">
 <img alt="@gaborbsd" src="https://avatars.githubusercontent.com/u/5345619?size=72"/>
 </a></nav>
 </span>

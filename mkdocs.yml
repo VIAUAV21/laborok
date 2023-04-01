@@ -89,5 +89,6 @@ nav:
       - laborok/basics/index.md
       - laborok/tictactoe/index.md
       - laborok/compose/index.md
+      - laborok/persistence/index.md
   - "Házi feladat":
       - hf/index.md

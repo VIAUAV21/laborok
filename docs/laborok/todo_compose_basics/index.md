@@ -1,4 +1,4 @@
-# Labor 05 - Todo Alkalmazás
+# Labor05 - Todo Alkalmazás
 
 A labor célja, hogy bemutassa, hogyan lehet egy egyszerű ToDo alkalmazást megvalósítani a Compose keretrendszerben.
 

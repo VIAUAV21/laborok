@@ -515,7 +515,25 @@
 <p>Annak érdekében, hogy mindig kompatibilis compose könyvtárakat importáljunk a projektben, használjuk a <a href="https://developer.android.com/jetpack/compose/bom/bom">Compose Bill of Materials</a>-t. Ehhez adjuk hozzá a <em>modul</em> szintű <code>build.gradle</code> fájlhoz a következőt a dependencies részhez:</p>
 <p><div class="highlight"><pre><span></span><code>implementation platform('androidx.compose:compose-bom:2023.01.00')
 </code></pre></div>
-Majd minden Compose-hoz kapcsolható könyvtár importálásánál töröljük a verziót.</p>
+Majd minden Compose-hoz kapcsolható könyvtár importálásánál töröljük a verziót, a végeredményben ezt kapva:</p>
+<div class="highlight"><pre><span></span><code>dependencies {
+    implementation platform('androidx.compose:compose-bom:2023.01.00')
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+    implementation 'androidx.activity:activity-compose'
+    implementation "androidx.compose.ui:ui"
+    implementation "androidx.compose.ui:ui-tooling-preview"
+    implementation 'androidx.compose.material3:material3'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4"
+    debugImplementation "androidx.compose.ui:ui-tooling"
+    debugImplementation "androidx.compose.ui:ui-test-manifest"
+
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.0'
+}
+</code></pre></div>
 <p>Ezek mellett ellenőrizzük a kotlin plugin és a compose verzióját. A labor készítésekor a következőek voltak érvényben:</p>
 <ul>
 <li><em>Projekt</em> szintű <code>build.gradle</code>:
@@ -575,6 +593,10 @@ dependencies {
 A <code>LocalDate</code> egy általános implementációja az idő kezelésének, mely multiplatform környezetben is használható, ehhez a következő függőséget kell hozzáadnunk a <em>modul</em> szintű build.gradle fájlhoz:
 <div class="highlight"><pre><span></span><code>implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 </code></pre></div></p>
+<div class="admonition danger">
+<p class="admonition-title">Idő osztályok kezelése</p>
+<p>A labor során a <code>LocalDate</code> mindig a <code>kotlinx</code>, mig a <code>LocalDateTime</code> mindig a <code>java</code> könyvtárból legyen importálva.</p>
+</div>
 <p>Az adat típusú osztályok esetében a Kotlin automatikusan deklarál gyakran használt függvényeket, mint például az <code>equals()</code> és <code>hashCode()</code> függvényeket különböző objektumok összehasonlításához, illetve egy <code>toString()</code> függvényt, mely visszaadja a tárolt változók értékét.</p>
 <p>A felhasználói felület kódjának egyszerűsítése érdékében érdemes olyan segédosztályokat is definiálni, melyek már közvetlenül a felületen használt értékeket fogják használni. Ehhez deifiniáljuk a <code>ui</code> package-en belül a <code>model</code> package-et, és vegyük fel a következő osztályokat:
 <code>UiText.kt</code>:
@@ -700,7 +722,7 @@ Hozzunk létre a gyökérkönyvtárban létre egy új package-et <code>navigatio
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
 <span class="w">        </span><span class="n">setContent</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">ToDoTheme</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">TodoTheme</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">NavGraph</span><span class="p">()</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
@@ -724,7 +746,7 @@ implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_versio
 </code></pre></div></p>
 <p>Hozzunk létre a gyökérkönyvtáron belül a <code>feature</code> package-et, mely az egyes oldalak <code>Composable</code> és <code>ViewModel</code> osztályait fogja tartalmazni külön packagenként, majd hozzuk létre ebben a <code>todo_list</code> package-t.</p>
 <p>Először foglalkozzunk az oldalhoz tartozó <code>ViewModel</code> osztállyal. Hozzuk létre a <code>TodoListViewModel.kt</code> fájlt, majd másoljuk be az alábbi kódrészletet:
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">TodoListState</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">TodoListState</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">object</span><span class="w"> </span><span class="nc">Loading</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">()</span>
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Error</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">error</span><span class="p">:</span><span class="w"> </span><span class="n">Throwable</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">()</span>
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">todoList</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">TodoUi</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">()</span>
@@ -845,7 +867,7 @@ A <code>text_empty_todo_list</code> kulcs értékére vegyük fel a <code>You ha
 <div class="highlight"><pre><span></span><code><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">text_your_todo_list</span><span class="p">))</span>
 <span class="n">LazyColumn</span><span class="p">(</span>
 <span class="w">    </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
-<span class="w">        </span><span class="p">.</span><span class="na">clip</span><span class="p">(</span><span class="n">RoundedCornerShape</span><span class="p">(</span><span class="m">5.</span><span class="n">dp</span><span class="p">))</span>
+<span class="w">        </span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">()</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">items</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">todoList</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">todo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">todo</span><span class="p">.</span><span class="na">id</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">todo</span><span class="w"> </span><span class="o">-&gt;</span>
 <span class="w">        </span><span class="n">ListItem</span><span class="p">(</span>
@@ -944,24 +966,21 @@ Futtassuk az alkalmazás!</p>
 <span class="w">            </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Teszt feladat 1"</span><span class="p">,</span>
 <span class="w">            </span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Priority</span><span class="p">.</span><span class="na">LOW</span><span class="p">,</span>
 <span class="w">            </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Feladat leírás 1"</span><span class="p">,</span>
-<span class="w">            </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Clock</span><span class="p">.</span><span class="na">System</span><span class="p">.</span><span class="na">now</span><span class="p">()</span>
-<span class="w">                </span><span class="p">.</span><span class="na">toLocalDateTime</span><span class="p">(</span><span class="n">TimeZone</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">"Europe/Budapest"</span><span class="p">)).</span><span class="na">date</span><span class="p">,</span>
+<span class="w">            </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">().</span><span class="na">toKotlinLocalDateTime</span><span class="p">().</span><span class="na">date</span><span class="p">,</span>
 <span class="w">        </span><span class="p">),</span>
 <span class="w">        </span><span class="n">Todo</span><span class="p">(</span>
 <span class="w">            </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">,</span>
 <span class="w">            </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Teszt feladat 2"</span><span class="p">,</span>
 <span class="w">            </span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Priority</span><span class="p">.</span><span class="na">MEDIUM</span><span class="p">,</span>
 <span class="w">            </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Feladat leírás 2"</span><span class="p">,</span>
-<span class="w">            </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Clock</span><span class="p">.</span><span class="na">System</span><span class="p">.</span><span class="na">now</span><span class="p">()</span>
-<span class="w">                </span><span class="p">.</span><span class="na">toLocalDateTime</span><span class="p">(</span><span class="n">TimeZone</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">"Europe/Budapest"</span><span class="p">)).</span><span class="na">date</span><span class="p">,</span>
+<span class="w">            </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">().</span><span class="na">toKotlinLocalDateTime</span><span class="p">().</span><span class="na">date</span><span class="p">,</span>
 <span class="w">        </span><span class="p">),</span>
 <span class="w">        </span><span class="n">Todo</span><span class="p">(</span>
 <span class="w">            </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3</span><span class="p">,</span>
 <span class="w">            </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Teszt feladat 3"</span><span class="p">,</span>
 <span class="w">            </span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Priority</span><span class="p">.</span><span class="na">HIGH</span><span class="p">,</span>
 <span class="w">            </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Feladat leírás 3"</span><span class="p">,</span>
-<span class="w">            </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Clock</span><span class="p">.</span><span class="na">System</span><span class="p">.</span><span class="na">now</span><span class="p">()</span>
-<span class="w">                </span><span class="p">.</span><span class="na">toLocalDateTime</span><span class="p">(</span><span class="n">TimeZone</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">"Europe/Budapest"</span><span class="p">)).</span><span class="na">date</span><span class="p">,</span>
+<span class="w">            </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">().</span><span class="na">toKotlinLocalDateTime</span><span class="p">().</span><span class="na">date</span><span class="p">,</span>
 <span class="w">        </span><span class="p">),</span>
 <span class="w">    </span><span class="p">)</span>
 
@@ -1272,7 +1291,7 @@ Végül a lista oldalhoz hasonlóan kiolvassuk a <code>ViewModel</code>-ben tár
 <span class="p">}</span>
 </code></pre></div>
 <p><code>NormalTextField.kt</code>:
-<div class="highlight"><pre><span></span><code><span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">NormalTextField</span><span class="p">(</span>
 <span class="w">    </span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
@@ -1532,7 +1551,7 @@ Végül a lista oldalhoz hasonlóan kiolvassuk a <code>ViewModel</code>-ben tár
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></p>
-<p>A hiányzó szövegerőforrásra vegyük fel a <code>Description</code> értéket.</p>
+<p>A hiányzó szövegerőforrásra vegyük fel rendre a <code>Title</code> és <code>Description</code> értékeket.</p>
 <p>Ezek mellett a létrehozás oldalon szükségünk lesz egy <code>TopAppBar</code> elemre is. Egy ilyet már létrehoztunk a részletes nézeten, ezt kiemelve és általánosítva hozzuk létre az új <code>TodoAppBar</code> elemet ugyanebbe a package-be:
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Composable</span>
@@ -1812,7 +1831,7 @@ Próbáljuk ki az alkalmazást! Mit tapasztalunk egy feladat létrehozásánál?
 <span class="w">    </span><span class="n">DisposableEffect</span><span class="p">(</span><span class="n">lifecycleOwner</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">observer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LifecycleEventObserver</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">event</span><span class="w"> </span><span class="o">-&gt;</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Lifecycle</span><span class="p">.</span><span class="na">Event</span><span class="p">.</span><span class="na">ON_RESUME</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">viewModel</span><span class="p">.</span><span class="na">loadTodo</span><span class="p">()</span>
+<span class="w">                </span><span class="n">viewModel</span><span class="p">.</span><span class="na">loadTodos</span><span class="p">()</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">        </span><span class="n">lifecycleOwner</span><span class="p">.</span><span class="na">lifecycle</span><span class="p">.</span><span class="na">addObserver</span><span class="p">(</span><span class="n">observer</span><span class="p">)</span>
@@ -1823,7 +1842,7 @@ Próbáljuk ki az alkalmazást! Mit tapasztalunk egy feladat létrehozásánál?
 <span class="w">    </span><span class="p">...</span>
 <span class="p">}</span>
 </code></pre></div></p>
-<p>Tegyük a <code>ViewModel</code> loadTodo() metódusát publikussá, és töröljük az inicializáló kódblokkban történő meghívását. Próbáljuk ki az alkalmazást! Ha zavar a töltés miatti képernyő bevillanása, akkor akár ki is vehetjük a <code>loadTodo()</code> metódusból a <code>Loading</code> állapot beállítását.</p>
+<p>Tegyük a <code>ViewModel</code> loadTodos() metódusát publikussá, és töröljük az inicializáló kódblokkban történő meghívását. Próbáljuk ki az alkalmazást! Ha zavar a töltés miatti képernyő bevillanása, akkor akár ki is vehetjük a <code>loadTodos()</code> metódusból a <code>Loading</code> állapot beállítását.</p>
 <h2 id="kiegeszito-feladat-2-animacio-optimalizalas">Kiegészítő feladat 2 - Animáció optimalizálás<a class="headerlink" href="#kiegeszito-feladat-2-animacio-optimalizalas" title="Permanent link">¶</a></h2>
 <p>Vizsgáljuk meg, hogyan történik a fontosságot kiválasztó felületi elemen a lenyitást jelző elem animációja:
 <code>PriorityDropdown.kt</code>:
@@ -1956,8 +1975,8 @@ A hiányzó szöveges erőforrásokra vegyük fel az <code>Ok</code> és <code>C
 </path>
 </svg>
 </span>
-<span title="2023. április 3. 19:14:58">
-<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-04-03T19:14:58+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-04-03</span>
+<span title="2023. április 4. 00:22:02">
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-04-04T00:22:02+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-04-04</span>
 </span>
 </span>
 <span class="md-source-file__fact">

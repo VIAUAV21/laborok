@@ -45,7 +45,27 @@ Annak érdekében, hogy mindig kompatibilis compose könyvtárakat importáljunk
 ```gradle
 implementation platform('androidx.compose:compose-bom:2023.01.00')
 ```
-Majd minden Compose-hoz kapcsolható könyvtár importálásánál töröljük a verziót.
+Majd minden Compose-hoz kapcsolható könyvtár importálásánál töröljük a verziót, a végeredményben ezt kapva:
+
+```gradle
+dependencies {
+    implementation platform('androidx.compose:compose-bom:2023.01.00')
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
+    implementation 'androidx.activity:activity-compose'
+    implementation "androidx.compose.ui:ui"
+    implementation "androidx.compose.ui:ui-tooling-preview"
+    implementation 'androidx.compose.material3:material3'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4"
+    debugImplementation "androidx.compose.ui:ui-tooling"
+    debugImplementation "androidx.compose.ui:ui-test-manifest"
+
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.0'
+}
+```
 
 Ezek mellett ellenőrizzük a kotlin plugin és a compose verzióját. A labor készítésekor a következőek voltak érvényben:
 
@@ -112,6 +132,8 @@ A `LocalDate` egy általános implementációja az idő kezelésének, mely mult
 ```gradle
 implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 ```
+!!!danger "Idő osztályok kezelése"
+	A labor során a `LocalDate` mindig a `kotlinx`, mig a `LocalDateTime` mindig a `java` könyvtárból legyen importálva.
 
 Az adat típusú osztályok esetében a Kotlin automatikusan deklarál gyakran használt függvényeket, mint például az `equals()` és `hashCode()` függvényeket különböző objektumok összehasonlításához, illetve egy `toString()` függvényt, mely visszaadja a tárolt változók értékét.
 
@@ -254,7 +276,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ToDoTheme {
+            TodoTheme {
                 NavGraph()
             }
         }
@@ -286,7 +308,7 @@ Hozzunk létre a gyökérkönyvtáron belül a `feature` package-et, mely az egy
 
 Először foglalkozzunk az oldalhoz tartozó `ViewModel` osztállyal. Hozzuk létre a `TodoListViewModel.kt` fájlt, majd másoljuk be az alábbi kódrészletet:
 ```kotlin
-	sealed class TodoListState {
+sealed class TodoListState {
     object Loading : TodoListState()
     data class Error(val error: Throwable) : TodoListState()
     data class Result(val todoList : List<TodoUi>) : TodoListState()
@@ -415,7 +437,7 @@ Valósítsuk meg a lista megjelenítését is! Másoljuk be az alábbi kódot a 
 Text(text = stringResource(id = R.string.text_your_todo_list))
 LazyColumn(
 	modifier = Modifier
-		.clip(RoundedCornerShape(5.dp))
+		.fillMaxSize()
 ) {
 	items(state.todoList, key = { todo -> todo.id }) { todo ->
 		ListItem(
@@ -525,24 +547,21 @@ object MemoryTodoRepository : TodoRepository {
             title = "Teszt feladat 1",
             priority = Priority.LOW,
             description = "Feladat leírás 1",
-            dueDate = Clock.System.now()
-                .toLocalDateTime(TimeZone.of("Europe/Budapest")).date,
+            dueDate = LocalDateTime.now().toKotlinLocalDateTime().date,
         ),
         Todo(
             id = 2,
             title = "Teszt feladat 2",
             priority = Priority.MEDIUM,
             description = "Feladat leírás 2",
-            dueDate = Clock.System.now()
-                .toLocalDateTime(TimeZone.of("Europe/Budapest")).date,
+            dueDate = LocalDateTime.now().toKotlinLocalDateTime().date,
         ),
         Todo(
             id = 3,
             title = "Teszt feladat 3",
             priority = Priority.HIGH,
             description = "Feladat leírás 3",
-            dueDate = Clock.System.now()
-                .toLocalDateTime(TimeZone.of("Europe/Budapest")).date,
+            dueDate = LocalDateTime.now().toKotlinLocalDateTime().date,
         ),
     )
 
@@ -874,7 +893,7 @@ fun DatePicker_Preview() {
 
 `NormalTextField.kt`:
 ```kotlin
-@OptIn(ExperimentalMaterial3Api::class)
+@ExperimentalMaterial3Api
 @Composable
 fun NormalTextField(
     value: String,
@@ -1139,7 +1158,7 @@ fun TodoEditor_Preview() {
 }
 ```
 
-A hiányzó szövegerőforrásra vegyük fel a `Description` értéket.
+A hiányzó szövegerőforrásra vegyük fel rendre a `Title` és `Description` értékeket.
 
 Ezek mellett a létrehozás oldalon szükségünk lesz egy `TopAppBar` elemre is. Egy ilyet már létrehoztunk a részletes nézeten, ezt kiemelve és általánosítva hozzuk létre az új `TodoAppBar` elemet ugyanebbe a package-be:
 ```kotlin
@@ -1436,7 +1455,7 @@ fun TodoListScreen(
     DisposableEffect(lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                viewModel.loadTodo()
+                viewModel.loadTodos()
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
@@ -1448,7 +1467,7 @@ fun TodoListScreen(
 }
 ```
 
-Tegyük a `ViewModel` loadTodo() metódusát publikussá, és töröljük az inicializáló kódblokkban történő meghívását. Próbáljuk ki az alkalmazást! Ha zavar a töltés miatti képernyő bevillanása, akkor akár ki is vehetjük a `loadTodo()` metódusból a `Loading` állapot beállítását.
+Tegyük a `ViewModel` loadTodos() metódusát publikussá, és töröljük az inicializáló kódblokkban történő meghívását. Próbáljuk ki az alkalmazást! Ha zavar a töltés miatti képernyő bevillanása, akkor akár ki is vehetjük a `loadTodos()` metódusból a `Loading` állapot beállítását.
 
 ## Kiegészítő feladat 2 - Animáció optimalizálás
 

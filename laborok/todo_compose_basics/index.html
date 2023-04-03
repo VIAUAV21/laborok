@@ -1878,7 +1878,7 @@ Az <code>animateFloatAsState()</code> egy nagyon hasznos State objektumot tesz e
 </code></pre></div>
 Így a szög kiolvasása az <code>Icon</code> létrehozásakor történik, mely az <code>IconButton</code> callbackjében történik, melyben csak az <code>Icon</code> létrehozása történik, így kevesebb elemet kell létrehozni ennek a módosítására.</p>
 <p>A kiolvasás helyének módosítása mellett egy másik szempontra is érdemes figyelnünk a State objektumok használatánál: a Compose melyik fázisában történik a kiolvasás. Ennek megértésére nézzük át az alábbi ábrát:</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-type="image" data-width="100%" href="assets/phase-state-read-draw.svg"><img alt="" src="assets/phase-state-read-draw.svg"/></a></p>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-type="image" data-width="100%" href="assets/phases-state-read-draw.svg"><img alt="" src="assets/phases-state-read-draw.svg"/></a></p>
 <p>Az aktuális helyzetben a Composition rétegben olvassuk ki az értékét a szögnek, pedig valójában csak a kirajzoláskor kellene egy forgatási transzformációt használni. A Compose sok esetben két megoldást biztosít egy paraméter megadására: a közvetlen értékadás, illetve a callbacken keresztüli visszatérés. </p>
 <p>Jelenleg a közvetlen értékadást használjuk, mert akkor megadjuk a forgatás értékét, amikor létrehozzuk az adott <code>Modifier</code> objektumot. Ezt általában egyszerűbb, viszont cserébe korábban kiolvasásra kerül az érték, mint szükség lenne. A callbacken keresztüli visszatérés esetén a Compose garantálja, hogy csak abban a fázisban olvassa ki az adott értéket, amikor már mindenképp szükséges. Ezt forgatásnál is lehet használni a következő módon:
 <div class="highlight"><pre><span></span><code><span class="n">Icon</span><span class="p">(</span>
@@ -1956,8 +1956,8 @@ A hiányzó szöveges erőforrásokra vegyük fel az <code>Ok</code> és <code>C
 </path>
 </svg>
 </span>
-<span title="2023. április 2. 19:29:45">
-<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-04-02T19:29:45+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-04-02</span>
+<span title="2023. április 3. 19:14:58">
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-04-03T19:14:58+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-04-03</span>
 </span>
 </span>
 <span class="md-source-file__fact">

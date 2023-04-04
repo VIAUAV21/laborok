@@ -868,7 +868,7 @@ fun TodoDetailScreen(
 Végül a lista oldalhoz hasonlóan kiolvassuk a `ViewModel`-ben tárolt állapotot és megjelenítjük a megfelelő felületi elemeket.
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik a **részletes nézet** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az ** ahhoz tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+	Készíts egy **képernyőképet**, amelyen látszik a **részletes nézet** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az **ahhoz tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
 
 	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
 

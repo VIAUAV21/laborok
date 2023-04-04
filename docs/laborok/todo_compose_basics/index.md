@@ -326,7 +326,7 @@ class TodoListViewModel() : ViewModel() {
         viewModelScope.launch {
             try {
                 _state.value = TodoListState.Loading
-                delay(1000)
+                delay(2000)
                 //TODO: Add todo loading logic
                 _state.value = TodoListState.Result(
                     todoList = listOf(
@@ -407,7 +407,7 @@ fun TodoListScreen(
                 ),
             contentAlignment = Alignment.Center
         ) {
-            when(state){
+            when (state) {
                 is TodoListState.Loading -> CircularProgressIndicator(
                     color = MaterialTheme.colorScheme.secondaryContainer
                 )
@@ -415,10 +415,10 @@ fun TodoListScreen(
                     text = state.error.toUiText().asString(context)
                 )
                 is TodoListState.Result -> {
-                    if (state.todoList.isEmpty()){
+                    if (state.todoList.isEmpty()) {
                         Text(text = stringResource(id = R.string.text_empty_todo_list))
                     } else {
-                        //TODO: handle list
+                        ///TODO: handle list
                     }
                 }
             }
@@ -428,49 +428,63 @@ fun TodoListScreen(
 ``` 
 A `text_empty_todo_list` kulcs értékére vegyük fel a `You haven\'t added any todos yet.` értéket!
 
-Mint a legtöbb esetben, itt is egy `Scaffold`-ot használunk az oldalunk kezelésére, melyhez most egy `LargeFloatingActionButton`-t is adunk, mellyel majd új feladatokat lehet létrehozni. Ne felejtsük el a Scaffold fő tartalmában `it` névvel megkapott `PaddingValues` értékeket a megfelelő helyre beszűrni (ez ebben az esetben a fő `Box` köré kerül. Ezek mellett látható, hogyan tudunk az aktuális állapot különböző értékeinek függvényében elágazni, és különböző elemeket megjeleníteni.
+Mint a legtöbb esetben, itt is egy `Scaffold`-ot használunk az oldalunk kezelésére, melyhez most egy `LargeFloatingActionButton`-t is adunk, mellyel majd új feladatokat lehet létrehozni. Ne felejtsük el a Scaffold fő tartalmában `it` névvel megkapott `PaddingValues` értékeket a megfelelő helyre beszúrni (ez ebben az esetben a fő `Box` köré kerül. Ezek mellett látható, hogyan tudunk az aktuális állapot különböző értékeinek függvényében elágazni, és különböző elemeket megjeleníteni.
 
 Vizsgáljuk meg, hogyan történik az oldal frissítése! A `collectAsStateWithLifecycle()` függvényhívással automatikusan feliratkozunk a `ViewModel`-ben tárolt állapotra. Ha változás történik ebben, újra le fog futni a `Composable`, mely így már a frisebb állapotot fogja megjeleníteni.
 
 Valósítsuk meg a lista megjelenítését is! Másoljuk be az alábbi kódot a megfelelő `else` ágba:
 ```kotlin
-Text(text = stringResource(id = R.string.text_your_todo_list))
-LazyColumn(
-	modifier = Modifier
-		.fillMaxSize()
-) {
-	items(state.todoList, key = { todo -> todo.id }) { todo ->
-		ListItem(
-			headlineText = {
-				Row(verticalAlignment = Alignment.CenterVertically) {
-					Text(text = todo.title)
-					Icon(
-						imageVector = Icons.Default.Circle,
-						contentDescription = null,
-						tint = todo.priority.color,
-						modifier = Modifier
-							.size(22.dp)
-							.padding(all = 10.dp),
-					)
-				}
-			},
-			supportingText = {
-				Text(
-					text = stringResource(
-						id = R.string.list_item_supporting_text,
-						todo.dueDate
-					)
-				)
-			},
-			modifier = Modifier.clickable(onClick = { onListItemClick(todo.id) })
-		)
-		if (state.todoList.last() != todo) {
-			Divider(
-				thickness = 2.dp,
-				color = MaterialTheme.colorScheme.secondaryContainer
-			)
-		}
-	}
+Column {
+
+    Text(
+        text = stringResource(id = R.string.text_your_todo_list),
+        fontSize = 24.sp
+    )
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        items(state.todoList, key = { todo -> todo.id }) { todo ->
+            ListItem(
+                headlineText = {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Default.Circle,
+                            contentDescription = null,
+                            tint = todo.priority.color,
+                            modifier = Modifier
+                                .size(40.dp)
+                                .padding(
+                                    end = 8.dp,
+                                    top = 8.dp,
+                                    bottom = 8.dp
+                                ),
+                        )
+                        Text(text = todo.title)
+                    }
+                },
+                supportingText = {
+                    Text(
+                        text = stringResource(
+                            id = R.string.list_item_supporting_text,
+                            todo.dueDate
+                        )
+                    )
+                },
+                modifier = Modifier.clickable(onClick = {
+                    onListItemClick(
+                        todo.id
+                    )
+                })
+            )
+            if (state.todoList.last() != todo) {
+                Divider(
+                    thickness = 2.dp,
+                    color = MaterialTheme.colorScheme.secondaryContainer
+                )
+            }
+        }
+    }
 }
 ```
 A `Circle` ikon csak a kiegészítő Material Icon könyvtárban található meg, melyet az alábbi függőséggel tudunk hozzáadni a projekthez:
@@ -563,6 +577,27 @@ object MemoryTodoRepository : TodoRepository {
             description = "Feladat leírás 3",
             dueDate = LocalDateTime.now().toKotlinLocalDateTime().date,
         ),
+        Todo(
+            id = 4,
+            title = "Teszt feladat 4 hosszű szöveg, hogy több sorba kelljen írni",
+            priority = Priority.HIGH,
+            description = "Feladat leírás 4",
+            dueDate = LocalDateTime.now().toKotlinLocalDateTime().date,
+        ),
+        Todo(
+            id = 5,
+            title = "Teszt feladat 5",
+            priority = Priority.LOW,
+            description = "Feladat leírás 5",
+            dueDate = LocalDateTime.now().toKotlinLocalDateTime().date,
+        ),
+        Todo(
+            id = 6,
+            title = "Teszt feladat 6",
+            priority = Priority.MEDIUM,
+            description = "Feladat leírás 6",
+            dueDate = LocalDateTime.now().toKotlinLocalDateTime().date,
+        )
     )
 
     override suspend fun insertTodo(todo: Todo) {
@@ -577,7 +612,10 @@ object MemoryTodoRepository : TodoRepository {
 
     override suspend fun getTodoById(id: Int): Todo {
         delay(1000)
-        return todos[id]
+        for (todo in todos) {
+            if (todo.id == id) return todo
+        }
+        return todos.first()
     }
 
     override suspend fun getAllTodos(): List<Todo> {
@@ -587,7 +625,10 @@ object MemoryTodoRepository : TodoRepository {
 
     override suspend fun updateTodo(updatedTodo: Todo) {
         delay(1000)
-        todos[updatedTodo.id] = updatedTodo
+        for (todo in todos) {
+            if (todo.id == updatedTodo.id)
+                todos[todos.indexOf(todo)] = updatedTodo
+        }
     }
 }
 ```
@@ -609,6 +650,7 @@ class TodoListViewModel(private val repository: TodoRepository) : ViewModel() {
         viewModelScope.launch {
             try {
                 _state.value = TodoListState.Loading
+				delay(2000)
                 val list = repository.getAllTodos()
                 _state.value = TodoListState.Result(
                     todoList = list.map { it.asTodoUi() }
@@ -706,6 +748,7 @@ class TodoDetailViewModel(private val repository: TodoRepository, private val sa
         viewModelScope.launch {
             try {
                 _state.value = TodoDetailState.Loading
+				delay(2000)
                 val todo = repository.getTodoById(id)
                 _state.value = TodoDetailState.Result(
                     todo.asTodoUi()
@@ -793,15 +836,14 @@ fun TodoDetailScreen(
                                 .background(color = Color.White),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Spacer(modifier = Modifier.width(20.dp))
                             Icon(
                                 imageVector = Icons.Default.Circle,
                                 contentDescription = null,
                                 tint = todo.priority.color,
                                 modifier = Modifier
-                                    .size(20.dp)
+                                    .size(24.dp)
                             )
-                            Spacer(modifier = Modifier.width(5.dp))
+                            Spacer(modifier = Modifier.width(8.dp))
                             Text(
                                 modifier = Modifier
                                     .weight(weight = 8f),
@@ -1543,7 +1585,7 @@ Icon(
 	modifier = Modifier.padding(5.dp)
 		.graphicsLayer {
 			rotationZ = angle
-		},
+		}
 )
 ```
 

@@ -3,10 +3,10 @@
 A labor célja, hogy bemutassa, hogyan lehet egy egyszerű ToDo alkalmazást megvalósítani a Compose keretrendszerben.
 
 <p float="left">
-<img src="./assets/screenshot_1.png" width="200" align="middle">
-<img src="./assets/screenshot_2.png" width="200" align="middle">
-<img src="./assets/screenshot_3.png" width="200" align="middle">
-<img src="./assets/screenshot_4.png" width="200" align="middle">
+<img src="./assets/list.png" width="200" align="middle">
+<img src="./assets/details.png" width="200" align="middle">
+<img src="./assets/create.png" width="200" align="middle">
+<img src="./assets/datepicker.png" width="200" align="middle">
 </p>
 
 ## Előkészületek
@@ -535,7 +535,11 @@ fun NavGraph(
 ```
 Futtassuk az alkalmazás!
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik a futó alkalmazás az emulátorban, illetve a lista oldal forráskódja, melyben a Neptun-kód komment formájában látható. A képernyőkép szükséges feltétele a pontszám megszerzésének.
+	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az **ahhoz tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+
+	A képet a megoldásban a repository-ba f1.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 ## Adatréteg kialakítása
 Ezen a laboron egy egyszerűsített megoldást mutatunk be a feladatok tárolására, mely csak a memóriában menti el az értékeket. Hozzunk létre egy `data` package-et a gyökérkönyvtáron belül, majd hozzuk létre az alábbi két fájlt:
@@ -864,9 +868,14 @@ fun TodoDetailScreen(
 Végül a lista oldalhoz hasonlóan kiolvassuk a `ViewModel`-ben tárolt állapotot és megjelenítjük a megfelelő felületi elemeket.
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik a részletes nézet az emulátorban, illetve a részletes oldal forráskódja, melyben a Neptun-kód komment formájában látható. A képernyőkép szükséges feltétele a pontszám megszerzésének.
+	Készíts egy **képernyőképet**, amelyen látszik a **részletes nézet** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az ** ahhoz tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
 
-## Feladat készítése felület komponensek
+	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
+
+
+## Feladat létrehozása felület komponensek
 
 Az utolsó felület, melyet elkészítünk az alkalmazáshoz, a feladat létrehozása felület lesz. Ehhez több önálló felületi elemre lesz szükségünk, melyeket az oldal előtt létrehozunk. Hozzuk létre a `ui` package-en belül a `common` package-et, mely az olyan `Composable` elemeket tartalmazza, melyeket akár több oldalon is fel tudnánk használni. Ezen belül hozzuk létre az alábbi elemeket:
 
@@ -1471,7 +1480,12 @@ fun NavGraph(
 Próbáljuk ki az alkalmazást! Mit tapasztalunk egy feladat létrehozásánál?
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik a feladat létrehozása nézet az emulátorban, illetve az oldal forráskódja, melyben a Neptun-kód komment formájában látható. A képernyőkép szükséges feltétele a pontszám megszerzésének.
+	Készíts egy **képernyőképet**, amelyen látszik a **feladat létrehozása nézet** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az **ahhoz tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+
+	A képet a megoldásban a repository-ba f3.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
+
 
 ## Kiegészítő feladat 1 - Feladat lista frissítése
 
@@ -1648,11 +1662,19 @@ A hiányzó szöveges erőforrásokra vegyük fel az `Ok` és `Close` értékeke
 Jelenítsük meg ezt a dialogot a `TodoCreateScreen`-en. Ehhez fel kell vennünk egy `showDialog` változót az oldalon belül, melyet a `TodoEditor` megfelelő callbackjében be kell állítanunk. Ha pedig a `showDialog` `true` értékre van tartalmazva, akkor az oldalhoz tartozó `Scaffold` végén jelenítsük meg a dialógust a megfelelő paraméterezésével. Ne felejtsük el átadni az aktuális dátumot, illetve a két eseményt kezeljük le megfelelően. 
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik a dialógus az emulátorban, illetve az oldal forráskódja, melyben a Neptun-kód komment formájában látható. A képernyőkép szükséges feltétele a pontszám megszerzésének.
+	Készíts egy **képernyőképet**, amelyen látszik a **dátumválasztó dialógus** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az **ahhoz tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+
+	A képet a megoldásban a repository-ba f4.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 ### Lista összekeverése
 
 Adjunk hozzá egy függvényt a `TodoListViewModel`-hez, mely megkeveri a lista elemeit! Használjuk ehhez a `shuffled()` függvényt. Hívjuk meg ezt a függvényt egy új _floating action button_  megnyomására (tegyük egy `Column`-be a létrehozás gombot, és fölé tegyünk egy új gombot). Vegyük fel a listán belül a `ListItem` `modifier` láncához az `animateItemPlacement()` hívást. Mit tapasztalunk, ha így megkeverjük a lista tartalmát? Mi történik, ha kivesszük a `LazyColumn` `items` blokkjából a `key` paramétert?
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik a lista megkevert állapotában, illetve az animációt elvégző kódrészlet, melyben a Neptun-kód komment formájában látható. A képernyőkép szükséges feltétele a pontszám megszerzésének.
+	Készíts egy **képernyőképet**, amelyen látszik a **lista megkevert állapotában** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az **animációt tartalmazó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+
+	A képet a megoldásban a repository-ba f5.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.

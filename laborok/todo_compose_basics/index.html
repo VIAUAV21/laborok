@@ -764,7 +764,7 @@ implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_versio
 <span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span>
-<span class="w">                </span><span class="n">delay</span><span class="p">(</span><span class="m">1000</span><span class="p">)</span>
+<span class="w">                </span><span class="n">delay</span><span class="p">(</span><span class="m">2000</span><span class="p">)</span>
 <span class="w">                </span><span class="c1">//TODO: Add todo loading logic</span>
 <span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
 <span class="w">                    </span><span class="n">todoList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">listOf</span><span class="p">(</span>
@@ -841,7 +841,7 @@ A felületet leíró állapot osztályt <code>sealed class</code>-ként deklará
 <span class="w">                </span><span class="p">),</span>
 <span class="w">            </span><span class="n">contentAlignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alignment</span><span class="p">.</span><span class="na">Center</span>
 <span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">when</span><span class="p">(</span><span class="n">state</span><span class="p">){</span>
+<span class="w">            </span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="k">is</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">CircularProgressIndicator</span><span class="p">(</span>
 <span class="w">                    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">secondaryContainer</span>
 <span class="w">                </span><span class="p">)</span>
@@ -849,10 +849,10 @@ A felületet leíró állapot osztályt <code>sealed class</code>-ként deklará
 <span class="w">                    </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">error</span><span class="p">.</span><span class="na">toUiText</span><span class="p">().</span><span class="na">asString</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
 <span class="w">                </span><span class="p">)</span>
 <span class="w">                </span><span class="k">is</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Result</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">todoList</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">()){</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">todoList</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                        </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">text_empty_todo_list</span><span class="p">))</span>
 <span class="w">                    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                        </span><span class="c1">//TODO: handle list</span>
+<span class="w">                        </span><span class="c1">///TODO: handle list</span>
 <span class="w">                    </span><span class="p">}</span>
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
@@ -861,44 +861,58 @@ A felületet leíró állapot osztályt <code>sealed class</code>-ként deklará
 <span class="p">}</span>
 </code></pre></div>
 A <code>text_empty_todo_list</code> kulcs értékére vegyük fel a <code>You haven\'t added any todos yet.</code> értéket!</p>
-<p>Mint a legtöbb esetben, itt is egy <code>Scaffold</code>-ot használunk az oldalunk kezelésére, melyhez most egy <code>LargeFloatingActionButton</code>-t is adunk, mellyel majd új feladatokat lehet létrehozni. Ne felejtsük el a Scaffold fő tartalmában <code>it</code> névvel megkapott <code>PaddingValues</code> értékeket a megfelelő helyre beszűrni (ez ebben az esetben a fő <code>Box</code> köré kerül. Ezek mellett látható, hogyan tudunk az aktuális állapot különböző értékeinek függvényében elágazni, és különböző elemeket megjeleníteni.</p>
+<p>Mint a legtöbb esetben, itt is egy <code>Scaffold</code>-ot használunk az oldalunk kezelésére, melyhez most egy <code>LargeFloatingActionButton</code>-t is adunk, mellyel majd új feladatokat lehet létrehozni. Ne felejtsük el a Scaffold fő tartalmában <code>it</code> névvel megkapott <code>PaddingValues</code> értékeket a megfelelő helyre beszúrni (ez ebben az esetben a fő <code>Box</code> köré kerül. Ezek mellett látható, hogyan tudunk az aktuális állapot különböző értékeinek függvényében elágazni, és különböző elemeket megjeleníteni.</p>
 <p>Vizsgáljuk meg, hogyan történik az oldal frissítése! A <code>collectAsStateWithLifecycle()</code> függvényhívással automatikusan feliratkozunk a <code>ViewModel</code>-ben tárolt állapotra. Ha változás történik ebben, újra le fog futni a <code>Composable</code>, mely így már a frisebb állapotot fogja megjeleníteni.</p>
 <p>Valósítsuk meg a lista megjelenítését is! Másoljuk be az alábbi kódot a megfelelő <code>else</code> ágba:
-<div class="highlight"><pre><span></span><code><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">text_your_todo_list</span><span class="p">))</span>
-<span class="n">LazyColumn</span><span class="p">(</span>
-<span class="w">    </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
-<span class="w">        </span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">()</span>
-<span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">items</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">todoList</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">todo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">todo</span><span class="p">.</span><span class="na">id</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">todo</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">        </span><span class="n">ListItem</span><span class="p">(</span>
-<span class="w">            </span><span class="n">headlineText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">Row</span><span class="p">(</span><span class="n">verticalAlignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alignment</span><span class="p">.</span><span class="na">CenterVertically</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todo</span><span class="p">.</span><span class="na">title</span><span class="p">)</span>
-<span class="w">                    </span><span class="n">Icon</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">imageVector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Icons</span><span class="p">.</span><span class="na">Default</span><span class="p">.</span><span class="na">Circle</span><span class="p">,</span>
-<span class="w">                        </span><span class="n">contentDescription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">                        </span><span class="n">tint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todo</span><span class="p">.</span><span class="na">priority</span><span class="p">.</span><span class="na">color</span><span class="p">,</span>
-<span class="w">                        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
-<span class="w">                            </span><span class="p">.</span><span class="na">size</span><span class="p">(</span><span class="m">22.</span><span class="n">dp</span><span class="p">)</span>
-<span class="w">                            </span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="n">all</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10.</span><span class="n">dp</span><span class="p">),</span>
+<div class="highlight"><pre><span></span><code><span class="n">Column</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="n">Text</span><span class="p">(</span>
+<span class="w">        </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">text_your_todo_list</span><span class="p">),</span>
+<span class="w">        </span><span class="n">fontSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">24.</span><span class="n">sp</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">    </span><span class="n">LazyColumn</span><span class="p">(</span>
+<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
+<span class="w">            </span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">()</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">items</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">todoList</span><span class="p">,</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">todo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">todo</span><span class="p">.</span><span class="na">id</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">todo</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">            </span><span class="n">ListItem</span><span class="p">(</span>
+<span class="w">                </span><span class="n">headlineText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">Row</span><span class="p">(</span><span class="n">verticalAlignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alignment</span><span class="p">.</span><span class="na">CenterVertically</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="n">Icon</span><span class="p">(</span>
+<span class="w">                            </span><span class="n">imageVector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Icons</span><span class="p">.</span><span class="na">Default</span><span class="p">.</span><span class="na">Circle</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">contentDescription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">tint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todo</span><span class="p">.</span><span class="na">priority</span><span class="p">.</span><span class="na">color</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
+<span class="w">                                </span><span class="p">.</span><span class="na">size</span><span class="p">(</span><span class="m">40.</span><span class="n">dp</span><span class="p">)</span>
+<span class="w">                                </span><span class="p">.</span><span class="na">padding</span><span class="p">(</span>
+<span class="w">                                    </span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8.</span><span class="n">dp</span><span class="p">,</span>
+<span class="w">                                    </span><span class="n">top</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8.</span><span class="n">dp</span><span class="p">,</span>
+<span class="w">                                    </span><span class="n">bottom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8.</span><span class="n">dp</span>
+<span class="w">                                </span><span class="p">),</span>
+<span class="w">                        </span><span class="p">)</span>
+<span class="w">                        </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todo</span><span class="p">.</span><span class="na">title</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="n">supportingText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">Text</span><span class="p">(</span>
+<span class="w">                        </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span>
+<span class="w">                            </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">list_item_supporting_text</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">todo</span><span class="p">.</span><span class="na">dueDate</span>
+<span class="w">                        </span><span class="p">)</span>
 <span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="n">supportingText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">Text</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">list_item_supporting_text</span><span class="p">,</span>
-<span class="w">                        </span><span class="n">todo</span><span class="p">.</span><span class="na">dueDate</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">clickable</span><span class="p">(</span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">onListItemClick</span><span class="p">(</span>
+<span class="w">                        </span><span class="n">todo</span><span class="p">.</span><span class="na">id</span>
 <span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">)</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">clickable</span><span class="p">(</span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">onListItemClick</span><span class="p">(</span><span class="n">todo</span><span class="p">.</span><span class="na">id</span><span class="p">)</span><span class="w"> </span><span class="p">})</span>
-<span class="w">        </span><span class="p">)</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">todoList</span><span class="p">.</span><span class="na">last</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">todo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">Divider</span><span class="p">(</span>
-<span class="w">                </span><span class="n">thickness</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.</span><span class="n">dp</span><span class="p">,</span>
-<span class="w">                </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">secondaryContainer</span>
+<span class="w">                </span><span class="p">})</span>
 <span class="w">            </span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">todoList</span><span class="p">.</span><span class="na">last</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">todo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Divider</span><span class="p">(</span>
+<span class="w">                    </span><span class="n">thickness</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.</span><span class="n">dp</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">secondaryContainer</span>
+<span class="w">                </span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
@@ -982,6 +996,27 @@ Futtassuk az alkalmazás!</p>
 <span class="w">            </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Feladat leírás 3"</span><span class="p">,</span>
 <span class="w">            </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">().</span><span class="na">toKotlinLocalDateTime</span><span class="p">().</span><span class="na">date</span><span class="p">,</span>
 <span class="w">        </span><span class="p">),</span>
+<span class="w">        </span><span class="n">Todo</span><span class="p">(</span>
+<span class="w">            </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">4</span><span class="p">,</span>
+<span class="w">            </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Teszt feladat 4 hosszű szöveg, hogy több sorba kelljen írni"</span><span class="p">,</span>
+<span class="w">            </span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Priority</span><span class="p">.</span><span class="na">HIGH</span><span class="p">,</span>
+<span class="w">            </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Feladat leírás 4"</span><span class="p">,</span>
+<span class="w">            </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">().</span><span class="na">toKotlinLocalDateTime</span><span class="p">().</span><span class="na">date</span><span class="p">,</span>
+<span class="w">        </span><span class="p">),</span>
+<span class="w">        </span><span class="n">Todo</span><span class="p">(</span>
+<span class="w">            </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5</span><span class="p">,</span>
+<span class="w">            </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Teszt feladat 5"</span><span class="p">,</span>
+<span class="w">            </span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Priority</span><span class="p">.</span><span class="na">LOW</span><span class="p">,</span>
+<span class="w">            </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Feladat leírás 5"</span><span class="p">,</span>
+<span class="w">            </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">().</span><span class="na">toKotlinLocalDateTime</span><span class="p">().</span><span class="na">date</span><span class="p">,</span>
+<span class="w">        </span><span class="p">),</span>
+<span class="w">        </span><span class="n">Todo</span><span class="p">(</span>
+<span class="w">            </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">6</span><span class="p">,</span>
+<span class="w">            </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Teszt feladat 6"</span><span class="p">,</span>
+<span class="w">            </span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Priority</span><span class="p">.</span><span class="na">MEDIUM</span><span class="p">,</span>
+<span class="w">            </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Feladat leírás 6"</span><span class="p">,</span>
+<span class="w">            </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">().</span><span class="na">toKotlinLocalDateTime</span><span class="p">().</span><span class="na">date</span><span class="p">,</span>
+<span class="w">        </span><span class="p">)</span>
 <span class="w">    </span><span class="p">)</span>
 
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">insertTodo</span><span class="p">(</span><span class="n">todo</span><span class="p">:</span><span class="w"> </span><span class="n">Todo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -996,7 +1031,10 @@ Futtassuk az alkalmazás!</p>
 
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getTodoById</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">):</span><span class="w"> </span><span class="n">Todo</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">delay</span><span class="p">(</span><span class="m">1000</span><span class="p">)</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">todos</span><span class="o">[</span><span class="n">id</span><span class="o">]</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">todo</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">todos</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">todo</span><span class="p">.</span><span class="na">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">todo</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">todos</span><span class="p">.</span><span class="na">first</span><span class="p">()</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getAllTodos</span><span class="p">():</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Todo</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
@@ -1006,7 +1044,10 @@ Futtassuk az alkalmazás!</p>
 
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">updateTodo</span><span class="p">(</span><span class="n">updatedTodo</span><span class="p">:</span><span class="w"> </span><span class="n">Todo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">delay</span><span class="p">(</span><span class="m">1000</span><span class="p">)</span>
-<span class="w">        </span><span class="n">todos</span><span class="o">[</span><span class="n">updatedTodo</span><span class="p">.</span><span class="na">id</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">updatedTodo</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">todo</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">todos</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">todo</span><span class="p">.</span><span class="na">id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">updatedTodo</span><span class="p">.</span><span class="na">id</span><span class="p">)</span>
+<span class="w">                </span><span class="n">todos</span><span class="o">[</span><span class="n">todos</span><span class="p">.</span><span class="na">indexOf</span><span class="p">(</span><span class="n">todo</span><span class="p">)</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">updatedTodo</span>
+<span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -1024,6 +1065,7 @@ Futtassuk az alkalmazás!</p>
 <span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span>
+<span class="w">                </span><span class="n">delay</span><span class="p">(</span><span class="m">2000</span><span class="p">)</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">repository</span><span class="p">.</span><span class="na">getAllTodos</span><span class="p">()</span>
 <span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
 <span class="w">                    </span><span class="n">todoList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list</span><span class="p">.</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">asTodoUi</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
@@ -1112,6 +1154,7 @@ A feladat azonosítóját egy <code>/</code> jellel elválasztva tesszük be az 
 <span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Loading</span>
+<span class="w">                </span><span class="n">delay</span><span class="p">(</span><span class="m">2000</span><span class="p">)</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">repository</span><span class="p">.</span><span class="na">getTodoById</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
 <span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
 <span class="w">                    </span><span class="n">todo</span><span class="p">.</span><span class="na">asTodoUi</span><span class="p">()</span>
@@ -1197,15 +1240,14 @@ Az útvonalban átadott paraméter kiolvasásához a <code>SavedStateHandle</cod
 <span class="w">                                </span><span class="p">.</span><span class="na">background</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="na">White</span><span class="p">),</span>
 <span class="w">                            </span><span class="n">verticalAlignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alignment</span><span class="p">.</span><span class="na">CenterVertically</span>
 <span class="w">                        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                            </span><span class="n">Spacer</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">width</span><span class="p">(</span><span class="m">20.</span><span class="n">dp</span><span class="p">))</span>
 <span class="w">                            </span><span class="n">Icon</span><span class="p">(</span>
 <span class="w">                                </span><span class="n">imageVector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Icons</span><span class="p">.</span><span class="na">Default</span><span class="p">.</span><span class="na">Circle</span><span class="p">,</span>
 <span class="w">                                </span><span class="n">contentDescription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">                                </span><span class="n">tint</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todo</span><span class="p">.</span><span class="na">priority</span><span class="p">.</span><span class="na">color</span><span class="p">,</span>
 <span class="w">                                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
-<span class="w">                                    </span><span class="p">.</span><span class="na">size</span><span class="p">(</span><span class="m">20.</span><span class="n">dp</span><span class="p">)</span>
+<span class="w">                                    </span><span class="p">.</span><span class="na">size</span><span class="p">(</span><span class="m">24.</span><span class="n">dp</span><span class="p">)</span>
 <span class="w">                            </span><span class="p">)</span>
-<span class="w">                            </span><span class="n">Spacer</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">width</span><span class="p">(</span><span class="m">5.</span><span class="n">dp</span><span class="p">))</span>
+<span class="w">                            </span><span class="n">Spacer</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">width</span><span class="p">(</span><span class="m">8.</span><span class="n">dp</span><span class="p">))</span>
 <span class="w">                            </span><span class="n">Text</span><span class="p">(</span>
 <span class="w">                                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
 <span class="w">                                    </span><span class="p">.</span><span class="na">weight</span><span class="p">(</span><span class="n">weight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8f</span><span class="p">),</span>
@@ -1906,7 +1948,7 @@ Az <code>animateFloatAsState()</code> egy nagyon hasznos State objektumot tesz e
 <span class="w">    </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="m">5.</span><span class="n">dp</span><span class="p">)</span>
 <span class="w">        </span><span class="p">.</span><span class="na">graphicsLayer</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">rotationZ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">angle</span>
-<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">}</span>
 <span class="p">)</span>
 </code></pre></div></p>
 <p>Így ebben az esetben a szög kiolvasása már csak a Drawing fázisban történik, nem kell a teljes cikluson végigfutni az animáció során.</p>
@@ -1975,8 +2017,8 @@ A hiányzó szöveges erőforrásokra vegyük fel az <code>Ok</code> és <code>C
 </path>
 </svg>
 </span>
-<span title="2023. április 4. 00:22:02">
-<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-04-04T00:22:02+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-04-04</span>
+<span title="2023. április 4. 14:07:44">
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-04-04T14:07:44+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-04-04</span>
 </span>
 </span>
 <span class="md-source-file__fact">
@@ -1989,6 +2031,8 @@ A hiányzó szöveges erőforrásokra vegyük fel az <code>Ok</code> és <code>C
 <span>Szerzők</span>
 <nav><a class="md-author" href="https://github.com/danim1130" rel="noopener noreferrer" target="_blank" title="@danim1130">
 <img alt="@danim1130" src="https://avatars.githubusercontent.com/u/8405234?size=72"/>
+</a><a class="md-author" href="https://github.com/gazdilaci" rel="noopener noreferrer" target="_blank" title="@gazdilaci">
+<img alt="@gazdilaci" src="https://avatars.githubusercontent.com/u/23335752?size=72"/>
 </a></nav>
 </span>
 </div>

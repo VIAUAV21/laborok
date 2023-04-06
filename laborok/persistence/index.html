@@ -418,14 +418,8 @@
 A labor egyúttal azt is bemutatja, hogy egy modern, összetett alkalamzás különböző részeit
 (adatelérés, üzleti logika, felhasználói felület) hogyan tudunk megfelelő rétegezéssel, áttekinthető
 és jól karban tartható architektúrával kifejleszteni.</p>
-<p>Ezeknek az elveknek a megismeréséhez egy egyszerű Todo alkalmazást fogunk fejleszteni, amelyben
-elvégzendő teendőket tudunk, rögzíteni, listázni, módosítani, törölni.</p>
-<p>A megvalósítandó alkalmazást az alábbi képernyőképek szemléltetik:</p>
-<p float="left">
-<a class="glightbox" data-desc-position="bottom" data-height="auto" data-type="image" data-width="100%" href="./images/register.png"><img align="middle" src="./images/register.png" width="300"/></a>
-<a class="glightbox" data-desc-position="bottom" data-height="auto" data-type="image" data-width="100%" href="./images/login.png"><img align="middle" src="./images/login.png" width="300"/></a>
-<a class="glightbox" data-desc-position="bottom" data-height="auto" data-type="image" data-width="100%" href="./images/home.png"><img align="middle" src="./images/home.png" width="300"/></a>
-</p>
+<p>Ezeknek az elveknek a megismeréséhez az ötödik laboron megismert Todo alkalmazás kidolgozottabb
+verzióját készítjük el.</p>
 <h2 id="elokeszuletek">Előkészületek<a class="headerlink" href="#elokeszuletek" title="Permanent link">¶</a></h2>
 <p>A feladatok megoldása során ne felejtsd el követni a <a href="../../tudnivalok/github/GitHub/">feladat beadás folyamatát</a>.</p>
 <h3 id="git-repository-letrehozasa-es-letoltese">Git repository létrehozása és letöltése<a class="headerlink" href="#git-repository-letrehozasa-es-letoltese" title="Permanent link">¶</a></h3>
@@ -530,8 +524,9 @@ prioritásokat írja le:</p>
 <p>Megfigyelhetjük, hogy a <code>Todo</code> ugyanazokkal a tagváltozókkal rendelkezik, mint a <code>TodoEntity</code>,
 de előbbi független modellje a tennivalóknak, míg utóbbi majd a Roomhoz kötődik, annak az
 annotációit is alkalmazza. Definiáltunk még a két típushoz konverziós logikát, és ezeket
-extension functionökként hoztuk létre. A tagváltozók egyezése miatt ezek elég magától értetődő
-módon működnek. Előfordulhat olyan eset is, hogy a két modell némileg eltér egymástól.</p>
+extension functionökként hoztuk létre. A tagváltozók egyezése miatt ebben az alkalmazásban
+ezek elég magától értetődő módon működnek. Előfordulhat olyan eset is, hogy a két modell
+némileg eltér egymástól.</p>
 <p>Most készítsük el a <code>domain.usecases</code> package-et. Ebbe kerülnek az egyes üzletilogika-műveletek
 megvalósításai. Kezdjük a tennivaló létrehozásával:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">SaveTodoUseCase</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -709,7 +704,7 @@ sikertelen felhasználói felületi események leírója lesz:</p>
 <span class="p">}</span>
 </code></pre></div>
 <p>Most hozzáfogunk a felületi elemek tényleges megvalósításához.
-A korábbi Compose laboron már megismertük a felhasználói felület felépítését, ezért itt ezeknek az
+A korábbi laborokon már megismertük a felhasználói felület felépítését, ezért itt ezeknek az
 ismertetése kisebb hangsúlyt kap, mivel ebben a témakörben már kevés újdonság merül fel.</p>
 <p>A modul szintű <code>build.gradle</code> fájlunkba vegyük fel a szükséges függőségeket a Compose használatához.
 Egyelőre csak az alábbiak legyenek benne, minden más függőséget töröljünk:</p>
@@ -1026,10 +1021,11 @@ a projektet:</p>
 <span class="p">}</span>
 </code></pre></div>
 <div class="admonition example">
-<p class="admonition-title">1. Feladat beadandó (1 pont)</p>
-<ul>
-<li>A legördülő választó előnézete.</li>
-</ul>
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>legördülő lista komponens előnézete</strong>,
+az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>A képet a megoldásban a repository-ba f1.png néven töltsd föl.</p>
+<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <p>Most felhasználjuk az eddigieket, hogy létrehozzuk a szerkesztőt, ahol egy tennivaló jellemzőit
 tudjuk szerkeszteni:</p>
@@ -1148,10 +1144,11 @@ tudjuk szerkeszteni:</p>
 <span class="p">}</span>
 </code></pre></div>
 <div class="admonition example">
-<p class="admonition-title">2. Feladat beadandó (1 pont)</p>
-<ul>
-<li>Az editor Compose előnézete, a tennivaló címe legyen a Neptun-kódod!</li>
-</ul>
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>szerkesztő komponens előnézete</strong>,
+az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>A képet a megoldásban a repository-ba f2.png néven töltsd föl.</p>
+<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <p>Végül egy <code>AppBart</code> készítünk, amely az alkalmazás képernyőinek tetején fog megjelenni:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
@@ -1850,7 +1847,7 @@ az útvonalakat leíró <code>Screen</code>:</p>
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="az-adatreteg-elkeszitese">Az adatréteg elkészítése<a class="headerlink" href="#az-adatreteg-elkeszitese" title="Permanent link">¶</a></h2>
-<p>Az alkalmazásunk rétegesen épül fel, és a különböző felelősségek, mint  az adatbázis kezelése,
+<p>Az alkalmazásunk rétegesen épül fel, és a különböző felelősségek, mint az adatbázis kezelése,
 valamint a megjelenés jól elkülönül egymástól. A felelősségek szétválasztásának az elve
 (separation of concerns) nem egyedi az Android platoformon, hanem minden szoftveres alkalmazásban
 elvárt, hiszen az iparági tapasztalatok azt mutatják, hogy így tudunk jól átlátható,
@@ -2050,27 +2047,31 @@ fájl <code>application</code> elemében. Cseréljük az <code>application</code
 </code></pre></div>
 <p>Ezzel így már összeállt az alkalmazás, és ki is próbálhatjuk!</p>
 <div class="admonition example">
-<p class="admonition-title">3. Feladat beadandó (1 pont)</p>
-<ul>
-<li>Az alkalmazás képernyőfotója működés közben, több tennivalóval a listában. Egyik szövege legyen a Neptun-kódod!</li>
-</ul>
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazásban a teendők listája</strong>,
+az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként,
+illetve egy teendő címében</strong>. </p>
+<p>A képet a megoldásban a repository-ba f3.png néven töltsd föl.</p>
+<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <h2 id="onallo-feladat-1">Önálló feladat 1<a class="headerlink" href="#onallo-feladat-1" title="Permanent link">¶</a></h2>
 <p>Valósítsd meg az összes tennivaló törlését, pl. az AppBaron elhelyezett gombbal! A laboron látott architektúrához hasonlóan rétegről-rétegre valósítsd meg a szükséges funkciókat.</p>
 <div class="admonition example">
-<p class="admonition-title">4. Feladat beadandó (1 pont)</p>
-<ul>
-<li>A Mindent töröl funkció képernyőképe, mellette a kapcsolódó forráskód.</li>
-</ul>
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazásban a mindent töröl funkció</strong>,
+az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>A képet a megoldásban a repository-ba f4.png néven töltsd föl.</p>
+<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <h2 id="onallo-feladat-2">Önálló feladat 2<a class="headerlink" href="#onallo-feladat-2" title="Permanent link">¶</a></h2>
 <p>Hosszú kattintásra lenyíló menüből lehessen megosztani a tennivalókat más alkalmazásokkal szöveges üzenetként. Az üzenet tartalmazza a tennivaló jellemzőit.</p>
 <p>Segítség: <a href="https://developer.android.com/training/sharing/send">https://developer.android.com/training/sharing/send</a></p>
 <div class="admonition example">
-<p class="admonition-title">5. Feladat beadandó (1 pont)</p>
-<ul>
-<li>A megosztás funkció képernyőfotója, mellette a kapcsolódó forráskód.</li>
-</ul>
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazásban a megosztás funkció</strong>,
+az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>A képet a megoldásban a repository-ba f5.png néven töltsd föl.</p>
+<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <hr/>
 <div class="md-source-file">
@@ -2079,8 +2080,8 @@ fájl <code>application</code> elemében. Cseréljük az <code>application</code
 </path>
 </svg>
 </span>
-<span title="2023. április 1. 18:41:40">
-<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-04-01T18:41:40+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-04-01</span>
+<span title="2023. április 6. 17:12:00">
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-04-06T17:12:00+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-04-06</span>
 </span>
 </span>
 <span class="md-source-file__fact">

@@ -7,16 +7,8 @@ A labor egyúttal azt is bemutatja, hogy egy modern, összetett alkalamzás kül
 (adatelérés, üzleti logika, felhasználói felület) hogyan tudunk megfelelő rétegezéssel, áttekinthető
 és jól karban tartható architektúrával kifejleszteni.
 
-Ezeknek az elveknek a megismeréséhez egy egyszerű Todo alkalmazást fogunk fejleszteni, amelyben
-elvégzendő teendőket tudunk, rögzíteni, listázni, módosítani, törölni.
-
-A megvalósítandó alkalmazást az alábbi képernyőképek szemléltetik:
-
-<p float="left">
-<img src="./images/register.png" width="300" align="middle">
-<img src="./images/login.png" width="300" align="middle">
-<img src="./images/home.png" width="300" align="middle">
-</p>
+Ezeknek az elveknek a megismeréséhez az ötödik laboron megismert Todo alkalmazás kidolgozottabb
+verzióját készítjük el.
 
 ## Előkészületek
 
@@ -135,8 +127,9 @@ fun Todo.asTodoEntity(): TodoEntity = TodoEntity(
 Megfigyelhetjük, hogy a `Todo` ugyanazokkal a tagváltozókkal rendelkezik, mint a `TodoEntity`,
 de előbbi független modellje a tennivalóknak, míg utóbbi majd a Roomhoz kötődik, annak az
 annotációit is alkalmazza. Definiáltunk még a két típushoz konverziós logikát, és ezeket
-extension functionökként hoztuk létre. A tagváltozók egyezése miatt ezek elég magától értetődő
-módon működnek. Előfordulhat olyan eset is, hogy a két modell némileg eltér egymástól.
+extension functionökként hoztuk létre. A tagváltozók egyezése miatt ebben az alkalmazásban
+ezek elég magától értetődő módon működnek. Előfordulhat olyan eset is, hogy a két modell
+némileg eltér egymástól.
 
 Most készítsük el a `domain.usecases` package-et. Ebbe kerülnek az egyes üzletilogika-műveletek
 megvalósításai. Kezdjük a tennivaló létrehozásával:
@@ -350,7 +343,7 @@ sealed class UiEvent {
 ```
 
 Most hozzáfogunk a felületi elemek tényleges megvalósításához.
-A korábbi Compose laboron már megismertük a felhasználói felület felépítését, ezért itt ezeknek az
+A korábbi laborokon már megismertük a felhasználói felület felépítését, ezért itt ezeknek az
 ismertetése kisebb hangsúlyt kap, mivel ebben a témakörben már kevés újdonság merül fel.
 
 A modul szintű `build.gradle` fájlunkba vegyük fel a szükséges függőségeket a Compose használatához.
@@ -694,8 +687,13 @@ fun PriorityDropdown_Preview() {
 }
 ```
 
-!!! example "1. Feladat beadandó (1 pont)"
-    * A legördülő választó előnézete.
+!!!example "BEADANDÓ (1 pont)" 
+	Készíts egy **képernyőképet**, amelyen látszik a **legördülő lista komponens előnézete**,
+    az **ahhoz tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+
+	A képet a megoldásban a repository-ba f1.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 Most felhasználjuk az eddigieket, hogy létrehozzuk a szerkesztőt, ahol egy tennivaló jellemzőit
 tudjuk szerkeszteni:
@@ -817,8 +815,13 @@ fun TodoEditor_Preview() {
 }
 ```
 
-!!! example "2. Feladat beadandó (1 pont)"
-    * Az editor Compose előnézete, a tennivaló címe legyen a Neptun-kódod!
+!!!example "BEADANDÓ (1 pont)" 
+	Készíts egy **képernyőképet**, amelyen látszik a **szerkesztő komponens előnézete**,
+    az **ahhoz tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+
+	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 Végül egy `AppBart` készítünk, amely az alkalmazás képernyőinek tetején fog megjelenni:
 
@@ -1563,7 +1566,7 @@ class MainActivity : ComponentActivity() {
 
 ## Az adatréteg elkészítése
 
-Az alkalmazásunk rétegesen épül fel, és a különböző felelősségek, mint  az adatbázis kezelése,
+Az alkalmazásunk rétegesen épül fel, és a különböző felelősségek, mint az adatbázis kezelése,
 valamint a megjelenés jól elkülönül egymástól. A felelősségek szétválasztásának az elve
 (separation of concerns) nem egyedi az Android platoformon, hanem minden szoftveres alkalmazásban
 elvárt, hiszen az iparági tapasztalatok azt mutatják, hogy így tudunk jól átlátható,
@@ -1804,16 +1807,26 @@ fájl `application` elemében. Cseréljük az `application` elem nyitó tagjét 
 
 Ezzel így már összeállt az alkalmazás, és ki is próbálhatjuk!
 
-!!! example "3. Feladat beadandó (1 pont)"
-    * Az alkalmazás képernyőfotója működés közben, több tennivalóval a listában. Egyik szövege legyen a Neptun-kódod!
+!!!example "BEADANDÓ (1 pont)" 
+	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazásban a teendők listája**,
+    az **ahhoz tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként,
+    illetve egy teendő címében**. 
 
+	A képet a megoldásban a repository-ba f3.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 ## Önálló feladat 1
 
 Valósítsd meg az összes tennivaló törlését, pl. az AppBaron elhelyezett gombbal! A laboron látott architektúrához hasonlóan rétegről-rétegre valósítsd meg a szükséges funkciókat.
 
-!!! example "4. Feladat beadandó (1 pont)"
-    * A Mindent töröl funkció képernyőképe, mellette a kapcsolódó forráskód.
+!!!example "BEADANDÓ (1 pont)" 
+	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazásban a mindent töröl funkció**,
+    az **ahhoz tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+
+	A képet a megoldásban a repository-ba f4.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 ## Önálló feladat 2
 
@@ -1821,5 +1834,10 @@ Hosszú kattintásra lenyíló menüből lehessen megosztani a tennivalókat má
 
 Segítség: https://developer.android.com/training/sharing/send
 
-!!! example "5. Feladat beadandó (1 pont)"
-    * A megosztás funkció képernyőfotója, mellette a kapcsolódó forráskód.
+!!!example "BEADANDÓ (1 pont)" 
+	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazásban a megosztás funkció**,
+    az **ahhoz tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+
+	A képet a megoldásban a repository-ba f5.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.

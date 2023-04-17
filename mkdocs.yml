@@ -91,6 +91,7 @@ nav:
       - laborok/calculator/index.md
       - laborok/compose/index.md
       - laborok/todo_compose_basics/index.md
+      - laborok/permissions/index.md
       - laborok/persistence/index.md
   - "Házi feladat":
       - hf/index.md

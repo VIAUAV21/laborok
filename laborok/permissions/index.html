@@ -954,7 +954,9 @@ A műveletekben a ContentProvider által adott adatok eléréséhez a ContentRes
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">MakeCall</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">phoneNumber</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">):</span><span class="w"> </span><span class="n">ContactsEvent</span><span class="p">()</span>
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">SendSms</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">phoneNumber</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">):</span><span class="w"> </span><span class="n">ContactsEvent</span><span class="p">()</span>
 <span class="p">}</span>
-</code></pre></div></p>
+</code></pre></div>
+Az előző laborhoz hasonlóa  felületet leíró állapot osztályt <code>sealed class</code>-ként deklaráljuk, és jól elkülönített állapot osztályokat veszünk fel, így is jelezve, hogy az egyes állapotokban az oldalunkon mit kell megjeleníteni. Ezeket egy <code>MutableStateFlow</code> segítségével kezeljük, melyet egy csak olvasható változatában osztunk meg az oldalt reprezentáló <code>Composable</code>-el. </p>
+<p>Mivel a <code>ViewModel</code> képes túlélni az őt létrehozó komponenst, ezért a kódból mi nem a konstruktor hívásával fogjuk létrehozni a példányt, hanem a keretrendszernek tudunk átadni egy speciális <em>factory</em> metódust, amit a rendszer az első alkalommal meg fog hívni. Ezt a metódust szerveztük ki a <code>companion object</code> részbe, ami jelenleg csak létrehoz egy példányt, a későbbiekben azonban hasznos lesz különböző külső értékek inicializálására.</p>
 <p>Külön osztályokat hozunk létre a névjegyeken végzett események rendszerezésére, illetve az állapot tárolására.</p>
 <p>A képek és szövegek kezeléséhez hozzuk létre az alábbi segédosztályokat a <code>ui.model</code> package-ben:</p>
 <p><code>UiIcon.kt</code>:
@@ -1977,8 +1979,8 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 </path>
 </svg>
 </span>
-<span title="2023. április 17. 12:35:20">
-<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-04-17T12:35:20+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-04-17</span>
+<span title="2023. április 18. 11:36:36">
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-04-18T11:36:36+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-04-18</span>
 </span>
 </span>
 <span class="md-source-file__fact">

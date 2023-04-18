@@ -889,7 +889,7 @@ class SaveContactUseCase (
 }
 ```
 
-Egészítsük ki a `ContactOperations` osztályunkat az alábbiakkal:
+Egészítsük ki a `ContactOperations` osztályunkat az alábbi, hozzáadáshoz szükséges függvényekkel:
 
 ```kotlin
 fun Context.addNewContact(
@@ -962,7 +962,7 @@ fun Context.addNewContact(
     }
 ```
 
-Hozzuk létre a `ui.common` package-ben az alábbi osztályt:
+Hozzuk létre a `ui.common` package-ben az alábbi osztályt az adataink újrafelhasználható módon történő megjelenítéséhez:
 
 `ContactDataItem.kt`:
 ```kotlin
@@ -1401,7 +1401,7 @@ sealed class ContactDetailsEvent {
 }
 ```
 
-Hozzuk létre a `ui.common` package-ben az alábbi osztályt:
+Hozzuk létre a `ui.common` package-ben az alábbi osztályt a gombjainknak:
 
 `ActionButton.kt`:
 ```kotlin

@@ -1291,7 +1291,7 @@ A szöveges erőforrás hibáját az alábbi importtal orvosolhatjuk:
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></p>
-<p>Egészítsük ki a <code>ContactOperations</code> osztályunkat az alábbiakkal:</p>
+<p>Egészítsük ki a <code>ContactOperations</code> osztályunkat az alábbi, hozzáadáshoz szükséges függvényekkel:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="n">Context</span><span class="p">.</span><span class="nf">addNewContact</span><span class="p">(</span>
 <span class="w">        </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
 <span class="w">        </span><span class="n">phoneNumber</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
@@ -1361,7 +1361,7 @@ A szöveges erőforrás hibáját az alábbi importtal orvosolhatjuk:
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">stream</span><span class="p">.</span><span class="na">toByteArray</span><span class="p">()</span>
 <span class="w">    </span><span class="p">}</span>
 </code></pre></div>
-<p>Hozzuk létre a <code>ui.common</code> package-ben az alábbi osztályt:</p>
+<p>Hozzuk létre a <code>ui.common</code> package-ben az alábbi osztályt az adataink újrafelhasználható módon történő megjelenítéséhez:</p>
 <p><code>ContactDataItem.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@ExperimentalFoundationApi</span>
@@ -1771,7 +1771,7 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 
 <span class="p">}</span>
 </code></pre></div></p>
-<p>Hozzuk létre a <code>ui.common</code> package-ben az alábbi osztályt:</p>
+<p>Hozzuk létre a <code>ui.common</code> package-ben az alábbi osztályt a gombjainknak:</p>
 <p><code>ActionButton.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">ActionButton</span><span class="p">(</span>
@@ -1979,8 +1979,8 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 </path>
 </svg>
 </span>
-<span title="2023. április 18. 11:36:36">
-<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-04-18T11:36:36+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-04-18</span>
+<span title="2023. április 18. 11:42:22">
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-04-18T11:42:22+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-04-18</span>
 </span>
 </span>
 <span class="md-source-file__fact">

@@ -252,7 +252,7 @@ object ContactsOperations {
 
     fun Context.getContacts(): Flow<ArrayList<Contact>> = flow {
         val contacts = ArrayList<Contact>()
-        this.contentResolver?.performQuery(
+        this@getContacts.contentResolver?.performQuery(
             uri = ContactsContract.Contacts.CONTENT_URI,
             sortOrder = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
         ).use { cursor ->

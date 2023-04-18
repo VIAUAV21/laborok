@@ -250,7 +250,7 @@ A műveletekben a ContentProvider által adott adatok eléréséhez a ContentRes
 ```kotlin
 object ContactsOperations {
 
-    fun Context.getContacts(): Flow<ArrayList<Contact>> {
+    fun Context.getContacts(): Flow<ArrayList<Contact>> = flow {
         val contacts = ArrayList<Contact>()
         this.contentResolver?.performQuery(
             uri = ContactsContract.Contacts.CONTENT_URI,
@@ -273,8 +273,8 @@ object ContactsOperations {
             it.emailAddress = getContactEmail(it.id)
             it.photo = getContactPhoto(it.id)
         }
-        return flow { emit(contacts) }
-    }
+        emit(contacts)
+    }.flowOn(Dispatchers.IO)
 
     private fun Context.getContactName(id: String): String {
         this.contentResolver?.performQuery(

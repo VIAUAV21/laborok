@@ -1,506 +1,945 @@
 
-<!DOCTYPE html>
+<!doctype html>
+<html lang="hu" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Ekler Péter, Gazdi László, Kövesdán Gábor, Pásztor Dániel, Pomázi Krisztián, Tóth Tibor">
+      
+      
+      
+        <link rel="prev" href="../todo_compose_basics/">
+      
+      
+        <link rel="next" href="../persistence/">
+      
+      <link rel="icon" href="../../favicon.ico">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.14">
+    
+    
+      
+        <title>Labor06 - Futásidejű engedélyek (Contacts) - BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.113286f1.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
 
-<html class="no-js" lang="hu">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="Ekler Péter, Gazdi László, Kövesdán Gábor, Pásztor Dániel, Pomázi Krisztián, Tóth Tibor" name="author"/>
-<link href="../todo_compose_basics/" rel="prev"/>
-<link href="../persistence/" rel="next"/>
-<link href="../../favicon.ico" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-9.0.14" name="generator"/>
-<title>Labor06 - Futásidejű engedélyek (Contacts) - BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok</title>
-<link href="../../assets/stylesheets/main.113286f1.min.css" rel="stylesheet"/>
-<link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
-<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-<link href="../../css/timeago.css" rel="stylesheet"/>
-<link href="../../extra-material-theme.css" rel="stylesheet"/>
-<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-<link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-            html.glightbox-open { overflow: initial; height: 100%; }
-            .gslide-title { margin-top: 0px; user-select: text; }
-            .gslide-desc { color: #666; user-select: text; }
-            .gslide-image img { background: white; }
-            
-                .gscrollbar-fixer { padding-right: 15px; }
-                .gdesc-inner { font-size: 0.75rem; }
-                body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-                body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-                body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
-                </style><script src="../../assets/javascripts/glightbox.min.js"></script></head>
-<body data-md-color-accent="red" data-md-color-primary="red" data-md-color-scheme="aut" dir="ltr">
-<script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
-<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
-<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
-<label class="md-overlay" for="__drawer"></label>
-<div data-md-component="skip">
-<a class="md-skip" href="#labor06-futasideju-engedelyek-contacts">
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../extra-material-theme.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="aut" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#labor06-futasideju-engedelyek-contacts" class="md-skip">
           Kihagyás
         </a>
-</div>
-<div data-md-component="announce">
-</div>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
 <header class="md-header" data-md-component="header">
-<nav aria-label="Élőfej" class="md-header__inner md-grid">
-<a aria-label="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" class="md-header__button md-logo" data-md-component="logo" href="../.." title="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok">
-<img alt="logo" src="../../logo-bme-aut.png"/>
-</a>
-<label class="md-header__button md-icon" for="__drawer">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
-</label>
-<div class="md-header__title" data-md-component="header-title">
-<div class="md-header__ellipsis">
-<div class="md-header__topic">
-<span class="md-ellipsis">
+  <nav class="md-header__inner md-grid" aria-label="Élőfej">
+    <a href="../.." title="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" class="md-header__button md-logo" aria-label="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" data-md-component="logo">
+      
+  <img src="../../logo-bme-aut.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
             BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok
           </span>
-</div>
-<div class="md-header__topic" data-md-component="header-topic">
-<span class="md-ellipsis">
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
             
               Labor06 - Futásidejű engedélyek (Contacts)
             
           </span>
-</div>
-</div>
-</div>
-<form class="md-header__option" data-md-component="palette">
-<input aria-label="Váltás sötét témára" class="md-option" data-md-color-accent="red" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="red" data-md-color-scheme="aut" id="__palette_1" name="__palette" type="radio"/>
-<label class="md-header__button md-icon" for="__palette_2" hidden="" title="Váltás sötét témára">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"></path></svg>
-</label>
-<input aria-label="Váltás világos témára" class="md-option" data-md-color-accent="" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="red" data-md-color-scheme="slate" id="__palette_2" name="__palette" type="radio"/>
-<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Váltás világos témára">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"></path></svg>
-</label>
-</form>
-<label class="md-header__button md-icon" for="__search">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
-</label>
-<div class="md-search" data-md-component="search" role="dialog">
-<label class="md-search__overlay" for="__search"></label>
-<div class="md-search__inner" role="search">
-<form class="md-search__form" name="search">
-<input aria-label="Keresés" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Keresés" required="" spellcheck="false" type="text"/>
-<label class="md-search__icon md-icon" for="__search">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
-</label>
-<nav aria-label="Keresés" class="md-search__options">
-<button aria-label="Törlés" class="md-search__icon md-icon" tabindex="-1" title="Törlés" type="reset">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
-</button>
-</nav>
-<div class="md-search__suggest" data-md-component="search-suggest"></div>
-</form>
-<div class="md-search__output">
-<div class="md-search__scrollwrap" data-md-scrollfix="">
-<div class="md-search-result" data-md-component="search-result">
-<div class="md-search-result__meta">
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="aut" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Váltás sötét témára"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Váltás sötét témára" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+            </label>
+          
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent=""  aria-label="Váltás világos témára"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Váltás világos témára" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Keresés" placeholder="Keresés" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Keresés">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Törlés" aria-label="Törlés" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
             Keresés inicializálása
           </div>
-<ol class="md-search-result__list" role="presentation"></ol>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="md-header__source">
-<a class="md-source" data-md-component="source" href="https://github.com/viauav21/laborok" title="Főoldalra ugrás">
-<div class="md-source__icon md-icon">
-<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
-</div>
-<div class="md-source__repository">
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/viauav21/laborok" title="Főoldalra ugrás" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
     viauav21/laborok
   </div>
 </a>
-</div>
-</nav>
+      </div>
+    
+  </nav>
+  
 </header>
-<div class="md-container" data-md-component="container">
-<nav aria-label="Lapok" class="md-tabs" data-md-component="tabs">
-<div class="md-grid">
-<ul class="md-tabs__list">
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../..">
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Lapok" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
         Tudnivalók
       </a>
-</li>
-<li class="md-tabs__item">
-<a class="md-tabs__link md-tabs__link--active" href="../basics/">
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../basics/" class="md-tabs__link md-tabs__link--active">
         Laborok
       </a>
-</li>
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../../hf/">
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../hf/" class="md-tabs__link">
         Házi feladat
       </a>
-</li>
-</ul>
-</div>
+    </li>
+  
+
+      
+    </ul>
+  </div>
 </nav>
-<main class="md-main" data-md-component="main">
-<div class="md-main__inner md-grid">
-<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Navigáció" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
-<label class="md-nav__title" for="__drawer">
-<a aria-label="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok">
-<img alt="logo" src="../../logo-bme-aut.png"/>
-</a>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigáció" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" class="md-nav__button md-logo" aria-label="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" data-md-component="logo">
+      
+  <img src="../../logo-bme-aut.png" alt="logo">
+
+    </a>
     BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok
   </label>
-<div class="md-nav__source">
-<a class="md-source" data-md-component="source" href="https://github.com/viauav21/laborok" title="Főoldalra ugrás">
-<div class="md-source__icon md-icon">
-<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
-</div>
-<div class="md-source__repository">
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/viauav21/laborok" title="Főoldalra ugrás" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
     viauav21/laborok
   </div>
 </a>
-</div>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_1" type="checkbox"/>
-<label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
           Tudnivalók
           <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-expanded="false" aria-labelledby="__nav_1_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_1">
-<span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
           Tudnivalók
         </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../..">
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
         Tárgy ismertető
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../tudnivalok/github/GitHub/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tudnivalok/github/GitHub/" class="md-nav__link">
         Feladatok beadása (GitHub)
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../tudnivalok/github/GitHub-Actions/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tudnivalok/github/GitHub-Actions/" class="md-nav__link">
         GitHub Actions ismertető
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../tudnivalok/github/GitHub-credentials/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tudnivalok/github/GitHub-credentials/" class="md-nav__link">
         Egyetemi laborokban: GitHub belépés
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../tudnivalok/github/contributing/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tudnivalok/github/contributing/" class="md-nav__link">
         Hozzájárulás az anyaghoz
       </a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--active md-nav__item--nested">
-<input checked="" class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
-<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
           Laborok
           <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-expanded="true" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_2">
-<span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
           Laborok
         </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../basics/">
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basics/" class="md-nav__link">
         Labor 01 - Alapok (HighLowGame)
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../tictactoe/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tictactoe/" class="md-nav__link">
         Labor02 - Egyszerű felhasználói felület több Activity segítségével (TicTacToe)
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../calculator/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator/" class="md-nav__link">
         Labor03 - Számológép (Calculator)
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../compose/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compose/" class="md-nav__link">
         Labor04 - Felhasználói felületek készítése a Jetpack Compose segítségével (ComposeBasics)
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../todo_compose_basics/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../todo_compose_basics/" class="md-nav__link">
         Labor05 - Todo Alkalmazás
       </a>
-</li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
-<label class="md-nav__link md-nav__link--active" for="__toc">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
           Labor06 - Futásidejű engedélyek (Contacts)
           <span class="md-nav__icon md-icon"></span>
-</label>
-<a class="md-nav__link md-nav__link--active" href="./">
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Labor06 - Futásidejű engedélyek (Contacts)
       </a>
-<nav aria-label="Tartalomjegyzék" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tartalomjegyzék">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
       Tartalomjegyzék
     </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#elokeszuletek">
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#elokeszuletek" class="md-nav__link">
     Előkészületek
   </a>
-<nav aria-label="Előkészületek" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#git-repository-letrehozasa-es-letoltese">
+  
+    <nav class="md-nav" aria-label="Előkészületek">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#git-repository-letrehozasa-es-letoltese" class="md-nav__link">
     Git repository létrehozása és letöltése
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#verziok-frissitese">
+        
+          <li class="md-nav__item">
+  <a href="#verziok-frissitese" class="md-nav__link">
     Verziók frissítése
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#kontaktok-listaja">
+      
+        <li class="md-nav__item">
+  <a href="#kontaktok-listaja" class="md-nav__link">
     Kontaktok listája
   </a>
-<nav aria-label="Kontaktok listája" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#navigacio-kialakitasa">
+  
+    <nav class="md-nav" aria-label="Kontaktok listája">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#navigacio-kialakitasa" class="md-nav__link">
     Navigáció kialakítása
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#use-casek">
+        
+          <li class="md-nav__item">
+  <a href="#use-casek" class="md-nav__link">
     Use-casek
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#nevjegymuveletek">
+        
+          <li class="md-nav__item">
+  <a href="#nevjegymuveletek" class="md-nav__link">
     Névjegyműveletek
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#engedelykezeles">
+      
+        <li class="md-nav__item">
+  <a href="#engedelykezeles" class="md-nav__link">
     Engedélykezelés
   </a>
-<nav aria-label="Engedélykezelés" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#hatter">
+  
+    <nav class="md-nav" aria-label="Engedélykezelés">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hatter" class="md-nav__link">
     Háttér
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#engedelyek-kezelese">
+        
+          <li class="md-nav__item">
+  <a href="#engedelyek-kezelese" class="md-nav__link">
     Engedélyek kezelése
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#lista-felulet-es-logika">
+        
+          <li class="md-nav__item">
+  <a href="#lista-felulet-es-logika" class="md-nav__link">
     Lista felület és logika
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#vcf-file-importalasa">
+        
+          <li class="md-nav__item">
+  <a href="#vcf-file-importalasa" class="md-nav__link">
     VCF file importálása
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#onallo-feladatok">
+      
+        <li class="md-nav__item">
+  <a href="#onallo-feladatok" class="md-nav__link">
     Önálló feladatok
   </a>
-<nav aria-label="Önálló feladatok" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#kontaktok-hozzaadasa">
+  
+    <nav class="md-nav" aria-label="Önálló feladatok">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kontaktok-hozzaadasa" class="md-nav__link">
     Kontaktok hozzáadása
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#kontaktok-szerkesztese">
+        
+          <li class="md-nav__item">
+  <a href="#kontaktok-szerkesztese" class="md-nav__link">
     Kontaktok szerkesztése
   </a>
+  
 </li>
-</ul>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../persistence/">
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../persistence/" class="md-nav__link">
         Labor07 - Perzisztens adattárolás a Room könyvtárral
       </a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
-<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
           Házi feladat
           <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_3">
-<span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
           Házi feladat
         </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../hf/">
-        Házi feladat információk - TODO
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hf/" class="md-nav__link">
+        Házi feladat információk
       </a>
-</li>
-</ul>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
 </nav>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
-<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Tartalomjegyzék" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tartalomjegyzék">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
       Tartalomjegyzék
     </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#elokeszuletek">
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#elokeszuletek" class="md-nav__link">
     Előkészületek
   </a>
-<nav aria-label="Előkészületek" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#git-repository-letrehozasa-es-letoltese">
+  
+    <nav class="md-nav" aria-label="Előkészületek">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#git-repository-letrehozasa-es-letoltese" class="md-nav__link">
     Git repository létrehozása és letöltése
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#verziok-frissitese">
+        
+          <li class="md-nav__item">
+  <a href="#verziok-frissitese" class="md-nav__link">
     Verziók frissítése
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#kontaktok-listaja">
+      
+        <li class="md-nav__item">
+  <a href="#kontaktok-listaja" class="md-nav__link">
     Kontaktok listája
   </a>
-<nav aria-label="Kontaktok listája" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#navigacio-kialakitasa">
+  
+    <nav class="md-nav" aria-label="Kontaktok listája">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#navigacio-kialakitasa" class="md-nav__link">
     Navigáció kialakítása
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#use-casek">
+        
+          <li class="md-nav__item">
+  <a href="#use-casek" class="md-nav__link">
     Use-casek
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#nevjegymuveletek">
+        
+          <li class="md-nav__item">
+  <a href="#nevjegymuveletek" class="md-nav__link">
     Névjegyműveletek
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#engedelykezeles">
+      
+        <li class="md-nav__item">
+  <a href="#engedelykezeles" class="md-nav__link">
     Engedélykezelés
   </a>
-<nav aria-label="Engedélykezelés" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#hatter">
+  
+    <nav class="md-nav" aria-label="Engedélykezelés">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hatter" class="md-nav__link">
     Háttér
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#engedelyek-kezelese">
+        
+          <li class="md-nav__item">
+  <a href="#engedelyek-kezelese" class="md-nav__link">
     Engedélyek kezelése
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#lista-felulet-es-logika">
+        
+          <li class="md-nav__item">
+  <a href="#lista-felulet-es-logika" class="md-nav__link">
     Lista felület és logika
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#vcf-file-importalasa">
+        
+          <li class="md-nav__item">
+  <a href="#vcf-file-importalasa" class="md-nav__link">
     VCF file importálása
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#onallo-feladatok">
+      
+        <li class="md-nav__item">
+  <a href="#onallo-feladatok" class="md-nav__link">
     Önálló feladatok
   </a>
-<nav aria-label="Önálló feladatok" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#kontaktok-hozzaadasa">
+  
+    <nav class="md-nav" aria-label="Önálló feladatok">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kontaktok-hozzaadasa" class="md-nav__link">
     Kontaktok hozzáadása
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#kontaktok-szerkesztese">
+        
+          <li class="md-nav__item">
+  <a href="#kontaktok-szerkesztese" class="md-nav__link">
     Kontaktok szerkesztése
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-</ul>
+      
+    </ul>
+  
 </nav>
-</div>
-</div>
-</div>
-<div class="md-content" data-md-component="content">
-<article class="md-content__inner md-typeset">
-<h1 id="labor06-futasideju-engedelyek-contacts">Labor06 - Futásidejű engedélyek (Contacts)<a class="headerlink" href="#labor06-futasideju-engedelyek-contacts" title="Permanent link">¶</a></h1>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="labor06-futasideju-engedelyek-contacts">Labor06 - Futásidejű engedélyek (Contacts)<a class="headerlink" href="#labor06-futasideju-engedelyek-contacts" title="Permanent link">&para;</a></h1>
 <p>A labor célja, hogy bemutassa, hogyan lehet a Compose keretrendszerben futásidejű engedélyeket kezelni.</p>
 <p float="left">
-<a class="glightbox" data-desc-position="bottom" data-height="auto" data-type="image" data-width="100%" href="./assets/list.png"><img align="middle" src="./assets/list.png" width="200"/></a>
-<a class="glightbox" data-desc-position="bottom" data-height="auto" data-type="image" data-width="100%" href="./assets/details.png"><img align="middle" src="./assets/details.png" width="200"/></a>
-<a class="glightbox" data-desc-position="bottom" data-height="auto" data-type="image" data-width="100%" href="./assets/create.png"><img align="middle" src="./assets/create.png" width="200"/></a>
+<a class="glightbox" href="./assets/list.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/list.png" width="200" align="middle"></a>
+<a class="glightbox" href="./assets/details.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/details.png" width="200" align="middle"></a>
+<a class="glightbox" href="./assets/create.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/create.png" width="200" align="middle"></a>
 </p>
-<h2 id="elokeszuletek">Előkészületek<a class="headerlink" href="#elokeszuletek" title="Permanent link">¶</a></h2>
+
+<h2 id="elokeszuletek">Előkészületek<a class="headerlink" href="#elokeszuletek" title="Permanent link">&para;</a></h2>
 <p>A feladatok megoldása során ne felejtsd el követni a <a href="../../tudnivalok/github/GitHub/">feladat beadás folyamatát</a>.</p>
-<h3 id="git-repository-letrehozasa-es-letoltese">Git repository létrehozása és letöltése<a class="headerlink" href="#git-repository-letrehozasa-es-letoltese" title="Permanent link">¶</a></h3>
+<h3 id="git-repository-letrehozasa-es-letoltese">Git repository létrehozása és letöltése<a class="headerlink" href="#git-repository-letrehozasa-es-letoltese" title="Permanent link">&para;</a></h3>
 <ol>
 <li>
 <p>Moodle-ben keresd meg a laborhoz tartozó meghívó URL-jét és annak segítségével hozd létre a saját repository-dat.</p>
@@ -531,48 +970,48 @@
 <p>A projekt a repository-ban lévő <code>Contacts</code> könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!</p>
 </div>
 <p>Ellenőrízzük, hogy a létrejött projekt lefordul és helyesen működik!</p>
-<h3 id="verziok-frissitese">Verziók frissítése<a class="headerlink" href="#verziok-frissitese" title="Permanent link">¶</a></h3>
+<h3 id="verziok-frissitese">Verziók frissítése<a class="headerlink" href="#verziok-frissitese" title="Permanent link">&para;</a></h3>
 <p>Vegyük fel az alábbi függőségeket a modul szintű build.gradle fájlunkba, majd a laborvezetővel tekintsük át őket.</p>
 <div class="highlight"><pre><span></span><code>dependencies {
     // Compose Bill of Materials
-    def composeBom = platform('androidx.compose:compose-bom:2023.01.00')
+    def composeBom = platform(&#39;androidx.compose:compose-bom:2023.01.00&#39;)
     implementation composeBom
     androidTestImplementation composeBom
 
     // Compose
-    implementation 'androidx.compose.material3:material3'
-    implementation 'androidx.compose.ui:ui'
-    implementation 'androidx.compose.ui:ui-tooling-preview'
-    implementation 'androidx.compose.material:material-icons-extended'
+    implementation &#39;androidx.compose.material3:material3&#39;
+    implementation &#39;androidx.compose.ui:ui&#39;
+    implementation &#39;androidx.compose.ui:ui-tooling-preview&#39;
+    implementation &#39;androidx.compose.material:material-icons-extended&#39;
 
     // Compose testing
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
-    debugImplementation 'androidx.compose.ui:ui-test-manifest'
-    debugImplementation 'androidx.compose.ui:ui-tooling'
+    androidTestImplementation &#39;androidx.compose.ui:ui-test-junit4&#39;
+    debugImplementation &#39;androidx.compose.ui:ui-test-manifest&#39;
+    debugImplementation &#39;androidx.compose.ui:ui-tooling&#39;
 
     // Core
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.activity:activity-compose:1.6.1'
+    implementation &#39;androidx.core:core-ktx:1.9.0&#39;
+    implementation &#39;androidx.activity:activity-compose:1.6.1&#39;
 
     // Lifecycle, Viewmodel
-    def lifecycle_version = '2.6.0-alpha04'
-    implementation "androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
+    def lifecycle_version = &#39;2.6.0-alpha04&#39;
+    implementation &quot;androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version&quot;
+    implementation &quot;androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version&quot;
 
     // Navigation
-    implementation "androidx.navigation:navigation-compose:2.5.3"
+    implementation &quot;androidx.navigation:navigation-compose:2.5.3&quot;
 
     // Permissions
-    def accompanist_version = '0.28.0'
-    implementation "com.google.accompanist:accompanist-permissions:$accompanist_version"
+    def accompanist_version = &#39;0.28.0&#39;
+    implementation &quot;com.google.accompanist:accompanist-permissions:$accompanist_version&quot;
 
     // Coil
-    implementation "io.coil-kt:coil-compose:2.2.2"
+    implementation &quot;io.coil-kt:coil-compose:2.2.2&quot;
 
     //Testing
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    testImplementation &#39;junit:junit:4.13.2&#39;
+    androidTestImplementation &#39;androidx.test.ext:junit:1.1.5&#39;
+    androidTestImplementation &#39;androidx.test.espresso:espresso-core:3.5.1&#39;
 }
 </code></pre></div>
 <p>Ezek mellett ellenőrizzük a kotlin plugin és a compose verzióját. A labor készítésekor a következőek voltak érvényben:</p>
@@ -580,14 +1019,14 @@
 <li><em>Projekt</em> szintű <code>build.gradle</code>:
 <div class="highlight"><pre><span></span><code>plugins {  
   ...
-  id 'org.jetbrains.kotlin.android' version '1.8.10' apply false  
+  id &#39;org.jetbrains.kotlin.android&#39; version &#39;1.8.10&#39; apply false  
 }
 </code></pre></div></li>
 <li><em>Modul</em> szintű <code>build.gradle</code>:
 <div class="highlight"><pre><span></span><code>android {
     ...
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.3'
+        kotlinCompilerExtensionVersion &#39;1.4.3&#39;
     }
 }
 </code></pre></div></li>
@@ -595,35 +1034,35 @@
 <p>Végül vegyük fel előre az alkalmazáshoz szükséges szöveges erőforrásokat:</p>
 <p><code>strings.xml</code>:
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;resources&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"app_name"</span><span class="nt">&gt;</span>Contacts<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"button_label_request_permission"</span><span class="nt">&gt;</span>Grant<span class="w"> </span>permission<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"permission_grant_ask_beginning"</span><span class="nt">&gt;</span>"The"<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"permission_grant_ask_separator_before_last_permission"</span><span class="nt">&gt;</span>,<span class="w"> </span>and<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"permission_grant_ask_separator"</span><span class="nt">&gt;</span>,<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"permission_grant_ask_singular_permission"</span><span class="nt">&gt;</span>"<span class="w"> </span>permission<span class="w"> </span>is"<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"permission_grant_ask_multiple_permissions"</span><span class="nt">&gt;</span>"<span class="w"> </span>permissions<span class="w"> </span>are"<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"permission_grant_ask_rationale"</span><span class="nt">&gt;</span>"<span class="w"> </span>important.<span class="w"> </span>Please<span class="w"> </span>grant<span class="w"> </span>all<span class="w"> </span>of<span class="w"> </span>them<span class="w"> </span>for<span class="w"> </span>the<span class="w"> </span>app<span class="w"> </span>to<span class="w"> </span>function<span class="w"> </span>properly."<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"permission_grant_ask_denied"</span><span class="nt">&gt;</span>"<span class="w"> </span>denied.<span class="w"> </span>The<span class="w"> </span>app<span class="w"> </span>cannot<span class="w"> </span>function<span class="w"> </span>without<span class="w"> </span>them.<span class="w"> </span>Please<span class="w"> </span>grant<span class="w"> </span>all<span class="w"> </span>of<span class="w"> </span>them."<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"contact_data_label_name"</span><span class="nt">&gt;</span>Name<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"contact_data_label_phonenumber"</span><span class="nt">&gt;</span>Number<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"contact_data_label_email"</span><span class="nt">&gt;</span>Email<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"some_error_message"</span><span class="nt">&gt;</span>Error<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;app_name&quot;</span><span class="nt">&gt;</span>Contacts<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;button_label_request_permission&quot;</span><span class="nt">&gt;</span>Grant<span class="w"> </span>permission<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;permission_grant_ask_beginning&quot;</span><span class="nt">&gt;</span>&quot;The&quot;<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;permission_grant_ask_separator_before_last_permission&quot;</span><span class="nt">&gt;</span>,<span class="w"> </span>and<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;permission_grant_ask_separator&quot;</span><span class="nt">&gt;</span>,<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;permission_grant_ask_singular_permission&quot;</span><span class="nt">&gt;</span>&quot;<span class="w"> </span>permission<span class="w"> </span>is&quot;<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;permission_grant_ask_multiple_permissions&quot;</span><span class="nt">&gt;</span>&quot;<span class="w"> </span>permissions<span class="w"> </span>are&quot;<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;permission_grant_ask_rationale&quot;</span><span class="nt">&gt;</span>&quot;<span class="w"> </span>important.<span class="w"> </span>Please<span class="w"> </span>grant<span class="w"> </span>all<span class="w"> </span>of<span class="w"> </span>them<span class="w"> </span>for<span class="w"> </span>the<span class="w"> </span>app<span class="w"> </span>to<span class="w"> </span>function<span class="w"> </span>properly.&quot;<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;permission_grant_ask_denied&quot;</span><span class="nt">&gt;</span>&quot;<span class="w"> </span>denied.<span class="w"> </span>The<span class="w"> </span>app<span class="w"> </span>cannot<span class="w"> </span>function<span class="w"> </span>without<span class="w"> </span>them.<span class="w"> </span>Please<span class="w"> </span>grant<span class="w"> </span>all<span class="w"> </span>of<span class="w"> </span>them.&quot;<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;contact_data_label_name&quot;</span><span class="nt">&gt;</span>Name<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;contact_data_label_phonenumber&quot;</span><span class="nt">&gt;</span>Number<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;contact_data_label_email&quot;</span><span class="nt">&gt;</span>Email<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;some_error_message&quot;</span><span class="nt">&gt;</span>Error<span class="nt">&lt;/string&gt;</span>
 <span class="nt">&lt;/resources&gt;</span>
 </code></pre></div></p>
-<h2 id="kontaktok-listaja">Kontaktok listája<a class="headerlink" href="#kontaktok-listaja" title="Permanent link">¶</a></h2>
+<h2 id="kontaktok-listaja">Kontaktok listája<a class="headerlink" href="#kontaktok-listaja" title="Permanent link">&para;</a></h2>
 <p>Hozzunk létre egy új <code>domain</code> package-t létre a projektünk gyökerében, mely az alkalmazásunk adatrétegének részeit fogja tartalmazni, majd ezen belül hozzunk létre egy <code>model</code> package-et, mely az adatmodellek osztály megfelelőit fogja tartalmazni. Ebben hozzuk létre az alábbi fájlt:</p>
 <p><code>Contact.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">android.graphics.Bitmap</span>
 
 <span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Contact</span><span class="p">(</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">,</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">,</span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">phoneNumber</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">,</span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">emailAddress</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">phoneNumber</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">emailAddress</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">photo</span><span class="p">:</span><span class="w"> </span><span class="n">Bitmap? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
 <span class="p">)</span>
 </code></pre></div></p>
-<h3 id="navigacio-kialakitasa">Navigáció kialakítása<a class="headerlink" href="#navigacio-kialakitasa" title="Permanent link">¶</a></h3>
+<h3 id="navigacio-kialakitasa">Navigáció kialakítása<a class="headerlink" href="#navigacio-kialakitasa" title="Permanent link">&para;</a></h3>
 <p>Az előző laborhoz hasonlóan alakítsuk ki a projektben a navigációnál használt osztályokat! </p>
 <p>Hozzunk létre a gyökérkönyvtárban létre egy új package-et <code>navigation</code> néven, majd hozzuk létre benne az útvonalakat reprezentáló <code>Screen</code> osztályt:
 <div class="highlight"><pre><span></span><code><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Screen</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">route</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
@@ -637,7 +1076,7 @@
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">NavHost</span><span class="p">(</span>
 <span class="w">        </span><span class="n">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">navController</span><span class="p">,</span>
-<span class="w">        </span><span class="n">startDestination</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span>
+<span class="w">        </span><span class="n">startDestination</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
 <span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="p">}</span>
@@ -656,10 +1095,10 @@
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="use-casek">Use-casek<a class="headerlink" href="#use-casek" title="Permanent link">¶</a></h3>
-<p>A névjegyek kezelését érintő műveletek use-casekbe fogjuk kiszervezni. Az első három use-case, amire szükségünk lesz:<br/>
-   - Névjegyek listázása<br/>
-   - Hívás indítása<br/>
+<h3 id="use-casek">Use-casek<a class="headerlink" href="#use-casek" title="Permanent link">&para;</a></h3>
+<p>A névjegyek kezelését érintő műveletek use-casekbe fogjuk kiszervezni. Az első három use-case, amire szükségünk lesz:<br />
+   - Névjegyek listázása<br />
+   - Hívás indítása<br />
    - SMS küldése  </p>
 <p>Utóbbi két funkcióra nem készítünk saját implementációt, hanem a készüléken elérhető alkalmazásokat fogjuk elindítani implicit intent segítségével.
 A kontextuson végzett egyéni függvényhívásokat ezt követően fogjuk implementálni.</p>
@@ -677,7 +1116,7 @@ A kontextuson végzett egyéni függvényhívásokat ezt követően fogjuk imple
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">operator</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">invoke</span><span class="p">(</span><span class="n">phoneNumber</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">callIntent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Intent</span><span class="p">(</span><span class="n">Intent</span><span class="p">.</span><span class="na">ACTION_CALL</span><span class="p">).</span><span class="na">apply</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Uri</span><span class="p">.</span><span class="na">parse</span><span class="p">(</span><span class="s">"tel:</span><span class="si">$</span><span class="n">phoneNumber</span><span class="s">"</span><span class="p">)</span>
+<span class="w">            </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Uri</span><span class="p">.</span><span class="na">parse</span><span class="p">(</span><span class="s">&quot;tel:</span><span class="si">$</span><span class="n">phoneNumber</span><span class="s">&quot;</span><span class="p">)</span>
 <span class="w">            </span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FLAG_ACTIVITY_NEW_TASK</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">        </span><span class="n">context</span><span class="p">.</span><span class="na">startActivity</span><span class="p">(</span><span class="n">callIntent</span><span class="p">)</span>
@@ -690,7 +1129,7 @@ A kontextuson végzett egyéni függvényhívásokat ezt követően fogjuk imple
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">operator</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">invoke</span><span class="p">(</span><span class="n">phoneNumber</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">intent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Intent</span><span class="p">(</span><span class="n">Intent</span><span class="p">.</span><span class="na">ACTION_VIEW</span><span class="p">).</span><span class="na">apply</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Uri</span><span class="p">.</span><span class="na">parse</span><span class="p">(</span><span class="s">"sms:</span><span class="si">$</span><span class="n">phoneNumber</span><span class="s">"</span><span class="p">)</span>
+<span class="w">            </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Uri</span><span class="p">.</span><span class="na">parse</span><span class="p">(</span><span class="s">&quot;sms:</span><span class="si">$</span><span class="n">phoneNumber</span><span class="s">&quot;</span><span class="p">)</span>
 <span class="w">            </span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Intent</span><span class="p">.</span><span class="na">FLAG_ACTIVITY_NEW_TASK</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">        </span><span class="n">context</span><span class="p">.</span><span class="na">startActivity</span><span class="p">(</span><span class="n">intent</span><span class="p">)</span>
@@ -698,7 +1137,7 @@ A kontextuson végzett egyéni függvényhívásokat ezt követően fogjuk imple
 <span class="p">}</span>
 </code></pre></div></p>
 <p>Röviden tekintsük át a use-case-eket a laborvezetővel.</p>
-<h3 id="nevjegymuveletek">Névjegyműveletek<a class="headerlink" href="#nevjegymuveletek" title="Permanent link">¶</a></h3>
+<h3 id="nevjegymuveletek">Névjegyműveletek<a class="headerlink" href="#nevjegymuveletek" title="Permanent link">&para;</a></h3>
 <p>Hozzuk létre a  gyökérkönyvtárban a <code>data</code> package-et, majd benne a névjegyek kezelésével kapcsolatos műveleteket elvégző segédosztályt.
 A műveletekben a ContentProvider által adott adatok eléréséhez a ContentResolvert és Cursort használunk.</p>
 <p><code>ContactsOperations.kt</code>:
@@ -708,7 +1147,7 @@ A műveletekben a ContentProvider által adott adatok eléréséhez a ContentRes
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">contacts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Contact</span><span class="o">&gt;</span><span class="p">()</span>
 <span class="w">        </span><span class="k">this</span><span class="nd">@getContacts.contentResolver</span><span class="o">?.</span><span class="na">performQuery</span><span class="p">(</span>
 <span class="w">            </span><span class="n">uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContactsContract</span><span class="p">.</span><span class="na">Contacts</span><span class="p">.</span><span class="na">CONTENT_URI</span><span class="p">,</span>
-<span class="w">            </span><span class="n">sortOrder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContactsContract</span><span class="p">.</span><span class="na">CommonDataKinds</span><span class="p">.</span><span class="na">Phone</span><span class="p">.</span><span class="na">DISPLAY_NAME</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" ASC"</span>
+<span class="w">            </span><span class="n">sortOrder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContactsContract</span><span class="p">.</span><span class="na">CommonDataKinds</span><span class="p">.</span><span class="na">Phone</span><span class="p">.</span><span class="na">DISPLAY_NAME</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot; ASC&quot;</span>
 <span class="w">        </span><span class="p">).</span><span class="na">use</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cursor</span><span class="w"> </span><span class="o">-&gt;</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cursor</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">cursor</span><span class="p">.</span><span class="na">count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">idColumnIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cursor</span><span class="p">.</span><span class="na">getColumnIndex</span><span class="p">(</span><span class="n">ContactsContract</span><span class="p">.</span><span class="na">Contacts</span><span class="p">.</span><span class="na">_ID</span><span class="p">)</span>
@@ -733,11 +1172,11 @@ A műveletekben a ContentProvider által adott adatok eléréséhez a ContentRes
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="n">Context</span><span class="p">.</span><span class="nf">getContactName</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">):</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">contentResolver</span><span class="o">?.</span><span class="na">performQuery</span><span class="p">(</span>
 <span class="w">            </span><span class="n">uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContactsContract</span><span class="p">.</span><span class="na">CommonDataKinds</span><span class="p">.</span><span class="na">Phone</span><span class="p">.</span><span class="na">CONTENT_URI</span><span class="p">,</span>
-<span class="w">            </span><span class="n">selection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"</span><span class="si">${</span><span class="n">ContactsContract</span><span class="p">.</span><span class="na">CommonDataKinds</span><span class="p">.</span><span class="na">Phone</span><span class="p">.</span><span class="na">CONTACT_ID</span><span class="si">}</span><span class="s"> = ?"</span><span class="p">,</span>
+<span class="w">            </span><span class="n">selection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;</span><span class="si">${</span><span class="n">ContactsContract</span><span class="p">.</span><span class="na">CommonDataKinds</span><span class="p">.</span><span class="na">Phone</span><span class="p">.</span><span class="na">CONTACT_ID</span><span class="si">}</span><span class="s"> = ?&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="n">selectionArgs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arrayOf</span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
 <span class="w">        </span><span class="p">).</span><span class="na">use</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cursor</span><span class="w"> </span><span class="o">-&gt;</span>
 <span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cursor</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">cursor</span><span class="p">.</span><span class="na">moveToNext</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="s">""</span>
+<span class="w">                </span><span class="s">&quot;&quot;</span>
 <span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">displayNameColumnIndex</span><span class="w"> </span><span class="o">=</span>
 <span class="w">                    </span><span class="n">cursor</span><span class="p">.</span><span class="na">getColumnIndex</span><span class="p">(</span><span class="n">ContactsContract</span><span class="p">.</span><span class="na">CommonDataKinds</span><span class="p">.</span><span class="na">Phone</span><span class="p">.</span><span class="na">DISPLAY_NAME</span><span class="p">)</span>
@@ -749,11 +1188,11 @@ A műveletekben a ContentProvider által adott adatok eléréséhez a ContentRes
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="n">Context</span><span class="p">.</span><span class="nf">getContactPhoneNumber</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">):</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">contentResolver</span><span class="o">?.</span><span class="na">performQuery</span><span class="p">(</span>
 <span class="w">            </span><span class="n">uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContactsContract</span><span class="p">.</span><span class="na">CommonDataKinds</span><span class="p">.</span><span class="na">Phone</span><span class="p">.</span><span class="na">CONTENT_URI</span><span class="p">,</span>
-<span class="w">            </span><span class="n">selection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"</span><span class="si">${</span><span class="n">ContactsContract</span><span class="p">.</span><span class="na">CommonDataKinds</span><span class="p">.</span><span class="na">Phone</span><span class="p">.</span><span class="na">CONTACT_ID</span><span class="si">}</span><span class="s"> = ?"</span><span class="p">,</span>
+<span class="w">            </span><span class="n">selection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;</span><span class="si">${</span><span class="n">ContactsContract</span><span class="p">.</span><span class="na">CommonDataKinds</span><span class="p">.</span><span class="na">Phone</span><span class="p">.</span><span class="na">CONTACT_ID</span><span class="si">}</span><span class="s"> = ?&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="n">selectionArgs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arrayOf</span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
 <span class="w">        </span><span class="p">).</span><span class="na">use</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cursor</span><span class="w"> </span><span class="o">-&gt;</span>
 <span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cursor</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">cursor</span><span class="p">.</span><span class="na">moveToNext</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="s">""</span>
+<span class="w">                </span><span class="s">&quot;&quot;</span>
 <span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">phoneNumberColumnIndex</span><span class="w"> </span><span class="o">=</span>
 <span class="w">                    </span><span class="n">cursor</span><span class="p">.</span><span class="na">getColumnIndex</span><span class="p">(</span><span class="n">ContactsContract</span><span class="p">.</span><span class="na">CommonDataKinds</span><span class="p">.</span><span class="na">Phone</span><span class="p">.</span><span class="na">NUMBER</span><span class="p">)</span>
@@ -765,11 +1204,11 @@ A műveletekben a ContentProvider által adott adatok eléréséhez a ContentRes
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="n">Context</span><span class="p">.</span><span class="nf">getContactEmail</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">):</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">contentResolver</span><span class="o">?.</span><span class="na">performQuery</span><span class="p">(</span>
 <span class="w">            </span><span class="n">uri</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContactsContract</span><span class="p">.</span><span class="na">CommonDataKinds</span><span class="p">.</span><span class="na">Email</span><span class="p">.</span><span class="na">CONTENT_URI</span><span class="p">,</span>
-<span class="w">            </span><span class="n">selection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"</span><span class="si">${</span><span class="n">ContactsContract</span><span class="p">.</span><span class="na">CommonDataKinds</span><span class="p">.</span><span class="na">Email</span><span class="p">.</span><span class="na">CONTACT_ID</span><span class="si">}</span><span class="s"> = ?"</span><span class="p">,</span>
+<span class="w">            </span><span class="n">selection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;</span><span class="si">${</span><span class="n">ContactsContract</span><span class="p">.</span><span class="na">CommonDataKinds</span><span class="p">.</span><span class="na">Email</span><span class="p">.</span><span class="na">CONTACT_ID</span><span class="si">}</span><span class="s"> = ?&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="n">selectionArgs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arrayOf</span><span class="p">(</span><span class="n">id</span><span class="p">),</span>
 <span class="w">        </span><span class="p">).</span><span class="na">use</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cursor</span><span class="w"> </span><span class="o">-&gt;</span>
 <span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cursor</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="o">!</span><span class="n">cursor</span><span class="p">.</span><span class="na">moveToNext</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="s">""</span>
+<span class="w">                </span><span class="s">&quot;&quot;</span>
 <span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">emailColumnIndex</span><span class="w"> </span><span class="o">=</span>
 <span class="w">                    </span><span class="n">cursor</span><span class="p">.</span><span class="na">getColumnIndex</span><span class="p">(</span><span class="n">ContactsContract</span><span class="p">.</span><span class="na">CommonDataKinds</span><span class="p">.</span><span class="na">Email</span><span class="p">.</span><span class="na">ADDRESS</span><span class="p">)</span>
@@ -803,8 +1242,8 @@ A műveletekben a ContentProvider által adott adatok eléréséhez a ContentRes
 
 <span class="p">}</span>
 </code></pre></div></p>
-<h2 id="engedelykezeles">Engedélykezelés<a class="headerlink" href="#engedelykezeles" title="Permanent link">¶</a></h2>
-<h3 id="hatter">Háttér<a class="headerlink" href="#hatter" title="Permanent link">¶</a></h3>
+<h2 id="engedelykezeles">Engedélykezelés<a class="headerlink" href="#engedelykezeles" title="Permanent link">&para;</a></h2>
+<h3 id="hatter">Háttér<a class="headerlink" href="#hatter" title="Permanent link">&para;</a></h3>
 <p>Android 6.0 (API level 23, Marshmallow) verziótól kezdve a felhasználó futásidőben adhatja meg, vagy utasíthatja el az alkalmazás által kért engedélyeket, és nem az alkalmazás telepítésekor vagy frissítésekor. Dönthet úgy, hogy bizonyos engedélyeket nem ad meg egy alkalmazásnak, így nagyobb fokú irányítás kerül a kezébe. Az alkalmazásengedélyeket később bármikor módosíthatja a rendszerszintű alkalmazás beállításoknál.</p>
 <p>Az engedélyek két kategóriába vannak sorolva: <em>normal</em> és <em>dangerous</em>.</p>
 <p>A <em>normal</em> kategóriába tartozó engedélyek nem jelentenek közvetlen kockázatot a felhasználó személyes adataira, ezeket az engedélyeket a rendszer automatikusan megadja az alkalmazásnak, ha szüksége van rá.</p>
@@ -821,16 +1260,16 @@ A műveletekben a ContentProvider által adott adatok eléréséhez a ContentRes
 </ul>
 <p>Megjegyzés: a Google Play 2018 augusztusától megköveteli a legalább 26-os target SDK verziót új alkalmazásokra, 2018 novemberétől pedig már meglévő alkalmazások frissítéseire is. Ezzel a legalább 6.0-s Androidot futtató eszközökön elkerülhetetlenné vált a futásidejű engedélyek kezelése.</p>
 <p>Az engedélyek kezelésére most az <a href="https://google.github.io/accompanist/permissions/">Accompanist</a> könyvtárat fogjuk most használni, mely a Jetpack Compose keretrenszerben támogatja az engedélyek könnyű kezelését.</p>
-<h3 id="engedelyek-kezelese">Engedélyek kezelése<a class="headerlink" href="#engedelyek-kezelese" title="Permanent link">¶</a></h3>
+<h3 id="engedelyek-kezelese">Engedélyek kezelése<a class="headerlink" href="#engedelyek-kezelese" title="Permanent link">&para;</a></h3>
 <p>Az alkalmazásunknak szüksége lesz engedélyekre a kapcsolatok eléréséhez, szerkesztéséhez, valamint hívás indításához, ezeket vegyük fel a 
 <code>manifest</code> fájlba az <code>application</code> tagen kívülre:
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">"android.permission.READ_CONTACTS"</span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">"android.permission.WRITE_CONTACTS"</span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">"android.permission.CALL_PHONE"</span><span class="nt">/&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.READ_CONTACTS&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.WRITE_CONTACTS&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.CALL_PHONE&quot;</span><span class="nt">/&gt;</span>
 </code></pre></div></p>
-<p>Az engedélykezelés fontosabb elemei:<br/>
- - A <code>rememberPermissionState</code> API által tudunk a felhasználótól egy engedélyre rákérdezni, és az engedély státuszát ellenőrizni.<br/>
- - Egyes esetekben szükség lehet arra, hogy tájékoztassuk a felhasználót arról, hogy miért kér az alkalmazás bizonyos <em>dangerous</em> engedélyeket. Ez növelheti a felhasználó bizalmát az alkalmazással szemben.<br/>
+<p>Az engedélykezelés fontosabb elemei:<br />
+ - A <code>rememberPermissionState</code> API által tudunk a felhasználótól egy engedélyre rákérdezni, és az engedély státuszát ellenőrizni.<br />
+ - Egyes esetekben szükség lehet arra, hogy tájékoztassuk a felhasználót arról, hogy miért kér az alkalmazás bizonyos <em>dangerous</em> engedélyeket. Ez növelheti a felhasználó bizalmát az alkalmazással szemben.<br />
  - Ha egy jogosultságot a felhasználó egyszer elutasított, a <code>shouldShowRationale</code> változó értéke alapján eldönthető, hogy a kérdéses engedély újra elkérése a rendszer szerint szorul-e részletes magyarázatra. </p>
 <p>Hozzuk létre a gyökér könyvtárban az <code>util</code> package-t, majd benne az alábbi, engedélykezelések kiszolgáló segédosztályt.</p>
 <p><code>PermissionsUtil.kt</code>:
@@ -842,7 +1281,7 @@ A műveletekben a ContentProvider által adott adatok eléréséhez a ContentRes
 <span class="w">        </span><span class="n">context</span><span class="p">:</span><span class="w"> </span><span class="n">Context</span>
 <span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">revokedPermissionsSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">permissions</span><span class="p">.</span><span class="na">size</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">revokedPermissionsSize</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">""</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">revokedPermissionsSize</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">&quot;&quot;</span>
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">textToShow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">StringBuilder</span><span class="p">()</span>
 
 <span class="w">        </span><span class="n">with</span><span class="p">(</span><span class="n">context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -852,8 +1291,8 @@ A műveletekben a ContentProvider által adott adatok eléréséhez a ContentRes
 
 <span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">permissions</span><span class="p">.</span><span class="na">indices</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">permission</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">permissions</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="na">permission</span>
-<span class="w">                    </span><span class="p">.</span><span class="na">replace</span><span class="p">(</span><span class="n">Regex</span><span class="p">(</span><span class="s">"[a-z]|[.]"</span><span class="p">),</span><span class="w"> </span><span class="s">""</span><span class="p">)</span>
-<span class="w">                </span><span class="n">textToShow</span><span class="p">.</span><span class="na">append</span><span class="p">(</span><span class="s">" </span><span class="si">$</span><span class="n">permission</span><span class="s">"</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">.</span><span class="na">replace</span><span class="p">(</span><span class="n">Regex</span><span class="p">(</span><span class="s">&quot;[a-z]|[.]&quot;</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
+<span class="w">                </span><span class="n">textToShow</span><span class="p">.</span><span class="na">append</span><span class="p">(</span><span class="s">&quot; </span><span class="si">$</span><span class="n">permission</span><span class="s">&quot;</span><span class="p">)</span>
 <span class="w">                </span><span class="k">when</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                    </span><span class="n">revokedPermissionsSize</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">revokedPermissionsSize</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                        </span><span class="n">textToShow</span><span class="p">.</span><span class="na">append</span><span class="p">(</span><span class="n">getString</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">permission_grant_ask_separator_before_last_permission</span><span class="p">))</span>
@@ -881,7 +1320,7 @@ A műveletekben a ContentProvider által adott adatok eléréséhez a ContentRes
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></p>
-<h3 id="lista-felulet-es-logika">Lista felület és logika<a class="headerlink" href="#lista-felulet-es-logika" title="Permanent link">¶</a></h3>
+<h3 id="lista-felulet-es-logika">Lista felület és logika<a class="headerlink" href="#lista-felulet-es-logika" title="Permanent link">&para;</a></h3>
 <p>Hozzunk létre a gyökérkönyvtáron belül a <code>feature</code> package-et, mely az egyes oldalak <code>Composable</code> és <code>ViewModel</code> osztályait fogja tartalmazni külön packagenként, majd hozzuk létre ebben a <code>contact_list</code> package-t.</p>
 <p>Először foglalkozzunk az oldalhoz tartozó <code>ViewModel</code> osztállyal. Hozzuk létre a <code>ContactsListViewModel.kt</code> fájlt, majd másoljuk be az alábbi kódrészletet:</p>
 <p><code>ContactsViewModel.kt</code>:
@@ -1225,7 +1664,7 @@ A szöveges erőforrás hibáját az alábbi importtal orvosolhatjuk:
 <div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.contacts.R</span>
 </code></pre></div></p>
 <p>Ezt követően frissíthetjük a <code>Screen</code> osztályunk az új útvonallal:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">object</span><span class="w"> </span><span class="nc">Contacts</span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"contacts"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="kd">object</span><span class="w"> </span><span class="nc">Contacts</span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;contacts&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p>Illetve kiegészíthetjük a <code>NavGraph</code> osztályt is a listanézetünkkel:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalPermissionsApi</span><span class="o">::</span><span class="n">class</span><span class="p">,</span><span class="w"> </span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
@@ -1251,10 +1690,10 @@ A szöveges erőforrás hibáját az alábbi importtal orvosolhatjuk:
 <span class="p">}</span>
 </code></pre></div>
 <p>Ha hibát dob az Android Studio, adjuk hozzá a hiányzó annotációkat.</p>
-<h3 id="vcf-file-importalasa">VCF file importálása<a class="headerlink" href="#vcf-file-importalasa" title="Permanent link">¶</a></h3>
-<p>A következő lépéseket csak emulátoron szükséges elvégezni, ha nem állnak rendelkezésre névjegyek:<br/>
- - Töltsük le a repository-ban elérhető .vcf fájlt: <a href="assets/contacts.vcf">névjegyek</a>.<br/>
- - A <code>Device File Explorer</code> tool használatával másoljuk be a letöltött fájlt az <code>sdcard/Download</code> könyvtárba.<br/>
+<h3 id="vcf-file-importalasa">VCF file importálása<a class="headerlink" href="#vcf-file-importalasa" title="Permanent link">&para;</a></h3>
+<p>A következő lépéseket csak emulátoron szükséges elvégezni, ha nem állnak rendelkezésre névjegyek:<br />
+ - Töltsük le a repository-ban elérhető .vcf fájlt: <a href="assets/contacts.vcf">névjegyek</a>.<br />
+ - A <code>Device File Explorer</code> tool használatával másoljuk be a letöltött fájlt az <code>sdcard/Download</code> könyvtárba.<br />
  - Nyissuk meg az emulátor gyári <code>Névjegyek</code> alkalmazását, és importáljuk a vcf fájlt.  </p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
@@ -1274,8 +1713,8 @@ A szöveges erőforrás hibáját az alábbi importtal orvosolhatjuk:
 <p>A képet a megoldásban a repository-ba f3.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
-<h2 id="onallo-feladatok">Önálló feladatok<a class="headerlink" href="#onallo-feladatok" title="Permanent link">¶</a></h2>
-<h3 id="kontaktok-hozzaadasa">Kontaktok hozzáadása<a class="headerlink" href="#kontaktok-hozzaadasa" title="Permanent link">¶</a></h3>
+<h2 id="onallo-feladatok">Önálló feladatok<a class="headerlink" href="#onallo-feladatok" title="Permanent link">&para;</a></h2>
+<h3 id="kontaktok-hozzaadasa">Kontaktok hozzáadása<a class="headerlink" href="#kontaktok-hozzaadasa" title="Permanent link">&para;</a></h3>
 <p>Vegyünk fel egy új use-case-t a névjegyek mentésére:</p>
 <p><code>SaveContactUseCase.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">SaveContactUseCase</span><span class="w"> </span><span class="p">(</span>
@@ -1433,12 +1872,12 @@ A szöveges erőforrás hibáját az alábbi importtal orvosolhatjuk:
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">ContactDataItem_Preview</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">value</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="s">"data value"</span><span class="p">)</span>
+<span class="w">        </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="s">&quot;data value&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">    </span><span class="n">ContactDataItem</span><span class="p">(</span>
 <span class="w">        </span><span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">        </span><span class="n">leadingIcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">VectorImage</span><span class="p">(</span><span class="n">Icons</span><span class="p">.</span><span class="na">Default</span><span class="p">.</span><span class="na">Warning</span><span class="p">),</span>
-<span class="w">        </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UiText</span><span class="p">.</span><span class="na">DynamicString</span><span class="p">(</span><span class="s">"data name"</span><span class="p">),</span>
+<span class="w">        </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UiText</span><span class="p">.</span><span class="na">DynamicString</span><span class="p">(</span><span class="s">&quot;data name&quot;</span><span class="p">),</span>
 <span class="w">        </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span>
 <span class="w">        </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="w"> </span><span class="p">}</span>
 <span class="w">    </span><span class="p">)</span>
@@ -1492,9 +1931,9 @@ A szöveges erőforrás hibáját az alábbi importtal orvosolhatjuk:
 <span class="p">}</span>
 
 <span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">AddNewContactState</span><span class="p">(</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">contactName</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">,</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">contactNumber</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">,</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">contactEmail</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">contactName</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">contactNumber</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">contactEmail</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">contactPhoto</span><span class="p">:</span><span class="w"> </span><span class="n">Uri? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
 <span class="p">)</span>
 
@@ -1523,7 +1962,7 @@ A szöveges erőforrás hibáját az alábbi importtal orvosolhatjuk:
 <span class="w">        </span><span class="n">topBar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">TopAppBar</span><span class="p">(</span>
 <span class="w">                </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Contacts"</span><span class="p">)</span>
+<span class="w">                    </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Contacts&quot;</span><span class="p">)</span>
 <span class="w">                </span><span class="p">},</span>
 <span class="w">                </span><span class="n">navigationIcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                    </span><span class="n">IconButton</span><span class="p">(</span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onNavigateBack</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1655,8 +2094,9 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 <span class="p">}</span>
 </code></pre></div>
 -->
+
 <p>Egészítsük ki a <code>Screen</code> osztályunkat az újabb útvonallal:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">object</span><span class="w"> </span><span class="nc">AddContact</span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"add_contact"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="kd">object</span><span class="w"> </span><span class="nc">AddContact</span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;add_contact&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p>A <code>Navgraph</code>-ban kezeljük a FAB-unk érintését, és vegyük fel az új képernyőt:</p>
 <div class="highlight"><pre><span></span><code><span class="n">onFabClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
@@ -1677,7 +2117,7 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 <p>A képet a megoldásban a repository-ba f4.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
-<h3 id="kontaktok-szerkesztese">Kontaktok szerkesztése<a class="headerlink" href="#kontaktok-szerkesztese" title="Permanent link">¶</a></h3>
+<h3 id="kontaktok-szerkesztese">Kontaktok szerkesztése<a class="headerlink" href="#kontaktok-szerkesztese" title="Permanent link">&para;</a></h3>
 <p>Vegyünk fel egy új use-case-t a névjegyek részleteinek megjelenítésére:</p>
 <p><code>GetContactDetailsUseCase.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">GetContactDetailsUseCase</span><span class="w"> </span><span class="p">(</span>
@@ -1724,7 +2164,7 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">checkNotNull</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">(</span><span class="n">savedStateHandle</span><span class="o">[</span><span class="s">"id"</span><span class="o">]</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">checkNotNull</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">(</span><span class="n">savedStateHandle</span><span class="o">[</span><span class="s">&quot;id&quot;</span><span class="o">]</span><span class="p">)</span>
 <span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="na">IO</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">isLoading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
@@ -1816,7 +2256,7 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 <span class="w">    </span><span class="n">ActionButton</span><span class="p">(</span>
 <span class="w">        </span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/*TODO*/</span><span class="w"> </span><span class="p">},</span>
 <span class="w">        </span><span class="n">icon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">VectorImage</span><span class="p">(</span><span class="n">Icons</span><span class="p">.</span><span class="na">Default</span><span class="p">.</span><span class="na">Warning</span><span class="p">),</span>
-<span class="w">        </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UiText</span><span class="p">.</span><span class="na">DynamicString</span><span class="p">(</span><span class="s">"Warning"</span><span class="p">)</span>
+<span class="w">        </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UiText</span><span class="p">.</span><span class="na">DynamicString</span><span class="p">(</span><span class="s">&quot;Warning&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div></p>
@@ -1838,7 +2278,7 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 <span class="w">        </span><span class="n">topBar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">TopAppBar</span><span class="p">(</span>
 <span class="w">                </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Contacts"</span><span class="p">)</span>
+<span class="w">                    </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Contacts&quot;</span><span class="p">)</span>
 <span class="w">                </span><span class="p">},</span>
 <span class="w">                </span><span class="n">navigationIcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                    </span><span class="n">IconButton</span><span class="p">(</span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onNavigateBack</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1942,8 +2382,8 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 <span class="p">}</span>
 </code></pre></div></p>
 <p>Egészítsük ki a <code>Screen</code> osztályunkat az újabb útvonallal:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">object</span><span class="w"> </span><span class="nc">ContactDetails</span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"contact/{id}"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kd">fun</span><span class="w"> </span><span class="nf">passId</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"contact/</span><span class="si">$</span><span class="n">id</span><span class="s">"</span>
+<div class="highlight"><pre><span></span><code><span class="kd">object</span><span class="w"> </span><span class="nc">ContactDetails</span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;contact/{id}&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">fun</span><span class="w"> </span><span class="nf">passId</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;contact/</span><span class="si">$</span><span class="n">id</span><span class="s">&quot;</span>
 <span class="w">    </span><span class="p">}</span>
 </code></pre></div>
 <p>A <code>Navgraph</code>-ban kezeljük a listaelemek érintését, és vegyük fel az új képernyőt:</p>
@@ -1954,7 +2394,7 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 <div class="highlight"><pre><span></span><code><span class="n">composable</span><span class="p">(</span>
 <span class="w">            </span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">ContactDetails</span><span class="p">.</span><span class="na">route</span><span class="p">,</span>
 <span class="w">            </span><span class="n">arguments</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">listOf</span><span class="p">(</span>
-<span class="w">                </span><span class="n">navArgument</span><span class="p">(</span><span class="s">"id"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">navArgument</span><span class="p">(</span><span class="s">&quot;id&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                    </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NavType</span><span class="p">.</span><span class="na">StringType</span>
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">)</span>
@@ -1972,58 +2412,89 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 <p>A képet a megoldásban a repository-ba f5.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
-<hr/>
-<div class="md-source-file">
-<span class="md-source-file__fact"> <span class="md-icon" title="Utolsó frissítés"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z">
-</path>
-</svg>
-</span>
-<span title="2023. április 18. 15:19:02">
-<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-04-18T15:19:02+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-04-18</span>
-</span>
-</span>
-<span class="md-source-file__fact">
-<span class="md-icon" title="Szerzők">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z">
-</path>
-</svg>
-</span>
-<span>Szerzők</span>
-<nav><a class="md-author" href="https://github.com/kpomazi" rel="noopener noreferrer" target="_blank" title="@kpomazi">
-<img alt="@kpomazi" src="https://avatars.githubusercontent.com/u/22079595?size=72"/>
-</a><a class="md-author" href="https://github.com/danim1130" rel="noopener noreferrer" target="_blank" title="@danim1130">
-<img alt="@danim1130" src="https://avatars.githubusercontent.com/u/8405234?size=72"/>
-</a></nav>
-</span>
-</div>
-</article>
-</div>
-</div>
-<a class="md-top md-icon" data-md-component="top" hidden="" href="#">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg>
+
+    <hr>
+  <div class="md-source-file">
+    <span class="md-source-file__fact"> <span class="md-icon" title="Utolsó frissítés"> <svg
+          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z">
+          </path>
+        </svg>
+      </span>
+      <span title="2023. április 18. 15:19:02">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-04-18T15:19:02+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-04-18</span>
+      </span>
+    </span>
+
+    
+
+    <span class="md-source-file__fact">
+      <span class="md-icon" title="Szerzők">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z">
+          </path>
+        </svg>
+      </span>
+      <span>Szerzők</span>
+      <nav><a href="https://github.com/kpomazi" target="_blank" rel="noopener noreferrer" class="md-author" title="@kpomazi">
+          <img src="https://avatars.githubusercontent.com/u/22079595?size=72" alt="@kpomazi">
+        </a><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
+          <img src="https://avatars.githubusercontent.com/u/8405234?size=72" alt="@danim1130">
+        </a></nav>      
+    </span>
+  </div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
             Vissza a tetejére
           </a>
-</main>
-<footer class="md-footer">
-<div class="md-footer-meta md-typeset">
-<div class="md-footer-meta__inner md-grid">
-<div class="md-copyright">
-<div class="md-copyright__highlight">
-      Copyright © BME VIK AUT
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; BME VIK AUT
     </div>
+  
+  
 </div>
-</div>
-</div>
+      
+    </div>
+  </div>
 </footer>
-</div>
-<div class="md-dialog" data-md-component="dialog">
-<div class="md-dialog__inner md-typeset"></div>
-</div>
-<script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.instant", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "V\u00e1g\u00f3lapra m\u00e1solva", "clipboard.copy": "M\u00e1sol\u00e1s v\u00e1g\u00f3lapra", "search.result.more.one": "1 tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.more.other": "# tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.none": "Nincs tal\u00e1lat", "search.result.one": "1 egyez\u0151 dokumentum", "search.result.other": "# egyez\u0151 dokumentum", "search.result.placeholder": "Keres\u00e9shez \u00edrj ide valamit", "search.result.term.missing": "\u00dcres", "select.version": "Verzi\u00f3v\u00e1lt\u00e1s"}}</script>
-<script src="../../assets/javascripts/bundle.2a6f1dda.min.js"></script>
-<script src="../../js/timeago.min.js"></script>
-<script src="../../js/timeago_mkdocs_material.js"></script>
-<script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.instant", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "V\u00e1g\u00f3lapra m\u00e1solva", "clipboard.copy": "M\u00e1sol\u00e1s v\u00e1g\u00f3lapra", "search.result.more.one": "1 tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.more.other": "# tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.none": "Nincs tal\u00e1lat", "search.result.one": "1 egyez\u0151 dokumentum", "search.result.other": "# egyez\u0151 dokumentum", "search.result.placeholder": "Keres\u00e9shez \u00edrj ide valamit", "search.result.term.missing": "\u00dcres", "select.version": "Verzi\u00f3v\u00e1lt\u00e1s"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.2a6f1dda.min.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>

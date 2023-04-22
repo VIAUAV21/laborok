@@ -1,474 +1,900 @@
 
-<!DOCTYPE html>
+<!doctype html>
+<html lang="hu" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Ekler Péter, Gazdi László, Kövesdán Gábor, Pásztor Dániel, Pomázi Krisztián, Tóth Tibor">
+      
+      
+      
+        <link rel="prev" href="../basics/">
+      
+      
+        <link rel="next" href="../calculator/">
+      
+      <link rel="icon" href="../../favicon.ico">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.14">
+    
+    
+      
+        <title>Labor02 - Egyszerű felhasználói felület több Activity segítségével (TicTacToe) - BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.113286f1.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
 
-<html class="no-js" lang="hu">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
-<meta content="Ekler Péter, Gazdi László, Kövesdán Gábor, Pásztor Dániel, Pomázi Krisztián, Tóth Tibor" name="author"/>
-<link href="../basics/" rel="prev"/>
-<link href="../calculator/" rel="next"/>
-<link href="../../favicon.ico" rel="icon"/>
-<meta content="mkdocs-1.4.2, mkdocs-material-9.0.14" name="generator"/>
-<title>Labor02 - Egyszerű felhasználói felület több Activity segítségével (TicTacToe) - BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok</title>
-<link href="../../assets/stylesheets/main.113286f1.min.css" rel="stylesheet"/>
-<link href="../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
-<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-<link href="../../css/timeago.css" rel="stylesheet"/>
-<link href="../../extra-material-theme.css" rel="stylesheet"/>
-<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
-<link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-            html.glightbox-open { overflow: initial; height: 100%; }
-            .gslide-title { margin-top: 0px; user-select: text; }
-            .gslide-desc { color: #666; user-select: text; }
-            .gslide-image img { background: white; }
-            
-                .gscrollbar-fixer { padding-right: 15px; }
-                .gdesc-inner { font-size: 0.75rem; }
-                body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-                body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-                body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
-                </style><script src="../../assets/javascripts/glightbox.min.js"></script></head>
-<body data-md-color-accent="red" data-md-color-primary="red" data-md-color-scheme="aut" dir="ltr">
-<script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
-<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
-<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
-<label class="md-overlay" for="__drawer"></label>
-<div data-md-component="skip">
-<a class="md-skip" href="#labor02-egyszeru-felhasznaloi-felulet-tobb-activity-segitsegevel-tictactoe">
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../extra-material-theme.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+        html.glightbox-open { overflow: initial; height: 100%; }
+        .gslide-title { margin-top: 0px; user-select: text; }
+        .gslide-desc { color: #666; user-select: text; }
+        .gslide-image img { background: white; }
+        
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="aut" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#labor02-egyszeru-felhasznaloi-felulet-tobb-activity-segitsegevel-tictactoe" class="md-skip">
           Kihagyás
         </a>
-</div>
-<div data-md-component="announce">
-</div>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
 <header class="md-header" data-md-component="header">
-<nav aria-label="Élőfej" class="md-header__inner md-grid">
-<a aria-label="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" class="md-header__button md-logo" data-md-component="logo" href="../.." title="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok">
-<img alt="logo" src="../../logo-bme-aut.png"/>
-</a>
-<label class="md-header__button md-icon" for="__drawer">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
-</label>
-<div class="md-header__title" data-md-component="header-title">
-<div class="md-header__ellipsis">
-<div class="md-header__topic">
-<span class="md-ellipsis">
+  <nav class="md-header__inner md-grid" aria-label="Élőfej">
+    <a href="../.." title="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" class="md-header__button md-logo" aria-label="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" data-md-component="logo">
+      
+  <img src="../../logo-bme-aut.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
             BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok
           </span>
-</div>
-<div class="md-header__topic" data-md-component="header-topic">
-<span class="md-ellipsis">
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
             
               Labor02 - Egyszerű felhasználói felület több Activity segítségével (TicTacToe)
             
           </span>
-</div>
-</div>
-</div>
-<form class="md-header__option" data-md-component="palette">
-<input aria-label="Váltás sötét témára" class="md-option" data-md-color-accent="red" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="red" data-md-color-scheme="aut" id="__palette_1" name="__palette" type="radio"/>
-<label class="md-header__button md-icon" for="__palette_2" hidden="" title="Váltás sötét témára">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"></path></svg>
-</label>
-<input aria-label="Váltás világos témára" class="md-option" data-md-color-accent="" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="red" data-md-color-scheme="slate" id="__palette_2" name="__palette" type="radio"/>
-<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Váltás világos témára">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"></path></svg>
-</label>
-</form>
-<label class="md-header__button md-icon" for="__search">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
-</label>
-<div class="md-search" data-md-component="search" role="dialog">
-<label class="md-search__overlay" for="__search"></label>
-<div class="md-search__inner" role="search">
-<form class="md-search__form" name="search">
-<input aria-label="Keresés" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Keresés" required="" spellcheck="false" type="text"/>
-<label class="md-search__icon md-icon" for="__search">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
-</label>
-<nav aria-label="Keresés" class="md-search__options">
-<button aria-label="Törlés" class="md-search__icon md-icon" tabindex="-1" title="Törlés" type="reset">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
-</button>
-</nav>
-<div class="md-search__suggest" data-md-component="search-suggest"></div>
-</form>
-<div class="md-search__output">
-<div class="md-search__scrollwrap" data-md-scrollfix="">
-<div class="md-search-result" data-md-component="search-result">
-<div class="md-search-result__meta">
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="aut" data-md-color-primary="red" data-md-color-accent="red"  aria-label="Váltás sötét témára"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Váltás sötét témára" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+            </label>
+          
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent=""  aria-label="Váltás világos témára"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Váltás világos témára" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Keresés" placeholder="Keresés" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Keresés">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Törlés" aria-label="Törlés" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
             Keresés inicializálása
           </div>
-<ol class="md-search-result__list" role="presentation"></ol>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-</div>
-</div>
-</div>
-</div>
-<div class="md-header__source">
-<a class="md-source" data-md-component="source" href="https://github.com/viauav21/laborok" title="Főoldalra ugrás">
-<div class="md-source__icon md-icon">
-<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
-</div>
-<div class="md-source__repository">
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/viauav21/laborok" title="Főoldalra ugrás" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
     viauav21/laborok
   </div>
 </a>
-</div>
-</nav>
+      </div>
+    
+  </nav>
+  
 </header>
-<div class="md-container" data-md-component="container">
-<nav aria-label="Lapok" class="md-tabs" data-md-component="tabs">
-<div class="md-grid">
-<ul class="md-tabs__list">
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../..">
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Lapok" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
         Tudnivalók
       </a>
-</li>
-<li class="md-tabs__item">
-<a class="md-tabs__link md-tabs__link--active" href="../basics/">
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../basics/" class="md-tabs__link md-tabs__link--active">
         Laborok
       </a>
-</li>
-<li class="md-tabs__item">
-<a class="md-tabs__link" href="../../hf/">
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../hf/" class="md-tabs__link">
         Házi feladat
       </a>
-</li>
-</ul>
-</div>
+    </li>
+  
+
+      
+    </ul>
+  </div>
 </nav>
-<main class="md-main" data-md-component="main">
-<div class="md-main__inner md-grid">
-<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Navigáció" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
-<label class="md-nav__title" for="__drawer">
-<a aria-label="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok">
-<img alt="logo" src="../../logo-bme-aut.png"/>
-</a>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigáció" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" class="md-nav__button md-logo" aria-label="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" data-md-component="logo">
+      
+  <img src="../../logo-bme-aut.png" alt="logo">
+
+    </a>
     BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok
   </label>
-<div class="md-nav__source">
-<a class="md-source" data-md-component="source" href="https://github.com/viauav21/laborok" title="Főoldalra ugrás">
-<div class="md-source__icon md-icon">
-<svg viewbox="0 0 496 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
-</div>
-<div class="md-source__repository">
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/viauav21/laborok" title="Főoldalra ugrás" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
     viauav21/laborok
   </div>
 </a>
-</div>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_1" type="checkbox"/>
-<label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
           Tudnivalók
           <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-expanded="false" aria-labelledby="__nav_1_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_1">
-<span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
           Tudnivalók
         </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../..">
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
         Tárgy ismertető
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../tudnivalok/github/GitHub/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tudnivalok/github/GitHub/" class="md-nav__link">
         Feladatok beadása (GitHub)
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../tudnivalok/github/GitHub-Actions/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tudnivalok/github/GitHub-Actions/" class="md-nav__link">
         GitHub Actions ismertető
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../tudnivalok/github/GitHub-credentials/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tudnivalok/github/GitHub-credentials/" class="md-nav__link">
         Egyetemi laborokban: GitHub belépés
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../tudnivalok/github/contributing/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tudnivalok/github/contributing/" class="md-nav__link">
         Hozzájárulás az anyaghoz
       </a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--active md-nav__item--nested">
-<input checked="" class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
-<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
           Laborok
           <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-expanded="true" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_2">
-<span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
           Laborok
         </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../basics/">
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basics/" class="md-nav__link">
         Labor 01 - Alapok (HighLowGame)
       </a>
-</li>
-<li class="md-nav__item md-nav__item--active">
-<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
-<label class="md-nav__link md-nav__link--active" for="__toc">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
           Labor02 - Egyszerű felhasználói felület több Activity segítségével (TicTacToe)
           <span class="md-nav__icon md-icon"></span>
-</label>
-<a class="md-nav__link md-nav__link--active" href="./">
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Labor02 - Egyszerű felhasználói felület több Activity segítségével (TicTacToe)
       </a>
-<nav aria-label="Tartalomjegyzék" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tartalomjegyzék">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
       Tartalomjegyzék
     </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#bevezetes">
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bevezetes" class="md-nav__link">
     Bevezetés
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#elokeszuletek">
+      
+        <li class="md-nav__item">
+  <a href="#elokeszuletek" class="md-nav__link">
     Előkészületek
   </a>
-<nav aria-label="Előkészületek" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#git-repository-letrehozasa-es-letoltese">
+  
+    <nav class="md-nav" aria-label="Előkészületek">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#git-repository-letrehozasa-es-letoltese" class="md-nav__link">
     Git repository létrehozása és letöltése
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#projekt-letrehozasa">
+      
+        <li class="md-nav__item">
+  <a href="#projekt-letrehozasa" class="md-nav__link">
     Projekt létrehozása
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#az-alkalmazas-mukodese">
+      
+        <li class="md-nav__item">
+  <a href="#az-alkalmazas-mukodese" class="md-nav__link">
     Az alkalmazás működése
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#szoveges-eroforrasok">
+      
+        <li class="md-nav__item">
+  <a href="#szoveges-eroforrasok" class="md-nav__link">
     Szöveges erőforrások
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#szukseges-tovabbi-activityk-letrehozasa">
+      
+        <li class="md-nav__item">
+  <a href="#szukseges-tovabbi-activityk-letrehozasa" class="md-nav__link">
     Szükséges további Activityk létrehozása
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#mainactivity-felulet">
+      
+        <li class="md-nav__item">
+  <a href="#mainactivity-felulet" class="md-nav__link">
     MainActivity felület
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#highscore-gomb-esemenykezelo">
+      
+        <li class="md-nav__item">
+  <a href="#highscore-gomb-esemenykezelo" class="md-nav__link">
     Highscore gomb eseménykezelő
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#aboutactivity-felulet">
+      
+        <li class="md-nav__item">
+  <a href="#aboutactivity-felulet" class="md-nav__link">
     AboutActivity felület
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#navigacio-megvalositasa-activityk-kozt">
+      
+        <li class="md-nav__item">
+  <a href="#navigacio-megvalositasa-activityk-kozt" class="md-nav__link">
     Navigáció megvalósítása Activityk közt
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#jatek-logika">
+      
+        <li class="md-nav__item">
+  <a href="#jatek-logika" class="md-nav__link">
     Játék logika
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#jatekter-kirajzolasa">
+      
+        <li class="md-nav__item">
+  <a href="#jatekter-kirajzolasa" class="md-nav__link">
     Játéktér kirajzolása
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#alkalmazas-ikon-lecserelese">
+      
+        <li class="md-nav__item">
+  <a href="#alkalmazas-ikon-lecserelese" class="md-nav__link">
     Alkalmazás ikon lecserélése
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#jateklogika-ellenorzese-onallo-feladat">
+      
+        <li class="md-nav__item">
+  <a href="#jateklogika-ellenorzese-onallo-feladat" class="md-nav__link">
     Játéklogika ellenőrzése - önálló feladat
   </a>
+  
 </li>
-</ul>
+      
+    </ul>
+  
 </nav>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../calculator/">
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator/" class="md-nav__link">
         Labor03 - Számológép (Calculator)
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../compose/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compose/" class="md-nav__link">
         Labor04 - Felhasználói felületek készítése a Jetpack Compose segítségével (ComposeBasics)
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../todo_compose_basics/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../todo_compose_basics/" class="md-nav__link">
         Labor05 - Todo Alkalmazás
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../permissions/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../permissions/" class="md-nav__link">
         Labor06 - Futásidejű engedélyek (Contacts)
       </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="../persistence/">
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../persistence/" class="md-nav__link">
         Labor07 - Perzisztens adattárolás a Room könyvtárral
       </a>
-</li>
-</ul>
-</nav>
-</li>
-<li class="md-nav__item md-nav__item--nested">
-<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
-<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
           Házi feladat
           <span class="md-nav__icon md-icon"></span>
-</label>
-<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
-<label class="md-nav__title" for="__nav_3">
-<span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
           Házi feladat
         </label>
-<ul class="md-nav__list" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="../../hf/">
-        Házi feladat információk - TODO
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hf/" class="md-nav__link">
+        Házi feladat információk
       </a>
-</li>
-</ul>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
 </nav>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-</div>
-<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
-<div class="md-sidebar__scrollwrap">
-<div class="md-sidebar__inner">
-<nav aria-label="Tartalomjegyzék" class="md-nav md-nav--secondary">
-<label class="md-nav__title" for="__toc">
-<span class="md-nav__icon md-icon"></span>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tartalomjegyzék">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
       Tartalomjegyzék
     </label>
-<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#bevezetes">
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bevezetes" class="md-nav__link">
     Bevezetés
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#elokeszuletek">
+      
+        <li class="md-nav__item">
+  <a href="#elokeszuletek" class="md-nav__link">
     Előkészületek
   </a>
-<nav aria-label="Előkészületek" class="md-nav">
-<ul class="md-nav__list">
-<li class="md-nav__item">
-<a class="md-nav__link" href="#git-repository-letrehozasa-es-letoltese">
+  
+    <nav class="md-nav" aria-label="Előkészületek">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#git-repository-letrehozasa-es-letoltese" class="md-nav__link">
     Git repository létrehozása és letöltése
   </a>
+  
 </li>
-</ul>
-</nav>
+        
+      </ul>
+    </nav>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#projekt-letrehozasa">
+      
+        <li class="md-nav__item">
+  <a href="#projekt-letrehozasa" class="md-nav__link">
     Projekt létrehozása
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#az-alkalmazas-mukodese">
+      
+        <li class="md-nav__item">
+  <a href="#az-alkalmazas-mukodese" class="md-nav__link">
     Az alkalmazás működése
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#szoveges-eroforrasok">
+      
+        <li class="md-nav__item">
+  <a href="#szoveges-eroforrasok" class="md-nav__link">
     Szöveges erőforrások
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#szukseges-tovabbi-activityk-letrehozasa">
+      
+        <li class="md-nav__item">
+  <a href="#szukseges-tovabbi-activityk-letrehozasa" class="md-nav__link">
     Szükséges további Activityk létrehozása
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#mainactivity-felulet">
+      
+        <li class="md-nav__item">
+  <a href="#mainactivity-felulet" class="md-nav__link">
     MainActivity felület
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#highscore-gomb-esemenykezelo">
+      
+        <li class="md-nav__item">
+  <a href="#highscore-gomb-esemenykezelo" class="md-nav__link">
     Highscore gomb eseménykezelő
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#aboutactivity-felulet">
+      
+        <li class="md-nav__item">
+  <a href="#aboutactivity-felulet" class="md-nav__link">
     AboutActivity felület
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#navigacio-megvalositasa-activityk-kozt">
+      
+        <li class="md-nav__item">
+  <a href="#navigacio-megvalositasa-activityk-kozt" class="md-nav__link">
     Navigáció megvalósítása Activityk közt
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#jatek-logika">
+      
+        <li class="md-nav__item">
+  <a href="#jatek-logika" class="md-nav__link">
     Játék logika
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#jatekter-kirajzolasa">
+      
+        <li class="md-nav__item">
+  <a href="#jatekter-kirajzolasa" class="md-nav__link">
     Játéktér kirajzolása
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#alkalmazas-ikon-lecserelese">
+      
+        <li class="md-nav__item">
+  <a href="#alkalmazas-ikon-lecserelese" class="md-nav__link">
     Alkalmazás ikon lecserélése
   </a>
+  
 </li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="#jateklogika-ellenorzese-onallo-feladat">
+      
+        <li class="md-nav__item">
+  <a href="#jateklogika-ellenorzese-onallo-feladat" class="md-nav__link">
     Játéklogika ellenőrzése - önálló feladat
   </a>
+  
 </li>
-</ul>
+      
+    </ul>
+  
 </nav>
-</div>
-</div>
-</div>
-<div class="md-content" data-md-component="content">
-<article class="md-content__inner md-typeset">
-<h1 id="labor02-egyszeru-felhasznaloi-felulet-tobb-activity-segitsegevel-tictactoe">Labor02 - Egyszerű felhasználói felület több Activity segítségével (TicTacToe)<a class="headerlink" href="#labor02-egyszeru-felhasznaloi-felulet-tobb-activity-segitsegevel-tictactoe" title="Permanent link">¶</a></h1>
-<h2 id="bevezetes">Bevezetés<a class="headerlink" href="#bevezetes" title="Permanent link">¶</a></h2>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="labor02-egyszeru-felhasznaloi-felulet-tobb-activity-segitsegevel-tictactoe">Labor02 - Egyszerű felhasználói felület több Activity segítségével (TicTacToe)<a class="headerlink" href="#labor02-egyszeru-felhasznaloi-felulet-tobb-activity-segitsegevel-tictactoe" title="Permanent link">&para;</a></h1>
+<h2 id="bevezetes">Bevezetés<a class="headerlink" href="#bevezetes" title="Permanent link">&para;</a></h2>
 <p>A labor célja egy több <code>Activity</code>-ből álló Android alkalmazás elkészítése, valamint az egyszerű rajzolás bemutatása egy TicTacToe játék segítségével.</p>
 <p>A labor során a következő funkciókat fogjuk megvalósítani:</p>
 <ul>
@@ -483,13 +909,14 @@
 </ul>
 <p>A megvalósítandó játék felhasználói felületét az alábbi képernyőképek szemléltetik:</p>
 <p float="left">
-<a class="glightbox" data-desc-position="bottom" data-height="auto" data-type="image" data-width="100%" href="./assets/main.png"><img align="middle" src="./assets/main.png" width="300"/></a>
-<a class="glightbox" data-desc-position="bottom" data-height="auto" data-type="image" data-width="100%" href="./assets/dialog.png"><img align="middle" src="./assets/dialog.png" width="300"/></a>
-<a class="glightbox" data-desc-position="bottom" data-height="auto" data-type="image" data-width="100%" href="./assets/game.png"><img align="middle" src="./assets/game.png" width="300"/></a>
+<a class="glightbox" href="./assets/main.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/main.png" width="300" align="middle"></a>
+<a class="glightbox" href="./assets/dialog.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/dialog.png" width="300" align="middle"></a>
+<a class="glightbox" href="./assets/game.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/game.png" width="300" align="middle"></a>
 </p>
-<h2 id="elokeszuletek">Előkészületek<a class="headerlink" href="#elokeszuletek" title="Permanent link">¶</a></h2>
+
+<h2 id="elokeszuletek">Előkészületek<a class="headerlink" href="#elokeszuletek" title="Permanent link">&para;</a></h2>
 <p>A feladatok megoldása során ne felejtsd el követni a <a href="../../tudnivalok/github/GitHub/">feladat beadás folyamatát</a>.</p>
-<h3 id="git-repository-letrehozasa-es-letoltese">Git repository létrehozása és letöltése<a class="headerlink" href="#git-repository-letrehozasa-es-letoltese" title="Permanent link">¶</a></h3>
+<h3 id="git-repository-letrehozasa-es-letoltese">Git repository létrehozása és letöltése<a class="headerlink" href="#git-repository-letrehozasa-es-letoltese" title="Permanent link">&para;</a></h3>
 <ol>
 <li>
 <p>Moodle-ben keresd meg a laborhoz tartozó meghívó URL-jét és annak segítségével hozd létre a saját repository-dat.</p>
@@ -513,7 +940,7 @@
 <p>Az Android hagyományosan Java nyelven volt fejleszthető, azonban az utóbbi években a Google átállt a <a href="https://kotlinlang.org/">Kotlin</a> nyelvre. Ez egy sokkal modernebb nyelv, mint a Java, sok olyan nyelvi elemet ad, amit kényelmes használni, valamint új nyelvi szabályokat, amikkel például elkerülhetőek a Java nyelven gyakori <code>NullPointerException</code> jellegű hibák.</p>
 <p>Másrészről viszont a nyelv sok mindenben tér el a hagyományosan C jellegű szintaktikát követő nyelvektől, amit majd látni is fogunk. A labor előtt érdemes megismerkedni a nyelvvel, egyrészt a fent látható linken, másrészt <a href="https://developer.android.com/kotlin/learn">ezt</a> az összefoglaló cikket átolvasva.</p>
 </div>
-<h2 id="projekt-letrehozasa">Projekt létrehozása<a class="headerlink" href="#projekt-letrehozasa" title="Permanent link">¶</a></h2>
+<h2 id="projekt-letrehozasa">Projekt létrehozása<a class="headerlink" href="#projekt-letrehozasa" title="Permanent link">&para;</a></h2>
 <p>Első lépésként indítsuk el az Android Studio-t, majd:</p>
 <ol>
 <li>Hozzunk létre egy új projektet, válasszuk az <em>Empty Activity</em> lehetőséget.</li>
@@ -530,7 +957,7 @@
 <div class="admonition info">
 <p>A projekt létrehozásakor, a fordító keretrendszernek rengeteg függőséget kell letöltenie. Amíg ez nem történt meg, addig a projektben nehézkes navigálni, hiányzik a kódkiegészítés, stb... Éppen ezért ezt tanácsos kivárni, azonban ez akár 5 percet is igénybe vehet az első alkalommal! Az ablak alján látható információs sávot kell figyelni.</p>
 </div>
-<h2 id="az-alkalmazas-mukodese">Az alkalmazás működése<a class="headerlink" href="#az-alkalmazas-mukodese" title="Permanent link">¶</a></h2>
+<h2 id="az-alkalmazas-mukodese">Az alkalmazás működése<a class="headerlink" href="#az-alkalmazas-mukodese" title="Permanent link">&para;</a></h2>
 <p>A megvalósítandó alkalmazás működési elve a következő:</p>
 <ol>
 <li>Az alkalmazás indításakor a <code>MainActivity</code> jelenik meg.</li>
@@ -538,18 +965,18 @@
 <li>A <code>MainActivity</code>-ről meg lehet tekinteni az <em>Eredmények</em>-et, ami jelenleg csak egy <code>Toast</code>-ot dob fel egy üzenettel (ezt a funkciót opcionálisan később meg lehet valósítani, ha a perzisztencia témakört már vettük előadáson).</li>
 <li>A <code>MainActivity</code>-ről meg lehet nézni az alkalmazás készítőiről szóló információkat az <em>Infó</em> menüt választva. Ez a funkció átnavigál az <code>AboutActivity</code>-re, ami dialógus formában fog megjelenni.</li>
 </ol>
-<h2 id="szoveges-eroforrasok">Szöveges erőforrások<a class="headerlink" href="#szoveges-eroforrasok" title="Permanent link">¶</a></h2>
+<h2 id="szoveges-eroforrasok">Szöveges erőforrások<a class="headerlink" href="#szoveges-eroforrasok" title="Permanent link">&para;</a></h2>
 <p>Navigáljunk a <code>res/values/strings.xml</code>-re, ahol a projekt szöveges erőforrásai találhatóak. Használjuk a következő szöveges erőforrásokat:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;resources&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"app_name"</span><span class="nt">&gt;</span>TicTacToe<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"btn_start"</span><span class="nt">&gt;</span>Új<span class="w"> </span>játék<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"btn_highscore"</span><span class="nt">&gt;</span>Eredmények<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"btn_about"</span><span class="nt">&gt;</span>Infó<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"toast_highscore"</span><span class="nt">&gt;</span>Eredmények<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"txt_about"</span><span class="nt">&gt;</span>Made<span class="w"> </span>by<span class="w"> </span>Hallgató<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;app_name&quot;</span><span class="nt">&gt;</span>TicTacToe<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;btn_start&quot;</span><span class="nt">&gt;</span>Új<span class="w"> </span>játék<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;btn_highscore&quot;</span><span class="nt">&gt;</span>Eredmények<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;btn_about&quot;</span><span class="nt">&gt;</span>Infó<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;toast_highscore&quot;</span><span class="nt">&gt;</span>Eredmények<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;txt_about&quot;</span><span class="nt">&gt;</span>Made<span class="w"> </span>by<span class="w"> </span>Hallgató<span class="nt">&lt;/string&gt;</span>
 <span class="nt">&lt;/resources&gt;</span>
 </code></pre></div>
-<h2 id="szukseges-tovabbi-activityk-letrehozasa">Szükséges további Activityk létrehozása<a class="headerlink" href="#szukseges-tovabbi-activityk-letrehozasa" title="Permanent link">¶</a></h2>
+<h2 id="szukseges-tovabbi-activityk-letrehozasa">Szükséges további Activityk létrehozása<a class="headerlink" href="#szukseges-tovabbi-activityk-letrehozasa" title="Permanent link">&para;</a></h2>
 <p>A fentiek alapján látható tehát, hogy a meglévő <code>MainActivity</code> mellett még két másik <code>Activity</code>-t, a <code>GameActivity</code>-t és az <code>AboutActivity</code>-t kell létrehoznunk. </p>
 <div class="admonition info">
 <p><code>Activity</code> létrehozásakor tipikusan az alábbi forrás állományok változnak:</p>
@@ -563,8 +990,8 @@
 <ol>
 <li>A meglévő <code>Activity</code>-t tartalmazó package-re jobb egérgombbal kattintva válasszuk a <em>New -&gt; Activity -&gt; Empty Activity</em> opciót és hozzuk létre a másik két <code>Activity</code>-t (<code>AboutActivity</code>, <code>GameActivity</code>), <em>Source Language</em>-nek válasszuk a Kotlint.</li>
 <li>Létrehozás után a <code>res/values/strings.xml</code>-ben a <code>&lt;resources&gt;</code> tagen belül vegyük fel a két új <code>Activity</code> címét: 
-    <div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"title_activity_about"</span><span class="nt">&gt;</span>Az<span class="w"> </span>alkalmazásról<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">"title_activity_game"</span><span class="nt">&gt;</span>Játék<span class="nt">&lt;/string&gt;</span>
+    <div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;title_activity_about&quot;</span><span class="nt">&gt;</span>Az<span class="w"> </span>alkalmazásról<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;title_activity_game&quot;</span><span class="nt">&gt;</span>Játék<span class="nt">&lt;/string&gt;</span>
 </code></pre></div></li>
 <li>
 <p>Állítsuk be a Manifestben azt, hogy az <code>AboutActivity</code> dialógus formában jelenjen meg, a <code>theme</code> attribútum beállításával</p>
@@ -572,14 +999,14 @@
 <p>A kódkiegészítés segít megtalálni a megfelelő témát a lehetőségek közül, kezdjük el a kezdő betűket beírni!</p>
 </div>
 <div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&lt;activity</span>
-<span class="w">        </span><span class="na">android:name=</span><span class="s">".AboutActivity"</span>
-<span class="w">        </span><span class="na">android:exported=</span><span class="s">"false"</span>
-<span class="w">        </span><span class="na">android:label=</span><span class="s">"@string/title_activity_about"</span>
-<span class="w">        </span><span class="na">android:parentActivityName=</span><span class="s">".MainActivity"</span>
-<span class="w">        </span><span class="na">android:theme=</span><span class="s">"@style/Theme.AppCompat.Light.Dialog"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="na">android:name=</span><span class="s">&quot;.AboutActivity&quot;</span>
+<span class="w">        </span><span class="na">android:exported=</span><span class="s">&quot;false&quot;</span>
+<span class="w">        </span><span class="na">android:label=</span><span class="s">&quot;@string/title_activity_about&quot;</span>
+<span class="w">        </span><span class="na">android:parentActivityName=</span><span class="s">&quot;.MainActivity&quot;</span>
+<span class="w">        </span><span class="na">android:theme=</span><span class="s">&quot;@style/Theme.AppCompat.Light.Dialog&quot;</span><span class="nt">&gt;</span>
 <span class="w">        </span><span class="nt">&lt;meta-data</span>
-<span class="w">            </span><span class="na">android:name=</span><span class="s">"android.support.PARENT_ACTIVITY"</span>
-<span class="w">            </span><span class="na">android:value=</span><span class="s">".MainActivity"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="na">android:name=</span><span class="s">&quot;android.support.PARENT_ACTIVITY&quot;</span>
+<span class="w">            </span><span class="na">android:value=</span><span class="s">&quot;.MainActivity&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;/activity&gt;</span>
 </code></pre></div>
 <blockquote>
@@ -589,72 +1016,72 @@
 <li>
 <p>Állítsuk be a <code>GameActivity</code> címét is
     <div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&lt;activity</span>
-<span class="w">        </span><span class="na">android:name=</span><span class="s">".GameActivity"</span>
-<span class="w">        </span><span class="na">android:exported=</span><span class="s">"false"</span>
-<span class="w">        </span><span class="na">android:label=</span><span class="s">"@string/title_activity_game"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="na">android:name=</span><span class="s">&quot;.GameActivity&quot;</span>
+<span class="w">        </span><span class="na">android:exported=</span><span class="s">&quot;false&quot;</span>
+<span class="w">        </span><span class="na">android:label=</span><span class="s">&quot;@string/title_activity_game&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 </code></pre></div></p>
 </li>
 </ol>
 <p><em>Létrehozás után ellenőrizzük a laborvezető segítségével a létrejött kódokat!</em></p>
-<h2 id="mainactivity-felulet">MainActivity felület<a class="headerlink" href="#mainactivity-felulet" title="Permanent link">¶</a></h2>
+<h2 id="mainactivity-felulet">MainActivity felület<a class="headerlink" href="#mainactivity-felulet" title="Permanent link">&para;</a></h2>
 <p>A <code>MainActivity</code> a fenti ábra alapján három menüpontot tartalmaz középre igazítva. Ezt a felületet a hozzá tartozó <code>res/layout/activity_main.xml</code>-ben hozhatjuk létre. Mivel az AndroidStudio már alapértelmezetten <code>ConstraintLayout</code> alapú nézetet generál, így most ezt fogjuk használni a megvalósításra. Az anyagban ennek működése csak később következik, így alább megtalálható a kész XML leíró. Akinek van kedve, a gif alapján kipróbálhatja a használatát:</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-type="image" data-width="100%" href="assets/constraint_layout_1.gif"><img alt="" src="assets/constraint_layout_1.gif"/></a></p>
+<p><a class="glightbox" href="assets/constraint_layout_1.gif" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/constraint_layout_1.gif" /></a></p>
 <blockquote>
 <p>Tipp: Shift + Kattintással lehet több elemet kijelölni</p>
 </blockquote>
-<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
-<span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span><span class="w"> </span><span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
-<span class="w">    </span><span class="na">xmlns:app=</span><span class="s">"http://schemas.android.com/apk/res-auto"</span>
-<span class="w">    </span><span class="na">xmlns:tools=</span><span class="s">"http://schemas.android.com/tools"</span>
-<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
-<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
-<span class="w">    </span><span class="na">tools:context=</span><span class="s">".MainActivity"</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span><span class="w"> </span><span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+<span class="w">    </span><span class="na">xmlns:app=</span><span class="s">&quot;http://schemas.android.com/apk/res-auto&quot;</span>
+<span class="w">    </span><span class="na">xmlns:tools=</span><span class="s">&quot;http://schemas.android.com/tools&quot;</span>
+<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">&quot;match_parent&quot;</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">&quot;match_parent&quot;</span>
+<span class="w">    </span><span class="na">tools:context=</span><span class="s">&quot;.MainActivity&quot;</span><span class="nt">&gt;</span>
 
 <span class="w">    </span><span class="nt">&lt;Button</span>
-<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/btnStart"</span>
-<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"0dp"</span>
-<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
-<span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">android:text=</span><span class="s">"@string/btn_start"</span>
-<span class="w">        </span><span class="na">app:layout_constraintBottom_toTopOf=</span><span class="s">"@+id/btnHighScores"</span>
-<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintHorizontal_bias=</span><span class="s">"0.5"</span>
-<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintVertical_chainStyle=</span><span class="s">"packed"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">&quot;@+id/btnStart&quot;</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">&quot;0dp&quot;</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
+<span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">&quot;8dp&quot;</span>
+<span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">&quot;8dp&quot;</span>
+<span class="w">        </span><span class="na">android:text=</span><span class="s">&quot;@string/btn_start&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintBottom_toTopOf=</span><span class="s">&quot;@+id/btnHighScores&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintHorizontal_bias=</span><span class="s">&quot;0.5&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintVertical_chainStyle=</span><span class="s">&quot;packed&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 
 <span class="w">    </span><span class="nt">&lt;Button</span>
-<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/btnHighScores"</span>
-<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"0dp"</span>
-<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
-<span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">android:text=</span><span class="s">"@string/btn_highscore"</span>
-<span class="w">        </span><span class="na">app:layout_constraintBottom_toTopOf=</span><span class="s">"@+id/btnAbout"</span>
-<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintHorizontal_bias=</span><span class="s">"0.5"</span>
-<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">"@+id/btnStart"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">&quot;@+id/btnHighScores&quot;</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">&quot;0dp&quot;</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
+<span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">&quot;8dp&quot;</span>
+<span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">&quot;8dp&quot;</span>
+<span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">&quot;8dp&quot;</span>
+<span class="w">        </span><span class="na">android:text=</span><span class="s">&quot;@string/btn_highscore&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintBottom_toTopOf=</span><span class="s">&quot;@+id/btnAbout&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintHorizontal_bias=</span><span class="s">&quot;0.5&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">&quot;@+id/btnStart&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 
 <span class="w">    </span><span class="nt">&lt;Button</span>
-<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/btnAbout"</span>
-<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"0dp"</span>
-<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
-<span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">android:text=</span><span class="s">"@string/btn_about"</span>
-<span class="w">        </span><span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintHorizontal_bias=</span><span class="s">"0.5"</span>
-<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">"@+id/btnHighScores"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">&quot;@+id/btnAbout&quot;</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">&quot;0dp&quot;</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
+<span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">&quot;8dp&quot;</span>
+<span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">&quot;8dp&quot;</span>
+<span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">&quot;8dp&quot;</span>
+<span class="w">        </span><span class="na">android:text=</span><span class="s">&quot;@string/btn_about&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintHorizontal_bias=</span><span class="s">&quot;0.5&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">&quot;@+id/btnHighScores&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
 </code></pre></div>
 <p>Nézzük át a laborvezetővel a felület felépítését!</p>
-<h2 id="highscore-gomb-esemenykezelo">Highscore gomb eseménykezelő<a class="headerlink" href="#highscore-gomb-esemenykezelo" title="Permanent link">¶</a></h2>
+<h2 id="highscore-gomb-esemenykezelo">Highscore gomb eseménykezelő<a class="headerlink" href="#highscore-gomb-esemenykezelo" title="Permanent link">&para;</a></h2>
 <p>Az <em>Eredmények</em> menüpontra kattintva egy <code>Toast</code> üzenetet kell megjeleníteni. Ehhez meg kell keresni az <em>Eredmények</em> menüpont gombját és be kell állítani neki az alábbi eseménykezelőt a <code>MainActivity</code> <code>onCreate()</code> függvényén belül:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">btnHighScore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">findViewById</span><span class="o">&lt;</span><span class="n">Button</span><span class="o">&gt;</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="na">id</span><span class="p">.</span><span class="na">btnHighScores</span><span class="p">)</span>
 <span class="n">btnHighScore</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
@@ -673,33 +1100,33 @@
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>highscores Toast üzenet</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a <strong>az ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. A képet a megoldásban a repository-ba f1.png néven töltsd föl.</p>
 </div>
-<h2 id="aboutactivity-felulet">AboutActivity felület<a class="headerlink" href="#aboutactivity-felulet" title="Permanent link">¶</a></h2>
+<h2 id="aboutactivity-felulet">AboutActivity felület<a class="headerlink" href="#aboutactivity-felulet" title="Permanent link">&para;</a></h2>
 <p>Ahogy korábban említettük, az <em>Infó</em> menü elindítja az <code>AboutActivity</code>-t. Elsőként készítsük el az <code>AboutActivity</code> felületét, melyet a <code>res/layout/activity_about.xml</code> ír le. Mint korábban, itt is lehet <code>ConstraintLayout</code>-ot készíteni a segítséggel, vagy alább megtalálható az XML:</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-type="image" data-width="100%" href="assets/constraint_layout_2.gif"><img alt="" src="assets/constraint_layout_2.gif"/></a></p>
-<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
-<span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span><span class="w"> </span><span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
-<span class="w">    </span><span class="na">xmlns:app=</span><span class="s">"http://schemas.android.com/apk/res-auto"</span>
-<span class="w">    </span><span class="na">xmlns:tools=</span><span class="s">"http://schemas.android.com/tools"</span>
-<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
-<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
-<span class="w">    </span><span class="na">tools:context=</span><span class="s">".AboutActivity"</span>
-<span class="w">    </span><span class="na">tools:viewBindingIgnore=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+<p><a class="glightbox" href="assets/constraint_layout_2.gif" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/constraint_layout_2.gif" /></a></p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span><span class="w"> </span><span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+<span class="w">    </span><span class="na">xmlns:app=</span><span class="s">&quot;http://schemas.android.com/apk/res-auto&quot;</span>
+<span class="w">    </span><span class="na">xmlns:tools=</span><span class="s">&quot;http://schemas.android.com/tools&quot;</span>
+<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">&quot;match_parent&quot;</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">&quot;match_parent&quot;</span>
+<span class="w">    </span><span class="na">tools:context=</span><span class="s">&quot;.AboutActivity&quot;</span>
+<span class="w">    </span><span class="na">tools:viewBindingIgnore=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
 
 <span class="w">    </span><span class="nt">&lt;TextView</span>
-<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/textView"</span>
-<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
-<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
-<span class="w">        </span><span class="na">android:layout_margin=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">android:text=</span><span class="s">"@string/txt_about"</span>
-<span class="w">        </span><span class="na">android:textSize=</span><span class="s">"32sp"</span>
-<span class="w">        </span><span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">"parent"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">&quot;@+id/textView&quot;</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">&quot;wrap_content&quot;</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
+<span class="w">        </span><span class="na">android:layout_margin=</span><span class="s">&quot;8dp&quot;</span>
+<span class="w">        </span><span class="na">android:text=</span><span class="s">&quot;@string/txt_about&quot;</span>
+<span class="w">        </span><span class="na">android:textSize=</span><span class="s">&quot;32sp&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">&quot;parent&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 
 <span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
 </code></pre></div>
-<h2 id="navigacio-megvalositasa-activityk-kozt">Navigáció megvalósítása Activityk közt<a class="headerlink" href="#navigacio-megvalositasa-activityk-kozt" title="Permanent link">¶</a></h2>
+<h2 id="navigacio-megvalositasa-activityk-kozt">Navigáció megvalósítása Activityk közt<a class="headerlink" href="#navigacio-megvalositasa-activityk-kozt" title="Permanent link">&para;</a></h2>
 <p>A következő lépésként valósítsuk meg a navigációt (váltást) az <code>Activity</code>-k között. Az <em>Új játék</em> menüpont hatására a <code>GameActivity</code>-re, az <em>Infó</em> menüpont hatására pedig az <code>AboutActivity</code>-re kell átváltanunk. <code>Activity</code>-k közti váltást egy  <code>Intent</code> segítségével tudunk implementálni - beszéljük meg a laborvezetővel az <code>Intent</code>-ek alapjait. Ezt a témát előadáson később mélyebben fogjuk még érinteni.</p>
 <p>Valósítsuk meg ezen két gomb eseménykezelőjét szintén a <code>MainActivity</code> <code>onCreate()</code> függvényében!</p>
 <div class="admonition tip">
@@ -720,10 +1147,10 @@ A <a href="https://developer.android.com/topic/libraries/view-binding"><code>Vie
 <p class="admonition-title">ViewBinding</p>
 <p>Ebben az esetben a modul minden egyes XML layout fájljához generálódik egy úgynevezett binding osztály. Minden binding osztály tartalmaz referenciát az adott XML layout erőforrás gyökér elemére és az összes ID-val rendelkező view-ra. A generált osztály neve úgy áll elő, hogy az XML layout nevét Pascal formátumba alakítja a rendszer és a végére illeszti, hogy <code>Binding</code>. Azaz például a <code>activity_login.xml</code> erőforrásfájlból az alábbi binding osztály generálódik: <code>ActivityLoginBinding</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;LinearLayout</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="nt">&gt;</span>
-<span class="w">    </span><span class="nt">&lt;TextView</span><span class="w"> </span><span class="na">android:id=</span><span class="s">"@+id/name"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;ImageView</span><span class="w"> </span><span class="na">android:cropToPadding=</span><span class="s">"true"</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="w">    </span><span class="nt">&lt;Button</span><span class="w"> </span><span class="na">android:id=</span><span class="s">"@+id/button"</span>
-<span class="w">        </span><span class="na">android:background=</span><span class="s">"@drawable/rounded_button"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;TextView</span><span class="w"> </span><span class="na">android:id=</span><span class="s">&quot;@+id/name&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;ImageView</span><span class="w"> </span><span class="na">android:cropToPadding=</span><span class="s">&quot;true&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;Button</span><span class="w"> </span><span class="na">android:id=</span><span class="s">&quot;@+id/button&quot;</span>
+<span class="w">        </span><span class="na">android:background=</span><span class="s">&quot;@drawable/rounded_button&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="nt">&lt;/LinearLayout&gt;</span>
 </code></pre></div>
 <p>A generált osztálynak két mezője van. A <code>name</code> id-val rendelkező <code>TextView</code> és a <code>button</code> id-jú <code>Button</code>. A layout-ban szereplő ImageView-nak nincs id-ja, ezért nem szerepel a binding osztályban.</p>
@@ -773,7 +1200,7 @@ A <code>binding</code> példány működéséhez három dolgot kell tennünk:</p
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>az AboutActivity</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), egy <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a TextView szövegeként</strong>. A képet a megoldásban a repository-ba f2.png néven töltsd föl.</p>
 </div>
-<h2 id="jatek-logika">Játék logika<a class="headerlink" href="#jatek-logika" title="Permanent link">¶</a></h2>
+<h2 id="jatek-logika">Játék logika<a class="headerlink" href="#jatek-logika" title="Permanent link">&para;</a></h2>
 <p>A 3x3-as TicTacToe táblajáték logikáját külön osztályban valósítjuk meg egy <a href="https://en.wikipedia.org/wiki/Singleton_pattern"><em>Singleton</em></a> formájában, így könnyen hozzáférhetünk majd.</p>
 <blockquote>
 <p>Amennyiben nem ismeri ezt a tervezési mintát, érdemes utánanézni, illetve rákérdezni a laborvezetőnél.</p>
@@ -832,7 +1259,7 @@ A <code>binding</code> példány működéséhez három dolgot kell tennünk:</p
 <p class="admonition-title">collection</p>
 <p>A Kotlin standard library számos függvényt nyújt különböző collection-ök egyszerű létrehozására. Figyeljük meg a kódban az <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/array-of.html"><code>arrayOf</code></a> és a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/byte-array-of.html"><code>byteArrayOf</code></a> használatát, amelyek meghívásával létrehozunk tömböket, és azonnal fel is töltjük őket elemekkel.</p>
 </div>
-<h2 id="jatekter-kirajzolasa">Játéktér kirajzolása<a class="headerlink" href="#jatekter-kirajzolasa" title="Permanent link">¶</a></h2>
+<h2 id="jatekter-kirajzolasa">Játéktér kirajzolása<a class="headerlink" href="#jatekter-kirajzolasa" title="Permanent link">&para;</a></h2>
 <p>A következő lépés a játéktér kirajzolása és annak hozzárendelése a <code>GameActivity</code>-hez.</p>
 <p>Első lépésként a meglévő <code>tictactoe</code> package-ben hozzunk létre egy <code>view</code> package-et , majd abban egy <code>TicTacToeView</code> osztályt, mely a <code>View</code> ősosztályból származik:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TicTacToeView</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">View</span><span class="w"> </span><span class="p">{</span>
@@ -910,49 +1337,49 @@ A <code>binding</code> példány működéséhez három dolgot kell tennünk:</p
 <p>Kotlinban a <code>(float) x</code> és <code>(int) y</code> stílusú castolások helyett a numerikus típusok között a <code>toInt()</code>, <code>toFloat()</code>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-number/index.html">és hasonló függvényekkel</a> végezhetünk konverziót.</p>
 </div>
 <p>Ahhoz, hogy a <code>GameActivity</code> ezt a játékteret megjelenítse, módosítsuk a hozzá tartozó <code>res/layout/activity_game.xml</code> fájlt. A felület egy <em>Fragment</em> konténert tartalmaz, amibe majd a játéktér kerül:</p>
-<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
-<span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span><span class="w"> </span><span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
-<span class="w">    </span><span class="na">xmlns:app=</span><span class="s">"http://schemas.android.com/apk/res-auto"</span>
-<span class="w">    </span><span class="na">xmlns:tools=</span><span class="s">"http://schemas.android.com/tools"</span>
-<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
-<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
-<span class="w">    </span><span class="na">tools:context=</span><span class="s">".GameActivity"</span>
-<span class="w">    </span><span class="na">tools:viewBindingIgnore=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span><span class="w"> </span><span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+<span class="w">    </span><span class="na">xmlns:app=</span><span class="s">&quot;http://schemas.android.com/apk/res-auto&quot;</span>
+<span class="w">    </span><span class="na">xmlns:tools=</span><span class="s">&quot;http://schemas.android.com/tools&quot;</span>
+<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">&quot;match_parent&quot;</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">&quot;match_parent&quot;</span>
+<span class="w">    </span><span class="na">tools:context=</span><span class="s">&quot;.GameActivity&quot;</span>
+<span class="w">    </span><span class="na">tools:viewBindingIgnore=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
 
 <span class="w">    </span><span class="nt">&lt;androidx.fragment.app.FragmentContainerView</span>
-<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/fragmentGameArea"</span>
-<span class="w">        </span><span class="na">android:name=</span><span class="s">"hu.bme.aut.android.tictactoe.fragments.GameFragment"</span>
-<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"0dp"</span>
-<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"0dp"</span>
-<span class="w">        </span><span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">tools:layout=</span><span class="s">"@layout/fragment_game"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">&quot;@+id/fragmentGameArea&quot;</span>
+<span class="w">        </span><span class="na">android:name=</span><span class="s">&quot;hu.bme.aut.android.tictactoe.fragments.GameFragment&quot;</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">&quot;0dp&quot;</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">&quot;0dp&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">tools:layout=</span><span class="s">&quot;@layout/fragment_game&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 
 <span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
 </code></pre></div>
 <p>Következő lépésként készítsük el a játékteret tartalmazó <em>Fragmentet</em>. Ezt készíthetjük az <em>Activity</em>-hez hasonlóan varázslóval is, (jobb klinn -&gt; New -&gt; Fragment...) azonban ez túl sok olyan kódot generálna, amire nekünk most nincs szükségünk. Csináljunk tehát egy új layout fájlt, aminek a neve legyen <code>fragment_game</code>. Ez egy szürkés hátterű <code>ConstraintLayout</code> közepén jelenítse meg a <code>TicTacToeView</code> nézetet:</p>
-<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
-<span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span><span class="w"> </span><span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
-<span class="w">    </span><span class="na">xmlns:app=</span><span class="s">"http://schemas.android.com/apk/res-auto"</span>
-<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
-<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
-<span class="w">    </span><span class="na">android:background=</span><span class="s">"#888888"</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span><span class="w"> </span><span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
+<span class="w">    </span><span class="na">xmlns:app=</span><span class="s">&quot;http://schemas.android.com/apk/res-auto&quot;</span>
+<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">&quot;match_parent&quot;</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">&quot;match_parent&quot;</span>
+<span class="w">    </span><span class="na">android:background=</span><span class="s">&quot;#888888&quot;</span><span class="nt">&gt;</span>
 
 <span class="w">    </span><span class="nt">&lt;hu.bme.aut.android.tictactoe.view.TicTacToeView</span>
-<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/ticTacToeView"</span>
-<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
-<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
-<span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">android:layout_marginBottom=</span><span class="s">"8dp"</span>
-<span class="w">        </span><span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">"parent"</span>
-<span class="w">        </span><span class="na">app:layout_constraintVertical_bias=</span><span class="s">"0.495"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">&quot;@+id/ticTacToeView&quot;</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">&quot;wrap_content&quot;</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">&quot;wrap_content&quot;</span>
+<span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">&quot;8dp&quot;</span>
+<span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">&quot;8dp&quot;</span>
+<span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">&quot;8dp&quot;</span>
+<span class="w">        </span><span class="na">android:layout_marginBottom=</span><span class="s">&quot;8dp&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">&quot;parent&quot;</span>
+<span class="w">        </span><span class="na">app:layout_constraintVertical_bias=</span><span class="s">&quot;0.495&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 
 <span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
 </code></pre></div>
@@ -976,7 +1403,7 @@ A <code>binding</code> példány működéséhez három dolgot kell tennünk:</p
 <span class="p">}</span>
 </code></pre></div>
 Próbáljuk ki az alkalmazást! Most már az <em>Új játék</em> gombra nyomva meg kell, hogy jelenjen a (még erősen hiányos) játékterünk.</p>
-<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-type="image" data-width="100%" href="./assets/fragment.png"><img align="middle" src="./assets/fragment.png" width="300"/></a></p>
+<p><a class="glightbox" href="./assets/fragment.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/fragment.png" width="300" align="middle"></a></p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>játéktér</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a <strong>GameFragmenthez tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. A képet a megoldásban a repository-ba f3.png néven töltsd föl.</p>
@@ -1053,7 +1480,7 @@ Próbáljuk ki az alkalmazást! Most már az <em>Új játék</em> gombra nyomva 
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="alkalmazas-ikon-lecserelese">Alkalmazás ikon lecserélése<a class="headerlink" href="#alkalmazas-ikon-lecserelese" title="Permanent link">¶</a></h2>
+<h2 id="alkalmazas-ikon-lecserelese">Alkalmazás ikon lecserélése<a class="headerlink" href="#alkalmazas-ikon-lecserelese" title="Permanent link">&para;</a></h2>
 <p>Az alkalmazás ikonját jelenleg a <code>res/mipmap[-ldpi/mdpi/hdpi/xhdpi/...]</code> mappákban található <code>ic_launcher.png</code> jelképezi. A laborvezető segítségével keressünk egy új ikont és cseréljük le. Nem muszáj az ikont minden felbontásban elkészíteni, egyszerűen elhelyezhet egy méretet a <code>mipmap</code> mappában is (melyet létre kell hozni), ekkor természetesen különböző felbontású eszközökön torzulhat az ikon képe.</p>
 <p>Próbáljuk ki az alkalmazást!</p>
 <p>Észrevehetjük, hogy ha a játéktérről visszalépünk és megint új játékot kezdünk, a játéktér nem törlődik. Ezért a <code>GameActivity</code>-re való navigáció előtt a <code>TicTacToeModel</code>-t alapállapotba kell állítanunk, hogy új játék kezdődjön (<code>MainActivity.kt</code>):</p>
@@ -1066,7 +1493,7 @@ Próbáljuk ki az alkalmazást! Most már az <em>Új játék</em> gombra nyomva 
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>játéktér játék közben</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a <strong>TicTacToeView kódjának egy részlete</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. A képet a megoldásban a repository-ba f4.png néven töltsd föl.</p>
 </div>
-<h2 id="jateklogika-ellenorzese-onallo-feladat">Játéklogika ellenőrzése - önálló feladat<a class="headerlink" href="#jateklogika-ellenorzese-onallo-feladat" title="Permanent link">¶</a></h2>
+<h2 id="jateklogika-ellenorzese-onallo-feladat">Játéklogika ellenőrzése - önálló feladat<a class="headerlink" href="#jateklogika-ellenorzese-onallo-feladat" title="Permanent link">&para;</a></h2>
 <p>Valósítson meg egy függvényt, mely minden lépés után leellenőrzi, hogy győzött-e valamelyik játékos, vagy nincs-e döntetlen. Amennyiben vége a játéknak, egy <code>Toast</code> üzenettel jelezze ezt a felhasználónak és lépjen vissza a főmenübe. A laborvezető segítségével vizsgálja meg, hogy a <code>View</code> osztályból hogyan érhető el az őt tartalmazó "host" <code>Activity</code>, aminek így például egy <code>gameOver()</code> függvénye meghívható, ami megvalósítja a fent leírt játék befejezést.</p>
 <p>Jó munkát kívánunk!</p>
 <details class="success">
@@ -1110,7 +1537,7 @@ Próbáljuk ki az alkalmazást! Most már az <em>Új játék</em> gombra nyomva 
 <span class="w">    </span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="c1">///TODO több eset</span>
 <span class="w">        </span><span class="n">TicTacToeModel</span><span class="p">.</span><span class="na">CIRCLE</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">Toast</span><span class="p">.</span><span class="na">makeText</span><span class="p">(</span><span class="k">this</span><span class="nd">@GameActivity</span><span class="p">,</span><span class="w"> </span><span class="s">"A kör nyert"</span><span class="p">,</span><span class="w"> </span><span class="n">Toast</span><span class="p">.</span><span class="na">LENGTH_LONG</span><span class="p">).</span><span class="na">show</span><span class="p">()</span>
+<span class="w">            </span><span class="n">Toast</span><span class="p">.</span><span class="na">makeText</span><span class="p">(</span><span class="k">this</span><span class="nd">@GameActivity</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;A kör nyert&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">Toast</span><span class="p">.</span><span class="na">LENGTH_LONG</span><span class="p">).</span><span class="na">show</span><span class="p">()</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">    </span><span class="n">finish</span><span class="p">()</span>
@@ -1121,56 +1548,87 @@ Próbáljuk ki az alkalmazást! Most már az <em>Új játék</em> gombra nyomva 
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>játék végét jelző Toast üzenet</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a <strong>játékállapot ellenőrzéséhez tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. A képet a megoldásban a repository-ba f5.png néven töltsd föl.</p>
 </div>
-<hr/>
-<div class="md-source-file">
-<span class="md-source-file__fact"> <span class="md-icon" title="Utolsó frissítés"> <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z">
-</path>
-</svg>
-</span>
-<span title="2023. március 7. 04:07:08">
-<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-03-07T04:07:08+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-03-07</span>
-</span>
-</span>
-<span class="md-source-file__fact">
-<span class="md-icon" title="Szerzők">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z">
-</path>
-</svg>
-</span>
-<span>Szerzők</span>
-<nav><a class="md-author" href="https://github.com/gazdilaci" rel="noopener noreferrer" target="_blank" title="@gazdilaci">
-<img alt="@gazdilaci" src="https://avatars.githubusercontent.com/u/23335752?size=72"/>
-</a></nav>
-</span>
-</div>
-</article>
-</div>
-</div>
-<a class="md-top md-icon" data-md-component="top" hidden="" href="#">
-<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg>
+
+    <hr>
+  <div class="md-source-file">
+    <span class="md-source-file__fact"> <span class="md-icon" title="Utolsó frissítés"> <svg
+          xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z">
+          </path>
+        </svg>
+      </span>
+      <span title="2023. március 7. 04:07:08">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-03-07T04:07:08+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-03-07</span>
+      </span>
+    </span>
+
+    
+
+    <span class="md-source-file__fact">
+      <span class="md-icon" title="Szerzők">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path
+            d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z">
+          </path>
+        </svg>
+      </span>
+      <span>Szerzők</span>
+      <nav><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
+          <img src="https://avatars.githubusercontent.com/u/23335752?size=72" alt="@gazdilaci">
+        </a></nav>      
+    </span>
+  </div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
             Vissza a tetejére
           </a>
-</main>
-<footer class="md-footer">
-<div class="md-footer-meta md-typeset">
-<div class="md-footer-meta__inner md-grid">
-<div class="md-copyright">
-<div class="md-copyright__highlight">
-      Copyright © BME VIK AUT
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; BME VIK AUT
     </div>
+  
+  
 </div>
-</div>
-</div>
+      
+    </div>
+  </div>
 </footer>
-</div>
-<div class="md-dialog" data-md-component="dialog">
-<div class="md-dialog__inner md-typeset"></div>
-</div>
-<script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.instant", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "V\u00e1g\u00f3lapra m\u00e1solva", "clipboard.copy": "M\u00e1sol\u00e1s v\u00e1g\u00f3lapra", "search.result.more.one": "1 tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.more.other": "# tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.none": "Nincs tal\u00e1lat", "search.result.one": "1 egyez\u0151 dokumentum", "search.result.other": "# egyez\u0151 dokumentum", "search.result.placeholder": "Keres\u00e9shez \u00edrj ide valamit", "search.result.term.missing": "\u00dcres", "select.version": "Verzi\u00f3v\u00e1lt\u00e1s"}}</script>
-<script src="../../assets/javascripts/bundle.2a6f1dda.min.js"></script>
-<script src="../../js/timeago.min.js"></script>
-<script src="../../js/timeago_mkdocs_material.js"></script>
-<script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.instant", "navigation.top", "search.suggest"], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "V\u00e1g\u00f3lapra m\u00e1solva", "clipboard.copy": "M\u00e1sol\u00e1s v\u00e1g\u00f3lapra", "search.result.more.one": "1 tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.more.other": "# tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.none": "Nincs tal\u00e1lat", "search.result.one": "1 egyez\u0151 dokumentum", "search.result.other": "# egyez\u0151 dokumentum", "search.result.placeholder": "Keres\u00e9shez \u00edrj ide valamit", "search.result.term.missing": "\u00dcres", "select.version": "Verzi\u00f3v\u00e1lt\u00e1s"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.2a6f1dda.min.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+    
+  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
 </html>

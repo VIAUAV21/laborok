@@ -3,12 +3,18 @@
 ## Bevezetés
 
 A labor célja a perzisztens adattárolás megismerése ORM technikával, a Room könyvtár segítségével.
-A labor egyúttal azt is bemutatja, hogy egy modern, összetett alkalamzás különböző részeit
-(adatelérés, üzleti logika, felhasználói felület) hogyan tudunk megfelelő rétegezéssel, áttekinthető
-és jól karban tartható architektúrával kifejleszteni.
+A labor egyúttal azt is bemutatja, hogy egy modern, összetett alkalamzás különböző részeit (adatelérés, üzleti logika, felhasználói felület) hogyan tudunk megfelelő rétegezéssel, áttekinthető és jól karban tartható architektúrával kifejleszteni.
 
-Ezeknek az elveknek a megismeréséhez az ötödik laboron megismert Todo alkalmazás kidolgozottabb
-verzióját készítjük el.
+Ezeknek az elveknek a megismeréséhez az ötödik laboron megismert Todo alkalmazás kidolgozottabb verzióját készítjük el.
+
+
+<p float="left">
+<img src="./assets/list.png" width="200" align="middle">
+<img src="./assets/details.png" width="200" align="middle">
+<img src="./assets/create.png" width="200" align="middle">
+<img src="./assets/datepicker.png" width="200" align="middle">
+</p>
+
 
 ## Előkészületek
 
@@ -35,6 +41,9 @@ Első lépésként indítsuk el az Android Studio-t, majd:
 1. Hozzunk létre egy új projektet, válasszuk az *Empty Compose Activity (Material3)* lehetőséget.
 2. A projekt neve legyen `Todo`, a kezdő package pedig `hu.bme.aut.android.todo`.
 3. A minimum API szint legyen *API24: Android 7.0 (Nougat)*.
+
+!!!danger "FILE PATH"
+	A projekt mindenképpen a repository-ban lévő Todo könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!
 
 ## A szöveges erőforrások létrehozása
 
@@ -63,25 +72,14 @@ Először is vegyük fel a majdan használandó szöveges címkéket a `strings.
 
 ## A domainmodell és az üzleti logika elkészítése
 
-Először a domain réteget fogjuk elkészíteni. Ez a domain (a megoldandó feladat) nagyjából
-technológiafüggetlen része, amelybe még nem vegyülnek a konkrét adattárolási technológiával
-vagy megjelenítéssel kapcsolatos részletek. Ezzel a közbülső réteggel az
-alkalmazásunk komponensei lazábban csatolttá válnak, és megkönnyítik, hogy kevés módosítással
-lecseréljük akár az adatbáziskezelésért felelős Roomot, akár a megjelenítést.
-Az itt megvalósított üzleti logika műveletek nem függenek közvetlen a
-Roomtól, csak a reposiory komponensektől, és mivel a tennivalók független domainmodelljével
-dolgoznak, a megjelenítéstől is függetlenek.
+Először a domain réteget fogjuk elkészíteni. Ez a domain (a megoldandó feladat) nagyjából technológiafüggetlen része, amelybe még nem vegyülnek a konkrét adattárolási technológiával vagy megjelenítéssel kapcsolatos részletek. Ezzel a közbülső réteggel az alkalmazásunk komponensei lazábban csatolttá válnak, és megkönnyítik, hogy kevés módosítással lecseréljük akár az adatbáziskezelésért felelős Roomot, akár a megjelenítést. Az itt megvalósított üzleti logika műveletek nem függenek közvetlen a Roomtól, csak a reposiory komponensektől, és mivel a tennivalók független domainmodelljével dolgoznak, a megjelenítéstől is függetlenek.
 
-Természetesen más architektúrával is lehet működőképes alkalmazást készíteni, de ez a megoldás
-vált Android platformon konvencionálissá, ezért ha ezt követjük, akkor könnyebben tudunk együtt
-dolgozni más fejlesztőkkel. A hivatalos dokumentáció is szentel ennek a kérdésnek egy fejezetet:
-https://developer.android.com/topic/architecture/domain-layer
+Természetesen más architektúrával is lehet működőképes alkalmazást készíteni, de ez a megoldás vált Android platformon konvencionálissá, ezért ha ezt követjük, akkor könnyebben tudunk együtt dolgozni más fejlesztőkkel. A hivatalos dokumentáció is szentel ennek a kérdésnek egy fejezetet:
+[https://developer.android.com/topic/architecture/domain-layer](https://developer.android.com/topic/architecture/domain-layer)
 
-A kódrészletek beillesztése után még maradni fog néhány fordítási hiba a hiányzó definíciók
-miatt, ezek majd fokozatosan eltűnnek, ahogyan elkészülünk a többi kóddal is.
+A kódrészletek beillesztése után még maradni fog néhány fordítási hiba a hiányzó definíciók miatt, ezek majd fokozatosan eltűnnek, ahogyan elkészülünk a többi kóddal is.
 
-Készítsünk egy `domain.model` package-et, majd ebbe az alábbi enumot, amely a lehetséges
-prioritásokat írja le:
+Készítsünk egy `domain.model` package-et, majd ebbe az alábbi enumot, amely a lehetséges prioritásokat írja le:
 
 ```kotlin
 enum class Priority {
@@ -124,15 +122,9 @@ fun Todo.asTodoEntity(): TodoEntity = TodoEntity(
 )
 ```
 
-Megfigyelhetjük, hogy a `Todo` ugyanazokkal a tagváltozókkal rendelkezik, mint a `TodoEntity`,
-de előbbi független modellje a tennivalóknak, míg utóbbi majd a Roomhoz kötődik, annak az
-annotációit is alkalmazza. Definiáltunk még a két típushoz konverziós logikát, és ezeket
-extension functionökként hoztuk létre. A tagváltozók egyezése miatt ebben az alkalmazásban
-ezek elég magától értetődő módon működnek. Előfordulhat olyan eset is, hogy a két modell
-némileg eltér egymástól.
+Megfigyelhetjük, hogy a `Todo` ugyanazokkal a tagváltozókkal rendelkezik, mint a `TodoEntity`, de előbbi független modellje a tennivalóknak, míg utóbbi majd a Roomhoz kötődik, annak az annotációit is alkalmazza. Definiáltunk még a két típushoz konverziós logikát, és ezeket extension functionökként hoztuk létre. A tagváltozók egyezése miatt ebben az alkalmazásban ezek elég magától értetődő módon működnek. Előfordulhat olyan eset is, hogy a két modell némileg eltér egymástól.
 
-Most készítsük el a `domain.usecases` package-et. Ebbe kerülnek az egyes üzletilogika-műveletek
-megvalósításai. Kezdjük a tennivaló létrehozásával:
+Most készítsük el a `domain.usecases` package-et. Ebbe kerülnek az egyes üzletilogika-műveletek megvalósításai. Kezdjük a tennivaló létrehozásával:
 
 ```kotlin
 class SaveTodoUseCase(private val repository: TodoRepository) {
@@ -144,12 +136,7 @@ class SaveTodoUseCase(private val repository: TodoRepository) {
 }
 ```
 
-Ennek a kódrészletnek a szerepe, hogy - akárcsak a domainmodell - leválasztja az üzleti logikát
-az adatrétegről. Jelen esetben az üzleti logikánk igen egyszerű, és ezért ezek a műveletek
-tulajdonképpen csak meghívják az adatréteget a repository komponenseken keresztül, illetve
-konvertálják a domainmodelleket entitásokká. Egy összetettebb alkalmazásban ez nem feltétlen van
-így, és ez a réteg akár bonyolultabb is lehet, több adatműveletből nagyobb léptékű, összetettebb
-műveleteket valósíthat meg.
+Ennek a kódrészletnek a szerepe, hogy - akárcsak a domainmodell - leválasztja az üzleti logikát az adatrétegről. Jelen esetben az üzleti logikánk igen egyszerű, és ezért ezek a műveletek tulajdonképpen csak meghívják az adatréteget a repository komponenseken keresztül, illetve konvertálják a domainmodelleket entitásokká. Egy összetettebb alkalmazásban ez nem feltétlen van így, és ez a réteg akár bonyolultabb is lehet, több adatműveletből nagyobb léptékű, összetettebb műveleteket valósíthat meg.
 
 A fentihez hasonló készítsük el a módosítás use case osztályát:
 
@@ -223,12 +210,7 @@ class TodoUseCases(repository: TodoRepository) {
 
 ## A felhasználói felület elkészítése
 
-Először a felhasznált adatok UI modelljével kezdünk. Ezek a korábban létrehozott domainmodellhez
-igen hasonlatosak, de a rugalmasabb architektúra és a laza csatolás megvalósítása miatt
-külön modelleket készítünk a felületen megjelenített adatokhoz. Ez egy ilyen egyszerű alkalmazásnál
-először indokolatlan duplikációnak tűnhet, az az érzésünk, hogy bizonyos dolgokat többször
-implementálunk. Azonban ahogy egy alkalmazás fejlődik, bővül, egy ilyen lazán csatolt és átlátható
-architektúra mindenképp kifizetődővé válik.
+Először a felhasznált adatok UI modelljével kezdünk. Ezek a korábban létrehozott domainmodellhez igen hasonlatosak, de a rugalmasabb architektúra és a laza csatolás megvalósítása miatt külön modelleket készítünk a felületen megjelenített adatokhoz. Ez egy ilyen egyszerű alkalmazásnál először indokolatlan duplikációnak tűnhet, az az érzésünk, hogy bizonyos dolgokat többször implementálunk. Azonban ahogy egy alkalmazás fejlődik, bővül, egy ilyen lazán csatolt és átlátható architektúra mindenképp kifizetődővé válik.
 
 Hozzuk létre a `ui.model` package-et, majd ebbe a prioritások modelljét:
 
@@ -332,7 +314,7 @@ fun Throwable.toUiText(): UiText {
 }
 ```
 
-Hozzuk még létre a `ui.utl` package-et, és ebbe az alábbi osztályt, amely a sikeres és
+Hozzuk még létre a `ui.util` package-et, és ebbe az alábbi osztályt, amely a sikeres és
 sikertelen felhasználói felületi események leírója lesz:
 
 ```kotlin
@@ -342,12 +324,9 @@ sealed class UiEvent {
 }
 ```
 
-Most hozzáfogunk a felületi elemek tényleges megvalósításához.
-A korábbi laborokon már megismertük a felhasználói felület felépítését, ezért itt ezeknek az
-ismertetése kisebb hangsúlyt kap, mivel ebben a témakörben már kevés újdonság merül fel.
+Most hozzáfogunk a felületi elemek tényleges megvalósításához. A korábbi laborokon már megismertük a felhasználói felület felépítését, ezért itt ezeknek az ismertetése kisebb hangsúlyt kap, mivel ebben a témakörben már kevés újdonság merül fel.
 
-A modul szintű `build.gradle` fájlunkba vegyük fel a szükséges függőségeket a Compose használatához.
-Egyelőre csak az alábbiak legyenek benne, minden más függőséget töröljünk:
+A modul szintű `build.gradle` fájlunkba vegyük fel a szükséges függőségeket a Compose használatához. Egyelőre csak az alábbiak legyenek benne, minden más függőséget töröljünk:
 
 ```groovy
     def composeBom = platform('androidx.compose:compose-bom:2023.01.00')
@@ -384,17 +363,13 @@ Szintén a modul szintű fájlban váltsunk egy frissebb Compose compiler bőví
     }
 ```
 
-A projekt szintű `build.gradle` fájlban pedig az androidos Kotlin plugin verzióját
-frissítsük, majd szinkronizáljuk a projektet:
+A projekt szintű `build.gradle` fájlban pedig az androidos Kotlin plugin verzióját frissítsük, majd szinkronizáljuk a projektet:
 
 ```groovy
 id 'org.jetbrains.kotlin.android' version '1.8.10' apply false
 ```
 
-A legutolsó függőség arra szolgál, hogy a modern dátum- és időkezelő osztályokat is
-használhassuk, amelyek egyébként még nem lennének elérhetőek Android platformon.
-A többi függőséget elvileg a korábbi laborokból már ismerjük. Még a `compileOptions`
-részbe is fel kell vennünk egy új sort a dátum- és időkezelés használatához:
+A legutolsó függőség arra szolgál, hogy a modern dátum- és időkezelő osztályokat is használhassuk, amelyek egyébként még nem lennének elérhetőek Android platformon. A többi függőséget elvileg a korábbi laborokból már ismerjük. Még a `compileOptions` részbe is fel kell vennünk egy új sort a dátum- és időkezelés használatához:
 
 ```groovy
     compileOptions {
@@ -405,9 +380,7 @@ részbe is fel kell vennünk egy új sort a dátum- és időkezelés használat�
     }
 ```
 
-Készítsünk egy `ui.common` package-et, ahova az alapvető felületi építőelemeink kerülnek.
-Hozzunk létre egy `DatePicker` komponenst, ez egy szövegmező jellegű dátumválasztó lesz, amelynek
-végén egy ikonra kattintva feljön egy dátumválasztó dialógus:
+Készítsünk egy `ui.common` package-et, ahova az alapvető felületi építőelemeink kerülnek. Hozzunk létre egy `DatePicker` komponenst, ez egy szövegmező jellegű dátumválasztó lesz, amelynek végén egy ikonra kattintva feljön egy dátumválasztó dialógus:
 
 ```kotlin
 @ExperimentalMaterial3Api
@@ -471,9 +444,7 @@ fun DatePicker_Preview() {
 }
 ```
 
-Most a dialógus következik, de ehhez egy külső könyvtárat veszünk igénybe, ezért előbb
-ezt fel kell vennünk a modulszintű `build.gradle` fájlunkba, és szinkronizálnunk is kell
-a projektet:
+Most a dialógus következik, de ehhez egy külső könyvtárat veszünk igénybe, ezért előbb ezt fel kell vennünk a modulszintű `build.gradle` fájlunkba, és szinkronizálnunk is kell a projektet:
 
 ```kotlin
     implementation"com.himanshoe:kalendar:1.2.0"
@@ -695,8 +666,7 @@ fun PriorityDropdown_Preview() {
 
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
-Most felhasználjuk az eddigieket, hogy létrehozzuk a szerkesztőt, ahol egy tennivaló jellemzőit
-tudjuk szerkeszteni:
+Most felhasználjuk az eddigieket, hogy létrehozzuk a szerkesztőt, ahol egy tennivaló jellemzőit tudjuk szerkeszteni:
 
 
 ```kotlin
@@ -865,11 +835,7 @@ fun TodoAppBar_Preview() {
 }
 ```
 
-Most az elemi felületi elemekkel végeztünk, elkezdhetjük a képernyőket felépíteni.
-Készítsünk egy `feature` csomagot. Ezen belül három fő funkciót fogunk
-megkülönböztetni: létrehozás, listázás, megjelenítés. Ezek egy-egy subpackage-be
-kerülnek. Kezdjük a létrehozással, és a `feature.todo_create` package elkészítésével.
-Először a létrehozás állapotát egy külön osztályba szervezzük:
+Most az elemi felületi elemekkel végeztünk, elkezdhetjük a képernyőket felépíteni. Készítsünk egy `feature` csomagot. Ezen belül három fő funkciót fogunk megkülönböztetni: létrehozás, listázás, megjelenítés. Ezek egy-egy subpackage-be kerülnek. Kezdjük a létrehozással, és a `feature.todo_create` package elkészítésével. Először a létrehozás állapotát egy külön osztályba szervezzük:
 
 ```kotlin
 data class CreateTodoState(
@@ -1046,12 +1012,7 @@ fun CreateTodoScreen(
 }
 ```
 
-Most a tennivalók megtekintésének implementációja következik, ez a
-`feature.todo_check` package-be kerüljön. A megoldásunk felépítése itt
-is hasonló, először a megtekintéshez kapcsolódó állapotot modellezük,
-aminek része a megtekintett tennivaló, hogy épp még betöltés zajlik-e,
-hogy éppen szerkesztés van-e folyamatban, illetve az esetlegesen fellépett
-hiba:
+Most a tennivalók megtekintésének implementációja következik, ez a `feature.todo_check` package-be kerüljön. A megoldásunk felépítése itt is hasonló, először a megtekintéshez kapcsolódó állapotot modellezük, aminek része a megtekintett tennivaló, hogy épp még betöltés zajlik-e, hogy éppen szerkesztés van-e folyamatban, illetve az esetlegesen fellépett hiba:
 
 ```kotlin
 data class CheckTodoState(
@@ -1320,11 +1281,7 @@ fun CheckTodoScreen(
 }
 ```
 
-Végül a tennivalók listája maradt hátra. Ez némileg egyszerűbb, mert itt nincs
-szükségünk események modellezésére. Az ehhez kapcsolódó kódokat a
-`feature.todo_list` package-be tegyük. Kezdjük az állapottal. Ez tárolja, hogy
-még zajlik-e a betöltés, történt-e hiba, illetve a betöltött tennivalók
-listáját:
+Végül a tennivalók listája maradt hátra. Ez némileg egyszerűbb, mert itt nincs szükségünk események modellezésére. Az ehhez kapcsolódó kódokat a `feature.todo_list` package-be tegyük. Kezdjük az állapottal. Ez tárolja, hogy még zajlik-e a betöltés, történt-e hiba, illetve a betöltött tennivalók listáját:
 
 ```kotlin
 data class TodosState(
@@ -1566,16 +1523,9 @@ class MainActivity : ComponentActivity() {
 
 ## Az adatréteg elkészítése
 
-Az alkalmazásunk rétegesen épül fel, és a különböző felelősségek, mint az adatbázis kezelése,
-valamint a megjelenés jól elkülönül egymástól. A felelősségek szétválasztásának az elve
-(separation of concerns) nem egyedi az Android platoformon, hanem minden szoftveres alkalmazásban
-elvárt, hiszen az iparági tapasztalatok azt mutatják, hogy így tudunk jól átlátható,
-és így magas minőségű, könnyen továbbfejleszthető és módosítható szoftvereket készíteni.
-Ennek köszönhető az is, hogy könnyen el tudtuk készíteni a felhasználói felületünket, anélkül,
-hogy az adatbáziskezeléssel eddig foglalkoznunk kellett volna. Most elkészítjük az adatbázis
-kezeléséért felelős komponenseket. Néhol úgy tűnhet majd, hogy bizonyos dolgokat "duplán"
-valósítunk meg, azonban ennek az előnyei egy valós komplex alkalmazásban mindig érvényesülnek,
-ezért érdemes megismernünk, és használnunk ezt az architekturális szervezést.
+Az alkalmazásunk rétegesen épül fel, és a különböző felelősségek, mint az adatbázis kezelése, valamint a megjelenés jól elkülönül egymástól. A felelősségek szétválasztásának az elve (separation of concerns) nem egyedi az Android platoformon, hanem minden szoftveres alkalmazásban elvárt, hiszen az iparági tapasztalatok azt mutatják, hogy így tudunk jól átlátható, és így magas minőségű, könnyen továbbfejleszthető és módosítható szoftvereket készíteni. Ennek köszönhető az is, hogy könnyen el tudtuk készíteni a felhasználói felületünket, anélkül, hogy az adatbáziskezeléssel eddig foglalkoznunk kellett volna. 
+
+Most elkészítjük az adatbázis kezeléséért felelős komponenseket. Néhol úgy tűnhet majd, hogy bizonyos dolgokat "duplán" valósítunk meg, azonban ennek az előnyei egy valós komplex alkalmazásban mindig érvényesülnek, ezért érdemes megismernünk, és használnunk ezt az architekturális szervezést.
 
 Az első lépés, hogy a Roomot mint függőséget vegyük fel a `build.gradle` fájlba:
 
@@ -1587,8 +1537,7 @@ Az első lépés, hogy a Roomot mint függőséget vegyük fel a `build.gradle` 
     implementation "androidx.room:room-ktx:$room_version"
 ```
 
-És a Room használatához a kapt pluginra is szükség van, ezért a fájl tetején a `plugins` szekcióba
-ezt vegyük fel:
+És a Room használatához a kapt pluginra is szükség van, ezért a fájl tetején a `plugins` szekcióba ezt vegyük fel:
 
 ```kotlin
 plugins {
@@ -1598,13 +1547,7 @@ plugins {
 }
 ```
 
-Most szükségünk van az elmentett tennivalók adatmodelljére. Mivel a megközelítésünkben a Room
-könyvtárat használjuk, ez azt jelenti, hogy egy olyan osztályt készítünk, amellyel a szoftverünkben
-futásidőben egy teendő jól modellezhető, és ezt az osztályt megfeleltetjük az SQLite adatbázisunk
-egy táblájával. Ez így kényelmes, hiszen a relációs adatmodell kiforrott, közismert, ezért
-az adatokat gyakran táblákban akarjuk tárolni, ugyanakkor a programunkban az objektumorientált
-szemléletben mozgunk otthonosan, és az adatokat ezért objektumokban szeretjük tárolni. Ezeket
-az osztályokat a szoftverfejlesztési terminológiában entitásoknak szoktuk nevezni.
+Most szükségünk van az elmentett tennivalók adatmodelljére. Mivel a megközelítésünkben a Room könyvtárat használjuk, ez azt jelenti, hogy egy olyan osztályt készítünk, amellyel a szoftverünkben futásidőben egy teendő jól modellezhető, és ezt az osztályt megfeleltetjük az SQLite adatbázisunk egy táblájával. Ez így kényelmes, hiszen a relációs adatmodell kiforrott, közismert, ezért az adatokat gyakran táblákban akarjuk tárolni, ugyanakkor a programunkban az objektumorientált szemléletben mozgunk otthonosan, és az adatokat ezért objektumokban szeretjük tárolni. Ezeket az osztályokat a szoftverfejlesztési terminológiában entitásoknak szoktuk nevezni.
 
 Hozzunk létre ezért egy `data.entities` package-et, és ebbe vegyük fel a következőt:
 
@@ -1620,19 +1563,9 @@ data class TodoEntity(
 )
 ```
 
-Ebben a kódban a Room könyvtár annotációval meg van jelölve, hogy az osztály egy entitás lesz,
-és a `todo_table` nevű táblába lesznek a példányai leképezve, valamint az `id` nevű tagváltozójának
-megfelelő oszlop lesz az elsődleges kulcs, és ennek értékeit beszúráskor fogja egyedi értékként
-generálni a környezet, vagyis nem kell nekünk gondoskodnunk róla, hogy minden új teendő új egyedi
-azonosítót kapjon.
+Ebben a kódban a Room könyvtár annotációval meg van jelölve, hogy az osztály egy entitás lesz, és a `todo_table` nevű táblába lesznek a példányai leképezve, valamint az `id` nevű tagváltozójának megfelelő oszlop lesz az elsődleges kulcs, és ennek értékeit beszúráskor fogja egyedi értékként generálni a környezet, vagyis nem kell nekünk gondoskodnunk róla, hogy minden új teendő új egyedi azonosítót kapjon.
 
-A következő lépés, hogy az entitáshoz kapcsolódó alapműveleteket is támogassuk a Room könyvtár
-segítségével. Ezt egy DAO (Data Access Object) komponenssel fogjuk megvalósítani. A DAO egy -
-szintén nem csak Android alatt alkalmazott - tervezési minta, amelynek a lényege, hogy az egy
-entitáshoz kapcsolódó összes adatbázisműveleteket egy komponensbe gyűjtjük össze. Ez egyrészt
-jól áttekinthető, illetve ha az adatbázist le szeretnénk cserélni más technológiára, akkor elvileg
-elegendő lenne a DAO komponens módosítása, bár ilyen jellegű módosításra manapság általában
-nincs szükség.
+A következő lépés, hogy az entitáshoz kapcsolódó alapműveleteket is támogassuk a Room könyvtár segítségével. Ezt egy DAO (Data Access Object) komponenssel fogjuk megvalósítani. A DAO egy - szintén nem csak Android alatt alkalmazott - tervezési minta, amelynek a lényege, hogy az egy entitáshoz kapcsolódó összes adatbázisműveleteket egy komponensbe gyűjtjük össze. Ez egyrészt jól áttekinthető, illetve ha az adatbázist le szeretnénk cserélni más technológiára, akkor elvileg elegendő lenne a DAO komponens módosítása, bár ilyen jellegű módosításra manapság általában nincs szükség.
 
 Hozzunk létre egy `data.dao` package-et, és ebbe vegyük fel az alábbit:
 
@@ -1657,15 +1590,9 @@ interface TodoDao {
 }
 ```
 
-Láthatjuk, hogy egyrészt maga az interfész is meg van jelölve, mint DAO komponens, másrészt az
-egyes műveleteken is Room annotációk vannak. A Room az annotációból, illetve az annotált metódus
-paramétereiből és visszatérési értékéből ki tudja következtetni a szándékunkat. Beszéljük át
-az egyes metódusok jelentését a gyakorlatvezetővel! Mivel ez a komponens egy interfész, ezt nem
-mi fogjuk implementálni, hanem a Room készíti el futásidőben az implementációját.
+Láthatjuk, hogy egyrészt maga az interfész is meg van jelölve, mint DAO komponens, másrészt az egyes műveleteken is Room annotációk vannak. A Room az annotációból, illetve az annotált metódus paramétereiből és visszatérési értékéből ki tudja következtetni a szándékunkat. Beszéljük át az egyes metódusok jelentését a gyakorlatvezetővel! Mivel ez a komponens egy interfész, ezt nem mi fogjuk implementálni, hanem a Room készíti el futásidőben az implementációját.
 
-Ezután egy repository komponenst készítünk. Ez némileg úgy tűnik, mintha nem adna hozzá túl sokat
-a DAO-hoz, azonban fontos célja, hogy a felsőbb rétegeket függetlenítse a Roomtól, hogy ne
-közvetlen attól függjenek.
+Ezután egy repository komponenst készítünk. Ez némileg úgy tűnik, mintha nem adna hozzá túl sokat a DAO-hoz, azonban fontos célja, hogy a felsőbb rétegeket függetlenítse a Roomtól, hogy ne közvetlen attól függjenek.
 
 Készítsünk egy `data.repository` package-et, majd ebben először egy interfészt:
 
@@ -1700,10 +1627,7 @@ class TodoRepositoryImpl(private val dao: TodoDao) : TodoRepository {
 }
 ```
 
-Még három feladatunk van az adatréteg kialakításában. Az első, hogy a letárolni kívánt
-Java-típusok és az SQLite beépített típusai közt nem teljes az egyezés. Ezt konverterekkel
-kell áthidalnunk. Készítsünk egy `data.converters` package-et, és ebbe először a dátumokkal
-kapcsolatos konverterek implementációját:
+Még három feladatunk van az adatréteg kialakításában. Az első, hogy a letárolni kívánt Java-típusok és az SQLite beépített típusai közt nem teljes az egyezés. Ezt konverterekkel kell áthidalnunk. Készítsünk egy `data.converters` package-et, és ebbe először a dátumokkal kapcsolatos konverterek implementációját:
 
 ```kotlin
 object LocalDateConverter {
@@ -1716,10 +1640,7 @@ object LocalDateConverter {
 }
 ```
 
-A metódusokon levő `@TypeConverter` annotáció jelzi a Room számára, hogy ezeket a függvényeket
-konverzióhoz használhatja, a szignatúrából pedig egyértelműen kikövetkeztethető, hogy milyen
-típusok közt tud velük konvertálni. Most a prioritás enumerációt is támogassuk a megfelelő
-konverterekkel:
+A metódusokon levő `@TypeConverter` annotáció jelzi a Room számára, hogy ezeket a függvényeket konverzióhoz használhatja, a szignatúrából pedig egyértelműen kikövetkeztethető, hogy milyen típusok közt tud velük konvertálni. Most a prioritás enumerációt is támogassuk a megfelelő konverterekkel:
 
 ```kotlin
 object TodoPriorityConverter {
@@ -1739,9 +1660,7 @@ object TodoPriorityConverter {
 }
 ```
 
-A második lépés, hogy az elkészült komponensekből össze kell állítanunk az adatbáziskezelés
-globális beállításait összefogó `RoomDatabase` implementációnkat. Ezt tegyük a `data` package
-gyökerébe:
+A második lépés, hogy az elkészült komponensekből össze kell állítanunk az adatbáziskezelés globális beállításait összefogó `RoomDatabase` implementációnkat. Ezt tegyük a `data` package gyökerébe:
 
 ```kotlin
 @Database(entities = [TodoEntity::class], version = 1)
@@ -1751,19 +1670,9 @@ abstract class TodoDatabase : RoomDatabase() {
 }
 ```
 
-Figyeljük meg az annotációkat! Itt meg vannak hivatkozva a használni kívánt entitások és konverterek,
-illetve az adatbázisséma egy verziószámot is kap. Ez azért hasznos, mert ahogy fejlődik az alkalmazás,
-az adatbázis sémája is változhat, fejlődhet. Ilyen esetekben arra is lehetőséget ad a Room, hogy
-migrációkat biztosítsunk a régebbi adatbázissémákról történő frissítésre. Ha telepítve van az
-alkalmazás régi verziója, amely már mentett el adatokat az eszközre, és frissítjük az alkalmazást,
-akkor a következő indulás után a Room megvizsgálja, hogy történt-e változás az adatbázis verziójában,
-és szükség esetén futtatja a migrációkat.
+Figyeljük meg az annotációkat! Itt meg vannak hivatkozva a használni kívánt entitások és konverterek, illetve az adatbázisséma egy verziószámot is kap. Ez azért hasznos, mert ahogy fejlődik az alkalmazás, az adatbázis sémája is változhat, fejlődhet. Ilyen esetekben arra is lehetőséget ad a Room, hogy migrációkat biztosítsunk a régebbi adatbázissémákról történő frissítésre. Ha telepítve van az alkalmazás régi verziója, amely már mentett el adatokat az eszközre, és frissítjük az alkalmazást, akkor a következő indulás után a Room megvizsgálja, hogy történt-e változás az adatbázis verziójában, és szükség esetén futtatja a migrációkat.
 
-Az utolsó lépés az adatbáziskezelés implementációjához, hogy az alkalmazás indulásakor inicializáljuk
-az adatbázist. Ehhez egy `Application` osztállyal kell kiegészítenünk az alkalmazásunkat. Az
-`Application` osztály a teljes alkalmazás életciklus-eseményeit tudja kezelni, illetve arra is alkalmas,
-hogy itt globális adatokat mentsünk el, amelyeket majd az alkalmazás tetszőleges komponenseiből
-elérhetővé akarunk tenni. Ezt az alkalmazás "root package"-ébe, a `MainActivity` mellé tegyük:
+Az utolsó lépés az adatbáziskezelés implementációjához, hogy az alkalmazás indulásakor inicializáljuk az adatbázist. Ehhez egy `Application` osztállyal kell kiegészítenünk az alkalmazásunkat. Az `Application` osztály a teljes alkalmazás életciklus-eseményeit tudja kezelni, illetve arra is alkalmas, hogy itt globális adatokat mentsünk el, amelyeket majd az alkalmazás tetszőleges komponenseiből elérhetővé akarunk tenni. Ezt az alkalmazás "root package"-ébe, a `MainActivity` mellé tegyük:
 
 ```kotlin
 class TodoApplication : Application() {
@@ -1787,10 +1696,7 @@ class TodoApplication : Application() {
 }
 ```
 
-Látható, hogy az alkalmazás indulásakor létrehozzuk az adatbázist és a `TodoRepositoryImpl`-et,
-majd ezeket az osztály companion objectjébe el is mentjük. Hogy az `Application` osztály
-tényleg az elvásárunk szerint működjünk, még meg is kell hivatkozni a `Manifest.xml`
-fájl `application` elemében. Cseréljük az `application` elem nyitó tagjét az alábbira:
+Látható, hogy az alkalmazás indulásakor létrehozzuk az adatbázist és a `TodoRepositoryImpl`-et, majd ezeket az osztály companion objectjébe el is mentjük. Hogy az `Application` osztály tényleg az elvásárunk szerint működjünk, még meg is kell hivatkozni a `Manifest.xml` fájl `application` elemében. Cseréljük az `application` elem nyitó tagjét az alábbira:
 
 ```xml
     <application
@@ -1832,7 +1738,7 @@ Valósítsd meg az összes tennivaló törlését, pl. az AppBaron elhelyezett g
 
 Hosszú kattintásra lenyíló menüből lehessen megosztani a tennivalókat más alkalmazásokkal szöveges üzenetként. Az üzenet tartalmazza a tennivaló jellemzőit.
 
-Segítség: https://developer.android.com/training/sharing/send
+Segítség: [https://developer.android.com/training/sharing/send](https://developer.android.com/training/sharing/send)
 
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazásban a megosztás funkció**,

@@ -107,19 +107,19 @@ Következő lépésben szintén az *Assistant*-ban az *Authenticate using a cust
 <img src="./assets/firebase_auth_connect.png">
 </p>
 
-<!--
-Sajnos a Firebase plugin nincs rendszeresen frissítve, és így majdnem mindig a függőségek régi verzióját adja hozzá a `build.gradle` fájlokhoz. Ezért most frissíteni fogjuk az imént automatikusan felvett függőségeket, valamint innentől manuálisan fogjuk hozzáadni az újabbakat az *Assistant* használata helyett. Fontos, hogy mindenből az itt leírt verziót használjuk.
+
+Sajnos a Firebase plugin nincs rendszeresen frissítve, és így előfordul, hogy a függőségek régi verzióját adja hozzá a `build.gradle` fájlokhoz. Ezért most frissíteni fogjuk az imént automatikusan felvett függőségeket, valamint innentől manuálisan fogjuk hozzáadni az újabbakat az *Assistant* használata helyett. Fontos, hogy mindenből az itt leírt verziót használjuk.
 
 Cseréljük le a projekt szintű `build.gradle` fájlban a `google-services`-t az alábbi verzióra:
 
 ```groovy
 classpath 'com.google.gms:google-services:4.3.15'
 ```
--->
+
 A Firebase BoM segítségével egységesen tudjuk kezelni az összes firebase könyvtárunk verziószámát.
 Cseréljük le a modul szintű `build.gradle`-ben a `firebase-auth` verziót a következőre:
 ```groovy
-implementation platform('com.google.firebase:firebase-bom:29.3.1')
+implementation platform('com.google.firebase:firebase-bom:31.5.0')
 implementation 'com.google.firebase:firebase-auth-ktx'
 ```
 
@@ -142,10 +142,7 @@ import hu.aut.bme.android.todo.domain.model.User
 import kotlinx.coroutines.channels.awaitClose  
 import kotlinx.coroutines.flow.Flow  
 import kotlinx.coroutines.flow.callbackFlow  
-import kotlinx.coroutines.tasks.await  
-import kotlin.coroutines.resume  
-import kotlin.coroutines.resumeWithException  
-import kotlin.coroutines.suspendCoroutine
+import kotlinx.coroutines.tasks.await
 
 class FirebaseAuthService(private val firebaseAuth: FirebaseAuth) : AuthService {
     override val currentUserId: String? get() = firebaseAuth.currentUser?.uid
@@ -246,7 +243,7 @@ Következő lépésben a feladatok listázását fogjuk implementálni a projekt
 Adjuk hozzá a projekthez a *Cloud Firestore* támogatást.
 
 ```groovy
-    implementation 'com.google.firebase:firebase-firestore-ktx'
+implementation 'com.google.firebase:firebase-firestore-ktx'
 ```
 
 Kapcsoljuk be a *Cloud Firestore*-t a *Firebase console*-on is . Az adatbázist *test mode*-ban fogjuk használni, így egyelőre publikusan írható/olvasható lesz, de cserébe nem kell konfigurálnunk a hozzáférés-szabályozást. Ezt természetesen később mindenképp meg kellene tenni egy éles projektben.

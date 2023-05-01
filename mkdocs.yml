@@ -93,5 +93,6 @@ nav:
       - laborok/todo_compose_basics/index.md
       - laborok/permissions/index.md
       - laborok/persistence/index.md
+      - laborok/firebase/index.md
   - "Házi feladat":
       - hf/index.md

@@ -967,17 +967,13 @@ Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a más
 <a class="glightbox" href="./assets/firebase_auth_connect.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_auth_connect.png"></a>
 </p>
 
-<!--
-Sajnos a Firebase plugin nincs rendszeresen frissítve, és így majdnem mindig a függőségek régi verzióját adja hozzá a `build.gradle` fájlokhoz. Ezért most frissíteni fogjuk az imént automatikusan felvett függőségeket, valamint innentől manuálisan fogjuk hozzáadni az újabbakat az *Assistant* használata helyett. Fontos, hogy mindenből az itt leírt verziót használjuk.
-
-Cseréljük le a projekt szintű `build.gradle` fájlban a `google-services`-t az alábbi verzióra:
-
+<p>Sajnos a Firebase plugin nincs rendszeresen frissítve, és így előfordul, hogy a függőségek régi verzióját adja hozzá a <code>build.gradle</code> fájlokhoz. Ezért most frissíteni fogjuk az imént automatikusan felvett függőségeket, valamint innentől manuálisan fogjuk hozzáadni az újabbakat az <em>Assistant</em> használata helyett. Fontos, hogy mindenből az itt leírt verziót használjuk.</p>
+<p>Cseréljük le a projekt szintű <code>build.gradle</code> fájlban a <code>google-services</code>-t az alábbi verzióra:</p>
 <div class="highlight"><pre><span></span><code><span class="n">classpath</span><span class="w"> </span><span class="s1">&#39;com.google.gms:google-services:4.3.15&#39;</span>
 </code></pre></div>
--->
 <p>A Firebase BoM segítségével egységesen tudjuk kezelni az összes firebase könyvtárunk verziószámát.
 Cseréljük le a modul szintű <code>build.gradle</code>-ben a <code>firebase-auth</code> verziót a következőre:
-<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="w"> </span><span class="nf">platform</span><span class="o">(</span><span class="s1">&#39;com.google.firebase:firebase-bom:29.3.1&#39;</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="w"> </span><span class="nf">platform</span><span class="o">(</span><span class="s1">&#39;com.google.firebase:firebase-bom:31.5.0&#39;</span><span class="o">)</span>
 <span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;com.google.firebase:firebase-auth-ktx&#39;</span>
 </code></pre></div></p>
 <p>A generált projektváz többi általános függősége (pl. appcompat és ktx-core könyvtárak) is elavult lehet, ezt az Android Studio jelzi is sötétsárga háttérrel. Ezekre ráállva a kurzorral az Alt-Enter gyorsbillenytűvel kiválaszthatjuk ezeknek a frissítését.</p>
@@ -995,10 +991,7 @@ Cseréljük le a modul szintű <code>build.gradle</code>-ben a <code>firebase-au
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.channels.awaitClose</span><span class="w">  </span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.Flow</span><span class="w">  </span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.callbackFlow</span><span class="w">  </span>
-<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.tasks.await</span><span class="w">  </span>
-<span class="k">import</span><span class="w"> </span><span class="nn">kotlin.coroutines.resume</span><span class="w">  </span>
-<span class="k">import</span><span class="w"> </span><span class="nn">kotlin.coroutines.resumeWithException</span><span class="w">  </span>
-<span class="k">import</span><span class="w"> </span><span class="nn">kotlin.coroutines.suspendCoroutine</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.tasks.await</span>
 
 <span class="kd">class</span><span class="w"> </span><span class="nc">FirebaseAuthService</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">firebaseAuth</span><span class="p">:</span><span class="w"> </span><span class="n">FirebaseAuth</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">AuthService</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">currentUserId</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">firebaseAuth</span><span class="p">.</span><span class="na">currentUser</span><span class="o">?.</span><span class="na">uid</span>
@@ -1085,7 +1078,7 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>AuthService</code> int
 <h2 id="feladatok-listazasa-keszitese">Feladatok listázása, készítése<a class="headerlink" href="#feladatok-listazasa-keszitese" title="Permanent link">&para;</a></h2>
 <p>Következő lépésben a feladatok listázását fogjuk implementálni a projekten belül.</p>
 <p>Adjuk hozzá a projekthez a <em>Cloud Firestore</em> támogatást.</p>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;com.google.firebase:firebase-firestore-ktx&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;com.google.firebase:firebase-firestore-ktx&#39;</span>
 </code></pre></div>
 <p>Kapcsoljuk be a <em>Cloud Firestore</em>-t a <em>Firebase console</em>-on is . Az adatbázist <em>test mode</em>-ban fogjuk használni, így egyelőre publikusan írható/olvasható lesz, de cserébe nem kell konfigurálnunk a hozzáférés-szabályozást. Ezt természetesen később mindenképp meg kellene tenni egy éles projektben.</p>
 <p align="center">
@@ -1333,8 +1326,8 @@ ugyanezen menüpont alatt lesznek elérhetők.</p>
           </path>
         </svg>
       </span>
-      <span title="2023. május 1. 17:00:17">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-01T17:00:17+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-01</span>
+      <span title="2023. május 1. 23:48:22">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-01T23:48:22+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-01</span>
       </span>
     </span>
 

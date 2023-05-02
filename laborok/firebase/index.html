@@ -942,9 +942,10 @@ Az alkalmazás az alábbi fő funkciókat támogatja:
 <li>A projekt neve legyen <em>BMETodoNEPTUN_KOD</em>, ahol a <code>NEPTUN_KOD</code> helyére a saját Neptun kódunkat helyettesítsük!</li>
 <li>Az analitikát most még nem szükséges konfigurálni.</li>
 </ul>
-<blockquote>
+<div class="admonition danger">
+<p class="admonition-title">projekt név</p>
 <p>A Neptun kódra azért van szükség, mert ugyanazon laborgép kulcsával ugyanolyan nevű projektet nem hozhatunk létre többször, és több laborcsoport lévén ebből probléma adódhatna. Ugyanerre lesz majd szükség a package név esetén is.</p>
-</blockquote>
+</div>
 <p>Sikeres projekt létrehozás után fussák át a laborvezetővel közösen a Firebase console felületét az alábbi elemekre kitérve:
 - Authentication, Firestore és Storage.</p>
 <p>Nézzük át a megnyitott projektet! Különös figyelemmel vizsgáljuk át a projekt mostani felépítését, az új részeket (todo_auth, data package), illetve hogyan lehetséges ebben átállni a Firebase szolgáltatásaira.</p>
@@ -956,8 +957,10 @@ Az alkalmazás az alábbi fő funkciókat támogatja:
 <p>A <em>Firebase Assistant</em> akkor fogja megtalálni a Firebase console-on létrehozott projektet, ha Android Studioba is ugyanazzal a Google accounttal vagyunk bejelentkezve, mint amivel a console-on létrehoztuk a projektet. Ellenőrizzük ezt mindkét helyen! Amennyiben a <em>Firebase Assistant</em>-ot nem sikerül beüzemelni, manuálisan is összeköthető a két projekt. A leírásban ismertetni fogjuk a lépéseket, amelyeket az <em>Assistant</em> végez el.</p>
 <p>Válasszuk az <em>Assistant</em>-ban az <em>Authentication</em> szakaszt és azon belül az <em>Authenticate using a custom authentication system [KOTLIN]</em>-t, majd a <em>Connect to Firebase</em> gombot.
 Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a második szakaszt (<em>Choose an existing Firebase or Google project</em>) választva kiválaszthatjuk a projektet, amit a Firebase console-on már létrehoztunk. Itt egyébként lehetőség van új projektet is létrehozni. (Ha elsőre hibát látunk a projekttel való összekapcsolásnál, próbáljuk újra, másodszorra általában sikeresen megtörténik az Android Studio projekt szinkronizálása a Firebase projekttel.)</p>
+<div class="admonition info">
 <p>A háttérben valójában annyi történik, hogy az alkalmazásunk package neve és az aláíró kulcs <em>SHA-1 hash-e</em> alapján hozzáadódik egy Android alkalmazás a Firebase console-on lévő projektünkhöz, és az ahhoz tartozó konfigurációs (<code>google-services.json</code>) fájl letöltődik a projektünk könyvtárába az alapértelmezett (<code>app</code>) modul alá.</p>
 <p>Ezt a lépéssorozatot manuálisan is végrehajthatjuk a Firebase console-on az <em>Add Firebase to your Android app</em>-et választva. A debug kulcs <em>SHA-1</em> lenyomata ilyenkor a jobb oldalon található Gradle fülön a <em>Gradle -&gt; [projektnév] -&gt; Tasks -&gt; android -&gt; signingReport</em> taskot futtatva kinyerhető alul az <em>execution/text</em> módot választva.</p>
+</div>
 <p align="center">
 <a class="glightbox" href="./assets/android_studio_signingreport.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/android_studio_signingreport.png"></a>
 </p>
@@ -983,11 +986,11 @@ Cseréljük le a modul szintű <code>build.gradle</code>-ben a <code>firebase-au
 </p>
 
 <p>Készítsük el a megfelelő <code>Service</code> osztályt. Hozzunk létre a <code>data/auth</code> package-en belül a <code>FirebaseAuthService</code> osztályt! Valósítsuk meg az <code>AuthService</code> interfész egyes metódusait! Ehhez szükségünk lesz egy <code>FirebaseAuth</code> objektumra, melyet külső forrásból fogunk megkapni:</p>
-<p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo.data.auth</span><span class="w">  </span>
+<p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.auth</span><span class="w">  </span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.auth.FirebaseAuth</span><span class="w">  </span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.auth.UserProfileChangeRequest</span><span class="w">  </span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo.domain.model.User</span><span class="w">  </span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.model.User</span><span class="w">  </span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.channels.awaitClose</span><span class="w">  </span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.Flow</span><span class="w">  </span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.callbackFlow</span><span class="w">  </span>
@@ -1048,14 +1051,14 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>AuthService</code> int
 </code></pre></div>
 <p>A <code>suspendCoroutine</code> metódus le fogja futtatni a benne megadott blokkot, majd addig várakoztatja a coroutine-t, ameddig a blokkban megkapott <code>Continuation</code> objektumon keresztül nem jelezzük a hívás végeredményét. Ezzel a függvénnyel könnyedén át tudjuk alakítani a <code>Callback</code> jellegű működéseket <code>suspend</code> alapúra. Arra azonban figyeljünk, hogy minden esetben meghívódjon a <code>Continuation</code> valamelyik <code>resume</code> metódusa, ellenkező esetben ugyanis befagy az adott coroutine, sose fog tudni továbblépni. Hasonlóan hasznos függvény a <code>suspendCancellableCoroutine</code>, mellyel azokat az eseteket is le tudjuk kezelni, ha a coroutine-t a folyamat közben törlik.</p>
 <p>Állítsuk át az alkalmazásunkat, hogy ezt az új <code>FirebaseAuthService</code>-t használja! Ehhez módosítsuk a <code>TodoApplication</code> osztályunkat:</p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo</span><span class="w">  </span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.bme.android.todo</span><span class="w">  </span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">android.app.Application</span><span class="w">  </span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.auth.FirebaseAuth</span><span class="w">  </span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo.data.auth.AuthService</span><span class="w">  </span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo.data.auth.FirebaseAuthService</span><span class="w">  </span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo.data.todos.MemoryTodoService</span><span class="w">  </span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo.data.todos.TodoService</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.auth.AuthService</span><span class="w">  </span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.auth.FirebaseAuthService</span><span class="w">  </span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.MemoryTodoService</span><span class="w">  </span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.TodoService</span>
 
 <span class="kd">class</span><span class="w"> </span><span class="nc">TodoApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">(){</span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -1088,12 +1091,12 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>AuthService</code> int
 <p>Locationnek válasszunk egy hozzánk közel eső opciót.</p>
 <p>Hozzuk létre a <code>todos</code> package-en belül a <code>firebase</code> package-et. Ebben két osztályt fogunk definiálni: a Firestore-ban tárolt adatobjektum osztály modelljét, illetve a kommunikációt megvalósító service kódját.</p>
 <p>Hozzuk először létre az adatot reprezentáló osztályt <code>FirebaseTodo</code> néven:
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo.data.todos.firebase</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.firebase</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.Timestamp</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.DocumentId</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo.domain.model.Priority</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo.domain.model.Todo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.model.Priority</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.model.Todo</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.datetime.*</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">java.time.Instant</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">java.time.LocalDateTime</span>
@@ -1109,34 +1112,35 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>AuthService</code> int
 <span class="p">)</span>
 
 <span class="kd">fun</span><span class="w"> </span><span class="n">FirebaseTodo</span><span class="p">.</span><span class="nf">asTodo</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Todo</span><span class="p">(</span>
-<span class="w">    </span><span class="n">id</span><span class="p">,</span>
-<span class="w">    </span><span class="n">title</span><span class="p">,</span>
-<span class="w">    </span><span class="n">priority</span><span class="p">,</span>
-<span class="w">    </span><span class="n">LocalDateTime</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span>
+<span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">title</span><span class="p">,</span>
+<span class="w">    </span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">priority</span><span class="p">,</span>
+<span class="w">    </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDateTime</span>
 <span class="w">        </span><span class="p">.</span><span class="na">ofInstant</span><span class="p">(</span><span class="n">Instant</span><span class="p">.</span><span class="na">ofEpochSecond</span><span class="p">(</span><span class="n">dueDate</span><span class="p">.</span><span class="na">seconds</span><span class="p">),</span><span class="w"> </span><span class="n">ZoneId</span><span class="p">.</span><span class="na">systemDefault</span><span class="p">())</span>
 <span class="w">        </span><span class="p">.</span><span class="na">toKotlinLocalDateTime</span><span class="p">()</span>
 <span class="w">        </span><span class="p">.</span><span class="na">date</span><span class="p">,</span>
-<span class="w">    </span><span class="n">description</span><span class="p">,</span>
+<span class="w">    </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">description</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="kd">fun</span><span class="w"> </span><span class="n">Todo</span><span class="p">.</span><span class="nf">asFirebaseTodo</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FirebaseTodo</span><span class="p">(</span>
-<span class="w">    </span><span class="n">id</span><span class="p">,</span>
-<span class="w">    </span><span class="n">title</span><span class="p">,</span>
-<span class="w">    </span><span class="n">priority</span><span class="p">,</span>
-<span class="w">    </span><span class="n">Timestamp</span><span class="p">(</span><span class="n">Date</span><span class="p">.</span><span class="na">from</span><span class="p">(</span><span class="n">dueDate</span><span class="p">.</span><span class="na">atStartOfDayIn</span><span class="p">(</span><span class="n">TimeZone</span><span class="p">.</span><span class="na">currentSystemDefault</span><span class="p">()).</span><span class="na">toJavaInstant</span><span class="p">()))</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span>
+<span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">title</span><span class="p">,</span>
+<span class="w">    </span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">priority</span><span class="p">,</span>
+<span class="w">    </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Timestamp</span><span class="p">(</span><span class="n">Date</span><span class="p">.</span><span class="na">from</span><span class="p">(</span><span class="n">dueDate</span><span class="p">.</span><span class="na">atStartOfDayIn</span><span class="p">(</span><span class="n">TimeZone</span><span class="p">.</span><span class="na">currentSystemDefault</span><span class="p">()).</span><span class="na">toJavaInstant</span><span class="p">())),</span>
+<span class="w">    </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">description</span><span class="p">,</span>
 <span class="p">)</span>
 </code></pre></div>
 Ebben a fájlban definiáltuk a két átalakító függvényt is, mellyel a Firebase és az alkalmazás többi részében használt Todo osztály között tudunk átalakítani. Az egyedüli bonyolult rész a Firebase által használt <code>Timestamp</code> osztály használata az időpont eltárolására, erre most részletesen nem térünk ki.</p>
 <p>Hozzuk létre a feladatok tárolását végző <code>FirebaseTodoService</code> osztályt is ebben a package-ben:
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo.data.todos.firebase</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.firebase</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.FirebaseFirestore</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.ktx.snapshots</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.ktx.toObjects</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.ktx.toObject</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo.data.auth.AuthService</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo.data.todos.TodoService</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo.domain.model.Todo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.auth.AuthService</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.TodoService</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.model.Todo</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.*</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.tasks.await</span>
 
@@ -1191,15 +1195,15 @@ Ebben a fájlban definiáltuk a két átalakító függvényt is, mellyel a Fire
 <span class="p">}</span>
 </code></pre></div>
 Végül ne felejtsük el befrissíteni a <code>TodoApplication</code> osztályunkat, hogy a Firestoreban tárolt feladatokat használja az alkalmazás:</p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">android.app.Application</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.auth.FirebaseAuth</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.FirebaseFirestore</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo.data.auth.AuthService</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo.data.auth.FirebaseAuthService</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo.data.todos.TodoService</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.aut.bme.android.todo.data.todos.firebase.FirebaseTodoService</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.auth.AuthService</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.auth.FirebaseAuthService</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.TodoService</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.firebase.FirebaseTodoService</span>
 
 <span class="kd">class</span><span class="w"> </span><span class="nc">TodoApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">(){</span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -1326,8 +1330,8 @@ ugyanezen menüpont alatt lesznek elérhetők.</p>
           </path>
         </svg>
       </span>
-      <span title="2023. május 1. 23:48:22">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-01T23:48:22+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-01</span>
+      <span title="2023. május 2. 13:37:35">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-02T13:37:35+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-02</span>
       </span>
     </span>
 
@@ -1344,6 +1348,8 @@ ugyanezen menüpont alatt lesznek elérhetők.</p>
       <span>Szerzők</span>
       <nav><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
           <img src="https://avatars.githubusercontent.com/u/8405234?size=72" alt="@danim1130">
+        </a><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
+          <img src="https://avatars.githubusercontent.com/u/23335752?size=72" alt="@gazdilaci">
         </a></nav>      
     </span>
   </div>

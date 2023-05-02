@@ -210,7 +210,7 @@ A `suspendCoroutine` metódus le fogja futtatni a benne megadott blokkot, majd a
 Állítsuk át az alkalmazásunkat, hogy ezt az új `FirebaseAuthService`-t használja! Ehhez módosítsuk a `TodoApplication` osztályunkat:
 
 ```kotlin
-package hu.bme.aut.bme.android.todo  
+package hu.bme.aut.android.todo  
   
 import android.app.Application  
 import com.google.firebase.auth.FirebaseAuth  
@@ -397,6 +397,9 @@ Próbáljuk ki az alkalmazásunkat! Ellenőrizzük, hogy tényleg létrejönnek 
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy képernyő képet, amin látszódik Firebase Firestore oldalán a létrehozott feladat, illetve a futó alkalmazás, melyben az egyik létrehozott feladat tartalmazza a Neptun-kódot. A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
+!!!warning "Messaging, Crashlytics, Analytics"
+	A kövezkező technológiák átfutási ideje sajnos hosszabb, így az eredményre nem ritkán órákat is várni kell. (A notificationnek néhány perc alatt meg kell jönnie.)
+	
 ## Push értesítések
 
 Adjuk hozzá a projektünkhöz a `firebase-messaging` függőséget:
@@ -420,7 +423,7 @@ válasszuk ki az alkalmazást, hogy minden futó példány megkapja az üzenetet
 </p>
 
 <p align="center">
-<img src="./assets/firebase_push_notification_success.png" width="512">
+<img src="./assets/firebase_push_notification_success.png" width="320">
 </p>
 
 Természetesen lehetőség van saját push üzenet feldolgozó szolgáltatás készítésére is egy `FirebaseMessagingService` létrehozásával, melyről további részletek [itt olvashatók](https://firebase.google.com/docs/cloud-messaging/android/receive).  

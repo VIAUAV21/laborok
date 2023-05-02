@@ -71,7 +71,8 @@ Első lépésként létre kell hozni egy Firebase projektet a Firebase admin fel
 - A projekt neve legyen *BMETodoNEPTUN_KOD*, ahol a `NEPTUN_KOD` helyére a saját Neptun kódunkat helyettesítsük!
 - Az analitikát most még nem szükséges konfigurálni.
 
->A Neptun kódra azért van szükség, mert ugyanazon laborgép kulcsával ugyanolyan nevű projektet nem hozhatunk létre többször, és több laborcsoport lévén ebből probléma adódhatna. Ugyanerre lesz majd szükség a package név esetén is.
+!!!danger "projekt név"
+	A Neptun kódra azért van szükség, mert ugyanazon laborgép kulcsával ugyanolyan nevű projektet nem hozhatunk létre többször, és több laborcsoport lévén ebből probléma adódhatna. Ugyanerre lesz majd szükség a package név esetén is.
 
 Sikeres projekt létrehozás után fussák át a laborvezetővel közösen a Firebase console felületét az alábbi elemekre kitérve:
 - Authentication, Firestore és Storage.
@@ -93,9 +94,10 @@ A *Firebase Assistant* akkor fogja megtalálni a Firebase console-on létrehozot
 Válasszuk az *Assistant*-ban az *Authentication* szakaszt és azon belül az *Authenticate using a custom authentication system [KOTLIN]*-t, majd a *Connect to Firebase* gombot.
 Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a második szakaszt (*Choose an existing Firebase or Google project*) választva kiválaszthatjuk a projektet, amit a Firebase console-on már létrehoztunk. Itt egyébként lehetőség van új projektet is létrehozni. (Ha elsőre hibát látunk a projekttel való összekapcsolásnál, próbáljuk újra, másodszorra általában sikeresen megtörténik az Android Studio projekt szinkronizálása a Firebase projekttel.)
 
-A háttérben valójában annyi történik, hogy az alkalmazásunk package neve és az aláíró kulcs *SHA-1 hash-e* alapján hozzáadódik egy Android alkalmazás a Firebase console-on lévő projektünkhöz, és az ahhoz tartozó konfigurációs (`google-services.json`) fájl letöltődik a projektünk könyvtárába az alapértelmezett (`app`) modul alá.
+!!!info ""
+	A háttérben valójában annyi történik, hogy az alkalmazásunk package neve és az aláíró kulcs *SHA-1 hash-e* alapján hozzáadódik egy Android alkalmazás a Firebase console-on lévő projektünkhöz, és az ahhoz tartozó konfigurációs (`google-services.json`) fájl letöltődik a projektünk könyvtárába az alapértelmezett (`app`) modul alá.
 
-Ezt a lépéssorozatot manuálisan is végrehajthatjuk a Firebase console-on az *Add Firebase to your Android app*-et választva. A debug kulcs *SHA-1* lenyomata ilyenkor a jobb oldalon található Gradle fülön a *Gradle -> [projektnév] -> Tasks -> android -> signingReport* taskot futtatva kinyerhető alul az *execution/text* módot választva.
+	Ezt a lépéssorozatot manuálisan is végrehajthatjuk a Firebase console-on az *Add Firebase to your Android app*-et választva. A debug kulcs *SHA-1* lenyomata ilyenkor a jobb oldalon található Gradle fülön a *Gradle -> [projektnév] -> Tasks -> android -> signingReport* taskot futtatva kinyerhető alul az *execution/text* módot választva.
 
 <p align="center">
 <img src="./assets/android_studio_signingreport.png">
@@ -134,11 +136,11 @@ Ahhoz, hogy az e-mail alapú regisztráció és authentikáció megfelelően mű
 Készítsük el a megfelelő `Service` osztályt. Hozzunk létre a `data/auth` package-en belül a `FirebaseAuthService` osztályt! Valósítsuk meg az `AuthService` interfész egyes metódusait! Ehhez szükségünk lesz egy `FirebaseAuth` objektumra, melyet külső forrásból fogunk megkapni:
 
 ```kotlin
-package hu.aut.bme.android.todo.data.auth  
+package hu.bme.aut.android.todo.data.auth  
   
 import com.google.firebase.auth.FirebaseAuth  
 import com.google.firebase.auth.UserProfileChangeRequest  
-import hu.aut.bme.android.todo.domain.model.User  
+import hu.bme.aut.android.todo.domain.model.User  
 import kotlinx.coroutines.channels.awaitClose  
 import kotlinx.coroutines.flow.Flow  
 import kotlinx.coroutines.flow.callbackFlow  
@@ -208,14 +210,14 @@ A `suspendCoroutine` metódus le fogja futtatni a benne megadott blokkot, majd a
 Állítsuk át az alkalmazásunkat, hogy ezt az új `FirebaseAuthService`-t használja! Ehhez módosítsuk a `TodoApplication` osztályunkat:
 
 ```kotlin
-package hu.aut.bme.android.todo  
+package hu.bme.aut.bme.android.todo  
   
 import android.app.Application  
 import com.google.firebase.auth.FirebaseAuth  
-import hu.aut.bme.android.todo.data.auth.AuthService  
-import hu.aut.bme.android.todo.data.auth.FirebaseAuthService  
-import hu.aut.bme.android.todo.data.todos.MemoryTodoService  
-import hu.aut.bme.android.todo.data.todos.TodoService
+import hu.bme.aut.android.todo.data.auth.AuthService  
+import hu.bme.aut.android.todo.data.auth.FirebaseAuthService  
+import hu.bme.aut.android.todo.data.todos.MemoryTodoService  
+import hu.bme.aut.android.todo.data.todos.TodoService
 
 class TodoApplication : Application(){
     override fun onCreate() {
@@ -258,12 +260,12 @@ Hozzuk létre a `todos` package-en belül a `firebase` package-et. Ebben két os
 
 Hozzuk először létre az adatot reprezentáló osztályt `FirebaseTodo` néven:
 ```kotlin
-package hu.aut.bme.android.todo.data.todos.firebase
+package hu.bme.aut.android.todo.data.todos.firebase
 
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
-import hu.aut.bme.android.todo.domain.model.Priority
-import hu.aut.bme.android.todo.domain.model.Todo
+import hu.bme.aut.android.todo.domain.model.Priority
+import hu.bme.aut.android.todo.domain.model.Todo
 import kotlinx.datetime.*
 import java.time.Instant
 import java.time.LocalDateTime
@@ -279,36 +281,37 @@ data class FirebaseTodo(
 )
 
 fun FirebaseTodo.asTodo() = Todo(
-    id,
-    title,
-    priority,
-    LocalDateTime
+    id = id,
+    title = title,
+    priority = priority,
+    dueDate = LocalDateTime
         .ofInstant(Instant.ofEpochSecond(dueDate.seconds), ZoneId.systemDefault())
         .toKotlinLocalDateTime()
         .date,
-    description,
+    description = description,
 )
 
 fun Todo.asFirebaseTodo() = FirebaseTodo(
-    id,
-    title,
-    priority,
-    Timestamp(Date.from(dueDate.atStartOfDayIn(TimeZone.currentSystemDefault()).toJavaInstant()))
+    id = id,
+    title = title,
+    priority = priority,
+    dueDate = Timestamp(Date.from(dueDate.atStartOfDayIn(TimeZone.currentSystemDefault()).toJavaInstant())),
+    description = description,
 )
 ```
 Ebben a fájlban definiáltuk a két átalakító függvényt is, mellyel a Firebase és az alkalmazás többi részében használt Todo osztály között tudunk átalakítani. Az egyedüli bonyolult rész a Firebase által használt `Timestamp` osztály használata az időpont eltárolására, erre most részletesen nem térünk ki.
 
 Hozzuk létre a feladatok tárolását végző `FirebaseTodoService` osztályt is ebben a package-ben:
 ```kotlin
-package hu.aut.bme.android.todo.data.todos.firebase
+package hu.bme.aut.android.todo.data.todos.firebase
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.snapshots
 import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.firestore.ktx.toObject
-import hu.aut.bme.android.todo.data.auth.AuthService
-import hu.aut.bme.android.todo.data.todos.TodoService
-import hu.aut.bme.android.todo.domain.model.Todo
+import hu.bme.aut.android.todo.data.auth.AuthService
+import hu.bme.aut.android.todo.data.todos.TodoService
+import hu.bme.aut.android.todo.domain.model.Todo
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
 
@@ -365,15 +368,15 @@ class FirebaseTodoService(
 Végül ne felejtsük el befrissíteni a `TodoApplication` osztályunkat, hogy a Firestoreban tárolt feladatokat használja az alkalmazás:
 
 ```kotlin
-package hu.aut.bme.android.todo
+package hu.bme.aut.android.todo
 
 import android.app.Application
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import hu.aut.bme.android.todo.data.auth.AuthService
-import hu.aut.bme.android.todo.data.auth.FirebaseAuthService
-import hu.aut.bme.android.todo.data.todos.TodoService
-import hu.aut.bme.android.todo.data.todos.firebase.FirebaseTodoService
+import hu.bme.aut.android.todo.data.auth.AuthService
+import hu.bme.aut.android.todo.data.auth.FirebaseAuthService
+import hu.bme.aut.android.todo.data.todos.TodoService
+import hu.bme.aut.android.todo.data.todos.firebase.FirebaseTodoService
 
 class TodoApplication : Application(){
     override fun onCreate() {

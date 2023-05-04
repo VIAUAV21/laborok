@@ -94,5 +94,6 @@ nav:
       - laborok/permissions/index.md
       - laborok/persistence/index.md
       - laborok/firebase/index.md
+      - laborok/di/index.md
   - "Házi feladat":
       - hf/index.md

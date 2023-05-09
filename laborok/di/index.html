@@ -825,16 +825,7 @@
 
 <h1 id="labor09-fuggoseginjektalas-a-dagger-es-a-hilt-segitsegevel-todo">Labor09 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo)<a class="headerlink" href="#labor09-fuggoseginjektalas-a-dagger-es-a-hilt-segitsegevel-todo" title="Permanent link">&para;</a></h1>
 <h2 id="bevezetes">Bevezetés<a class="headerlink" href="#bevezetes" title="Permanent link">&para;</a></h2>
-<p>A korábbi laborokon már elsajátítottuk, hogyan lehet az Androis alkalmazásunkat lazán csatolt réteges
-architektúrával megvalósítani. Ez egyértelműen segíti az alkalmazás rugalmas fejlesztését, esetleg az
-egyes rétegek is lecserélhetők, de ha megnézzük a kódot, még mindig viszonylag jelentős függést
-találunk, hiszen ahol egy másik rétegbeli komponenst hozunk létre, ott a példányosítás a kódba van
-"égetve", a másik réteg lecseréléséhez itt is módosítanunk kellene a kódot. Ezekre a problémákra
-nyújt megoldást a függőséginjektálás (dependency injection). Ez egy általános szoftverfejlesztési
-technika, amelyet nemcsak Androidon, hanem más platformokon is használunk. Ebben a laborban az Androidon
-használható Dagger és Hilt könyvtárakat ismerjük meg, amellyel Androidon tudunk függőséginjektálást
-végezni. A két könyvtárat gyakran együtt használjuk, a Dagger alapvetőbb, alacsonyabb szintű
-funkciókat nyújt, a Hilt pedig erre épül rá, hogy könnyebbé tegye a fejlesztést.</p>
+<p>A korábbi laborokon már elsajátítottuk, hogyan lehet az Android alkalmazásunkat lazán csatolt réteges architektúrával megvalósítani. Ez egyértelműen segíti az alkalmazás rugalmas fejlesztését, esetleg az egyes rétegek is lecserélhetők, de ha megnézzük a kódot, még mindig viszonylag jelentős függést találunk, hiszen ahol egy másik rétegbeli komponenst hozunk létre, ott a példányosítás a kódba van "égetve", a másik réteg lecseréléséhez itt is módosítanunk kellene a kódot. Ezekre a problémákra nyújt megoldást a függőséginjektálás (dependency injection). Ez egy általános szoftverfejlesztési technika, amelyet nemcsak Androidon, hanem más platformokon is használunk. Ebben a laborban az Androidon használható Dagger és Hilt könyvtárakat ismerjük meg, amellyel Androidon tudunk függőséginjektálást végezni. A két könyvtárat gyakran együtt használjuk, a Dagger alapvetőbb, alacsonyabb szintű funkciókat nyújt, a Hilt pedig erre épül rá, hogy könnyebbé tegye a fejlesztést.</p>
 <h2 id="elokeszuletek">Előkészületek<a class="headerlink" href="#elokeszuletek" title="Permanent link">&para;</a></h2>
 <p>A feladatok megoldása során ne felejtsd el követni a <a href="../../tudnivalok/github/GitHub/">feladat beadás folyamatát</a>.</p>
 <h3 id="git-repository-letrehozasa-es-letoltese">Git repository létrehozása és letöltése<a class="headerlink" href="#git-repository-letrehozasa-es-letoltese" title="Permanent link">&para;</a></h3>
@@ -855,28 +846,15 @@ funkciókat nyújt, a Hilt pedig erre épül rá, hogy könnyebbé tegye a fejle
 <p>A <code>neptun.txt</code> fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.</p>
 </li>
 </ol>
-<p>A Hilt megismeréséhez ebben a laborban egy előre elkészített projektbe fogjuk integrálni a különböző szolgáltatásokat. Ez megtalálható a repository-n belül is, valamilyen probléma esetén a kezdőprojektet <a href="assets/Todo_di_starter.zip">erről a linkről érhető el</a>.</p>
-<p>Ezután indítsuk el az Android Studio-t, majd nyissuk meg a kicsomagolt projektet.</p>
+<p>A Hilt megismeréséhez ebben a laborban egy előre elkészített projektbe fogjuk integrálni a különböző szolgáltatásokat, ez megtalálható a repository-n belül. Indítsuk el az Android Studio-t, majd nyissuk meg a projektet.</p>
 <div class="admonition danger">
 <p class="admonition-title">FILE PATH</p>
 <p>A projekt a repository-ban lévő <code>Todo</code> könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!</p>
 </div>
 <p>Ellenőrízzük, hogy a létrejött projekt lefordul és helyesen működik!</p>
 <h2 id="a-dagger-es-a-hilt-inicializalasa">A Dagger és a Hilt inicializálása<a class="headerlink" href="#a-dagger-es-a-hilt-inicializalasa" title="Permanent link">&para;</a></h2>
-<p>A Dagger/Hilt feladata tehát az lesz, hogy az alkalmazásunk egymástól függő komponenseit lazábban csatolt
-módon köti össze. A gyakorlatban ez azt jelenti, hogy ha egy bizonyos típusú függőségre van szükségünk,
-és az adott függőség meg van jelölve mint injektálandó függőség, akkor a könyvtárak el fogják végezni
-nekünk az adott függőség megkeresését és beállítását. Ez történhet például egy konstruktornak történő
-paraméterátadáson keresztül. Ennek előnye, hogy ha egy komponenst lecserélünk - például ahogyan a
-Firebase laboron lecseréltük a memóriabeli implementációkat éles, Firebase-ben működőkre - akkor nem
-szükséges a kódunkat módosítani, csupán meg kell adni a Daggernek/Hiltnek, hogy az elérhető implementációk
-közül melyik legyen az, amelyiket szükség esetén alkalmazza.</p>
-<p>Többféle függőséginjektáló keretrendszer létezik Androidon, és az Android platformon kívül is, ezek
-némileg más elveken működnek. A Dagger a legjobb teljesítmény érdekében úgy működik, hogy nem
-futás közben oldja fel a függőségeket, hanem a fordítási folyamatba avatkozik bele, és már
-aközben feltérképezi a függőségi viszonyok jelölésére alkalmazott annotációkat. Ezért a projekt
-inicializálásának részeként szükséges felvennünk egy gradle plugint is a folyamatba. Először a
-projekt szintű <code>build.gradle</code> fájlba vegyük fel a a következő sort a pluginek közé:</p>
+<p>A Dagger/Hilt feladata tehát az lesz, hogy az alkalmazásunk egymástól függő komponenseit lazábban csatolt módon köti össze. A gyakorlatban ez azt jelenti, hogy ha egy bizonyos típusú függőségre van szükségünk, és az adott függőség meg van jelölve mint injektálandó függőség, akkor a könyvtárak el fogják végezni nekünk az adott függőség megkeresését és beállítását. Ez történhet például egy konstruktornak történő paraméterátadáson keresztül. Ennek előnye, hogy ha egy komponenst lecserélünk - például ahogyan a Firebase laboron lecseréltük a memóriabeli implementációkat éles, Firebase-ben működőkre - akkor nem szükséges a kódunkat módosítani, csupán meg kell adni a Daggernek/Hiltnek, hogy az elérhető implementációk közül melyik legyen az, amelyiket szükség esetén alkalmazza.</p>
+<p>Többféle függőséginjektáló keretrendszer létezik Androidon, és az Android platformon kívül is, ezek némileg más elveken működnek. A Dagger a legjobb teljesítmény érdekében úgy működik, hogy nem futás közben oldja fel a függőségeket, hanem a fordítási folyamatba avatkozik bele, és már aközben feltérképezi a függőségi viszonyok jelölésére alkalmazott annotációkat. Ezért a projekt inicializálásának részeként szükséges felvennünk egy gradle plugint is a folyamatba. Először a projekt szintű <code>build.gradle</code> fájlba vegyük fel a a következő sort a pluginek közé:</p>
 <div class="highlight"><pre><span></span><code><span class="n">id</span><span class="w"> </span><span class="s1">&#39;com.google.dagger.hilt.android&#39;</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s1">&#39;2.44&#39;</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
 </code></pre></div>
 <p>Majd a modul szintű <code>build.gradle</code> fájlban alkalmazzuk a plugint:</p>
@@ -893,23 +871,19 @@ projekt szintű <code>build.gradle</code> fájlba vegyük fel a a következő so
 <span class="o">}</span>
 </code></pre></div>
 <p>És vegyünk fel még két függőséget, majd szinkronizáljuk a projektet:</p>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="c1">// Hilt</span>
-<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s2">&quot;com.google.dagger:hilt-android:2.44&quot;</span>
-<span class="w">    </span><span class="n">kapt</span><span class="w"> </span><span class="s2">&quot;com.google.dagger:hilt-compiler:2.44&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="c1">// Hilt</span>
+<span class="n">implementation</span><span class="w"> </span><span class="s2">&quot;com.google.dagger:hilt-android:2.44&quot;</span>
+<span class="n">kapt</span><span class="w"> </span><span class="s2">&quot;com.google.dagger:hilt-compiler:2.44&quot;</span>
+<span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;androidx.hilt:hilt-navigation-compose:1.0.0&#39;</span>
 </code></pre></div>
-<p>Ezzel a build folyamat és a függőségek rendben vannak. Most globálisan, az alkalmazás szintjén
-inicializálnunk kell a Daggert, hogy létrejöjjön egy kontextus, amelyben a függőségeket
-menedzseli. Ehhez a <code>TodoApplication</code> osztályra tegyük rá a <code>@HiltAndroidApp</code> annotációt:</p>
+<p>Ezzel a build folyamat és a függőségek rendben vannak. Most globálisan, az alkalmazás szintjén inicializálnunk kell a Daggert, hogy létrejöjjön egy kontextus, amelyben a függőségeket menedzseli. Ehhez a <code>TodoApplication</code> osztályra tegyük rá a <code>@HiltAndroidApp</code> annotációt:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltAndroidApp</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">TodoApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// ...</span>
 <span class="p">}</span>
-
-<span class="n">Majd</span><span class="w"> </span><span class="n">nyissuk</span><span class="w"> </span><span class="n">meg</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">`MainActivity`</span><span class="w"> </span><span class="n">osztályt</span><span class="w"> </span><span class="k">is</span><span class="p">,</span><span class="w"> </span><span class="n">ezen</span><span class="w"> </span><span class="n">pedig</span><span class="w"> </span><span class="n">az</span><span class="w"> </span><span class="n">`@AndroidEntryPoint`</span><span class="w"> </span><span class="n">annotációt</span>
-<span class="n">helyezzük</span><span class="w"> </span><span class="n">el</span><span class="p">:</span>
-
-<span class="err">```</span><span class="n">kotlin</span>
-<span class="nd">@AndroidEntryPoint</span>
+</code></pre></div>
+<p>Majd nyissuk meg a <code>MainActivity</code> osztályt is, ezen pedig az <code>@AndroidEntryPoint</code> annotációt helyezzük el:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@AndroidEntryPoint</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">MainActivity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ComponentActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
@@ -922,22 +896,15 @@ menedzseli. Ehhez a <code>TodoApplication</code> osztályra tegyük rá a <code>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Ezzel a közös inicializációs feladatok elkészültek, de még tényleges injektálható komponenseket
-és injektálandó függőségeket nem hoztunk létre. Most elkezdjük a "bedrótozott" függőségi
-viszonyokat függőséginjektálásra cserélni.</p>
+<p>Ezzel a közös inicializációs feladatok elkészültek, de még tényleges injektálható komponenseket és injektálandó függőségeket nem hoztunk létre. Most elkezdjük a "bedrótozott" függőségi viszonyokat függőséginjektálásra cserélni.</p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik
-a <strong>fenti lépésekhez tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>fenti lépésekhez tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
 <p>A képet a megoldásban a repository-ba f1.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <h2 id="az-adatbazismodul-elkeszitese">Az adatbázismodul elkészítése<a class="headerlink" href="#az-adatbazismodul-elkeszitese" title="Permanent link">&para;</a></h2>
-<p>A Dagger és a Hilt által kezelt komponensek a jobb átláthatóság érdekében modulokra oszthatók.
-Minden modul komponenseket hoz létre, amelyeket a megjelölt injektálási pontokon a könyvtárak
-fel fognak használni. Az első modulunk a <code>TodoDatabase</code> és a <code>TodoDao</code> létrehozását fogja
-elvégezni. Hozzunk létre ennek a modulnak egy <code>data.di</code> package-et, és ebbe vegyük fel a
-modult megvalósító osztályunkat:</p>
+<p>A Dagger és a Hilt által kezelt komponensek a jobb átláthatóság érdekében modulokra oszthatók. Minden modul komponenseket hoz létre, amelyeket a megjelölt injektálási pontokon a könyvtárak fel fognak használni. Az első modulunk a <code>TodoDatabase</code> és a <code>TodoDao</code> létrehozását fogja elvégezni. Hozzunk létre ennek a modulnak egy <code>data.di</code> package-et, és ebbe vegyük fel a modult megvalósító osztályunkat:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@Module</span>
 <span class="nd">@InstallIn</span><span class="p">(</span><span class="n">SingletonComponent</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="kd">object</span><span class="w"> </span><span class="nc">DatabaseModule</span><span class="w"> </span><span class="p">{</span>
@@ -959,23 +926,10 @@ modult megvalósító osztályunkat:</p>
 <span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="n">TodoDao</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="na">dao</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Ebben a <code>@Module</code> annotáció azt jelenti, hogy az osztály komponensekkel járul hozzá a Dagger/Hilt által
-kezelt objektumgráfhoz. Az osztályban legyártott komponensek tehát függőségként injektálhatóak
-lesznek más komponensekbe, illetve maguk is hivatkozhatnak függőségekre. Az
-<code>@InstallIn(SingletonComponent::class)</code> a SingletonComponenthez köti a modult, aminek az lesz
-az eredménye, hogy a komponensek injektálása az egész alkalmazáson belül működik majd.</p>
-<p>A metódusokon levő <code>@Provides</code> határozza meg, hogy a metódusok "factory" metódusként szolgáljanak,
-és az általuk visszaadott objektumok a Dagger által kezelt komponensekké váljanak.
-A <code>@Singleton</code> annotáció azt adja meg, hogy ezekből a komponensekből egyetlen példány készüljön,
-és az egész alkalmazáson keresztül mindenhol ezt használjuk függőségként. Legtöbbször elegendő
-egy példány, és ezért ez a célravezető megoldás.</p>
-<p>Most, hogy a komponenseket legyártottuk, arról kell gondoskodni, eltávolítsuk ezeknek a komponenseknek
-a korábbi módon történő létrehozását, és megjelöljük azokat a helyeket, ahova a Dagger és Hilt
-könyvtáraknak ezeket a komponenseket függőségként injektálniuk kell. Korábban a <code>TodoDatabase</code>
-létrehozása a <code>TodoApplication</code> osztályban volt. Innen eltávolítjuk a példányosítást, viszont
-a repository komponensünket egyelőre nem bíztuk a Dagger/Hilt párosra, ezért ezt még mindig
-létre kell hozni, ehhez viszont szükség van a <code>TodoDao</code>-ra, amit viszont már ide is injektálhatunk.
-A <code>TodoApplication</code> osztályunk most így fest:</p>
+<p>Ebben a <code>@Module</code> annotáció azt jelenti, hogy az osztály komponensekkel járul hozzá a Dagger/Hilt által kezelt objektumgráfhoz. Az osztályban legyártott komponensek tehát függőségként injektálhatóak lesznek más komponensekbe, illetve maguk is hivatkozhatnak függőségekre. Az <code>@InstallIn(SingletonComponent::class)</code> a SingletonComponenthez köti a modult, aminek az lesz az eredménye, hogy a komponensek injektálása az egész alkalmazáson belül működik majd.</p>
+<p>A metódusokon levő <code>@Provides</code> határozza meg, hogy a metódusok "factory" metódusként szolgáljanak, és az általuk visszaadott objektumok a Dagger által kezelt komponensekké váljanak. A <code>@Singleton</code> annotáció azt adja meg, hogy ezekből a komponensekből egyetlen példány készüljön, és az egész alkalmazáson keresztül mindenhol ezt használjuk függőségként. Legtöbbször elegendő egy példány, és ezért ez a célravezető megoldás.</p>
+<p>Most, hogy a komponenseket legyártottuk, arról kell gondoskodni, eltávolítsuk ezeknek a komponenseknek a korábbi módon történő létrehozását, és megjelöljük azokat a helyeket, ahova a Dagger és Hilt könyvtáraknak ezeket a komponenseket függőségként injektálniuk kell. Korábban a <code>TodoDatabase</code> létrehozása a <code>TodoApplication</code> osztályban volt. Innen eltávolítjuk a példányosítást, viszont a repository komponensünket egyelőre nem bíztuk a Dagger/Hilt párosra, ezért ezt még mindig létre kell hozni, ehhez viszont szükség van a <code>TodoDao</code>-ra, amit viszont már ide is injektálhatunk. </p>
+<p>A <code>TodoApplication</code> osztályunk most így fest:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltAndroidApp</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">TodoApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
@@ -995,8 +949,7 @@ A <code>TodoApplication</code> osztályunk most így fest:</p>
 </code></pre></div>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>,
-a <strong>fenti lépésekhez tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>, a <strong>fenti lépésekhez tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
 <p>A képet a megoldásban a repository-ba f2.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
@@ -1016,27 +969,18 @@ a <code>data.di</code> package-be:</p>
 
 <span class="p">}</span>
 </code></pre></div>
-<p>Ez a modul némileg másképp működik, mint a korábbi. Egyrészt az osztály absztrakt, illetve nem
-a <code>@Provides</code> annotációt használtuk, hanem a <code>@Binds</code>-et, és az ezzel megjelölt metódus azt
-határozza meg, hogy amikor <code>TodoRepository</code> típusú függőségre van szükségünk, akkor annak
-a konkrét <code>TodoRepositoryImpl</code> típusú implementációját kell használni. Most már kivehetjük
-a <code>TodoApplication</code> osztályból a repository kezelését is, így az osztályunk üres lesz, de a
-Hilt inicializációja miatt továbbra is szükség van rá, hogy megtartsuk:</p>
+<p>Ez a modul némileg másképp működik, mint a korábbi. Egyrészt az osztály absztrakt, illetve nem a <code>@Provides</code> annotációt használtuk, hanem a <code>@Binds</code>-et, és az ezzel megjelölt metódus azt határozza meg, hogy amikor <code>TodoRepository</code> típusú függőségre van szükségünk, akkor annak a konkrét <code>TodoRepositoryImpl</code> típusú implementációját kell használni. Most már kivehetjük a <code>TodoApplication</code> osztályból a repository kezelését is, így az osztályunk üres lesz, de a Hilt inicializációja miatt továbbra is szükség van rá, hogy megtartsuk:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltAndroidApp</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">TodoApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">()</span>
 </code></pre></div>
-<p>Viszont a <code>TodoRepositoryImpl</code> példányosításához szükség van a <code>TodoDao</code> osztályre, és mivel innentől
-ezt a Dagger/Hilt végzi, ezért az <code>@Inject</code> annotáció használatával jelezni kell, hogy példányosításkor
-a <code>TodoDao</code>-t függőségként szeretnénk injektálni. Írjuk át az osztály fejlécét az alábbira:</p>
+<p>Viszont a <code>TodoRepositoryImpl</code> példányosításához szükség van a <code>TodoDao</code> osztályre, és mivel innentől ezt a Dagger/Hilt végzi, ezért az <code>@Inject</code> annotáció használatával jelezni kell, hogy példányosításkor a <code>TodoDao</code>-t függőségként szeretnénk injektálni. Írjuk át az osztály fejlécét az alábbira:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TodoRepositoryImpl</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">dao</span><span class="p">:</span><span class="w"> </span><span class="n">TodoDao</span>
 <span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// ...</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>A repository viszont szorosan volt csatolva a viewmodelekhez, amelyeket a három feature-höz írtunk.
-Még ezeket is át kell alakítanunk hozzá, hogy az alkalmazás újra használható legyen. Jelenleg mindhárom
-viewmodel osztályunkban az alábbihoz hasonló factory-k vannak:</p>
+<p>A repository viszont szorosan volt csatolva a viewmodelekhez, amelyeket a három feature-höz írtunk. Még ezeket is át kell alakítanunk hozzá, hogy az alkalmazás újra használható legyen. Jelenleg mindhárom viewmodel osztályunkban az alábbihoz hasonló factory-k vannak:</p>
 <div class="highlight"><pre><span></span><code><span class="w">    </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">Factory</span><span class="p">:</span><span class="w"> </span><span class="n">ViewModelProvider</span><span class="p">.</span><span class="na">Factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModelFactory</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">initializer</span><span class="w"> </span><span class="p">{</span>
@@ -1048,11 +992,7 @@ viewmodel osztályunkban az alábbihoz hasonló factory-k vannak:</p>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 </code></pre></div>
-<p>Ezeket törölnünk kell, viszont gondoskodnunk kell róla, hogy a <code>TodoUseCases</code> is inicializálódjon.
-Jelenlegi készültségben ezt nem tudjuk még injektálni, csak a <code>TodoRepository</code> komponenst,
-ennek segítségével viszont példányosítható a <code>TodoUseCases</code>. Illetve még el kell helyezni a
-viewmodel osztályokon a <code>@HiltViewModel</code> annotációt, hogy a Hilt által menedzselt viewmodellekké
-váljanak. A <code>TodosViewModel</code> végül így alakul:</p>
+<p>Ezeket törölnünk kell, viszont gondoskodnunk kell róla, hogy a <code>TodoUseCases</code> is inicializálódjon. Jelenlegi készültségben ezt nem tudjuk még injektálni, csak a <code>TodoRepository</code> komponenst, ennek segítségével viszont példányosítható a <code>TodoUseCases</code>. Illetve még el kell helyezni a viewmodel osztályokon a <code>@HiltViewModel</code> annotációt, hogy a Hilt által menedzselt viewmodellekké váljanak. A <code>TodosViewModel</code> végül így alakul:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">TodosViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span>
@@ -1280,8 +1220,7 @@ váljanak. A <code>TodosViewModel</code> végül így alakul:</p>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Majd végül az összes screen osztályban változtassuk meg a viewmodel létreozásának módját
-úgy, hogy a <code>hiltViewModel()</code> hívást használjuk. Pl. a <code>CheckTodoScreen</code> eddig így nézett ki:</p>
+<p>Majd végül az összes screen osztályban változtassuk meg a viewmodel létreozásának módját úgy, hogy a <code>hiltViewModel()</code> hívást használjuk. Pl. a <code>CheckTodoScreen</code> eddig így nézett ki:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="nf">CheckTodoScreen</span><span class="p">(</span>
 <span class="w">    </span><span class="n">onNavigateBack</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
 <span class="w">    </span><span class="n">viewModel</span><span class="p">:</span><span class="w"> </span><span class="n">CheckTodoViewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModel</span><span class="p">(</span><span class="n">factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CheckTodoViewModel</span><span class="p">.</span><span class="na">Factory</span><span class="p">)</span>
@@ -1299,14 +1238,12 @@ váljanak. A <code>TodosViewModel</code> végül így alakul:</p>
 </code></pre></div>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>,
-a <strong>fenti lépésekhez tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>, a <strong>fenti lépésekhez tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
 <p>A képet a megoldásban a repository-ba f3.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <h2 id="a-usecases-modul-elkeszitese">A usecases modul elkészítése<a class="headerlink" href="#a-usecases-modul-elkeszitese" title="Permanent link">&para;</a></h2>
-<p>Már csak a usecases modult kell elkészítenünk. Ehhez készítsünk először egy <code>domain.di</code> package-et,
-és ebbe hozzuk létre az alábbit:</p>
+<p>Már csak a usecases modult kell elkészítenünk. Ehhez készítsünk először egy <code>domain.di</code> package-et, és ebbe hozzuk létre az alábbit:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@Module</span>
 <span class="nd">@InstallIn</span><span class="p">(</span><span class="n">SingletonComponent</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="kd">object</span><span class="w"> </span><span class="nc">TodoUseCaseModule</span><span class="w"> </span><span class="p">{</span>
@@ -1338,9 +1275,7 @@ a <strong>fenti lépésekhez tartozó kódrészlet</strong>, valamint a <strong>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">deleteTodo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DeleteTodoUseCase</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Most már a viewmodel osztályokba nem szükséges a <code>TodoRepository</code> injektálása és a
-<code>TodoUseCases</code> kézi létrehozása, hiszen a <code>TodoUseCases</code> közvetlen is injektálhatóvá vált.
-Módosítsuk ennek megfelelően a viewmodel osztályokat!</p>
+<p>Most már a viewmodel osztályokba nem szükséges a <code>TodoRepository</code> injektálása és a <code>TodoUseCases</code> kézi létrehozása, hiszen a <code>TodoUseCases</code> közvetlen is injektálhatóvá vált. Módosítsuk ennek megfelelően a viewmodel osztályokat!</p>
 <p>A <code>CheckTodoViewModel</code> kódja:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">CheckTodoViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
@@ -1559,20 +1494,15 @@ Módosítsuk ennek megfelelően a viewmodel osztályokat!</p>
 </code></pre></div>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>,
-a <strong>fenti lépésekhez tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>, a <strong>fenti lépésekhez tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
 <p>A képet a megoldásban a repository-ba f4.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <h2 id="onallo-feladat">Önálló feladat<a class="headerlink" href="#onallo-feladat" title="Permanent link">&para;</a></h2>
-<p>A <code>TodoUseCases</code> osztályban egyelőre csak a <code>LoadTodosUseCase</code> függőséget hozzuk létre a modulban,
-és injektáljuk a Dagger/Hilt segítségével, a többi usecase most is manuálisan példányosodik a
-repository átadásával. Folytasd az átalakítást, és hozd létre az összes usecase-t a usecase
-modulban, hogy utána már a Dagger/Hilt kezelje őket!</p>
+<p>A <code>TodoUseCases</code> osztályban egyelőre csak a <code>LoadTodosUseCase</code> függőséget hozzuk létre a modulban, és injektáljuk a Dagger/Hilt segítségével, a többi usecase most is manuálisan példányosodik a repository átadásával. Folytasd az átalakítást, és hozd létre az összes usecase-t a usecase modulban, hogy utána már a Dagger/Hilt kezelje őket!</p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>,
-az <strong>átalakított kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>, az <strong>átalakított kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
 <p>A képet a megoldásban a repository-ba f5.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
@@ -1586,8 +1516,8 @@ az <strong>átalakított kódrészlet</strong>, valamint a <strong>neptun kódod
           </path>
         </svg>
       </span>
-      <span title="2023. május 4. 18:21:23">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-04T18:21:23+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-04</span>
+      <span title="2023. május 9. 14:28:48">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-09T14:28:48+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-09</span>
       </span>
     </span>
 
@@ -1602,8 +1532,12 @@ az <strong>átalakított kódrészlet</strong>, valamint a <strong>neptun kódod
         </svg>
       </span>
       <span>Szerzők</span>
-      <nav><a href="https://github.com/gaborbsd" target="_blank" rel="noopener noreferrer" class="md-author" title="@gaborbsd">
+      <nav><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
+          <img src="https://avatars.githubusercontent.com/u/23335752?size=72" alt="@gazdilaci">
+        </a><a href="https://github.com/gaborbsd" target="_blank" rel="noopener noreferrer" class="md-author" title="@gaborbsd">
           <img src="https://avatars.githubusercontent.com/u/5345619?size=72" alt="@gaborbsd">
+        </a><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
+          <img src="https://avatars.githubusercontent.com/u/8405234?size=72" alt="@danim1130">
         </a></nav>      
     </span>
   </div>

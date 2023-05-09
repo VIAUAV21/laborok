@@ -2,16 +2,7 @@
 
 ## Bevezetés
 
-A korábbi laborokon már elsajátítottuk, hogyan lehet az Androis alkalmazásunkat lazán csatolt réteges
-architektúrával megvalósítani. Ez egyértelműen segíti az alkalmazás rugalmas fejlesztését, esetleg az
-egyes rétegek is lecserélhetők, de ha megnézzük a kódot, még mindig viszonylag jelentős függést
-találunk, hiszen ahol egy másik rétegbeli komponenst hozunk létre, ott a példányosítás a kódba van
-"égetve", a másik réteg lecseréléséhez itt is módosítanunk kellene a kódot. Ezekre a problémákra
-nyújt megoldást a függőséginjektálás (dependency injection). Ez egy általános szoftverfejlesztési
-technika, amelyet nemcsak Androidon, hanem más platformokon is használunk. Ebben a laborban az Androidon
-használható Dagger és Hilt könyvtárakat ismerjük meg, amellyel Androidon tudunk függőséginjektálást
-végezni. A két könyvtárat gyakran együtt használjuk, a Dagger alapvetőbb, alacsonyabb szintű
-funkciókat nyújt, a Hilt pedig erre épül rá, hogy könnyebbé tegye a fejlesztést.
+A korábbi laborokon már elsajátítottuk, hogyan lehet az Android alkalmazásunkat lazán csatolt réteges architektúrával megvalósítani. Ez egyértelműen segíti az alkalmazás rugalmas fejlesztését, esetleg az egyes rétegek is lecserélhetők, de ha megnézzük a kódot, még mindig viszonylag jelentős függést találunk, hiszen ahol egy másik rétegbeli komponenst hozunk létre, ott a példányosítás a kódba van "égetve", a másik réteg lecseréléséhez itt is módosítanunk kellene a kódot. Ezekre a problémákra nyújt megoldást a függőséginjektálás (dependency injection). Ez egy általános szoftverfejlesztési technika, amelyet nemcsak Androidon, hanem más platformokon is használunk. Ebben a laborban az Androidon használható Dagger és Hilt könyvtárakat ismerjük meg, amellyel Androidon tudunk függőséginjektálást végezni. A két könyvtárat gyakran együtt használjuk, a Dagger alapvetőbb, alacsonyabb szintű funkciókat nyújt, a Hilt pedig erre épül rá, hogy könnyebbé tegye a fejlesztést.
 
 
 ## Előkészületek
@@ -31,9 +22,7 @@ A feladatok megoldása során ne felejtsd el követni a [feladat beadás folyama
 
 4. A `neptun.txt` fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.
 
-A Hilt megismeréséhez ebben a laborban egy előre elkészített projektbe fogjuk integrálni a különböző szolgáltatásokat. Ez megtalálható a repository-n belül is, valamilyen probléma esetén a kezdőprojektet [erről a linkről érhető el](./assets/Todo_di_starter.zip).
-
-Ezután indítsuk el az Android Studio-t, majd nyissuk meg a kicsomagolt projektet.
+A Hilt megismeréséhez ebben a laborban egy előre elkészített projektbe fogjuk integrálni a különböző szolgáltatásokat, ez megtalálható a repository-n belül. Indítsuk el az Android Studio-t, majd nyissuk meg a projektet.
 
 !!!danger "FILE PATH"
 	A projekt a repository-ban lévő `Todo` könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!
@@ -42,21 +31,9 @@ Ellenőrízzük, hogy a létrejött projekt lefordul és helyesen működik!
 
 ## A Dagger és a Hilt inicializálása
 
-A Dagger/Hilt feladata tehát az lesz, hogy az alkalmazásunk egymástól függő komponenseit lazábban csatolt
-módon köti össze. A gyakorlatban ez azt jelenti, hogy ha egy bizonyos típusú függőségre van szükségünk,
-és az adott függőség meg van jelölve mint injektálandó függőség, akkor a könyvtárak el fogják végezni
-nekünk az adott függőség megkeresését és beállítását. Ez történhet például egy konstruktornak történő
-paraméterátadáson keresztül. Ennek előnye, hogy ha egy komponenst lecserélünk - például ahogyan a
-Firebase laboron lecseréltük a memóriabeli implementációkat éles, Firebase-ben működőkre - akkor nem
-szükséges a kódunkat módosítani, csupán meg kell adni a Daggernek/Hiltnek, hogy az elérhető implementációk
-közül melyik legyen az, amelyiket szükség esetén alkalmazza.
+A Dagger/Hilt feladata tehát az lesz, hogy az alkalmazásunk egymástól függő komponenseit lazábban csatolt módon köti össze. A gyakorlatban ez azt jelenti, hogy ha egy bizonyos típusú függőségre van szükségünk, és az adott függőség meg van jelölve mint injektálandó függőség, akkor a könyvtárak el fogják végezni nekünk az adott függőség megkeresését és beállítását. Ez történhet például egy konstruktornak történő paraméterátadáson keresztül. Ennek előnye, hogy ha egy komponenst lecserélünk - például ahogyan a Firebase laboron lecseréltük a memóriabeli implementációkat éles, Firebase-ben működőkre - akkor nem szükséges a kódunkat módosítani, csupán meg kell adni a Daggernek/Hiltnek, hogy az elérhető implementációk közül melyik legyen az, amelyiket szükség esetén alkalmazza.
 
-Többféle függőséginjektáló keretrendszer létezik Androidon, és az Android platformon kívül is, ezek
-némileg más elveken működnek. A Dagger a legjobb teljesítmény érdekében úgy működik, hogy nem
-futás közben oldja fel a függőségeket, hanem a fordítási folyamatba avatkozik bele, és már
-aközben feltérképezi a függőségi viszonyok jelölésére alkalmazott annotációkat. Ezért a projekt
-inicializálásának részeként szükséges felvennünk egy gradle plugint is a folyamatba. Először a
-projekt szintű `build.gradle` fájlba vegyük fel a a következő sort a pluginek közé:
+Többféle függőséginjektáló keretrendszer létezik Androidon, és az Android platformon kívül is, ezek némileg más elveken működnek. A Dagger a legjobb teljesítmény érdekében úgy működik, hogy nem futás közben oldja fel a függőségeket, hanem a fordítási folyamatba avatkozik bele, és már aközben feltérképezi a függőségi viszonyok jelölésére alkalmazott annotációkat. Ezért a projekt inicializálásának részeként szükséges felvennünk egy gradle plugint is a folyamatba. Először a projekt szintű `build.gradle` fájlba vegyük fel a a következő sort a pluginek közé:
 
 ```groovy
 id 'com.google.dagger.hilt.android' version '2.44' apply false
@@ -84,15 +61,13 @@ kapt {
 És vegyünk fel még két függőséget, majd szinkronizáljuk a projektet:
 
 ```groovy
-    // Hilt
-    implementation "com.google.dagger:hilt-android:2.44"
-    kapt "com.google.dagger:hilt-compiler:2.44"
-    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+// Hilt
+implementation "com.google.dagger:hilt-android:2.44"
+kapt "com.google.dagger:hilt-compiler:2.44"
+implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 ```
 
-Ezzel a build folyamat és a függőségek rendben vannak. Most globálisan, az alkalmazás szintjén
-inicializálnunk kell a Daggert, hogy létrejöjjön egy kontextus, amelyben a függőségeket
-menedzseli. Ehhez a `TodoApplication` osztályra tegyük rá a `@HiltAndroidApp` annotációt:
+Ezzel a build folyamat és a függőségek rendben vannak. Most globálisan, az alkalmazás szintjén inicializálnunk kell a Daggert, hogy létrejöjjön egy kontextus, amelyben a függőségeket menedzseli. Ehhez a `TodoApplication` osztályra tegyük rá a `@HiltAndroidApp` annotációt:
 
 ```kotlin
 @HiltAndroidApp
@@ -101,8 +76,7 @@ class TodoApplication : Application() {
 }
 ```
 
-Majd nyissuk meg a `MainActivity` osztályt is, ezen pedig az `@AndroidEntryPoint` annotációt
-helyezzük el:
+Majd nyissuk meg a `MainActivity` osztályt is, ezen pedig az `@AndroidEntryPoint` annotációt helyezzük el:
 
 ```kotlin
 @AndroidEntryPoint
@@ -119,13 +93,10 @@ class MainActivity : ComponentActivity() {
 }
 ```
 
-Ezzel a közös inicializációs feladatok elkészültek, de még tényleges injektálható komponenseket
-és injektálandó függőségeket nem hoztunk létre. Most elkezdjük a "bedrótozott" függőségi
-viszonyokat függőséginjektálásra cserélni.
+Ezzel a közös inicializációs feladatok elkészültek, de még tényleges injektálható komponenseket és injektálandó függőségeket nem hoztunk létre. Most elkezdjük a "bedrótozott" függőségi viszonyokat függőséginjektálásra cserélni.
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik
-    a **fenti lépésekhez tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+	Készíts egy **képernyőképet**, amelyen látszik a **fenti lépésekhez tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
 
 	A képet a megoldásban a repository-ba f1.png néven töltsd föl.
 
@@ -133,11 +104,7 @@ viszonyokat függőséginjektálásra cserélni.
 
 ## Az adatbázismodul elkészítése
 
-A Dagger és a Hilt által kezelt komponensek a jobb átláthatóság érdekében modulokra oszthatók.
-Minden modul komponenseket hoz létre, amelyeket a megjelölt injektálási pontokon a könyvtárak
-fel fognak használni. Az első modulunk a `TodoDatabase` és a `TodoDao` létrehozását fogja
-elvégezni. Hozzunk létre ennek a modulnak egy `data.di` package-et, és ebbe vegyük fel a
-modult megvalósító osztályunkat:
+A Dagger és a Hilt által kezelt komponensek a jobb átláthatóság érdekében modulokra oszthatók. Minden modul komponenseket hoz létre, amelyeket a megjelölt injektálási pontokon a könyvtárak fel fognak használni. Az első modulunk a `TodoDatabase` és a `TodoDao` létrehozását fogja elvégezni. Hozzunk létre ennek a modulnak egy `data.di` package-et, és ebbe vegyük fel a modult megvalósító osztályunkat:
 
 ```kotlin
 @Module
@@ -162,24 +129,12 @@ object DatabaseModule {
 }
 ```
 
-Ebben a `@Module` annotáció azt jelenti, hogy az osztály komponensekkel járul hozzá a Dagger/Hilt által
-kezelt objektumgráfhoz. Az osztályban legyártott komponensek tehát függőségként injektálhatóak
-lesznek más komponensekbe, illetve maguk is hivatkozhatnak függőségekre. Az
-`@InstallIn(SingletonComponent::class)` a SingletonComponenthez köti a modult, aminek az lesz
-az eredménye, hogy a komponensek injektálása az egész alkalmazáson belül működik majd.
+Ebben a `@Module` annotáció azt jelenti, hogy az osztály komponensekkel járul hozzá a Dagger/Hilt által kezelt objektumgráfhoz. Az osztályban legyártott komponensek tehát függőségként injektálhatóak lesznek más komponensekbe, illetve maguk is hivatkozhatnak függőségekre. Az `@InstallIn(SingletonComponent::class)` a SingletonComponenthez köti a modult, aminek az lesz az eredménye, hogy a komponensek injektálása az egész alkalmazáson belül működik majd.
 
-A metódusokon levő `@Provides` határozza meg, hogy a metódusok "factory" metódusként szolgáljanak,
-és az általuk visszaadott objektumok a Dagger által kezelt komponensekké váljanak.
-A `@Singleton` annotáció azt adja meg, hogy ezekből a komponensekből egyetlen példány készüljön,
-és az egész alkalmazáson keresztül mindenhol ezt használjuk függőségként. Legtöbbször elegendő
-egy példány, és ezért ez a célravezető megoldás.
+A metódusokon levő `@Provides` határozza meg, hogy a metódusok "factory" metódusként szolgáljanak, és az általuk visszaadott objektumok a Dagger által kezelt komponensekké váljanak. A `@Singleton` annotáció azt adja meg, hogy ezekből a komponensekből egyetlen példány készüljön, és az egész alkalmazáson keresztül mindenhol ezt használjuk függőségként. Legtöbbször elegendő egy példány, és ezért ez a célravezető megoldás.
 
-Most, hogy a komponenseket legyártottuk, arról kell gondoskodni, eltávolítsuk ezeknek a komponenseknek
-a korábbi módon történő létrehozását, és megjelöljük azokat a helyeket, ahova a Dagger és Hilt
-könyvtáraknak ezeket a komponenseket függőségként injektálniuk kell. Korábban a `TodoDatabase`
-létrehozása a `TodoApplication` osztályban volt. Innen eltávolítjuk a példányosítást, viszont
-a repository komponensünket egyelőre nem bíztuk a Dagger/Hilt párosra, ezért ezt még mindig
-létre kell hozni, ehhez viszont szükség van a `TodoDao`-ra, amit viszont már ide is injektálhatunk.
+Most, hogy a komponenseket legyártottuk, arról kell gondoskodni, eltávolítsuk ezeknek a komponenseknek a korábbi módon történő létrehozását, és megjelöljük azokat a helyeket, ahova a Dagger és Hilt könyvtáraknak ezeket a komponenseket függőségként injektálniuk kell. Korábban a `TodoDatabase` létrehozása a `TodoApplication` osztályban volt. Innen eltávolítjuk a példányosítást, viszont a repository komponensünket egyelőre nem bíztuk a Dagger/Hilt párosra, ezért ezt még mindig létre kell hozni, ehhez viszont szükség van a `TodoDao`-ra, amit viszont már ide is injektálhatunk. 
+
 A `TodoApplication` osztályunk most így fest:
 
 ```kotlin
@@ -202,8 +157,7 @@ class TodoApplication : Application() {
 ```
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**,
-    a **fenti lépésekhez tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, a **fenti lépésekhez tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
 
 	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
 
@@ -229,21 +183,14 @@ abstract class RepositoryModule {
 }
 ```
 
-Ez a modul némileg másképp működik, mint a korábbi. Egyrészt az osztály absztrakt, illetve nem
-a `@Provides` annotációt használtuk, hanem a `@Binds`-et, és az ezzel megjelölt metódus azt
-határozza meg, hogy amikor `TodoRepository` típusú függőségre van szükségünk, akkor annak
-a konkrét `TodoRepositoryImpl` típusú implementációját kell használni. Most már kivehetjük
-a `TodoApplication` osztályból a repository kezelését is, így az osztályunk üres lesz, de a
-Hilt inicializációja miatt továbbra is szükség van rá, hogy megtartsuk:
+Ez a modul némileg másképp működik, mint a korábbi. Egyrészt az osztály absztrakt, illetve nem a `@Provides` annotációt használtuk, hanem a `@Binds`-et, és az ezzel megjelölt metódus azt határozza meg, hogy amikor `TodoRepository` típusú függőségre van szükségünk, akkor annak a konkrét `TodoRepositoryImpl` típusú implementációját kell használni. Most már kivehetjük a `TodoApplication` osztályból a repository kezelését is, így az osztályunk üres lesz, de a Hilt inicializációja miatt továbbra is szükség van rá, hogy megtartsuk:
 
 ```kotlin
 @HiltAndroidApp
 class TodoApplication : Application()
 ```
 
-Viszont a `TodoRepositoryImpl` példányosításához szükség van a `TodoDao` osztályre, és mivel innentől
-ezt a Dagger/Hilt végzi, ezért az `@Inject` annotáció használatával jelezni kell, hogy példányosításkor
-a `TodoDao`-t függőségként szeretnénk injektálni. Írjuk át az osztály fejlécét az alábbira:
+Viszont a `TodoRepositoryImpl` példányosításához szükség van a `TodoDao` osztályre, és mivel innentől ezt a Dagger/Hilt végzi, ezért az `@Inject` annotáció használatával jelezni kell, hogy példányosításkor a `TodoDao`-t függőségként szeretnénk injektálni. Írjuk át az osztály fejlécét az alábbira:
 
 ```kotlin
 class TodoRepositoryImpl @Inject constructor(
@@ -253,9 +200,7 @@ class TodoRepositoryImpl @Inject constructor(
 }
 ```
 
-A repository viszont szorosan volt csatolva a viewmodelekhez, amelyeket a három feature-höz írtunk.
-Még ezeket is át kell alakítanunk hozzá, hogy az alkalmazás újra használható legyen. Jelenleg mindhárom
-viewmodel osztályunkban az alábbihoz hasonló factory-k vannak:
+A repository viszont szorosan volt csatolva a viewmodelekhez, amelyeket a három feature-höz írtunk. Még ezeket is át kell alakítanunk hozzá, hogy az alkalmazás újra használható legyen. Jelenleg mindhárom viewmodel osztályunkban az alábbihoz hasonló factory-k vannak:
 
 ```kotlin
     companion object {
@@ -270,11 +215,7 @@ viewmodel osztályunkban az alábbihoz hasonló factory-k vannak:
     }
 ```
 
-Ezeket törölnünk kell, viszont gondoskodnunk kell róla, hogy a `TodoUseCases` is inicializálódjon.
-Jelenlegi készültségben ezt nem tudjuk még injektálni, csak a `TodoRepository` komponenst,
-ennek segítségével viszont példányosítható a `TodoUseCases`. Illetve még el kell helyezni a
-viewmodel osztályokon a `@HiltViewModel` annotációt, hogy a Hilt által menedzselt viewmodellekké
-váljanak. A `TodosViewModel` végül így alakul:
+Ezeket törölnünk kell, viszont gondoskodnunk kell róla, hogy a `TodoUseCases` is inicializálódjon. Jelenlegi készültségben ezt nem tudjuk még injektálni, csak a `TodoRepository` komponenst, ennek segítségével viszont példányosítható a `TodoUseCases`. Illetve még el kell helyezni a viewmodel osztályokon a `@HiltViewModel` annotációt, hogy a Hilt által menedzselt viewmodellekké váljanak. A `TodosViewModel` végül így alakul:
 
 ```kotlin
 @HiltViewModel
@@ -511,8 +452,7 @@ class CreateTodoViewModel @Inject constructor(
 }
 ```
 
-Majd végül az összes screen osztályban változtassuk meg a viewmodel létreozásának módját
-úgy, hogy a `hiltViewModel()` hívást használjuk. Pl. a `CheckTodoScreen` eddig így nézett ki:
+Majd végül az összes screen osztályban változtassuk meg a viewmodel létreozásának módját úgy, hogy a `hiltViewModel()` hívást használjuk. Pl. a `CheckTodoScreen` eddig így nézett ki:
 
 ```kotlin
 fun CheckTodoScreen(
@@ -535,8 +475,7 @@ fun CheckTodoScreen(
 ```
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**,
-    a **fenti lépésekhez tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, a **fenti lépésekhez tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
 
 	A képet a megoldásban a repository-ba f3.png néven töltsd föl.
 
@@ -544,8 +483,7 @@ fun CheckTodoScreen(
 
 ## A usecases modul elkészítése
 
-Már csak a usecases modult kell elkészítenünk. Ehhez készítsünk először egy `domain.di` package-et,
-és ebbe hozzuk létre az alábbit:
+Már csak a usecases modult kell elkészítenünk. Ehhez készítsünk először egy `domain.di` package-et, és ebbe hozzuk létre az alábbit:
 
 ```kotlin
 @Module
@@ -583,9 +521,7 @@ class TodoUseCases(
 }
 ```
 
-Most már a viewmodel osztályokba nem szükséges a `TodoRepository` injektálása és a
-`TodoUseCases` kézi létrehozása, hiszen a `TodoUseCases` közvetlen is injektálhatóvá vált.
-Módosítsuk ennek megfelelően a viewmodel osztályokat!
+Most már a viewmodel osztályokba nem szükséges a `TodoRepository` injektálása és a `TodoUseCases` kézi létrehozása, hiszen a `TodoUseCases` közvetlen is injektálhatóvá vált. Módosítsuk ennek megfelelően a viewmodel osztályokat!
 
 A `CheckTodoViewModel` kódja:
 
@@ -813,8 +749,7 @@ class TodosViewModel @Inject constructor(
 ```
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**,
-    a **fenti lépésekhez tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, a **fenti lépésekhez tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
 
 	A képet a megoldásban a repository-ba f4.png néven töltsd föl.
 
@@ -822,14 +757,10 @@ class TodosViewModel @Inject constructor(
 
 ## Önálló feladat 
 
-A `TodoUseCases` osztályban egyelőre csak a `LoadTodosUseCase` függőséget hozzuk létre a modulban,
-és injektáljuk a Dagger/Hilt segítségével, a többi usecase most is manuálisan példányosodik a
-repository átadásával. Folytasd az átalakítást, és hozd létre az összes usecase-t a usecase
-modulban, hogy utána már a Dagger/Hilt kezelje őket!
+A `TodoUseCases` osztályban egyelőre csak a `LoadTodosUseCase` függőséget hozzuk létre a modulban, és injektáljuk a Dagger/Hilt segítségével, a többi usecase most is manuálisan példányosodik a repository átadásával. Folytasd az átalakítást, és hozd létre az összes usecase-t a usecase modulban, hogy utána már a Dagger/Hilt kezelje őket!
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**,
-    az **átalakított kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, az **átalakított kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
 
 	A képet a megoldásban a repository-ba f5.png néven töltsd föl.
 

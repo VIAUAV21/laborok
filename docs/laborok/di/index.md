@@ -87,6 +87,7 @@ kapt {
     // Hilt
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-compiler:2.44"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
 ```
 
 Ezzel a build folyamat és a függőségek rendben vannak. Most globálisan, az alkalmazás szintjén
@@ -98,6 +99,7 @@ menedzseli. Ehhez a `TodoApplication` osztályra tegyük rá a `@HiltAndroidApp`
 class TodoApplication : Application() {
 	// ...
 }
+```
 
 Majd nyissuk meg a `MainActivity` osztályt is, ezen pedig az `@AndroidEntryPoint` annotációt
 helyezzük el:

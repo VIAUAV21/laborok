@@ -463,7 +463,7 @@ object PagingUtil {
 }
 ```
 
-Végül a `data.repository` package-be vegyük fel a lenti `DataSource` osztályt, melyen keresztül a ViewModel eléri a kéréseinket:
+A `data.repository` package-be vegyük fel a lenti `DataSource` osztályt, melyen keresztül a ViewModel eléri a kéréseinket:
 
 `UnsplashPhotoDataSource.kt`:
 ```kotlin
@@ -507,6 +507,43 @@ class UnsplashPhotoDataSource(
 ```
 
 Itt láthatjuk a `Pager` osztály használatát a lapozott adatok folyamának beállításához.
+	
+Végül hozzuk létre a saját Application osztályunkat a gyökér package-ben:
+
+`UnsplashApplication.kt`:
+```kotlin	
+@ExperimentalPagingApi
+class UnsplashApplication : Application() {
+    companion object {
+        lateinit var photoDataSource: UnsplashPhotoDataSource
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        val db = Room.databaseBuilder(
+            this.baseContext,
+            UnsplashDatabase::class.java,
+            "unsplash_db"
+        ).build()
+
+        val client = OkHttpClient.Builder()
+            .readTimeout(15, TimeUnit.SECONDS)
+            .connectTimeout(15, TimeUnit.SECONDS)
+            .build()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.unsplash.com/")
+            .client(client)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+
+        val api = retrofit.create(UnsplashApi::class.java)
+
+        photoDataSource = UnsplashPhotoDataSource(api,db)
+
+    }
+}
+```
 
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amelyen látszik a **működő alkalmazás listázó képernyője** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel),  a **Paging-hez tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 

@@ -159,7 +159,7 @@ interface UnsplashPhotoDao {
 }
 ```
 
-Majd a `local.data.database` package-ben hozzuk létre az adatbázist (az `UnsplashPhotoRemoteKeysDao` osztályt később hozzuk létre):
+Majd a `data.local.database` package-ben hozzuk létre az adatbázist (az `UnsplashPhotoRemoteKeysDao` osztályt később hozzuk létre):
 
 `UnsplashDatabase.kt`:
 ```kotlin

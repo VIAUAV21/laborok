@@ -1448,7 +1448,7 @@ Ezzez elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <p><code>WindowSize.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">WindowSize</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Compact</span><span class="p">,</span><span class="w"> </span><span class="n">Medium</span><span class="p">,</span><span class="w"> </span><span class="n">Expanded</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div></p>
-<p>Ezt követően hozzuk létre a három különböző elrendezésünket a <code>feature.photos_feed.screensbysize</code> package-ben:</p>
+<p>Ezt követően hozzuk létre a maradék két elrendezésünket a <code>feature.photos_feed.screensbysize</code> package-ben:</p>
 <p><code>PhotosFeedScreen_Compact.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@ExperimentalMaterialApi</span>
@@ -1482,60 +1482,6 @@ Ezzez elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">refreshing</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">LazyColumn</span><span class="p">(</span>
 <span class="w">                    </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">()</span>
-<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">items</span><span class="p">(</span><span class="n">photos</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">photo</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">                        </span><span class="n">photo</span><span class="o">?.</span><span class="na">let</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">                            </span><span class="n">PhotoItem</span><span class="p">(</span>
-<span class="w">                                </span><span class="n">photo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">,</span>
-<span class="w">                                </span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onPhotoItemClick</span>
-<span class="w">                            </span><span class="p">)</span>
-<span class="w">                        </span><span class="p">}</span>
-<span class="w">                    </span><span class="p">}</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">            </span><span class="n">PullRefreshIndicator</span><span class="p">(</span>
-<span class="w">                </span><span class="n">refreshing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">refreshing</span><span class="p">,</span>
-<span class="w">                </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">refreshState</span><span class="p">,</span>
-<span class="w">                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">align</span><span class="p">(</span><span class="n">Alignment</span><span class="p">.</span><span class="na">TopCenter</span><span class="p">)</span>
-<span class="w">            </span><span class="p">)</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></p>
-<p><code>PhotosFeedScreen_Medium.kt</code>:
-<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
-<span class="nd">@ExperimentalMaterialApi</span>
-<span class="nd">@Composable</span>
-<span class="kd">fun</span><span class="w"> </span><span class="nf">PhotosFeedScreen_Medium</span><span class="p">(</span>
-<span class="w">    </span><span class="n">refreshState</span><span class="p">:</span><span class="w"> </span><span class="n">PullRefreshState</span><span class="p">,</span>
-<span class="w">    </span><span class="n">refreshing</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
-<span class="w">    </span><span class="n">onPhotoItemClick</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
-<span class="w">    </span><span class="n">photos</span><span class="p">:</span><span class="w"> </span><span class="n">LazyPagingItems</span><span class="o">&lt;</span><span class="n">UnsplashPhotoUiModel</span><span class="o">&gt;</span><span class="p">,</span>
-<span class="w">    </span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
-<span class="w">    </span><span class="n">onValueChange</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
-<span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
-<span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberLazyGridState</span><span class="p">()</span>
-<span class="w">    </span><span class="n">Scaffold</span><span class="p">(</span>
-<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span><span class="p">,</span>
-<span class="w">        </span><span class="n">topBar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">SearchTopAppBar</span><span class="p">(</span>
-<span class="w">                </span><span class="n">isScrollInProgress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">isScrollInProgress</span><span class="p">,</span>
-<span class="w">                </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span>
-<span class="w">                </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onValueChange</span>
-<span class="w">            </span><span class="p">)</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">Box</span><span class="p">(</span>
-<span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span>
-<span class="w">                </span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">()</span>
-<span class="w">                </span><span class="p">.</span><span class="na">pullRefresh</span><span class="p">(</span><span class="n">refreshState</span><span class="p">)</span>
-<span class="w">                </span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="nb">it</span><span class="p">)</span>
-<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">refreshing</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">LazyVerticalGrid</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">,</span>
-<span class="w">                    </span><span class="n">columns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GridCells</span><span class="p">.</span><span class="na">Fixed</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
 <span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                    </span><span class="n">items</span><span class="p">(</span><span class="n">photos</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">photo</span><span class="w"> </span><span class="o">-&gt;</span>
 <span class="w">                        </span><span class="n">photo</span><span class="o">?.</span><span class="na">let</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">-&gt;</span>
@@ -1778,8 +1724,8 @@ Ezzez elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
           </path>
         </svg>
       </span>
-      <span title="2023. május 15. 13:08:18">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-15T13:08:18+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-15</span>
+      <span title="2023. május 15. 13:13:20">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-15T13:13:20+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-15</span>
       </span>
     </span>
 

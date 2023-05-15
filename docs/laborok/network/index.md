@@ -827,6 +827,9 @@ fun PhotosFeedScreen(
     }
 }
 ```
+
+A `PhotoDetails.kt`-ban szüntessük meg a három windowsize-ot tartalmazó sor kommentezését.
+	
 Frissítsük a NavGraph-ot:
 `NavGraph.kt`:
 ```kotlin

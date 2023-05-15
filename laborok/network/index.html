@@ -1095,7 +1095,7 @@ A Coil használatának előnyei:<br />
 <span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getPhotoById</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">):</span><span class="w"> </span><span class="n">Flow</span><span class="o">&lt;</span><span class="n">UnsplashPhoto</span><span class="o">&gt;</span>
 <span class="p">}</span>
 </code></pre></div></p>
-<p>Majd a <code>local.data.database</code> package-ben hozzuk létre az adatbázist (az <code>UnsplashPhotoRemoteKeysDao</code> osztályt később hozzuk létre):</p>
+<p>Majd a <code>data.local.database</code> package-ben hozzuk létre az adatbázist (az <code>UnsplashPhotoRemoteKeysDao</code> osztályt később hozzuk létre):</p>
 <p><code>UnsplashDatabase.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="nd">@Database</span><span class="p">(</span><span class="n">entities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">UnsplashPhoto</span><span class="o">::</span><span class="n">class</span><span class="p">,</span><span class="w"> </span><span class="n">UnsplashPhotoRemoteKeys</span><span class="o">::</span><span class="n">class</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
 <span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">UnsplashDatabase</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">RoomDatabase</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -1777,8 +1777,8 @@ Frissítsük a NavGraph-ot:
           </path>
         </svg>
       </span>
-      <span title="2023. május 15. 12:38:03">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-15T12:38:03+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-15</span>
+      <span title="2023. május 15. 12:50:28">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-15T12:50:28+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-15</span>
       </span>
     </span>
 

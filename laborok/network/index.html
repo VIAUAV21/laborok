@@ -1662,6 +1662,42 @@ Ezzez elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
+</code></pre></div>
+Frissítsük a NavGraph-ot:
+<code>NavGraph.kt</code>:
+<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
+<span class="nd">@ExperimentalPagingApi</span>
+<span class="nd">@ExperimentalMaterialApi</span>
+<span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">NavGraph</span><span class="p">(</span>
+<span class="w">    </span><span class="n">windowSize</span><span class="p">:</span><span class="w"> </span><span class="n">WindowSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WindowSize</span><span class="p">.</span><span class="na">Compact</span><span class="p">,</span>
+<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberNavController</span><span class="p">()</span>
+
+<span class="w">    </span><span class="n">NavHost</span><span class="p">(</span>
+<span class="w">        </span><span class="n">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">navController</span><span class="p">,</span>
+<span class="w">        </span><span class="n">startDestination</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">PhotosFeed</span><span class="p">.</span><span class="na">route</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">composable</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">PhotosFeed</span><span class="p">.</span><span class="na">route</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">PhotosFeedScreen</span><span class="p">(</span>
+<span class="w">                </span><span class="n">windowSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">windowSize</span><span class="p">,</span>
+<span class="w">                </span><span class="n">onPhotoItemClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">photoId</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">                    </span><span class="n">navController</span><span class="p">.</span><span class="na">navigate</span><span class="p">(</span><span class="n">Screen</span><span class="p">.</span><span class="na">LoadedPhoto</span><span class="p">.</span><span class="na">passPhotoId</span><span class="p">(</span><span class="n">photoId</span><span class="p">))</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">composable</span><span class="p">(</span>
+<span class="w">            </span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">LoadedPhoto</span><span class="p">.</span><span class="na">route</span><span class="p">,</span>
+<span class="w">            </span><span class="n">arguments</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">listOf</span><span class="p">(</span>
+<span class="w">                </span><span class="n">navArgument</span><span class="p">(</span><span class="s">&quot;photoId&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NavType</span><span class="p">.</span><span class="na">StringType</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">LoadedPhotoScreen</span><span class="p">()</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div></p>
 <p>Majd az Activity-t is állítsuk be ezek használatára:</p>
 <p><code>MainActivity.kt</code>:
@@ -1707,8 +1743,8 @@ Ezzez elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
           </path>
         </svg>
       </span>
-      <span title="2023. május 15. 12:29:20">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-15T12:29:20+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-15</span>
+      <span title="2023. május 15. 12:33:19">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-15T12:33:19+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-15</span>
       </span>
     </span>
 

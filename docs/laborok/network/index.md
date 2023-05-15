@@ -569,7 +569,7 @@ Ezzez elsőként a `util` package-ben hozzunk létre egy osztályt a kategóriá
 enum class WindowSize { Compact, Medium, Expanded }
 ```
 
-Ezt követően hozzuk létre a három különböző elrendezésünket a `feature.photos_feed.screensbysize` package-ben:
+Ezt követően hozzuk létre a maradék két elrendezésünket a `feature.photos_feed.screensbysize` package-ben:
 
 `PhotosFeedScreen_Compact.kt`:
 ```kotlin
@@ -605,62 +605,6 @@ fun PhotosFeedScreen_Compact(
             if (!refreshing) {
                 LazyColumn(
                     modifier = modifier.fillMaxSize()
-                ) {
-                    items(photos) { photo ->
-                        photo?.let { model ->
-                            PhotoItem(
-                                photo = model,
-                                onClick = onPhotoItemClick
-                            )
-                        }
-                    }
-                }
-            }
-            PullRefreshIndicator(
-                refreshing = refreshing,
-                state = refreshState,
-                modifier = Modifier.align(Alignment.TopCenter)
-            )
-        }
-    }
-}
-```
-
-`PhotosFeedScreen_Medium.kt`:
-```kotlin
-@ExperimentalMaterial3Api
-@ExperimentalMaterialApi
-@Composable
-fun PhotosFeedScreen_Medium(
-    refreshState: PullRefreshState,
-    refreshing: Boolean,
-    onPhotoItemClick: (String) -> Unit,
-    photos: LazyPagingItems<UnsplashPhotoUiModel>,
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val state = rememberLazyGridState()
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            SearchTopAppBar(
-                isScrollInProgress = state.isScrollInProgress,
-                value = value,
-                onValueChange = onValueChange
-            )
-        }
-    ) {
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .pullRefresh(refreshState)
-                .padding(it)
-        ) {
-            if (!refreshing) {
-                LazyVerticalGrid(
-                    state = state,
-                    columns = GridCells.Fixed(2)
                 ) {
                     items(photos) { photo ->
                         photo?.let { model ->

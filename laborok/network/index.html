@@ -1355,7 +1355,7 @@ Cseréljük le az itt szereplő <code>ACCESS_KEY</code> stringet az Unsplashen r
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></p>
-<p>Végül a <code>data.repository</code> package-be vegyük fel a lenti <code>DataSource</code> osztályt, melyen keresztül a ViewModel eléri a kéréseinket:</p>
+<p>A <code>data.repository</code> package-be vegyük fel a lenti <code>DataSource</code> osztályt, melyen keresztül a ViewModel eléri a kéréseinket:</p>
 <p><code>UnsplashPhotoDataSource.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalPagingApi</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">UnsplashPhotoDataSource</span><span class="p">(</span>
@@ -1396,6 +1396,40 @@ Cseréljük le az itt szereplő <code>ACCESS_KEY</code> stringet az Unsplashen r
 <span class="p">}</span>
 </code></pre></div></p>
 <p>Itt láthatjuk a <code>Pager</code> osztály használatát a lapozott adatok folyamának beállításához.</p>
+<p>Végül hozzuk létre a saját Application osztályunkat a gyökér package-ben:</p>
+<p><code>UnsplashApplication.kt</code>:
+<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalPagingApi</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">UnsplashApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">photoDataSource</span><span class="p">:</span><span class="w"> </span><span class="n">UnsplashPhotoDataSource</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">()</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Room</span><span class="p">.</span><span class="na">databaseBuilder</span><span class="p">(</span>
+<span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="na">baseContext</span><span class="p">,</span>
+<span class="w">            </span><span class="n">UnsplashDatabase</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">,</span>
+<span class="w">            </span><span class="s">&quot;unsplash_db&quot;</span>
+<span class="w">        </span><span class="p">).</span><span class="na">build</span><span class="p">()</span>
+
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OkHttpClient</span><span class="p">.</span><span class="na">Builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">readTimeout</span><span class="p">(</span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">SECONDS</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">connectTimeout</span><span class="p">(</span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">SECONDS</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
+
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">retrofit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Retrofit</span><span class="p">.</span><span class="na">Builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">baseUrl</span><span class="p">(</span><span class="s">&quot;https://api.unsplash.com/&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">addConverterFactory</span><span class="p">(</span><span class="n">MoshiConverterFactory</span><span class="p">.</span><span class="na">create</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
+
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">api</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">retrofit</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="n">UnsplashApi</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">photoDataSource</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UnsplashPhotoDataSource</span><span class="p">(</span><span class="n">api</span><span class="p">,</span><span class="n">db</span><span class="p">)</span>
+
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>működő alkalmazás listázó képernyője</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel),  a <strong>Paging-hez tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
@@ -1743,8 +1777,8 @@ Frissítsük a NavGraph-ot:
           </path>
         </svg>
       </span>
-      <span title="2023. május 15. 12:33:19">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-15T12:33:19+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-15</span>
+      <span title="2023. május 15. 12:38:03">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-15T12:38:03+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-15</span>
       </span>
     </span>
 

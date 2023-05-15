@@ -790,6 +790,43 @@ fun PhotosFeedScreen(
     }
 }
 ```
+Frissítsük a NavGraph-ot:
+`NavGraph.kt`:
+```kotlin
+@ExperimentalMaterial3Api
+@ExperimentalPagingApi
+@ExperimentalMaterialApi
+@Composable
+fun NavGraph(
+    windowSize: WindowSize = WindowSize.Compact,
+) {
+    val navController = rememberNavController()
+
+    NavHost(
+        navController = navController,
+        startDestination = Screen.PhotosFeed.route
+    ) {
+        composable(route = Screen.PhotosFeed.route) {
+            PhotosFeedScreen(
+                windowSize = windowSize,
+                onPhotoItemClick = { photoId ->
+                    navController.navigate(Screen.LoadedPhoto.passPhotoId(photoId))
+                }
+            )
+        }
+        composable(
+            route = Screen.LoadedPhoto.route,
+            arguments = listOf(
+                navArgument("photoId") {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            LoadedPhotoScreen()
+        }
+    }
+}
+```
 
 Majd az Activity-t is állítsuk be ezek használatára:
 

@@ -1154,7 +1154,7 @@ Cseréljük le az itt szereplő <code>ACCESS_KEY</code> stringet az Unsplashen r
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="n">params</span><span class="p">:</span><span class="w"> </span><span class="n">LoadParams</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span><span class="p">):</span><span class="w"> </span><span class="n">LoadResult</span><span class="o">&lt;</span><span class="kt">Int</span><span class="p">,</span><span class="w"> </span><span class="n">UnsplashPhoto</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">currentPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">params</span><span class="p">.</span><span class="na">key</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="m">1</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">api</span><span class="p">.</span><span class="na">getSearchResults</span><span class="p">(</span><span class="n">searchTerms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">searchTerms</span><span class="p">,</span><span class="w"> </span><span class="n">perPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">INITIAL_PAGE_SIZE</span><span class="p">)</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">api</span><span class="p">.</span><span class="na">getSearchResults</span><span class="p">(</span><span class="n">searchTerms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">searchTerms</span><span class="p">,</span><span class="w"> </span><span class="n">perPage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">INITIAL_PAGE_SIZE</span><span class="p">,</span><span class="w"> </span><span class="n">page</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentPage</span><span class="p">)</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">response</span><span class="p">.</span><span class="na">isSuccessful</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">photos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">response</span><span class="p">.</span><span class="na">body</span><span class="p">()</span><span class="o">?.</span><span class="na">photos</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="n">emptyList</span><span class="p">()</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">endOfPaginationReached</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">photos</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">()</span>
@@ -1299,7 +1299,7 @@ Cseréljük le az itt szereplő <code>ACCESS_KEY</code> stringet az Unsplashen r
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">insertAllKeys</span><span class="p">(</span><span class="n">keys</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">UnsplashPhotoRemoteKeys</span><span class="o">&gt;</span><span class="p">)</span>
 
 <span class="w">    </span><span class="nd">@Query</span><span class="p">(</span><span class="s">&quot;SELECT * FROM remote_keys WHERE id = :id&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getKeysById</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">):</span><span class="w"> </span><span class="n">UnsplashPhotoRemoteKeys</span>
+<span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getKeysById</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">):</span><span class="w"> </span><span class="n">UnsplashPhotoRemoteKeys</span>
 
 <span class="w">    </span><span class="nd">@Query</span><span class="p">(</span><span class="s">&quot;DELETE FROM remote_keys&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">deleteAllKeys</span><span class="p">()</span>
@@ -1724,8 +1724,8 @@ Ezzez elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
           </path>
         </svg>
       </span>
-      <span title="2023. május 15. 13:13:20">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-15T13:13:20+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-15</span>
+      <span title="2023. május 16. 15:47:12">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-16T15:47:12+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-16</span>
       </span>
     </span>
 
@@ -1742,6 +1742,8 @@ Ezzez elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
       <span>Szerzők</span>
       <nav><a href="https://github.com/kpomazi" target="_blank" rel="noopener noreferrer" class="md-author" title="@kpomazi">
           <img src="https://avatars.githubusercontent.com/u/22079595?size=72" alt="@kpomazi">
+        </a><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
+          <img src="https://avatars.githubusercontent.com/u/8405234?size=72" alt="@danim1130">
         </a></nav>      
     </span>
   </div>

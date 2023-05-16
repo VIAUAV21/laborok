@@ -231,7 +231,7 @@ class SearchPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, UnsplashPhoto> {
         val currentPage = params.key ?: 1
         return try {
-            val response = api.getSearchResults(searchTerms = searchTerms, perPage = INITIAL_PAGE_SIZE)
+            val response = api.getSearchResults(searchTerms = searchTerms, perPage = INITIAL_PAGE_SIZE, page = currentPage)
             if (response.isSuccessful) {
                 val photos = response.body()?.photos ?: emptyList()
                 val endOfPaginationReached = photos.isEmpty()
@@ -401,7 +401,7 @@ interface UnsplashPhotoRemoteKeysDao {
     suspend fun insertAllKeys(keys: List<UnsplashPhotoRemoteKeys>)
 
     @Query("SELECT * FROM remote_keys WHERE id = :id")
-    fun getKeysById(id: String): UnsplashPhotoRemoteKeys
+    suspend fun getKeysById(id: String): UnsplashPhotoRemoteKeys
 
     @Query("DELETE FROM remote_keys")
     suspend fun deleteAllKeys()

@@ -840,7 +840,14 @@ class MainActivity : ComponentActivity() {
     }
 }
 ```
+!!!example "BEADANDÓ (1 pont)" 
+	Készíts egy **képernyőképet**, amelyen látszik a **működő alkalmazás a más méretben megjelenő képekkel** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel),  a **más méretű képernyőkhöz tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
 
+	A képet a megoldásban a repository-ba f4.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
+
+	
 ## Önálló feladat 2 - Dependency Injection
 
 Írjuk át a projektet úgy, hogy az előző laboron megismert Dependency Injection keretrendszereket használja!

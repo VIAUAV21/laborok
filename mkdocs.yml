@@ -95,5 +95,6 @@ nav:
       - laborok/persistence/index.md
       - laborok/firebase/index.md
       - laborok/di/index.md
+      - laborok/alarm/index.md
   - "Házi feladat":
       - hf/index.md

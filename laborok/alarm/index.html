@@ -21,7 +21,7 @@
     
     
       
-        <title>Labor12 - Időzítés és értesítések (Alarm) - BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok</title>
+        <title>Labor11 - Időzítés és értesítések (Alarm) - BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok</title>
       
     
     
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#labor12-idozites-es-ertesitesek-alarm" class="md-skip">
+        <a href="#labor11-idozites-es-ertesitesek-alarm" class="md-skip">
           Kihagyás
         </a>
       
@@ -120,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Labor12 - Időzítés és értesítések (Alarm)
+              Labor11 - Időzítés és értesítések (Alarm)
             
           </span>
         </div>
@@ -596,12 +596,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Labor12 - Időzítés és értesítések (Alarm)
+          Labor11 - Időzítés és értesítések (Alarm)
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Labor12 - Időzítés és értesítések (Alarm)
+        Labor11 - Időzítés és értesítések (Alarm)
       </a>
       
         
@@ -893,22 +893,14 @@
   
 
 
-<h1 id="labor12-idozites-es-ertesitesek-alarm">Labor12 - Időzítés és értesítések (Alarm)<a class="headerlink" href="#labor12-idozites-es-ertesitesek-alarm" title="Permanent link">&para;</a></h1>
+<h1 id="labor11-idozites-es-ertesitesek-alarm">Labor11 - Időzítés és értesítések (Alarm)<a class="headerlink" href="#labor11-idozites-es-ertesitesek-alarm" title="Permanent link">&para;</a></h1>
 <h2 id="bevezetes">Bevezetés<a class="headerlink" href="#bevezetes" title="Permanent link">&para;</a></h2>
-<p>Ebben a laborban egy időzítő alkalmazást készítünk, amely a beállított időintervallum
-eltelte után értesítést küld, akkor is, ha az alkalamzás felhasználói felülete
-nincs az előtérben, mert közben a felhasználó másik alkalmazást indított.
-A laborban érintett főbb témakörök:</p>
+<p>Ebben a laborban egy időzítő alkalmazást készítünk, amely a beállított időintervallum eltelte után értesítést küld, akkor is, ha az alkalamzás felhasználói felülete nincs az előtérben, mert közben a felhasználó másik alkalmazást indított. </p>
+<p>A laborban érintett főbb témakörök:</p>
 <ul>
-<li>
-<p>Háttérfeladat futtatása Service segítségével</p>
-</li>
-<li>
-<p>Időzített feladatok</p>
-</li>
-<li>
-<p>Értesítések küldése</p>
-</li>
+<li>Háttérfeladat futtatása Service segítségével</li>
+<li>Időzített feladatok</li>
+<li>Értesítések küldése</li>
 </ul>
 <h2 id="elokeszuletek">Előkészületek<a class="headerlink" href="#elokeszuletek" title="Permanent link">&para;</a></h2>
 <p>A feladatok megoldása során ne felejtsd el követni a <a href="../../tudnivalok/github/GitHub/">feladat beadás folyamatát</a>.</p>
@@ -943,9 +935,7 @@ A laborban érintett főbb témakörök:</p>
 </div>
 <h2 id="a-fuggosegek-beallitasa">A függőségek beállítása<a class="headerlink" href="#a-fuggosegek-beallitasa" title="Permanent link">&para;</a></h2>
 <p>Az Android Studio a projekt létrehozásakor felveszi ugyan a <em>Compose</em>-t a függésegek közé, de némileg elavult verziókat használ. Ezen kívül a Dagger/Hilt függőségekre is szükségünk van.</p>
-<p>Először a
-projekt szintű <code>build.gradle</code> fájlba vegyük fel a Dagger plugint, és frissítsük
-az Android plugin verzióját is:</p>
+<p>Először a projekt szintű <code>build.gradle</code> fájlba vegyük fel a Dagger plugint, és frissítsük az Android plugin verzióját is:</p>
 <div class="highlight"><pre><span></span><code><span class="n">id</span><span class="w"> </span><span class="s1">&#39;com.google.dagger.hilt.android&#39;</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s1">&#39;2.44&#39;</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
 <span class="n">id</span><span class="w"> </span><span class="s1">&#39;org.jetbrains.kotlin.android&#39;</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s1">&#39;1.8.10&#39;</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
 </code></pre></div>
@@ -957,9 +947,7 @@ az Android plugin verzióját is:</p>
 <span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="s1">&#39;com.google.dagger.hilt.android&#39;</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>És a kapthoz kapcsoljuk is be a hibás típusok korrekcióját, frissítsük a Compose
-verzióját, illetve frissítsük a használt JDK verziót, mert a kapt plugin már
-újabbat kíván:</p>
+<p>És a kapthoz kapcsoljuk is be a hibás típusok korrekcióját, frissítsük a Compose verzióját, illetve frissítsük a használt JDK verziót, mert a kapt plugin már újabbat kíván:</p>
 <div class="highlight"><pre><span></span><code><span class="n">kapt</span><span class="w"> </span><span class="o">{</span>
 <span class="w">    </span><span class="n">correctErrorTypes</span><span class="w"> </span><span class="kc">true</span>
 <span class="o">}</span>
@@ -976,8 +964,7 @@ verzióját, illetve frissítsük a használt JDK verziót, mert a kapt plugin m
 <span class="w">    </span><span class="n">jvmTarget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;17&#39;</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>Végül frissítsük a modul szintű <code>build.gradle</code> fájlban a függőségeket az alábbiakra,
-majd szinkronizáljuk is a projektet:</p>
+<p>Végül frissítsük a modul szintű <code>build.gradle</code> fájlban a függőségeket az alábbiakra, majd szinkronizáljuk is a projektet:</p>
 <div class="highlight"><pre><span></span><code><span class="n">dependencies</span><span class="w"> </span><span class="o">{</span>
 
 <span class="w">    </span><span class="kt">def</span><span class="w"> </span><span class="n">composeBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">platform</span><span class="o">(</span><span class="s1">&#39;androidx.compose:compose-bom:2023.01.00&#39;</span><span class="o">)</span>
@@ -1017,14 +1004,9 @@ majd szinkronizáljuk is a projektet:</p>
 <span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;com.maxkeppeler.sheets-compose-dialogs:duration:1.0.3&#39;</span>
 <span class="o">}</span>
 </code></pre></div>
-<p>Ezzel felvettük a Dagger/Hilt könyvtárakat is, illetve a már ismert Accompanist
-könyvtárat a függésőgek kezeléséhez, a desugar könyvtárat a Java 8 dátumkezelő
-libek használatához, valamint néhány további könyvtárat, amelyekkel az időzítő
-beállítása lesz lehetséges.</p>
+<p>Ezzel felvettük a Dagger/Hilt könyvtárakat is, illetve a már ismert Accompanist könyvtárat a függésőgek kezeléséhez, a desugar könyvtárat a Java 8 dátumkezelő libek használatához, valamint néhány további könyvtárat, amelyekkel az időzítő beállítása lesz lehetséges.</p>
 <h2 id="a-domenmodellek-elkeszitese">A doménmodellek elkészítése<a class="headerlink" href="#a-domenmodellek-elkeszitese" title="Permanent link">&para;</a></h2>
-<p>Először néhány olyan osztályt készítünk, amelyekkel az alkalmazás aktuális állapota, illetve
-az állapotváltozást előidéző események reprezentálhatók. Ehhez készítsünk egy <code>util</code> package-et.
-Ebbe hozzuk létre az alábbi osztályt:</p>
+<p>Először néhány olyan osztályt készítünk, amelyekkel az alkalmazás aktuális állapota, illetve az állapotváltozást előidéző események reprezentálhatók. Ehhez készítsünk egy <code>util</code> package-et. Ebbe hozzuk létre az alábbi osztályt:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">AlarmEvent</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">SetAlarmDuration</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">duration</span><span class="p">:</span><span class="w"> </span><span class="n">Duration</span><span class="p">):</span><span class="w"> </span><span class="n">AlarmEvent</span><span class="p">()</span>
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">SetAlarm</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">context</span><span class="p">:</span><span class="w"> </span><span class="n">Context</span><span class="p">):</span><span class="w"> </span><span class="n">AlarmEvent</span><span class="p">()</span>
@@ -1033,8 +1015,7 @@ Ebbe hozzuk létre az alábbi osztályt:</p>
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">StopAlarm</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">context</span><span class="p">:</span><span class="w"> </span><span class="n">Context</span><span class="p">):</span><span class="w"> </span><span class="n">AlarmEvent</span><span class="p">()</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Az osztály tartalma könnyen megérthető, az egyes felhasználói interakciókat mint lehetséges
-eseményeket jelképezi.</p>
+<p>Az osztály tartalma könnyen megérthető, az egyes felhasználói interakciókat mint lehetséges eseményeket jelképezi.</p>
 <p>Most hozzuk létre az alábbi osztályokat egy fájlban:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">AlarmServiceState</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">IDLE</span><span class="p">,</span><span class="w"> </span><span class="n">SET</span><span class="p">,</span><span class="w"> </span><span class="n">PAUSE</span><span class="p">,</span><span class="w"> </span><span class="n">CANCELED</span>
@@ -1059,12 +1040,9 @@ eseményeket jelképezi.</p>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Az <code>AlarmServiceState</code> lehetséges értékei írják le, hogy az időzítő épp várakozik, fut,
-pauzált vagy leállított. Az <code>AlarmState</code> ezt az aktuális állapotot tárolja, és mellé
-még egységbe zárja, hogy mennyi az időzítő célideje, és mennyi telt el eddig.</p>
+<p>Az <code>AlarmServiceState</code> lehetséges értékei írják le, hogy az időzítő épp várakozik, fut, pauzált vagy leállított. Az <code>AlarmState</code> ezt az aktuális állapotot tárolja, és mellé még egységbe zárja, hogy mennyi az időzítő célideje, és mennyi telt el eddig.</p>
 <h2 id="a-felhasznaloi-felulet-elkeszitese">A felhasználói felület elkészítése<a class="headerlink" href="#a-felhasznaloi-felulet-elkeszitese" title="Permanent link">&para;</a></h2>
-<p>Az alkalmazásunk felhasználói felület nem lesz túl bonyolult. Először az alapvető
-építőelemeket hozzuk létre.</p>
+<p>Az alkalmazásunk felhasználói felület nem lesz túl bonyolult. Először az alapvető építőelemeket hozzuk létre.</p>
 <p>Először az <code>ui.theme</code> package-ben levő <code>Color.kt</code> fájlba vegyünk fel néhány új színt:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">ColorScheme</span><span class="p">.</span><span class="na">startColor</span>
 <span class="w">    </span><span class="nd">@Composable</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isSystemInDarkTheme</span><span class="p">())</span><span class="w"> </span><span class="n">Color</span><span class="p">(</span><span class="m">0</span><span class="n">xFF6BBB6E</span><span class="p">)</span>
@@ -1082,12 +1060,7 @@ még egységbe zárja, hogy mennyi az időzítő célideje, és mennyi telt el e
 <span class="w">    </span><span class="nd">@Composable</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isSystemInDarkTheme</span><span class="p">())</span><span class="w"> </span><span class="n">Color</span><span class="p">(</span><span class="m">0</span><span class="n">xFFAD0000</span><span class="p">)</span>
 <span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="n">Color</span><span class="p">(</span><span class="m">0</span><span class="n">xFFFF0000</span><span class="p">)</span>
 </code></pre></div>
-<p>Az alkalmazásunkban szükség lesz néhány ikonra, ezeket a <code>res/drawable</code> mappába
-kell felvenni. Raszteres formátumú képeknél célszerű lenne különböző képernyőkre
-optimalizált változatokat készíteni, de most szerencsére vektoros képek állnak a
-rendelkezésünkre, ezért ezeket tehetjük közvetlen az erőforrásminősítő nélküli
-<code>drawable</code> könyvtárba. Az ikonok a template repository <code>assets</code> könyvtárában
-találhatóak.</p>
+<p>Az alkalmazásunkban szükség lesz néhány ikonra, ezeket a <code>res/drawable</code> mappába kell felvenni. Raszteres formátumú képeknél célszerű lenne különböző képernyőkre optimalizált változatokat készíteni, de most szerencsére vektoros képek állnak a rendelkezésünkre, ezért ezeket tehetjük közvetlen az erőforrásminősítő nélküli <code>drawable</code> könyvtárba. Az ikonok a template repository <code>assets</code> könyvtárában találhatóak.</p>
 <p>Vegyük még fel a később használt szöveges címkéket a <code>strings.xml</code> fájlba:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;resources&gt;</span>
 <span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;app_name&quot;</span><span class="nt">&gt;</span>AlarmService<span class="nt">&lt;/string&gt;</span>
@@ -1102,9 +1075,7 @@ találhatóak.</p>
 <span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;timepicker_sec&quot;</span><span class="nt">&gt;</span>sec<span class="nt">&lt;/string&gt;</span>
 <span class="nt">&lt;/resources&gt;</span>
 </code></pre></div>
-<p>Most szükségünk van egy gombra, amelyet különböző ikonnal
-majd különböző funkciókhoz, mint pauzálás, leállítás, tudunk használni. Ezt a
-<code>ui.common</code> package-ben hozzuk létre:</p>
+<p>Most szükségünk van egy gombra, amelyet különböző ikonnal majd különböző funkciókhoz, mint pauzálás, leállítás, tudunk használni. Ezt a <code>ui.common</code> package-ben hozzuk létre:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">AlarmStateButton</span><span class="p">(</span>
 <span class="w">    </span><span class="n">iconId</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
@@ -1160,9 +1131,7 @@ majd különböző funkciókhoz, mint pauzálás, leállítás, tudunk használn
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Szükségünk van még az óránk "számlapjára", amely a hátralevő időt mutatja, ez lesz
-a <code>DurationCounter</code>, és <code>Counter</code> komponensekből rakjuk össze az óra, a perc és a
-másodperc részeket:</p>
+<p>Szükségünk van még az óránk "számlapjára", amely a hátralevő időt mutatja, ez lesz a <code>DurationCounter</code>, és <code>Counter</code> komponensekből rakjuk össze az óra, a perc és a másodperc részeket:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">DurationCounter</span><span class="p">(</span>
 <span class="w">    </span><span class="n">onClick</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
@@ -1239,8 +1208,7 @@ másodperc részeket:</p>
 </code></pre></div>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>Compose preview</strong>,
-az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>Compose preview</strong>, az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
 <p>A képet a megoldásban a repository-ba f1.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
@@ -1299,9 +1267,7 @@ az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Látható, hogy a ViewModel kezeli az eseményeket, és az alkalmazás állapotát ennek
-megfelelően frissíti, azonban a háttérben futó, tényleges időzítést végző
-<code>AlarmService</code> még nincs kész, így annak hívásai ide nincsenek bekötve.</p>
+<p>Látható, hogy a ViewModel kezeli az eseményeket, és az alkalmazás állapotát ennek megfelelően frissíti, azonban a háttérben futó, tényleges időzítést végző <code>AlarmService</code> még nincs kész, így annak hívásai ide nincsenek bekötve.</p>
 <p>Most ugyanebbe a package-ben hozzuk létre a teljes képernyőt is:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="nd">@ExperimentalPermissionsApi</span>
@@ -1409,23 +1375,14 @@ megfelelően frissíti, azonban a háttérben futó, tényleges időzítést vé
 
 <span class="w">        </span><span class="err">...</span>
 </code></pre></div>
-<p>Bár még az alkalmazáslogikánk nem működik ténylegesen, vegyük fel ide a szükséges
-engedélyeket is. Az alkalmazásunk egy előtérben futó (foreground) Service-t fog használni
-ahhoz, hogy az időzítés akkor is működjön, ha az alkalmazás <code>Activity</code>-je már
-nem látható. Az ilyen Service-ekhez kötelező, hogy legyen értesítés az értesítési
-sávon, hogy a felhasználó mindig lássa, hogy milyen alkalmazások futnak a háttérben.
-(Ennek egy tipikus példája a zenelejátszó alkalmazások esete is.() Ezért az értesítésekhez
-szükséges engedélyt is fel kell venni. Szükséges még a pontos riasztás, és a pontos
-riasztás időzítésének engedélye:</p>
+<p>Bár még az alkalmazáslogikánk nem működik ténylegesen, vegyük fel ide a szükséges engedélyeket is. Az alkalmazásunk egy előtérben futó (foreground) Service-t fog használni ahhoz, hogy az időzítés akkor is működjön, ha az alkalmazás <code>Activity</code>-je már nem látható. Az ilyen Service-ekhez kötelező, hogy legyen értesítés az értesítési sávon, hogy a felhasználó mindig lássa, hogy milyen alkalmazások futnak a háttérben. (Ennek egy tipikus példája a zenelejátszó alkalmazások esete is.() Ezért az értesítésekhez szükséges engedélyt is fel kell venni. Szükséges még a pontos riasztás, és a pontos riasztás időzítésének engedélye:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.FOREGROUND_SERVICE&quot;</span><span class="nt">/&gt;</span>
 <span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.POST_NOTIFICATIONS&quot;</span><span class="nt">/&gt;</span>
 
 <span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.SCHEDULE_EXACT_ALARM&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.USE_EXACT_ALARM&quot;</span><span class="nt">/&gt;</span>
 </code></pre></div>
-<p>Még a <code>MainActivity</code> elkészítése maradt hátra az alapvető feladatok
-közül. Ebben elkérjük az engedélyeket, és megjelenítjük a
-létrehozott képernyőt:</p>
+<p>Még a <code>MainActivity</code> elkészítése maradt hátra az alapvető feladatok közül. Ebben elkérjük az engedélyeket, és megjelenítjük a létrehozott képernyőt:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalPermissionsApi</span>
 <span class="nd">@ExperimentalAnimationApi</span>
 <span class="nd">@AndroidEntryPoint</span>
@@ -1459,35 +1416,22 @@ létrehozott képernyőt:</p>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Ha a <code>POST_NOTIFICATIONS</code> konstansot nem találja a fordító, akkor az
-<code>import android.Manifest</code> sort vegyük fel a fájl elejére.</p>
-<p>Most már indítható az alkalmazás, és megjelenik a felhasználói felület, de még nem
-működik érdemi módon, hiszen a az üzleti logikát végző <code>Service</code> nincs kész.</p>
+<p>Ha a <code>POST_NOTIFICATIONS</code> konstansot nem találja a fordító, akkor az <code>import android.Manifest</code> sort vegyük fel a fájl elejére.</p>
+<p>Most már indítható az alkalmazás, és megjelenik a felhasználói felület, de még nem működik érdemi módon, hiszen a az üzleti logikát végző <code>Service</code> nincs kész.</p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>,
-az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>, az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
 <p>A képet a megoldásban a repository-ba f2.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <h2 id="az-idozites-elkeszitese">Az időzítés elkészítése<a class="headerlink" href="#az-idozites-elkeszitese" title="Permanent link">&para;</a></h2>
-<p>A <code>Service</code> komponensünk a fentiek alapján időzítést és értesítéseket is fog
-használni, ezért először ezekhez készítünk némi segédlogikát, hogy a <code>Service</code>
-utána könnyebben elkészíthető legyen. </p>
-<p>Az időzítést kiszervezzük egy segédosztályba, hogy a <code>Service</code> kódja átláthatóbb
-maradjon. Először egy <code>AlarmItem</code> osztályt készítünk, ez egy időzítendő eseményt
-jelöl, tulajdonképpen csak az időzítés idejét tartalmazza. Ezt egy új,
-<code>scheduler</code> nevű package-be tegyük:</p>
+<p>A <code>Service</code> komponensünk a fentiek alapján időzítést és értesítéseket is fog használni, ezért először ezekhez készítünk némi segédlogikát, hogy a <code>Service</code> utána könnyebben elkészíthető legyen. </p>
+<p>Az időzítést kiszervezzük egy segédosztályba, hogy a <code>Service</code> kódja átláthatóbb maradjon. Először egy <code>AlarmItem</code> osztályt készítünk, ez egy időzítendő eseményt jelöl, tulajdonképpen csak az időzítés idejét tartalmazza. Ezt egy új, <code>scheduler</code> nevű package-be tegyük:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">AlarmItem</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">time</span><span class="p">:</span><span class="w"> </span><span class="n">LocalDateTime</span>
 <span class="p">)</span>
 </code></pre></div>
-<p>Szintén ebbe a package-be készítünk egy <code>AlarmReceiver</code> nevű <code>BroadcastReceivert</code>,
-ezt fogjuk beregisztrálni majd az időzítés leteltére, és az Android időzítő
-rendszere az idő leteltekor ennek fog értesítést küldeni. Ebben egy <code>Intent</code>
-segítségével a <code>Service</code> komponenst fogjuk meghívni, de mivel ez még nincs kész,
-így a kód jelenleg nem fordul le, majd a <code>Service</code> elkészültekor válik az
-egész működőképessé. Ezt az osztályt is a <code>scheduler</code> package-be tegyük:</p>
+<p>Szintén ebbe a package-be készítünk egy <code>AlarmReceiver</code> nevű <code>BroadcastReceivert</code>, ezt fogjuk beregisztrálni majd az időzítés leteltére, és az Android időzítő rendszere az idő leteltekor ennek fog értesítést küldeni. Ebben egy <code>Intent</code> segítségével a <code>Service</code> komponenst fogjuk meghívni, de mivel ez még nincs kész, így a kód jelenleg nem fordul le, majd a <code>Service</code> elkészültekor válik az egész működőképessé. Ezt az osztályt is a <code>scheduler</code> package-be tegyük:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">AlarmReceiver</span><span class="p">:</span><span class="w"> </span><span class="n">BroadcastReceiver</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onReceive</span><span class="p">(</span><span class="n">context</span><span class="p">:</span><span class="w"> </span><span class="n">Context?,</span><span class="w"> </span><span class="n">intent</span><span class="p">:</span><span class="w"> </span><span class="n">Intent?)</span><span class="w"> </span><span class="p">{</span>
@@ -1498,8 +1442,7 @@ egész működőképessé. Ezt az osztályt is a <code>scheduler</code> package-
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Mivel a <code>BroadcastReceiver</code> is egy fő komponenstípus Androidon, ezért ezt a Manifest fájlban is
-szükséges regisztrálni:</p>
+<p>Mivel a <code>BroadcastReceiver</code> is egy fő komponenstípus Androidon, ezért ezt a Manifest fájlban is szükséges regisztrálni:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;receiver</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;.scheduler.AlarmReceiver&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 </code></pre></div>
 <p>És végül egy <code>AlarmScheduler</code> osztályt készítünk:</p>
@@ -1537,14 +1480,9 @@ szükséges regisztrálni:</p>
 
 <span class="p">}</span>
 </code></pre></div>
-<p>Ebben az osztályban a rendszertől kérünk referenciát az <code>AlarmManagerre</code>, amelynek
-segítségével a rendszerben levő időzítő szolgáltatások elérhetőek. Az osztály két
-metódust definiál, az egyikkel eseményt időzíthetünk, a másikkal pedig meglévő
-időzítést törölhetünk.</p>
+<p>Ebben az osztályban a rendszertől kérünk referenciát az <code>AlarmManagerre</code>, amelynek segítségével a rendszerben levő időzítő szolgáltatások elérhetőek. Az osztály két metódust definiál, az egyikkel eseményt időzíthetünk, a másikkal pedig meglévő időzítést törölhetünk.</p>
 <h2 id="az-ertesitesek-kuldese">Az értesítések küldése<a class="headerlink" href="#az-ertesitesek-kuldese" title="Permanent link">&para;</a></h2>
-<p>Az értesítések küldését is kiszervezzük, hogy a <code>Service</code> osztályunk egyszerűbb legyen.
-Először is a <code>notification</code> package-et hozzuk létre, és ebben készítsük el a
-<code>NotificationHelper</code> osztályt:</p>
+<p>Az értesítések küldését is kiszervezzük, hogy a <code>Service</code> osztályunk egyszerűbb legyen. Először is a <code>notification</code> package-et hozzuk létre, és ebben készítsük el a <code>NotificationHelper</code> osztályt:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">NotificationHelper</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">notificationManager</span><span class="p">:</span><span class="w"> </span><span class="n">NotificationManager</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">notificationBuilder</span><span class="p">:</span><span class="w"> </span><span class="n">NotificationCompat</span><span class="p">.</span><span class="na">Builder</span>
@@ -1598,50 +1536,23 @@ Először is a <code>notification</code> package-et hozzuk létre, és ebben ké
 </code></pre></div>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik
-az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
 <p>A képet a megoldásban a repository-ba f3.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <p>Tekintsük át, hogyan épül fel ez az osztály!</p>
 <ul>
+<li>Két függősége van: a <code>NotificationManager</code> segítségével kezelhetők az értesítések a rendszeren, viszont az ennek átadott értesítések akár elég összetettek is lehetnek, ezért a builder tervezési minta szerint a <code>NotificationBuilder</code> segítségével kell őket felépítenünk.</li>
+<li>Az <code>updateNotification</code> létrehozza vagy frissíti az értesítést, és ezen megjelenik a hátralevő idő óra, perc, másodperc bontásban, valamint egy folyamatjelző sáv, "progress bar" is, amelyet a hátralevő idő alapján számítunk. Látható, hogy egy numerikus azonosítót is megadunk az értesítéshez, ez teszi lehetővé, hogy utána majd törölni tudjuk.</li>
+<li>A <code>cancelNotification</code> törli a már létrehozott értesítést.</li>
 <li>
-<p>Két függősége van: a <code>NotificationManager</code> segítségével kezelhetők az értesítések a
-rendszeren, viszont az ennek átadott értesítések akár elég összetettek is lehetnek, ezért
-a builder tervezési minta szerint a <code>NotificationBuilder</code> segítségével kell őket
-felépítenünk.</p>
+<p>A <code>setNotificationButton</code> segítségével gombokat adhatunk az értesítéshez. Hogy milyen és hány gombot szeretnénk hozzáadni, ez az időzítő állapotától függ, ezért hasznos, hogy külön metódussal adhassuk meg. Például szüneteltetést végző gomb hozzáadásának akkor van értelme, ha az időzítő épp fut.</p>
 </li>
 <li>
-<p>Az <code>updateNotification</code> létrehozza vagy frissíti az értesítést, és ezen megjelenik
-a hátralevő idő óra, perc, másodperc bontásban, valamint egy folyamatjelző sáv,
-"progress bar" is, amelyet a hátralevő idő alapján számítunk. Látható, hogy egy
-numerikus azonosítót is megadunk az értesítéshez, ez teszi lehetővé, hogy utána majd
-törölni tudjuk.</p>
-</li>
-<li>
-<p>A <code>cancelNotification</code> törli a már létrehozott értesítést.</p>
-</li>
-<li>
-<p>A <code>setNotificationButton</code> segítségével gombokat adhatunk az értesítéshez. Hogy milyen
-és hány gombot szeretnénk hozzáadni, ez az időzítő állapotától függ, ezért hasznos, hogy
-külön metódussal adhassuk meg. Például szüneteltetést végző gomb hozzáadásának akkor van
-értelme, ha az időzítő épp fut.</p>
-</li>
-<li>
-<p>A <code>createNotificationChannel</code> értesítési csatornát hoz létre. Az Android O óta az
-értesítéseket csatornákhoz kell rendelni. Ez azért hasznos, mert a felhasználó az
-alkalmazáson belül csatornánként tudja tiltani vagy engedélyezni a csatornákat. Pl. a
-fontos értesítések külön csatornára szervezhetők, és az elhanyagolhatóbb jelentőségűeket
-a felhasználó könnyedén letilthatja. Jelen alkalmazásban ezt a lehetőséget nem
-használjuk ki, csupán egy csatornánk lesz, de azt akkor is létre kell hozzuk. A csatorna
-többszöri létrehozása nem okoz problémát, ezért elég minden értesítés előtt meghívni, hogy
-biztosan létrejöjjön, nem szükséges tesztelni, hogy létezik-e.</p>
+<p>A <code>createNotificationChannel</code> értesítési csatornát hoz létre. Az Android O óta az értesítéseket csatornákhoz kell rendelni. Ez azért hasznos, mert a felhasználó az alkalmazáson belül csatornánként tudja tiltani vagy engedélyezni a csatornákat. Pl. a fontos értesítések külön csatornára szervezhetők, és az elhanyagolhatóbb jelentőségűeket a felhasználó könnyedén letilthatja. Jelen alkalmazásban ezt a lehetőséget nem használjuk ki, csupán egy csatornánk lesz, de azt akkor is létre kell hozzuk. A csatorna többszöri létrehozása nem okoz problémát, ezért elég minden értesítés előtt meghívni, hogy biztosan létrejöjjön, nem szükséges tesztelni, hogy létezik-e.</p>
 </li>
 </ul>
-<p>Látható, hogy a <code>NotificationManager</code> és a <code>NotificationBuilder</code> a <code>NotificationHelper</code>
-függőségei, amelyeket a konstruktoron keresztül kap meg a Dagger/Hilt segítségével.
-Viszont ehhez még konfiguráció szükséges, hogy ezek a komponensek valóban létrejöjjenek.
-Hozzuk létre a <code>notification.di</code> package-et, majd ebben az alábbi modult:</p>
+<p>Látható, hogy a <code>NotificationManager</code> és a <code>NotificationBuilder</code> a <code>NotificationHelper</code> függőségei, amelyeket a konstruktoron keresztül kap meg a Dagger/Hilt segítségével. Viszont ehhez még konfiguráció szükséges, hogy ezek a komponensek valóban létrejöjjenek. Hozzuk létre a <code>notification.di</code> package-et, majd ebben az alábbi modult:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalAnimationApi</span>
 <span class="nd">@Module</span>
 <span class="nd">@InstallIn</span><span class="p">(</span><span class="n">ServiceComponent</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
@@ -1678,8 +1589,7 @@ Hozzuk létre a <code>notification.di</code> package-et, majd ebben az alábbi m
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="a-service-elkeszitese">A Service elkészítése<a class="headerlink" href="#a-service-elkeszitese" title="Permanent link">&para;</a></h2>
-<p>Hozzunk létre egy <code>service</code> package-et, majd ebbe készítsük el az
-<code>AlarmService</code> osztályt:</p>
+<p>Hozzunk létre egy <code>service</code> package-et, majd ebbe készítsük el az <code>AlarmService</code> osztályt:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@AndroidEntryPoint</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">AlarmService</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Service</span><span class="p">(),</span><span class="w"> </span><span class="n">MediaPlayer</span><span class="p">.</span><span class="na">OnPreparedListener</span><span class="w"> </span><span class="p">{</span>
 
@@ -1949,61 +1859,22 @@ Hozzuk létre a <code>notification.di</code> package-et, majd ebben az alábbi m
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Tekintsük át, hogyan is működik a fenti <code>Service</code>! Egy Android <code>Service</code> két módon
-működhet. Lehet "Started Service", ez azt jelenti, hogy indulás után a háttérben
-(Background Service) teszi a dolgát, amíg az alkalmazás valamilyen komponense látható,
-vagy akár akkor is működik, amikor az alkalmazás nem látható (Foreground Service),
-viszont ilyenkor egy értesítést kötelező megjelenítenie, hogy a felhasználó
-számára ne maradhasson észrevétlen (biztonsági okokból). Az <code>AlarmService</code> az
-alkalmazásunkban egy Foreground Service-ként működik, hogy az időzítő akkor se
-álljon le, ha az alkalmazás felülete már nincs előtérben. A <code>Service</code> másik 
-lehetséges működési módja a "Bound Service". Ez azt jelenti, hogy más komponensek
-kapcsolódhatnak hozzá, és feladatokat végeztethetnek vele. Addig működik ilyen
-módon, amíg legalább egy kapcsolódó komponens van. Egy <code>Service</code> lehetne egyszerre
-"Started Service" és "Bound Service" is, de most utóbbi funkcionalitásra nincs
-szükség az alkalmazásban, mert "Started Service"-ként képes az állapotot frissíteni,
-aminek változása utána a felhasználói felületen is megjelenik.</p>
+<p>Tekintsük át, hogyan is működik a fenti <code>Service</code>! Egy Android <code>Service</code> két módon működhet. Lehet "Started Service", ez azt jelenti, hogy indulás után a háttérben (Background Service) teszi a dolgát, amíg az alkalmazás valamilyen komponense látható, vagy akár akkor is működik, amikor az alkalmazás nem látható (Foreground Service), viszont ilyenkor egy értesítést kötelező megjelenítenie, hogy a felhasználó számára ne maradhasson észrevétlen (biztonsági okokból). Az <code>AlarmService</code> az alkalmazásunkban egy Foreground Service-ként működik, hogy az időzítő akkor se álljon le, ha az alkalmazás felülete már nincs előtérben. A <code>Service</code> másik lehetséges működési módja a "Bound Service". Ez azt jelenti, hogy más komponensek kapcsolódhatnak hozzá, és feladatokat végeztethetnek vele. Addig működik ilyen módon, amíg legalább egy kapcsolódó komponens van. Egy <code>Service</code> lehetne egyszerre "Started Service" és "Bound Service" is, de most utóbbi funkcionalitásra nincs szükség az alkalmazásban, mert "Started Service"-ként képes az állapotot frissíteni, aminek változása utána a felhasználói felületen is megjelenik.</p>
 <p>Nézzük át előbb az <code>AlarmService</code> segédmetódusait:</p>
 <ul>
-<li>
-<p><code>setAlarm</code>: ez elindítja az időzítést, és ehhez beállít egy másodpercenkénti
-ütemezőt is, amellyel majd lehet frissíteni a felhasználói felületen, illetve a
-megjelenített értesítésben kijelzett hátralevő időt. Ez a metódus callbackként
-kapja meg, hogy mit kell futtatnia, amikor egy másodperc eltelt.</p>
-</li>
-<li>
-<p><code>cancelAlarm</code>: ez egy <code>PendingIntent</code>et gyárt le, amellyel megállítható az
-időzítő. A <code>PendingIntent</code> magának az <code>AlarmService</code>-nek küldi a megfelelő
-<code>Intent</code>et, és ez a <code>PendingIntent</code> majd az értesítésben megjelenített akcióhoz
-rendelhető.</p>
-</li>
-<li>
-<p><code>resumeAlarm</code>: az előzőhöz hasonló, de az időzítés újraindításához használandó.</p>
-</li>
-<li>
-<p><code>pauseAlarm</code>: mint az előzőek, de pauzálásra.</p>
-</li>
+<li><code>setAlarm</code>: ez elindítja az időzítést, és ehhez beállít egy másodpercenkénti ütemezőt is, amellyel majd lehet frissíteni a felhasználói felületen, illetve a megjelenített értesítésben kijelzett hátralevő időt. Ez a metódus callbackként kapja meg, hogy mit kell futtatnia, amikor egy másodperc eltelt.</li>
+<li><code>cancelAlarm</code>: ez egy <code>PendingIntent</code>et gyárt le, amellyel megállítható az időzítő. A <code>PendingIntent</code> magának az <code>AlarmService</code>-nek küldi a megfelelő <code>Intent</code>et, és ez a <code>PendingIntent</code> majd az értesítésben megjelenített akcióhoz rendelhető.</li>
+<li><code>resumeAlarm</code>: az előzőhöz hasonló, de az időzítés újraindításához használandó.</li>
+<li><code>pauseAlarm</code>: mint az előzőek, de pauzálásra.</li>
 </ul>
-<p>Az <code>AlarmService</code> lényegi logikája az <code>onStartCommand</code> metódusban van megvalósítva.
-Ez az eseménykezelő akkor fut le, amikor a <code>Service</code>-t "Started Service"-ként
-indítják. Ez egy <code>Intent</code> küldésével történik, amelyben az action és az extras
-segítségével utaznak a paraméterek, hogy a <code>Service</code>-től mit is kérünk. Nézzük
-végig az egyes eseteket! Alapvetően mindig az állapot megfelelő beállítása,
-az időzítő logika meghívása, illetve az értesítés megjelenítése/frissítése történik
-a korábban áttekintett kódrészletek meghívásával. Különösen fontos részlet,
-hogy az <code>ACTION_SET</code> akció, azaz az időzítő elindítása esetén a <code>Service</code> a
-<code>startForeground</code> hívással foreground módba kerül, hogy akkor is működjön továbbra
-is az időzítés, ha az alkalmazás nem látható. Megfigyelendő még az <code>ACTION_PLAY</code>
-esetében a <code>MediaPlayer</code> API használata az ébresztő dallam lejátszásához.</p>
-<p>Mivel a <code>Service</code> is egy fő komponenstípus Androidon, ezért ezt a Manifest fájlban is
-szükséges regisztrálni:</p>
+<p>Az <code>AlarmService</code> lényegi logikája az <code>onStartCommand</code> metódusban van megvalósítva. Ez az eseménykezelő akkor fut le, amikor a <code>Service</code>-t "Started Service"-ként indítják. Ez egy <code>Intent</code> küldésével történik, amelyben az action és az extras segítségével utaznak a paraméterek, hogy a <code>Service</code>-től mit is kérünk. Nézzük végig az egyes eseteket! Alapvetően mindig az állapot megfelelő beállítása, az időzítő logika meghívása, illetve az értesítés megjelenítése/frissítése történik a korábban áttekintett kódrészletek meghívásával. Különösen fontos részlet, hogy az <code>ACTION_SET</code> akció, azaz az időzítő elindítása esetén a <code>Service</code> a <code>startForeground</code> hívással foreground módba kerül, hogy akkor is működjön továbbra is az időzítés, ha az alkalmazás nem látható. Megfigyelendő még az <code>ACTION_PLAY</code> esetében a <code>MediaPlayer</code> API használata az ébresztő dallam lejátszásához.</p>
+<p>Mivel a <code>Service</code> is egy fő komponenstípus Androidon, ezért ezt a Manifest fájlban is szükséges regisztrálni:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;service</span>
 <span class="w">    </span><span class="na">android:name=</span><span class="s">&quot;.service.AlarmService&quot;</span>
 <span class="w">    </span><span class="na">android:enabled=</span><span class="s">&quot;true&quot;</span>
 <span class="w">    </span><span class="na">android:exported=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
 </code></pre></div>
-<p>Most már összeköthetők a <code>ViewModel</code> és a <code>Service</code> is az <code>AlarmViewModel</code> megfelelő
-kiegészítésével:</p>
+<p>Most már összeköthetők a <code>ViewModel</code> és a <code>Service</code> is az <code>AlarmViewModel</code> megfelelő kiegészítésével:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">AlarmViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">():</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
@@ -2073,19 +1944,15 @@ kiegészítésével:</p>
 </code></pre></div>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>,
-az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>, az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
 <p>A képet a megoldásban a repository-ba f4.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <h2 id="onallo-feladat">Önálló feladat<a class="headerlink" href="#onallo-feladat" title="Permanent link">&para;</a></h2>
-<p>Valósítsd meg az ébresztőórákon megszokott "szundi" funkciót! Amikor az időzítő letelik,
-jeleníts meg az értesítésen egy "Snooze" gombot is, amivel e riasztás abbamarad, és
-egy újabb 5 perces időzítés indul.</p>
+<p>Valósítsd meg az ébresztőórákon megszokott "szundi" funkciót! Amikor az időzítő letelik, jeleníts meg az értesítésen egy "Snooze" gombot is, amivel e riasztás abbamarad, és egy újabb 5 perces időzítés indul.</p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>,
-az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>, az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
 <p>A képet a megoldásban a repository-ba f5.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
@@ -2099,8 +1966,8 @@ az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod
           </path>
         </svg>
       </span>
-      <span title="2023. május 21. 08:34:24">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-21T08:34:24+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-21</span>
+      <span title="2023. május 23. 12:33:26">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-23T12:33:26+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-23</span>
       </span>
     </span>
 
@@ -2115,7 +1982,9 @@ az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod
         </svg>
       </span>
       <span>Szerzők</span>
-      <nav><a href="https://github.com/gaborbsd" target="_blank" rel="noopener noreferrer" class="md-author" title="@gaborbsd">
+      <nav><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
+          <img src="https://avatars.githubusercontent.com/u/23335752?size=72" alt="@gazdilaci">
+        </a><a href="https://github.com/gaborbsd" target="_blank" rel="noopener noreferrer" class="md-author" title="@gaborbsd">
           <img src="https://avatars.githubusercontent.com/u/5345619?size=72" alt="@gaborbsd">
         </a></nav>      
     </span>

@@ -1,16 +1,13 @@
-# Labor12 - Időzítés és értesítések (Alarm)
+# Labor11 - Időzítés és értesítések (Alarm)
 
 ## Bevezetés
 
-Ebben a laborban egy időzítő alkalmazást készítünk, amely a beállított időintervallum
-eltelte után értesítést küld, akkor is, ha az alkalamzás felhasználói felülete
-nincs az előtérben, mert közben a felhasználó másik alkalmazást indított.
+Ebben a laborban egy időzítő alkalmazást készítünk, amely a beállított időintervallum eltelte után értesítést küld, akkor is, ha az alkalamzás felhasználói felülete nincs az előtérben, mert közben a felhasználó másik alkalmazást indított. 
+
 A laborban érintett főbb témakörök:
 
 - Háttérfeladat futtatása Service segítségével
-
 - Időzített feladatok
-
 - Értesítések küldése
 
 
@@ -46,9 +43,7 @@ Első lépésként indítsuk el az Android Studio-t, majd:
 
 Az Android Studio a projekt létrehozásakor felveszi ugyan a *Compose*-t a függésegek közé, de némileg elavult verziókat használ. Ezen kívül a Dagger/Hilt függőségekre is szükségünk van.
 
-Először a
-projekt szintű `build.gradle` fájlba vegyük fel a Dagger plugint, és frissítsük
-az Android plugin verzióját is:
+Először a projekt szintű `build.gradle` fájlba vegyük fel a Dagger plugint, és frissítsük az Android plugin verzióját is:
 
 ```groovy
 id 'com.google.dagger.hilt.android' version '2.44' apply false
@@ -66,9 +61,7 @@ plugins {
 }
 ```
 
-És a kapthoz kapcsoljuk is be a hibás típusok korrekcióját, frissítsük a Compose
-verzióját, illetve frissítsük a használt JDK verziót, mert a kapt plugin már
-újabbat kíván:
+És a kapthoz kapcsoljuk is be a hibás típusok korrekcióját, frissítsük a Compose verzióját, illetve frissítsük a használt JDK verziót, mert a kapt plugin már újabbat kíván:
 
 ```groovy
 kapt {
@@ -88,8 +81,7 @@ kotlinOptions {
 }
 ```
 
-Végül frissítsük a modul szintű `build.gradle` fájlban a függőségeket az alábbiakra,
-majd szinkronizáljuk is a projektet:
+Végül frissítsük a modul szintű `build.gradle` fájlban a függőségeket az alábbiakra, majd szinkronizáljuk is a projektet:
 
 ```groovy
 dependencies {
@@ -132,16 +124,11 @@ dependencies {
 }
 ```
 
-Ezzel felvettük a Dagger/Hilt könyvtárakat is, illetve a már ismert Accompanist
-könyvtárat a függésőgek kezeléséhez, a desugar könyvtárat a Java 8 dátumkezelő
-libek használatához, valamint néhány további könyvtárat, amelyekkel az időzítő
-beállítása lesz lehetséges.
+Ezzel felvettük a Dagger/Hilt könyvtárakat is, illetve a már ismert Accompanist könyvtárat a függésőgek kezeléséhez, a desugar könyvtárat a Java 8 dátumkezelő libek használatához, valamint néhány további könyvtárat, amelyekkel az időzítő beállítása lesz lehetséges.
 
 ## A doménmodellek elkészítése
 
-Először néhány olyan osztályt készítünk, amelyekkel az alkalmazás aktuális állapota, illetve
-az állapotváltozást előidéző események reprezentálhatók. Ehhez készítsünk egy `util` package-et.
-Ebbe hozzuk létre az alábbi osztályt:
+Először néhány olyan osztályt készítünk, amelyekkel az alkalmazás aktuális állapota, illetve az állapotváltozást előidéző események reprezentálhatók. Ehhez készítsünk egy `util` package-et. Ebbe hozzuk létre az alábbi osztályt:
 
 ```kotlin
 sealed class AlarmEvent {
@@ -153,8 +140,7 @@ sealed class AlarmEvent {
 }
 ```
 
-Az osztály tartalma könnyen megérthető, az egyes felhasználói interakciókat mint lehetséges
-eseményeket jelképezi.
+Az osztály tartalma könnyen megérthető, az egyes felhasználói interakciókat mint lehetséges eseményeket jelképezi.
 
 Most hozzuk létre az alábbi osztályokat egy fájlban:
 
@@ -183,14 +169,11 @@ data class AlarmState(
 }
 ```
 
-Az `AlarmServiceState` lehetséges értékei írják le, hogy az időzítő épp várakozik, fut,
-pauzált vagy leállított. Az `AlarmState` ezt az aktuális állapotot tárolja, és mellé
-még egységbe zárja, hogy mennyi az időzítő célideje, és mennyi telt el eddig.
+Az `AlarmServiceState` lehetséges értékei írják le, hogy az időzítő épp várakozik, fut, pauzált vagy leállított. Az `AlarmState` ezt az aktuális állapotot tárolja, és mellé még egységbe zárja, hogy mennyi az időzítő célideje, és mennyi telt el eddig.
 
 ## A felhasználói felület elkészítése
 
-Az alkalmazásunk felhasználói felület nem lesz túl bonyolult. Először az alapvető
-építőelemeket hozzuk létre.
+Az alkalmazásunk felhasználói felület nem lesz túl bonyolult. Először az alapvető építőelemeket hozzuk létre.
 
 Először az `ui.theme` package-ben levő `Color.kt` fájlba vegyünk fel néhány új színt:
 
@@ -212,12 +195,7 @@ val ColorScheme.stopColor
     else Color(0xFFFF0000)
 ```
 
-Az alkalmazásunkban szükség lesz néhány ikonra, ezeket a `res/drawable` mappába
-kell felvenni. Raszteres formátumú képeknél célszerű lenne különböző képernyőkre
-optimalizált változatokat készíteni, de most szerencsére vektoros képek állnak a
-rendelkezésünkre, ezért ezeket tehetjük közvetlen az erőforrásminősítő nélküli
-`drawable` könyvtárba. Az ikonok a template repository `assets` könyvtárában
-találhatóak.
+Az alkalmazásunkban szükség lesz néhány ikonra, ezeket a `res/drawable` mappába kell felvenni. Raszteres formátumú képeknél célszerű lenne különböző képernyőkre optimalizált változatokat készíteni, de most szerencsére vektoros képek állnak a rendelkezésünkre, ezért ezeket tehetjük közvetlen az erőforrásminősítő nélküli `drawable` könyvtárba. Az ikonok a template repository `assets` könyvtárában találhatóak.
 
 Vegyük még fel a később használt szöveges címkéket a `strings.xml` fájlba:
 
@@ -236,9 +214,7 @@ Vegyük még fel a később használt szöveges címkéket a `strings.xml` fájl
 </resources>
 ```
 
-Most szükségünk van egy gombra, amelyet különböző ikonnal
-majd különböző funkciókhoz, mint pauzálás, leállítás, tudunk használni. Ezt a
-`ui.common` package-ben hozzuk létre:
+Most szükségünk van egy gombra, amelyet különböző ikonnal majd különböző funkciókhoz, mint pauzálás, leállítás, tudunk használni. Ezt a `ui.common` package-ben hozzuk létre:
 
 ```kotlin
 @Composable
@@ -297,9 +273,7 @@ fun AlarmButton_Disabled_Preview() {
 }
 ```
 
-Szükségünk van még az óránk "számlapjára", amely a hátralevő időt mutatja, ez lesz
-a `DurationCounter`, és `Counter` komponensekből rakjuk össze az óra, a perc és a
-másodperc részeket:
+Szükségünk van még az óránk "számlapjára", amely a hátralevő időt mutatja, ez lesz a `DurationCounter`, és `Counter` komponensekből rakjuk össze az óra, a perc és a másodperc részeket:
 
 ```kotlin
 @Composable
@@ -378,8 +352,7 @@ fun DurationCounter_Preview() {
 ```
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik a **Compose preview**,
-    az **általad írt kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+	Készíts egy **képernyőképet**, amelyen látszik a **Compose preview**, az **általad írt kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
 
 	A képet a megoldásban a repository-ba f1.png néven töltsd föl.
 
@@ -443,9 +416,7 @@ class AlarmViewModel @Inject constructor(): ViewModel() {
 }
 ```
 
-Látható, hogy a ViewModel kezeli az eseményeket, és az alkalmazás állapotát ennek
-megfelelően frissíti, azonban a háttérben futó, tényleges időzítést végző
-`AlarmService` még nincs kész, így annak hívásai ide nincsenek bekötve.
+Látható, hogy a ViewModel kezeli az eseményeket, és az alkalmazás állapotát ennek megfelelően frissíti, azonban a háttérben futó, tényleges időzítést végző `AlarmService` még nincs kész, így annak hívásai ide nincsenek bekötve.
 
 Most ugyanebbe a package-ben hozzuk létre a teljes képernyőt is:
 
@@ -563,14 +534,7 @@ class AlarmApplication : Application()
         ...
 ```
 
-Bár még az alkalmazáslogikánk nem működik ténylegesen, vegyük fel ide a szükséges
-engedélyeket is. Az alkalmazásunk egy előtérben futó (foreground) Service-t fog használni
-ahhoz, hogy az időzítés akkor is működjön, ha az alkalmazás `Activity`-je már
-nem látható. Az ilyen Service-ekhez kötelező, hogy legyen értesítés az értesítési
-sávon, hogy a felhasználó mindig lássa, hogy milyen alkalmazások futnak a háttérben.
-(Ennek egy tipikus példája a zenelejátszó alkalmazások esete is.() Ezért az értesítésekhez
-szükséges engedélyt is fel kell venni. Szükséges még a pontos riasztás, és a pontos
-riasztás időzítésének engedélye:
+Bár még az alkalmazáslogikánk nem működik ténylegesen, vegyük fel ide a szükséges engedélyeket is. Az alkalmazásunk egy előtérben futó (foreground) Service-t fog használni ahhoz, hogy az időzítés akkor is működjön, ha az alkalmazás `Activity`-je már nem látható. Az ilyen Service-ekhez kötelező, hogy legyen értesítés az értesítési sávon, hogy a felhasználó mindig lássa, hogy milyen alkalmazások futnak a háttérben. (Ennek egy tipikus példája a zenelejátszó alkalmazások esete is.() Ezért az értesítésekhez szükséges engedélyt is fel kell venni. Szükséges még a pontos riasztás, és a pontos riasztás időzítésének engedélye:
 
 ```xml
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
@@ -580,9 +544,7 @@ riasztás időzítésének engedélye:
 <uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
 ```
 
-Még a `MainActivity` elkészítése maradt hátra az alapvető feladatok
-közül. Ebben elkérjük az engedélyeket, és megjelenítjük a
-létrehozott képernyőt:
+Még a `MainActivity` elkészítése maradt hátra az alapvető feladatok közül. Ebben elkérjük az engedélyeket, és megjelenítjük a létrehozott képernyőt:
 
 ```kotlin
 @ExperimentalPermissionsApi
@@ -619,15 +581,12 @@ class MainActivity : ComponentActivity() {
 }
 ```
 
-Ha a `POST_NOTIFICATIONS` konstansot nem találja a fordító, akkor az
-`import android.Manifest` sort vegyük fel a fájl elejére.
+Ha a `POST_NOTIFICATIONS` konstansot nem találja a fordító, akkor az `import android.Manifest` sort vegyük fel a fájl elejére.
 
-Most már indítható az alkalmazás, és megjelenik a felhasználói felület, de még nem
-működik érdemi módon, hiszen a az üzleti logikát végző `Service` nincs kész.
+Most már indítható az alkalmazás, és megjelenik a felhasználói felület, de még nem működik érdemi módon, hiszen a az üzleti logikát végző `Service` nincs kész.
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**,
-    az **általad írt kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, az **általad írt kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
 
 	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
 
@@ -635,14 +594,9 @@ működik érdemi módon, hiszen a az üzleti logikát végző `Service` nincs k
 
 ## Az időzítés elkészítése
 
-A `Service` komponensünk a fentiek alapján időzítést és értesítéseket is fog
-használni, ezért először ezekhez készítünk némi segédlogikát, hogy a `Service`
-utána könnyebben elkészíthető legyen. 
+A `Service` komponensünk a fentiek alapján időzítést és értesítéseket is fog használni, ezért először ezekhez készítünk némi segédlogikát, hogy a `Service` utána könnyebben elkészíthető legyen. 
 
-Az időzítést kiszervezzük egy segédosztályba, hogy a `Service` kódja átláthatóbb
-maradjon. Először egy `AlarmItem` osztályt készítünk, ez egy időzítendő eseményt
-jelöl, tulajdonképpen csak az időzítés idejét tartalmazza. Ezt egy új,
-`scheduler` nevű package-be tegyük:
+Az időzítést kiszervezzük egy segédosztályba, hogy a `Service` kódja átláthatóbb maradjon. Először egy `AlarmItem` osztályt készítünk, ez egy időzítendő eseményt jelöl, tulajdonképpen csak az időzítés idejét tartalmazza. Ezt egy új, `scheduler` nevű package-be tegyük:
 
 ```kotlin
 data class AlarmItem(
@@ -650,12 +604,7 @@ data class AlarmItem(
 )
 ```
 
-Szintén ebbe a package-be készítünk egy `AlarmReceiver` nevű `BroadcastReceivert`,
-ezt fogjuk beregisztrálni majd az időzítés leteltére, és az Android időzítő
-rendszere az idő leteltekor ennek fog értesítést küldeni. Ebben egy `Intent`
-segítségével a `Service` komponenst fogjuk meghívni, de mivel ez még nincs kész,
-így a kód jelenleg nem fordul le, majd a `Service` elkészültekor válik az
-egész működőképessé. Ezt az osztályt is a `scheduler` package-be tegyük:
+Szintén ebbe a package-be készítünk egy `AlarmReceiver` nevű `BroadcastReceivert`, ezt fogjuk beregisztrálni majd az időzítés leteltére, és az Android időzítő rendszere az idő leteltekor ennek fog értesítést küldeni. Ebben egy `Intent` segítségével a `Service` komponenst fogjuk meghívni, de mivel ez még nincs kész, így a kód jelenleg nem fordul le, majd a `Service` elkészültekor válik az egész működőképessé. Ezt az osztályt is a `scheduler` package-be tegyük:
 
 ```kotlin
 class AlarmReceiver: BroadcastReceiver() {
@@ -669,8 +618,7 @@ class AlarmReceiver: BroadcastReceiver() {
 }
 ```
 
-Mivel a `BroadcastReceiver` is egy fő komponenstípus Androidon, ezért ezt a Manifest fájlban is
-szükséges regisztrálni:
+Mivel a `BroadcastReceiver` is egy fő komponenstípus Androidon, ezért ezt a Manifest fájlban is szükséges regisztrálni:
 
 ```xml
 <receiver android:name=".scheduler.AlarmReceiver" />
@@ -714,16 +662,11 @@ class AlarmScheduler @Inject constructor(
 }
 ```
 
-Ebben az osztályban a rendszertől kérünk referenciát az `AlarmManagerre`, amelynek
-segítségével a rendszerben levő időzítő szolgáltatások elérhetőek. Az osztály két
-metódust definiál, az egyikkel eseményt időzíthetünk, a másikkal pedig meglévő
-időzítést törölhetünk.
+Ebben az osztályban a rendszertől kérünk referenciát az `AlarmManagerre`, amelynek segítségével a rendszerben levő időzítő szolgáltatások elérhetőek. Az osztály két metódust definiál, az egyikkel eseményt időzíthetünk, a másikkal pedig meglévő időzítést törölhetünk.
 
 ## Az értesítések küldése
 
-Az értesítések küldését is kiszervezzük, hogy a `Service` osztályunk egyszerűbb legyen.
-Először is a `notification` package-et hozzuk létre, és ebben készítsük el a
-`NotificationHelper` osztályt:
+Az értesítések küldését is kiszervezzük, hogy a `Service` osztályunk egyszerűbb legyen. Először is a `notification` package-et hozzuk létre, és ebben készítsük el a `NotificationHelper` osztályt:
 
 ```kotlin
 class NotificationHelper @Inject constructor(
@@ -779,8 +722,7 @@ class NotificationHelper @Inject constructor(
 ```
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik
-    az **általad írt kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+	Készíts egy **képernyőképet**, amelyen látszik az **általad írt kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
 
 	A képet a megoldásban a repository-ba f3.png néven töltsd föl.
 
@@ -788,37 +730,14 @@ class NotificationHelper @Inject constructor(
 
 Tekintsük át, hogyan épül fel ez az osztály!
 
-- Két függősége van: a `NotificationManager` segítségével kezelhetők az értesítések a
-rendszeren, viszont az ennek átadott értesítések akár elég összetettek is lehetnek, ezért
-a builder tervezési minta szerint a `NotificationBuilder` segítségével kell őket
-felépítenünk.
-
-- Az `updateNotification` létrehozza vagy frissíti az értesítést, és ezen megjelenik
-a hátralevő idő óra, perc, másodperc bontásban, valamint egy folyamatjelző sáv,
-"progress bar" is, amelyet a hátralevő idő alapján számítunk. Látható, hogy egy
-numerikus azonosítót is megadunk az értesítéshez, ez teszi lehetővé, hogy utána majd
-törölni tudjuk.
-
+- Két függősége van: a `NotificationManager` segítségével kezelhetők az értesítések a rendszeren, viszont az ennek átadott értesítések akár elég összetettek is lehetnek, ezért a builder tervezési minta szerint a `NotificationBuilder` segítségével kell őket felépítenünk.
+- Az `updateNotification` létrehozza vagy frissíti az értesítést, és ezen megjelenik a hátralevő idő óra, perc, másodperc bontásban, valamint egy folyamatjelző sáv, "progress bar" is, amelyet a hátralevő idő alapján számítunk. Látható, hogy egy numerikus azonosítót is megadunk az értesítéshez, ez teszi lehetővé, hogy utána majd törölni tudjuk.
 - A `cancelNotification` törli a már létrehozott értesítést.
+- A `setNotificationButton` segítségével gombokat adhatunk az értesítéshez. Hogy milyen és hány gombot szeretnénk hozzáadni, ez az időzítő állapotától függ, ezért hasznos, hogy külön metódussal adhassuk meg. Például szüneteltetést végző gomb hozzáadásának akkor van értelme, ha az időzítő épp fut.
 
-- A `setNotificationButton` segítségével gombokat adhatunk az értesítéshez. Hogy milyen
-és hány gombot szeretnénk hozzáadni, ez az időzítő állapotától függ, ezért hasznos, hogy
-külön metódussal adhassuk meg. Például szüneteltetést végző gomb hozzáadásának akkor van
-értelme, ha az időzítő épp fut.
+- A `createNotificationChannel` értesítési csatornát hoz létre. Az Android O óta az értesítéseket csatornákhoz kell rendelni. Ez azért hasznos, mert a felhasználó az alkalmazáson belül csatornánként tudja tiltani vagy engedélyezni a csatornákat. Pl. a fontos értesítések külön csatornára szervezhetők, és az elhanyagolhatóbb jelentőségűeket a felhasználó könnyedén letilthatja. Jelen alkalmazásban ezt a lehetőséget nem használjuk ki, csupán egy csatornánk lesz, de azt akkor is létre kell hozzuk. A csatorna többszöri létrehozása nem okoz problémát, ezért elég minden értesítés előtt meghívni, hogy biztosan létrejöjjön, nem szükséges tesztelni, hogy létezik-e.
 
-- A `createNotificationChannel` értesítési csatornát hoz létre. Az Android O óta az
-értesítéseket csatornákhoz kell rendelni. Ez azért hasznos, mert a felhasználó az
-alkalmazáson belül csatornánként tudja tiltani vagy engedélyezni a csatornákat. Pl. a
-fontos értesítések külön csatornára szervezhetők, és az elhanyagolhatóbb jelentőségűeket
-a felhasználó könnyedén letilthatja. Jelen alkalmazásban ezt a lehetőséget nem
-használjuk ki, csupán egy csatornánk lesz, de azt akkor is létre kell hozzuk. A csatorna
-többszöri létrehozása nem okoz problémát, ezért elég minden értesítés előtt meghívni, hogy
-biztosan létrejöjjön, nem szükséges tesztelni, hogy létezik-e.
-
-Látható, hogy a `NotificationManager` és a `NotificationBuilder` a `NotificationHelper`
-függőségei, amelyeket a konstruktoron keresztül kap meg a Dagger/Hilt segítségével.
-Viszont ehhez még konfiguráció szükséges, hogy ezek a komponensek valóban létrejöjjenek.
-Hozzuk létre a `notification.di` package-et, majd ebben az alábbi modult:
+Látható, hogy a `NotificationManager` és a `NotificationBuilder` a `NotificationHelper` függőségei, amelyeket a konstruktoron keresztül kap meg a Dagger/Hilt segítségével. Viszont ehhez még konfiguráció szükséges, hogy ezek a komponensek valóban létrejöjjenek. Hozzuk létre a `notification.di` package-et, majd ebben az alábbi modult:
 
 ```kotlin
 @ExperimentalAnimationApi
@@ -859,8 +778,7 @@ object NotificationModule {
 
 ## A Service elkészítése
 
-Hozzunk létre egy `service` package-et, majd ebbe készítsük el az
-`AlarmService` osztályt:
+Hozzunk létre egy `service` package-et, majd ebbe készítsük el az `AlarmService` osztályt:
 
 ```kotlin
 @AndroidEntryPoint
@@ -1133,51 +1051,18 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
 }
 ```
 
-Tekintsük át, hogyan is működik a fenti `Service`! Egy Android `Service` két módon
-működhet. Lehet "Started Service", ez azt jelenti, hogy indulás után a háttérben
-(Background Service) teszi a dolgát, amíg az alkalmazás valamilyen komponense látható,
-vagy akár akkor is működik, amikor az alkalmazás nem látható (Foreground Service),
-viszont ilyenkor egy értesítést kötelező megjelenítenie, hogy a felhasználó
-számára ne maradhasson észrevétlen (biztonsági okokból). Az `AlarmService` az
-alkalmazásunkban egy Foreground Service-ként működik, hogy az időzítő akkor se
-álljon le, ha az alkalmazás felülete már nincs előtérben. A `Service` másik 
-lehetséges működési módja a "Bound Service". Ez azt jelenti, hogy más komponensek
-kapcsolódhatnak hozzá, és feladatokat végeztethetnek vele. Addig működik ilyen
-módon, amíg legalább egy kapcsolódó komponens van. Egy `Service` lehetne egyszerre
-"Started Service" és "Bound Service" is, de most utóbbi funkcionalitásra nincs
-szükség az alkalmazásban, mert "Started Service"-ként képes az állapotot frissíteni,
-aminek változása utána a felhasználói felületen is megjelenik.
+Tekintsük át, hogyan is működik a fenti `Service`! Egy Android `Service` két módon működhet. Lehet "Started Service", ez azt jelenti, hogy indulás után a háttérben (Background Service) teszi a dolgát, amíg az alkalmazás valamilyen komponense látható, vagy akár akkor is működik, amikor az alkalmazás nem látható (Foreground Service), viszont ilyenkor egy értesítést kötelező megjelenítenie, hogy a felhasználó számára ne maradhasson észrevétlen (biztonsági okokból). Az `AlarmService` az alkalmazásunkban egy Foreground Service-ként működik, hogy az időzítő akkor se álljon le, ha az alkalmazás felülete már nincs előtérben. A `Service` másik lehetséges működési módja a "Bound Service". Ez azt jelenti, hogy más komponensek kapcsolódhatnak hozzá, és feladatokat végeztethetnek vele. Addig működik ilyen módon, amíg legalább egy kapcsolódó komponens van. Egy `Service` lehetne egyszerre "Started Service" és "Bound Service" is, de most utóbbi funkcionalitásra nincs szükség az alkalmazásban, mert "Started Service"-ként képes az állapotot frissíteni, aminek változása utána a felhasználói felületen is megjelenik.
 
 Nézzük át előbb az `AlarmService` segédmetódusait:
 
-- `setAlarm`: ez elindítja az időzítést, és ehhez beállít egy másodpercenkénti
-ütemezőt is, amellyel majd lehet frissíteni a felhasználói felületen, illetve a
-megjelenített értesítésben kijelzett hátralevő időt. Ez a metódus callbackként
-kapja meg, hogy mit kell futtatnia, amikor egy másodperc eltelt.
-
-- `cancelAlarm`: ez egy `PendingIntent`et gyárt le, amellyel megállítható az
-időzítő. A `PendingIntent` magának az `AlarmService`-nek küldi a megfelelő
-`Intent`et, és ez a `PendingIntent` majd az értesítésben megjelenített akcióhoz
-rendelhető.
-
+- `setAlarm`: ez elindítja az időzítést, és ehhez beállít egy másodpercenkénti ütemezőt is, amellyel majd lehet frissíteni a felhasználói felületen, illetve a megjelenített értesítésben kijelzett hátralevő időt. Ez a metódus callbackként kapja meg, hogy mit kell futtatnia, amikor egy másodperc eltelt.
+- `cancelAlarm`: ez egy `PendingIntent`et gyárt le, amellyel megállítható az időzítő. A `PendingIntent` magának az `AlarmService`-nek küldi a megfelelő `Intent`et, és ez a `PendingIntent` majd az értesítésben megjelenített akcióhoz rendelhető.
 - `resumeAlarm`: az előzőhöz hasonló, de az időzítés újraindításához használandó.
-
 - `pauseAlarm`: mint az előzőek, de pauzálásra.
 
-Az `AlarmService` lényegi logikája az `onStartCommand` metódusban van megvalósítva.
-Ez az eseménykezelő akkor fut le, amikor a `Service`-t "Started Service"-ként
-indítják. Ez egy `Intent` küldésével történik, amelyben az action és az extras
-segítségével utaznak a paraméterek, hogy a `Service`-től mit is kérünk. Nézzük
-végig az egyes eseteket! Alapvetően mindig az állapot megfelelő beállítása,
-az időzítő logika meghívása, illetve az értesítés megjelenítése/frissítése történik
-a korábban áttekintett kódrészletek meghívásával. Különösen fontos részlet,
-hogy az `ACTION_SET` akció, azaz az időzítő elindítása esetén a `Service` a
-`startForeground` hívással foreground módba kerül, hogy akkor is működjön továbbra
-is az időzítés, ha az alkalmazás nem látható. Megfigyelendő még az `ACTION_PLAY`
-esetében a `MediaPlayer` API használata az ébresztő dallam lejátszásához.
+Az `AlarmService` lényegi logikája az `onStartCommand` metódusban van megvalósítva. Ez az eseménykezelő akkor fut le, amikor a `Service`-t "Started Service"-ként indítják. Ez egy `Intent` küldésével történik, amelyben az action és az extras segítségével utaznak a paraméterek, hogy a `Service`-től mit is kérünk. Nézzük végig az egyes eseteket! Alapvetően mindig az állapot megfelelő beállítása, az időzítő logika meghívása, illetve az értesítés megjelenítése/frissítése történik a korábban áttekintett kódrészletek meghívásával. Különösen fontos részlet, hogy az `ACTION_SET` akció, azaz az időzítő elindítása esetén a `Service` a `startForeground` hívással foreground módba kerül, hogy akkor is működjön továbbra is az időzítés, ha az alkalmazás nem látható. Megfigyelendő még az `ACTION_PLAY` esetében a `MediaPlayer` API használata az ébresztő dallam lejátszásához.
 
-Mivel a `Service` is egy fő komponenstípus Androidon, ezért ezt a Manifest fájlban is
-szükséges regisztrálni:
+Mivel a `Service` is egy fő komponenstípus Androidon, ezért ezt a Manifest fájlban is szükséges regisztrálni:
 
 ```xml
 <service
@@ -1186,8 +1071,7 @@ szükséges regisztrálni:
     android:exported="false"/>
 ```
 
-Most már összeköthetők a `ViewModel` és a `Service` is az `AlarmViewModel` megfelelő
-kiegészítésével:
+Most már összeköthetők a `ViewModel` és a `Service` is az `AlarmViewModel` megfelelő kiegészítésével:
 
 ```kotlin
 @HiltViewModel
@@ -1259,8 +1143,7 @@ class AlarmViewModel @Inject constructor(): ViewModel() {
 ```
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**,
-    az **általad írt kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, az **általad írt kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
 
 	A képet a megoldásban a repository-ba f4.png néven töltsd föl.
 
@@ -1269,13 +1152,10 @@ class AlarmViewModel @Inject constructor(): ViewModel() {
 
 ## Önálló feladat 
 
-Valósítsd meg az ébresztőórákon megszokott "szundi" funkciót! Amikor az időzítő letelik,
-jeleníts meg az értesítésen egy "Snooze" gombot is, amivel e riasztás abbamarad, és
-egy újabb 5 perces időzítés indul.
+Valósítsd meg az ébresztőórákon megszokott "szundi" funkciót! Amikor az időzítő letelik, jeleníts meg az értesítésen egy "Snooze" gombot is, amivel e riasztás abbamarad, és egy újabb 5 perces időzítés indul.
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**,
-    az **általad írt kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, az **általad írt kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
 
 	A képet a megoldásban a repository-ba f5.png néven töltsd föl.
 

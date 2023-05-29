@@ -97,5 +97,6 @@ nav:
       - laborok/di/index.md
       - laborok/network/index.md
       - laborok/alarm/index.md
+      - laborok/timetable/index.md
   - "Házi feladat":
       - hf/index.md

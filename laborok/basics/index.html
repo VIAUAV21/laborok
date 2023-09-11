@@ -708,22 +708,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../permissions/" class="md-nav__link">
-        Labor06 - Futásidejű engedélyek (Contacts)
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../persistence/" class="md-nav__link">
-        Labor07 - Perzisztens adattárolás a Room könyvtárral
+        Labor06 - Perzisztens adattárolás a Room könyvtárral
       </a>
     </li>
   
@@ -737,7 +723,7 @@
   
     <li class="md-nav__item">
       <a href="../firebase/" class="md-nav__link">
-        Labor08 - Firebase
+        Labor07 - Firebase
       </a>
     </li>
   
@@ -751,7 +737,7 @@
   
     <li class="md-nav__item">
       <a href="../di/" class="md-nav__link">
-        Labor09 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo)
+        Labor08 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo)
       </a>
     </li>
   
@@ -765,7 +751,7 @@
   
     <li class="md-nav__item">
       <a href="../network/" class="md-nav__link">
-        Labor10 - Network és Paging (Unsplash)
+        Labor09 - Network és Paging (Unsplash)
       </a>
     </li>
   
@@ -779,7 +765,21 @@
   
     <li class="md-nav__item">
       <a href="../alarm/" class="md-nav__link">
-        Labor11 - Időzítés és értesítések (Alarm)
+        Labor10 - Időzítés és értesítések (Alarm)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../permissions/" class="md-nav__link">
+        Labor11 - Futásidejű engedélyek (Contacts)
       </a>
     </li>
   
@@ -842,7 +842,7 @@
   
     <li class="md-nav__item">
       <a href="../../hf/" class="md-nav__link">
-        Házi feladat információk
+        Házi feladat információk - TODO 2023 ősz
       </a>
     </li>
   
@@ -1123,7 +1123,7 @@
 <h2 id="android-alapok">Android alapok<a class="headerlink" href="#android-alapok" title="Permanent link">&para;</a></h2>
 <h3 id="forditas-menete-android-platformon">Fordítás menete Android platformon<a class="headerlink" href="#forditas-menete-android-platformon" title="Permanent link">&para;</a></h3>
 <p>A projekt létrehozása után a forráskód az <code>src</code> könyvtárban, míg a felhasználói felület leírására szolgáló XML állományok a <code>res</code> könyvtárban találhatók. Az erőforrás állományokat egy <code>R.java</code> állomány köti össze a forráskóddal, így könnyedén elérhetjük Java/Kotlin oldalról az XML-ben definiált felületi elemeket. Az Android projekt fordításának eredménye egy APK állomány, melyet közvetlenül telepíthetünk mobil eszközre.</p>
-<p><a class="glightbox" href="./assets/lab-1-compile.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/lab-1-compile.png" width= "630" align="middle"></a></p>
+<p><a class="glightbox" href="assets/lab-1-compile.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/lab-1-compile.png" /></a></p>
 <p><em>Fordítás menete Android platformon</em></p>
 <ol>
 <li>
@@ -1174,7 +1174,7 @@
 </ul>
 </div>
 <h3 id="sdk-es-konyvtarai">SDK és könyvtárai<a class="headerlink" href="#sdk-es-konyvtarai" title="Permanent link">&para;</a></h3>
-<p>A <a href="https://developer.android.com/studio">developer.android.com/studio</a> oldalról letölthető az IDE és az SDK. Ennek fontosabb mappáit, eszközeit tekintsék át a laborvezető segítségével!</p>
+<p>A <a href="https://developer.android.com/studio">developer.android.com/studio</a> oldalról letölthető az IDE és az SDK. Ennek fontosabb mappáit, eszközeit tekintsük át a laborvezető segítségével!</p>
 <p><a class="glightbox" href="assets/ide_android.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/ide_android.png" /></a></p>
 <p>SDK szerkezet:</p>
 <ul>
@@ -1186,7 +1186,7 @@
 </ul>
 <h3 id="avd-es-sdk-manager">AVD és SDK manager<a class="headerlink" href="#avd-es-sdk-manager" title="Permanent link">&para;</a></h3>
 <p>Az SDK kezelésére az SDK managert használjuk, ezzel lehet letölteni és frissen tartani az eszközeinket. Indítása az Android Studion keresztül lehetséges.</p>
-<p>Az SDK Manager ikonja a fenti toolbaron:</p>
+<p>Az SDK Manager ikonja a fenti toolbaron (vagy Tools -&gt; SDK Manager):</p>
 <p><a class="glightbox" href="assets/sdk_manager_icon.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/sdk_manager_icon.png" /></a></p>
 <p>SDK manager felülete:</p>
 <p><a class="glightbox" href="assets/sdk_manager.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/sdk_manager.png" /></a></p>
@@ -1199,16 +1199,16 @@
 <p>Az AVD az Android Virtual Device rövidítése. Ahogy arról már előadáson is szó esett, nem csak valódi eszközön futtathatjuk a kódunkat, hanem emulátoron is. (Mi is a különbség szimulátor és emulátor között?) Az AVD indítása a fejlesztői környezeten keresztül lehetséges (illetve parancssorból is, de ennek a használatára csak speciális esetekben van szükség).</p>
 <p>Az AVD Manager ikonja:</p>
 <p><a class="glightbox" href="assets/avd_icon.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/avd_icon.png" /></a></p>
-<p><a class="glightbox" href="assets/avd.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/avd.png" /></a></p>
-<p>A fenti képen bal oldalon a létező virtuális eszközök listáját találjuk, jobb oldalon pedig az ún. eszköz definíciókét. Itt néhány előre elkészített sablon áll rendelkezésre. Magunk is készíthetünk ilyet, ha tipikusan egy adott eszközre szeretnénk fejleszteni (pl. Galaxy S4). Készítsünk új emulátort! Értelemszerűen csak olyan API szintű eszközt készíthetünk, amilyenek rendelkezésre állnak az SDK manageren keresztül.</p>
+<p><a class="glightbox" href="assets/avd_manager.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/avd_manager.png" /></a></p>
+<p>A fenti képen jobb oldalon, a kinyíló panelben, a létező virtuális eszközök listáját találjuk, bal oldalon pedig az ún. eszköz definíciókét. Itt néhány előre elkészített sablon áll rendelkezésre. Magunk is készíthetünk ilyet, ha tipikusan egy adott eszközre szeretnénk fejleszteni (pl. Galaxy S4). Készítsünk új emulátort! Értelemszerűen csak olyan API szintű eszközt készíthetünk, amilyenek rendelkezésre állnak az SDK manageren keresztül.</p>
 <ol>
-<li>A bal oldali ablakon, kattintsunk a bal alsó sarokban található <em>Create Virtual Device...</em> gombra!</li>
-<li>Válasszunk az előre definiált készülék sablonokból (pl. <em>Nexus 5X</em>), majd nyomjuk meg a <em>Next</em> gombot.</li>
+<li>A jobb oldali panelon kattintsunk a fent található <em>Create Virtual Device...</em> gombra!</li>
+<li>Válasszunk az előre definiált készülék sablonokból (pl. <em>Pixel 7 Pro</em>), majd nyomjuk meg a <em>Next</em> gombot.</li>
 <li>Döntsük el, hogy milyen Android verziójú emulátort kívánunk használni. CPU/ABI alapvetően x86_64 legyen, mivel ezekhez kapunk <a href="https://developer.android.com/studio/run/emulator-acceleration">hardveres gyorsítást</a> is. Itt válasszunk a rendelkezésre állók közül egyet, majd <em>Next</em>.</li>
 <li>
 <p>Az eszköz részletes konfigurációja.</p>
 <ul>
-<li>A virtuális eszköz neve legyen például <code>Labor_0</code>.</li>
+<li>A virtuális eszköz neve legyen például <code>Labor_1</code>.</li>
 <li>Válasszuk ki az alapértelmezett orientációt, tetszés szerint kapcsoljuk ki vagy be a készülék keretének megjelenítését.</li>
 </ul>
 <p>A <em>Show Advanced Settings</em> alatt további opciókat találunk:</p>
@@ -1247,6 +1247,9 @@
 <p><a class="glightbox" href="assets/avd_extras.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/avd_extras.png" /></a></p>
 <h2 id="fejlesztoi-kornyezet">Fejlesztői környezet<a class="headerlink" href="#fejlesztoi-kornyezet" title="Permanent link">&para;</a></h2>
 <p>Android fejlesztésre a labor során a JetBrains IntelliJ alapjain nyugvó Android Studio-t fogjuk használni. A Studio-val ismerkedők számára hasznos funkció a <em>Tip of the day</em>, érdemes egyből kipróbálni, megnézni az adott funkciót. Induláskor alapértelmezetten a legutóbbi projekt nyílik meg, ha nincs ilyen, vagy ha minden projektünket bezártuk, akkor a nyitó képernyő. (A legutóbbi projekt újranyitását a <em>Settings -&gt; Appeareance &amp; Behavior -&gt; System Settings -&gt; Reopen last project on startup</em> opcióval ki is kapcsolhatjuk.)</p>
+<p><a class="glightbox" href="assets/studio_old.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/studio_old.png" /></a></p>
+<p>Az Android Studio Giraffe-ban megújult a környezet felhasználói felülete. Amint látható, jóval letisztultabb dizájnt választottak, sokkal kevesebb a figyelmet elvonó extra a képernyőn, sokkal inkább a kódon van a hangsúly. Ezek között a nézetek között egyszerűen válthatunk a Beállításokban, a New UI menüpontban.</p>
+<p><a class="glightbox" href="assets/studio_new.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/studio_new.png" /></a></p>
 <h2 id="high-low-game">High Low Game<a class="headerlink" href="#high-low-game" title="Permanent link">&para;</a></h2>
 <p>A laborvezető segítségével készítsenek egy új alkalmazást!</p>
 <h3 id="projekt-letrehozasa">Projekt létrehozása<a class="headerlink" href="#projekt-letrehozasa" title="Permanent link">&para;</a></h3>
@@ -1481,11 +1484,11 @@
 <li>Indítsanak hívást és küldjenek SMS-t az emulátorra! Mit tapasztalnak?</li>
 <li>Indítsanak hívást és küldjenek SMS-t az emulátorról! Mit tapasztalnak?</li>
 <li>Tekintse át az Android Profiler nézet funkcióit a laborvezető segítségével!</li>
-<li>Változtassa meg a készülék tartózkodási helyét az emulátor megfelelő paneljének segítségével!</li>
+<li>Változtassa meg a készülék tartózkodási helyét (GPS) az emulátor megfelelő paneljének segítségével!</li>
 <li>Vizsgálja meg az elindított <code>HighLowGame</code> projekt nyitott szálait, memóriafoglalását!</li>
 <li>Vizsgálja meg a Logcat panel tartalmát!</li>
 <li>Vizsgálja meg a Code -&gt; Inspect code eredményét!</li>
-<li>Keresse ki a létrehozott <code>HighLowGame</code> projekt mappáját és a build könyvtáron belül vizsgálja meg az <code>.apk</code> állomány tartalmát! Hol található a lefordított kód? </li>
+<li>Keresse ki a létrehozott <code>HighLowGame</code> projekt mappáját és a build könyvtáron belül vizsgálja meg az <code>.apk</code> állomány tartalmát! Ezen belül hol található a lefordított kód? </li>
 </ol>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ</p>
@@ -1502,8 +1505,8 @@
           </path>
         </svg>
       </span>
-      <span title="2023. február 28. 16:12:11">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-02-28T16:12:11+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-02-28</span>
+      <span title="2023. szeptember 11. 21:51:43">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-09-11T21:51:43+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-09-11</span>
       </span>
     </span>
 

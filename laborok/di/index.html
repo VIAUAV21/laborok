@@ -21,7 +21,7 @@
     
     
       
-        <title>Labor09 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo) - BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok</title>
+        <title>Labor08 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo) - BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok</title>
       
     
     
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#labor09-fuggoseginjektalas-a-dagger-es-a-hilt-segitsegevel-todo" class="md-skip">
+        <a href="#labor08-fuggoseginjektalas-a-dagger-es-a-hilt-segitsegevel-todo" class="md-skip">
           Kihagyás
         </a>
       
@@ -120,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Labor09 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo)
+              Labor08 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo)
             
           </span>
         </div>
@@ -516,22 +516,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../permissions/" class="md-nav__link">
-        Labor06 - Futásidejű engedélyek (Contacts)
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../persistence/" class="md-nav__link">
-        Labor07 - Perzisztens adattárolás a Room könyvtárral
+        Labor06 - Perzisztens adattárolás a Room könyvtárral
       </a>
     </li>
   
@@ -545,7 +531,7 @@
   
     <li class="md-nav__item">
       <a href="../firebase/" class="md-nav__link">
-        Labor08 - Firebase
+        Labor07 - Firebase
       </a>
     </li>
   
@@ -568,12 +554,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Labor09 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo)
+          Labor08 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo)
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Labor09 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo)
+        Labor08 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo)
       </a>
       
         
@@ -669,7 +655,7 @@
   
     <li class="md-nav__item">
       <a href="../network/" class="md-nav__link">
-        Labor10 - Network és Paging (Unsplash)
+        Labor09 - Network és Paging (Unsplash)
       </a>
     </li>
   
@@ -683,7 +669,21 @@
   
     <li class="md-nav__item">
       <a href="../alarm/" class="md-nav__link">
-        Labor11 - Időzítés és értesítések (Alarm)
+        Labor10 - Időzítés és értesítések (Alarm)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../permissions/" class="md-nav__link">
+        Labor11 - Futásidejű engedélyek (Contacts)
       </a>
     </li>
   
@@ -746,7 +746,7 @@
   
     <li class="md-nav__item">
       <a href="../../hf/" class="md-nav__link">
-        Házi feladat információk
+        Házi feladat információk - TODO 2023 ősz
       </a>
     </li>
   
@@ -865,7 +865,7 @@
   
 
 
-<h1 id="labor09-fuggoseginjektalas-a-dagger-es-a-hilt-segitsegevel-todo">Labor09 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo)<a class="headerlink" href="#labor09-fuggoseginjektalas-a-dagger-es-a-hilt-segitsegevel-todo" title="Permanent link">&para;</a></h1>
+<h1 id="labor08-fuggoseginjektalas-a-dagger-es-a-hilt-segitsegevel-todo">Labor08 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo)<a class="headerlink" href="#labor08-fuggoseginjektalas-a-dagger-es-a-hilt-segitsegevel-todo" title="Permanent link">&para;</a></h1>
 <h2 id="bevezetes">Bevezetés<a class="headerlink" href="#bevezetes" title="Permanent link">&para;</a></h2>
 <p>A korábbi laborokon már elsajátítottuk, hogyan lehet az Android alkalmazásunkat lazán csatolt réteges architektúrával megvalósítani. Ez egyértelműen segíti az alkalmazás rugalmas fejlesztését, esetleg az egyes rétegek is lecserélhetők, de ha megnézzük a kódot, még mindig viszonylag jelentős függést találunk, hiszen ahol egy másik rétegbeli komponenst hozunk létre, ott a példányosítás a kódba van "égetve", a másik réteg lecseréléséhez itt is módosítanunk kellene a kódot. Ezekre a problémákra nyújt megoldást a függőséginjektálás (dependency injection). Ez egy általános szoftverfejlesztési technika, amelyet nemcsak Androidon, hanem más platformokon is használunk. Ebben a laborban az Androidon használható Dagger és Hilt könyvtárakat ismerjük meg, amellyel Androidon tudunk függőséginjektálást végezni. A két könyvtárat gyakran együtt használjuk, a Dagger alapvetőbb, alacsonyabb szintű funkciókat nyújt, a Hilt pedig erre épül rá, hogy könnyebbé tegye a fejlesztést.</p>
 <h2 id="elokeszuletek">Előkészületek<a class="headerlink" href="#elokeszuletek" title="Permanent link">&para;</a></h2>
@@ -1558,8 +1558,8 @@ a <code>data.di</code> package-be:</p>
           </path>
         </svg>
       </span>
-      <span title="2023. május 9. 14:28:48">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-05-09T14:28:48+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-05-09</span>
+      <span title="2023. szeptember 11. 21:51:43">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-09-11T21:51:43+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-09-11</span>
       </span>
     </span>
 

@@ -11,17 +11,17 @@
       
       
       
-        <link rel="prev" href="../todo_compose_basics/">
+        <link rel="prev" href="../alarm/">
       
       
-        <link rel="next" href="../persistence/">
+        <link rel="next" href="../timetable/">
       
       <link rel="icon" href="../../favicon.ico">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.14">
     
     
       
-        <title>Labor06 - Futásidejű engedélyek (Contacts) - BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok</title>
+        <title>Labor11 - Futásidejű engedélyek (Contacts) - BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok</title>
       
     
     
@@ -88,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#labor06-futasideju-engedelyek-contacts" class="md-skip">
+        <a href="#labor11-futasideju-engedelyek-contacts" class="md-skip">
           Kihagyás
         </a>
       
@@ -120,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Labor06 - Futásidejű engedélyek (Contacts)
+              Labor11 - Futásidejű engedélyek (Contacts)
             
           </span>
         </div>
@@ -514,6 +514,76 @@
               
   
   
+  
+    <li class="md-nav__item">
+      <a href="../persistence/" class="md-nav__link">
+        Labor06 - Perzisztens adattárolás a Room könyvtárral
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../firebase/" class="md-nav__link">
+        Labor07 - Firebase
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../di/" class="md-nav__link">
+        Labor08 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network/" class="md-nav__link">
+        Labor09 - Network és Paging (Unsplash)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../alarm/" class="md-nav__link">
+        Labor10 - Időzítés és értesítések (Alarm)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
     
   
   
@@ -526,12 +596,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Labor06 - Futásidejű engedélyek (Contacts)
+          Labor11 - Futásidejű engedélyek (Contacts)
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Labor06 - Futásidejű engedélyek (Contacts)
+        Labor11 - Futásidejű engedélyek (Contacts)
       </a>
       
         
@@ -693,76 +763,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../persistence/" class="md-nav__link">
-        Labor07 - Perzisztens adattárolás a Room könyvtárral
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../firebase/" class="md-nav__link">
-        Labor08 - Firebase
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../di/" class="md-nav__link">
-        Labor09 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo)
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../network/" class="md-nav__link">
-        Labor10 - Network és Paging (Unsplash)
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../alarm/" class="md-nav__link">
-        Labor11 - Időzítés és értesítések (Alarm)
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../timetable/" class="md-nav__link">
         LaborExtra - Órarend
       </a>
@@ -813,7 +813,7 @@
   
     <li class="md-nav__item">
       <a href="../../hf/" class="md-nav__link">
-        Házi feladat információk
+        Házi feladat információk - TODO 2023 ősz
       </a>
     </li>
   
@@ -999,7 +999,7 @@
   
 
 
-<h1 id="labor06-futasideju-engedelyek-contacts">Labor06 - Futásidejű engedélyek (Contacts)<a class="headerlink" href="#labor06-futasideju-engedelyek-contacts" title="Permanent link">&para;</a></h1>
+<h1 id="labor11-futasideju-engedelyek-contacts">Labor11 - Futásidejű engedélyek (Contacts)<a class="headerlink" href="#labor11-futasideju-engedelyek-contacts" title="Permanent link">&para;</a></h1>
 <p>A labor célja, hogy bemutassa, hogyan lehet a Compose keretrendszerben futásidejű engedélyeket kezelni.</p>
 <p float="left">
 <a class="glightbox" href="./assets/list.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/list.png" width="200" align="middle"></a>
@@ -2492,8 +2492,8 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
           </path>
         </svg>
       </span>
-      <span title="2023. április 18. 15:19:02">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-04-18T15:19:02+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-04-18</span>
+      <span title="2023. szeptember 11. 21:51:43">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-09-11T21:51:43+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-09-11</span>
       </span>
     </span>
 
@@ -2512,6 +2512,8 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
           <img src="https://avatars.githubusercontent.com/u/22079595?size=72" alt="@kpomazi">
         </a><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
           <img src="https://avatars.githubusercontent.com/u/8405234?size=72" alt="@danim1130">
+        </a><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
+          <img src="https://avatars.githubusercontent.com/u/23335752?size=72" alt="@gazdilaci">
         </a></nav>      
     </span>
   </div>

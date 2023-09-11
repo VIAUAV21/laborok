@@ -1,4 +1,4 @@
-# Labor07 - Perzisztens adattárolás a Room könyvtárral
+# Labor06 - Perzisztens adattárolás a Room könyvtárral
 
 ## Bevezetés
 

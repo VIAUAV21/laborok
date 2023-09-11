@@ -1,4 +1,4 @@
-# Labor11 - Időzítés és értesítések (Alarm)
+# Labor10 - Időzítés és értesítések (Alarm)
 
 ## Bevezetés
 

@@ -1,4 +1,4 @@
-# Labor06 - Futásidejű engedélyek (Contacts)
+# Labor11 - Futásidejű engedélyek (Contacts)
 
 A labor célja, hogy bemutassa, hogyan lehet a Compose keretrendszerben futásidejű engedélyeket kezelni.
 

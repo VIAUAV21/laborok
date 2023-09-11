@@ -1,4 +1,4 @@
-# Labor10 - Network és Paging (Unsplash)
+# Labor09 - Network és Paging (Unsplash)
 
 ## Bevezetés
 

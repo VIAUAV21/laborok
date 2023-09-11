@@ -1,4 +1,4 @@
-# Házi feladat információk
+# Házi feladat információk - TODO 2023 ősz
 
 A tárgyból házi feladat készítése nem kötelező, de ajánlott. 
 Házi feladat készítésével a vizsgát kiváltva megajánlott 4-es vagy 5-ös szerezhető. 

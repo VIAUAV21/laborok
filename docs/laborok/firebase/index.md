@@ -1,5 +1,5 @@
 
-# Labor08 - Firebase
+# Labor07 - Firebase
 
 ## Bevezető
 

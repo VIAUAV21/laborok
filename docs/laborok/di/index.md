@@ -1,4 +1,4 @@
-# Labor09 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo)
+# Labor08 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo)
 
 ## Bevezetés
 

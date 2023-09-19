@@ -204,11 +204,11 @@ A laborvezető segítségével készítsenek egy új alkalmazást!
 
 Első lépésként indítsuk el az Android Studio-t, majd:
 
-1. Hozzunk létre egy új projektet, válasszuk az *Empty Activity* lehetőséget.
+1. Hozzunk létre egy új projektet, válasszuk az *Empty Views Activity* lehetőséget.
 1. A projekt neve legyen `HighLowGame`, a kezdő package pedig `hu.bme.aut.android.highlowgame`.
 1. Nyelvnek válasszuk a *Kotlin*-t.
-1. A minimum API szint legyen *API21: Android 5.0*.
-1. A *legacy android.support* könyvtár használatot NE pipáljuk be.
+1. A minimum API szint legyen API24: Android 7.0.
+1. A `Build configuration language` Kotlin DSL legyen.
 
 !!!warning "FILE PATH"
 	A projekt a repository-ban lévő HighLowGame könyvtárba kerüljön!

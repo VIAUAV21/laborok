@@ -979,9 +979,9 @@
 </ul>
 <p>A megvalósítandó játék felhasználói felületét az alábbi képernyőképek szemléltetik:</p>
 <p float="left">
-<a class="glightbox" href="./assets/main.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/main.png" width="300" align="middle"></a>
-<a class="glightbox" href="./assets/dialog.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/dialog.png" width="300" align="middle"></a>
-<a class="glightbox" href="./assets/game.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/game.png" width="300" align="middle"></a>
+<a class="glightbox" href="./assets/main.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/main.png" width="30%" align="middle"></a>
+<a class="glightbox" href="./assets/dialog.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/dialog.png" width="30%" align="middle"></a>
+<a class="glightbox" href="./assets/game.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/game.png" width="30%" align="middle"></a>
 </p>
 
 <h2 id="elokeszuletek">Előkészületek<a class="headerlink" href="#elokeszuletek" title="Permanent link">&para;</a></h2>
@@ -1013,11 +1013,11 @@
 <h2 id="projekt-letrehozasa">Projekt létrehozása<a class="headerlink" href="#projekt-letrehozasa" title="Permanent link">&para;</a></h2>
 <p>Első lépésként indítsuk el az Android Studio-t, majd:</p>
 <ol>
-<li>Hozzunk létre egy új projektet, válasszuk az <em>Empty Activity</em> lehetőséget.</li>
+<li>Hozzunk létre egy új projektet, válasszuk az <em>Empty Views Activity</em> lehetőséget.</li>
 <li>A projekt neve legyen <code>TicTacToe</code>, a kezdő package <code>hu.bme.aut.android.tictactoe</code>, a mentési hely pedig a kicheckoutolt repository-n belül a <code>TicTacToe</code> mappa.</li>
 <li>Nyelvnek válasszuk a <em>Kotlin</em>-t.</li>
-<li>A minimum API szint legyen <em>API21: Android 5.0</em>.</li>
-<li>A <em>legacy android.support</em> könyvtár használatot NE pipáljuk be.</li>
+<li>A minimum API szint legyen API24: Android 7.0.</li>
+<li>A <code>Build configuration language</code> Kotlin DSL legyen.</li>
 </ol>
 <div class="admonition danger">
 <p class="admonition-title">FILE PATH</p>
@@ -1058,7 +1058,7 @@
 <p>Az <code>Activity</code> létrehozást azonban megkönnyíti az Android Studio és a fenti lépéseket nem kell egyesével elvégeznie a fejlesztőnek.</p>
 </div>
 <ol>
-<li>A meglévő <code>Activity</code>-t tartalmazó package-re jobb egérgombbal kattintva válasszuk a <em>New -&gt; Activity -&gt; Empty Activity</em> opciót és hozzuk létre a másik két <code>Activity</code>-t (<code>AboutActivity</code>, <code>GameActivity</code>), <em>Source Language</em>-nek válasszuk a Kotlint.</li>
+<li>A meglévő <code>Activity</code>-t tartalmazó package-re jobb egérgombbal kattintva válasszuk a <em>New -&gt; Activity -&gt; Empty Views Activity</em> opciót és hozzuk létre a másik két <code>Activity</code>-t (<code>AboutActivity</code>, <code>GameActivity</code>), <em>Source Language</em>-nek válasszuk a Kotlint.</li>
 <li>Létrehozás után a <code>res/values/strings.xml</code>-ben a <code>&lt;resources&gt;</code> tagen belül vegyük fel a két új <code>Activity</code> címét: 
     <div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;title_activity_about&quot;</span><span class="nt">&gt;</span>Az<span class="w"> </span>alkalmazásról<span class="nt">&lt;/string&gt;</span>
 <span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;title_activity_game&quot;</span><span class="nt">&gt;</span>Játék<span class="nt">&lt;/string&gt;</span>
@@ -1204,15 +1204,15 @@
 <p>Ezt csinálhatnánk az előzőhöz hasonlóan, azaz példányosítunk egy gombot, a <code>findViewById</code> metódussal referenciát szerzünk a felületen lévő vezérlőre, és a példányon beállítjuk az eseménykezelőt. Azonban a <code>findViewById</code> hívásnak számos problémája <a href="https://developer.android.com/topic/libraries/view-binding#findviewbyid">van</a>. Ezekről bővebben az előadáson lesz szó (pl.: <em>Null safety</em>, <em>type safety</em>). Ezért e helyett "nézetkötést", azaz <code>ViewBinding</code>-ot fogunk használni.
 A <a href="https://developer.android.com/topic/libraries/view-binding"><code>ViewBinding</code></a> a kódírást könnyíti meg számunkra. Amennyiben ezt használjuk, az automatikusan generálódó <em>binding</em> osztályokon keresztül közvetlen referencián keresztül tudunk elérni minden <em>ID</em>-val rendelkező erőforrást az <code>XML</code> fájljainkban.</p>
 </div>
-<p>Először is be kell kapcsolnunk a modulunkra a <code>ViewBinding</code>-ot. Az <code>app</code> modulhoz tartozó <code>build.gradle</code> fájlban az <code>android</code> tagen belülre illesszük be az engedélyezést:</p>
+<p>Először is be kell kapcsolnunk a modulunkra a <code>ViewBinding</code>-ot. Az <code>app</code> modulhoz tartozó <code>build.gradle.kts</code> fájlban az <code>android</code> tagen belülre illesszük be az engedélyezést:</p>
 <div class="highlight"><pre><span></span><code><span class="n">android</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="p">...</span>
 <span class="w">    </span><span class="n">buildFeatures</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">viewBinding</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">        </span><span class="n">viewBinding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Majd nyomjunk jobb felül a megjelenő <code>Sync Now</code> gombra. Ezzel a <code>gradle</code> betölti szükséges változtatásokat.</p>
+<p>Majd nyomjunk a felső kék sávon jobb oldalon megjelenő <code>Sync Now</code> gombra. Ezzel a <code>gradle</code> betölti szükséges változtatásokat.</p>
 <div class="admonition info">
 <p class="admonition-title">ViewBinding</p>
 <p>Ebben az esetben a modul minden egyes XML layout fájljához generálódik egy úgynevezett binding osztály. Minden binding osztály tartalmaz referenciát az adott XML layout erőforrás gyökér elemére és az összes ID-val rendelkező view-ra. A generált osztály neve úgy áll elő, hogy az XML layout nevét Pascal formátumba alakítja a rendszer és a végére illeszti, hogy <code>Binding</code>. Azaz például a <code>activity_login.xml</code> erőforrásfájlból az alábbi binding osztály generálódik: <code>ActivityLoginBinding</code>.</p>
@@ -1233,12 +1233,20 @@ A <code>binding</code> példány működéséhez három dolgot kell tennünk:</p
 <li>Szerzünk egy referenciát a gyökér nézetre a <code>getRoot()</code> függvénnyel,</li>
 <li>Ezt a gyükérelemet odaadjuk a <code>setContentView()</code> függvénynek, hogy ez legyen az aktív <em>view</em> a képernyőn:</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">binding</span><span class="p">:</span><span class="w"> </span><span class="n">ActivityMainBinding</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.tictactoe</span>
 
-<span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
-<span class="w">    </span><span class="n">binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ActivityMainBinding</span><span class="p">.</span><span class="na">inflate</span><span class="p">(</span><span class="n">layoutInflater</span><span class="p">)</span>
-<span class="w">    </span><span class="n">setContentView</span><span class="p">(</span><span class="n">binding</span><span class="p">.</span><span class="na">root</span><span class="p">)</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.os.Bundle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.appcompat.app.AppCompatActivity</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.tictactoe.databinding.ActivityMainBinding</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">MainActivity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">AppCompatActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">binding</span><span class="p">:</span><span class="w"> </span><span class="n">ActivityMainBinding</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
+<span class="w">        </span><span class="n">binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ActivityMainBinding</span><span class="p">.</span><span class="na">inflate</span><span class="p">(</span><span class="n">layoutInflater</span><span class="p">)</span>
+<span class="w">        </span><span class="n">setContentView</span><span class="p">(</span><span class="n">binding</span><span class="p">.</span><span class="na">root</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <div class="admonition tip">
@@ -1276,7 +1284,9 @@ A <code>binding</code> példány működéséhez három dolgot kell tennünk:</p
 <p>Amennyiben nem ismeri ezt a tervezési mintát, érdemes utánanézni, illetve rákérdezni a laborvezetőnél.</p>
 </blockquote>
 <p>Készítsünk a <code>tictactoe</code> package-en belül egy <code>model</code> package-et, majd abban egy <code>TicTacToeModel</code> osztályt (a package-en jobb egérgomb, majd <em>New -&gt; Kotlin File/Class</em>). Az osztály egy 3x3-as mátrixban tárolja a játéktér mezőinek tartalmát és különféle publikus függvényeket biztosít a játéktér lekérdezéséhez és módosításához.</p>
-<div class="highlight"><pre><span></span><code><span class="kd">object</span><span class="w"> </span><span class="nc">TicTacToeModel</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.tictactoe.model</span>
+
+<span class="kd">object</span><span class="w"> </span><span class="nc">TicTacToeModel</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">EMPTY</span><span class="p">:</span><span class="w"> </span><span class="kt">Byte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">CIRCLE</span><span class="p">:</span><span class="w"> </span><span class="kt">Byte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
@@ -1285,9 +1295,9 @@ A <code>binding</code> példány működéséhez három dolgot kell tennünk:</p
 <span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">nextPlayer</span><span class="p">:</span><span class="w"> </span><span class="kt">Byte</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CIRCLE</span>
 
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">model</span><span class="p">:</span><span class="w"> </span><span class="n">Array</span><span class="o">&lt;</span><span class="n">ByteArray</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arrayOf</span><span class="p">(</span>
-<span class="w">            </span><span class="n">byteArrayOf</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">,</span><span class="w"> </span><span class="n">EMPTY</span><span class="p">,</span><span class="w"> </span><span class="n">EMPTY</span><span class="p">),</span>
-<span class="w">            </span><span class="n">byteArrayOf</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">,</span><span class="w"> </span><span class="n">EMPTY</span><span class="p">,</span><span class="w"> </span><span class="n">EMPTY</span><span class="p">),</span>
-<span class="w">            </span><span class="n">byteArrayOf</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">,</span><span class="w"> </span><span class="n">EMPTY</span><span class="p">,</span><span class="w"> </span><span class="n">EMPTY</span><span class="p">))</span>
+<span class="w">        </span><span class="n">byteArrayOf</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">,</span><span class="w"> </span><span class="n">EMPTY</span><span class="p">,</span><span class="w"> </span><span class="n">EMPTY</span><span class="p">),</span>
+<span class="w">        </span><span class="n">byteArrayOf</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">,</span><span class="w"> </span><span class="n">EMPTY</span><span class="p">,</span><span class="w"> </span><span class="n">EMPTY</span><span class="p">),</span>
+<span class="w">        </span><span class="n">byteArrayOf</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">,</span><span class="w"> </span><span class="n">EMPTY</span><span class="p">,</span><span class="w"> </span><span class="n">EMPTY</span><span class="p">))</span>
 
 <span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">resetModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="m">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1332,7 +1342,18 @@ A <code>binding</code> példány működéséhez három dolgot kell tennünk:</p
 <h2 id="jatekter-kirajzolasa">Játéktér kirajzolása<a class="headerlink" href="#jatekter-kirajzolasa" title="Permanent link">&para;</a></h2>
 <p>A következő lépés a játéktér kirajzolása és annak hozzárendelése a <code>GameActivity</code>-hez.</p>
 <p>Első lépésként a meglévő <code>tictactoe</code> package-ben hozzunk létre egy <code>view</code> package-et , majd abban egy <code>TicTacToeView</code> osztályt, mely a <code>View</code> ősosztályból származik:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TicTacToeView</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">View</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.tictactoe.view</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.content.Context</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.graphics.Canvas</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.graphics.Color</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.graphics.Paint</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.util.AttributeSet</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.view.MotionEvent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.view.View</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlin.math.min</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">TicTacToeView</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">View</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">paintBg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Paint</span><span class="p">()</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">paintLine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Paint</span><span class="p">()</span>
@@ -1458,7 +1479,16 @@ A <code>binding</code> példány működéséhez három dolgot kell tennünk:</p
 <p>Fontos, hogy az itt szereplő package név a saját <code>TicTacToeView</code> osztályunk neve előtt azonos legyen a nézet forrásának tetején szereplő package névvel, egyébként hibát fogunk kapni, amikor megpróbáljuk megnyitni ezt a képernyőt. - De szerencsére a kódkiegészítő ebben is segít.</p>
 </div>
 <p>A felület után készítsük el egy külön <code>fragments</code> <em>package</em>-be magát a <code>GameFragment</code>-et is, aminek egyetlen feladata, hogy megjelenítse a felületünket:</p>
-<p><div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">GameFragment</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Fragment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.tictactoe.fragments</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.os.Bundle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.view.LayoutInflater</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.view.View</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.view.ViewGroup</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.fragment.app.Fragment</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.tictactoe.databinding.FragmentGameBinding</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">GameFragment</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Fragment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">binding</span><span class="p">:</span><span class="w"> </span><span class="n">FragmentGameBinding</span>
 
@@ -1551,7 +1581,7 @@ Próbáljuk ki az alkalmazást! Most már az <em>Új játék</em> gombra nyomva 
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="alkalmazas-ikon-lecserelese">Alkalmazás ikon lecserélése<a class="headerlink" href="#alkalmazas-ikon-lecserelese" title="Permanent link">&para;</a></h2>
-<p>Az alkalmazás ikonját jelenleg a <code>res/mipmap[-ldpi/mdpi/hdpi/xhdpi/...]</code> mappákban található <code>ic_launcher.png</code> jelképezi. A laborvezető segítségével keressünk egy új ikont és cseréljük le. Nem muszáj az ikont minden felbontásban elkészíteni, egyszerűen elhelyezhet egy méretet a <code>mipmap</code> mappában is (melyet létre kell hozni), ekkor természetesen különböző felbontású eszközökön torzulhat az ikon képe.</p>
+<p>Az alkalmazás ikonját jelenleg a <code>res/mipmap[-ldpi/mdpi/hdpi/xhdpi/...]</code> mappákban található <code>ic_launcher.png</code> jelképezi. A laborvezető segítségével keressünk egy új ikont és cseréljük le. Nem muszáj az ikont minden felbontásban elkészíteni, egyszerűen elhelyezhetónk egy méretet a <code>mipmap</code> mappában is (melyet létre kell hozni), ekkor természetesen különböző felbontású eszközökön torzulhat az ikon képe. (Ha marad idő, a beépített <em>Asset Studio</em>-val elkészíthetjük az összes szükséges változatot.)</p>
 <p>Próbáljuk ki az alkalmazást!</p>
 <p>Észrevehetjük, hogy ha a játéktérről visszalépünk és megint új játékot kezdünk, a játéktér nem törlődik. Ezért a <code>GameActivity</code>-re való navigáció előtt a <code>TicTacToeModel</code>-t alapállapotba kell állítanunk, hogy új játék kezdődjön (<code>MainActivity.kt</code>):</p>
 <div class="highlight"><pre><span></span><code><span class="n">binding</span><span class="p">.</span><span class="na">btnStart</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
@@ -1628,8 +1658,8 @@ Próbáljuk ki az alkalmazást! Most már az <em>Új játék</em> gombra nyomva 
           </path>
         </svg>
       </span>
-      <span title="2023. március 7. 04:07:08">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-03-07T04:07:08+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-03-07</span>
+      <span title="2023. szeptember 20. 23:48:47">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-09-20T23:48:47+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-09-20</span>
       </span>
     </span>
 

@@ -18,9 +18,9 @@ A laborhoz kapcsolódó önálló feladat:
 A megvalósítandó játék felhasználói felületét az alábbi képernyőképek szemléltetik:
 
 <p float="left">
-<img src="./assets/main.png" width="300" align="middle">
-<img src="./assets/dialog.png" width="300" align="middle">
-<img src="./assets/game.png" width="300" align="middle">
+<img src="./assets/main.png" width="30%" align="middle">
+<img src="./assets/dialog.png" width="30%" align="middle">
+<img src="./assets/game.png" width="30%" align="middle">
 </p>
 
 ## Előkészületek
@@ -50,11 +50,12 @@ A feladatok megoldása során ne felejtsd el követni a [feladat beadás folyama
 
 Első lépésként indítsuk el az Android Studio-t, majd:
 
-1. Hozzunk létre egy új projektet, válasszuk az *Empty Activity* lehetőséget.
+
+1. Hozzunk létre egy új projektet, válasszuk az *Empty Views Activity* lehetőséget.
 1. A projekt neve legyen `TicTacToe`, a kezdő package `hu.bme.aut.android.tictactoe`, a mentési hely pedig a kicheckoutolt repository-n belül a `TicTacToe` mappa.
 1. Nyelvnek válasszuk a *Kotlin*-t.
-1. A minimum API szint legyen *API21: Android 5.0*.
-1. A *legacy android.support* könyvtár használatot NE pipáljuk be.
+1. A minimum API szint legyen API24: Android 7.0.
+1. A `Build configuration language` Kotlin DSL legyen.
 
 !!!danger "FILE PATH"
 	A projekt mindenképpen a repository-ban lévő TicTacToe könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!
@@ -103,7 +104,7 @@ A fentiek alapján látható tehát, hogy a meglévő `MainActivity` mellett mé
 
 	Az `Activity` létrehozást azonban megkönnyíti az Android Studio és a fenti lépéseket nem kell egyesével elvégeznie a fejlesztőnek.
 
-1. A meglévő `Activity`-t tartalmazó package-re jobb egérgombbal kattintva válasszuk a *New -> Activity -> Empty Activity* opciót és hozzuk létre a másik két `Activity`-t (`AboutActivity`, `GameActivity`), *Source Language*-nek válasszuk a Kotlint.
+1. A meglévő `Activity`-t tartalmazó package-re jobb egérgombbal kattintva válasszuk a *New -> Activity -> Empty Views Activity* opciót és hozzuk létre a másik két `Activity`-t (`AboutActivity`, `GameActivity`), *Source Language*-nek válasszuk a Kotlint.
 1. Létrehozás után a `res/values/strings.xml`-ben a `<resources>` tagen belül vegyük fel a két új `Activity` címét: 
 	```xml
 		<string name="title_activity_about">Az alkalmazásról</string>
@@ -264,19 +265,19 @@ Valósítsuk meg ezen két gomb eseménykezelőjét szintén a `MainActivity` `o
 	Ezt csinálhatnánk az előzőhöz hasonlóan, azaz példányosítunk egy gombot, a `findViewById` metódussal referenciát szerzünk a felületen lévő vezérlőre, és a példányon beállítjuk az eseménykezelőt. Azonban a `findViewById` hívásnak számos problémája [van](https://developer.android.com/topic/libraries/view-binding#findviewbyid). Ezekről bővebben az előadáson lesz szó (pl.: *Null safety*, *type safety*). Ezért e helyett "nézetkötést", azaz `ViewBinding`-ot fogunk használni.
 	A [`ViewBinding`](https://developer.android.com/topic/libraries/view-binding) a kódírást könnyíti meg számunkra. Amennyiben ezt használjuk, az automatikusan generálódó *binding* osztályokon keresztül közvetlen referencián keresztül tudunk elérni minden *ID*-val rendelkező erőforrást az `XML` fájljainkban.
 
-Először is be kell kapcsolnunk a modulunkra a `ViewBinding`-ot. Az `app` modulhoz tartozó `build.gradle` fájlban az `android` tagen belülre illesszük be az engedélyezést:
+Először is be kell kapcsolnunk a modulunkra a `ViewBinding`-ot. Az `app` modulhoz tartozó `build.gradle.kts` fájlban az `android` tagen belülre illesszük be az engedélyezést:
 
 ```kotlin
 android {
     ...
     buildFeatures {
-        viewBinding true
+        viewBinding = true
     }
 }
 
 ```
 
-Majd nyomjunk jobb felül a megjelenő `Sync Now` gombra. Ezzel a `gradle` betölti szükséges változtatásokat.
+Majd nyomjunk a felső kék sávon jobb oldalon megjelenő `Sync Now` gombra. Ezzel a `gradle` betölti szükséges változtatásokat.
 
 !!! info "ViewBinding"
 	Ebben az esetben a modul minden egyes XML layout fájljához generálódik egy úgynevezett binding osztály. Minden binding osztály tartalmaz referenciát az adott XML layout erőforrás gyökér elemére és az összes ID-val rendelkező view-ra. A generált osztály neve úgy áll elő, hogy az XML layout nevét Pascal formátumba alakítja a rendszer és a végére illeszti, hogy `Binding`. Azaz például a `activity_login.xml` erőforrásfájlból az alábbi binding osztály generálódik: `ActivityLoginBinding`.
@@ -303,12 +304,20 @@ A `binding` példány működéséhez három dolgot kell tennünk:
 1.  Ezt a gyükérelemet odaadjuk a `setContentView()` függvénynek, hogy ez legyen az aktív *view* a képernyőn:
 
 ```kotlin
-private lateinit var binding: ActivityMainBinding
+package hu.bme.aut.android.tictactoe
 
-override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    binding = ActivityMainBinding.inflate(layoutInflater)
-    setContentView(binding.root)
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import hu.bme.aut.android.tictactoe.databinding.ActivityMainBinding
+
+class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
 }
 ```
 
@@ -351,6 +360,8 @@ A 3x3-as TicTacToe táblajáték logikáját külön osztályban valósítjuk me
 Készítsünk a `tictactoe` package-en belül egy `model` package-et, majd abban egy `TicTacToeModel` osztályt (a package-en jobb egérgomb, majd *New -> Kotlin File/Class*). Az osztály egy 3x3-as mátrixban tárolja a játéktér mezőinek tartalmát és különféle publikus függvényeket biztosít a játéktér lekérdezéséhez és módosításához.
 
 ```kotlin
+package hu.bme.aut.android.tictactoe.model
+
 object TicTacToeModel {
 
     const val EMPTY: Byte = 0
@@ -360,9 +371,9 @@ object TicTacToeModel {
     var nextPlayer: Byte = CIRCLE
 
     private var model: Array<ByteArray> = arrayOf(
-            byteArrayOf(EMPTY, EMPTY, EMPTY),
-            byteArrayOf(EMPTY, EMPTY, EMPTY),
-            byteArrayOf(EMPTY, EMPTY, EMPTY))
+        byteArrayOf(EMPTY, EMPTY, EMPTY),
+        byteArrayOf(EMPTY, EMPTY, EMPTY),
+        byteArrayOf(EMPTY, EMPTY, EMPTY))
 
     fun resetModel() {
         for (i in 0 until 3) {
@@ -409,6 +420,17 @@ A következő lépés a játéktér kirajzolása és annak hozzárendelése a `G
 Első lépésként a meglévő `tictactoe` package-ben hozzunk létre egy `view` package-et , majd abban egy `TicTacToeView` osztályt, mely a `View` ősosztályból származik:
 
 ```kotlin
+package hu.bme.aut.android.tictactoe.view
+
+import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.util.AttributeSet
+import android.view.MotionEvent
+import android.view.View
+import kotlin.math.min
+
 class TicTacToeView : View {
 
     private val paintBg = Paint()
@@ -464,7 +486,7 @@ class TicTacToeView : View {
             else -> return super.onTouchEvent(event)
         }
     }
-    
+
 }
 ```
 
@@ -544,6 +566,15 @@ Következő lépésként készítsük el a játékteret tartalmazó *Fragmentet*
 A felület után készítsük el egy külön `fragments` *package*-be magát a `GameFragment`-et is, aminek egyetlen feladata, hogy megjelenítse a felületünket:
 
 ```kotlin
+package hu.bme.aut.android.tictactoe.fragments
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import hu.bme.aut.android.tictactoe.databinding.FragmentGameBinding
+
 class GameFragment : Fragment() {
 
     private lateinit var binding: FragmentGameBinding
@@ -649,7 +680,7 @@ override fun onTouchEvent(event: MotionEvent?): Boolean {
 
 ## Alkalmazás ikon lecserélése
 
-Az alkalmazás ikonját jelenleg a `res/mipmap[-ldpi/mdpi/hdpi/xhdpi/...]` mappákban található `ic_launcher.png` jelképezi. A laborvezető segítségével keressünk egy új ikont és cseréljük le. Nem muszáj az ikont minden felbontásban elkészíteni, egyszerűen elhelyezhet egy méretet a `mipmap` mappában is (melyet létre kell hozni), ekkor természetesen különböző felbontású eszközökön torzulhat az ikon képe.
+Az alkalmazás ikonját jelenleg a `res/mipmap[-ldpi/mdpi/hdpi/xhdpi/...]` mappákban található `ic_launcher.png` jelképezi. A laborvezető segítségével keressünk egy új ikont és cseréljük le. Nem muszáj az ikont minden felbontásban elkészíteni, egyszerűen elhelyezhetónk egy méretet a `mipmap` mappában is (melyet létre kell hozni), ekkor természetesen különböző felbontású eszközökön torzulhat az ikon képe. (Ha marad idő, a beépített *Asset Studio*-val elkészíthetjük az összes szükséges változatot.)
 
 Próbáljuk ki az alkalmazást!
 

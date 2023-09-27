@@ -987,7 +987,7 @@
 <p>A <em>Jetpack Navigation</em> könyvtár használata miatt vegyük fel a többi plugin mellé a <code>androidx.navigation.safeargs</code>-ot:</p>
 <div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="o">{</span>
 <span class="w">    </span><span class="o">...</span>
-<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="s1">&#39;androidx.navigation.safeargs&#39;</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s1">&#39;2.5.3&#39;</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">    </span><span class="n">id</span><span class="o">(</span><span class="s2">&quot;androidx.navigation.safeargs&quot;</span><span class="o">)</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s2">&quot;2.7.3&quot;</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
 <span class="o">}</span>
 </code></pre></div>
 <p>Nyissuk meg a <strong>module</strong> szintű <em>Gradle</em> fájlunkat.</p>
@@ -996,7 +996,7 @@
 <span class="n">android</span><span class="w"> </span><span class="o">{</span>
 <span class="w">    </span><span class="o">...</span>
 <span class="w">    </span><span class="n">buildFeatures</span><span class="w"> </span><span class="o">{</span>
-<span class="w">        </span><span class="n">viewBinding</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">        </span><span class="n">viewBinding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
 <span class="w">    </span><span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div>
@@ -1007,16 +1007,16 @@
 <p>Vegyük fel azokat a további függőségeket, amikre még szükségünk lesz a projekt során. Ehhez a pluginok közé még vegyük fel a <code>androidx.navigation.safeargs.kotlin</code>-t.</p>
 <div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="o">{</span>
 <span class="w">    </span><span class="o">...</span>
-<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="s1">&#39;androidx.navigation.safeargs.kotlin&#39;</span>
+<span class="w">    </span><span class="n">id</span><span class="o">(</span><span class="s2">&quot;androidx.navigation.safeargs.kotlin&quot;</span><span class="o">)</span>
 <span class="o">}</span>
 
 <span class="n">android</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="o">...</span><span class="w"> </span><span class="o">}</span>
 
 <span class="n">dependencies</span><span class="w"> </span><span class="o">{</span>
 <span class="w">    </span><span class="o">...</span>
-<span class="w">    </span><span class="kt">def</span><span class="w"> </span><span class="n">nav_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;2.5.3&#39;</span>
-<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s2">&quot;androidx.navigation:navigation-fragment-ktx:$nav_version&quot;</span>
-<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s2">&quot;androidx.navigation:navigation-ui-ktx:$nav_version&quot;</span>
+<span class="w">    </span><span class="n">val</span><span class="w"> </span><span class="n">nav_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;2.7.3&quot;</span>
+<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="o">(</span><span class="s2">&quot;androidx.navigation:navigation-fragment-ktx:$nav_version&quot;</span><span class="o">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="o">(</span><span class="s2">&quot;androidx.navigation:navigation-ui-ktx:$nav_version&quot;</span><span class="o">)</span>
 <span class="o">}</span>
 </code></pre></div>
 <p>Ha végeztünk szinkronizáljuk a <em>Gradle</em> fájlokat. (Ha esetleg nem lenne, meg hogy ezt hol lehet, akkor a <em>SHIFT</em> gomb dupla lenyomásával megnyílik egy kereső, amiben a <em>Sync project with Gradle files</em>-t megadva ez elvégezhető.) </p>
@@ -1069,7 +1069,7 @@
 <h2 id="jetpack-navigation">Jetpack Navigation<a class="headerlink" href="#jetpack-navigation" title="Permanent link">&para;</a></h2>
 <p>A következő részben a <em>Jetpack Navigation</em> könyvtárral fogunk megismerkedni. Segítségével <em>Activity</em>-k és <em>Fragment</em>-ek közötti navigációt lehet megvalósítani úgy, hogy az egyes képernyők közti útvonalakat egy gráffal modellezzük.</p>
 <p>Első lépésként a <em>ResourceManager</em> segítségével, hozzunk létre egy navigációs gráfot. Válasszuk ki a <em>Navigation</em> opciót, majd kattintsunk a <strong>+</strong> gombra, ahol válasszuk a <em>Navigation Resource File</em> lehetőséget. Az erőforrás fájl neve legyen <code>nav_graph</code>.</p>
-<p>Ezután hozzunk létre egy új <em>Empty Activity</em>-t (jobb klikk <em>calculator</em> package-n &rarr; <em>New</em> &rarr; <em>Activity</em> &rarr; <em>Empty Activity</em>). Itt pipáljuk be a <em>Launcher Activity</em> opciót, ugyanis szeretnénk, hogy az <em>Activity</em> a futtató eszköz menüjéből indítható legyen. Majd kattintsunk a <em>Finish</em> gombra.</p>
+<p>Ezután hozzunk létre egy új <em>Empty Views Activity</em>-t (jobb klikk <em>calculator</em> package-n &rarr; <em>New</em> &rarr; <em>Activity</em> &rarr; <em>Empty Views Activity</em>). Itt pipáljuk be a <em>Launcher Activity</em> opciót, ugyanis szeretnénk, hogy az <em>Activity</em> a futtató eszköz menüjéből indítható legyen. Majd kattintsunk a <em>Finish</em> gombra.</p>
 <p><a class="glightbox" href="assets/new_activity.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/new_activity.png" /></a></p>
 <p>Keressük meg a <code>MainActivity</code>-hez tartozó <code>activity_main.xml</code> fájlt (<code>res/layout</code>), és vegyünk fel benne egy <code>FragmentContainerView</code> komponenst:</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
@@ -1572,7 +1572,16 @@
 </code></pre></div>
 </details>
 <p>Térjünk át a <code>CalculatorFragment</code> osztályra, ahol a fájl tartalmát cseréljük le a következőre:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">CalculatorFragment</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Fragment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.calculator</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.os.Bundle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.view.LayoutInflater</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.view.View</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.view.ViewGroup</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.fragment.app.Fragment</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.calculator.databinding.FragmentCalculatorBinding</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">CalculatorFragment</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Fragment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">_binding</span><span class="p">:</span><span class="w"> </span><span class="n">FragmentCalculatorBinding? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">binding</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_binding</span><span class="o">!!</span>
@@ -1591,7 +1600,6 @@
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Importáljuk a <code>FragmentCalculatorBinding</code> hiányzó referenciáját.</p>
 <p>Mielőtt rátérnénk a <em>Fragment</em> által kezelt <em>View</em> komponensek inicializálására, vegyünk fel még két <code>Set</code>-et, amikben a szám és művelet gombokhoz tartozó <em>View</em>-k referenciáit fogjuk tárolni. Bevezetésükkel az inicalizálás könnyebben elvégezhető. Importáljuk a hiányzó referenciákat.</p>
 <div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">numberButtons</span><span class="p">:</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">Button</span><span class="o">&gt;</span>
 
@@ -1732,7 +1740,14 @@ Ezután implementáljuk az <code>initButtons()</code> metódust. </p>
 <span class="nt">&lt;/LinearLayout&gt;</span>
 </code></pre></div>
 <p>Következő lépésként készítsük el a <code>HistoryAdapter</code> osztályunkat. Ehhez hozzunk létre egy új <em>adapter</em> package-et, majd benne egy új <em>Kotlin</em> osztályt <code>HistoryAdapter</code> néven. Az osztályunk belsejében vegyünk fel egy <code>ViewHolder</code> nevű <code>inner class</code>-t, aminek konstruktorában egy <code>ViewHistoryItemBinding</code> szerepeljen, amit majd ez egyes <em>View</em> referenciák inicializálásához használunk fel. Importáljuk a hiányzó <code>ViewHistoryItemBinding</code> referenciát.</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">HistoryAdapter</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.calculator.adapter</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.widget.Button</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.widget.TextView</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.recyclerview.widget.RecyclerView</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.calculator.databinding.ViewHistoryItemBinding</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">HistoryAdapter</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">inner</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">ViewHolder</span><span class="p">(</span><span class="n">binding</span><span class="p">:</span><span class="w"> </span><span class="n">ViewHistoryItemBinding</span><span class="p">)</span><span class="w"> </span><span class="p">:</span>
 <span class="w">        </span><span class="n">RecyclerView</span><span class="p">.</span><span class="na">ViewHolder</span><span class="p">(</span><span class="n">binding</span><span class="p">.</span><span class="na">historyView</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1933,7 +1948,18 @@ Ezután implementáljuk az <code>initButtons()</code> metódust. </p>
 <p>A <code>HistoryFragment</code> egy <code>AppBar</code>-t és egy <code>RecyclerView</code> jelenít meg. Az <code>AppBar</code> rendelkezik egy vissza gombbal, amihez az ikont a labor elején már létrehoztuk. A <code>RecyclerView</code> pedig egy függőlegesen görgethető listát jelenít meg.</p>
 </div>
 <p>Térjünk át a <code>HistoryFragment</code> osztályra. Az osztálynak most a <code>Fragment</code>-ből való származás mellett a <code>HistoryAdapter.ClickListener</code> interfészét is implementálnia kell. Az <em>Adapter</em> inicializálása most is egy <code>lateinit var</code> változó és az <code>onViewCreated()</code> metódus segítségével történik. Először inicializáljuk, és utána a <code>binding</code> segítséségével összekötjük a <em>Fragment</em> által megjelenített <code>RecyclerView</code> komponenssel. Végső soron pedig hozzárendelünk egy eseménykezeleőt az <code>AppBar</code>-ban lévő vissza gombhoz.</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">HistoryFragment</span><span class="p">:</span><span class="w"> </span><span class="n">Fragment</span><span class="p">(),</span><span class="w"> </span><span class="n">HistoryAdapter</span><span class="p">.</span><span class="na">ClickListener</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.calculator</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.os.Bundle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.view.LayoutInflater</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.view.View</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.view.ViewGroup</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.fragment.app.Fragment</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.calculator.adapter.HistoryAdapter</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.calculator.databinding.FragmentHistoryBinding</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.calculator.util.CalculatorOperator</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">HistoryFragment</span><span class="p">:</span><span class="w"> </span><span class="n">Fragment</span><span class="p">(),</span><span class="w"> </span><span class="n">HistoryAdapter</span><span class="p">.</span><span class="na">ClickListener</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">_binding</span><span class="p">:</span><span class="w"> </span><span class="n">FragmentHistoryBinding? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">binding</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_binding</span><span class="o">!!</span>
@@ -2062,8 +2088,8 @@ Ezután implementáljuk az <code>initButtons()</code> metódust. </p>
           </path>
         </svg>
       </span>
-      <span title="2023. március 14. 18:47:37">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-03-14T18:47:37+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-03-14</span>
+      <span title="2023. szeptember 27. 23:24:42">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-09-27T23:24:42+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-09-27</span>
       </span>
     </span>
 

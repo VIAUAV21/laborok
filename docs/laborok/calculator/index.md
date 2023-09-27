@@ -55,7 +55,7 @@ A *Jetpack Navigation* könyvtár használata miatt vegyük fel a többi plugin 
 ```groovy
 plugins {
 	...
-	id 'androidx.navigation.safeargs' version '2.5.3' apply false
+	id("androidx.navigation.safeargs") version "2.7.3" apply false
 }
 ```
 
@@ -67,9 +67,9 @@ Engedélyezzük a View Binding-ot:
 ...
 android {
 	...
-	buildFeatures {
-		viewBinding true
-	}
+    buildFeatures {
+        viewBinding = true
+    }
 }
 ```
 
@@ -83,16 +83,16 @@ Vegyük fel azokat a további függőségeket, amikre még szükségünk lesz a 
 ```groovy
 plugins {
     ...
-    id 'androidx.navigation.safeargs.kotlin'
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android { ... }
 
 dependencies {
 	...
-	def nav_version = '2.5.3'
-	implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
-	implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    val nav_version = "2.7.3"
+    implementation ("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation ("androidx.navigation:navigation-ui-ktx:$nav_version")
 }
 ```
 
@@ -160,7 +160,7 @@ A következő részben a *Jetpack Navigation* könyvtárral fogunk megismerkedni
 
 Első lépésként a *ResourceManager* segítségével, hozzunk létre egy navigációs gráfot. Válasszuk ki a *Navigation* opciót, majd kattintsunk a **+** gombra, ahol válasszuk a *Navigation Resource File* lehetőséget. Az erőforrás fájl neve legyen `nav_graph`.
 
-Ezután hozzunk létre egy új *Empty Activity*-t (jobb klikk *calculator* package-n --> *New* --> *Activity* --> *Empty Activity*). Itt pipáljuk be a *Launcher Activity* opciót, ugyanis szeretnénk, hogy az *Activity* a futtató eszköz menüjéből indítható legyen. Majd kattintsunk a *Finish* gombra.
+Ezután hozzunk létre egy új *Empty Views Activity*-t (jobb klikk *calculator* package-n --> *New* --> *Activity* --> *Empty Views Activity*). Itt pipáljuk be a *Launcher Activity* opciót, ugyanis szeretnénk, hogy az *Activity* a futtató eszköz menüjéből indítható legyen. Majd kattintsunk a *Finish* gombra.
 
 ![](./assets/new_activity.png)
 
@@ -720,6 +720,15 @@ A konzol alatt lévő sorokban a művelet és szám gombok következnek. A gombo
 Térjünk át a `CalculatorFragment` osztályra, ahol a fájl tartalmát cseréljük le a következőre:
 
 ```kotlin
+package hu.bme.aut.android.calculator
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import hu.bme.aut.android.calculator.databinding.FragmentCalculatorBinding
+
 class CalculatorFragment : Fragment() {
 
     private var _binding: FragmentCalculatorBinding? = null
@@ -739,8 +748,6 @@ class CalculatorFragment : Fragment() {
     }
 }
 ```
-
-Importáljuk a `FragmentCalculatorBinding` hiányzó referenciáját.
 
 Mielőtt rátérnénk a *Fragment* által kezelt *View* komponensek inicializálására, vegyünk fel még két `Set`-et, amikben a szám és művelet gombokhoz tartozó *View*-k referenciáit fogjuk tárolni. Bevezetésükkel az inicalizálás könnyebben elvégezhető. Importáljuk a hiányzó referenciákat.
 
@@ -908,6 +915,13 @@ Hozzunk lére egy új *XML* fájlt `view_history_item.xml` néven a`res/layout` 
 Következő lépésként készítsük el a `HistoryAdapter` osztályunkat. Ehhez hozzunk létre egy új *adapter* package-et, majd benne egy új *Kotlin* osztályt `HistoryAdapter` néven. Az osztályunk belsejében vegyünk fel egy `ViewHolder` nevű `inner class`-t, aminek konstruktorában egy `ViewHistoryItemBinding` szerepeljen, amit majd ez egyes *View* referenciák inicializálásához használunk fel. Importáljuk a hiányzó `ViewHistoryItemBinding` referenciát.
 
 ```kotlin
+package hu.bme.aut.android.calculator.adapter
+
+import android.widget.Button
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import hu.bme.aut.android.calculator.databinding.ViewHistoryItemBinding
+
 class HistoryAdapter {
 
     inner class ViewHolder(binding: ViewHistoryItemBinding) :
@@ -1137,6 +1151,17 @@ Ha ezzel megvagyunk keressük meg a `res/layout` mappában lévő `fragment_hist
 Térjünk át a `HistoryFragment` osztályra. Az osztálynak most a `Fragment`-ből való származás mellett a `HistoryAdapter.ClickListener` interfészét is implementálnia kell. Az *Adapter* inicializálása most is egy `lateinit var` változó és az `onViewCreated()` metódus segítségével történik. Először inicializáljuk, és utána a `binding` segítséségével összekötjük a *Fragment* által megjelenített `RecyclerView` komponenssel. Végső soron pedig hozzárendelünk egy eseménykezeleőt az `AppBar`-ban lévő vissza gombhoz.
 
 ```kotlin
+package hu.bme.aut.android.calculator
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import hu.bme.aut.android.calculator.adapter.HistoryAdapter
+import hu.bme.aut.android.calculator.databinding.FragmentHistoryBinding
+import hu.bme.aut.android.calculator.util.CalculatorOperator
+
 class HistoryFragment: Fragment(), HistoryAdapter.ClickListener {
 
     private var _binding: FragmentHistoryBinding? = null

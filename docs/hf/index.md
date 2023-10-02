@@ -84,8 +84,7 @@ A házi feladat pótlásához mindenképpen tartozik **pót házi feladat védé
 
 A házi feladatot a specifikáción túl dokumentálni is kell a README.md fájlba. (A specifikáció után.) Ebben röviden ismertetni kell az elkészült alkalmazás funkcionalitását és az érdekesebb megoldásokat.
 
-## Androidalapú szoftverfejlesztés && Mobil- és webes szoftverek közös házi feladat
-
-Ha valaki mind a két tárgyat hallgatja a félévben, van lehetőség közös házi feladat írására, DE:
-- Ezt mindenképpen egyeztetni kell mindkét laborvezetővel.
-- Ugyanaz a házi csak úgy adható le mindkét tárgyon, ha a nehezebb követelményeket (vagyis az Androidalapú szoftverfejlesztését) felülteljesíti. Tehát az Androidalapú szoftverfejlesztés követelményei szerint nem 5, hanem 6-7 technológiát kell használni. Ennek mennyiségéről és a feladat komplexitásáról a laborvezetők döntenek.
+!!!tipp "Androidalapú szoftverfejlesztés && Mobil- és webes szoftverek közös házi feladat"
+	Ha valaki mind a két tárgyat hallgatja a félévben, van lehetőség közös házi feladat írására, DE:
+	- Ezt mindenképpen egyeztetni kell mindkét laborvezetővel.
+	- Ugyanaz a házi csak úgy adható le mindkét tárgyon, ha a nehezebb követelményeket (vagyis az Androidalapú szoftverfejlesztését) felülteljesíti. Tehát az Androidalapú szoftverfejlesztés követelményei szerint nem 5, hanem 6-7 technológiát kell használni. Ennek mennyiségéről és a feladat komplexitásáról a laborvezetők döntenek.

@@ -1,4 +1,4 @@
-# Házi feladat információk - TODO 2023 ősz
+# Házi feladat információk
 
 A tárgyból házi feladat készítése nem kötelező, de ajánlott. 
 Házi feladat készítésével a vizsgát kiváltva megajánlott 4-es vagy 5-ös szerezhető. 
@@ -59,7 +59,7 @@ A házi feladat beadásának platformja a laborokhoz hasonlóan a Github Classro
 
 ### Specifikáció
 
-A specifikáció beadás határideje a **9. hét vége (2023. április 30. 23:59)**.
+A specifikáció beadás határideje a **9. hét vége (2023. október 5. 23:59)**.
 A specifikáció elkészítése közben a "**spec**" branchen dolgozz. Erre az ágra akárhány kommitot tehetsz.
 Sablont a README.md fájl tartalmaz, azt kell kiegészíteni, és feltölteni a repóba a megadott határidőig.
 A beadás akkor teljes, ha a "spec" branch-en megtalálható a README.md fájlban a specifikáció. A beadást egy pull request jelzi, amely pull requestet a laborvezetődhöz kell rendelned.
@@ -67,7 +67,7 @@ A specifikáció elkészítése előfeltétele a házi feladat elfogadásának.
 
 ### Házi feladat
 
-A házi feladat beadás határideje a **13. hét vége (2023. május 28. 23:59)**.
+A házi feladat beadás határideje a **13. hét vége (2023. december 3. 23:59)**.
 A házi feladat elkészítése közben a "**hf**" branchen dolgozz. Erre az ágra akárhány kommitot tehetsz. 
 A projektet mindenképpen ebbe a repository-ba hozd létre, a fejlesztést végig itt végezd.
 A beadás akkor teljes, ha a "hf" branch-en megtalálható a projekted teljes forráskódja. A beadást egy pull request jelzi, amely pull requestet a laborvezetődhöz kell rendelned.
@@ -83,3 +83,9 @@ A házi feladat pótlásához mindenképpen tartozik **pót házi feladat védé
 ## Dokumentáció
 
 A házi feladatot a specifikáción túl dokumentálni is kell a README.md fájlba. (A specifikáció után.) Ebben röviden ismertetni kell az elkészült alkalmazás funkcionalitását és az érdekesebb megoldásokat.
+
+## Androidalapú szoftverfejlesztés && Mobil- és webes szoftverek közös házi feladat
+
+Ha valaki mind a két tárgyat hallgatja a félévben, van lehetőség közös házi feladat írására, DE:
+- Ezt mindenképpen egyeztetni kell mindkét laborvezetővel.
+- Ugyanaz a házi csak úgy adható le mindkét tárgyon, ha a nehezebb követelményeket (vagyis az Androidalapú szoftverfejlesztését) felülteljesíti. Tehát az Androidalapú szoftverfejlesztés követelményei szerint nem 5, hanem 6-7 technológiát kell használni. Ennek mennyiségéről és a feladat komplexitásáról a laborvezetők döntenek.

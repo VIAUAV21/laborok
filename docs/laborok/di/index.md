@@ -33,38 +33,37 @@ Ellenőrízzük, hogy a létrejött projekt lefordul és helyesen működik!
 
 A Dagger/Hilt feladata tehát az lesz, hogy az alkalmazásunk egymástól függő komponenseit lazábban csatolt módon köti össze. A gyakorlatban ez azt jelenti, hogy ha egy bizonyos típusú függőségre van szükségünk, és az adott függőség meg van jelölve mint injektálandó függőség, akkor a könyvtárak el fogják végezni nekünk az adott függőség megkeresését és beállítását. Ez történhet például egy konstruktornak történő paraméterátadáson keresztül. Ennek előnye, hogy ha egy komponenst lecserélünk - például ahogyan a Firebase laboron lecseréltük a memóriabeli implementációkat éles, Firebase-ben működőkre - akkor nem szükséges a kódunkat módosítani, csupán meg kell adni a Daggernek/Hiltnek, hogy az elérhető implementációk közül melyik legyen az, amelyiket szükség esetén alkalmazza.
 
-Többféle függőséginjektáló keretrendszer létezik Androidon, és az Android platformon kívül is, ezek némileg más elveken működnek. A Dagger a legjobb teljesítmény érdekében úgy működik, hogy nem futás közben oldja fel a függőségeket, hanem a fordítási folyamatba avatkozik bele, és már aközben feltérképezi a függőségi viszonyok jelölésére alkalmazott annotációkat. Ezért a projekt inicializálásának részeként szükséges felvennünk egy gradle plugint is a folyamatba. Először a projekt szintű `build.gradle` fájlba vegyük fel a a következő sort a pluginek közé:
+Többféle függőséginjektáló keretrendszer létezik Androidon, és az Android platformon kívül is, ezek némileg más elveken működnek. A Dagger a legjobb teljesítmény érdekében úgy működik, hogy nem futás közben oldja fel a függőségeket, hanem a fordítási folyamatba avatkozik bele, és már aközben feltérképezi a függőségi viszonyok jelölésére alkalmazott annotációkat. Ezért a projekt inicializálásának részeként szükséges felvennünk egy gradle plugint is a folyamatba. Először a projekt szintű `build.gradle.kts` fájlba vegyük fel a a következő sort a pluginek közé:
 
-```groovy
-id 'com.google.dagger.hilt.android' version '2.44' apply false
+```kotlin
+id("com.google.dagger.hilt.android") version "2.48" apply false
 ```
 
 Majd a modul szintű `build.gradle` fájlban alkalmazzuk a plugint:
 
-```groovy
+```kotlin
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
-    id 'com.google.dagger.hilt.android'
+    ...
+
+    id("com.google.dagger.hilt.android")
 }
 ```
 
 És a kapthoz kapcsoljuk is be a hibás típusok korrekcióját:
 
-```groovy
+```kotlin
 kapt {
-    correctErrorTypes true
+    correctErrorTypes = true
 }
 ```
 
 És vegyünk fel még két függőséget, majd szinkronizáljuk a projektet:
 
-```groovy
+```kotlin
 // Hilt
-implementation "com.google.dagger:hilt-android:2.44"
-kapt "com.google.dagger:hilt-compiler:2.44"
-implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
+implementation("com.google.dagger:hilt-android:2.48")
+kapt("com.google.dagger:hilt-compiler:2.48")
+implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 ```
 
 Ezzel a build folyamat és a függőségek rendben vannak. Most globálisan, az alkalmazás szintjén inicializálnunk kell a Daggert, hogy létrejöjjön egy kontextus, amelyben a függőségeket menedzseli. Ehhez a `TodoApplication` osztályra tegyük rá a `@HiltAndroidApp` annotációt:

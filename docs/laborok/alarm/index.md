@@ -28,103 +28,22 @@ A feladatok megoldása során ne felejtsd el követni a [feladat beadás folyama
 
 4. A `neptun.txt` fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.
 
-## A projekt létrehozása
+## A projekt megnyitása
 
-Első lépésként indítsuk el az Android Studio-t, majd:
-
-1. Hozzunk létre egy új projektet, válasszuk az *Empty Compose Activity (Material3)* lehetőséget.
-2. A projekt neve legyen `Alarm`, a kezdő package pedig `hu.bme.aut.android.alarm`.
-3. A minimum API szint legyen *API24: Android 7.0 (Nougat)*.
-
-!!!danger "FILE PATH"
-	A projekt mindenképpen a repository-ban lévő Alarm könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!
+Nyissuk meg a template-ben levő projektet, és a laborvezetővel tekintsük át a tartalmát. A projektben
+a UI építőelemei és a `drawable` erőforrások már megtalálhatók. Ezekhez fogjuk elkészíteni az időzítő
+üzleti logikáját, amit összekötünk az előkészített felhasználói felülettel.
 
 ## A függőségek beállítása
 
-Az Android Studio a projekt létrehozásakor felveszi ugyan a *Compose*-t a függésegek közé, de némileg elavult verziókat használ. Ezen kívül a Dagger/Hilt függőségekre is szükségünk van.
+Vegyük fel az alábbi függőségeket a modul szintű `build.gradle.kts` fájlba. Ezekre az idő megadásához
+lesz majd szükségünk.
 
-Először a projekt szintű `build.gradle` fájlba vegyük fel a Dagger plugint, és frissítsük az Android plugin verzióját is:
-
-```groovy
-id 'com.google.dagger.hilt.android' version '2.44' apply false
-id 'org.jetbrains.kotlin.android' version '1.8.10' apply false
+```kotlin
+implementation("com.maxkeppeler.sheets-compose-dialogs:core:1.0.3")
+implementation("com.maxkeppeler.sheets-compose-dialogs:clock:1.0.3")
+implementation("com.maxkeppeler.sheets-compose-dialogs:duration:1.0.3")
 ```
-
-Majd a modul szintű `build.gradle` fájlban alkalmazzuk a plugint:
-
-```groovy
-plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
-    id 'com.google.dagger.hilt.android'
-}
-```
-
-És a kapthoz kapcsoljuk is be a hibás típusok korrekcióját, frissítsük a Compose verzióját, illetve frissítsük a használt JDK verziót, mert a kapt plugin már újabbat kíván:
-
-```groovy
-kapt {
-    correctErrorTypes true
-}
-composeOptions {
-    kotlinCompilerExtensionVersion '1.4.4'
-}
-compileOptions {
-    // To use java.time lib
-    coreLibraryDesugaringEnabled true
-    sourceCompatibility JavaVersion.VERSION_11
-    targetCompatibility JavaVersion.VERSION_11
-}
-kotlinOptions {
-    jvmTarget = '11'
-}
-```
-
-Végül frissítsük a modul szintű `build.gradle` fájlban a függőségeket az alábbiakra, majd szinkronizáljuk is a projektet:
-
-```groovy
-dependencies {
-
-    def composeBom = platform('androidx.compose:compose-bom:2023.01.00')
-    implementation composeBom
-    androidTestImplementation composeBom
-
-    implementation 'androidx.compose.material3:material3'
-    implementation 'androidx.compose.ui:ui'
-    implementation 'androidx.compose.ui:ui-tooling-preview'
-    implementation 'androidx.compose.material:material-icons-extended'
-
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
-    debugImplementation 'androidx.compose.ui:ui-test-manifest'
-    debugImplementation 'androidx.compose.ui:ui-tooling'
-
-    implementation 'androidx.core:core-ktx:1.10.1'
-    implementation 'androidx.activity:activity-compose:1.7.1'
-
-    implementation "androidx.navigation:navigation-compose:2.5.3"
-
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-
-    // Hilt
-    implementation "com.google.dagger:hilt-android:2.44"
-    kapt "com.google.dagger:hilt-compiler:2.44"
-
-    implementation 'androidx.hilt:hilt-navigation-compose:1.0.0'
-
-    implementation "com.google.accompanist:accompanist-permissions:0.28.0"
-
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
-
-    implementation 'com.maxkeppeler.sheets-compose-dialogs:core:1.0.3'
-    implementation 'com.maxkeppeler.sheets-compose-dialogs:clock:1.0.3'
-    implementation 'com.maxkeppeler.sheets-compose-dialogs:duration:1.0.3'
-}
-```
-
-Ezzel felvettük a Dagger/Hilt könyvtárakat is, illetve a már ismert Accompanist könyvtárat a függésőgek kezeléséhez, a desugar könyvtárat a Java 8 dátumkezelő libek használatához, valamint néhány további könyvtárat, amelyekkel az időzítő beállítása lesz lehetséges.
 
 ## A doménmodellek elkészítése
 
@@ -171,194 +90,10 @@ data class AlarmState(
 
 Az `AlarmServiceState` lehetséges értékei írják le, hogy az időzítő épp várakozik, fut, pauzált vagy leállított. Az `AlarmState` ezt az aktuális állapotot tárolja, és mellé még egységbe zárja, hogy mennyi az időzítő célideje, és mennyi telt el eddig.
 
-## A felhasználói felület elkészítése
+## A felhasználói felület és a doménmodell összekötése
 
-Az alkalmazásunk felhasználói felület nem lesz túl bonyolult. Először az alapvető építőelemeket hozzuk létre.
-
-Először az `ui.theme` package-ben levő `Color.kt` fájlba vegyünk fel néhány új színt:
-
-```kotlin
-val ColorScheme.startColor
-    @Composable get() = if (isSystemInDarkTheme()) Color(0xFF6BBB6E)
-    else Color(0xFF267A2E)
-
-val ColorScheme.disabledColor
-    @Composable get() = if (isSystemInDarkTheme()) Color(0xFFA4A5A4)
-    else Color(0xFF7C7E7C)
-
-val ColorScheme.pauseColor
-    @Composable get() = if (isSystemInDarkTheme()) Color(0xFFCF8402)
-    else Color(0xFFFFC700)
-
-val ColorScheme.stopColor
-    @Composable get() = if (isSystemInDarkTheme()) Color(0xFFAD0000)
-    else Color(0xFFFF0000)
-```
-
-Az alkalmazásunkban szükség lesz néhány ikonra, ezeket a `res/drawable` mappába kell felvenni. Raszteres formátumú képeknél célszerű lenne különböző képernyőkre optimalizált változatokat készíteni, de most szerencsére vektoros képek állnak a rendelkezésünkre, ezért ezeket tehetjük közvetlen az erőforrásminősítő nélküli `drawable` könyvtárba. Az ikonok a template repository `assets` könyvtárában találhatóak.
-
-Vegyük még fel a később használt szöveges címkéket a `strings.xml` fájlba:
-
-```xml
-<resources>
-    <string name="app_name">AlarmService</string>
-    <string name="alarm_notification_title">Alarm</string>
-    <string name="alarm_notification_action_cancel">Cancel</string>
-    <string name="alarm_set">Set</string>
-    <string name="alarm_cancel">Cancel</string>
-    <string name="alarm_time_until_alarm">until alarm</string>
-    <string name="set_an_alarm">Set an alarm.</string>
-    <string name="timepicker_hours">hours</string>
-    <string name="timepicker_min">min</string>
-    <string name="timepicker_sec">sec</string>
-</resources>
-```
-
-Most szükségünk van egy gombra, amelyet különböző ikonnal majd különböző funkciókhoz, mint pauzálás, leállítás, tudunk használni. Ezt a `ui.common` package-ben hozzuk létre:
-
-```kotlin
-@Composable
-fun AlarmStateButton(
-    iconId: Int,
-    surfaceColor: Color,
-    modifier: Modifier = Modifier,
-    enabled: Boolean = true,
-    onClick: () -> Unit,
-) {
-    Surface(
-        modifier = modifier
-            .clip(RoundedCornerShape(5.dp))
-            .clickable(
-                enabled = enabled,
-                role = Role.Button,
-                onClick = onClick
-            ),
-        color = if (enabled) surfaceColor else MaterialTheme.colorScheme.disabledColor,
-        contentColor = MaterialTheme.colorScheme.contentColorFor(surfaceColor)
-    ) {
-        Box(
-            modifier = Modifier
-                .wrapContentSize(Alignment.Center)
-                .padding(10.dp)
-        ) {
-            Icon(
-                painter = painterResource(id = iconId),
-                contentDescription = null,
-            )
-        }
-    }
-}
-
-@Composable
-@Preview
-fun AlarmButton_Preview() {
-    AlarmStateButton(
-        iconId = R.drawable.pause_24,
-        surfaceColor = MaterialTheme.colorScheme.pauseColor
-    ) {
-
-    }
-}
-
-@Composable
-@Preview
-fun AlarmButton_Disabled_Preview() {
-    AlarmStateButton(
-        iconId = R.drawable.pause_24,
-        surfaceColor = MaterialTheme.colorScheme.pauseColor,
-        enabled = false
-    ) {
-
-    }
-}
-```
-
-Szükségünk van még az óránk "számlapjára", amely a hátralevő időt mutatja, ez lesz a `DurationCounter`, és `Counter` komponensekből rakjuk össze az óra, a perc és a másodperc részeket:
-
-```kotlin
-@Composable
-fun DurationCounter(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    clickEnabled: Boolean = true,
-    duration: Duration = Duration.ZERO,
-) {
-    duration.toComponents { hours, minutes, seconds, _ ->
-        Row(
-            modifier = modifier
-                .wrapContentSize(align = Alignment.Center)
-                .clickable(
-                    onClick = onClick,
-                    enabled = clickEnabled
-                ),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            Counter(time = hours.toInt(), unit = "h")
-            Spacer(modifier = Modifier.padding(16.dp))
-            Counter(time = minutes, unit = "m")
-            Spacer(modifier = Modifier.padding(16.dp))
-            Counter(time = seconds, unit = "s")
-        }
-    }
-}
-
-
-
-@OptIn(ExperimentalAnimationApi::class)
-@Composable
-fun Counter(
-    time: Int,
-    unit: String,
-    modifier: Modifier = Modifier
-) {
-    var prevTime by remember { mutableStateOf(time) }
-
-    SideEffect {
-        prevTime = time
-    }
-
-    Row(modifier = modifier) {
-        val timeString = String.format("%02d $unit",time)
-        val prevTimeString = String.format("%02d $unit",prevTime)
-
-        timeString.forEachIndexed { i, _ ->
-            val prevChar = prevTimeString.getOrNull(i)
-            val nextChar = timeString[i]
-
-            val char = if (prevChar == nextChar) prevTimeString[i] else timeString[i]
-
-            AnimatedContent(
-                targetState = char,
-                transitionSpec = {
-                    slideInVertically { it } with slideOutVertically { -it }
-                }
-            ) {
-                Text(
-                    text = it.toString(),
-                    fontSize = 38.sp,
-                    fontWeight = FontWeight.Bold,
-                    softWrap = false
-                )
-            }
-        }
-    }
-}
-
-@Composable
-@Preview
-fun DurationCounter_Preview() {
-    DurationCounter({})
-}
-```
-
-!!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik a **Compose preview**, az **általad írt kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
-
-	A képet a megoldásban a repository-ba f1.png néven töltsd föl.
-
-	A képernyőkép szükséges feltétele a pontszám megszerzésének.
-
-Most a `ui.alarm` package-be hozzuk létre a ViewModelünket:
+A felhasználói felületünk a template-ben már rendelkezésre áll, de a viewmodelleket még el kell készítenünk, hogy
+az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A `ui.alarm` package-be hozzuk létre a ViewModelünket:
 
 ```kotlin
 @HiltViewModel
@@ -421,6 +156,49 @@ Látható, hogy a ViewModel kezeli az eseményeket, és az alkalmazás állapot�
 Most ugyanebbe a package-ben hozzuk létre a teljes képernyőt is:
 
 ```kotlin
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.maxkeppeker.sheets.core.models.base.rememberSheetState
+import com.maxkeppeler.sheets.duration.DurationDialog
+import com.maxkeppeler.sheets.duration.models.DurationConfig
+import com.maxkeppeler.sheets.duration.models.DurationFormat
+import com.maxkeppeler.sheets.duration.models.DurationSelection
+import hu.bme.aut.android.alarm.R
+import hu.bme.aut.android.alarm.ui.common.AlarmStateButton
+import hu.bme.aut.android.alarm.ui.common.DurationCounter
+import hu.bme.aut.android.alarm.ui.theme.pauseColor
+import hu.bme.aut.android.alarm.ui.theme.startColor
+import hu.bme.aut.android.alarm.ui.theme.stopColor
+import hu.bme.aut.android.alarm.util.AlarmEvent
+import hu.bme.aut.android.alarm.util.AlarmState
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
+
 @OptIn(ExperimentalMaterial3Api::class)
 @ExperimentalPermissionsApi
 @ExperimentalAnimationApi
@@ -588,7 +366,7 @@ Most már indítható az alkalmazás, és megjelenik a felhasználói felület, 
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, az **általad írt kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
 
-	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
+	A képet a megoldásban a repository-ba f1.png néven töltsd föl.
 
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
@@ -724,7 +502,7 @@ class NotificationHelper @Inject constructor(
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amelyen látszik az **általad írt kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
 
-	A képet a megoldásban a repository-ba f3.png néven töltsd föl.
+	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
 
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
@@ -776,11 +554,42 @@ object NotificationModule {
 }
 ```
 
+!!!example "BEADANDÓ (1 pont)" 
+	Készíts egy **képernyőképet**, amelyen látszik az **általad írt kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+
+	A képet a megoldásban a repository-ba f3.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
+
 ## A Service elkészítése
 
 Hozzunk létre egy `service` package-et, majd ebbe készítsük el az `AlarmService` osztályt:
 
 ```kotlin
+import android.app.PendingIntent
+import android.app.Service
+import android.content.Intent
+import android.media.MediaPlayer
+import android.media.RingtoneManager
+import android.os.Build
+import android.os.IBinder
+import androidx.core.app.NotificationCompat
+import dagger.hilt.android.AndroidEntryPoint
+import hu.bme.aut.android.alarm.notification.NotificationHelper
+import hu.bme.aut.android.alarm.notification.NotificationHelper.Companion.NOTIFICATION_ID
+import hu.bme.aut.android.alarm.scheduler.AlarmItem
+import hu.bme.aut.android.alarm.scheduler.AlarmScheduler
+import hu.bme.aut.android.alarm.util.AlarmServiceState
+import hu.bme.aut.android.alarm.util.AlarmState
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import java.time.LocalDateTime
+import java.util.Timer
+import javax.inject.Inject
+import kotlin.concurrent.fixedRateTimer
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
+
 @AndroidEntryPoint
 class AlarmService : Service(), MediaPlayer.OnPreparedListener {
 

@@ -633,8 +633,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#a-projekt-letrehozasa" class="md-nav__link">
-    A projekt létrehozása
+  <a href="#a-projekt-megnyitasa" class="md-nav__link">
+    A projekt megnyitása
   </a>
   
 </li>
@@ -654,8 +654,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#a-felhasznaloi-felulet-elkeszitese" class="md-nav__link">
-    A felhasználói felület elkészítése
+  <a href="#a-felhasznaloi-felulet-es-a-domenmodell-osszekotese" class="md-nav__link">
+    A felhasználói felület és a doménmodell összekötése
   </a>
   
 </li>
@@ -834,8 +834,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#a-projekt-letrehozasa" class="md-nav__link">
-    A projekt létrehozása
+  <a href="#a-projekt-megnyitasa" class="md-nav__link">
+    A projekt megnyitása
   </a>
   
 </li>
@@ -855,8 +855,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#a-felhasznaloi-felulet-elkeszitese" class="md-nav__link">
-    A felhasználói felület elkészítése
+  <a href="#a-felhasznaloi-felulet-es-a-domenmodell-osszekotese" class="md-nav__link">
+    A felhasználói felület és a doménmodell összekötése
   </a>
   
 </li>
@@ -936,89 +936,17 @@
 <p>A <code>neptun.txt</code> fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.</p>
 </li>
 </ol>
-<h2 id="a-projekt-letrehozasa">A projekt létrehozása<a class="headerlink" href="#a-projekt-letrehozasa" title="Permanent link">&para;</a></h2>
-<p>Első lépésként indítsuk el az Android Studio-t, majd:</p>
-<ol>
-<li>Hozzunk létre egy új projektet, válasszuk az <em>Empty Compose Activity (Material3)</em> lehetőséget.</li>
-<li>A projekt neve legyen <code>Alarm</code>, a kezdő package pedig <code>hu.bme.aut.android.alarm</code>.</li>
-<li>A minimum API szint legyen <em>API24: Android 7.0 (Nougat)</em>.</li>
-</ol>
-<div class="admonition danger">
-<p class="admonition-title">FILE PATH</p>
-<p>A projekt mindenképpen a repository-ban lévő Alarm könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!</p>
-</div>
+<h2 id="a-projekt-megnyitasa">A projekt megnyitása<a class="headerlink" href="#a-projekt-megnyitasa" title="Permanent link">&para;</a></h2>
+<p>Nyissuk meg a template-ben levő projektet, és a laborvezetővel tekintsük át a tartalmát. A projektben
+a UI építőelemei és a <code>drawable</code> erőforrások már megtalálhatók. Ezekhez fogjuk elkészíteni az időzítő
+üzleti logikáját, amit összekötünk az előkészített felhasználói felülettel.</p>
 <h2 id="a-fuggosegek-beallitasa">A függőségek beállítása<a class="headerlink" href="#a-fuggosegek-beallitasa" title="Permanent link">&para;</a></h2>
-<p>Az Android Studio a projekt létrehozásakor felveszi ugyan a <em>Compose</em>-t a függésegek közé, de némileg elavult verziókat használ. Ezen kívül a Dagger/Hilt függőségekre is szükségünk van.</p>
-<p>Először a projekt szintű <code>build.gradle</code> fájlba vegyük fel a Dagger plugint, és frissítsük az Android plugin verzióját is:</p>
-<div class="highlight"><pre><span></span><code><span class="n">id</span><span class="w"> </span><span class="s1">&#39;com.google.dagger.hilt.android&#39;</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s1">&#39;2.44&#39;</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
-<span class="n">id</span><span class="w"> </span><span class="s1">&#39;org.jetbrains.kotlin.android&#39;</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s1">&#39;1.8.10&#39;</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
+<p>Vegyük fel az alábbi függőségeket a modul szintű <code>build.gradle.kts</code> fájlba. Ezekre az idő megadásához
+lesz majd szükségünk.</p>
+<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;com.maxkeppeler.sheets-compose-dialogs:core:1.0.3&quot;</span><span class="p">)</span>
+<span class="n">implementation</span><span class="p">(</span><span class="s">&quot;com.maxkeppeler.sheets-compose-dialogs:clock:1.0.3&quot;</span><span class="p">)</span>
+<span class="n">implementation</span><span class="p">(</span><span class="s">&quot;com.maxkeppeler.sheets-compose-dialogs:duration:1.0.3&quot;</span><span class="p">)</span>
 </code></pre></div>
-<p>Majd a modul szintű <code>build.gradle</code> fájlban alkalmazzuk a plugint:</p>
-<div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="o">{</span>
-<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="s1">&#39;com.android.application&#39;</span>
-<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="s1">&#39;org.jetbrains.kotlin.android&#39;</span>
-<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="s1">&#39;kotlin-kapt&#39;</span>
-<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="s1">&#39;com.google.dagger.hilt.android&#39;</span>
-<span class="o">}</span>
-</code></pre></div>
-<p>És a kapthoz kapcsoljuk is be a hibás típusok korrekcióját, frissítsük a Compose verzióját, illetve frissítsük a használt JDK verziót, mert a kapt plugin már újabbat kíván:</p>
-<div class="highlight"><pre><span></span><code><span class="n">kapt</span><span class="w"> </span><span class="o">{</span>
-<span class="w">    </span><span class="n">correctErrorTypes</span><span class="w"> </span><span class="kc">true</span>
-<span class="o">}</span>
-<span class="n">composeOptions</span><span class="w"> </span><span class="o">{</span>
-<span class="w">    </span><span class="n">kotlinCompilerExtensionVersion</span><span class="w"> </span><span class="s1">&#39;1.4.4&#39;</span>
-<span class="o">}</span>
-<span class="n">compileOptions</span><span class="w"> </span><span class="o">{</span>
-<span class="w">    </span><span class="c1">// To use java.time lib</span>
-<span class="w">    </span><span class="n">coreLibraryDesugaringEnabled</span><span class="w"> </span><span class="kc">true</span>
-<span class="w">    </span><span class="n">sourceCompatibility</span><span class="w"> </span><span class="n">JavaVersion</span><span class="o">.</span><span class="na">VERSION_11</span>
-<span class="w">    </span><span class="n">targetCompatibility</span><span class="w"> </span><span class="n">JavaVersion</span><span class="o">.</span><span class="na">VERSION_11</span>
-<span class="o">}</span>
-<span class="n">kotlinOptions</span><span class="w"> </span><span class="o">{</span>
-<span class="w">    </span><span class="n">jvmTarget</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;11&#39;</span>
-<span class="o">}</span>
-</code></pre></div>
-<p>Végül frissítsük a modul szintű <code>build.gradle</code> fájlban a függőségeket az alábbiakra, majd szinkronizáljuk is a projektet:</p>
-<div class="highlight"><pre><span></span><code><span class="n">dependencies</span><span class="w"> </span><span class="o">{</span>
-
-<span class="w">    </span><span class="kt">def</span><span class="w"> </span><span class="n">composeBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">platform</span><span class="o">(</span><span class="s1">&#39;androidx.compose:compose-bom:2023.01.00&#39;</span><span class="o">)</span>
-<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="n">composeBom</span>
-<span class="w">    </span><span class="n">androidTestImplementation</span><span class="w"> </span><span class="n">composeBom</span>
-
-<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;androidx.compose.material3:material3&#39;</span>
-<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;androidx.compose.ui:ui&#39;</span>
-<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;androidx.compose.ui:ui-tooling-preview&#39;</span>
-<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;androidx.compose.material:material-icons-extended&#39;</span>
-
-<span class="w">    </span><span class="n">androidTestImplementation</span><span class="w"> </span><span class="s1">&#39;androidx.compose.ui:ui-test-junit4&#39;</span>
-<span class="w">    </span><span class="n">debugImplementation</span><span class="w"> </span><span class="s1">&#39;androidx.compose.ui:ui-test-manifest&#39;</span>
-<span class="w">    </span><span class="n">debugImplementation</span><span class="w"> </span><span class="s1">&#39;androidx.compose.ui:ui-tooling&#39;</span>
-
-<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;androidx.core:core-ktx:1.10.1&#39;</span>
-<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;androidx.activity:activity-compose:1.7.1&#39;</span>
-
-<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s2">&quot;androidx.navigation:navigation-compose:2.5.3&quot;</span>
-
-<span class="w">    </span><span class="n">testImplementation</span><span class="w"> </span><span class="s1">&#39;junit:junit:4.13.2&#39;</span>
-<span class="w">    </span><span class="n">androidTestImplementation</span><span class="w"> </span><span class="s1">&#39;androidx.test.ext:junit:1.1.5&#39;</span>
-<span class="w">    </span><span class="n">androidTestImplementation</span><span class="w"> </span><span class="s1">&#39;androidx.test.espresso:espresso-core:3.5.1&#39;</span>
-
-<span class="w">    </span><span class="c1">// Hilt</span>
-<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s2">&quot;com.google.dagger:hilt-android:2.44&quot;</span>
-<span class="w">    </span><span class="n">kapt</span><span class="w"> </span><span class="s2">&quot;com.google.dagger:hilt-compiler:2.44&quot;</span>
-
-<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;androidx.hilt:hilt-navigation-compose:1.0.0&#39;</span>
-
-<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s2">&quot;com.google.accompanist:accompanist-permissions:0.28.0&quot;</span>
-
-<span class="w">    </span><span class="n">coreLibraryDesugaring</span><span class="w"> </span><span class="s1">&#39;com.android.tools:desugar_jdk_libs:2.0.3&#39;</span>
-
-<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;com.maxkeppeler.sheets-compose-dialogs:core:1.0.3&#39;</span>
-<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;com.maxkeppeler.sheets-compose-dialogs:clock:1.0.3&#39;</span>
-<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;com.maxkeppeler.sheets-compose-dialogs:duration:1.0.3&#39;</span>
-<span class="o">}</span>
-</code></pre></div>
-<p>Ezzel felvettük a Dagger/Hilt könyvtárakat is, illetve a már ismert Accompanist könyvtárat a függésőgek kezeléséhez, a desugar könyvtárat a Java 8 dátumkezelő libek használatához, valamint néhány további könyvtárat, amelyekkel az időzítő beállítása lesz lehetséges.</p>
 <h2 id="a-domenmodellek-elkeszitese">A doménmodellek elkészítése<a class="headerlink" href="#a-domenmodellek-elkeszitese" title="Permanent link">&para;</a></h2>
 <p>Először néhány olyan osztályt készítünk, amelyekkel az alkalmazás aktuális állapota, illetve az állapotváltozást előidéző események reprezentálhatók. Ehhez készítsünk egy <code>util</code> package-et. Ebbe hozzuk létre az alábbi osztályt:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">AlarmEvent</span><span class="w"> </span><span class="p">{</span>
@@ -1055,178 +983,9 @@
 <span class="p">}</span>
 </code></pre></div>
 <p>Az <code>AlarmServiceState</code> lehetséges értékei írják le, hogy az időzítő épp várakozik, fut, pauzált vagy leállított. Az <code>AlarmState</code> ezt az aktuális állapotot tárolja, és mellé még egységbe zárja, hogy mennyi az időzítő célideje, és mennyi telt el eddig.</p>
-<h2 id="a-felhasznaloi-felulet-elkeszitese">A felhasználói felület elkészítése<a class="headerlink" href="#a-felhasznaloi-felulet-elkeszitese" title="Permanent link">&para;</a></h2>
-<p>Az alkalmazásunk felhasználói felület nem lesz túl bonyolult. Először az alapvető építőelemeket hozzuk létre.</p>
-<p>Először az <code>ui.theme</code> package-ben levő <code>Color.kt</code> fájlba vegyünk fel néhány új színt:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">val</span><span class="w"> </span><span class="nv">ColorScheme</span><span class="p">.</span><span class="na">startColor</span>
-<span class="w">    </span><span class="nd">@Composable</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isSystemInDarkTheme</span><span class="p">())</span><span class="w"> </span><span class="n">Color</span><span class="p">(</span><span class="m">0</span><span class="n">xFF6BBB6E</span><span class="p">)</span>
-<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="n">Color</span><span class="p">(</span><span class="m">0</span><span class="n">xFF267A2E</span><span class="p">)</span>
-
-<span class="kd">val</span><span class="w"> </span><span class="nv">ColorScheme</span><span class="p">.</span><span class="na">disabledColor</span>
-<span class="w">    </span><span class="nd">@Composable</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isSystemInDarkTheme</span><span class="p">())</span><span class="w"> </span><span class="n">Color</span><span class="p">(</span><span class="m">0</span><span class="n">xFFA4A5A4</span><span class="p">)</span>
-<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="n">Color</span><span class="p">(</span><span class="m">0</span><span class="n">xFF7C7E7C</span><span class="p">)</span>
-
-<span class="kd">val</span><span class="w"> </span><span class="nv">ColorScheme</span><span class="p">.</span><span class="na">pauseColor</span>
-<span class="w">    </span><span class="nd">@Composable</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isSystemInDarkTheme</span><span class="p">())</span><span class="w"> </span><span class="n">Color</span><span class="p">(</span><span class="m">0</span><span class="n">xFFCF8402</span><span class="p">)</span>
-<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="n">Color</span><span class="p">(</span><span class="m">0</span><span class="n">xFFFFC700</span><span class="p">)</span>
-
-<span class="kd">val</span><span class="w"> </span><span class="nv">ColorScheme</span><span class="p">.</span><span class="na">stopColor</span>
-<span class="w">    </span><span class="nd">@Composable</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isSystemInDarkTheme</span><span class="p">())</span><span class="w"> </span><span class="n">Color</span><span class="p">(</span><span class="m">0</span><span class="n">xFFAD0000</span><span class="p">)</span>
-<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="n">Color</span><span class="p">(</span><span class="m">0</span><span class="n">xFFFF0000</span><span class="p">)</span>
-</code></pre></div>
-<p>Az alkalmazásunkban szükség lesz néhány ikonra, ezeket a <code>res/drawable</code> mappába kell felvenni. Raszteres formátumú képeknél célszerű lenne különböző képernyőkre optimalizált változatokat készíteni, de most szerencsére vektoros képek állnak a rendelkezésünkre, ezért ezeket tehetjük közvetlen az erőforrásminősítő nélküli <code>drawable</code> könyvtárba. Az ikonok a template repository <code>assets</code> könyvtárában találhatóak.</p>
-<p>Vegyük még fel a később használt szöveges címkéket a <code>strings.xml</code> fájlba:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">&lt;resources&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;app_name&quot;</span><span class="nt">&gt;</span>AlarmService<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;alarm_notification_title&quot;</span><span class="nt">&gt;</span>Alarm<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;alarm_notification_action_cancel&quot;</span><span class="nt">&gt;</span>Cancel<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;alarm_set&quot;</span><span class="nt">&gt;</span>Set<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;alarm_cancel&quot;</span><span class="nt">&gt;</span>Cancel<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;alarm_time_until_alarm&quot;</span><span class="nt">&gt;</span>until<span class="w"> </span>alarm<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;set_an_alarm&quot;</span><span class="nt">&gt;</span>Set<span class="w"> </span>an<span class="w"> </span>alarm.<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;timepicker_hours&quot;</span><span class="nt">&gt;</span>hours<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;timepicker_min&quot;</span><span class="nt">&gt;</span>min<span class="nt">&lt;/string&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;timepicker_sec&quot;</span><span class="nt">&gt;</span>sec<span class="nt">&lt;/string&gt;</span>
-<span class="nt">&lt;/resources&gt;</span>
-</code></pre></div>
-<p>Most szükségünk van egy gombra, amelyet különböző ikonnal majd különböző funkciókhoz, mint pauzálás, leállítás, tudunk használni. Ezt a <code>ui.common</code> package-ben hozzuk létre:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
-<span class="kd">fun</span><span class="w"> </span><span class="nf">AlarmStateButton</span><span class="p">(</span>
-<span class="w">    </span><span class="n">iconId</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
-<span class="w">    </span><span class="n">surfaceColor</span><span class="p">:</span><span class="w"> </span><span class="n">Color</span><span class="p">,</span>
-<span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
-<span class="w">    </span><span class="n">enabled</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="n">onClick</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
-<span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">Surface</span><span class="p">(</span>
-<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span>
-<span class="w">            </span><span class="p">.</span><span class="na">clip</span><span class="p">(</span><span class="n">RoundedCornerShape</span><span class="p">(</span><span class="m">5.</span><span class="n">dp</span><span class="p">))</span>
-<span class="w">            </span><span class="p">.</span><span class="na">clickable</span><span class="p">(</span>
-<span class="w">                </span><span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enabled</span><span class="p">,</span>
-<span class="w">                </span><span class="n">role</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Role</span><span class="p">.</span><span class="na">Button</span><span class="p">,</span>
-<span class="w">                </span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onClick</span>
-<span class="w">            </span><span class="p">),</span>
-<span class="w">        </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">enabled</span><span class="p">)</span><span class="w"> </span><span class="n">surfaceColor</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">disabledColor</span><span class="p">,</span>
-<span class="w">        </span><span class="n">contentColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">contentColorFor</span><span class="p">(</span><span class="n">surfaceColor</span><span class="p">)</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">Box</span><span class="p">(</span>
-<span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
-<span class="w">                </span><span class="p">.</span><span class="na">wrapContentSize</span><span class="p">(</span><span class="n">Alignment</span><span class="p">.</span><span class="na">Center</span><span class="p">)</span>
-<span class="w">                </span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="m">10.</span><span class="n">dp</span><span class="p">)</span>
-<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">Icon</span><span class="p">(</span>
-<span class="w">                </span><span class="n">painter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">painterResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">iconId</span><span class="p">),</span>
-<span class="w">                </span><span class="n">contentDescription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">            </span><span class="p">)</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-
-<span class="nd">@Composable</span>
-<span class="nd">@Preview</span>
-<span class="kd">fun</span><span class="w"> </span><span class="nf">AlarmButton_Preview</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">AlarmStateButton</span><span class="p">(</span>
-<span class="w">        </span><span class="n">iconId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">drawable</span><span class="p">.</span><span class="na">pause_24</span><span class="p">,</span>
-<span class="w">        </span><span class="n">surfaceColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">pauseColor</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-
-<span class="nd">@Composable</span>
-<span class="nd">@Preview</span>
-<span class="kd">fun</span><span class="w"> </span><span class="nf">AlarmButton_Disabled_Preview</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">AlarmStateButton</span><span class="p">(</span>
-<span class="w">        </span><span class="n">iconId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">drawable</span><span class="p">.</span><span class="na">pause_24</span><span class="p">,</span>
-<span class="w">        </span><span class="n">surfaceColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">pauseColor</span><span class="p">,</span>
-<span class="w">        </span><span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Szükségünk van még az óránk "számlapjára", amely a hátralevő időt mutatja, ez lesz a <code>DurationCounter</code>, és <code>Counter</code> komponensekből rakjuk össze az óra, a perc és a másodperc részeket:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
-<span class="kd">fun</span><span class="w"> </span><span class="nf">DurationCounter</span><span class="p">(</span>
-<span class="w">    </span><span class="n">onClick</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
-<span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
-<span class="w">    </span><span class="n">clickEnabled</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="n">duration</span><span class="p">:</span><span class="w"> </span><span class="n">Duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Duration</span><span class="p">.</span><span class="na">ZERO</span><span class="p">,</span>
-<span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">duration</span><span class="p">.</span><span class="na">toComponents</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">hours</span><span class="p">,</span><span class="w"> </span><span class="n">minutes</span><span class="p">,</span><span class="w"> </span><span class="n">seconds</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">        </span><span class="n">Row</span><span class="p">(</span>
-<span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span>
-<span class="w">                </span><span class="p">.</span><span class="na">wrapContentSize</span><span class="p">(</span><span class="n">align</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alignment</span><span class="p">.</span><span class="na">Center</span><span class="p">)</span>
-<span class="w">                </span><span class="p">.</span><span class="na">clickable</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onClick</span><span class="p">,</span>
-<span class="w">                    </span><span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clickEnabled</span>
-<span class="w">                </span><span class="p">),</span>
-<span class="w">            </span><span class="n">horizontalArrangement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arrangement</span><span class="p">.</span><span class="na">SpaceAround</span>
-<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">Counter</span><span class="p">(</span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hours</span><span class="p">.</span><span class="na">toInt</span><span class="p">(),</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;h&quot;</span><span class="p">)</span>
-<span class="w">            </span><span class="n">Spacer</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="m">16.</span><span class="n">dp</span><span class="p">))</span>
-<span class="w">            </span><span class="n">Counter</span><span class="p">(</span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">minutes</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;m&quot;</span><span class="p">)</span>
-<span class="w">            </span><span class="n">Spacer</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="m">16.</span><span class="n">dp</span><span class="p">))</span>
-<span class="w">            </span><span class="n">Counter</span><span class="p">(</span><span class="n">time</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seconds</span><span class="p">,</span><span class="w"> </span><span class="n">unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;s&quot;</span><span class="p">)</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-
-
-
-<span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalAnimationApi</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
-<span class="nd">@Composable</span>
-<span class="kd">fun</span><span class="w"> </span><span class="nf">Counter</span><span class="p">(</span>
-<span class="w">    </span><span class="n">time</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
-<span class="w">    </span><span class="n">unit</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
-<span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
-<span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">prevTime</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="n">time</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
-
-<span class="w">    </span><span class="n">SideEffect</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">prevTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">time</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="n">Row</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">timeString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">&quot;%02d </span><span class="si">$</span><span class="n">unit</span><span class="s">&quot;</span><span class="p">,</span><span class="n">time</span><span class="p">)</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">prevTimeString</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">&quot;%02d </span><span class="si">$</span><span class="n">unit</span><span class="s">&quot;</span><span class="p">,</span><span class="n">prevTime</span><span class="p">)</span>
-
-<span class="w">        </span><span class="n">timeString</span><span class="p">.</span><span class="na">forEachIndexed</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">prevChar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">prevTimeString</span><span class="p">.</span><span class="na">getOrNull</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">nextChar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">timeString</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
-
-<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">char</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">prevChar</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">nextChar</span><span class="p">)</span><span class="w"> </span><span class="n">prevTimeString</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">timeString</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
-
-<span class="w">            </span><span class="n">AnimatedContent</span><span class="p">(</span>
-<span class="w">                </span><span class="n">targetState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">char</span><span class="p">,</span>
-<span class="w">                </span><span class="n">transitionSpec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">slideInVertically</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">slideOutVertically</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="o">-</span><span class="nb">it</span><span class="w"> </span><span class="p">}</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">Text</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">toString</span><span class="p">(),</span>
-<span class="w">                    </span><span class="n">fontSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">38.</span><span class="n">sp</span><span class="p">,</span>
-<span class="w">                    </span><span class="n">fontWeight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FontWeight</span><span class="p">.</span><span class="na">Bold</span><span class="p">,</span>
-<span class="w">                    </span><span class="n">softWrap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
-<span class="w">                </span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-
-<span class="nd">@Composable</span>
-<span class="nd">@Preview</span>
-<span class="kd">fun</span><span class="w"> </span><span class="nf">DurationCounter_Preview</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">DurationCounter</span><span class="p">({})</span>
-<span class="p">}</span>
-</code></pre></div>
-<div class="admonition example">
-<p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>Compose preview</strong>, az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
-<p>A képet a megoldásban a repository-ba f1.png néven töltsd föl.</p>
-<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
-</div>
-<p>Most a <code>ui.alarm</code> package-be hozzuk létre a ViewModelünket:</p>
+<h2 id="a-felhasznaloi-felulet-es-a-domenmodell-osszekotese">A felhasználói felület és a doménmodell összekötése<a class="headerlink" href="#a-felhasznaloi-felulet-es-a-domenmodell-osszekotese" title="Permanent link">&para;</a></h2>
+<p>A felhasználói felületünk a template-ben már rendelkezésre áll, de a viewmodelleket még el kell készítenünk, hogy
+az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui.alarm</code> package-be hozzuk létre a ViewModelünket:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">AlarmViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">():</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
@@ -1283,7 +1042,50 @@
 </code></pre></div>
 <p>Látható, hogy a ViewModel kezeli az eseményeket, és az alkalmazás állapotát ennek megfelelően frissíti, azonban a háttérben futó, tényleges időzítést végző <code>AlarmService</code> még nincs kész, így annak hívásai ide nincsenek bekötve.</p>
 <p>Most ugyanebbe a package-ben hozzuk létre a teljes képernyőt is:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.animation.ExperimentalAnimationApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.background</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Arrangement</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Box</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Column</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Row</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Spacer</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxSize</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.padding</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.width</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.wrapContentSize</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ExperimentalMaterial3Api</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.MaterialTheme</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Surface</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.collectAsState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.getValue</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.mutableStateOf</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.remember</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.setValue</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Alignment</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.platform.LocalContext</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.unit.dp</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.window.Popup</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.hilt.navigation.compose.hiltViewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.google.accompanist.permissions.ExperimentalPermissionsApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.maxkeppeker.sheets.core.models.base.rememberSheetState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.maxkeppeler.sheets.duration.DurationDialog</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.maxkeppeler.sheets.duration.models.DurationConfig</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.maxkeppeler.sheets.duration.models.DurationFormat</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.maxkeppeler.sheets.duration.models.DurationSelection</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.R</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.ui.common.AlarmStateButton</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.ui.common.DurationCounter</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.ui.theme.pauseColor</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.ui.theme.startColor</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.ui.theme.stopColor</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.util.AlarmEvent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.util.AlarmState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlin.time.DurationUnit</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlin.time.toDuration</span>
+
+<span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="nd">@ExperimentalPermissionsApi</span>
 <span class="nd">@ExperimentalAnimationApi</span>
 <span class="nd">@Composable</span>
@@ -1435,7 +1237,7 @@
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>, az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
-<p>A képet a megoldásban a repository-ba f2.png néven töltsd föl.</p>
+<p>A képet a megoldásban a repository-ba f1.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <h2 id="az-idozites-elkeszitese">Az időzítés elkészítése<a class="headerlink" href="#az-idozites-elkeszitese" title="Permanent link">&para;</a></h2>
@@ -1551,7 +1353,7 @@
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
-<p>A képet a megoldásban a repository-ba f3.png néven töltsd föl.</p>
+<p>A képet a megoldásban a repository-ba f2.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <p>Tekintsük át, hogyan épül fel ez az osztály!</p>
@@ -1602,9 +1404,39 @@
 <span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NotificationHelper</span><span class="p">(</span><span class="n">notificationManager</span><span class="p">,</span><span class="w"> </span><span class="n">notificationBuilder</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>A képet a megoldásban a repository-ba f3.png néven töltsd föl.</p>
+<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
+</div>
 <h2 id="a-service-elkeszitese">A Service elkészítése<a class="headerlink" href="#a-service-elkeszitese" title="Permanent link">&para;</a></h2>
 <p>Hozzunk létre egy <code>service</code> package-et, majd ebbe készítsük el az <code>AlarmService</code> osztályt:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@AndroidEntryPoint</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">android.app.PendingIntent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.app.Service</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.content.Intent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.media.MediaPlayer</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.media.RingtoneManager</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.os.Build</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.os.IBinder</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.core.app.NotificationCompat</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.android.AndroidEntryPoint</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.notification.NotificationHelper</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.notification.NotificationHelper.Companion.NOTIFICATION_ID</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.scheduler.AlarmItem</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.scheduler.AlarmScheduler</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.util.AlarmServiceState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.util.AlarmState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.asStateFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.update</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">java.time.LocalDateTime</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">java.util.Timer</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">javax.inject.Inject</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlin.concurrent.fixedRateTimer</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlin.time.Duration</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlin.time.Duration.Companion.seconds</span>
+
+<span class="nd">@AndroidEntryPoint</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">AlarmService</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Service</span><span class="p">(),</span><span class="w"> </span><span class="n">MediaPlayer</span><span class="p">.</span><span class="na">OnPreparedListener</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="nd">@Inject</span>
@@ -1980,8 +1812,8 @@
           </path>
         </svg>
       </span>
-      <span title="2023. szeptember 11. 21:51:43">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-09-11T21:51:43+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-09-11</span>
+      <span title="2023. október 8. 18:25:25">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-10-08T18:25:25+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-10-08</span>
       </span>
     </span>
 
@@ -1996,10 +1828,10 @@
         </svg>
       </span>
       <span>Szerzők</span>
-      <nav><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
-          <img src="https://avatars.githubusercontent.com/u/23335752?size=72" alt="@gazdilaci">
-        </a><a href="https://github.com/gaborbsd" target="_blank" rel="noopener noreferrer" class="md-author" title="@gaborbsd">
+      <nav><a href="https://github.com/gaborbsd" target="_blank" rel="noopener noreferrer" class="md-author" title="@gaborbsd">
           <img src="https://avatars.githubusercontent.com/u/5345619?size=72" alt="@gaborbsd">
+        </a><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
+          <img src="https://avatars.githubusercontent.com/u/23335752?size=72" alt="@gazdilaci">
         </a></nav>      
     </span>
   </div>

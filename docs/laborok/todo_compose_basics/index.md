@@ -28,11 +28,11 @@ A feladatok megoldása során ne felejtsd el követni a [feladat beadás folyama
 
 Ezután indítsuk el az Android Studio-t, majd:
 
-1. Hozzunk létre egy új projektet, válasszuk az *Empty Compose Activity (Material3)* lehetőséget.
+1. Hozzunk létre egy új projektet, válasszuk az *Empty Activity* lehetőséget.
 2. A projekt neve legyen `Todo`, a kezdő package pedig `hu.bme.aut.android.todo`.
 3.  A projektet a repository-n belül egy külön mappában hozzuk létre. 
-4. Nyelvnek válasszuk a *Kotlin*-t.
-5. A minimum API szint legyen 21 (Android 5.0).
+4. A minimum API szint legyen 24 (Android 7.0).
+5. A Build configuration language-nél válasszuk a Kotlin DSL-t.
 
 !!!danger "FILE PATH"
 	A projekt a repository-ban lévő `Todo` könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!
@@ -49,22 +49,31 @@ Majd minden Compose-hoz kapcsolható könyvtár importálásánál töröljük a
 
 ```gradle
 dependencies {
-    implementation platform('androidx.compose:compose-bom:2023.01.00')
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose'
-    implementation "androidx.compose.ui:ui"
-    implementation "androidx.compose.ui:ui-tooling-preview"
-    implementation 'androidx.compose.material3:material3'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4"
-    debugImplementation "androidx.compose.ui:ui-tooling"
-    debugImplementation "androidx.compose.ui:ui-test-manifest"
+    implementation(platform("androidx.compose:compose-bom:2023.09.02"))
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.activity:activity-compose")
+    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material3:material3")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.0'
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
 }
+```
+
+A fenti függőségekhez 34-es SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű `build.gradle.kts` fájlunkban:
+
+```gradle
+    compileSdk = 34
 ```
 
 Ezek mellett ellenőrizzük a kotlin plugin és a compose verzióját. A labor készítésekor a következőek voltak érvényben:
@@ -81,7 +90,7 @@ plugins {
 android {
     ...
     compileOptions {  
-		  coreLibraryDesugaringEnabled true  
+		  isCoreLibraryDesugaringEnabled = true  
 		  sourceCompatibility JavaVersion.VERSION_1_8  
 		  targetCompatibility JavaVersion.VERSION_1_8  
 		}
@@ -130,7 +139,7 @@ enum class Priority {
 ```
 A `LocalDate` egy általános implementációja az idő kezelésének, mely multiplatform környezetben is használható, ehhez a következő függőséget kell hozzáadnunk a _modul_ szintű build.gradle fájlhoz:
 ```gradle
-implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
+implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
 ```
 !!!danger "Idő osztályok kezelése"
 	A labor során a `LocalDate` mindig a `kotlinx`, mig a `LocalDateTime` mindig a `java` könyvtárból legyen importálva.
@@ -244,7 +253,7 @@ fun TodoUi.asTodo(): Todo = Todo(
 
 Az előző laborhoz hasonlóan alakítsuk ki a projektben a navigációnál használt osztályokat! Itt is a Compose Navigation könyvtárat fogjuk használni, ezért adjuk ezt hozzá a _modul_ szintű build.gradle fájlunkhoz.
 ```kotlin
-implementation 'androidx.navigation:navigation-compose:2.5.3'
+implementation("androidx.navigation:navigation-compose:2.7.4")
 ```
 Hozzunk létre a gyökérkönyvtárban létre egy új package-et `navigation` néven, majd hozzuk létre benne az útvonalakat reprezentáló `Screen` osztályt:
 ```kotlin
@@ -299,9 +308,9 @@ Az adatok kezeléséhez tipikusan a `ViewModel` osztályt használjuk. A `ViewMo
 
 Vegyük fel a szükséges függőségeket:
 ```gradle
-def lifecycle_version = '2.6.0-alpha05'  
-implementation "androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version"  
-implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
+val lifecycle_version = "2.6.2"
+implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version")
+implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
 ``` 
 
 Hozzunk létre a gyökérkönyvtáron belül a `feature` package-et, mely az egyes oldalak `Composable` és `ViewModel` osztályait fogja tartalmazni külön packagenként, majd hozzuk létre ebben a `todo_list` package-t.
@@ -372,7 +381,6 @@ Mivel a `ViewModel` képes túlélni az őt létrehozó komponenst, ezért a kó
 Hozzuk létre a felületet megvalósító `TodoListScreen.kt` fájlt is ugyanebben a packageben:
 
 ```kotlin
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoListScreen(
     onListItemClick: (Int) -> Unit,
@@ -435,7 +443,6 @@ Vizsgáljuk meg, hogyan történik az oldal frissítése! A `collectAsStateWithL
 Valósítsuk meg a lista megjelenítését is! Másoljuk be az alábbi kódot a megfelelő `else` ágba:
 ```kotlin
 Column {
-
     Text(
         text = stringResource(id = R.string.text_your_todo_list),
         fontSize = 24.sp
@@ -446,7 +453,7 @@ Column {
     ) {
         items(state.todoList, key = { todo -> todo.id }) { todo ->
             ListItem(
-                headlineText = {
+                headlineContent = {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Default.Circle,
@@ -463,7 +470,7 @@ Column {
                         Text(text = todo.title)
                     }
                 },
-                supportingText = {
+                supportingContent = {
                     Text(
                         text = stringResource(
                             id = R.string.list_item_supporting_text,
@@ -489,7 +496,7 @@ Column {
 ```
 A `Circle` ikon csak a kiegészítő Material Icon könyvtárban található meg, melyet az alábbi függőséggel tudunk hozzáadni a projekthez:
 ```gradle
-implementation 'androidx.compose.material:material-icons-extended'
+implementation("androidx.compose.material:material-icons-extended")
 ```
 A hiányzó szöveges erőforrásokat az alábbiak szerint vegyük fel:
 
@@ -729,6 +736,7 @@ fun NavGraph(
 ```
 
 Az azonosítót a `composable`-ben is fel kell tüntetnünk az `arguments` paraméterben. Itt tudjuk megadni, hogy milyen típusú lesz az érték, amit átadunk a paraméterben, így a keretrendszer automatikusan át tudja alakítani a megfelelő típussá.
+Hozzunk létre egy új package-et a `feature` package-en belül `todo_detail` néven. 
 
 `TodoDetailViewModel.kt`:
 ```kotlin
@@ -800,12 +808,12 @@ fun TodoDetailScreen(
                             Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
                         }
                     },
-                    colors = TopAppBarDefaults.smallTopAppBarColors(
+                    colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primary,
                         titleContentColor = MaterialTheme.colorScheme.onPrimary,
                         actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
                         navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
-                    )
+                    ),
                 )
             }
         },
@@ -882,7 +890,6 @@ Az utolsó felület, melyet elkészítünk az alkalmazáshoz, a feladat létreho
 `DatePicker.kt`:
 
 ```kotlin
-@ExperimentalMaterial3Api
 @Composable
 fun DatePicker(
     pickedDate: LocalDate,
@@ -932,7 +939,6 @@ fun DatePicker(
 
 @Preview
 @Composable
-@ExperimentalMaterial3Api
 fun DatePicker_Preview() {
     val d = LocalDateTime.now()
     DatePicker(
@@ -944,7 +950,6 @@ fun DatePicker_Preview() {
 
 `NormalTextField.kt`:
 ```kotlin
-@ExperimentalMaterial3Api
 @Composable
 fun NormalTextField(
     value: String,
@@ -975,10 +980,6 @@ fun NormalTextField(
         keyboardActions = KeyboardActions(
             onDone = onDone
         ),
-        colors = TextFieldDefaults.textFieldColors(
-            textColor = MaterialTheme.colorScheme.onBackground,
-            containerColor = MaterialTheme.colorScheme.background
-        ),
         shape = shape
     )
 }
@@ -986,7 +987,6 @@ fun NormalTextField(
 
 `PriorityDropdown.kt`
 ```kotlin
-@ExperimentalMaterial3Api
 @Composable
 fun PriorityDropDown(
     priorities: List<PriorityUi>,
@@ -997,7 +997,8 @@ fun PriorityDropDown(
 ) {
     var expanded by remember { mutableStateOf(false) }
     val angle: Float by animateFloatAsState(
-        targetValue = if (expanded) 180f else 0f
+        targetValue = if (expanded) 180f else 0f,
+        label = "Priority arrow angle animation"
     )
 
     val shape = RoundedCornerShape(5.dp)
@@ -1078,7 +1079,6 @@ fun PriorityDropDown(
     }
 }
 
-@ExperimentalMaterial3Api
 @Composable
 @Preview
 fun PriorityDropdown_Preview() {
@@ -1103,8 +1103,7 @@ fun PriorityDropdown_Preview() {
 
 Ezt a három elemet fogjuk össze a `TodoEditor` komponenssel, melyet ugyanitt hozzunk létre:
 ```kotlin
-@ExperimentalComposeUiApi
-@ExperimentalMaterial3Api
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TodoEditor(
     titleValue: String,
@@ -1177,8 +1176,6 @@ fun TodoEditor(
     }
 }
 
-@ExperimentalComposeUiApi
-@ExperimentalMaterial3Api
 @Composable
 @Preview(showBackground = true)
 fun TodoEditor_Preview() {
@@ -1213,7 +1210,7 @@ A hiányzó szövegerőforrásra vegyük fel rendre a `Title` és `Description` 
 
 Ezek mellett a létrehozás oldalon szükségünk lesz egy `TopAppBar` elemre is. Egy ilyet már létrehoztunk a részletes nézeten, ezt kiemelve és általánosítva hozzuk létre az új `TodoAppBar` elemet ugyanebbe a package-be:
 ```kotlin
-@ExperimentalMaterial3Api
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoAppBar(
     modifier: Modifier = Modifier,
@@ -1231,7 +1228,7 @@ fun TodoAppBar(
             }
         },
         actions = actions,
-        colors = TopAppBarDefaults.smallTopAppBarColors(
+        colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary,
             actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -1240,7 +1237,6 @@ fun TodoAppBar(
     )
 }
 
-@ExperimentalMaterial3Api
 @Composable
 @Preview
 fun TodoAppBar_Preview() {
@@ -1351,7 +1347,6 @@ Ebben a `ViewModel` osztályban két új architektúra mintát is megfigyelhetü
 Az ehhez tartozó oldalhoz hozzuk létre a `TodoCreateScreen.kt` fájlt ebbe a package-be:
 
 ```kotlin
-@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun TodoCreateScreen(
     onNavigateBack: () -> Unit,
@@ -1530,16 +1525,14 @@ Tegyük a `ViewModel` loadTodos() metódusát publikussá, és töröljük az in
 Vizsgáljuk meg, hogyan történik a fontosságot kiválasztó felületi elemen a lenyitást jelző elem animációja:
 `PriorityDropdown.kt`:
 ```kotlin
-@ExperimentalMaterial3Api
-@Composable
-@ExperimentalMaterial3Api
 @Composable
 fun PriorityDropDown(
 	...
 ) {
-	var expanded by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
     val angle: Float by animateFloatAsState(
-        targetValue = if (expanded) 180f else 0f
+        targetValue = if (expanded) 180f else 0f,
+        label = "Priority arrow angle animation"
     )
 	
     Surface(

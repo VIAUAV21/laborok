@@ -43,7 +43,7 @@ Ellenőrízzük, hogy a létrejött projekt lefordul és helyesen működik!
 Annak érdekében, hogy mindig kompatibilis compose könyvtárakat importáljunk a projektben, használjuk a [Compose Bill of Materials](https://developer.android.com/jetpack/compose/bom/bom)-t. Ehhez adjuk hozzá a _modul_ szintű `build.gradle` fájlhoz a következőt a dependencies részhez:
 
 ```gradle
-implementation platform('androidx.compose:compose-bom:2023.01.00')
+implementation platform('androidx.compose:compose-bom:2023.09.02')
 ```
 Majd minden Compose-hoz kapcsolható könyvtár importálásánál töröljük a verziót, a végeredményben ezt kapva:
 
@@ -76,7 +76,7 @@ A fenti függőségekhez 34-es SDK-val kell fordítanunk a projektet, ha a legen
     compileSdk = 34
 ```
 
-Ezek mellett ellenőrizzük a kotlin plugin és a compose verzióját. A labor készítésekor a következőek voltak érvényben:
+Vegyük fel a `compileOptions` részbe a `isCoreLibraryDesugaringEnabled = true` értéket, ezek mellett ellenőrizzük a kotlin plugin és a compose verzióját. A labor készítésekor a következőek voltak érvényben:
 
 - _Projekt_ szintű `build.gradle`:
 ```gradle
@@ -101,7 +101,7 @@ android {
 }
 dependencies {
 		...
-		coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.0'
+		coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
 }
 ```
 
@@ -687,7 +687,7 @@ Futassuk az alkalmazást, és ellenőrizzük, hogy továbbra is megjelennek a fe
 
 ## Részletes feladat felület
 
-Következő lépésként készítsük fel a részletező felületet, melyen a feladat leírását tudjuk megnézni. Hozzunk létre a `feature` packagen belül a `todo_detail` package-et. Készítsük el az oldalt a lista oldal mintájára.
+Következő lépésként készítsük fel a részletező felületet, melyen a feladat leírását tudjuk megnézni. Készítsük el az oldalt a lista oldal mintájára.
 
 Kezdjük a navigáció implementálásával. Ebben az esetben az útvonal fogja tartalmazni az azonosítóját a feladatnak az alábbi módon:
 `Screen.kt`:

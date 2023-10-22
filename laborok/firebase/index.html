@@ -1011,29 +1011,29 @@ Az alkalmazás az alábbi fő funkciókat támogatja:
 <h2 id="firebase-inicilaizacio-authentication">Firebase inicilaizáció, Authentication<a class="headerlink" href="#firebase-inicilaizacio-authentication" title="Permanent link">&para;</a></h2>
 <p>Ezek után válasszuk Android Studioban a <em>Tools -&gt; Firebase</em> menüpontot, melynek hatására jobb oldalt megnyílik a <em>Firebase Assistant</em> funkció.</p>
 <p>A <em>Firebase Assistant</em> akkor fogja megtalálni a Firebase console-on létrehozott projektet, ha Android Studioba is ugyanazzal a Google accounttal vagyunk bejelentkezve, mint amivel a console-on létrehoztuk a projektet. Ellenőrizzük ezt mindkét helyen! Amennyiben a <em>Firebase Assistant</em>-ot nem sikerül beüzemelni, manuálisan is összeköthető a két projekt. A leírásban ismertetni fogjuk a lépéseket, amelyeket az <em>Assistant</em> végez el.</p>
-<p>Válasszuk az <em>Assistant</em>-ban az <em>Authentication</em> szakaszt és azon belül az <em>Authenticate using a custom authentication system [KOTLIN]</em>-t, majd a <em>Connect to Firebase</em> gombot.
+<p>Válasszuk az <em>Assistant</em>-ban az <em>Authentication</em> szakaszt és azon belül az <em>Authenticate using a custom authentication system</em>-t, majd a <em>Connect to Firebase</em> gombot.
 Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a második szakaszt (<em>Choose an existing Firebase or Google project</em>) választva kiválaszthatjuk a projektet, amit a Firebase console-on már létrehoztunk. Itt egyébként lehetőség van új projektet is létrehozni. (Ha elsőre hibát látunk a projekttel való összekapcsolásnál, próbáljuk újra, másodszorra általában sikeresen megtörténik az Android Studio projekt szinkronizálása a Firebase projekttel.)</p>
 <div class="admonition info">
 <p>A háttérben valójában annyi történik, hogy az alkalmazásunk package neve és az aláíró kulcs <em>SHA-1 hash-e</em> alapján hozzáadódik egy Android alkalmazás a Firebase console-on lévő projektünkhöz, és az ahhoz tartozó konfigurációs (<code>google-services.json</code>) fájl letöltődik a projektünk könyvtárába az alapértelmezett (<code>app</code>) modul alá.</p>
-<p>Ezt a lépéssorozatot manuálisan is végrehajthatjuk a Firebase console-on az <em>Add Firebase to your Android app</em>-et választva. A debug kulcs <em>SHA-1</em> lenyomata ilyenkor a jobb oldalon található Gradle fülön a <em>Gradle -&gt; [projektnév] -&gt; Tasks -&gt; android -&gt; signingReport</em> taskot futtatva kinyerhető alul az <em>execution/text</em> módot választva.</p>
 </div>
+<p>Ezt a lépéssorozatot manuálisan is végrehajthatjuk a Firebase console-on az <em>Add Firebase to your Android app</em>-et választva. A debug kulcs <em>SHA-1</em> lenyomata ilyenkor a jobb oldalon található Gradle fülön a <em>Gradle -&gt; [projektnév] -&gt; Tasks -&gt; android -&gt; signingReport</em> taskot futtatva kinyerhető alul az <em>execution/text</em> módot választva.</p>
 <p align="center">
 <a class="glightbox" href="./assets/android_studio_signingreport.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/android_studio_signingreport.png"></a>
 </p>
 
-<p>Következő lépésben szintén az <em>Assistant</em>-ban az <em>Authenticate using a custom authentication system [KOTLIN]</em> alatt válasszuk az <em>Add the Firebase Authentication SDK to your app</em> elemet, itt látható is, hogy milyen módosítások történnek a projekt és modul szintű <code>build.gradle</code> fájlokban.</p>
+<p>Következő lépésben szintén az <em>Assistant</em>-ban az <em>Authenticate using a custom authentication system</em> alatt válasszuk az <em>Add the Firebase Authentication SDK to your app</em> elemet, itt látható is, hogy milyen módosítások történnek a projekt és modul szintű <code>build.gradle</code> fájlokban.</p>
 <p align="center">
 <a class="glightbox" href="./assets/firebase_auth_connect.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_auth_connect.png"></a>
 </p>
 
 <p>Sajnos a Firebase plugin nincs rendszeresen frissítve, és így előfordul, hogy a függőségek régi verzióját adja hozzá a <code>build.gradle</code> fájlokhoz. Ezért most frissíteni fogjuk az imént automatikusan felvett függőségeket, valamint innentől manuálisan fogjuk hozzáadni az újabbakat az <em>Assistant</em> használata helyett. Fontos, hogy mindenből az itt leírt verziót használjuk.</p>
-<p>Cseréljük le a projekt szintű <code>build.gradle</code> fájlban a <code>google-services</code>-t az alábbi verzióra:</p>
-<div class="highlight"><pre><span></span><code><span class="n">classpath</span><span class="w"> </span><span class="s1">&#39;com.google.gms:google-services:4.3.15&#39;</span>
+<p>Ellenőrizzük a projekt szintű <code>build.gradle</code> fájlban a <code>google-services</code>-t, hogy az alábbi verzióval rendelkezik:</p>
+<div class="highlight"><pre><span></span><code><span class="n">classpath</span><span class="w"> </span><span class="s1">&#39;com.google.gms:google-services:4.4.0&#39;</span>
 </code></pre></div>
 <p>A Firebase BoM segítségével egységesen tudjuk kezelni az összes firebase könyvtárunk verziószámát.
 Cseréljük le a modul szintű <code>build.gradle</code>-ben a <code>firebase-auth</code> verziót a következőre:
-<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="w"> </span><span class="nf">platform</span><span class="o">(</span><span class="s1">&#39;com.google.firebase:firebase-bom:31.5.0&#39;</span><span class="o">)</span>
-<span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;com.google.firebase:firebase-auth-ktx&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="o">(</span><span class="n">platform</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-bom:32.4.0&quot;</span><span class="o">))</span>
+<span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-auth-ktx&quot;</span><span class="o">)</span>
 </code></pre></div></p>
 <p>A generált projektváz többi általános függősége (pl. appcompat és ktx-core könyvtárak) is elavult lehet, ezt az Android Studio jelzi is sötétsárga háttérrel. Ezekre ráállva a kurzorral az Alt-Enter gyorsbillenytűvel kiválaszthatjuk ezeknek a frissítését.</p>
 <p>Ahhoz, hogy az e-mail alapú regisztráció és authentikáció megfelelően működjön, a <em>Firebase console</em>-ban az <em>Authentication -&gt; Sign-in method</em> alatt az <em>Email/Password</em> providert engedélyezni kell.</p>
@@ -1137,7 +1137,7 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>AuthService</code> int
 <h2 id="feladatok-listazasa-keszitese">Feladatok listázása, készítése<a class="headerlink" href="#feladatok-listazasa-keszitese" title="Permanent link">&para;</a></h2>
 <p>Következő lépésben a feladatok listázását fogjuk implementálni a projekten belül.</p>
 <p>Adjuk hozzá a projekthez a <em>Cloud Firestore</em> támogatást.</p>
-<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;com.google.firebase:firebase-firestore-ktx&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-firestore-ktx&quot;</span><span class="o">)</span>
 </code></pre></div>
 <p>Kapcsoljuk be a <em>Cloud Firestore</em>-t a <em>Firebase console</em>-on is . Az adatbázist <em>test mode</em>-ban fogjuk használni, így egyelőre publikusan írható/olvasható lesz, de cserébe nem kell konfigurálnunk a hozzáférés-szabályozást. Ezt természetesen később mindenképp meg kellene tenni egy éles projektben.</p>
 <p align="center">
@@ -1285,7 +1285,7 @@ Végül ne felejtsük el befrissíteni a <code>TodoApplication</code> osztályun
 </div>
 <h2 id="push-ertesitesek">Push értesítések<a class="headerlink" href="#push-ertesitesek" title="Permanent link">&para;</a></h2>
 <p>Adjuk hozzá a projektünkhöz a <code>firebase-messaging</code> függőséget:</p>
-<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;com.google.firebase:firebase-messaging-ktx&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-messaging-ktx&quot;</span><span class="o">)</span>
 </code></pre></div>
 <p>Csupán ennyi elegendő a push alapvető működéséhez, ha így újrafordítjuk az alkalmazást, a Firebase felületéről vagy API-jával küldött push üzeneteket automatikusan megkapják a mobil kliensek és egy <em>Notification</em>-ben megjelenítik.</p>
 <p>Próbáljuk ki a push küldést a <em>Firebase console</em>-ról (<em>Cloud messaging menüpont</em> alatt <em>Send your first message</em>), és vizsgáljuk meg, hogyan érkezik meg telefonra, <strong>ha nem fut az alkalmazás</strong>. (Amikor fut az alkalmazás, akkor tőlünk várja az üzenet lekezelését az API.)
@@ -1307,14 +1307,14 @@ válasszuk ki az alkalmazást, hogy minden futó példány megkapja az üzenetet
 <h2 id="crashlytics">Crashlytics<a class="headerlink" href="#crashlytics" title="Permanent link">&para;</a></h2>
 <p>A Firebase Console-on először navigáljunk a Crashlytics menüpontra, és kapcsoljuk be a funkciót. Válasszuk az új Firebase alkalmazás integrációját.</p>
 <p>Ezután a projekt szintű <code>build.gradle</code> fájlban fel kell vennünk függőségként egy plugint a <code>buildscript</code> rész <code>dependencies</code> részébe:</p>
-<div class="highlight"><pre><span></span><code><span class="n">classpath</span><span class="w"> </span><span class="s1">&#39;com.google.firebase:firebase-crashlytics-gradle:2.9.5&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="n">id</span><span class="o">(</span><span class="s2">&quot;com.google.firebase.crashlytics&quot;</span><span class="o">)</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s2">&quot;2.9.9&quot;</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
 </code></pre></div>
 <p>Ezekkel a módosításokkal egy Gradle plugint adtunk hozzá a projektünkhöz, amit a modul szintű <code>build.gradle</code> fájl elején be kell kapcsolnunk a már meglévők után:</p>
-<div class="highlight"><pre><span></span><code><span class="n">id</span><span class="w"> </span><span class="s1">&#39;com.google.firebase.crashlytics&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="n">id</span><span class="o">(</span><span class="s2">&quot;com.google.firebase.crashlytics&quot;</span><span class="o">)</span>
 </code></pre></div>
 <p>Végül pedig szükségünk van két egyszerű Gradle függőségre is, amit a meglévő Firebase függőségek mellé helyezhetünk, a modul szintű <code>build.gradle</code> fájlban:</p>
-<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;com.google.firebase:firebase-crashlytics-ktx&#39;</span>
-<span class="n">implementation</span><span class="w"> </span><span class="s1">&#39;com.google.firebase:firebase-analytics-ktx&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-crashlytics-ktx&quot;</span><span class="o">)</span>
+<span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-analytics-ktx&quot;</span><span class="o">)</span>
 </code></pre></div>
 <p align="center">
 <a class="glightbox" href="./assets/firebase_crash.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_crash.png"></a>
@@ -1390,8 +1390,8 @@ ugyanezen menüpont alatt lesznek elérhetők.</p>
           </path>
         </svg>
       </span>
-      <span title="2023. szeptember 11. 21:51:43">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-09-11T21:51:43+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-09-11</span>
+      <span title="2023. október 23. 00:40:09">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-10-23T00:40:09+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-10-23</span>
       </span>
     </span>
 

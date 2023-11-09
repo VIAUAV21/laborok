@@ -634,22 +634,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#retrofit" class="md-nav__link">
-    Retrofit
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#paging-30" class="md-nav__link">
-    Paging 3.0
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#coil" class="md-nav__link">
-    Coil
+  <a href="#konyvtarak" class="md-nav__link">
+    Könyvtárak
   </a>
   
 </li>
@@ -890,22 +876,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#retrofit" class="md-nav__link">
-    Retrofit
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#paging-30" class="md-nav__link">
-    Paging 3.0
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#coil" class="md-nav__link">
-    Coil
+  <a href="#konyvtarak" class="md-nav__link">
+    Könyvtárak
   </a>
   
 </li>
@@ -1017,49 +989,55 @@
 <p>A meglévő projektben megtalálható az elkészített felület, illetve a hozzá tartozó Viewmodellek.
 Tekintsük át a laborvezetővel a meglévő kódot!</p>
 <h2 id="adat-es-halozati-reteg">Adat- és hálózati réteg<a class="headerlink" href="#adat-es-halozati-reteg" title="Permanent link">&para;</a></h2>
-<h3 id="retrofit">Retrofit<a class="headerlink" href="#retrofit" title="Permanent link">&para;</a></h3>
+<h3 id="konyvtarak">Könyvtárak<a class="headerlink" href="#konyvtarak" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Retrofit</p>
 <p>A <a href="https://square.github.io/retrofit/">Retrofit</a> egy általános célú HTTP könyvtár Java és Kötlin környezetben. Széles körben használják, számos projektben bizonyított már (kvázi ipari standard). Azért használjuk, hogy ne kelljen alacsony színtű hálózati hívásokat implementálni.</p>
 <p>Segítségével elég egy interface-ben annotációk segítségével leírni az API-t (ez pl. a <a href="https://swagger.io/">Swagger</a> eszközzel generálható is), majd e mögé készít a Retrofit egy olyan osztályt, mely a szükséges hálózati hívásokat elvégzi. A Retrofit a háttérben az <a href="https://github.com/square/okhttp">OkHttp3</a>-at használja, valamint az objektumok JSON formátumba történő sorosítását a <a href="https://github.com/square/moshi">Moshi</a> libraryvel végzi. Ezért ezeket is be kell hivatkozni.</p>
-<h3 id="paging-30">Paging 3.0<a class="headerlink" href="#paging-30" title="Permanent link">&para;</a></h3>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Paging 3.0</p>
 <p>A Paging Library az Android Jetpack része. Segít az adatok oldalankénti betöltésében és megjelenítésében nagyobb adatkészletből, helyi tárolóból vagy hálózatról. Ez a megközelítés lehetővé teszi az alkalmazásunk számára, hogy mind a hálózati sávszélességet, mind pedig a rendszer erőforrásait hatékonyabban használja.</p>
-<p>A Paging Library használatának előnyei:<br />
-- Az oldalankénti adatok memóriában történő gyorsítótárazása. Ez biztosítja, hogy az alkalmazás hatékonyan használja a rendszer erőforrásait oldalankénti adatokkal való munka során.<br />
-- Beépített kérések duplikálódásának megakadályozása, hogy az alkalmazás hatékonyan használja a hálózati sávszélességet és a rendszer erőforrásait.<br />
-- Konfigurálható RecyclerView adapterek, amelyek automatikusan lekérik az adatokat, amikor a felhasználó görget a betöltött adatok végére.<br />
-- Elsőosztályú támogatás Kotlin coroutines és Flow, valamint LiveData és RxJava számára.<br />
-- Beépített hibakezelés-támogatás, beleértve a frissítési és újrapróbálási képességeket.  </p>
-<p>A Paging Library főbb elemei:
-- PagingData - egy tároló 'oldalazott' adatok számára. Az adatok frissítésekor külön PagingData tartályt használunk.<br />
-- PagingSource - a PagingSource az alap osztály az adatok részletekben való betöltéséhez PagingData streambe.<br />
-- Pager.flow - egy Flow<PagingData>-t hoz létre, amely a PagingConfig és egy függvény alapján konstruálja a megvalósított PagingSource-t.<br />
-- RemoteMediator - segít az oldalazás megvalósításában hálózatról és adatbázisból.  </p>
-<h3 id="coil">Coil<a class="headerlink" href="#coil" title="Permanent link">&para;</a></h3>
+<p>A Paging Library használatának előnyei:  </p>
+<ul>
+<li>Az oldalankénti adatok memóriában történő gyorsítótárazása. Ez biztosítja, hogy az alkalmazás hatékonyan használja a rendszer erőforrásait oldalankénti adatokkal való munka során.  </li>
+<li>Beépített kérések duplikálódásának megakadályozása, hogy az alkalmazás hatékonyan használja a hálózati sávszélességet és a rendszer erőforrásait.  </li>
+<li>Konfigurálható RecyclerView adapterek, amelyek automatikusan lekérik az adatokat, amikor a felhasználó görget a betöltött adatok végére.  </li>
+<li>Elsőosztályú támogatás Kotlin coroutines és Flow, valamint LiveData és RxJava számára.  </li>
+<li>Beépített hibakezelés-támogatás, beleértve a frissítési és újrapróbálási képességeket.  </li>
+</ul>
+<p>A Paging Library főbb elemei:</p>
+<ul>
+<li>PagingData - egy tároló 'oldalazott' adatok számára. Az adatok frissítésekor külön PagingData tartályt használunk.  </li>
+<li>PagingSource - a PagingSource az alap osztály az adatok részletekben való betöltéséhez PagingData streambe.  </li>
+<li>Pager.flow - egy Flow<PagingData>-t hoz létre, amely a PagingConfig és egy függvény alapján konstruálja a megvalósított PagingSource-t.  </li>
+<li>RemoteMediator - segít az oldalazás megvalósításában hálózatról és adatbázisból.  </li>
+</ul>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Coil</p>
 <p>A Coil (Coroutine Image Loader) egy kép betöltő könyvtár Androidra, amelyet a Kotlin koroutinokra épül. <br />
-A Coil használatának előnyei:<br />
-- Gyors: A Coil számos optimalizálást végez, beleértve a memória- és lemeztároló gyorsítótárazást, az átméretezést a memóriában, az automatikus kérések szüneteltetését/leállítását és még sok mást.<br />
-- Könnyű: A Coil kb. 2000 metódust ad az APK-hoz (azoknak az alkalmazásoknak, amelyek már használják az OkHttp és a Coroutines könyvtárakat), ami hasonló a Picasso-hoz és jelentősen kevesebb, mint a Glide és a Fresco könyvtárak.<br />
-- Könnyen használható: A Coil API-ja a Kotlin nyelv funkcióit használja a könnyű használat és a minimális boilerplate kód érdekében.<br />
-- Modern: A Coil a Kotlin nyelvűséget helyezi előtérbe és a modern könyvtárakat használja, beleértve a Coroutines-t, az OkHttp-t, az Okio-t és az AndroidX Lifecycles-t.  </p>
+A Coil használatának előnyei:  </p>
+<ul>
+<li>Gyors: A Coil számos optimalizálást végez, beleértve a memória- és lemeztároló gyorsítótárazást, az átméretezést a memóriában, az automatikus kérések szüneteltetését/leállítását és még sok mást.  </li>
+<li>Könnyű: A Coil kb. 2000 metódust ad az APK-hoz (azoknak az alkalmazásoknak, amelyek már használják az OkHttp és a Coroutines könyvtárakat), ami hasonló a Picasso-hoz és jelentősen kevesebb, mint a Glide és a Fresco könyvtárak.  </li>
+<li>Könnyen használható: A Coil API-ja a Kotlin nyelv funkcióit használja a könnyű használat és a minimális boilerplate kód érdekében.  </li>
+<li>Modern: A Coil a Kotlin nyelvűséget helyezi előtérbe és a modern könyvtárakat használja, beleértve a Coroutines-t, az OkHttp-t, az Okio-t és az AndroidX Lifecycles-t.  </li>
+</ul>
+</div>
 <h3 id="fuggosegek">Függőségek<a class="headerlink" href="#fuggosegek" title="Permanent link">&para;</a></h3>
-<p>A Retrofit és a Room használatához vegyük fel a függőségek közé az alábbi kódot:
-<div class="highlight"><pre><span></span><code>    // Retrofit
-    def retrofit_version = &#39;2.9.0&#39;
-    implementation &quot;com.squareup.retrofit2:retrofit:$retrofit_version&quot;
-    implementation &quot;com.squareup.retrofit2:converter-gson:$retrofit_version&quot;
-    implementation &quot;com.squareup.retrofit2:converter-moshi:$retrofit_version&quot;
+<p>A Retrofit, Paging és Coil könyvtárak használatához a következő függőségek szükségesek (ezek már szerepelnek a projektben, ne vegyük fel őket újra):
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="c1">// Retrofit</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">retrofit_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.9.0&quot;</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;com.squareup.retrofit2:retrofit:</span><span class="si">$</span><span class="n">retrofit_version</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;com.squareup.retrofit2:converter-gson:</span><span class="si">$</span><span class="n">retrofit_version</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;com.squareup.retrofit2:converter-moshi:</span><span class="si">$</span><span class="n">retrofit_version</span><span class="s">&quot;</span><span class="p">)</span>
 
-    // Room components
-    def room_version = &#39;2.5.0&#39;
-    implementation &quot;androidx.room:room-runtime:$room_version&quot;
-    kapt &quot;androidx.room:room-compiler:$room_version&quot;
-    implementation &quot;androidx.room:room-ktx:$room_version&quot;
-    implementation &quot;androidx.room:room-paging:$room_version&quot;
+<span class="w">    </span><span class="c1">// Paging 3.0</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.paging:paging-compose:3.3.0-alpha02&quot;</span><span class="p">)</span>
 
-    // Paging 3.0
-    implementation &#39;androidx.paging:paging-compose:1.0.0-alpha17&#39;
-
-    // Coil
-    implementation &quot;io.coil-kt:coil-compose:2.2.2&quot;
+<span class="w">    </span><span class="c1">// Coil</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;io.coil-kt:coil-compose:2.5.0&quot;</span><span class="p">)</span>
 </code></pre></div></p>
 <p>A <code>data.model</code> package-be hozzuk létre az alábbi két fájlt, melyek az API használatához szükségesek:</p>
 <p><code>UnsplashPhoto.kt</code>:
@@ -1166,11 +1144,13 @@ Hozzuk létre a lenti interface-t a <code>data.remote.api</code> package-ben.</p
 
 <span class="p">}</span>
 </code></pre></div></p>
+<p>Ha a Reponse-t nem tudná beimportálni az Android Studio, vegyük fel kézzel az <code>import retrofit2.Response</code> sort.</p>
 <p>A Retrofit annotációi segítségével egyszerűen tudjuk definiálni a kéréseinket.<br />
-Cseréljük le az itt szereplő <code>ACCESS_KEY</code> stringet az Unsplashen regisztráció után elérhető saját kulcsunkra.</p>
+Cseréljük le az itt szereplő <code>ACCESS_KEY</code> stringet az Unsplashen regisztráció után elérhető saját kulcsunkra.
+Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/applications</a> oldalon regisztráció után egy új applikációt kell létrehozni, és azt megnyitva találhatjuk meg a kulcsot.</p>
 <h3 id="a-pagingsource-osztaly">A PagingSource osztály<a class="headerlink" href="#a-pagingsource-osztaly" title="Permanent link">&para;</a></h3>
 <p>Az első lépés egy PagingSource implementáció meghatározása, hogy az adatforrás azonosítható legyen. A PagingSource API osztálya tartalmazza a load() metódust, amelyet felül kell írni, hogy jelentse, hogyan lehet lapozott adatokat visszanyerni a megfelelő adatforrásból.</p>
-<p>Hozzuk létre a lenti osztályt a <code>data.paging</code> package-ben:</p>
+<p>Hozzuk létre az alábbi osztályt a <code>data.paging</code> package-ben:</p>
 <p><code>SearchPagingSource.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">SearchPagingSource</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">api</span><span class="p">:</span><span class="w"> </span><span class="n">UnsplashApi</span><span class="p">,</span>
@@ -1199,20 +1179,23 @@ Cseréljük le az itt szereplő <code>ACCESS_KEY</code> stringet az Unsplashen r
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></p>
-<p>A PagingSource<Key, Value> két típusparamétert tartalmaz: Key és Value. A kulcs meghatározza az azonosítót, amelyet az adat betöltéséhez használnak, és az érték maga az adat típusa. </p>
-<p>Egy tipikus PagingSource implementáció a konstruktorában megadott paramétereket továbbítja a load() metódusnak, hogy betölthesse a megfelelő adatokat egy lekérdezéshez. </p>
-<p>A LoadParams objektum információkat tartalmaz az elvégzendő betöltési műveletről. Ide tartozik a betöltendő kulcs és a betöltendő elemek száma.</p>
-<p>A LoadResult objektum az adatbetöltés eredményét tartalmazza. A LoadResult egy zárt osztály, amely két formában jelenhet meg attól függően, hogy a load() hívás sikeres volt-e vagy sem:<br />
-- Sikeres esetben LoadResult.Page objektum<br />
-- Sikertelen esetben LoadResult.Error objektum.  </p>
+<p>A <code>PagingSource&lt;Key, Value&gt;</code> két típusparamétert tartalmaz: <code>Key</code> és <code>Value</code>. A kulcs meghatározza az azonosítót, amelyet az adat betöltéséhez használnak, és az érték maga az adat típusa. </p>
+<p>Egy tipikus <code>PagingSource</code> implementáció a konstruktorában megadott paramétereket továbbítja a <code>load()</code> metódusnak, hogy betölthesse a megfelelő adatokat egy lekérdezéshez. </p>
+<p>A <code>LoadParams</code> objektum információkat tartalmaz az elvégzendő betöltési műveletről. Ide tartozik a betöltendő kulcs és a betöltendő elemek száma.</p>
+<p>A <code>LoadResult</code> objektum az adatbetöltés eredményét tartalmazza. A <code>LoadResult</code> egy zárt osztály, amely két formában jelenhet meg attól függően, hogy a <code>load()</code> hívás sikeres volt-e vagy sem:  </p>
+<ul>
+<li>Sikeres esetben <code>LoadResult.Page</code> objektum  </li>
+<li>Sikertelen esetben <code>LoadResult.Error</code> objektum.  </li>
+</ul>
 <p>A try-catch blokkban látható, hogy hogyan tudjuk használni a Retrofit interfészünket hálózati hívás elvégzésére.</p>
-<p>A PagingSource implementációja emellett tartalmaznia kell egy getRefreshKey() metódust, amely egy PagingState objektumot vár paraméterként, és visszaadja a kulcsot, amelyet át kell adni a load() metódusnak, amikor az adat frissítése vagy érvénytelenítése történik az első betöltés után. A Paging könyvtár automatikusan meghívja ezt a metódust az adat későbbi frissítésekor.</p>
+<p>A <code>PagingSource</code> implementációja emellett tartalmaznia kell egy <code>getRefreshKey()</code> metódust, amely egy <code>PagingState</code> objektumot vár paraméterként, és visszaadja a kulcsot, amelyet át kell adni a <code>load()</code> metódusnak, amikor az adat frissítése vagy érvénytelenítése történik az első betöltés után. A Paging könyvtár automatikusan meghívja ezt a metódust az adat későbbi frissítésekor.</p>
 <h3 id="a-remotemediator-osztaly">A RemoteMediator osztály<a class="headerlink" href="#a-remotemediator-osztaly" title="Permanent link">&para;</a></h3>
 <p>Jobb felhasználói élményt biztosíthatunk azzal, ha gondoskodunk arról, hogy az alkalmazásunk használható legyen akkor is, ha az internetkapcsolat instabil vagy ha a felhasználó offline. Az egyik módja ennek, hogy egyszerre lapozunk a hálózatról és egy helyi adatbázisból is. Ezzel az alkalmazás az UI-t egy helyi adatbázisból vezérli és csak akkor kér le adatokat a hálózatról, ha már nincs több adat az adatbázisban.</p>
 <p>A Paging könyvtár a <code>RemoteMediator</code> komponenst biztosítja ehhez az esethez. A <code>RemoteMediator</code> a Paging könyvtár jelzéseként működik, amikor az alkalmazás kimerül az előtárolt adatból. Ezt a jelzést lehet használni további adatok betöltésére a hálózatról, és azokat helyi adatbázisban tárolni, ahol egy <code>PagingSource</code> betöltheti és a felhasználói felületen megjelenítheti.</p>
 <p>Ha további adatokra van szükség, a Paging könyvtár meghívja a <code>RemoteMediator</code> implementációjából a <code>load()</code> metódust. Ez egy suspending függvény, így hosszú ideig futó munkát végezhet biztonságosan. Ez a függvény általában az új adatokat egy hálózati forrásból szedi le, majd elmenti helyi tárolóba.</p>
 <p>Ez a folyamat új adatokkal működik, de idővel az adatok tárolása az adatbázisban érvénytelenítést igényelhet, például amikor a felhasználó kézzel indítja el a frissítést. Ezt a <code>LoadType</code> tulajdonság jelzi, amelyet át kell adni a <code>load()</code> metódusnak. A <code>LoadType</code> tájékoztatja a <code>RemoteMediator</code>-t arról, hogy a meglévő adatokat frissíteni kell-e, vagy olyan további adatokat kell-e lekérni, amelyeket a meglévő listához kell hozzáadni.</p>
 <p>Így a <code>RemoteMediator</code> biztosítja, hogy az alkalmazás azokat az adatokat töltse be, amelyeket a felhasználók a megfelelő sorrendben szeretnének látni.</p>
+<p>Hozzuk létre az alábbi osztályt a <code>data.paging</code> package-ben:</p>
 <p><code>UnsplashRemoteMediator.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalPagingApi</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">UnsplashRemoteMediator</span><span class="p">(</span>
@@ -1295,21 +1278,22 @@ Cseréljük le az itt szereplő <code>ACCESS_KEY</code> stringet az Unsplashen r
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></p>
-<p>A load() metódus visszatérési értéke egy MediatorResult objektum. A MediatorResult lehet MediatorResult.Error (amely tartalmazza az hiba leírását) vagy MediatorResult.Success (amely tartalmaz egy jelzést arról, hogy van-e még több adat betöltésre).</p>
-<p>A load() metódusnak a következő lépéseket kell végrehajtania:</p>
+<p>A <code>load()</code> metódus visszatérési értéke egy <code>MediatorResult</code> objektum. A <code>MediatorResult</code> lehet <code>MediatorResult.Error</code> (amely tartalmazza az hiba leírását) vagy <code>MediatorResult.Success</code> (amely tartalmaz egy jelzést arról, hogy van-e még több adat betöltésre).</p>
+<p>A <code>load()</code> metódusnak a következő lépéseket kell végrehajtania:</p>
 <ul>
 <li>Meg kell határozni, hogy melyik oldalt kell a hálózatról betölteni a betöltési típus és az eddig betöltött adatok alapján.  </li>
 <li>Kiváltani a hálózati kérést.  </li>
 <li>Végrehajtani a betöltési művelet kimenetétől függő cselekvéseket:  </li>
-<li>Ha a betöltés sikeres és az kapott elemek listája nem üres, akkor tárolja el a lista elemeit az adatbázisban, majd térjen vissza a MediatorResult.Success (endOfPaginationReached = false) értékkel. Az adatok tárolása után érvénytelenítse az adatforrást, hogy értesítse a Paging könyvtárat az új adatokról.</li>
-<li>Ha a betöltés sikeres és a kapott elemek listája üres vagy az utolsó oldal indexe, akkor térjen vissza a MediatorResult.Success (endOfPaginationReached = true) értékkel. Az adatok tárolása után érvénytelenítse az adatforrást, hogy értesítse a Paging könyvtárat az új adatokról.</li>
-<li>Ha a kérés hibát okoz, akkor térjen vissza a MediatorResult.Error értékkel.</li>
+<li>Ha a betöltés sikeres és az kapott elemek listája nem üres, akkor tárolja el a lista elemeit az adatbázisban, majd térjen vissza a <code>MediatorResult.Success</code> <code>(endOfPaginationReached = false)</code> értékkel. Az adatok tárolása után érvénytelenítse az adatforrást, hogy értesítse a Paging könyvtárat az új adatokról.</li>
+<li>Ha a betöltés sikeres és a kapott elemek listája üres vagy az utolsó oldal indexe, akkor térjen vissza a <code>MediatorResult.Success</code> <code>(endOfPaginationReached = true)</code> értékkel. Az adatok tárolása után érvénytelenítse az adatforrást, hogy értesítse a Paging könyvtárat az új adatokról.</li>
+<li>Ha a kérés hibát okoz, akkor térjen vissza a <code>MediatorResult.Error</code> értékkel.</li>
 </ul>
 <h3 id="tavoli-kulcsok">Távoli kulcsok<a class="headerlink" href="#tavoli-kulcsok" title="Permanent link">&para;</a></h3>
 <p>Kezelnünk kell azt a helyzetet, amikor a helyi gyorsítótárban tárolt adatok elavultak a távoli adatforráshoz képest.</p>
 <p>A távoli kulcsok lehetővé teszik, hogy információt menthessünk el a legutóbbi oldalról, amelyet a szerverről kértek le. Az alkalmazás felhasználhatja ezt az információt a következő betöltendő adatoldal azonosításához és kéréséhez.</p>
 <p>A távoli kulcsok olyan kulcsok, amelyeket a RemoteMediator implementáció arra használ, hogy közölje a backend szolgáltatással, melyik adatot kell legközelebb betölteni. A legegyszerűbb esetben minden lapozott adat elemhez tartozik egy távoli kulcs, amelyre könnyen hivatkozhat. Azonban ha a távoli kulcsok nem feleltethetőek meg a konkrét elemeknek, nekünk kell őket kezelni a load hívásban.</p>
-<p>Amikor a távoli kulcsok nem közvetlenül kapcsolódnak a listaelemekhez, célszerű őket külön táblázatban tárolni a helyi adatbázisban. Definiálni kell egy Room entitást, amely egy távoli kulcsokból álló táblázatot reprezentál:</p>
+<p>Amikor a távoli kulcsok nem közvetlenül kapcsolódnak a listaelemekhez, célszerű őket külön táblázatban tárolni a helyi adatbázisban. Definiálni kell egy Room entitást, amely egy távoli kulcsokból álló táblázatot reprezentál.</p>
+<p>Hozzuk létre az alábbi osztályt a <code>data.local.model</code> package-ben:</p>
 <p><code>UnsplashPhotoRemoteKeys.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="nd">@Entity</span><span class="p">(</span><span class="n">tableName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;remote_keys&quot;</span><span class="p">)</span>
 <span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">UnsplashPhotoRemoteKeys</span><span class="p">(</span>
@@ -1318,7 +1302,8 @@ Cseréljük le az itt szereplő <code>ACCESS_KEY</code> stringet az Unsplashen r
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">nextKey</span><span class="p">:</span><span class="w"> </span><span class="kt">Int?</span>
 <span class="p">)</span>
 </code></pre></div></p>
-<p>Emellett definiálni kell egy DAO-t a RemoteKey entitásra:</p>
+<p>Emellett definiálni kell egy DAO-t a RemoteKey entitásra.</p>
+<p>Hozzuk létre az alábbi osztályt a <code>data.local.dao</code> package-ben:</p>
 <p><code>UnsplashPhotoRemoteKeysDao.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="nd">@Dao</span>
 <span class="kd">interface</span><span class="w"> </span><span class="nc">UnsplashPhotoRemoteKeysDao</span><span class="w"> </span><span class="p">{</span>
@@ -1423,6 +1408,7 @@ Cseréljük le az itt szereplő <code>ACCESS_KEY</code> stringet az Unsplashen r
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></p>
+<p>Ha a flow-emit résznél hibát kapunk, cseréljük le az importot a következőre: <code>import kotlinx.coroutines.flow.flow</code>.</p>
 <p>Itt láthatjuk a <code>Pager</code> osztály használatát a lapozott adatok folyamának beállításához.</p>
 <p>Végül hozzuk létre a saját Application osztályunkat a gyökér package-ben:</p>
 <p><code>UnsplashApplication.kt</code>:
@@ -1758,8 +1744,8 @@ Ezzez elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
           </path>
         </svg>
       </span>
-      <span title="2023. szeptember 11. 21:51:43">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-09-11T21:51:43+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-09-11</span>
+      <span title="2023. november 9. 11:41:57">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-09T11:41:57+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-09</span>
       </span>
     </span>
 
@@ -1775,11 +1761,11 @@ Ezzez elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
       </span>
       <span>Szerzők</span>
       <nav><a href="https://github.com/kpomazi" target="_blank" rel="noopener noreferrer" class="md-author" title="@kpomazi">
-          <img src="https://avatars.githubusercontent.com/u/22079595?size=72" alt="@kpomazi">
+          <img src="https://avatars.githubusercontent.com/u/22079595?v=4?size=72" alt="@kpomazi">
         </a><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
-          <img src="https://avatars.githubusercontent.com/u/23335752?size=72" alt="@gazdilaci">
+          <img src="https://avatars.githubusercontent.com/u/23335752?v=4?size=72" alt="@gazdilaci">
         </a><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
-          <img src="https://avatars.githubusercontent.com/u/8405234?size=72" alt="@danim1130">
+          <img src="https://avatars.githubusercontent.com/u/8405234?v=4?size=72" alt="@danim1130">
         </a></nav>      
     </span>
   </div>

@@ -31,60 +31,58 @@ Tekintsük át a laborvezetővel a meglévő kódot!
 
 ## Adat- és hálózati réteg
 
-### Retrofit
+### Könyvtárak
 
-A [Retrofit](https://square.github.io/retrofit/) egy általános célú HTTP könyvtár Java és Kötlin környezetben. Széles körben használják, számos projektben bizonyított már (kvázi ipari standard). Azért használjuk, hogy ne kelljen alacsony színtű hálózati hívásokat implementálni.
+!!! info "Retrofit" 
 
-Segítségével elég egy interface-ben annotációk segítségével leírni az API-t (ez pl. a [Swagger](https://swagger.io/) eszközzel generálható is), majd e mögé készít a Retrofit egy olyan osztályt, mely a szükséges hálózati hívásokat elvégzi. A Retrofit a háttérben az [OkHttp3](https://github.com/square/okhttp)-at használja, valamint az objektumok JSON formátumba történő sorosítását a [Moshi](https://github.com/square/moshi) libraryvel végzi. Ezért ezeket is be kell hivatkozni.
+    A [Retrofit](https://square.github.io/retrofit/) egy általános célú HTTP könyvtár Java és Kötlin környezetben. Széles körben használják, számos projektben bizonyított már (kvázi ipari standard). Azért használjuk, hogy ne kelljen alacsony színtű hálózati hívásokat implementálni.
 
-### Paging 3.0
+    Segítségével elég egy interface-ben annotációk segítségével leírni az API-t (ez pl. a [Swagger](https://swagger.io/) eszközzel generálható is), majd e mögé készít a Retrofit egy olyan osztályt, mely a szükséges hálózati hívásokat elvégzi. A Retrofit a háttérben az [OkHttp3](https://github.com/square/okhttp)-at használja, valamint az objektumok JSON formátumba történő sorosítását a [Moshi](https://github.com/square/moshi) libraryvel végzi. Ezért ezeket is be kell hivatkozni.
 
-A Paging Library az Android Jetpack része. Segít az adatok oldalankénti betöltésében és megjelenítésében nagyobb adatkészletből, helyi tárolóból vagy hálózatról. Ez a megközelítés lehetővé teszi az alkalmazásunk számára, hogy mind a hálózati sávszélességet, mind pedig a rendszer erőforrásait hatékonyabban használja.
+!!! info "Paging 3.0"  
 
-A Paging Library használatának előnyei:  
-- Az oldalankénti adatok memóriában történő gyorsítótárazása. Ez biztosítja, hogy az alkalmazás hatékonyan használja a rendszer erőforrásait oldalankénti adatokkal való munka során.  
-- Beépített kérések duplikálódásának megakadályozása, hogy az alkalmazás hatékonyan használja a hálózati sávszélességet és a rendszer erőforrásait.  
-- Konfigurálható RecyclerView adapterek, amelyek automatikusan lekérik az adatokat, amikor a felhasználó görget a betöltött adatok végére.  
-- Elsőosztályú támogatás Kotlin coroutines és Flow, valamint LiveData és RxJava számára.  
-- Beépített hibakezelés-támogatás, beleértve a frissítési és újrapróbálási képességeket.  
+    A Paging Library az Android Jetpack része. Segít az adatok oldalankénti betöltésében és megjelenítésében nagyobb adatkészletből, helyi tárolóból vagy hálózatról. Ez a megközelítés lehetővé teszi az alkalmazásunk számára, hogy mind a hálózati sávszélességet, mind pedig a rendszer erőforrásait hatékonyabban használja.
 
-A Paging Library főbb elemei:
-- PagingData - egy tároló 'oldalazott' adatok számára. Az adatok frissítésekor külön PagingData tartályt használunk.  
-- PagingSource - a PagingSource az alap osztály az adatok részletekben való betöltéséhez PagingData streambe.  
-- Pager.flow - egy Flow<PagingData>-t hoz létre, amely a PagingConfig és egy függvény alapján konstruálja a megvalósított PagingSource-t.  
-- RemoteMediator - segít az oldalazás megvalósításában hálózatról és adatbázisból.  
+    A Paging Library használatának előnyei:  
 
-### Coil
+    - Az oldalankénti adatok memóriában történő gyorsítótárazása. Ez biztosítja, hogy az alkalmazás hatékonyan használja a rendszer erőforrásait oldalankénti adatokkal való munka során.  
+    - Beépített kérések duplikálódásának megakadályozása, hogy az alkalmazás hatékonyan használja a hálózati sávszélességet és a rendszer erőforrásait.  
+    - Konfigurálható RecyclerView adapterek, amelyek automatikusan lekérik az adatokat, amikor a felhasználó görget a betöltött adatok végére.  
+    - Elsőosztályú támogatás Kotlin coroutines és Flow, valamint LiveData és RxJava számára.  
+    - Beépített hibakezelés-támogatás, beleértve a frissítési és újrapróbálási képességeket.  
 
-A Coil (Coroutine Image Loader) egy kép betöltő könyvtár Androidra, amelyet a Kotlin koroutinokra épül.   
-A Coil használatának előnyei:  
-- Gyors: A Coil számos optimalizálást végez, beleértve a memória- és lemeztároló gyorsítótárazást, az átméretezést a memóriában, az automatikus kérések szüneteltetését/leállítását és még sok mást.  
-- Könnyű: A Coil kb. 2000 metódust ad az APK-hoz (azoknak az alkalmazásoknak, amelyek már használják az OkHttp és a Coroutines könyvtárakat), ami hasonló a Picasso-hoz és jelentősen kevesebb, mint a Glide és a Fresco könyvtárak.  
-- Könnyen használható: A Coil API-ja a Kotlin nyelv funkcióit használja a könnyű használat és a minimális boilerplate kód érdekében.  
-- Modern: A Coil a Kotlin nyelvűséget helyezi előtérbe és a modern könyvtárakat használja, beleértve a Coroutines-t, az OkHttp-t, az Okio-t és az AndroidX Lifecycles-t.  
+    A Paging Library főbb elemei:
+
+    - PagingData - egy tároló 'oldalazott' adatok számára. Az adatok frissítésekor külön PagingData tartályt használunk.  
+    - PagingSource - a PagingSource az alap osztály az adatok részletekben való betöltéséhez PagingData streambe.  
+    - Pager.flow - egy Flow<PagingData>-t hoz létre, amely a PagingConfig és egy függvény alapján konstruálja a megvalósított PagingSource-t.  
+    - RemoteMediator - segít az oldalazás megvalósításában hálózatról és adatbázisból.  
+
+!!! info "Coil"
+
+    A Coil (Coroutine Image Loader) egy kép betöltő könyvtár Androidra, amelyet a Kotlin koroutinokra épül.   
+    A Coil használatának előnyei:  
+
+    - Gyors: A Coil számos optimalizálást végez, beleértve a memória- és lemeztároló gyorsítótárazást, az átméretezést a memóriában, az automatikus kérések szüneteltetését/leállítását és még sok mást.  
+    - Könnyű: A Coil kb. 2000 metódust ad az APK-hoz (azoknak az alkalmazásoknak, amelyek már használják az OkHttp és a Coroutines könyvtárakat), ami hasonló a Picasso-hoz és jelentősen kevesebb, mint a Glide és a Fresco könyvtárak.  
+    - Könnyen használható: A Coil API-ja a Kotlin nyelv funkcióit használja a könnyű használat és a minimális boilerplate kód érdekében.  
+    - Modern: A Coil a Kotlin nyelvűséget helyezi előtérbe és a modern könyvtárakat használja, beleértve a Coroutines-t, az OkHttp-t, az Okio-t és az AndroidX Lifecycles-t.  
 
 ### Függőségek
 
-A Retrofit és a Room használatához vegyük fel a függőségek közé az alábbi kódot:
-```gradle
+A Retrofit, Paging és Coil könyvtárak használatához a következő függőségek szükségesek (ezek már szerepelnek a projektben, ne vegyük fel őket újra):
+```kotlin
     // Retrofit
-    def retrofit_version = '2.9.0'
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
-
-    // Room components
-    def room_version = '2.5.0'
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    implementation "androidx.room:room-paging:$room_version"
+    val retrofit_version = "2.9.0"
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
+    implementation("com.squareup.retrofit2:converter-moshi:$retrofit_version")
 
     // Paging 3.0
-    implementation 'androidx.paging:paging-compose:1.0.0-alpha17'
+    implementation("androidx.paging:paging-compose:3.3.0-alpha02")
 
     // Coil
-    implementation "io.coil-kt:coil-compose:2.2.2"
+    implementation("io.coil-kt:coil-compose:2.5.0")
 ```
 
 A `data.model` package-be hozzuk létre az alábbi két fájlt, melyek az API használatához szükségesek:
@@ -210,14 +208,17 @@ interface UnsplashApi {
 }
 ```
 
+Ha a Reponse-t nem tudná beimportálni az Android Studio, vegyük fel kézzel az `import retrofit2.Response` sort.
+
 A Retrofit annotációi segítségével egyszerűen tudjuk definiálni a kéréseinket.  
 Cseréljük le az itt szereplő `ACCESS_KEY` stringet az Unsplashen regisztráció után elérhető saját kulcsunkra.
+Az https://unsplash.com/oauth/applications oldalon regisztráció után egy új applikációt kell létrehozni, és azt megnyitva találhatjuk meg a kulcsot.
 
 ### A PagingSource osztály
 
 Az első lépés egy PagingSource implementáció meghatározása, hogy az adatforrás azonosítható legyen. A PagingSource API osztálya tartalmazza a load() metódust, amelyet felül kell írni, hogy jelentse, hogyan lehet lapozott adatokat visszanyerni a megfelelő adatforrásból.
 
-Hozzuk létre a lenti osztályt a `data.paging` package-ben:
+Hozzuk létre az alábbi osztályt a `data.paging` package-ben:
 
 `SearchPagingSource.kt`:
 ```kotlin
@@ -249,19 +250,20 @@ class SearchPagingSource(
 }
 ```
 
-A PagingSource<Key, Value> két típusparamétert tartalmaz: Key és Value. A kulcs meghatározza az azonosítót, amelyet az adat betöltéséhez használnak, és az érték maga az adat típusa. 
+A `PagingSource<Key, Value>` két típusparamétert tartalmaz: `Key` és `Value`. A kulcs meghatározza az azonosítót, amelyet az adat betöltéséhez használnak, és az érték maga az adat típusa. 
 
-Egy tipikus PagingSource implementáció a konstruktorában megadott paramétereket továbbítja a load() metódusnak, hogy betölthesse a megfelelő adatokat egy lekérdezéshez. 
+Egy tipikus `PagingSource` implementáció a konstruktorában megadott paramétereket továbbítja a `load()` metódusnak, hogy betölthesse a megfelelő adatokat egy lekérdezéshez. 
 
-A LoadParams objektum információkat tartalmaz az elvégzendő betöltési műveletről. Ide tartozik a betöltendő kulcs és a betöltendő elemek száma.
+A `LoadParams` objektum információkat tartalmaz az elvégzendő betöltési műveletről. Ide tartozik a betöltendő kulcs és a betöltendő elemek száma.
 
-A LoadResult objektum az adatbetöltés eredményét tartalmazza. A LoadResult egy zárt osztály, amely két formában jelenhet meg attól függően, hogy a load() hívás sikeres volt-e vagy sem:  
-- Sikeres esetben LoadResult.Page objektum  
-- Sikertelen esetben LoadResult.Error objektum.  
+A `LoadResult` objektum az adatbetöltés eredményét tartalmazza. A `LoadResult` egy zárt osztály, amely két formában jelenhet meg attól függően, hogy a `load()` hívás sikeres volt-e vagy sem:  
+
+- Sikeres esetben `LoadResult.Page` objektum  
+- Sikertelen esetben `LoadResult.Error` objektum.  
 
 A try-catch blokkban látható, hogy hogyan tudjuk használni a Retrofit interfészünket hálózati hívás elvégzésére.
   
-A PagingSource implementációja emellett tartalmaznia kell egy getRefreshKey() metódust, amely egy PagingState objektumot vár paraméterként, és visszaadja a kulcsot, amelyet át kell adni a load() metódusnak, amikor az adat frissítése vagy érvénytelenítése történik az első betöltés után. A Paging könyvtár automatikusan meghívja ezt a metódust az adat későbbi frissítésekor.
+A `PagingSource` implementációja emellett tartalmaznia kell egy `getRefreshKey()` metódust, amely egy `PagingState` objektumot vár paraméterként, és visszaadja a kulcsot, amelyet át kell adni a `load()` metódusnak, amikor az adat frissítése vagy érvénytelenítése történik az első betöltés után. A Paging könyvtár automatikusan meghívja ezt a metódust az adat későbbi frissítésekor.
 
 ### A RemoteMediator osztály
 
@@ -274,6 +276,8 @@ Ha további adatokra van szükség, a Paging könyvtár meghívja a `RemoteMedia
 Ez a folyamat új adatokkal működik, de idővel az adatok tárolása az adatbázisban érvénytelenítést igényelhet, például amikor a felhasználó kézzel indítja el a frissítést. Ezt a `LoadType` tulajdonság jelzi, amelyet át kell adni a `load()` metódusnak. A `LoadType` tájékoztatja a `RemoteMediator`-t arról, hogy a meglévő adatokat frissíteni kell-e, vagy olyan további adatokat kell-e lekérni, amelyeket a meglévő listához kell hozzáadni.
 
 Így a `RemoteMediator` biztosítja, hogy az alkalmazás azokat az adatokat töltse be, amelyeket a felhasználók a megfelelő sorrendben szeretnének látni.
+
+Hozzuk létre az alábbi osztályt a `data.paging` package-ben:
 
 `UnsplashRemoteMediator.kt`:
 ```kotlin
@@ -359,16 +363,16 @@ class UnsplashRemoteMediator(
 }
 ```
 
-A load() metódus visszatérési értéke egy MediatorResult objektum. A MediatorResult lehet MediatorResult.Error (amely tartalmazza az hiba leírását) vagy MediatorResult.Success (amely tartalmaz egy jelzést arról, hogy van-e még több adat betöltésre).
+A `load()` metódus visszatérési értéke egy `MediatorResult` objektum. A `MediatorResult` lehet `MediatorResult.Error` (amely tartalmazza az hiba leírását) vagy `MediatorResult.Success` (amely tartalmaz egy jelzést arról, hogy van-e még több adat betöltésre).
 
-A load() metódusnak a következő lépéseket kell végrehajtania:
+A `load()` metódusnak a következő lépéseket kell végrehajtania:
 
 - Meg kell határozni, hogy melyik oldalt kell a hálózatról betölteni a betöltési típus és az eddig betöltött adatok alapján.  
 - Kiváltani a hálózati kérést.  
 - Végrehajtani a betöltési művelet kimenetétől függő cselekvéseket:  
-  - Ha a betöltés sikeres és az kapott elemek listája nem üres, akkor tárolja el a lista elemeit az adatbázisban, majd térjen vissza a MediatorResult.Success (endOfPaginationReached = false) értékkel. Az adatok tárolása után érvénytelenítse az adatforrást, hogy értesítse a Paging könyvtárat az új adatokról.
-  - Ha a betöltés sikeres és a kapott elemek listája üres vagy az utolsó oldal indexe, akkor térjen vissza a MediatorResult.Success (endOfPaginationReached = true) értékkel. Az adatok tárolása után érvénytelenítse az adatforrást, hogy értesítse a Paging könyvtárat az új adatokról.
-  - Ha a kérés hibát okoz, akkor térjen vissza a MediatorResult.Error értékkel.
+  - Ha a betöltés sikeres és az kapott elemek listája nem üres, akkor tárolja el a lista elemeit az adatbázisban, majd térjen vissza a `MediatorResult.Success` `(endOfPaginationReached = false)` értékkel. Az adatok tárolása után érvénytelenítse az adatforrást, hogy értesítse a Paging könyvtárat az új adatokról.
+  - Ha a betöltés sikeres és a kapott elemek listája üres vagy az utolsó oldal indexe, akkor térjen vissza a `MediatorResult.Success` `(endOfPaginationReached = true)` értékkel. Az adatok tárolása után érvénytelenítse az adatforrást, hogy értesítse a Paging könyvtárat az új adatokról.
+  - Ha a kérés hibát okoz, akkor térjen vissza a `MediatorResult.Error` értékkel.
 
 ### Távoli kulcsok
 
@@ -378,7 +382,9 @@ A távoli kulcsok lehetővé teszik, hogy információt menthessünk el a legut�
 
 A távoli kulcsok olyan kulcsok, amelyeket a RemoteMediator implementáció arra használ, hogy közölje a backend szolgáltatással, melyik adatot kell legközelebb betölteni. A legegyszerűbb esetben minden lapozott adat elemhez tartozik egy távoli kulcs, amelyre könnyen hivatkozhat. Azonban ha a távoli kulcsok nem feleltethetőek meg a konkrét elemeknek, nekünk kell őket kezelni a load hívásban.
 
-Amikor a távoli kulcsok nem közvetlenül kapcsolódnak a listaelemekhez, célszerű őket külön táblázatban tárolni a helyi adatbázisban. Definiálni kell egy Room entitást, amely egy távoli kulcsokból álló táblázatot reprezentál:
+Amikor a távoli kulcsok nem közvetlenül kapcsolódnak a listaelemekhez, célszerű őket külön táblázatban tárolni a helyi adatbázisban. Definiálni kell egy Room entitást, amely egy távoli kulcsokból álló táblázatot reprezentál.
+
+Hozzuk létre az alábbi osztályt a `data.local.model` package-ben:
 
 `UnsplashPhotoRemoteKeys.kt`:
 ```kotlin
@@ -390,7 +396,9 @@ data class UnsplashPhotoRemoteKeys(
 )
 ```
 
-Emellett definiálni kell egy DAO-t a RemoteKey entitásra:
+Emellett definiálni kell egy DAO-t a RemoteKey entitásra.
+
+Hozzuk létre az alábbi osztályt a `data.local.dao` package-ben:
 
 `UnsplashPhotoRemoteKeysDao.kt`:
 ```kotlin
@@ -505,6 +513,8 @@ class UnsplashPhotoDataSource(
     }
 }
 ```
+
+Ha a flow-emit résznél hibát kapunk, cseréljük le az importot a következőre: `import kotlinx.coroutines.flow.flow`.
 
 Itt láthatjuk a `Pager` osztály használatát a lapozott adatok folyamának beállításához.
 	

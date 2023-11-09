@@ -836,7 +836,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            NetworkITheme {
+            UnsplashTheme {
                 val windowSize = when (calculateWindowSizeClass(this).widthSizeClass) {
                     WindowWidthSizeClass.Compact -> WindowSize.Compact
                     WindowWidthSizeClass.Medium -> WindowSize.Medium
@@ -850,6 +850,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 ```
+Alt+Enterrel vegyük fel az annotációra kattintva a hiányző függőséget.
+
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amelyen látszik a **működő alkalmazás a más méretben megjelenő képekkel** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel),  a **más méretű képernyőkhöz tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
 

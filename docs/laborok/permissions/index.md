@@ -76,7 +76,7 @@ dependencies {
     implementation("com.google.accompanist:accompanist-permissions:0.33.2-alpha")
 
     // Coil
-    implementation("io.coil-kt:coil:2.5.0")
+    implementation("io.coil-kt:coil-compose:2.5.0")
 
     //Testing
     testImplementation("junit:junit:4.13.2")
@@ -1093,7 +1093,7 @@ fun ContactDataItem(
                     singleLine = true,
                     shape = RectangleShape,
                     colors = TextFieldDefaults.textFieldColors(
-                        textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         disabledTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         containerColor = Color.Transparent,
                         focusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,

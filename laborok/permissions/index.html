@@ -1029,7 +1029,7 @@
 </ol>
 <p>Ezután indítsuk el az Android Studio-t, majd:</p>
 <ol>
-<li>Hozzunk létre egy új projektet, válasszuk az <em>Empty Compose Activity (Material3)</em> lehetőséget.</li>
+<li>Hozzunk létre egy új projektet, válasszuk az <em>Empty Activity</em> lehetőséget.</li>
 <li>A projekt neve legyen <code>Contacts</code>, a kezdő package pedig <code>hu.bme.aut.android.contacts</code>.</li>
 <li>A projektet a repository-n belül egy külön mappában hozzuk létre. </li>
 <li>Nyelvnek válasszuk a <em>Kotlin</em>-t.</li>
@@ -1042,47 +1042,46 @@
 <p>Ellenőrízzük, hogy a létrejött projekt lefordul és helyesen működik!</p>
 <h3 id="verziok-frissitese">Verziók frissítése<a class="headerlink" href="#verziok-frissitese" title="Permanent link">&para;</a></h3>
 <p>Vegyük fel az alábbi függőségeket a modul szintű build.gradle fájlunkba, majd a laborvezetővel tekintsük át őket.</p>
-<div class="highlight"><pre><span></span><code>dependencies {
-    // Compose Bill of Materials
-    def composeBom = platform(&#39;androidx.compose:compose-bom:2023.01.00&#39;)
-    implementation composeBom
-    androidTestImplementation composeBom
+<div class="highlight"><pre><span></span><code><span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Compose Bill of Materials</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">composeBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">platform</span><span class="p">(</span><span class="s">&quot;androidx.compose:compose-bom:2023.10.01&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">composeBom</span><span class="p">)</span>
+<span class="w">    </span><span class="n">androidTestImplementation</span><span class="p">(</span><span class="n">composeBom</span><span class="p">)</span>
 
-    // Compose
-    implementation &#39;androidx.compose.material3:material3&#39;
-    implementation &#39;androidx.compose.ui:ui&#39;
-    implementation &#39;androidx.compose.ui:ui-tooling-preview&#39;
-    implementation &#39;androidx.compose.material:material-icons-extended&#39;
+<span class="w">    </span><span class="c1">// Compose</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.compose.material3:material3&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.compose.ui:ui&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.compose.ui:ui-tooling-preview&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.compose.material:material-icons-extended&quot;</span><span class="p">)</span>
 
-    // Compose testing
-    androidTestImplementation &#39;androidx.compose.ui:ui-test-junit4&#39;
-    debugImplementation &#39;androidx.compose.ui:ui-test-manifest&#39;
-    debugImplementation &#39;androidx.compose.ui:ui-tooling&#39;
+<span class="w">    </span><span class="c1">// Compose testing</span>
+<span class="w">    </span><span class="n">androidTestImplementation</span><span class="p">(</span><span class="s">&quot;androidx.compose.ui:ui-test-junit4&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">debugImplementation</span><span class="p">(</span><span class="s">&quot;androidx.compose.ui:ui-test-manifest&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">debugImplementation</span><span class="p">(</span><span class="s">&quot;androidx.compose.ui:ui-tooling&quot;</span><span class="p">)</span>
 
-    // Core
-    implementation &#39;androidx.core:core-ktx:1.9.0&#39;
-    implementation &#39;androidx.activity:activity-compose:1.6.1&#39;
+<span class="w">    </span><span class="c1">// Core</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.core:core-ktx:1.9.0&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.activity:activity-compose:1.8.1&quot;</span><span class="p">)</span>
 
-    // Lifecycle, Viewmodel
-    def lifecycle_version = &#39;2.6.0-alpha04&#39;
-    implementation &quot;androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version&quot;
-    implementation &quot;androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version&quot;
+<span class="w">    </span><span class="c1">// Lifecycle, Viewmodel</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">lifecycle_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.6.2&quot;</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.lifecycle:lifecycle-runtime-compose:</span><span class="si">$</span><span class="n">lifecycle_version</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.lifecycle:lifecycle-viewmodel-compose:</span><span class="si">$</span><span class="n">lifecycle_version</span><span class="s">&quot;</span><span class="p">)</span>
 
-    // Navigation
-    implementation &quot;androidx.navigation:navigation-compose:2.5.3&quot;
+<span class="w">    </span><span class="c1">// Navigation</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.navigation:navigation-compose:2.7.5&quot;</span><span class="p">)</span>
 
-    // Permissions
-    def accompanist_version = &#39;0.28.0&#39;
-    implementation &quot;com.google.accompanist:accompanist-permissions:$accompanist_version&quot;
+<span class="w">    </span><span class="c1">// Permissions</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;com.google.accompanist:accompanist-permissions:0.33.2-alpha&quot;</span><span class="p">)</span>
 
-    // Coil
-    implementation &quot;io.coil-kt:coil-compose:2.2.2&quot;
+<span class="w">    </span><span class="c1">// Coil</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;io.coil-kt:coil:2.5.0&quot;</span><span class="p">)</span>
 
-    //Testing
-    testImplementation &#39;junit:junit:4.13.2&#39;
-    androidTestImplementation &#39;androidx.test.ext:junit:1.1.5&#39;
-    androidTestImplementation &#39;androidx.test.espresso:espresso-core:3.5.1&#39;
-}
+<span class="w">    </span><span class="c1">//Testing</span>
+<span class="w">    </span><span class="n">testImplementation</span><span class="p">(</span><span class="s">&quot;junit:junit:4.13.2&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">androidTestImplementation</span><span class="p">(</span><span class="s">&quot;androidx.test.ext:junit:1.1.5&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">androidTestImplementation</span><span class="p">(</span><span class="s">&quot;androidx.test.espresso:espresso-core:3.5.1&quot;</span><span class="p">)</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Ezek mellett ellenőrizzük a kotlin plugin és a compose verzióját. A labor készítésekor a következőek voltak érvényben:</p>
 <ul>
@@ -1101,6 +1100,7 @@
 }
 </code></pre></div></li>
 </ul>
+<p>A modul szintű <code>build.gradle</code> fájlban álllítsuk át a <code>compileSdk</code> értékét <strong>34</strong>-re!</p>
 <p>Végül vegyük fel előre az alkalmazáshoz szükséges szöveges erőforrásokat:</p>
 <p><code>strings.xml</code>:
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;resources&gt;</span>
@@ -1464,12 +1464,23 @@ A műveletekben a ContentProvider által adott adatok eléréséhez a ContentRes
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">SendSms</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">phoneNumber</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">):</span><span class="w"> </span><span class="n">ContactsEvent</span><span class="p">()</span>
 <span class="p">}</span>
 </code></pre></div>
-Az előző laborhoz hasonlóa  felületet leíró állapot osztályt <code>sealed class</code>-ként deklaráljuk, és jól elkülönített állapot osztályokat veszünk fel, így is jelezve, hogy az egyes állapotokban az oldalunkon mit kell megjeleníteni. Ezeket egy <code>MutableStateFlow</code> segítségével kezeljük, melyet egy csak olvasható változatában osztunk meg az oldalt reprezentáló <code>Composable</code>-el. </p>
+Az előző laborhoz hasonlóan a felületet leíró állapot osztályt <code>sealed class</code>-ként deklaráljuk, és jól elkülönített állapot osztályokat veszünk fel, így is jelezve, hogy az egyes állapotokban az oldalunkon mit kell megjeleníteni. Ezeket egy <code>MutableStateFlow</code> segítségével kezeljük, melyet egy csak olvasható változatában osztunk meg az oldalt reprezentáló <code>Composable</code>-el. </p>
 <p>Mivel a <code>ViewModel</code> képes túlélni az őt létrehozó komponenst, ezért a kódból mi nem a konstruktor hívásával fogjuk létrehozni a példányt, hanem a keretrendszernek tudunk átadni egy speciális <em>factory</em> metódust, amit a rendszer az első alkalommal meg fog hívni. Ezt a metódust szerveztük ki a <code>companion object</code> részbe, ami jelenleg csak létrehoz egy példányt, a későbbiekben azonban hasznos lesz különböző külső értékek inicializálására.</p>
 <p>Külön osztályokat hozunk létre a névjegyeken végzett események rendszerezésére, illetve az állapot tárolására.</p>
 <p>A képek és szövegek kezeléséhez hozzuk létre az alábbi segédosztályokat a <code>ui.model</code> package-ben:</p>
 <p><code>UiIcon.kt</code>:
-<div class="highlight"><pre><span></span><code><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">UiIcon</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">androidx.annotation.DrawableRes</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.annotation.StringRes</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Icon</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.LocalContentColor</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.graphics.Color</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.graphics.vector.ImageVector</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.res.painterResource</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.res.stringResource</span>
+
+<span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">UiIcon</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nd">@Composable</span>
 <span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">AsImage</span><span class="p">(</span>
 <span class="w">        </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
@@ -1506,7 +1517,26 @@ Az előző laborhoz hasonlóa  felületet leíró állapot osztályt <code>seale
 <span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">VectorImage</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">imageVector</span><span class="p">:</span><span class="w"> </span><span class="n">ImageVector</span><span class="p">):</span><span class="w"> </span><span class="n">UiIcon</span><span class="p">()</span>
 </code></pre></div></p>
 <p><code>UiText.kt</code>:
-<div class="highlight"><pre><span></span><code><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">UiText</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">android.content.Context</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.annotation.StringRes</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.LocalTextStyle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.graphics.Color</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.res.stringResource</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.TextLayoutResult</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.TextStyle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.font.FontFamily</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.font.FontStyle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.font.FontWeight</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.style.TextAlign</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.style.TextDecoration</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.style.TextOverflow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.unit.TextUnit</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.contacts.R</span>
+
+<span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">UiText</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">DynamicString</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">text</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">UiText</span><span class="p">()</span>
 
@@ -1585,7 +1615,34 @@ Az előző laborhoz hasonlóa  felületet leíró állapot osztályt <code>seale
 </code></pre></div></p>
 <p>A <code>ui.common</code> packagebe hozzuk létre az alábbi, listaelemeket reprezántáló fájlt, és tekintsük át az elrendezését:</p>
 <p><code>ContactListItem.kt</code>:
-<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.Image</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.background</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Row</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Spacer</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.size</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.width</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.shape.RoundedCornerShape</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.Icons</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.Call</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.Person</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.Sms</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Divider</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ExperimentalMaterial3Api</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Icon</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.IconButton</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ListItem</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.MaterialTheme</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.draw.clip</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.graphics.asImageBitmap</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.layout.ContentScale</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.unit.dp</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.contacts.domain.model.Contact</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.contacts.ui.model.VectorImage</span>
+
+<span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">ContactListItem</span><span class="p">(</span>
 <span class="w">    </span><span class="n">contact</span><span class="p">:</span><span class="w"> </span><span class="n">Contact</span><span class="p">,</span>
@@ -1594,8 +1651,8 @@ Az előző laborhoz hasonlóa  felületet leíró állapot osztályt <code>seale
 <span class="w">    </span><span class="n">onSendSms</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">ListItem</span><span class="p">(</span>
-<span class="w">        </span><span class="n">headlineText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">contact</span><span class="p">.</span><span class="na">name</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
-<span class="w">        </span><span class="n">supportingText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">contact</span><span class="p">.</span><span class="na">phoneNumber</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="n">headlineContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">contact</span><span class="p">.</span><span class="na">name</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="n">supportingContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">contact</span><span class="p">.</span><span class="na">phoneNumber</span><span class="p">)</span><span class="w"> </span><span class="p">},</span>
 <span class="w">        </span><span class="n">leadingContent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">contact</span><span class="p">.</span><span class="na">photo</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">Image</span><span class="p">(</span>
@@ -1640,7 +1697,41 @@ Az előző laborhoz hasonlóa  felületet leíró állapot osztályt <code>seale
 Itt megfigyelhető a korábban említett <code>rememberMultiplePermissionsState</code> használata, illetve az engedélyek meglétének ellenőrzése.
 Az engedélyek elkérése egy AlertDialog segítségével történik.</p>
 <p><code>ContactsScreen.kt</code>:
-<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalPermissionsApi</span>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.clickable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Box</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxSize</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.padding</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.lazy.LazyColumn</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.Icons</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.Add</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.AlertDialog</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Button</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.CircularProgressIndicator</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ExperimentalMaterial3Api</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.LargeFloatingActionButton</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.MaterialTheme</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Scaffold</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.LaunchedEffect</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.getValue</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Alignment</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.platform.LocalContext</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.platform.LocalLifecycleOwner</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.res.stringResource</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.compose.collectAsStateWithLifecycle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewmodel.compose.viewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.google.accompanist.permissions.ExperimentalPermissionsApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.google.accompanist.permissions.rememberMultiplePermissionsState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.contacts.R</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.contacts.ui.common.ContactListItem</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.contacts.ui.model.VectorImage</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.contacts.ui.model.toUiText</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.contacts.util.PermissionsUtil.getTextToShowGivenPermissions</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.lazy.items</span>
+
+<span class="nd">@ExperimentalPermissionsApi</span>
 <span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">ContactsScreen</span><span class="p">(</span>
@@ -1726,14 +1817,8 @@ Az engedélyek elkérése egy AlertDialog segítségével történik.</p>
 <span class="w">        </span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></p>
-<p>Ha hibát dobna az <code>items</code>-re, és nem találja az importot, adjuk hozzá az alábbi importot a fájl tetejéhez:
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.lazy.items</span>
 </code></pre></div>
-A szöveges erőforrás hibáját az alábbi importtal orvosolhatjuk:
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.contacts.R</span>
-</code></pre></div></p>
-<p>Ezt követően frissíthetjük a <code>Screen</code> osztályunk az új útvonallal:</p>
+Ezt követően frissíthetjük a <code>Screen</code> osztályunk az új útvonallal:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">object</span><span class="w"> </span><span class="nc">Contacts</span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;contacts&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p>Illetve kiegészíthetjük a <code>NavGraph</code> osztályt is a listanézetünkkel:</p>
@@ -1763,7 +1848,7 @@ A szöveges erőforrás hibáját az alábbi importtal orvosolhatjuk:
 <h3 id="vcf-file-importalasa">VCF file importálása<a class="headerlink" href="#vcf-file-importalasa" title="Permanent link">&para;</a></h3>
 <p>A következő lépéseket csak emulátoron szükséges elvégezni, ha nem állnak rendelkezésre névjegyek:<br />
  - Töltsük le a repository-ban elérhető .vcf fájlt: <a href="assets/contacts.vcf">névjegyek</a>.<br />
- - A <code>Device File Explorer</code> tool használatával másoljuk be a letöltött fájlt az <code>sdcard/Download</code> könyvtárba.<br />
+ - A <code>Device Explorer</code> tool használatával másoljuk be a letöltött fájlt az <code>sdcard/Download</code> könyvtárba.<br />
  - Nyissuk meg az emulátor gyári <code>Névjegyek</code> alkalmazását, és importáljuk a vcf fájlt.  </p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
@@ -2492,8 +2577,8 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
           </path>
         </svg>
       </span>
-      <span title="2023. szeptember 11. 21:51:43">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-09-11T21:51:43+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-09-11</span>
+      <span title="2023. november 27. 10:09:50">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-27T10:09:50+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-27</span>
       </span>
     </span>
 
@@ -2508,12 +2593,12 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
         </svg>
       </span>
       <span>Szerzők</span>
-      <nav><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
+      <nav><a href="https://github.com/kpomazi" target="_blank" rel="noopener noreferrer" class="md-author" title="@kpomazi">
+          <img src="https://avatars.githubusercontent.com/u/22079595?v=4?size=72" alt="@kpomazi">
+        </a><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
           <img src="https://avatars.githubusercontent.com/u/23335752?v=4?size=72" alt="@gazdilaci">
         </a><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
           <img src="https://avatars.githubusercontent.com/u/8405234?v=4?size=72" alt="@danim1130">
-        </a><a href="https://github.com/kpomazi" target="_blank" rel="noopener noreferrer" class="md-author" title="@kpomazi">
-          <img src="https://avatars.githubusercontent.com/u/22079595?v=4?size=72" alt="@kpomazi">
         </a></nav>      
     </span>
   </div>

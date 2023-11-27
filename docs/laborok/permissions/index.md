@@ -28,7 +28,7 @@ A feladatok megoldása során ne felejtsd el követni a [feladat beadás folyama
 
 Ezután indítsuk el az Android Studio-t, majd:
 
-1. Hozzunk létre egy új projektet, válasszuk az *Empty Compose Activity (Material3)* lehetőséget.
+1. Hozzunk létre egy új projektet, válasszuk az *Empty Activity* lehetőséget.
 2. A projekt neve legyen `Contacts`, a kezdő package pedig `hu.bme.aut.android.contacts`.
 3.  A projektet a repository-n belül egy külön mappában hozzuk létre. 
 4. Nyelvnek válasszuk a *Kotlin*-t.
@@ -42,47 +42,46 @@ Ellenőrízzük, hogy a létrejött projekt lefordul és helyesen működik!
 ### Verziók frissítése
 Vegyük fel az alábbi függőségeket a modul szintű build.gradle fájlunkba, majd a laborvezetővel tekintsük át őket.
 
-```gradle
+```kotlin
 dependencies {
     // Compose Bill of Materials
-    def composeBom = platform('androidx.compose:compose-bom:2023.01.00')
-    implementation composeBom
-    androidTestImplementation composeBom
+    val composeBom = platform("androidx.compose:compose-bom:2023.10.01")
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
 
     // Compose
-    implementation 'androidx.compose.material3:material3'
-    implementation 'androidx.compose.ui:ui'
-    implementation 'androidx.compose.ui:ui-tooling-preview'
-    implementation 'androidx.compose.material:material-icons-extended'
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.material:material-icons-extended")
 
     // Compose testing
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
-    debugImplementation 'androidx.compose.ui:ui-test-manifest'
-    debugImplementation 'androidx.compose.ui:ui-tooling'
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    debugImplementation("androidx.compose.ui:ui-tooling")
 
     // Core
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.activity:activity-compose:1.6.1'
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.activity:activity-compose:1.8.1")
 
     // Lifecycle, Viewmodel
-    def lifecycle_version = '2.6.0-alpha04'
-    implementation "androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
+    val lifecycle_version = "2.6.2"
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
 
     // Navigation
-    implementation "androidx.navigation:navigation-compose:2.5.3"
+    implementation("androidx.navigation:navigation-compose:2.7.5")
 
     // Permissions
-    def accompanist_version = '0.28.0'
-    implementation "com.google.accompanist:accompanist-permissions:$accompanist_version"
+    implementation("com.google.accompanist:accompanist-permissions:0.33.2-alpha")
 
     // Coil
-    implementation "io.coil-kt:coil-compose:2.2.2"
+    implementation("io.coil-kt:coil:2.5.0")
 
     //Testing
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
 ```
 
@@ -104,6 +103,8 @@ android {
     }
 }
 ```
+
+A modul szintű `build.gradle` fájlban álllítsuk át a `compileSdk` értékét **34**-re!
 
 Végül vegyük fel előre az alkalmazáshoz szükséges szöveges erőforrásokat:
 
@@ -519,7 +520,7 @@ sealed class ContactsEvent {
     data class SendSms(val phoneNumber: String): ContactsEvent()
 }
 ```
-Az előző laborhoz hasonlóa  felületet leíró állapot osztályt `sealed class`-ként deklaráljuk, és jól elkülönített állapot osztályokat veszünk fel, így is jelezve, hogy az egyes állapotokban az oldalunkon mit kell megjeleníteni. Ezeket egy `MutableStateFlow` segítségével kezeljük, melyet egy csak olvasható változatában osztunk meg az oldalt reprezentáló `Composable`-el. 
+Az előző laborhoz hasonlóan a felületet leíró állapot osztályt `sealed class`-ként deklaráljuk, és jól elkülönített állapot osztályokat veszünk fel, így is jelezve, hogy az egyes állapotokban az oldalunkon mit kell megjeleníteni. Ezeket egy `MutableStateFlow` segítségével kezeljük, melyet egy csak olvasható változatában osztunk meg az oldalt reprezentáló `Composable`-el. 
 
 Mivel a `ViewModel` képes túlélni az őt létrehozó komponenst, ezért a kódból mi nem a konstruktor hívásával fogjuk létrehozni a példányt, hanem a keretrendszernek tudunk átadni egy speciális _factory_ metódust, amit a rendszer az első alkalommal meg fog hívni. Ezt a metódust szerveztük ki a `companion object` részbe, ami jelenleg csak létrehoz egy példányt, a későbbiekben azonban hasznos lesz különböző külső értékek inicializálására.
 
@@ -529,6 +530,17 @@ A képek és szövegek kezeléséhez hozzuk létre az alábbi segédosztályokat
 
 `UiIcon.kt`:
 ```kotlin
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+
 sealed class UiIcon {
     @Composable
     fun AsImage(
@@ -568,6 +580,25 @@ data class VectorImage(val imageVector: ImageVector): UiIcon()
 
 `UiText.kt`:
 ```kotlin
+import android.content.Context
+import androidx.annotation.StringRes
+import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.TextUnit
+import hu.bme.aut.android.contacts.R
+
 sealed class UiText {
 
     data class DynamicString(val text: String) : UiText()
@@ -650,6 +681,33 @@ A `ui.common` packagebe hozzuk létre az alábbi, listaelemeket reprezántáló 
 
 `ContactListItem.kt`:
 ```kotlin
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Sms
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
+import hu.bme.aut.android.contacts.domain.model.Contact
+import hu.bme.aut.android.contacts.ui.model.VectorImage
+
 @ExperimentalMaterial3Api
 @Composable
 fun ContactListItem(
@@ -659,8 +717,8 @@ fun ContactListItem(
     onSendSms: (String) -> Unit
 ) {
     ListItem(
-        headlineText = { Text(text = contact.name) },
-        supportingText = { Text(text = contact.phoneNumber) },
+        headlineContent = { Text(text = contact.name) },
+        supportingContent = { Text(text = contact.phoneNumber) },
         leadingContent = {
             if (contact.photo != null) {
                 Image(
@@ -708,6 +766,40 @@ Az engedélyek elkérése egy AlertDialog segítségével történik.
 
 `ContactsScreen.kt`:
 ```kotlin
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LargeFloatingActionButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import hu.bme.aut.android.contacts.R
+import hu.bme.aut.android.contacts.ui.common.ContactListItem
+import hu.bme.aut.android.contacts.ui.model.VectorImage
+import hu.bme.aut.android.contacts.ui.model.toUiText
+import hu.bme.aut.android.contacts.util.PermissionsUtil.getTextToShowGivenPermissions
+import androidx.compose.foundation.lazy.items
+
 @ExperimentalPermissionsApi
 @ExperimentalMaterial3Api
 @Composable
@@ -795,16 +887,6 @@ fun ContactsScreen(
     }
 }
 ```
-
-Ha hibát dobna az `items`-re, és nem találja az importot, adjuk hozzá az alábbi importot a fájl tetejéhez:
-```kotlin 
-import androidx.compose.foundation.lazy.items
-```
-A szöveges erőforrás hibáját az alábbi importtal orvosolhatjuk:
-```kotlin 
-import hu.bme.aut.android.contacts.R
-```
-
 Ezt követően frissíthetjük a `Screen` osztályunk az új útvonallal:
 
 ```kotlin
@@ -843,7 +925,7 @@ Ha hibát dob az Android Studio, adjuk hozzá a hiányzó annotációkat.
 
 A következő lépéseket csak emulátoron szükséges elvégezni, ha nem állnak rendelkezésre névjegyek:  
  - Töltsük le a repository-ban elérhető .vcf fájlt: [névjegyek](./assets/contacts.vcf).  
- - A `Device File Explorer` tool használatával másoljuk be a letöltött fájlt az `sdcard/Download` könyvtárba.  
+ - A `Device Explorer` tool használatával másoljuk be a letöltött fájlt az `sdcard/Download` könyvtárba.  
  - Nyissuk meg az emulátor gyári `Névjegyek` alkalmazását, és importáljuk a vcf fájlt.  
 
 !!!example "BEADANDÓ (1 pont)" 

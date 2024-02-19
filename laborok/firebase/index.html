@@ -56,17 +56,15 @@
     
     
    <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-        html.glightbox-open { overflow: initial; height: 100%; }
-        .gslide-title { margin-top: 0px; user-select: text; }
-        .gslide-desc { color: #666; user-select: text; }
-        .gslide-image img { background: white; }
-        
-            .gscrollbar-fixer { padding-right: 15px; }
-            .gdesc-inner { font-size: 0.75rem; }
-            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
-            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -987,11 +985,11 @@ Az alkalmazás az alábbi fő funkciókat támogatja:
 - Jelentkezzünk be!
 - Hozzunk létre egy új projektet a <em>Create project</em> elemet választva!</p>
 <p align="center">
-<a class="glightbox" href="./assets/firebase_create_project_1.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_create_project_1.png"></a>
+<a class="glightbox" href="./assets/firebase_create_project_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_create_project_1.png"></a>
 </p>
 
 <p align="center">
-<a class="glightbox" href="./assets/firebase_create_project_3.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_create_project_3.png"></a>
+<a class="glightbox" href="./assets/firebase_create_project_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_create_project_3.png"></a>
 </p>
 
 <ul>
@@ -1018,12 +1016,12 @@ Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a más
 </div>
 <p>Ezt a lépéssorozatot manuálisan is végrehajthatjuk a Firebase console-on az <em>Add Firebase to your Android app</em>-et választva. A debug kulcs <em>SHA-1</em> lenyomata ilyenkor a jobb oldalon található Gradle fülön a <em>Gradle -&gt; [projektnév] -&gt; Tasks -&gt; android -&gt; signingReport</em> taskot futtatva kinyerhető alul az <em>execution/text</em> módot választva.</p>
 <p align="center">
-<a class="glightbox" href="./assets/android_studio_signingreport.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/android_studio_signingreport.png"></a>
+<a class="glightbox" href="./assets/android_studio_signingreport.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/android_studio_signingreport.png"></a>
 </p>
 
 <p>Következő lépésben szintén az <em>Assistant</em>-ban az <em>Authenticate using a custom authentication system</em> alatt válasszuk az <em>Add the Firebase Authentication SDK to your app</em> elemet, itt látható is, hogy milyen módosítások történnek a projekt és modul szintű <code>build.gradle</code> fájlokban.</p>
 <p align="center">
-<a class="glightbox" href="./assets/firebase_auth_connect.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_auth_connect.png"></a>
+<a class="glightbox" href="./assets/firebase_auth_connect.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_auth_connect.png"></a>
 </p>
 
 <p>Sajnos a Firebase plugin nincs rendszeresen frissítve, és így előfordul, hogy a függőségek régi verzióját adja hozzá a <code>build.gradle</code> fájlokhoz. Ezért most frissíteni fogjuk az imént automatikusan felvett függőségeket, valamint innentől manuálisan fogjuk hozzáadni az újabbakat az <em>Assistant</em> használata helyett. Fontos, hogy mindenből az itt leírt verziót használjuk.</p>
@@ -1038,7 +1036,7 @@ Cseréljük le a modul szintű <code>build.gradle</code>-ben a <code>firebase-au
 <p>A generált projektváz többi általános függősége (pl. appcompat és ktx-core könyvtárak) is elavult lehet, ezt az Android Studio jelzi is sötétsárga háttérrel. Ezekre ráállva a kurzorral az Alt-Enter gyorsbillenytűvel kiválaszthatjuk ezeknek a frissítését.</p>
 <p>Ahhoz, hogy az e-mail alapú regisztráció és authentikáció megfelelően működjön, a <em>Firebase console</em>-ban az <em>Authentication -&gt; Sign-in method</em> alatt az <em>Email/Password</em> providert engedélyezni kell.</p>
 <p align="center">
-<a class="glightbox" href="./assets/firebase_console_auth_method.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_console_auth_method.png"></a>
+<a class="glightbox" href="./assets/firebase_console_auth_method.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_console_auth_method.png"></a>
 </p>
 
 <p>Készítsük el a megfelelő <code>Service</code> osztályt. Hozzunk létre a <code>data/auth</code> package-en belül a <code>FirebaseAuthService</code> osztályt! Valósítsuk meg az <code>AuthService</code> interfész egyes metódusait! Ehhez szükségünk lesz egy <code>FirebaseAuth</code> objektumra, melyet külső forrásból fogunk megkapni:</p>
@@ -1141,7 +1139,7 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>AuthService</code> int
 </code></pre></div>
 <p>Kapcsoljuk be a <em>Cloud Firestore</em>-t a <em>Firebase console</em>-on is . Az adatbázist <em>test mode</em>-ban fogjuk használni, így egyelőre publikusan írható/olvasható lesz, de cserébe nem kell konfigurálnunk a hozzáférés-szabályozást. Ezt természetesen később mindenképp meg kellene tenni egy éles projektben.</p>
 <p align="center">
-<a class="glightbox" href="./assets/firebase_create_firestore.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_create_firestore.png"></a>
+<a class="glightbox" href="./assets/firebase_create_firestore.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_create_firestore.png"></a>
 </p>
 
 <p>Locationnek válasszunk egy hozzánk közel eső opciót.</p>
@@ -1292,15 +1290,15 @@ Végül ne felejtsük el befrissíteni a <code>TodoApplication</code> osztályun
 A <code>Notification</code> szekció alatt írjuk be az üzenet címét és szövegét, a <code>Target</code> résznél pedig
 válasszuk ki az alkalmazást, hogy minden futó példány megkapja az üzenetet.</p>
 <p align="center">
-<a class="glightbox" href="./assets/firebase_push_1.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_push_1.png"></a>
+<a class="glightbox" href="./assets/firebase_push_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_push_1.png"></a>
 </p>
 
 <p align="center">
-<a class="glightbox" href="./assets/firebase_push_2.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_push_2.png"></a>
+<a class="glightbox" href="./assets/firebase_push_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_push_2.png"></a>
 </p>
 
 <p align="center">
-<a class="glightbox" href="./assets/firebase_push_notification_success.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_push_notification_success.png" width="320"></a>
+<a class="glightbox" href="./assets/firebase_push_notification_success.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_push_notification_success.png" width="320"></a>
 </p>
 
 <p>Természetesen lehetőség van saját push üzenet feldolgozó szolgáltatás készítésére is egy <code>FirebaseMessagingService</code> létrehozásával, melyről további részletek <a href="https://firebase.google.com/docs/cloud-messaging/android/receive">itt olvashatók</a>.  </p>
@@ -1317,7 +1315,7 @@ válasszuk ki az alkalmazást, hogy minden futó példány megkapja az üzenetet
 <span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-analytics-ktx&quot;</span><span class="o">)</span>
 </code></pre></div>
 <p align="center">
-<a class="glightbox" href="./assets/firebase_crash.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_crash.png"></a>
+<a class="glightbox" href="./assets/firebase_crash.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_crash.png"></a>
 </p>
 
 <p>Vegyünk fel egy új akciót <code>TodosScreen</code> <code>TodoAppBar</code> részébe, amivel az alkalmazást hibával be tudjuk zárni:</p>
@@ -1360,7 +1358,7 @@ ugyanezen menüpont alatt lesznek elérhetők.</p>
 </code></pre></div>
 <p>Fontos kiemelni, hogy nem garantált, hogy az analitika valós időben látszik a <em>Firebase console</em>-on. 30 percig vagy akár tovább is tarthat, mire egy-egy esemény itt megjelenik.</p>
 <p align="center">
-<a class="glightbox" href="./assets/firebase_analytics.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_analytics.png"></a>
+<a class="glightbox" href="./assets/firebase_analytics.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_analytics.png"></a>
 </p>
 
 <div class="admonition example">

@@ -56,17 +56,15 @@
     
     
    <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-        html.glightbox-open { overflow: initial; height: 100%; }
-        .gslide-title { margin-top: 0px; user-select: text; }
-        .gslide-desc { color: #666; user-select: text; }
-        .gslide-image img { background: white; }
-        
-            .gscrollbar-fixer { padding-right: 15px; }
-            .gdesc-inner { font-size: 0.75rem; }
-            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
-            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -937,8 +935,8 @@
 <h2 id="a-labor-celja">A labor célja<a class="headerlink" href="#a-labor-celja" title="Permanent link">&para;</a></h2>
 <p>A legfontosabb <code>XML</code>-alapú UI fejlesztési komponensek használatának bemutatása egy számológép alkalmazáson keresztül. A labor során megismerkedünk a <code>Jetpack Navigation</code> könyvtárral, a <code>Fragment</code>-ekkel és a <code>RecyclerView</code> elkészítési lépéseivel.</p>
 <p float="left">
-<a class="glightbox" href="./assets/calc_fragment.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/calc_fragment.png" width="200" align="middle"></a>
-<a class="glightbox" href="./assets/history_fragment.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/history_fragment.png" width="200" align="middle"></a>
+<a class="glightbox" href="./assets/calc_fragment.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/calc_fragment.png" width="200" align="middle"></a>
+<a class="glightbox" href="./assets/history_fragment.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/history_fragment.png" width="200" align="middle"></a>
 </p>
 
 <h3 id="felhasznalt-technologiak">Felhasznált technológiák:<a class="headerlink" href="#felhasznalt-technologiak" title="Permanent link">&para;</a></h3>
@@ -978,7 +976,7 @@
 <li>Nyelvnek továbbra is a <strong>Kotlin</strong>-t használjuk.</li>
 <li>A minimum API szint pedig legyen <strong>24: Android 7.0 (Nougat)</strong>.</li>
 </ol>
-<p><a class="glightbox" href="assets/new_project.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/new_project.png" /></a></p>
+<p><a class="glightbox" href="assets/new_project.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/new_project.png" /></a></p>
 <div class="admonition danger">
 <p class="admonition-title">FILE PATH</p>
 <p>A projekt a repository-ban lévő <code>Calculator</code> könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!</p>
@@ -1051,9 +1049,9 @@
 <span class="nt">&lt;/resources&gt;</span>
 </code></pre></div>
 <p>Majd nyissuk meg a <em>ResourceManager</em>-t (bal oldali menüsáv), válasszuk ki a <em>drawable</em> erőforrásokat, majd kattintsunk a <strong>+</strong> gombra, ahol válasszuk ki a <strong>Vector Asset</strong> lehetőséget.</p>
-<p><a class="glightbox" href="assets/rm_drawable.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/rm_drawable.png" /></a></p>
+<p><a class="glightbox" href="assets/rm_drawable.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/rm_drawable.png" /></a></p>
 <p>Ekkor megnyílik az <em>Asset Studio</em>. Itt kattintsunk a <em>Clip art</em> mellett lévő gombra, és keressük meg az <strong>arrow back</strong> nevű ikont. Az <em>Name</em> attribútumot állítsuk át <code>ic_arrow_back_24</code>-re. Kattintsunk a <em>Next</em> majd a <em>Finish</em> gombra.</p>
-<p><a class="glightbox" href="assets/asset_studio.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/asset_studio.png" /></a></p>
+<p><a class="glightbox" href="assets/asset_studio.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/asset_studio.png" /></a></p>
 <p>Végezetül szeretnénk a <em>Material You</em> keretrendszerre áttérni a UI kinézete esetében. Ehhez nyissuk a <code>res/values/</code> elérési úton lévő <code>themes.xml</code> fájlt, és írjuk át a tartalmát a következőre:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;resources</span><span class="w"> </span><span class="na">xmlns:tools=</span><span class="s">&quot;http://schemas.android.com/tools&quot;</span><span class="nt">&gt;</span>
 <span class="w">    </span><span class="cm">&lt;!-- Base application theme. --&gt;</span>
@@ -1070,7 +1068,7 @@
 <p>A következő részben a <em>Jetpack Navigation</em> könyvtárral fogunk megismerkedni. Segítségével <em>Activity</em>-k és <em>Fragment</em>-ek közötti navigációt lehet megvalósítani úgy, hogy az egyes képernyők közti útvonalakat egy gráffal modellezzük.</p>
 <p>Első lépésként a <em>ResourceManager</em> segítségével, hozzunk létre egy navigációs gráfot. Válasszuk ki a <em>Navigation</em> opciót, majd kattintsunk a <strong>+</strong> gombra, ahol válasszuk a <em>Navigation Resource File</em> lehetőséget. Az erőforrás fájl neve legyen <code>nav_graph</code>.</p>
 <p>Ezután hozzunk létre egy új <em>Empty Views Activity</em>-t (jobb klikk <em>calculator</em> package-n &rarr; <em>New</em> &rarr; <em>Activity</em> &rarr; <em>Empty Views Activity</em>). Itt pipáljuk be a <em>Launcher Activity</em> opciót, ugyanis szeretnénk, hogy az <em>Activity</em> a futtató eszköz menüjéből indítható legyen. Majd kattintsunk a <em>Finish</em> gombra.</p>
-<p><a class="glightbox" href="assets/new_activity.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/new_activity.png" /></a></p>
+<p><a class="glightbox" href="assets/new_activity.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/new_activity.png" /></a></p>
 <p>Keressük meg a <code>MainActivity</code>-hez tartozó <code>activity_main.xml</code> fájlt (<code>res/layout</code>), és vegyünk fel benne egy <code>FragmentContainerView</code> komponenst:</p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
 <span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span><span class="w"> </span><span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
@@ -1104,9 +1102,9 @@
 </ul>
 </div>
 <p>Következő lépésként nyissuk meg a <code>nav_graph.xml</code>-t (<code>res/navigation</code>) <em>Design</em> módban. Kattintsunk a <em>New Destination</em> gombra, ott válasszuk ki a <em>Create New Destination</em> majd <em>Fragment (Blank)</em> opciókat. A <em>Fragment</em> neve legyene <code>CalculatorFragment</code>. Ezután véglegesítsük a létrehozást a <em>Next</em> és <em>Finish</em> gombra való kattintással.</p>
-<p><a class="glightbox" href="assets/new_destination.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/new_destination.png" /></a></p>
+<p><a class="glightbox" href="assets/new_destination.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/new_destination.png" /></a></p>
 <p>Hozzunk létre ugyanezzel a módszerrel egy újabb <em>Fragment</em>-t <code>HistoryFragment</code> néven. Ha ezzel megvagyunk, vigyük a kurzorunkat a <code>CalculatorFragment</code> fölé, ekkor megjelenik egy karika a <em>Fragment</em> jobb oldalán. Kattintsunk rá, majd a <em>bal</em> klikket lenyomva húzzuk a kurzort a másik <em>Fragment</em> fölé és ott engedjük el. Így létrejött egy útvonal a <code>CalculatorFragment</code> és a <code>HistoryFragment</code> között. Végezzük el ugyanezt visszafelé. Ha ezzel megvagyunk, akkor következőt kell látnunk:</p>
-<p><a class="glightbox" href="assets/nav_graph_done.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/nav_graph_done.png" /></a></p>
+<p><a class="glightbox" href="assets/nav_graph_done.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/nav_graph_done.png" /></a></p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amin látszódik <strong>a futó alkalmazás</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a <strong><code>nav_graph.xml</code> kódja,</strong> valamint a <strong>neptun kódod a kódban valahol kommentként</strong>.</p>

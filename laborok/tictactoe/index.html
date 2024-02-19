@@ -56,17 +56,15 @@
     
     
    <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-        html.glightbox-open { overflow: initial; height: 100%; }
-        .gslide-title { margin-top: 0px; user-select: text; }
-        .gslide-desc { color: #666; user-select: text; }
-        .gslide-image img { background: white; }
-        
-            .gscrollbar-fixer { padding-right: 15px; }
-            .gdesc-inner { font-size: 0.75rem; }
-            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
-            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -979,9 +977,9 @@
 </ul>
 <p>A megvalósítandó játék felhasználói felületét az alábbi képernyőképek szemléltetik:</p>
 <p float="left">
-<a class="glightbox" href="./assets/main.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/main.png" width="30%" align="middle"></a>
-<a class="glightbox" href="./assets/dialog.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/dialog.png" width="30%" align="middle"></a>
-<a class="glightbox" href="./assets/game.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/game.png" width="30%" align="middle"></a>
+<a class="glightbox" href="./assets/main.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/main.png" width="30%" align="middle"></a>
+<a class="glightbox" href="./assets/dialog.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/dialog.png" width="30%" align="middle"></a>
+<a class="glightbox" href="./assets/game.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/game.png" width="30%" align="middle"></a>
 </p>
 
 <h2 id="elokeszuletek">Előkészületek<a class="headerlink" href="#elokeszuletek" title="Permanent link">&para;</a></h2>
@@ -1095,7 +1093,7 @@
 <p><em>Létrehozás után ellenőrizzük a laborvezető segítségével a létrejött kódokat!</em></p>
 <h2 id="mainactivity-felulet">MainActivity felület<a class="headerlink" href="#mainactivity-felulet" title="Permanent link">&para;</a></h2>
 <p>A <code>MainActivity</code> a fenti ábra alapján három menüpontot tartalmaz középre igazítva. Ezt a felületet a hozzá tartozó <code>res/layout/activity_main.xml</code>-ben hozhatjuk létre. Mivel az AndroidStudio már alapértelmezetten <code>ConstraintLayout</code> alapú nézetet generál, így most ezt fogjuk használni a megvalósításra. Az anyagban ennek működése csak később következik, így alább megtalálható a kész XML leíró. Akinek van kedve, a gif alapján kipróbálhatja a használatát:</p>
-<p><a class="glightbox" href="assets/constraint_layout_1.gif" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/constraint_layout_1.gif" /></a></p>
+<p><a class="glightbox" href="assets/constraint_layout_1.gif" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/constraint_layout_1.gif" /></a></p>
 <blockquote>
 <p>Tipp: Shift + Kattintással lehet több elemet kijelölni</p>
 </blockquote>
@@ -1172,7 +1170,7 @@
 </div>
 <h2 id="aboutactivity-felulet">AboutActivity felület<a class="headerlink" href="#aboutactivity-felulet" title="Permanent link">&para;</a></h2>
 <p>Ahogy korábban említettük, az <em>Infó</em> menü elindítja az <code>AboutActivity</code>-t. Elsőként készítsük el az <code>AboutActivity</code> felületét, melyet a <code>res/layout/activity_about.xml</code> ír le. Mint korábban, itt is lehet <code>ConstraintLayout</code>-ot készíteni a segítséggel, vagy alább megtalálható az XML:</p>
-<p><a class="glightbox" href="assets/constraint_layout_2.gif" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/constraint_layout_2.gif" /></a></p>
+<p><a class="glightbox" href="assets/constraint_layout_2.gif" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/constraint_layout_2.gif" /></a></p>
 <div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
 <span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span><span class="w"> </span><span class="na">xmlns:android=</span><span class="s">&quot;http://schemas.android.com/apk/res/android&quot;</span>
 <span class="w">    </span><span class="na">xmlns:app=</span><span class="s">&quot;http://schemas.android.com/apk/res-auto&quot;</span>
@@ -1503,7 +1501,7 @@ A <code>binding</code> példány működéséhez három dolgot kell tennünk:</p
 <span class="p">}</span>
 </code></pre></div>
 Próbáljuk ki az alkalmazást! Most már az <em>Új játék</em> gombra nyomva meg kell, hogy jelenjen a (még erősen hiányos) játékterünk.</p>
-<p><a class="glightbox" href="./assets/fragment.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/fragment.png" width="300" align="middle"></a></p>
+<p><a class="glightbox" href="./assets/fragment.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/fragment.png" width="300" align="middle"></a></p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>játéktér</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a <strong>GameFragmenthez tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. A képet a megoldásban a repository-ba f3.png néven töltsd föl.</p>

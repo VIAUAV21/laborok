@@ -56,17 +56,15 @@
     
     
    <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
-        html.glightbox-open { overflow: initial; height: 100%; }
-        .gslide-title { margin-top: 0px; user-select: text; }
-        .gslide-desc { color: #666; user-select: text; }
-        .gslide-image img { background: white; }
-        
-            .gscrollbar-fixer { padding-right: 15px; }
-            .gdesc-inner { font-size: 0.75rem; }
-            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
-            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
-            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
-            </style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../../assets/javascripts/glightbox.min.js"></script></head>
   
   
     
@@ -978,10 +976,10 @@
 <h1 id="labor05-todo-alkalmazas">Labor05 - Todo Alkalmazás<a class="headerlink" href="#labor05-todo-alkalmazas" title="Permanent link">&para;</a></h1>
 <p>A labor célja, hogy bemutassa, hogyan lehet egy egyszerű ToDo alkalmazást megvalósítani a Compose keretrendszerben.</p>
 <p float="left">
-<a class="glightbox" href="./assets/list.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/list.png" width="200" align="middle"></a>
-<a class="glightbox" href="./assets/details.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/details.png" width="200" align="middle"></a>
-<a class="glightbox" href="./assets/create.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/create.png" width="200" align="middle"></a>
-<a class="glightbox" href="./assets/datepicker.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img src="./assets/datepicker.png" width="200" align="middle"></a>
+<a class="glightbox" href="./assets/list.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/list.png" width="200" align="middle"></a>
+<a class="glightbox" href="./assets/details.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/details.png" width="200" align="middle"></a>
+<a class="glightbox" href="./assets/create.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/create.png" width="200" align="middle"></a>
+<a class="glightbox" href="./assets/datepicker.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/datepicker.png" width="200" align="middle"></a>
 </p>
 
 <h2 id="elokeszuletek">Előkészületek<a class="headerlink" href="#elokeszuletek" title="Permanent link">&para;</a></h2>
@@ -1250,7 +1248,7 @@ Hozzunk létre a gyökérkönyvtárban létre egy új package-et <code>navigatio
 </ul>
 <p>Az új oldalakra való navigáláshoz szükségünk van a navigációt vezérlő kontrollerre, melyet a <code>NavGraph</code> Composable kezel, ezért ezeknél az eseményeknél az oldal olyan függvény callback objektumokat fog meghívni, melyeket a konstruktorán keresztül kap meg, így a <code>NavGraph</code> könnyen tud értesülni róluk.</p>
 <p>Az adatok kezeléséhez tipikusan a <code>ViewModel</code> osztályt használjuk. A <code>ViewModel</code> segítségével biztosítjuk azt, hogy elkülönüljenek az alkalmazásunk megjelenítésért szolgáló kódjai az alkalmazás logikáját biztosító kódjaitól. Míg az előbbiek a felület megjelenéséért felelnek, a <code>ViewModel</code> tárolja és dolgozza fel a UI-nak szükséges adatokat.
-<a class="glightbox" href="assets/compose_viewmodel.png" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/compose_viewmodel.png" /></a></p>
+<a class="glightbox" href="assets/compose_viewmodel.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/compose_viewmodel.png" /></a></p>
 <p>Vegyük fel a szükséges függőségeket:
 <div class="highlight"><pre><span></span><code>val lifecycle_version = &quot;2.6.2&quot;
 implementation(&quot;androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version&quot;)
@@ -2441,7 +2439,7 @@ Az <code>animateFloatAsState()</code> egy nagyon hasznos State objektumot tesz e
 </code></pre></div>
 Így a szög kiolvasása az <code>Icon</code> létrehozásakor történik, mely az <code>IconButton</code> callbackjében történik, melyben csak az <code>Icon</code> létrehozása történik, így kevesebb elemet kell létrehozni ennek a módosítására.</p>
 <p>A kiolvasás helyének módosítása mellett egy másik szempontra is érdemes figyelnünk a State objektumok használatánál: a Compose melyik fázisában történik a kiolvasás. Ennek megértésére nézzük át az alábbi ábrát:</p>
-<p><a class="glightbox" href="assets/phases-state-read-draw.svg" data-type="image" data-width="100%" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/phases-state-read-draw.svg" /></a></p>
+<p><a class="glightbox" href="assets/phases-state-read-draw.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/phases-state-read-draw.svg" /></a></p>
 <p>Az aktuális helyzetben a Composition rétegben olvassuk ki az értékét a szögnek, pedig valójában csak a kirajzoláskor kellene egy forgatási transzformációt használni. A Compose sok esetben két megoldást biztosít egy paraméter megadására: a közvetlen értékadás, illetve a callbacken keresztüli visszatérés. </p>
 <p>Jelenleg a közvetlen értékadást használjuk, mert akkor megadjuk a forgatás értékét, amikor létrehozzuk az adott <code>Modifier</code> objektumot. Ezt általában egyszerűbb, viszont cserébe korábban kiolvasásra kerül az érték, mint szükség lenne. A callbacken keresztüli visszatérés esetén a Compose garantálja, hogy csak abban a fázisban olvassa ki az adott értéket, amikor már mindenképp szükséges. Ezt forgatásnál is lehet használni a következő módon:
 <div class="highlight"><pre><span></span><code><span class="n">Icon</span><span class="p">(</span>

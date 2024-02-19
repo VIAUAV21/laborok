@@ -215,13 +215,13 @@ Első lépésként indítsuk el az Android Studio-t, majd:
 
 A laborvezető segítségével tekintsék át a létrejött projekt struktúráját!
 
-Miután áttekintettük a projektet, valósítsuk meg a barchóba játékot! Először is kapcsoljuk be a modulunkra a `ViewBinding`-ot a felületi elemek eléréhez. Az `app` modulhoz tartozó `build.gradle` fájlban az `android` tagen belülre illesszük be az engedélyezést:
+Miután áttekintettük a projektet, valósítsuk meg a barchóba játékot! Először is kapcsoljuk be a modulunkra a `ViewBinding`-ot a felületi elemek eléréhez. Az `app` modulhoz tartozó `build.gradle.kts` fájlban az `android` tagen belülre illesszük be az engedélyezést:
 
 ```kotlin
 android {
     ...
     buildFeatures {
-        viewBinding true
+        viewBinding = true
     }
 }
 

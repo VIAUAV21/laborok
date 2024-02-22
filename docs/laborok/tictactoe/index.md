@@ -201,13 +201,76 @@ A `MainActivity` a fenti ábra alapján három menüpontot tartalmaz középre i
 
 Nézzük át a laborvezetővel a felület felépítését!
 
+## ViewBinding
+
+A felületi elemeink elérésére "nézetkötést", azaz `ViewBinding`-ot fogunk használni.
+A [`ViewBinding`](https://developer.android.com/topic/libraries/view-binding) a kódírást könnyíti meg számunkra. Amennyiben ezt használjuk, az automatikusan generálódó *binding* osztályokon keresztül közvetlen referencián keresztül tudunk elérni minden *ID*-val rendelkező erőforrást az `XML` fájljainkban.
+
+Először is be kell kapcsolnunk a modulunkra a `ViewBinding`-ot. Az `app` modulhoz tartozó `build.gradle.kts` fájlban az `android` tagen belülre illesszük be az engedélyezést:
+
+```kotlin
+android {
+    ...
+    buildFeatures {
+        viewBinding = true
+    }
+}
+
+```
+
+Majd nyomjunk a felső kék sávon jobb oldalon megjelenő `Sync Now` gombra. Ezzel a `gradle` betölti szükséges változtatásokat.
+
+!!! info "ViewBinding"
+	Ebben az esetben a modul minden egyes XML layout fájljához generálódik egy úgynevezett binding osztály. Minden binding osztály tartalmaz referenciát az adott XML layout erőforrás gyökér elemére és az összes ID-val rendelkező view-ra. A generált osztály neve úgy áll elő, hogy az XML layout nevét Pascal formátumba alakítja a rendszer és a végére illeszti, hogy `Binding`. Azaz például a `activity_login.xml` erőforrásfájlból az alábbi binding osztály generálódik: `ActivityLoginBinding`.
+
+	```xml
+	<LinearLayout ... >
+	    <TextView android:id="@+id/name" />
+	    <ImageView android:cropToPadding="true" />
+	    <Button android:id="@+id/button"
+	        android:background="@drawable/rounded_button" />
+	</LinearLayout>
+	```
+	
+	A generált osztálynak két mezője van. A `name` id-val rendelkező `TextView` és a `button` id-jú `Button`. A layout-ban szereplő ImageView-nak nincs id-ja, ezért nem szerepel a binding osztályban.
+	
+	Minden generált osztály tartalmaz egy `getRoot()` metódust, amely direkt referenciaként szolgál a layout gyökerére. A példában a `getRoot()` metódus a `LinearLayout`-tal tér vissza.
+
+
+Ezzel után már a teljes modulunkban automatikusan elérhetővé vált a `ViewBinding`. Használatához az `Activity`-nkben csak példányosítanunk kell a `binding` objektumot, amin keresztül majd elérhetjük az erőforrásainkat.
+A `binding` példány működéséhez három dolgot kell tennünk:
+
+1. A generált `binding` osztály *statikus* `inflate` függvényével példányosítjuk a `binding` osztályunkat az `Activity`-hez,
+1. Szerzünk egy referenciát a gyökér nézetre a `getRoot()` függvénnyel,
+1.  Ezt a gyükérelemet odaadjuk a `setContentView()` függvénynek, hogy ez legyen az aktív *view* a képernyőn:
+
+```kotlin
+package hu.bme.aut.android.tictactoe
+
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import hu.bme.aut.android.tictactoe.databinding.ActivityMainBinding
+
+class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
+}
+```
+
+!!!tip "lateinit"
+	A [`lateinit`](https://kotlinlang.org/docs/reference/properties.html#late-initialized-properties-and-variables) kulcsszóval megjelölt property-ket a fordító megengedi inicializálatlanul hagyni az osztály konstruktorának lefutása utánig, anélkül, hogy nullable-ként kéne azokat megjelölnünk (ami később kényelmetlenné tenné a használatukat, mert mindig ellenőriznünk kéne, hogy `null`-e az értékük). Ez praktikus olyan esetekben, amikor egy osztály inicializálása nem a konstruktorában történik (például ahogy az `Activity`-k esetében az `onCreate`-ben), mert később az esetleges `null` eset lekezelése nélkül használhatjuk majd a property-t. A `lateinit` használatával átvállaljuk a felelősséget a fordítótól, hogy a property-t az első használata előtt inicializálni fogjuk - ellenkező esetben kivételt kapunk.
+
 ## Highscore gomb eseménykezelő
 
 Az *Eredmények* menüpontra kattintva egy `Toast` üzenetet kell megjeleníteni. Ehhez meg kell keresni az *Eredmények* menüpont gombját és be kell állítani neki az alábbi eseménykezelőt a `MainActivity` `onCreate()` függvényén belül:
 
 ```kotlin
-val btnHighScore = findViewById<Button>(R.id.btnHighScores)
-btnHighScore.setOnClickListener {
+binding.btnHighScores.setOnClickListener {
     Toast.makeText(
         this@MainActivity,
         getString(R.string.toast_highscore),
@@ -261,80 +324,7 @@ A következő lépésként valósítsuk meg a navigációt (váltást) az `Activ
 
 Valósítsuk meg ezen két gomb eseménykezelőjét szintén a `MainActivity` `onCreate()` függvényében!
 
-!!!tip "findViewById"
-	Ezt csinálhatnánk az előzőhöz hasonlóan, azaz példányosítunk egy gombot, a `findViewById` metódussal referenciát szerzünk a felületen lévő vezérlőre, és a példányon beállítjuk az eseménykezelőt. Azonban a `findViewById` hívásnak számos problémája [van](https://developer.android.com/topic/libraries/view-binding#findviewbyid). Ezekről bővebben az előadáson lesz szó (pl.: *Null safety*, *type safety*). Ezért e helyett "nézetkötést", azaz `ViewBinding`-ot fogunk használni.
-	A [`ViewBinding`](https://developer.android.com/topic/libraries/view-binding) a kódírást könnyíti meg számunkra. Amennyiben ezt használjuk, az automatikusan generálódó *binding* osztályokon keresztül közvetlen referencián keresztül tudunk elérni minden *ID*-val rendelkező erőforrást az `XML` fájljainkban.
-
-Először is be kell kapcsolnunk a modulunkra a `ViewBinding`-ot. Az `app` modulhoz tartozó `build.gradle.kts` fájlban az `android` tagen belülre illesszük be az engedélyezést:
-
 ```kotlin
-android {
-    ...
-    buildFeatures {
-        viewBinding = true
-    }
-}
-
-```
-
-Majd nyomjunk a felső kék sávon jobb oldalon megjelenő `Sync Now` gombra. Ezzel a `gradle` betölti szükséges változtatásokat.
-
-!!! info "ViewBinding"
-	Ebben az esetben a modul minden egyes XML layout fájljához generálódik egy úgynevezett binding osztály. Minden binding osztály tartalmaz referenciát az adott XML layout erőforrás gyökér elemére és az összes ID-val rendelkező view-ra. A generált osztály neve úgy áll elő, hogy az XML layout nevét Pascal formátumba alakítja a rendszer és a végére illeszti, hogy `Binding`. Azaz például a `activity_login.xml` erőforrásfájlból az alábbi binding osztály generálódik: `ActivityLoginBinding`.
-
-	```xml
-	<LinearLayout ... >
-	    <TextView android:id="@+id/name" />
-	    <ImageView android:cropToPadding="true" />
-	    <Button android:id="@+id/button"
-	        android:background="@drawable/rounded_button" />
-	</LinearLayout>
-	```
-	
-	A generált osztálynak két mezője van. A `name` id-val rendelkező `TextView` és a `button` id-jú `Button`. A layout-ban szereplő ImageView-nak nincs id-ja, ezért nem szerepel a binding osztályban.
-	
-	Minden generált osztály tartalmaz egy `getRoot()` metódust, amely direkt referenciaként szolgál a layout gyökerére. A példában a `getRoot()` metódus a `LinearLayout`-tal tér vissza.
-
-
-Ezzel után már a teljes modulunkban automatikusan elérhetővé vált a `ViewBinging`. Használatához az `Activity`-nkben csak példányosítanunk kell a `binding` objektumot, amin keresztül majd elérhetjük az erőforrásainkat.
-A `binding` példány működéséhez három dolgot kell tennünk:
-
-1. A generált `binding` osztály *statikus* `inflate` függvényével példányosítjuk a `binding` osztályunkat az `Activity`-hez,
-1. Szerzünk egy referenciát a gyökér nézetre a `getRoot()` függvénnyel,
-1.  Ezt a gyükérelemet odaadjuk a `setContentView()` függvénynek, hogy ez legyen az aktív *view* a képernyőn:
-
-```kotlin
-package hu.bme.aut.android.tictactoe
-
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import hu.bme.aut.android.tictactoe.databinding.ActivityMainBinding
-
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-    }
-}
-```
-
-!!!tip "lateinit"
-	A [`lateinit`](https://kotlinlang.org/docs/reference/properties.html#late-initialized-properties-and-variables) kulcsszóval megjelölt property-ket a fordító megengedi inicializálatlanul hagyni az osztály konstruktorának lefutása utánig, anélkül, hogy nullable-ként kéne azokat megjelölnünk (ami később kényelmetlenné tenné a használatukat, mert mindig ellenőriznünk kéne, hogy `null`-e az értékük). Ez praktikus olyan esetekben, amikor egy osztály inicializálása nem a konstruktorában történik (például ahogy az `Activity`-k esetében az `onCreate`-ben), mert később az esetleges `null` eset lekezelése nélkül használhatjuk majd a property-t. A `lateinit` használatával átvállaljuk a felelősséget a fordítótól, hogy a property-t az első használata előtt inicializálni fogjuk - ellenkező esetben kivételt kapunk.
-
-Ezek után már be is állíthatjuk a gombjaink eseménykezelőit. (Cseréljük le a `btnHighScores`-t is.):
-
-```kotlin
-binding.btnHighScores.setOnClickListener {
-    Toast.makeText(
-        this@MainActivity,
-        getString(R.string.toast_highscore),
-        Toast.LENGTH_LONG
-    ).show()
-}
-
 binding.btnStart.setOnClickListener {
     startActivity(Intent(this@MainActivity, GameActivity::class.java))
 }
@@ -678,9 +668,12 @@ override fun onTouchEvent(event: MotionEvent?): Boolean {
 }
 ```
 
-## Alkalmazás ikon lecserélése
+## Alkalmazás ikon lecserélése - Önálló feladat
 
-Az alkalmazás ikonját jelenleg a `res/mipmap[-ldpi/mdpi/hdpi/xhdpi/...]` mappákban található `ic_launcher.png` jelképezi. A laborvezető segítségével keressünk egy új ikont és cseréljük le. Nem muszáj az ikont minden felbontásban elkészíteni, egyszerűen elhelyezhetónk egy méretet a `mipmap` mappában is (melyet létre kell hozni), ekkor természetesen különböző felbontású eszközökön torzulhat az ikon képe. (Ha marad idő, a beépített *Asset Studio*-val elkészíthetjük az összes szükséges változatot.)
+Az alkalmazás ikonját jelenleg a `res/mipmap[-ldpi/mdpi/hdpi/xhdpi/...]` mappákban található `ic_launcher.png` jelképezi. Keressünk egy új ikont és cseréljük le. Nem muszáj az ikont minden felbontásban elkészíteni, egyszerűen elhelyezhetónk egy méretet a `mipmap` mappában is (melyet létre kell hozni), ekkor természetesen különböző felbontású eszközökön torzulhat az ikon képe. (Ha marad idő, a beépített *Asset Studio*-val elkészíthetjük az összes szükséges változatot.)
+
+!!!tip "Ikon generálása"
+    Ikon generálására használhatjuk például a következő oldalt: https://icon.kitchen/
 
 Próbáljuk ki az alkalmazást!
 
@@ -697,7 +690,7 @@ binding.btnStart.setOnClickListener {
 	Készíts egy **képernyőképet**, amelyen látszik a **játéktér játék közben** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a **TicTacToeView kódjának egy részlete**, valamint a **neptun kódod a kódban valahol kommentként**. A képet a megoldásban a repository-ba f4.png néven töltsd föl.
 
 
-## Játéklogika ellenőrzése - önálló feladat
+## Játéklogika ellenőrzése - Önálló feladat
 
 Valósítson meg egy függvényt, mely minden lépés után leellenőrzi, hogy győzött-e valamelyik játékos, vagy nincs-e döntetlen. Amennyiben vége a játéknak, egy `Toast` üzenettel jelezze ezt a felhasználónak és lépjen vissza a főmenübe. A laborvezető segítségével vizsgálja meg, hogy a `View` osztályból hogyan érhető el az őt tartalmazó "host" `Activity`, aminek így például egy `gameOver()` függvénye meghívható, ami megvalósítja a fent leírt játék befejezést.
 

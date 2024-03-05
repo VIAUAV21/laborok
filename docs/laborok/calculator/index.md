@@ -55,7 +55,7 @@ A *Jetpack Navigation* könyvtár használata miatt vegyük fel a többi plugin 
 ```groovy
 plugins {
 	...
-	id("androidx.navigation.safeargs") version "2.7.3" apply false
+	id("androidx.navigation.safeargs") version "2.7.7" apply false
 }
 ```
 
@@ -90,7 +90,7 @@ android { ... }
 
 dependencies {
 	...
-    val nav_version = "2.7.3"
+    val nav_version = "2.7.7"
     implementation ("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation ("androidx.navigation:navigation-ui-ktx:$nav_version")
 }
@@ -205,13 +205,6 @@ Hozzunk létre ugyanezzel a módszerrel egy újabb *Fragment*-t `HistoryFragment
 
 ![](./assets/nav_graph_done.png)
 
-!!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amin látszódik **a futó alkalmazás** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a **`nav_graph.xml` kódja,** valamint a **neptun kódod a kódban valahol kommentként**.
-
-	A képet a megoldásban a repository-ba f1.png néven töltsd föl.
-
-	A képernyőkép szükséges feltétele a pontszám megszerzésének.
-
 
 ## CalculatorOperator
 
@@ -250,22 +243,12 @@ Következő lépésként egészítsük ki az osztályt egy `companion object`-el
 
 ```kotlin
 companion object {
-    fun getByOrdinal(ordinal: Int): OperationSymbol? {
-        var operation: OperationSymbol? = null
-        for (value in values()) {
-            if (value.ordinal == ordinal) {
-                operation = value
-                break
-            }
-        }
-        return operation
-    }
+    fun getByOrdinal(ordinal: Int): OperationSymbol? = OperationSymbol.entries.getOrNull(ordinal)
 }
-
 ```
 
 !!!info ""
-	Az `enum` osztályhoz tartozó `values()` metódus az osztályban definiált `enum` objektumok tömbjét adja vissza.
+	Az `enum` osztályhoz tartozó `entries` az osztályban definiált `enum` objektumok tömbjét adja vissza.
 
 Ezután a *util* package-ben hozzunk létre egy `CalculatorOperator` nevű *Kotlin* `object`-t (`Singleton` osztály). Ez a `Singleton` felel a számológép vezérléséért.
 
@@ -858,7 +841,7 @@ Végezetül hívjuk meg ezt az `initButtons()` metódust az `onViewCreated()`-be
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amin látszódik **a *CalculatorFragment* egy beleírt számmal** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az **ahhoz tartozó kódrészlet,** valamint a **neptun kódod a kódban valahol kommentként**.
 
-	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
+	A képet a megoldásban a repository-ba f1.png néven töltsd föl.
 
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
@@ -997,7 +980,7 @@ interface ClickListener {
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amin látszódik a **HistoryAdapter osztály kódja,** valamint a **neptun kódod a kódban valahol kommentként**.
 
-	A képet a megoldásban a repository-ba f3.png néven töltsd föl.
+	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
 
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
@@ -1267,7 +1250,7 @@ override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amin látszódik **a `HistoryFragment` néhány bejegyzéssel** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a **`HistoryFragment` osztály `onClick()` metódusának kódja,** valamint a **neptun kódod a kódban valahol kommentként**.
 
-	A képet a megoldásban a repository-ba f4.png néven töltsd föl.
+	A képet a megoldásban a repository-ba f3.png néven töltsd föl.
 
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 	
@@ -1299,6 +1282,17 @@ binding.topAppBar.setOnMenuItemClickListener { menuItem ->
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amin látszódik az **üres *History* képernyő** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a **`HistoryFragment` osztály `setOnMenuItemClickListener` metódusának kódja,** valamint a **neptun kódod a kódban valahol kommentként**.
 
-	A képet a megoldásban a repository-ba f5.png néven töltsd föl.
+	A képet a megoldásban a repository-ba f4.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
+
+ ## Önálló feladat - Kontextus-függő mezőtörlés
+
+ A jelenlegi alkalmazás a törlésnél a teljes számológép állapotát törli. Valósítsuk meg, hogy ha már az első szám és jelet megadtuk, és a második számra is elkezdtünk írni, akkor a *C* helyett *CE* felirat legyen a gombon, és ennek megnyomása csak a második számot törli (a gomb ekkor visszavált a *C* működésre).
+
+ !!!example "BEADANDÓ (1 pont)" 
+	Készíts egy **képernyőképet**, amin látszódik a számológép **CE* gombja** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a **`CalculatorFragment` osztály ehhez tartozó része,** valamint a **neptun kódod a kódban valahol kommentként**.
+
+ 	A képet a megoldásban a repository-ba f5.png néven töltsd föl.
 
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.

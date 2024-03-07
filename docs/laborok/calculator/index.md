@@ -1286,11 +1286,11 @@ binding.topAppBar.setOnMenuItemClickListener { menuItem ->
 
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
- ## Önálló feladat - Kontextus-függő mezőtörlés
+## Önálló feladat - Kontextus-függő mezőtörlés
 
  A jelenlegi alkalmazás a törlésnél a teljes számológép állapotát törli. Valósítsuk meg, hogy ha már az első szám és jelet megadtuk, és a második számra is elkezdtünk írni, akkor a *C* helyett *CE* felirat legyen a gombon, és ennek megnyomása csak a második számot törli (a gomb ekkor visszavált a *C* működésre).
 
- !!!example "BEADANDÓ (1 pont)" 
+!!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amin látszódik a számológép **CE* gombja** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a **`CalculatorFragment` osztály ehhez tartozó része,** valamint a **neptun kódod a kódban valahol kommentként**.
 
  	A képet a megoldásban a repository-ba f5.png néven töltsd föl.

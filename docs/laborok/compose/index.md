@@ -72,7 +72,7 @@ Az Android Studio a projekt létrehozásakor felveszi ugyan a *Compose*-t a füg
 
 ```gradle
 dependencies {
-    val composeBom = platform("androidx.compose:compose-bom:2023.01.00")
+    val composeBom = platform("androidx.compose:compose-bom:2024.02.02")
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
@@ -86,9 +86,9 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
 
     implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.activity:activity-compose:1.7.2")
+    implementation("androidx.activity:activity-compose:1.8.2")
 
-    implementation("androidx.navigation:navigation-compose:2.7.3")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
@@ -113,6 +113,8 @@ Először hozzunk létre ehhez egy `hu.bme.aut.android.composebasics.ui.common` 
 Ezen belül készítsünk egy `NormalTextField` komponenst a következő tartalommal:
 
 ```kotlin
+package hu.bme.aut.android.composebasics.ui.common
+
 @ExperimentalMaterial3Api
 @Composable
 fun NormalTextField(
@@ -201,6 +203,9 @@ fun NormalTextView_Preview() {
 }
 ```
 
+!!! info ""
+	Ne feledjük, hogy a Preview csak egy build után tekinthető meg.
+
 Előnézeti függvényből többet is létrehozhatunk, hogy lássuk, hogyan néz ki a komponensünk különböző
 paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelenést is:
 
@@ -230,6 +235,8 @@ fun NormalTextView_Error_Preview() {
 A fentihez hasonlóan a `ui.common` package-be készítsünk egy újabb komponenst `PasswordTextField` néven az alábbi tartalommal:
 
 ```kotlin
+package hu.bme.aut.android.composebasics.ui.common
+
 @ExperimentalMaterial3Api
 @Composable
 fun PasswordTextField(
@@ -300,6 +307,8 @@ Most, hogy a képernyők minden fontos alkotórésze a rendelkezésünkre áll, 
 A képernyőknek és a hozzájuk kapcsolódó kódoknak hozzunk létre egy közös `hu.bme.aut.android.composebasics.feature` package-et, majd ezen belül a bejelentkező képernyő a `login` package-be kerüljön! Készítsük el a képernyő kódját `LoginScreen` néven, majd adjuk meg a következő kódot:
 
 ```kotlin
+package hu.bme.aut.android.composebasics.feature.login
+
 @ExperimentalMaterial3Api
 @Composable
 fun LoginScreen(
@@ -406,6 +415,8 @@ fun LoginScreen_Preview() {
 A második elkészítendő képernyőnk az alkalmazás "főképernyője", amit sikeres bejelentkezés után lát a felhasználó. Viszont itt már részben érintenünk kell a képernyők közti navigáció kérdését is, hiszen a képernyőnek lesz egy menüje, ahonnan majd más képernyőkre lehet navigálni. Ehhez egy `navigation` package-et hozzunk létre, és ebbe kerüljön az alábbi `Screen` osztály. Itt `sealed classot` alkalmazunk a lehetséges képernyők leírására, mert csak előre megadott számú képernyőnk van, és a főképernyő argumentumot is kaphat. A `sealed class` kicsit hasonlít az `enumhoz`, de támogatja ezt a fontos különbséget is. Az osztály előtt definiált konstansokat később fogjuk használni, amikor teljesen összerakjuk a navigációs gráfot.
 
 ```kotlin
+package hu.bme.aut.android.composebasics.navigation
+
 const val ROOT_GRAPH_ROUTE = "root"
 const val AUTH_GRAPH_ROUTE = "auth"
 const val MAIN_GRAPH_ROUTE = "main"
@@ -429,6 +440,8 @@ sealed class Screen(val route: String) {
 Maga a főképernyő egy `feature.home` subpackage-be kerüljön. Először itt is egy segédosztályt hozunk létre. Jelen esetben a menüpontokat fogjuk enumban modellezni. Minden menüpontra jellemző a neve, az ikonja, illetve egy azonosító, ahova navigál:
 
 ```kotlin
+package hu.bme.aut.android.composebasics.feature.home
+
 enum class MenuItemUiModel(
     val text: @Composable () -> Unit,
     val icon: @Composable () -> Unit,
@@ -454,6 +467,8 @@ enum class MenuItemUiModel(
 A menüben szerepelnek profil és beállítás lehetőségek is, amelyekről korábban nem volt szó. Ezek nem lesznek igazi kidolgozott képernyők, de példaképp szerepelnek itt, hogy bemutassuk, hogyan lehetne a főmenüből további oldalakra is elnavigálni. Látható, hogy itt a menüpontoknál meghivatkoztuk a korábban a `Screen` osztályban definiált képernyőket is. A leírt menüpontokból még fel kell építenünk a menüt is. Elvileg ezt megtehetnénk a teljes főképernyő részeként, de átláthatóbb struktúrát kapunk, ha ezt külön composable komponensbe szervezzük. Ahogyan általában véve a metódusoknál sem átlátható a túl hosszú, úgy a felületi komponenseinket is érdemes kisebb, jobban kezelhető egységekre osztani. Készítsünk tehát egy `Menu` komponenst:
 
 ```kotlin
+package hu.bme.aut.android.composebasics.feature.home
+
 @Composable
 fun Menu(
     expanded: Boolean,
@@ -487,6 +502,8 @@ Látjuk, hogy a menüelemek látrehozása is ciklussal történik, és a menüpo
 Most rátérhetünk a tényleges főképernyő létrehozására:
 
 ```kotlin
+package hu.bme.aut.android.composebasics.feature.home
+
 @ExperimentalMaterial3Api
 @Composable
 fun HomeScreen(
@@ -590,6 +607,8 @@ fun HomeScreen_Preview() {
 Most már csak össze kell kötnünk a meglévő képernyőket a navigációs szabályokkal. Ehhez navigációs gráfokat fogunk definiálni. Egyrészt definiálunk egy gráfot az authentikáció előtti képernyőkre, itt most csak a bejelentkezés lesz, de egy valós alkalmazásban lehetne pl. egy regisztrációs képernyőnk is. Ezeket a korábban létrehozott `navigation` package-be tegyük. Az authentikáció előtti gráf a következőképpen néz ki:
 
 ```kotlin
+package hu.bme.aut.android.composebasics.navigation
+
 @ExperimentalMaterial3Api
 fun NavGraphBuilder.authNavGraph(
     navController: NavHostController
@@ -616,6 +635,8 @@ A kódból azt tudjuk megállapítani, hogy a navigációs gráf a bejelentkezte
 A másik navigációs gráf a bejelentkezés utáni navigációt írja le:
 
 ```kotlin
+package hu.bme.aut.android.composebasics.navigation
+
 @ExperimentalMaterial3Api
 fun NavGraphBuilder.mainNavGraph(
     navController: NavHostController
@@ -664,6 +685,8 @@ fun NavGraphBuilder.mainNavGraph(
 Végül a kettőt egyesítenünk kell:
 
 ```kotlin
+package hu.bme.aut.android.composebasics.navigation
+
 @ExperimentalMaterial3Api
 @Composable
 fun NavGraph(
@@ -691,6 +714,16 @@ Már csak a `MainActivity`-be kell bekötnünk a navigáció szerint feloldott f
 Itt történik az alkalmazás témájának a megadása is:
 
 ```kotlin
+package hu.bme.aut.android.composebasics
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.navigation.compose.rememberNavController
+import hu.bme.aut.android.composebasics.navigation.NavGraph
+import hu.bme.aut.android.composebasics.ui.theme.ComposeBasicsTheme
+
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {

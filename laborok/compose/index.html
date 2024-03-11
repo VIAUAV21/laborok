@@ -589,15 +589,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#onallo-feladat-1" class="md-nav__link">
-    Önálló feladat 1.
+  <a href="#onallo-feladat-sotet-mod" class="md-nav__link">
+    Önálló feladat - Sötét mód
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#onallo-feladat-2" class="md-nav__link">
-    Önálló feladat 2.
+  <a href="#onallo-feladat-regisztracio-gomb" class="md-nav__link">
+    Önálló feladat - Regisztráció gomb
   </a>
   
 </li>
@@ -874,15 +874,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#onallo-feladat-1" class="md-nav__link">
-    Önálló feladat 1.
+  <a href="#onallo-feladat-sotet-mod" class="md-nav__link">
+    Önálló feladat - Sötét mód
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#onallo-feladat-2" class="md-nav__link">
-    Önálló feladat 2.
+  <a href="#onallo-feladat-regisztracio-gomb" class="md-nav__link">
+    Önálló feladat - Regisztráció gomb
   </a>
   
 </li>
@@ -956,7 +956,7 @@
 <h2 id="szoveges-eroforrasok-definialasa">Szöveges erőforrások definiálása<a class="headerlink" href="#szoveges-eroforrasok-definialasa" title="Permanent link">&para;</a></h2>
 <p>A <code>strings.xml</code> fájl működését már ismerjük, töltsük fel ezt előre a később szükséges szöveges címkékkel, hogy később a lényeges elemekre tudjunk koncentrálni:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;resources&gt;</span>
-<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;app_name&quot;</span><span class="nt">&gt;</span>compose-basics<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;app_name&quot;</span><span class="nt">&gt;</span>ComposeBasics<span class="nt">&lt;/string&gt;</span>
 <span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;textfield_label_email&quot;</span><span class="nt">&gt;</span>email<span class="nt">&lt;/string&gt;</span>
 <span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;textfield_label_password&quot;</span><span class="nt">&gt;</span>password<span class="nt">&lt;/string&gt;</span>
 <span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;button_label_login&quot;</span><span class="nt">&gt;</span>Log<span class="w"> </span>in<span class="nt">&lt;/string&gt;</span>
@@ -971,7 +971,7 @@
 <h2 id="fuggosegek-frissitese">Függőségek frissítése<a class="headerlink" href="#fuggosegek-frissitese" title="Permanent link">&para;</a></h2>
 <p>Az Android Studio a projekt létrehozásakor felveszi ugyan a <em>Compose</em>-t a függésegek közé, de némileg elavult verziókat használ. Frissítsük a modul szintű <code>build.gradle.kts</code> fájlban a függőségeket az alábbiakra, majd szinkronizáljuk is a projektet:</p>
 <div class="highlight"><pre><span></span><code>dependencies {
-    val composeBom = platform(&quot;androidx.compose:compose-bom:2023.01.00&quot;)
+    val composeBom = platform(&quot;androidx.compose:compose-bom:2024.02.02&quot;)
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
@@ -985,15 +985,78 @@
     debugImplementation(&quot;androidx.compose.ui:ui-tooling&quot;)
 
     implementation(&quot;androidx.core:core-ktx:1.12.0&quot;)
-    implementation(&quot;androidx.activity:activity-compose:1.7.2&quot;)
+    implementation(&quot;androidx.activity:activity-compose:1.8.2&quot;)
 
-    implementation(&quot;androidx.navigation:navigation-compose:2.7.3&quot;)
+    implementation(&quot;androidx.navigation:navigation-compose:2.7.7&quot;)
 
     testImplementation(&quot;junit:junit:4.13.2&quot;)
     androidTestImplementation(&quot;androidx.test.ext:junit:1.1.5&quot;)
     androidTestImplementation(&quot;androidx.test.espresso:espresso-core:3.5.1&quot;)
 }
 </code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Gradle Version Catalogs</p>
+<p>Az <em>Android Studio Iguana</em>-tól vagy <em>Gradle 8.3</em>-tól kezdődően a függőségek kezelésére a <em>Gradle</em> bevezette a <code>Version Catalog</code>-ot. </p>
+<p>A Gradle Version Catalogs lehetővé teszi a függőségek és bővítmények skálázható módon történő hozzáadását és karbantartását a projekthez. Ahelyett, hogy a függőségeket és verziókat az egyes build fájlokban beégetnénk, egy központi katalógusban definiáljuk őket, és az egyes modulokban csak hivatkozunk rájuk. Így frissítés esetén elég egy helyen átírnunk például a verziószámot.</p>
+<p>A függőségeink a Version Catalogban (<code>libs.version.toml</code>):</p>
+<div class="highlight"><pre><span></span><code>[versions]
+agp = &quot;8.3.0&quot;
+kotlin = &quot;1.9.0&quot;
+coreKtx = &quot;1.12.0&quot;
+junit = &quot;4.13.2&quot;
+junitVersion = &quot;1.1.5&quot;
+espressoCore = &quot;3.5.1&quot;
+lifecycleRuntimeKtx = &quot;2.7.0&quot;
+activityCompose = &quot;1.8.2&quot;
+composeBom = &quot;2024.02.02&quot;
+navigationCompose = &quot;2.7.7&quot;
+
+[libraries]
+androidx-core-ktx = { group = &quot;androidx.core&quot;, name = &quot;core-ktx&quot;, version.ref = &quot;coreKtx&quot; }
+junit = { group = &quot;junit&quot;, name = &quot;junit&quot;, version.ref = &quot;junit&quot; }
+androidx-junit = { group = &quot;androidx.test.ext&quot;, name = &quot;junit&quot;, version.ref = &quot;junitVersion&quot; }
+androidx-espresso-core = { group = &quot;androidx.test.espresso&quot;, name = &quot;espresso-core&quot;, version.ref = &quot;espressoCore&quot; }
+androidx-lifecycle-runtime-ktx = { group = &quot;androidx.lifecycle&quot;, name = &quot;lifecycle-runtime-ktx&quot;, version.ref = &quot;lifecycleRuntimeKtx&quot; }
+androidx-activity-compose = { group = &quot;androidx.activity&quot;, name = &quot;activity-compose&quot;, version.ref = &quot;activityCompose&quot; }
+androidx-compose-bom = { group = &quot;androidx.compose&quot;, name = &quot;compose-bom&quot;, version.ref = &quot;composeBom&quot; }
+androidx-ui = { group = &quot;androidx.compose.ui&quot;, name = &quot;ui&quot; }
+androidx-ui-graphics = { group = &quot;androidx.compose.ui&quot;, name = &quot;ui-graphics&quot; }
+androidx-ui-tooling = { group = &quot;androidx.compose.ui&quot;, name = &quot;ui-tooling&quot; }
+androidx-ui-tooling-preview = { group = &quot;androidx.compose.ui&quot;, name = &quot;ui-tooling-preview&quot; }
+androidx-ui-test-manifest = { group = &quot;androidx.compose.ui&quot;, name = &quot;ui-test-manifest&quot; }
+androidx-ui-test-junit4 = { group = &quot;androidx.compose.ui&quot;, name = &quot;ui-test-junit4&quot; }
+androidx-material3 = { group = &quot;androidx.compose.material3&quot;, name = &quot;material3&quot; }
+androidx-navigation = { group = &quot;androidx.navigation&quot;, name = &quot;navigation-compose&quot;, version.ref = &quot;navigationCompose&quot;}
+androidx-material-extendedicons = {group = &quot;androidx.compose.material&quot;, name = &quot;material-icons-extended&quot;}
+
+[plugins]
+androidApplication = { id = &quot;com.android.application&quot;, version.ref = &quot;agp&quot; }
+jetbrainsKotlinAndroid = { id = &quot;org.jetbrains.kotlin.android&quot;, version.ref = &quot;kotlin&quot; }
+</code></pre></div>
+<p>Illetve a modul szintű <code>build.gradle.kts</code> fájlban:</p>
+<div class="highlight"><pre><span></span><code>dependencies {
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation)
+    implementation(libs.androidx.material.extendedicons)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+
+}
+</code></pre></div>
+</div>
 <p>A fenti függőségekhez 34-es SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű <code>build.gradle.kts</code> fájlunkban:</p>
 <div class="highlight"><pre><span></span><code>    compileSdk = 34
 </code></pre></div>
@@ -1002,7 +1065,9 @@
 <p>Készítsünk először egy igen általános szövegmezőt, amelyet majd az éppen aktuális igényeknek megfelelően gazdagon tudunk paraméterezni. Tulajdonképpen a rendszer részét képező <code>TextField</code> is sokrétű funkcionalitással rendelkezik, azonban szeretnénk egy magasabb szintű komponenst, amely számunkra könnyebben használható, és a hibajelzés megjelenítését is megoldja.</p>
 <p>Először hozzunk létre ehhez egy <code>hu.bme.aut.android.composebasics.ui.common</code> package-et. Ebbe fognak kerülni az alapvető fontosságú UI építőelemeink.</p>
 <p>Ezen belül készítsünk egy <code>NormalTextField</code> komponenst a következő tartalommal:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.common</span>
+
+<span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">NormalTextField</span><span class="p">(</span>
 <span class="w">    </span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
@@ -1085,6 +1150,9 @@
 <span class="w">    </span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
+<div class="admonition info">
+<p>Ne feledjük, hogy a Preview csak egy build után tekinthető meg.</p>
+</div>
 <p>Előnézeti függvényből többet is létrehozhatunk, hogy lássuk, hogyan néz ki a komponensünk különböző
 paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelenést is:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
@@ -1108,7 +1176,9 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <p>A képet a megoldásban a repository-ba f1.png néven töltsd föl.</p>
 </div>
 <p>A fentihez hasonlóan a <code>ui.common</code> package-be készítsünk egy újabb komponenst <code>PasswordTextField</code> néven az alábbi tartalommal:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.common</span>
+
+<span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">PasswordTextField</span><span class="p">(</span>
 <span class="w">    </span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
@@ -1176,7 +1246,9 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <h2 id="az-alkalmazas-fo-kepernyoinek-elkeszitese">Az alkalmazás fő képernyőinek elkészítése<a class="headerlink" href="#az-alkalmazas-fo-kepernyoinek-elkeszitese" title="Permanent link">&para;</a></h2>
 <p>Most, hogy a képernyők minden fontos alkotórésze a rendelkezésünkre áll, elkezdhetjük maguknak a képernyőknek az elkészítését. Kezdjük a bejelentkező képernyővel!</p>
 <p>A képernyőknek és a hozzájuk kapcsolódó kódoknak hozzunk létre egy közös <code>hu.bme.aut.android.composebasics.feature</code> package-et, majd ezen belül a bejelentkező képernyő a <code>login</code> package-be kerüljön! Készítsük el a képernyő kódját <code>LoginScreen</code> néven, majd adjuk meg a következő kódot:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.feature.login</span>
+
+<span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">LoginScreen</span><span class="p">(</span>
 <span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
@@ -1273,7 +1345,9 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <p>A képet a megoldásban a repository-ba f2.png néven töltsd föl.</p>
 </div>
 <p>A második elkészítendő képernyőnk az alkalmazás "főképernyője", amit sikeres bejelentkezés után lát a felhasználó. Viszont itt már részben érintenünk kell a képernyők közti navigáció kérdését is, hiszen a képernyőnek lesz egy menüje, ahonnan majd más képernyőkre lehet navigálni. Ehhez egy <code>navigation</code> package-et hozzunk létre, és ebbe kerüljön az alábbi <code>Screen</code> osztály. Itt <code>sealed classot</code> alkalmazunk a lehetséges képernyők leírására, mert csak előre megadott számú képernyőnk van, és a főképernyő argumentumot is kaphat. A <code>sealed class</code> kicsit hasonlít az <code>enumhoz</code>, de támogatja ezt a fontos különbséget is. Az osztály előtt definiált konstansokat később fogjuk használni, amikor teljesen összerakjuk a navigációs gráfot.</p>
-<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">ROOT_GRAPH_ROUTE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;root&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.navigation</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">ROOT_GRAPH_ROUTE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;root&quot;</span>
 <span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">AUTH_GRAPH_ROUTE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;auth&quot;</span>
 <span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">MAIN_GRAPH_ROUTE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;main&quot;</span>
 
@@ -1294,7 +1368,9 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <p>A Kotlin sealed class-ai olyan osztályok, amelyekből korlátozott az öröklés, és fordítási időben minden leszármazott osztálya ismert. Ezeket az osztályokat az enumokhoz hasonló módon tudjuk alkalmazni. Jelen esetben a <code>Home</code> valójában nem a <code>Screen</code> közvetlen leszármazottja, hanem anonim leszármazott osztálya, mivel a felhasználónév paraméterként történő kezelését is tartalmazza.</p>
 </div>
 <p>Maga a főképernyő egy <code>feature.home</code> subpackage-be kerüljön. Először itt is egy segédosztályt hozunk létre. Jelen esetben a menüpontokat fogjuk enumban modellezni. Minden menüpontra jellemző a neve, az ikonja, illetve egy azonosító, ahova navigál:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">MenuItemUiModel</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.feature.home</span>
+
+<span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">MenuItemUiModel</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">text</span><span class="p">:</span><span class="w"> </span><span class="nd">@Composable</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">icon</span><span class="p">:</span><span class="w"> </span><span class="nd">@Composable</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">screenRoute</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span>
@@ -1316,7 +1392,9 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <span class="p">}</span>
 </code></pre></div>
 <p>A menüben szerepelnek profil és beállítás lehetőségek is, amelyekről korábban nem volt szó. Ezek nem lesznek igazi kidolgozott képernyők, de példaképp szerepelnek itt, hogy bemutassuk, hogyan lehetne a főmenüből további oldalakra is elnavigálni. Látható, hogy itt a menüpontoknál meghivatkoztuk a korábban a <code>Screen</code> osztályban definiált képernyőket is. A leírt menüpontokból még fel kell építenünk a menüt is. Elvileg ezt megtehetnénk a teljes főképernyő részeként, de átláthatóbb struktúrát kapunk, ha ezt külön composable komponensbe szervezzük. Ahogyan általában véve a metódusoknál sem átlátható a túl hosszú, úgy a felületi komponenseinket is érdemes kisebb, jobban kezelhető egységekre osztani. Készítsünk tehát egy <code>Menu</code> komponenst:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.feature.home</span>
+
+<span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">Menu</span><span class="p">(</span>
 <span class="w">    </span><span class="n">expanded</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
 <span class="w">    </span><span class="n">items</span><span class="p">:</span><span class="w"> </span><span class="n">Array</span><span class="o">&lt;</span><span class="n">MenuItemUiModel</span><span class="o">&gt;</span><span class="p">,</span>
@@ -1345,7 +1423,9 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 </code></pre></div>
 <p>Látjuk, hogy a menüelemek látrehozása is ciklussal történik, és a menüpontok igen könnyen bővíthetőek. A bejárásnál a menüpontok indexét is felhasználjuk, hogy a menüpontok után - az utolsó kivételével - elválasztót is generáljunk.</p>
 <p>Most rátérhetünk a tényleges főképernyő létrehozására:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.feature.home</span>
+
+<span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">HomeScreen</span><span class="p">(</span>
 <span class="w">    </span><span class="n">argument</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
@@ -1445,7 +1525,9 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 </code></pre></div>
 <h2 id="a-kepernyok-kozotti-navigacio-elkeszitese">A képernyők közötti navigáció elkészítése<a class="headerlink" href="#a-kepernyok-kozotti-navigacio-elkeszitese" title="Permanent link">&para;</a></h2>
 <p>Most már csak össze kell kötnünk a meglévő képernyőket a navigációs szabályokkal. Ehhez navigációs gráfokat fogunk definiálni. Egyrészt definiálunk egy gráfot az authentikáció előtti képernyőkre, itt most csak a bejelentkezés lesz, de egy valós alkalmazásban lehetne pl. egy regisztrációs képernyőnk is. Ezeket a korábban létrehozott <code>navigation</code> package-be tegyük. Az authentikáció előtti gráf a következőképpen néz ki:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.navigation</span>
+
+<span class="nd">@ExperimentalMaterial3Api</span>
 <span class="kd">fun</span><span class="w"> </span><span class="n">NavGraphBuilder</span><span class="p">.</span><span class="nf">authNavGraph</span><span class="p">(</span>
 <span class="w">    </span><span class="n">navController</span><span class="p">:</span><span class="w"> </span><span class="n">NavHostController</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1467,7 +1549,9 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 </code></pre></div>
 <p>A kódból azt tudjuk megállapítani, hogy a navigációs gráf a bejelentkeztetési képernyőn kezdődik, és neki is van egy útvonalazonosítója, amelyet most a korábban definiált <code>AUTH_GRAPH_ROUTE</code> konstanssal adtunk meg. A navigációban composable felületi elemeket adhatunk meg, mindegyikhez tartozik egy-egy útvonal, ezekhez a <code>Screen</code> osztályból hivatkozzuk meg a megfelelő útvonalat. Látható, hogy a hierarchikusan összeállított felhasználói felületek "utolsó" paraméterei itt kapnak konkrét értétek. Konkréten a bejelentkezés gomb eseménykezelője van itt lambda-kifejezésként megadva. Ez a lambda-kifejezés valójában a navigációs kontrollert hívja meg, és azzal navigáltat a megfelelő útvonalra, amit a kontroller a navigációs gráf alapján felold. Figyeljük meg, hogy a bejelentkezés után a főképernyő útvonalába a felhasználónevet mint paramétert is belekódoljuk. Azt is láthatjuk, hogy tényleges bejelentkeztető logika itt nem történik, de ha erre lenne szükségünk, azt itt megtehetnénk, hiszen itt van megadva a bejelentkezés gomb eseménykezelője.</p>
 <p>A másik navigációs gráf a bejelentkezés utáni navigációt írja le:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.navigation</span>
+
+<span class="nd">@ExperimentalMaterial3Api</span>
 <span class="kd">fun</span><span class="w"> </span><span class="n">NavGraphBuilder</span><span class="p">.</span><span class="nf">mainNavGraph</span><span class="p">(</span>
 <span class="w">    </span><span class="n">navController</span><span class="p">:</span><span class="w"> </span><span class="n">NavHostController</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1512,7 +1596,9 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <span class="p">}</span>
 </code></pre></div>
 <p>Végül a kettőt egyesítenünk kell:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.navigation</span>
+
+<span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">NavGraph</span><span class="p">(</span>
 <span class="w">    </span><span class="n">navController</span><span class="p">:</span><span class="w"> </span><span class="n">NavHostController</span>
@@ -1535,7 +1621,17 @@ A gráfban a profil és beállítás oldalak nincsenek kidolgozva, ezért ide cs
 elemet vettünk fel placeholder szöveggel.</p>
 <p>Már csak a <code>MainActivity</code>-be kell bekötnünk a navigáció szerint feloldott felszín megjelenítését.
 Itt történik az alkalmazás témájának a megadása is:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">MainActivity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ComponentActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.os.Bundle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.ComponentActivity</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.compose.setContent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ExperimentalMaterial3Api</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.compose.rememberNavController</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.navigation.NavGraph</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.theme.ComposeBasicsTheme</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">MainActivity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ComponentActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
@@ -1554,7 +1650,7 @@ Itt történik az alkalmazás témájának a megadása is:</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik az <strong>alkalmazás főképernyője belépés után a saját neveddel</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), <strong>az ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
 <p>A képet a megoldásban a repository-ba f3.png néven töltsd föl.</p>
 </div>
-<h2 id="onallo-feladat-1">Önálló feladat 1.<a class="headerlink" href="#onallo-feladat-1" title="Permanent link">&para;</a></h2>
+<h2 id="onallo-feladat-sotet-mod">Önálló feladat - Sötét mód<a class="headerlink" href="#onallo-feladat-sotet-mod" title="Permanent link">&para;</a></h2>
 <p>A Compose alkalmazás beépítetten támogatja az éjszakai módot. Keresd meg az emulált készülék
 beállításai közt a sötét téma használatát, és kapcsold be! (Settings -&gt; Display -&gt; Dark theme)
 Próbáld ki így az alkalmazást!</p>
@@ -1563,7 +1659,7 @@ Próbáld ki így az alkalmazást!</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik az <strong>alkalmazás dark mode</strong>-ban (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), <strong>az ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
 <p>A képet a megoldásban a repository-ba f4.png néven töltsd föl.</p>
 </div>
-<h2 id="onallo-feladat-2">Önálló feladat 2.<a class="headerlink" href="#onallo-feladat-2" title="Permanent link">&para;</a></h2>
+<h2 id="onallo-feladat-regisztracio-gomb">Önálló feladat - Regisztráció gomb<a class="headerlink" href="#onallo-feladat-regisztracio-gomb" title="Permanent link">&para;</a></h2>
 <p>Adj hozzá a login oldal aljához egy teljes oldal szélességű gombot, ahol az új felhasználó a regisztráció oldalra navigálhatna. A gomb újrahasználható komponensként legyen megvalósítva. Az alábbi kép mutatja az elkészítendő felületet:</p>
 <p float="left">
 <a class="glightbox" href="./assets/login2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/login2.png" width="300" align="middle"></a>
@@ -1585,8 +1681,8 @@ Próbáld ki így az alkalmazást!</p>
           </path>
         </svg>
       </span>
-      <span title="2023. október 2. 22:19:23">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-10-02T22:19:23+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-10-02</span>
+      <span title="2024. március 11. 13:28:25">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-03-11T13:28:25+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-03-11</span>
       </span>
     </span>
 
@@ -1601,10 +1697,10 @@ Próbáld ki így az alkalmazást!</p>
         </svg>
       </span>
       <span>Szerzők</span>
-      <nav><a href="https://github.com/gaborbsd" target="_blank" rel="noopener noreferrer" class="md-author" title="@gaborbsd">
-          <img src="https://avatars.githubusercontent.com/u/5345619?v=4?size=72" alt="@gaborbsd">
-        </a><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
+      <nav><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
           <img src="https://avatars.githubusercontent.com/u/23335752?v=4?size=72" alt="@gazdilaci">
+        </a><a href="https://github.com/gaborbsd" target="_blank" rel="noopener noreferrer" class="md-author" title="@gaborbsd">
+          <img src="https://avatars.githubusercontent.com/u/5345619?v=4?size=72" alt="@gaborbsd">
         </a></nav>      
     </span>
   </div>

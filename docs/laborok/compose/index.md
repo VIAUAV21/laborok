@@ -53,7 +53,7 @@ A `strings.xml` fájl működését már ismerjük, töltsük fel ezt előre a k
 
 ```xml
 <resources>
-    <string name="app_name">compose-basics</string>
+    <string name="app_name">ComposeBasics</string>
     <string name="textfield_label_email">email</string>
     <string name="textfield_label_password">password</string>
     <string name="button_label_login">Log in</string>
@@ -95,6 +95,75 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
 ```
+
+!!! info "Gradle Version Catalogs"
+	Az *Android Studio Iguana*-tól vagy *Gradle 8.3*-tól kezdődően a függőségek kezelésére a *Gradle* bevezette a `Version Catalog`-ot.	
+
+	A Gradle Version Catalogs lehetővé teszi a függőségek és bővítmények skálázható módon történő hozzáadását és karbantartását a projekthez. Ahelyett, hogy a függőségeket és verziókat az egyes build fájlokban beégetnénk, egy központi katalógusban definiáljuk őket, és az egyes modulokban csak hivatkozunk rájuk. Így frissítés esetén elég egy helyen átírnunk például a verziószámot.
+
+	A függőségeink a Version Catalogban (`libs.version.toml`):
+
+	```gradle
+	[versions]
+	agp = "8.3.0"
+	kotlin = "1.9.0"
+	coreKtx = "1.12.0"
+	junit = "4.13.2"
+	junitVersion = "1.1.5"
+	espressoCore = "3.5.1"
+	lifecycleRuntimeKtx = "2.7.0"
+	activityCompose = "1.8.2"
+	composeBom = "2024.02.02"
+	navigationCompose = "2.7.7"
+	
+	[libraries]
+	androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+	junit = { group = "junit", name = "junit", version.ref = "junit" }
+	androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+	androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+	androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+	androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+	androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+	androidx-ui = { group = "androidx.compose.ui", name = "ui" }
+	androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+	androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+	androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+	androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+	androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+	androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+	androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose"}
+	androidx-material-extendedicons = {group = "androidx.compose.material", name = "material-icons-extended"}
+	
+	[plugins]
+	androidApplication = { id = "com.android.application", version.ref = "agp" }
+	jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+	```
+
+	Illetve a modul szintű `build.gradle.kts` fájlban:
+
+	```gradle
+	dependencies {
+	
+	    implementation(libs.androidx.core.ktx)
+	    implementation(libs.androidx.lifecycle.runtime.ktx)
+	    implementation(libs.androidx.activity.compose)
+	    implementation(platform(libs.androidx.compose.bom))
+	    implementation(libs.androidx.ui)
+	    implementation(libs.androidx.ui.graphics)
+	    implementation(libs.androidx.ui.tooling.preview)
+	    implementation(libs.androidx.material3)
+	    implementation(libs.androidx.navigation)
+	    implementation(libs.androidx.material.extendedicons)
+	    testImplementation(libs.junit)
+	    androidTestImplementation(libs.androidx.junit)
+	    androidTestImplementation(libs.androidx.espresso.core)
+	    androidTestImplementation(platform(libs.androidx.compose.bom))
+	    androidTestImplementation(libs.androidx.ui.test.junit4)
+	    debugImplementation(libs.androidx.ui.tooling)
+	    debugImplementation(libs.androidx.ui.test.manifest)
+	
+	}
+	```
 
 A fenti függőségekhez 34-es SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű `build.gradle.kts` fájlunkban:
 
@@ -745,7 +814,7 @@ Próbáljuk ki az alkalmazást!
 
 	A képet a megoldásban a repository-ba f3.png néven töltsd föl.
 
-## Önálló feladat 1.
+## Önálló feladat - Sötét mód
 
 A Compose alkalmazás beépítetten támogatja az éjszakai módot. Keresd meg az emulált készülék
 beállításai közt a sötét téma használatát, és kapcsold be! (Settings -> Display -> Dark theme)
@@ -757,7 +826,7 @@ Próbáld ki így az alkalmazást!
 	A képet a megoldásban a repository-ba f4.png néven töltsd föl.
 
 
-## Önálló feladat 2.
+## Önálló feladat - Regisztráció gomb
 
 Adj hozzá a login oldal aljához egy teljes oldal szélességű gombot, ahol az új felhasználó a regisztráció oldalra navigálhatna. A gomb újrahasználható komponensként legyen megvalósítva. Az alábbi kép mutatja az elkészítendő felületet:
 

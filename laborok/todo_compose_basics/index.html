@@ -554,6 +554,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#projekt-letrehozasa" class="md-nav__link">
+    Projekt létrehozása
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#szoveges-eroforrasok-definialasa" class="md-nav__link">
+    Szöveges erőforrások definiálása
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#verziok-frissitese" class="md-nav__link">
     Verziók frissítése
   </a>
@@ -859,6 +873,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#projekt-letrehozasa" class="md-nav__link">
+    Projekt létrehozása
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#szoveges-eroforrasok-definialasa" class="md-nav__link">
+    Szöveges erőforrások definiálása
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#verziok-frissitese" class="md-nav__link">
     Verziók frissítése
   </a>
@@ -976,10 +1004,10 @@
 <h1 id="labor05-todo-alkalmazas">Labor05 - Todo Alkalmazás<a class="headerlink" href="#labor05-todo-alkalmazas" title="Permanent link">&para;</a></h1>
 <p>A labor célja, hogy bemutassa, hogyan lehet egy egyszerű ToDo alkalmazást megvalósítani a Compose keretrendszerben.</p>
 <p float="left">
-<a class="glightbox" href="./assets/list.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/list.png" width="200" align="middle"></a>
-<a class="glightbox" href="./assets/details.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/details.png" width="200" align="middle"></a>
-<a class="glightbox" href="./assets/create.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/create.png" width="200" align="middle"></a>
-<a class="glightbox" href="./assets/datepicker.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/datepicker.png" width="200" align="middle"></a>
+<a class="glightbox" href="./assets/list.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/list.png" width="300" align="middle"></a>
+<a class="glightbox" href="./assets/details.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/details.png" width="300" align="middle"></a>
+<a class="glightbox" href="./assets/create.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/create.png" width="300" align="middle"></a>
+<a class="glightbox" href="./assets/datepicker.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/datepicker.png" width="300" align="middle"></a>
 </p>
 
 <h2 id="elokeszuletek">Előkészületek<a class="headerlink" href="#elokeszuletek" title="Permanent link">&para;</a></h2>
@@ -1002,12 +1030,13 @@
 <p>A <code>neptun.txt</code> fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.</p>
 </li>
 </ol>
+<h2 id="projekt-letrehozasa">Projekt létrehozása<a class="headerlink" href="#projekt-letrehozasa" title="Permanent link">&para;</a></h2>
 <p>Ezután indítsuk el az Android Studio-t, majd:</p>
 <ol>
 <li>Hozzunk létre egy új projektet, válasszuk az <em>Empty Activity</em> lehetőséget.</li>
 <li>A projekt neve legyen <code>Todo</code>, a kezdő package pedig <code>hu.bme.aut.android.todo</code>.</li>
 <li>A projektet a repository-n belül egy külön mappában hozzuk létre. </li>
-<li>A minimum API szint legyen 24 (Android 7.0).</li>
+<li>A minimum API szint legyen 26 (Android 8.0).</li>
 <li>A Build configuration language-nél válasszuk a Kotlin DSL-t.</li>
 </ol>
 <div class="admonition danger">
@@ -1015,59 +1044,103 @@
 <p>A projekt a repository-ban lévő <code>Todo</code> könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!</p>
 </div>
 <p>Ellenőrízzük, hogy a létrejött projekt lefordul és helyesen működik!</p>
+<h2 id="szoveges-eroforrasok-definialasa">Szöveges erőforrások definiálása<a class="headerlink" href="#szoveges-eroforrasok-definialasa" title="Permanent link">&para;</a></h2>
+<p>A <code>strings.xml</code> fájl működését már ismerjük, töltsük fel ezt előre a később szükséges szöveges címkékkel, hogy később a lényeges elemekre tudjunk koncentrálni:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;resources&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;app_name&quot;</span><span class="nt">&gt;</span>Todo<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;some_error_message&quot;</span><span class="nt">&gt;</span>Error<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;priority_title_none&quot;</span><span class="nt">&gt;</span>none<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;priority_title_low&quot;</span><span class="nt">&gt;</span>low<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;priority_title_medium&quot;</span><span class="nt">&gt;</span>medium<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;priority_title_high&quot;</span><span class="nt">&gt;</span>high<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;text_empty_todo_list&quot;</span><span class="nt">&gt;</span>&quot;You<span class="w"> </span>haven\\&#39;t<span class="w"> </span>added<span class="w"> </span>any<span class="w"> </span>todos<span class="w"> </span>yet.<span class="w"> </span>&quot;<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;text_your_todo_list&quot;</span><span class="nt">&gt;</span>Your<span class="w"> </span>todos<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;list_item_supporting_text&quot;</span><span class="nt">&gt;</span>The<span class="w"> </span>due<span class="w"> </span>date<span class="w"> </span>is:<span class="w"> </span>%1$s<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;textfield_label_description&quot;</span><span class="nt">&gt;</span>Description<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;textfield_label_title&quot;</span><span class="nt">&gt;</span>Title<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;app_bar_title_create_todo&quot;</span><span class="nt">&gt;</span>Create<span class="w"> </span>todo<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;dialog_ok_button_text&quot;</span><span class="nt">&gt;</span>OK<span class="nt">&lt;/string&gt;</span>
+<span class="w">    </span><span class="nt">&lt;string</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;dialog_dismiss_button_text&quot;</span><span class="nt">&gt;</span>Close<span class="nt">&lt;/string&gt;</span>
+<span class="nt">&lt;/resources&gt;</span>
+</code></pre></div>
 <h2 id="verziok-frissitese">Verziók frissítése<a class="headerlink" href="#verziok-frissitese" title="Permanent link">&para;</a></h2>
 <p>Annak érdekében, hogy mindig kompatibilis compose könyvtárakat importáljunk a projektben, használjuk a <a href="https://developer.android.com/jetpack/compose/bom/bom">Compose Bill of Materials</a>-t. Ehhez adjuk hozzá a <em>modul</em> szintű <code>build.gradle</code> fájlhoz a következőt a dependencies részhez:</p>
-<p><div class="highlight"><pre><span></span><code>implementation platform(&#39;androidx.compose:compose-bom:2023.09.02&#39;)
+<p><div class="highlight"><pre><span></span><code>    val composeBom = platform(&quot;androidx.compose:compose-bom:2024.02.02&quot;)
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
 </code></pre></div>
 Majd minden Compose-hoz kapcsolható könyvtár importálásánál töröljük a verziót, a végeredményben ezt kapva:</p>
 <div class="highlight"><pre><span></span><code>dependencies {
-    implementation(platform(&quot;androidx.compose:compose-bom:2023.09.02&quot;))
-    implementation(&quot;androidx.core:core-ktx:1.9.0&quot;)
-    implementation(&quot;androidx.lifecycle:lifecycle-runtime-ktx:2.6.2&quot;)
+
+    //Compose Bill of Materials
+    val composeBom = platform(&quot;androidx.compose:compose-bom:2024.02.02&quot;)
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+
+    //ViewModel Lifecycle
+    val lifecycleVersion = &quot;2.7.0&quot;
+    implementation(&quot;androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion&quot;)
+    implementation(&quot;androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion&quot;)
+
+    //Kotlin Extensions DateTime - LocalDate
+    implementation(&quot;org.jetbrains.kotlinx:kotlinx-datetime:0.4.1&quot;)
+
+    //Compose Navigation
+    implementation(&quot;androidx.navigation:navigation-compose:2.7.7&quot;)
+
+    //Material Icons
+    implementation(&quot;androidx.compose.material:material-icons-extended&quot;)
+
+    implementation(&quot;androidx.core:core-ktx:1.12.0&quot;)
+    implementation(&quot;androidx.lifecycle:lifecycle-runtime-ktx:2.7.0&quot;)
     implementation(&quot;androidx.activity:activity-compose&quot;)
-    implementation(platform(&quot;androidx.compose:compose-bom:2023.03.00&quot;))
     implementation(&quot;androidx.compose.ui:ui&quot;)
     implementation(&quot;androidx.compose.ui:ui-graphics&quot;)
     implementation(&quot;androidx.compose.ui:ui-tooling-preview&quot;)
     implementation(&quot;androidx.compose.material3:material3&quot;)
+
     testImplementation(&quot;junit:junit:4.13.2&quot;)
     androidTestImplementation(&quot;androidx.test.ext:junit:1.1.5&quot;)
     androidTestImplementation(&quot;androidx.test.espresso:espresso-core:3.5.1&quot;)
-    androidTestImplementation(platform(&quot;androidx.compose:compose-bom:2023.03.00&quot;))
     androidTestImplementation(&quot;androidx.compose.ui:ui-test-junit4&quot;)
     debugImplementation(&quot;androidx.compose.ui:ui-tooling&quot;)
     debugImplementation(&quot;androidx.compose.ui:ui-test-manifest&quot;)
 
-    coreLibraryDesugaring(&quot;com.android.tools:desugar_jdk_libs:2.0.3&quot;)
+    coreLibraryDesugaring(&quot;com.android.tools:desugar_jdk_libs:2.0.4&quot;)
 }
 </code></pre></div>
+<div class="admonition danger">
+<p class="admonition-title">Függőségek</p>
+<p>Az itt található kódban minden függőség szerepel, a labor során újat hozzáadni nem kell. Azonban az egyértelműség kedvéért a későbbiekben mindenhol feltüntetjük az adott területhez szükséges függőségeket.</p>
+</div>
 <p>A fenti függőségekhez 34-es SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű <code>build.gradle.kts</code> fájlunkban:</p>
 <div class="highlight"><pre><span></span><code>    compileSdk = 34
 </code></pre></div>
 <p>Vegyük fel a <code>compileOptions</code> részbe a <code>isCoreLibraryDesugaringEnabled = true</code> értéket, ezek mellett ellenőrizzük a kotlin plugin és a compose verzióját. A labor készítésekor a következőek voltak érvényben:</p>
 <ul>
 <li><em>Projekt</em> szintű <code>build.gradle</code>:
-<div class="highlight"><pre><span></span><code>plugins {  
-  ...
-  id &#39;org.jetbrains.kotlin.android&#39; version &#39;1.8.10&#39; apply false  
+<div class="highlight"><pre><span></span><code>plugins {
+    ...
+    id(&quot;org.jetbrains.kotlin.android&quot;) version &quot;1.9.0&quot; apply false
 }
 </code></pre></div></li>
 <li><em>Modul</em> szintű <code>build.gradle</code>:
 <div class="highlight"><pre><span></span><code>android {
     ...
-    compileOptions {  
-          isCoreLibraryDesugaringEnabled = true  
-          sourceCompatibility JavaVersion.VERSION_1_8  
-          targetCompatibility JavaVersion.VERSION_1_8  
-        }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+
+        isCoreLibraryDesugaringEnabled = true
+    }
         ...
     composeOptions {
-        kotlinCompilerExtensionVersion &#39;1.4.3&#39;
+        kotlinCompilerExtensionVersion = &quot;1.5.1&quot;
     }
 }
 dependencies {
         ...
-        coreLibraryDesugaring &#39;com.android.tools:desugar_jdk_libs:2.0.3&#39;
+        coreLibraryDesugaring &#39;com.android.tools:desugar_jdk_libs:2.0.4&#39;
 }
 </code></pre></div></li>
 </ul>
@@ -1082,35 +1155,48 @@ dependencies {
 </ul>
 <p>Hozzunk létre egy új <code>domain</code> package-t létre a projektünk gyökerében, mely az alkalmazásunk adatrétegének részeit fogja tartalmazni, majd ezen belül hozzunk létre egy <code>model</code> package-et, mely az adatmodellek osztály megfelelőit fogja tartalmazni. Ebben hozzuk létre az alábbi két fájlt:
 <code>Todo.kt</code>:
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.datetime.LocalDate</span><span class="w">  </span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain</span>
 
-<span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Todo</span><span class="p">(</span><span class="w">  </span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span><span class="w">  </span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">title</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span><span class="w">  </span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">priority</span><span class="p">:</span><span class="w"> </span><span class="n">Priority</span><span class="p">,</span><span class="w">  </span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">dueDate</span><span class="p">:</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">,</span><span class="w">  </span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.datetime.LocalDate</span>
+
+<span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Todo</span><span class="p">(</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">title</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">priority</span><span class="p">:</span><span class="w"> </span><span class="n">Priority</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">dueDate</span><span class="p">:</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">description</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w">  </span>
 <span class="p">)</span>
 </code></pre></div></p>
 <p><code>Priority.kt</code>:
-<div class="highlight"><pre><span></span><code><span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Priority</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain</span>
+
+<span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Priority</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
 <span class="w">    </span><span class="n">NONE</span><span class="p">,</span><span class="w">  </span>
 <span class="w">    </span><span class="n">LOW</span><span class="p">,</span><span class="w">  </span>
 <span class="w">    </span><span class="n">MEDIUM</span><span class="p">,</span><span class="w">  </span>
 <span class="w">    </span><span class="n">HIGH</span><span class="p">,</span><span class="w">  </span>
 <span class="p">}</span>
-</code></pre></div>
-A <code>LocalDate</code> egy általános implementációja az idő kezelésének, mely multiplatform környezetben is használható, ehhez a következő függőséget kell hozzáadnunk a <em>modul</em> szintű build.gradle fájlhoz:
-<div class="highlight"><pre><span></span><code>implementation(&quot;org.jetbrains.kotlinx:kotlinx-datetime:0.4.1&quot;)
 </code></pre></div></p>
+<details class="info">
+<summary>LocalDate</summary>
+<p>A <code>LocalDate</code> egy általános implementációja az idő kezelésének, mely multiplatform környezetben is használható, ehhez a következő függőséget kell hozzáadnunk a <em>modul</em> szintű build.gradle fájlhoz:</p>
+<div class="highlight"><pre><span></span><code>implementation(&quot;org.jetbrains.kotlinx:kotlinx-datetime:0.4.1&quot;)
+</code></pre></div>
+</details>
 <div class="admonition danger">
 <p class="admonition-title">Idő osztályok kezelése</p>
 <p>A labor során a <code>LocalDate</code> mindig a <code>kotlinx</code>, mig a <code>LocalDateTime</code> mindig a <code>java</code> könyvtárból legyen importálva.</p>
 </div>
 <p>Az adat típusú osztályok esetében a Kotlin automatikusan deklarál gyakran használt függvényeket, mint például az <code>equals()</code> és <code>hashCode()</code> függvényeket különböző objektumok összehasonlításához, illetve egy <code>toString()</code> függvényt, mely visszaadja a tárolt változók értékét.</p>
 <p>A felhasználói felület kódjának egyszerűsítése érdékében érdemes olyan segédosztályokat is definiálni, melyek már közvetlenül a felületen használt értékeket fogják használni. Ehhez deifiniáljuk a <code>ui</code> package-en belül a <code>model</code> package-et, és vegyük fel a következő osztályokat:
-<code>UiText.kt</code>:
-<div class="highlight"><pre><span></span><code><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">UiText</span><span class="w"> </span><span class="p">{</span>
+<code>UiText.kt</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.content.Context</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.annotation.StringRes</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.R</span>
+
+<span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">UiText</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">DynamicString</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">value</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">):</span><span class="w"> </span><span class="n">UiText</span><span class="p">()</span>
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">StringResource</span><span class="p">(</span><span class="nd">@StringRes</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">):</span><span class="w"> </span><span class="n">UiText</span><span class="p">()</span>
 
@@ -1131,10 +1217,15 @@ A <code>LocalDate</code> egy általános implementációja az idő kezelésének
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-Vegyük fel a <code>some_error_message</code> kulccsal egy új String erőforrást, <code>Error</code> értékkel.</p>
 <p>Vizsgáljuk meg, hogy tudjuk a <code>sealed class</code> segítségével általánosan definiálni a szövegeket, melyek így jöhetnek a beégetett erőforrásból, vagy érkezhetnek a szerveren keresztül egy külső forrásból.</p>
-<p><code>PriorityUi.kt</code>:
-<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">PriorityUi</span><span class="p">(</span>
+<p><code>PriorityUi.kt</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.graphics.Color</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.R</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.Priority</span>
+
+<span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">PriorityUi</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">title</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">color</span><span class="p">:</span><span class="w"> </span><span class="n">Color</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1174,13 +1265,19 @@ Vegyük fel a <code>some_error_message</code> kulccsal egy új String erőforrá
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-A hiányzó sztringek értékére vegyük fel a <code>none</code>, <code>low</code>, <code>medium</code>, <code>high</code> értékeket.</p>
-<p><code>TodoUi.kt</code>
-<div class="highlight"><pre><span></span><code><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">TodoUi</span><span class="p">(</span><span class="w">  </span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span><span class="w">  </span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">title</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="w">  </span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">priority</span><span class="p">:</span><span class="w"> </span><span class="n">PriorityUi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PriorityUi</span><span class="p">.</span><span class="na">None</span><span class="p">,</span><span class="w">  </span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">dueDate</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">(</span><span class="w">  </span>
+<p><code>TodoUi.kt</code></p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.Todo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.datetime.LocalDate</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.datetime.toLocalDate</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">java.time.LocalDateTime</span>
+
+<span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">TodoUi</span><span class="p">(</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">title</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">priority</span><span class="p">:</span><span class="w"> </span><span class="n">PriorityUi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PriorityUi</span><span class="p">.</span><span class="na">None</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">dueDate</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">(</span><span class="w">  </span>
 <span class="w">            </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">().</span><span class="na">year</span><span class="p">,</span><span class="w">  </span>
 <span class="w">            </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">().</span><span class="na">monthValue</span><span class="p">,</span><span class="w">  </span>
 <span class="w">            </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">().</span><span class="na">dayOfMonth</span><span class="w">  </span>
@@ -1203,18 +1300,31 @@ A hiányzó sztringek értékére vegyük fel a <code>none</code>, <code>low</co
 <span class="w">    </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dueDate</span><span class="p">.</span><span class="na">toLocalDate</span><span class="p">(),</span><span class="w">  </span>
 <span class="w">    </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">description</span><span class="w">  </span>
 <span class="p">)</span>
-</code></pre></div></p>
-<h2 id="navigacio-kialakitasa">Navigáció kialakítása<a class="headerlink" href="#navigacio-kialakitasa" title="Permanent link">&para;</a></h2>
-<p>Az előző laborhoz hasonlóan alakítsuk ki a projektben a navigációnál használt osztályokat! Itt is a Compose Navigation könyvtárat fogjuk használni, ezért adjuk ezt hozzá a <em>modul</em> szintű build.gradle fájlunkhoz.
-<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.navigation:navigation-compose:2.7.4&quot;</span><span class="p">)</span>
 </code></pre></div>
-Hozzunk létre a gyökérkönyvtárban létre egy új package-et <code>navigation</code> néven, majd hozzuk létre benne az útvonalakat reprezentáló <code>Screen</code> osztályt:
-<div class="highlight"><pre><span></span><code><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Screen</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">route</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<h2 id="navigacio-kialakitasa">Navigáció kialakítása<a class="headerlink" href="#navigacio-kialakitasa" title="Permanent link">&para;</a></h2>
+<p>Az előző laborhoz hasonlóan alakítsuk ki a projektben a navigációnál használt osztályokat! </p>
+<details class="info">
+<summary>Navigáció</summary>
+<p>Itt is a Compose Navigation könyvtárat fogjuk használni, ezért adjuk ezt hozzá a <em>modul</em> szintű build.gradle fájlunkhoz.</p>
+<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.navigation:navigation-compose:2.7.7&quot;</span><span class="p">)</span>
+</code></pre></div>
+</details>
+<p>Hozzunk létre a gyökérkönyvtárban egy új package-et <code>navigation</code> néven, majd hozzuk létre benne az útvonalakat reprezentáló <code>Screen</code> osztályt:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.navigation</span>
+
+<span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Screen</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">route</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
 
 <span class="p">}</span>
 </code></pre></div>
- Illetve hozzuk létre a navigációt végző <code>Composable</code> függvényt is a <code>NavGraph.kt</code> fájlban:
-<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+<p>Illetve hozzuk létre a navigációt végző <code>Composable</code> függvényt is a <code>NavGraph.kt</code> fájlban:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.navigation</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.NavHostController</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.compose.NavHost</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.compose.rememberNavController</span>
+
+<span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">NavGraph</span><span class="p">(</span>
 <span class="w">    </span><span class="n">navController</span><span class="p">:</span><span class="w"> </span><span class="n">NavHostController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberNavController</span><span class="p">(),</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1225,10 +1335,18 @@ Hozzunk létre a gyökérkönyvtárban létre egy új package-et <code>navigatio
 
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></p>
+</code></pre></div>
 <p>A <code>NavGraph</code> Composable szerepe, hogy karban tartsa az útvonalakat, itt fogjuk a navgiációs eseményeket feldolgozni.</p>
 <p>Végül frissítsük a <code>MainActivity</code> tartalmát úgy, hogy a <code>NavGraph</code> Composable-t használja:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">MainActivity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ComponentActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.os.Bundle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.ComponentActivity</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.compose.setContent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.navigation.NavGraph</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.theme.TodoTheme</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">MainActivity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ComponentActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
 <span class="w">        </span><span class="n">setContent</span><span class="w"> </span><span class="p">{</span>
@@ -1249,14 +1367,31 @@ Hozzunk létre a gyökérkönyvtárban létre egy új package-et <code>navigatio
 <p>Az új oldalakra való navigáláshoz szükségünk van a navigációt vezérlő kontrollerre, melyet a <code>NavGraph</code> Composable kezel, ezért ezeknél az eseményeknél az oldal olyan függvény callback objektumokat fog meghívni, melyeket a konstruktorán keresztül kap meg, így a <code>NavGraph</code> könnyen tud értesülni róluk.</p>
 <p>Az adatok kezeléséhez tipikusan a <code>ViewModel</code> osztályt használjuk. A <code>ViewModel</code> segítségével biztosítjuk azt, hogy elkülönüljenek az alkalmazásunk megjelenítésért szolgáló kódjai az alkalmazás logikáját biztosító kódjaitól. Míg az előbbiek a felület megjelenéséért felelnek, a <code>ViewModel</code> tárolja és dolgozza fel a UI-nak szükséges adatokat.
 <a class="glightbox" href="assets/compose_viewmodel.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img alt="" src="assets/compose_viewmodel.png" /></a></p>
+<details class="info">
+<summary>ViewModel Lifecycle</summary>
 <p>Vegyük fel a szükséges függőségeket:
-<div class="highlight"><pre><span></span><code>val lifecycle_version = &quot;2.6.2&quot;
+<div class="highlight"><pre><span></span><code>val lifecycle_version = &quot;2.7.0&quot;
 implementation(&quot;androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version&quot;)
 implementation(&quot;androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version&quot;)
 </code></pre></div></p>
+</details>
 <p>Hozzunk létre a gyökérkönyvtáron belül a <code>feature</code> package-et, mely az egyes oldalak <code>Composable</code> és <code>ViewModel</code> osztályait fogja tartalmazni külön packagenként, majd hozzuk létre ebben a <code>todo_list</code> package-t.</p>
-<p>Először foglalkozzunk az oldalhoz tartozó <code>ViewModel</code> osztállyal. Hozzuk létre a <code>TodoListViewModel.kt</code> fájlt, majd másoljuk be az alábbi kódrészletet:
-<div class="highlight"><pre><span></span><code><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">TodoListState</span><span class="w"> </span><span class="p">{</span>
+<p>Először foglalkozzunk az oldalhoz tartozó <code>ViewModel</code> osztállyal. Hozzuk létre a <code>TodoListViewModel.kt</code> fájlt, majd másoljuk be az alábbi kódrészletet:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.feature.todo_list</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.ViewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.ViewModelProvider</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewModelScope</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewmodel.initializer</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewmodel.viewModelFactory</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.PriorityUi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.TodoUi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.delay</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.MutableStateFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.asStateFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.launch</span>
+
+<span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">TodoListState</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">object</span><span class="w"> </span><span class="nc">Loading</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">()</span>
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Error</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">error</span><span class="p">:</span><span class="w"> </span><span class="n">Throwable</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">()</span>
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">todoList</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">TodoUi</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">()</span>
@@ -1313,10 +1448,34 @@ implementation(&quot;androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_v
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-A felületet leíró állapot osztályt <code>sealed class</code>-ként deklaráljuk, és jól elkülönített állapot osztályokat veszünk fel, így is jelezve, hogy az egyes állapotokban az oldalunkon mit kell megjeleníteni. Ezeket egy <code>MutableStateFlow</code> segítségével kezeljük, melyet egy csak olvasható változatában osztunk meg az oldalt reprezentáló <code>Composable</code>-el. Az adatok betöltését egyelőre a ViewModel magában végzi el, ez azonban hamarosan ki lesz bővítve külső adatbetöltés támogatásával.</p>
+<p>A felületet leíró állapot osztályt <code>sealed class</code>-ként deklaráljuk, és jól elkülönített állapot osztályokat veszünk fel, így is jelezve, hogy az egyes állapotokban az oldalunkon mit kell megjeleníteni. Ezeket egy <code>MutableStateFlow</code> segítségével kezeljük, melyet egy csak olvasható változatában osztunk meg az oldalt reprezentáló <code>Composable</code>-el. Az adatok betöltését egyelőre a ViewModel magában végzi el, ez azonban hamarosan ki lesz bővítve külső adatbetöltés támogatásával.</p>
 <p>Mivel a <code>ViewModel</code> képes túlélni az őt létrehozó komponenst, ezért a kódból mi nem a konstruktor hívásával fogjuk létrehozni a példányt, hanem a keretrendszernek tudunk átadni egy speciális <em>factory</em> metódust, amit a rendszer az első alkalommal meg fog hívni. Ezt a metódust szerveztük ki a <code>companion object</code> részbe, ami jelenleg csak létrehoz egy példányt, a későbbiekben azonban hasznos lesz különböző külső értékek inicializálására.</p>
 <p>Hozzuk létre a felületet megvalósító <code>TodoListScreen.kt</code> fájlt is ugyanebben a packageben:</p>
-<p><div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.feature.todo_list</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.background</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Box</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxSize</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.padding</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.Icons</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.Add</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.CircularProgressIndicator</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Icon</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.LargeFloatingActionButton</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.MaterialTheme</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Scaffold</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Alignment</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.platform.LocalContext</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.res.stringResource</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.compose.collectAsStateWithLifecycle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewmodel.compose.viewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.R</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.toUiText</span>
+
+<span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">TodoListScreen</span><span class="p">(</span>
 <span class="w">    </span><span class="n">onListItemClick</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
 <span class="w">    </span><span class="n">onFabClick</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
@@ -1369,10 +1528,9 @@ A felületet leíró állapot osztályt <code>sealed class</code>-ként deklará
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-A <code>text_empty_todo_list</code> kulcs értékére vegyük fel a <code>You haven\'t added any todos yet.</code> értéket!</p>
 <p>Mint a legtöbb esetben, itt is egy <code>Scaffold</code>-ot használunk az oldalunk kezelésére, melyhez most egy <code>LargeFloatingActionButton</code>-t is adunk, mellyel majd új feladatokat lehet létrehozni. Ne felejtsük el a Scaffold fő tartalmában <code>it</code> névvel megkapott <code>PaddingValues</code> értékeket a megfelelő helyre beszúrni (ez ebben az esetben a fő <code>Box</code> köré kerül. Ezek mellett látható, hogyan tudunk az aktuális állapot különböző értékeinek függvényében elágazni, és különböző elemeket megjeleníteni.</p>
 <p>Vizsgáljuk meg, hogyan történik az oldal frissítése! A <code>collectAsStateWithLifecycle()</code> függvényhívással automatikusan feliratkozunk a <code>ViewModel</code>-ben tárolt állapotra. Ha változás történik ebben, újra le fog futni a <code>Composable</code>, mely így már a frisebb állapotot fogja megjeleníteni.</p>
-<p>Valósítsuk meg a lista megjelenítését is! Másoljuk be az alábbi kódot a megfelelő <code>else</code> ágba:
+<p>Valósítsuk meg a lista megjelenítését is! Másoljuk be az alábbi kódot a megfelelő <code>else</code> ágba:</p>
 <div class="highlight"><pre><span></span><code><span class="n">Column</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">Text</span><span class="p">(</span>
 <span class="w">        </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">text_your_todo_list</span><span class="p">),</span>
@@ -1416,7 +1574,7 @@ A <code>text_empty_todo_list</code> kulcs értékére vegyük fel a <code>You ha
 <span class="w">                </span><span class="p">})</span>
 <span class="w">            </span><span class="p">)</span>
 <span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">todoList</span><span class="p">.</span><span class="na">last</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">todo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">Divider</span><span class="p">(</span>
+<span class="w">                </span><span class="n">HorizontalDivider</span><span class="p">(</span>
 <span class="w">                    </span><span class="n">thickness</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2.</span><span class="n">dp</span><span class="p">,</span>
 <span class="w">                    </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">secondaryContainer</span>
 <span class="w">                </span><span class="p">)</span>
@@ -1425,25 +1583,34 @@ A <code>text_empty_todo_list</code> kulcs értékére vegyük fel a <code>You ha
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-A <code>Circle</code> ikon csak a kiegészítő Material Icon könyvtárban található meg, melyet az alábbi függőséggel tudunk hozzáadni a projekthez:
+<details class="info">
+<summary>Material Icon</summary>
+<p>A <code>Circle</code> ikon csak a kiegészítő Material Icon könyvtárban található meg, melyet az alábbi függőséggel tudunk hozzáadni a projekthez:</p>
 <div class="highlight"><pre><span></span><code>implementation(&quot;androidx.compose.material:material-icons-extended&quot;)
 </code></pre></div>
-A hiányzó szöveges erőforrásokat az alábbiak szerint vegyük fel:</p>
-<ul>
-<li><code>text_your_todo_list</code> : <code>Your todos</code></li>
-<li><code>list_item_supporting_text</code> : <code>The due date is: %1$s</code></li>
-</ul>
-<p>Ha hibát dobna az <code>items</code>-re, és nem találja az importot, adjuk hozzá az alábbi importot a fájl tetejéhez:
+</details>
+<p>Ha hibát dobna az <code>items</code>-re, és nem találja az importot, adjuk hozzá az alábbi importot a fájl tetejéhez:</p>
 <div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.lazy.items</span>
-</code></pre></div></p>
+</code></pre></div>
 <p>Látható, hogy a lista megjelenítésére a <code>LazyColumn</code> Composable-t használjuk, mely képes nagy elemszámú listát hatékonyan megjeleníteni. Ahhoz, hogy jól működjön a lista módosítása esetén is (pl. hozzáadás, törlés, átrendezés), mindenképp érdemes a <code>key</code> paramétert úgy definiálni, hogy az adott listaelemet egyértelműen beazonosítsa.</p>
-<p>Az oldal elkészült, már csak a navigációt kell frissíteni az oldalhoz. Vegyük fel az útvonalat a <code>Screen</code> osztályba:
-<div class="highlight"><pre><span></span><code><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Screen</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">route</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
-<span class="w">    </span><span class="kd">object</span><span class="w"> </span><span class="nc">TodoList</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="s">&quot;todo_list&quot;</span><span class="p">)</span><span class="w">  </span>
+<p>Az oldal elkészült, már csak a navigációt kell frissíteni az oldalhoz. Vegyük fel az útvonalat a <code>Screen</code> osztályba:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.navigation</span>
+
+<span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Screen</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">route</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">object</span><span class="w"> </span><span class="nc">TodoList</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="s">&quot;todo_list&quot;</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></div></p>
-<p>Illetve a <code>NavGraph</code> Composable-t:
-<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+</code></pre></div>
+<p>Illetve a <code>NavGraph</code> Composable-t:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.navigation</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.NavHostController</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.compose.NavHost</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.compose.composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.compose.rememberNavController</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.feature.todo_list.TodoListScreen</span>
+
+<span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">NavGraph</span><span class="p">(</span>
 <span class="w">    </span><span class="n">navController</span><span class="p">:</span><span class="w"> </span><span class="n">NavHostController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberNavController</span><span class="p">(),</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1464,7 +1631,7 @@ A hiányzó szöveges erőforrásokat az alábbiak szerint vegyük fel:</p>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-Futtassuk az alkalmazás!</p>
+<p>Futtassuk az alkalmazás!</p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
@@ -1473,17 +1640,29 @@ Futtassuk az alkalmazás!</p>
 </div>
 <h2 id="adatreteg-kialakitasa">Adatréteg kialakítása<a class="headerlink" href="#adatreteg-kialakitasa" title="Permanent link">&para;</a></h2>
 <p>Ezen a laboron egy egyszerűsített megoldást mutatunk be a feladatok tárolására, mely csak a memóriában menti el az értékeket. Hozzunk létre egy <code>data</code> package-et a gyökérkönyvtáron belül, majd hozzuk létre az alábbi két fájlt:</p>
-<p><code>TodoRepository.kt</code>:
-<div class="highlight"><pre><span></span><code><span class="kd">interface</span><span class="w"> </span><span class="nc">TodoRepository</span><span class="w"> </span><span class="p">{</span>
+<p><code>TodoRepository.kt</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.Todo</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nc">TodoRepository</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">insertTodo</span><span class="p">(</span><span class="n">todo</span><span class="p">:</span><span class="w"> </span><span class="n">Todo</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">deleteTodo</span><span class="p">(</span><span class="n">todo</span><span class="p">:</span><span class="w"> </span><span class="n">Todo</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getTodoById</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">):</span><span class="w"> </span><span class="n">Todo</span>
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getAllTodos</span><span class="p">():</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Todo</span><span class="o">&gt;</span>
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">updateTodo</span><span class="p">(</span><span class="n">updatedTodo</span><span class="p">:</span><span class="w"> </span><span class="n">Todo</span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></div></p>
+</code></pre></div>
 <p><code>MemoryTodoRepository.kt</code> :</p>
-<div class="highlight"><pre><span></span><code><span class="kd">object</span><span class="w"> </span><span class="nc">MemoryTodoRepository</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.Priority</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.Todo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.delay</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.datetime.toKotlinLocalDateTime</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">java.time.LocalDateTime</span>
+
+<span class="kd">object</span><span class="w"> </span><span class="nc">MemoryTodoRepository</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mutableListOf</span><span class="p">(</span>
 <span class="w">        </span><span class="n">Todo</span><span class="p">(</span>
 <span class="w">            </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span>
@@ -1563,7 +1742,7 @@ Futtassuk az alkalmazás!</p>
 </code></pre></div>
 <p>A <code>TodoRepository</code> egy általános interfészt ír le, mellyel elérhetővé válnak a feladatok az alkalmazás számára, míg a <code>MemoryTodoRepository</code> egy memória alapú megvalósítását mutatja be. Bár itt most nem lenne szükség a <code>suspend</code> kulcsszó használatára, ezzel tudjuk biztosítani, hogy a későbbiekben egy adatbázis vagy hálózati <code>TodoRepository</code> elkészítése után könnyedén tudjuk migrálni a projektet, ezt a késleltetést imitáljuk a <code>delay()</code> függvény hívásával is. Az <code>object</code> kulcsszóval a <em>Singleton</em> mintát tudjuk egyszerűen megvalósítani.</p>
 <p>Frissítsük a <code>TodoListViewModel</code> osztályt, hogy ezt a memória alapú megvalósítást használja:</p>
-<p><div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TodoListViewModel</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TodoListViewModel</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="o">&lt;</span><span class="n">TodoListState</span><span class="o">&gt;</span><span class="p">(</span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_state</span><span class="p">.</span><span class="na">asStateFlow</span><span class="p">()</span>
 
@@ -1597,21 +1776,35 @@ Futtassuk az alkalmazás!</p>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-Futassuk az alkalmazást, és ellenőrizzük, hogy továbbra is megjelennek a feladatok a listában. </p>
+<p>Futassuk az alkalmazást, és ellenőrizzük, hogy továbbra is megjelennek a feladatok a listában!</p>
 <h2 id="reszletes-feladat-felulet">Részletes feladat felület<a class="headerlink" href="#reszletes-feladat-felulet" title="Permanent link">&para;</a></h2>
 <p>Következő lépésként készítsük fel a részletező felületet, melyen a feladat leírását tudjuk megnézni. Készítsük el az oldalt a lista oldal mintájára.</p>
 <p>Kezdjük a navigáció implementálásával. Ebben az esetben az útvonal fogja tartalmazni az azonosítóját a feladatnak az alábbi módon:
-<code>Screen.kt</code>:
-<div class="highlight"><pre><span></span><code><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Screen</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">route</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
-<span class="w">    </span><span class="kd">object</span><span class="w"> </span><span class="nc">TodoList</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="s">&quot;todo_list&quot;</span><span class="p">)</span><span class="w">  </span>
-<span class="w">    </span><span class="kd">object</span><span class="w"> </span><span class="nc">TodoDetail</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="s">&quot;todo_detail/{id}&quot;</span><span class="p">){</span><span class="w">  </span>
-<span class="w">        </span><span class="kd">fun</span><span class="w"> </span><span class="nf">passId</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;todo_detail/</span><span class="si">$</span><span class="n">id</span><span class="s">&quot;</span><span class="w">  </span>
-<span class="w">  </span><span class="p">}</span><span class="w">  </span>
+<code>Screen.kt</code>:</p>
+<p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.navigation</span>
+
+<span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Screen</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">route</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">object</span><span class="w"> </span><span class="nc">TodoList</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="s">&quot;todo_list&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">object</span><span class="w"> </span><span class="nc">TodoDetail</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="s">&quot;todo_detail/{id}&quot;</span><span class="p">){</span>
+<span class="w">        </span><span class="kd">fun</span><span class="w"> </span><span class="nf">passId</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;todo_detail/</span><span class="si">$</span><span class="n">id</span><span class="s">&quot;</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 A feladat azonosítóját egy <code>/</code> jellel elválasztva tesszük be az útvonalba.</p>
-<p><code>NavGraph.kt</code>:
-<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+<p><code>NavGraph.kt</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.navigation</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.NavHostController</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.NavType</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.compose.NavHost</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.compose.composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.compose.rememberNavController</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.navArgument</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.feature.todo_detail.TodoDetailScreen</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.feature.todo_list.TodoListScreen</span>
+
+<span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">NavGraph</span><span class="p">(</span>
 <span class="w">    </span><span class="n">navController</span><span class="p">:</span><span class="w"> </span><span class="n">NavHostController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberNavController</span><span class="p">(),</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1641,11 +1834,29 @@ A feladat azonosítóját egy <code>/</code> jellel elválasztva tesszük be az 
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></p>
+</code></pre></div>
 <p>Az azonosítót a <code>composable</code>-ben is fel kell tüntetnünk az <code>arguments</code> paraméterben. Itt tudjuk megadni, hogy milyen típusú lesz az érték, amit átadunk a paraméterben, így a keretrendszer automatikusan át tudja alakítani a megfelelő típussá.
 Hozzunk létre egy új package-et a <code>feature</code> package-en belül <code>todo_detail</code> néven. </p>
-<p><code>TodoDetailViewModel.kt</code>:
-<div class="highlight"><pre><span></span><code><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">TodoDetailState</span><span class="w"> </span><span class="p">{</span>
+<p><code>TodoDetailViewModel.kt</code>:</p>
+<p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.feature.todo_detail</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.SavedStateHandle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.ViewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.ViewModelProvider</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.createSavedStateHandle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewModelScope</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewmodel.initializer</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewmodel.viewModelFactory</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.MemoryTodoRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.TodoRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.TodoUi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.asTodoUi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.delay</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.MutableStateFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.asStateFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.launch</span>
+
+<span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">TodoDetailState</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">object</span><span class="w"> </span><span class="nc">Loading</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">()</span>
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Error</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">error</span><span class="p">:</span><span class="w"> </span><span class="n">Throwable</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">()</span>
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">todo</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUi</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">()</span>
@@ -1690,8 +1901,47 @@ Hozzunk létre egy új package-et a <code>feature</code> package-en belül <code
 <span class="p">}</span>
 </code></pre></div>
 Az útvonalban átadott paraméter kiolvasásához a <code>SavedStateHandle</code> osztályt használjuk. Ennek az osztálynak a szerepe az olyan adatok mentése, melyet az alkalmazás háttérben történő megsemmisítése és újraindítása után is ki akarunk olvasni. Ezt a funkcióját most nem használjuk ki, viszont a keretrendszer ebbe tölti be az útvonal paramétereket is, melyekhez így könnyen hozzáférünk, amikor az új feladatot kell betölteni.</p>
-<p><code>TodoDetailScreen.kt</code>:
-<div class="highlight"><pre><span></span><code><span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
+<p><code>TodoDetailScreen.kt</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.feature.todo_detail</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.background</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Box</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Column</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Row</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Spacer</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxSize</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxWidth</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.height</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.padding</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.size</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.width</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.shape.RoundedCornerShape</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.Icons</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.ArrowBack</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.Circle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.CircularProgressIndicator</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ExperimentalMaterial3Api</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Icon</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.IconButton</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.MaterialTheme</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Scaffold</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.TextFieldDefaults</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.TopAppBar</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.TopAppBarDefaults</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Alignment</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.draw.clip</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.graphics.Color</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.platform.LocalContext</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.res.stringResource</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.unit.dp</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.compose.collectAsStateWithLifecycle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewmodel.compose.viewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.toUiText</span>
+
+<span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">TodoDetailScreen</span><span class="p">(</span>
 <span class="w">    </span><span class="n">onNavigateBack</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
@@ -1776,7 +2026,7 @@ Az útvonalban átadott paraméter kiolvasásához a <code>SavedStateHandle</cod
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-Végül a lista oldalhoz hasonlóan kiolvassuk a <code>ViewModel</code>-ben tárolt állapotot és megjelenítjük a megfelelő felületi elemeket.</p>
+<p>Végül a lista oldalhoz hasonlóan kiolvassuk a <code>ViewModel</code>-ben tárolt állapotot és megjelenítjük a megfelelő felületi elemeket.</p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>részletes nézet</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
@@ -1785,9 +2035,35 @@ Végül a lista oldalhoz hasonlóan kiolvassuk a <code>ViewModel</code>-ben tár
 </div>
 <h2 id="feladat-letrehozasa-felulet-komponensek">Feladat létrehozása felület komponensek<a class="headerlink" href="#feladat-letrehozasa-felulet-komponensek" title="Permanent link">&para;</a></h2>
 <p>Az utolsó felület, melyet elkészítünk az alkalmazáshoz, a feladat létrehozása felület lesz. Ehhez több önálló felületi elemre lesz szükségünk, melyeket az oldal előtt létrehozunk. Hozzuk létre a <code>ui</code> package-en belül a <code>common</code> package-et, mely az olyan <code>Composable</code> elemeket tartalmazza, melyeket akár több oldalon is fel tudnánk használni. Ezen belül hozzuk létre az alábbi elemeket:</p>
-<p><code>DatePicker.kt</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
-<span class="kd">fun</span><span class="w"> </span><span class="nf">DatePicker</span><span class="p">(</span>
+<p><code>DateSelector.kt</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.common</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.background</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.clickable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Row</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.height</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.padding</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.width</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.shape.RoundedCornerShape</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.Icons</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.EditCalendar</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Icon</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.IconButton</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.MaterialTheme</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Surface</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.TextFieldDefaults</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Alignment</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.draw.clip</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.tooling.preview.Preview</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.unit.dp</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.datetime.LocalDate</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">java.time.LocalDateTime</span>
+
+<span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">DateSelector</span><span class="p">(</span>
 <span class="w">    </span><span class="n">pickedDate</span><span class="p">:</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">,</span>
 <span class="w">    </span><span class="n">onClick</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
 <span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
@@ -1835,16 +2111,31 @@ Végül a lista oldalhoz hasonlóan kiolvassuk a <code>ViewModel</code>-ben tár
 
 <span class="nd">@Preview</span>
 <span class="nd">@Composable</span>
-<span class="kd">fun</span><span class="w"> </span><span class="nf">DatePicker_Preview</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">DateSelector</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">()</span>
-<span class="w">    </span><span class="n">DatePicker</span><span class="p">(</span>
+<span class="w">    </span><span class="n">DateSelector</span><span class="p">(</span>
 <span class="w">        </span><span class="n">pickedDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">(</span><span class="n">d</span><span class="p">.</span><span class="na">year</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="na">month</span><span class="p">,</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="na">dayOfMonth</span><span class="p">),</span>
 <span class="w">        </span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
 <span class="w">    </span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<p><code>NormalTextField.kt</code>:
-<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+<p><code>NormalTextField.kt</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.common</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.shape.RoundedCornerShape</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.text.KeyboardActionScope</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.text.KeyboardActions</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.text.KeyboardOptions</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.TextField</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.draw.clip</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.input.ImeAction</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.input.KeyboardType</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.unit.dp</span>
+
+<span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">NormalTextField</span><span class="p">(</span>
 <span class="w">    </span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
 <span class="w">    </span><span class="n">label</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
@@ -1877,9 +2168,49 @@ Végül a lista oldalhoz hasonlóan kiolvassuk a <code>ViewModel</code>-ben tár
 <span class="w">        </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">shape</span>
 <span class="w">    </span><span class="p">)</span>
 <span class="p">}</span>
-</code></pre></div></p>
-<p><code>PriorityDropdown.kt</code>
-<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+</code></pre></div>
+<p><code>PriorityDropdown.kt</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.common</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.animation.core.animateFloatAsState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.background</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.clickable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Arrangement</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Column</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Row</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Spacer</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxSize</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.height</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.padding</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.size</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.width</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.shape.RoundedCornerShape</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.Icons</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.ArrowDropDown</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.Circle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.DropdownMenu</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.DropdownMenuItem</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Icon</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.IconButton</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.MaterialTheme</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Surface</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.TextFieldDefaults</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.getValue</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.mutableStateOf</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.remember</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.setValue</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Alignment</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.draw.clip</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.draw.rotate</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.res.stringResource</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.tooling.preview.Preview</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.unit.dp</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.PriorityUi</span>
+
+<span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">PriorityDropDown</span><span class="p">(</span>
 <span class="w">    </span><span class="n">priorities</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">PriorityUi</span><span class="o">&gt;</span><span class="p">,</span>
 <span class="w">    </span><span class="n">selectedPriority</span><span class="p">:</span><span class="w"> </span><span class="n">PriorityUi</span><span class="p">,</span>
@@ -1991,9 +2322,36 @@ Végül a lista oldalhoz hasonlóan kiolvassuk a <code>ViewModel</code>-ben tár
 <span class="w">        </span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></p>
-<p>Ezt a három elemet fogjuk össze a <code>TodoEditor</code> komponenssel, melyet ugyanitt hozzunk létre:
-<div class="highlight"><pre><span></span><code><span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalComposeUiApi</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
+</code></pre></div>
+<p>Ezt a három elemet fogjuk össze a <code>TodoEditor</code> komponenssel, melyet ugyanitt hozzunk létre:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.common</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.background</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Arrangement</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Box</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Column</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Spacer</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxSize</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxWidth</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.height</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.padding</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.MaterialTheme</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.getValue</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.mutableStateOf</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.remember</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.setValue</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Alignment</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.platform.LocalSoftwareKeyboardController</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.res.stringResource</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.tooling.preview.Preview</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.unit.dp</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.R</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.PriorityUi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.datetime.LocalDate</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">java.time.LocalDateTime</span>
+
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">TodoEditor</span><span class="p">(</span>
 <span class="w">    </span><span class="n">titleValue</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
@@ -2005,7 +2363,7 @@ Végül a lista oldalhoz hasonlóan kiolvassuk a <code>ViewModel</code>-ben tár
 <span class="w">    </span><span class="n">selectedPriority</span><span class="p">:</span><span class="w"> </span><span class="n">PriorityUi</span><span class="p">,</span>
 <span class="w">    </span><span class="n">onPrioritySelected</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">PriorityUi</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
 <span class="w">    </span><span class="n">pickedDate</span><span class="p">:</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">,</span>
-<span class="w">    </span><span class="n">onDatePickerClicked</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
+<span class="w">    </span><span class="n">onDateSelectorClicked</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
 <span class="w">    </span><span class="n">enabled</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">fraction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.95f</span>
@@ -2025,7 +2383,7 @@ Végül a lista oldalhoz hasonlóan kiolvassuk a <code>ViewModel</code>-ben tár
 <span class="w">                </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">textfield_label_title</span><span class="p">),</span>
 <span class="w">                </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">titleOnValueChange</span><span class="p">,</span>
 <span class="w">                </span><span class="n">singleLine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">                </span><span class="n">onDone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">keyboardController</span><span class="o">?.</span><span class="na">hide</span><span class="p">()</span><span class="w">  </span><span class="p">},</span>
+<span class="w">                </span><span class="n">onDone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">keyboardController</span><span class="o">?.</span><span class="na">hide</span><span class="p">()</span><span class="w"> </span><span class="p">},</span>
 <span class="w">                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
 <span class="w">                    </span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">(</span><span class="n">fraction</span><span class="p">)</span>
 <span class="w">                    </span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="n">top</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">5.</span><span class="n">dp</span><span class="p">)</span>
@@ -2042,9 +2400,9 @@ Végül a lista oldalhoz hasonlóan kiolvassuk a <code>ViewModel</code>-ben tár
 <span class="w">            </span><span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enabled</span>
 <span class="w">        </span><span class="p">)</span>
 <span class="w">        </span><span class="n">Spacer</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">height</span><span class="p">(</span><span class="m">5.</span><span class="n">dp</span><span class="p">))</span>
-<span class="w">        </span><span class="n">DatePicker</span><span class="p">(</span>
+<span class="w">        </span><span class="n">DateSelector</span><span class="p">(</span>
 <span class="w">            </span><span class="n">pickedDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pickedDate</span><span class="p">,</span>
-<span class="w">            </span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onDatePickerClicked</span><span class="p">,</span>
+<span class="w">            </span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onDateSelectorClicked</span><span class="p">,</span>
 <span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
 <span class="w">                </span><span class="p">.</span><span class="na">weight</span><span class="p">(</span><span class="m">1f</span><span class="p">)</span>
 <span class="w">                </span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">(</span><span class="n">fraction</span><span class="p">),</span>
@@ -2076,7 +2434,7 @@ Végül a lista oldalhoz hasonlóan kiolvassuk a <code>ViewModel</code>-ben tár
 <span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">selectedPriority</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="n">priorities</span><span class="o">[</span><span class="m">0</span><span class="o">]</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
 
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDateTime</span><span class="p">.</span><span class="na">now</span><span class="p">()</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">pickedDate</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="n">LocalDate</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="na">year</span><span class="p">,</span><span class="n">c</span><span class="p">.</span><span class="na">month</span><span class="p">,</span><span class="n">c</span><span class="p">.</span><span class="na">dayOfMonth</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">pickedDate</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="n">LocalDate</span><span class="p">(</span><span class="n">c</span><span class="p">.</span><span class="na">year</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="na">month</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="na">dayOfMonth</span><span class="p">))</span><span class="w"> </span><span class="p">}</span>
 
 <span class="w">    </span><span class="n">Box</span><span class="p">(</span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">TodoEditor</span><span class="p">(</span>
@@ -2088,16 +2446,31 @@ Végül a lista oldalhoz hasonlóan kiolvassuk a <code>ViewModel</code>-ben tár
 <span class="w">            </span><span class="n">selectedPriority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">selectedPriority</span><span class="p">,</span>
 <span class="w">            </span><span class="n">onPrioritySelected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">selectedPriority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="w"> </span><span class="p">},</span>
 <span class="w">            </span><span class="n">pickedDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pickedDate</span><span class="p">,</span>
-<span class="w">            </span><span class="n">onDatePickerClicked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">onDateSelectorClicked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">            </span><span class="p">},</span>
 <span class="w">        </span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></p>
-<p>A hiányzó szövegerőforrásra vegyük fel rendre a <code>Title</code> és <code>Description</code> értékeket.</p>
-<p>Ezek mellett a létrehozás oldalon szükségünk lesz egy <code>TopAppBar</code> elemre is. Egy ilyet már létrehoztunk a részletes nézeten, ezt kiemelve és általánosítva hozzuk létre az új <code>TodoAppBar</code> elemet ugyanebbe a package-be:
-<div class="highlight"><pre><span></span><code><span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
+</code></pre></div>
+<p>Ezek mellett a létrehozás oldalon szükségünk lesz egy <code>TopAppBar</code> elemre is. Egy ilyet már létrehoztunk a részletes nézeten, ezt kiemelve és általánosítva hozzuk létre az új <code>TodoAppBar</code> elemet ugyanebbe a package-be:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.common</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.RowScope</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.Icons</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.ArrowBack</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ExperimentalMaterial3Api</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Icon</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.IconButton</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.MaterialTheme</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.TopAppBar</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.TopAppBarDefaults</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.tooling.preview.Preview</span>
+
+<span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">TodoAppBar</span><span class="p">(</span>
 <span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
@@ -2134,15 +2507,37 @@ Végül a lista oldalhoz hasonlóan kiolvassuk a <code>ViewModel</code>-ben tár
 <span class="w">    </span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-Ezzel a <code>TodoDetailScreen</code> <code>TopAppBar</code> része az alábbi egyszerűbb deklarációra cserélhető:
+<p>Ezzel a <code>TodoDetailScreen</code> <code>TopAppBar</code> része az alábbi egyszerűbb deklarációra cserélhető:</p>
 <div class="highlight"><pre><span></span><code><span class="n">TodoAppBar</span><span class="p">(</span>
 <span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">title</span><span class="p">,</span>
 <span class="w">    </span><span class="n">onNavigateBack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onNavigateBack</span><span class="p">,</span>
 <span class="p">)</span>
-</code></pre></div></p>
+</code></pre></div>
 <h2 id="feladat-keszitese-oldal">Feladat készítése oldal<a class="headerlink" href="#feladat-keszitese-oldal" title="Permanent link">&para;</a></h2>
-<p>Hozzuk létre a <code>feature</code> package-en belül a <code>todo_create</code> package-et. Ezen belül készítsük el az oldal logikáját megvalósító <code>TodoCreateViewModel</code> osztályt:
-<div class="highlight"><pre><span></span><code><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">TodoCreateState</span><span class="p">(</span>
+<p>Hozzuk létre a <code>feature</code> package-en belül a <code>todo_create</code> package-et. Ezen belül készítsük el az oldal logikáját megvalósító <code>TodoCreateViewModel</code> osztályt:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.feature.todo_create</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.ViewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.ViewModelProvider</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewModelScope</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewmodel.initializer</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewmodel.viewModelFactory</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.MemoryTodoRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.TodoRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.PriorityUi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.TodoUi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.UiText</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.asTodo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.toUiText</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.channels.Channel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.MutableStateFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.asStateFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.receiveAsFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.update</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.launch</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.datetime.LocalDate</span>
+
+<span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">TodoCreateState</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">todo</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUi</span><span class="p">()</span>
 <span class="p">)</span>
 
@@ -2222,14 +2617,46 @@ Ezzel a <code>TodoDetailScreen</code> <code>TopAppBar</code> része az alábbi e
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></p>
+</code></pre></div>
 <p>Ebben a <code>ViewModel</code> osztályban két új architektúra mintát is megfigyelhetünk:</p>
 <ul>
 <li>A felhasználói felületről érkező eseményeknek egy új osztályt definiáltunk <code>TodoCreateEvent</code> néven. Ezeket az eseményeket egy általános, <code>onEvent()</code> metódusban kezeljük le, így könnyebben követhető, milyen interakciókra számíthatunk a <code>ViewModel</code> oldaláról. Szükség esetén az egyes események kezelésére létrehozható egyedi privát metódus, de a UI csak az <code>onEvent()</code>-et hívja meg.</li>
 <li>Vannak olyan események, melyekre a UI rétegnek reagálnia kell a megjelenítés helyett. Például egy feladat sikeres létrehozása után azt szeretnénk, hogy az alkalmazás navigáljon vissza az előző oldalra. Ilyenkor azt akarjuk, hogy ez az esemény csak és kizárólag egyszer kerüljön feldolgozásra. Ezeket egy <code>Channel</code> segítségével osztjuk meg.</li>
 </ul>
 <p>Az ehhez tartozó oldalhoz hozzuk létre a <code>TodoCreateScreen.kt</code> fájlt ebbe a package-be:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.feature.todo_create</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Box</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxSize</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.padding</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.Icons</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.Save</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Icon</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.LargeFloatingActionButton</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.MaterialTheme</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Scaffold</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.SnackbarHost</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.SnackbarHostState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.LaunchedEffect</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.getValue</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.remember</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.rememberCoroutineScope</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Alignment</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.platform.LocalContext</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.res.stringResource</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.compose.collectAsStateWithLifecycle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewmodel.compose.viewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.R</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.Priority</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.common.TodoAppBar</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.common.TodoEditor</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.asPriorityUi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.launch</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.datetime.toLocalDate</span>
+
+<span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">TodoCreateScreen</span><span class="p">(</span>
 <span class="w">    </span><span class="n">onNavigateBack</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
 <span class="w">    </span><span class="n">viewModel</span><span class="p">:</span><span class="w"> </span><span class="n">TodoCreateViewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModel</span><span class="p">(</span><span class="n">factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoCreateViewModel</span><span class="p">.</span><span class="na">Factory</span><span class="p">)</span>
@@ -2285,11 +2712,11 @@ Ezzel a <code>TodoDetailScreen</code> <code>TopAppBar</code> része az alábbi e
 <span class="w">                </span><span class="n">titleOnValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">viewModel</span><span class="p">.</span><span class="na">onEvent</span><span class="p">(</span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">ChangeTitle</span><span class="p">(</span><span class="nb">it</span><span class="p">))</span><span class="w"> </span><span class="p">},</span>
 <span class="w">                </span><span class="n">descriptionValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">description</span><span class="p">,</span>
 <span class="w">                </span><span class="n">descriptionOnValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">viewModel</span><span class="p">.</span><span class="na">onEvent</span><span class="p">(</span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">ChangeDescription</span><span class="p">(</span><span class="nb">it</span><span class="p">))</span><span class="w"> </span><span class="p">},</span>
-<span class="w">                </span><span class="n">priorities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Priority</span><span class="p">.</span><span class="na">values</span><span class="p">().</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">asPriorityUi</span><span class="p">()</span><span class="w"> </span><span class="p">},</span>
+<span class="w">                </span><span class="n">priorities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Priority</span><span class="p">.</span><span class="na">entries</span><span class="p">.</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">asPriorityUi</span><span class="p">()</span><span class="w"> </span><span class="p">},</span>
 <span class="w">                </span><span class="n">selectedPriority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">priority</span><span class="p">,</span>
 <span class="w">                </span><span class="n">onPrioritySelected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">viewModel</span><span class="p">.</span><span class="na">onEvent</span><span class="p">(</span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">SelectPriority</span><span class="p">(</span><span class="nb">it</span><span class="p">))</span><span class="w"> </span><span class="p">},</span>
 <span class="w">                </span><span class="n">pickedDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">dueDate</span><span class="p">.</span><span class="na">toLocalDate</span><span class="p">(),</span>
-<span class="w">                </span><span class="n">onDatePickerClicked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">onDateSelectorClicked</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                    </span><span class="c1">//TODO: Open date picker dialog</span>
 <span class="w">                </span><span class="p">},</span>
 <span class="w">                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
@@ -2298,9 +2725,10 @@ Ezzel a <code>TodoDetailScreen</code> <code>TopAppBar</code> része az alábbi e
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>A hiányzó szöveges erőforrás helyére vegyük fel a <code>Create todo</code> szöveget.</p>
 <p>Utolsó lépésként kössük be a navigációt is ehhez az oldalhoz. Frissítsük a <code>Screen.kt</code> fájlt az alábbi kóddal:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Screen</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">route</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.navigation</span>
+
+<span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Screen</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">route</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">object</span><span class="w"> </span><span class="nc">TodoList</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="s">&quot;todo_list&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">object</span><span class="w"> </span><span class="nc">TodoDetail</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="s">&quot;todo_detail/{id}&quot;</span><span class="p">){</span>
 <span class="w">        </span><span class="kd">fun</span><span class="w"> </span><span class="nf">passId</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;todo_detail/</span><span class="si">$</span><span class="n">id</span><span class="s">&quot;</span>
@@ -2309,7 +2737,20 @@ Ezzel a <code>TodoDetailScreen</code> <code>TopAppBar</code> része az alábbi e
 <span class="p">}</span>
 </code></pre></div>
 <p>Valósítsuk meg a navigációt is a <code>NavGraph.kt</code> fájlban:</p>
-<p><div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.navigation</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.NavHostController</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.NavType</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.compose.NavHost</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.compose.composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.compose.rememberNavController</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.navArgument</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.feature.todo_create.TodoCreateScreen</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.feature.todo_detail.TodoDetailScreen</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.feature.todo_list.TodoListScreen</span>
+
+<span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">NavGraph</span><span class="p">(</span>
 <span class="w">    </span><span class="n">navController</span><span class="p">:</span><span class="w"> </span><span class="n">NavHostController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberNavController</span><span class="p">(),</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -2347,7 +2788,7 @@ Ezzel a <code>TodoDetailScreen</code> <code>TopAppBar</code> része az alábbi e
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-Próbáljuk ki az alkalmazást! Mit tapasztalunk egy feladat létrehozásánál?</p>
+<p>Próbáljuk ki az alkalmazást! Mit tapasztalunk egy feladat létrehozásánál?</p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>feladat létrehozása nézet</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
@@ -2383,13 +2824,15 @@ Próbáljuk ki az alkalmazást! Mit tapasztalunk egy feladat létrehozásánál?
 <span class="w">            </span><span class="n">lifecycleOwner</span><span class="p">.</span><span class="na">lifecycle</span><span class="p">.</span><span class="na">removeObserver</span><span class="p">(</span><span class="n">observer</span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">Scaffold</span><span class="p">(</span>
 <span class="w">    </span><span class="p">...</span>
 <span class="p">}</span>
 </code></pre></div></p>
 <p>Tegyük a <code>ViewModel</code> loadTodos() metódusát publikussá, és töröljük az inicializáló kódblokkban történő meghívását. Próbáljuk ki az alkalmazást! Ha zavar a töltés miatti képernyő bevillanása, akkor akár ki is vehetjük a <code>loadTodos()</code> metódusból a <code>Loading</code> állapot beállítását.</p>
 <h2 id="kiegeszito-feladat-2-animacio-optimalizalas">Kiegészítő feladat 2 - Animáció optimalizálás<a class="headerlink" href="#kiegeszito-feladat-2-animacio-optimalizalas" title="Permanent link">&para;</a></h2>
-<p>Vizsgáljuk meg, hogyan történik a fontosságot kiválasztó felületi elemen a lenyitást jelző elem animációja:
-<code>PriorityDropdown.kt</code>:
+<p>Vizsgáljuk meg, hogyan történik a fontosságot kiválasztó felületi elemen a lenyitást jelző elem animációja:</p>
+<p><code>PriorityDropdown.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">PriorityDropDown</span><span class="p">(</span>
 <span class="w">    </span><span class="p">...</span>
@@ -2454,52 +2897,55 @@ Az <code>animateFloatAsState()</code> egy nagyon hasznos State objektumot tesz e
 <p>Így ebben az esetben a szög kiolvasása már csak a Drawing fázisban történik, nem kell a teljes cikluson végigfutni az animáció során.</p>
 <h2 id="onallo-feladat">Önálló feladat<a class="headerlink" href="#onallo-feladat" title="Permanent link">&para;</a></h2>
 <h3 id="datumvalaszto-elkeszitese">Dátumválasztó elkészítése<a class="headerlink" href="#datumvalaszto-elkeszitese" title="Permanent link">&para;</a></h3>
-<p>Először is csináljunk meg a megjelenítésért felelős <code>DatePickerDialog.kt</code> elemet a <code>ui/common</code> package-be:</p>
-<p><div class="highlight"><pre><span></span><code><span class="nd">@Composable</span>
-<span class="kd">fun</span><span class="w"> </span><span class="nf">DatePickerDialog</span><span class="p">(</span>
-<span class="w">    </span><span class="n">currentDate</span><span class="p">:</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">,</span>
-<span class="w">    </span><span class="n">onConfirm</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">LocalDate</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
-<span class="w">    </span><span class="n">onDismiss</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span>
-<span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">selectedDate</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="n">currentDate</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
-<span class="w">    </span><span class="n">AlertDialog</span><span class="p">(</span>
-<span class="w">        </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">Kalendar</span><span class="p">(</span>
-<span class="w">                </span><span class="n">onCurrentDayClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">kalendarDay</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">                    </span><span class="n">selectedDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kalendarDay</span><span class="p">.</span><span class="na">localDate</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="n">kalendarThemeColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KalendarThemeColor</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">backgroundColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="na">Transparent</span><span class="p">,</span>
-<span class="w">                    </span><span class="n">dayBackgroundColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">primaryContainer</span><span class="p">,</span>
-<span class="w">                    </span><span class="n">headerTextColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">onPrimaryContainer</span>
-<span class="w">                </span><span class="p">),</span>
-<span class="w">                </span><span class="n">kalendarDayColors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KalendarDayColors</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">selectedTextColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">primary</span><span class="p">,</span>
-<span class="w">                    </span><span class="n">textColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">onPrimaryContainer</span>
-<span class="w">                </span><span class="p">),</span>
-<span class="w">                </span><span class="n">kalendarType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KalendarType</span><span class="p">.</span><span class="na">Firey</span><span class="p">,</span>
-<span class="w">                </span><span class="n">takeMeToDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">currentDate</span>
-<span class="w">            </span><span class="p">)</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="n">confirmButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">Button</span><span class="p">(</span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">onConfirm</span><span class="p">(</span><span class="n">selectedDate</span><span class="p">)</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">dialog_ok_button_text</span><span class="p">))</span>
+<p>Valósítsuk meg a felugró dátumválasztó ablakot a <code>TodoCreateScreen</code>-en! Korábban ezt külső könyvtárral kellett megoldanunk, azonban szerencsére a Material3 már tartalmaz DatePickert és DatePickerDialog-ot. A megvalósításhoz először fel kell vennünk egy <code>showDialog</code> változót az oldalon belül, melyet a <code>TodoEditor</code> megfelelő callbackjében be kell állítanunk. Ha pedig a <code>showDialog</code> <code>true</code> értéket tartalmaz, akkor az oldalhoz tartozó <code>Scaffold</code> végén jelenítsük meg a dialógust a megfelelő paraméterezésével. Ne felejtsük el átadni az aktuális dátumot, illetve a két eseményt kezeljük le megfelelően: </p>
+<details class="success">
+<summary>DatePickerDialog</summary>
+<div class="highlight"><pre><span></span><code><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">showDialog</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Box</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">datePickerState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberDatePickerState</span><span class="p">()</span>
+
+<span class="w">        </span><span class="n">DatePickerDialog</span><span class="p">(</span>
+<span class="w">            </span><span class="n">onDismissRequest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="c1">// Dismiss the dialog when the user clicks outside the dialog or on the back</span>
+<span class="w">                </span><span class="c1">// button. If you want to disable that functionality, simply use an empty</span>
+<span class="w">                </span><span class="c1">// onDismissRequest.</span>
+<span class="w">                </span><span class="n">showDialog</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="n">confirmButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">TextButton</span><span class="p">(</span>
+<span class="w">                    </span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="n">showDialog</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">                        </span><span class="kd">val</span><span class="w"> </span><span class="nv">date</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                            </span><span class="n">Instant</span><span class="p">.</span><span class="na">ofEpochMilli</span><span class="p">(</span><span class="n">datePickerState</span><span class="p">.</span><span class="na">selectedDateMillis</span><span class="o">!!</span><span class="p">)</span>
+<span class="w">                                </span><span class="p">.</span><span class="na">atZone</span><span class="p">(</span><span class="n">ZoneId</span><span class="p">.</span><span class="na">systemDefault</span><span class="p">()).</span><span class="na">toLocalDateTime</span><span class="p">()</span>
+
+<span class="w">                        </span><span class="n">viewModel</span><span class="p">.</span><span class="na">onEvent</span><span class="p">(</span>
+<span class="w">                            </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">SelectDate</span><span class="p">(</span>
+<span class="w">                                </span><span class="n">LocalDate</span><span class="p">(</span><span class="n">date</span><span class="p">.</span><span class="na">year</span><span class="p">,</span><span class="w"> </span><span class="n">date</span><span class="p">.</span><span class="na">month</span><span class="p">,</span><span class="w"> </span><span class="n">date</span><span class="p">.</span><span class="na">dayOfMonth</span><span class="p">)</span>
+<span class="w">                            </span><span class="p">)</span>
+<span class="w">                        </span><span class="p">)</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">Text</span><span class="p">(</span><span class="n">stringResource</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">dialog_ok_button_text</span><span class="p">))</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="n">dismissButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">TextButton</span><span class="p">(</span>
+<span class="w">                    </span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="n">showDialog</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">Text</span><span class="p">(</span><span class="n">stringResource</span><span class="p">(</span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">dialog_dismiss_button_text</span><span class="p">))</span>
+<span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="n">dismissButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">Button</span><span class="p">(</span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onDismiss</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">dialog_dismiss_button_text</span><span class="p">))</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="n">onDismissRequest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onDismiss</span>
-<span class="w">    </span><span class="p">)</span>
-<span class="p">}</span>
+<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">DatePicker</span><span class="p">(</span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">datePickerState</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span><span class="w">   </span>
 </code></pre></div>
-Vegyük fel az itt használt <code>Kalendar</code> elem függőségét a <strong>modul</strong> szintű <code>build.gradle</code> fájlba:</p>
-<p><div class="highlight"><pre><span></span><code>implementation &quot;com.himanshoe:kalendar:1.2.0&quot;
-</code></pre></div>
-A hiányzó szöveges erőforrásokra vegyük fel az <code>Ok</code> és <code>Close</code> értékeket.</p>
-<p>Jelenítsük meg ezt a dialogot a <code>TodoCreateScreen</code>-en. Ehhez fel kell vennünk egy <code>showDialog</code> változót az oldalon belül, melyet a <code>TodoEditor</code> megfelelő callbackjében be kell állítanunk. Ha pedig a <code>showDialog</code> <code>true</code> értékre van tartalmazva, akkor az oldalhoz tartozó <code>Scaffold</code> végén jelenítsük meg a dialógust a megfelelő paraméterezésével. Ne felejtsük el átadni az aktuális dátumot, illetve a két eseményt kezeljük le megfelelően. </p>
+</details>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>dátumválasztó dialógus</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
@@ -2524,8 +2970,8 @@ A hiányzó szöveges erőforrásokra vegyük fel az <code>Ok</code> és <code>C
           </path>
         </svg>
       </span>
-      <span title="2023. október 12. 13:44:49">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-10-12T13:44:49+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-10-12</span>
+      <span title="2024. március 20. 21:29:30">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-03-20T21:29:30+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-03-20</span>
       </span>
     </span>
 
@@ -2540,10 +2986,10 @@ A hiányzó szöveges erőforrásokra vegyük fel az <code>Ok</code> és <code>C
         </svg>
       </span>
       <span>Szerzők</span>
-      <nav><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
-          <img src="https://avatars.githubusercontent.com/u/8405234?v=4?size=72" alt="@danim1130">
-        </a><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
+      <nav><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
           <img src="https://avatars.githubusercontent.com/u/23335752?v=4?size=72" alt="@gazdilaci">
+        </a><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
+          <img src="https://avatars.githubusercontent.com/u/8405234?v=4?size=72" alt="@danim1130">
         </a></nav>      
     </span>
   </div>

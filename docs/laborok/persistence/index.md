@@ -91,6 +91,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
 }
+```
 
 És ugyanitt vegyük is fel a Room könyvtárat:
 

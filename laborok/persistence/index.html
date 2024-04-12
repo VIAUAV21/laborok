@@ -944,7 +944,7 @@ A labor egyúttal azt is bemutatja, hogy egy modern, összetett alkalamzás kül
 <p>A felületi elemek elkészítése után gondoskodni kell a köztük történő navigációról is. Ez is már rendelkezésre áll a <code>navigation</code> package-ben. Nézzük át ezeket is!</p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>teendők listájának előnézete</strong>,
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>teendők listája a futó alkalmazásban</strong>,
 az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
 <p>A képet a megoldásban a repository-ba f1.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
@@ -1083,13 +1083,6 @@ verzió még nem használt független domén- és adatbázismodelleket.</p>
 <span class="w">    </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">dao</span><span class="p">:</span><span class="w"> </span><span class="n">TodoDao</span>
 <span class="p">}</span>
 </code></pre></div>
-<div class="admonition example">
-<p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a 
-<strong>TodoDatabse kódrészélete</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
-<p>A képet a megoldásban a repository-ba f2.png néven töltsd föl.</p>
-<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
-</div>
 <p>Figyeljük meg az annotációkat! Itt meg vannak hivatkozva a használni kívánt entitások és konverterek, illetve az adatbázisséma egy verziószámot is kap. Ez azért hasznos, mert ahogy fejlődik az alkalmazás, az adatbázis sémája is változhat, fejlődhet. Ilyen esetekben arra is lehetőséget ad a Room, hogy migrációkat biztosítsunk a régebbi adatbázissémákról történő frissítésre. Ha telepítve van az alkalmazás régi verziója, amely már mentett el adatokat az eszközre, és frissítjük az alkalmazást, akkor a következő indulás után a Room megvizsgálja, hogy történt-e változás az adatbázis verziójában, és szükség esetén futtatja a migrációkat.</p>
 <p>Az utolsó lépés az adatbáziskezelés implementációjához, hogy az alkalmazás indulásakor inicializáljuk az adatbázist. Ehhez egy <code>Application</code> osztállyal kell kiegészítenünk az alkalmazásunkat. Az <code>Application</code> osztály a teljes alkalmazás életciklus-eseményeit tudja kezelni, illetve arra is alkalmas, hogy itt globális adatokat mentsünk el, amelyeket majd az alkalmazás tetszőleges komponenseiből elérhetővé akarunk tenni. Ezt az alkalmazás "root package"-ébe, a <code>MainActivity</code> mellé tegyük:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TodoApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -1126,6 +1119,13 @@ verzió még nem használt független domén- és adatbázismodelleket.</p>
 <span class="w">        </span><span class="na">tools:targetApi=</span><span class="s">&quot;31&quot;</span><span class="nt">&gt;</span>
 </code></pre></div>
 <p>Ezzel így már összeállt az adatbáziskezelő réteg, de még fel kell oldanunk a komponensek közti kommunikációt.</p>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a 
+<strong>TodoDatabase kódrészélete</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>A képet a megoldásban a repository-ba f2.png néven töltsd föl.</p>
+<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
+</div>
 <h2 id="uzleti-logika">Üzleti logika<a class="headerlink" href="#uzleti-logika" title="Permanent link">&para;</a></h2>
 <p>Most készítsük el a <code>domain.usecases</code> package-et. Ebbe kerülnek az egyes üzletilogika-műveletek megvalósításai. Kezdjük a tennivaló létrehozásával:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">SaveTodoUseCase</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1327,8 +1327,8 @@ az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódo
           </path>
         </svg>
       </span>
-      <span title="2024. április 9. 10:27:07">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-04-09T10:27:07+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-04-09</span>
+      <span title="2024. április 12. 09:47:47">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-04-12T09:47:47+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-04-12</span>
       </span>
     </span>
 

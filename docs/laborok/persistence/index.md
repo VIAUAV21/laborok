@@ -66,7 +66,7 @@ Most az elemi felületi elemekkel végeztünk, most jönnek a tényleges képern
 A felületi elemek elkészítése után gondoskodni kell a köztük történő navigációról is. Ez is már rendelkezésre áll a `navigation` package-ben. Nézzük át ezeket is!
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik a **teendők listájának előnézete**,
+	Készíts egy **képernyőképet**, amelyen látszik a **teendők listája a futó alkalmazásban**,
     az **ahhoz tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
 
 	A képet a megoldásban a repository-ba f1.png néven töltsd föl.
@@ -246,14 +246,6 @@ abstract class TodoDatabase : RoomDatabase() {
 }
 ```
 
-!!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik a 
-    **TodoDatabse kódrészélete**, valamint a **neptun kódod a kódban valahol kommentként**. 
-
-	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
-
-	A képernyőkép szükséges feltétele a pontszám megszerzésének.
-
 Figyeljük meg az annotációkat! Itt meg vannak hivatkozva a használni kívánt entitások és konverterek, illetve az adatbázisséma egy verziószámot is kap. Ez azért hasznos, mert ahogy fejlődik az alkalmazás, az adatbázis sémája is változhat, fejlődhet. Ilyen esetekben arra is lehetőséget ad a Room, hogy migrációkat biztosítsunk a régebbi adatbázissémákról történő frissítésre. Ha telepítve van az alkalmazás régi verziója, amely már mentett el adatokat az eszközre, és frissítjük az alkalmazást, akkor a következő indulás után a Room megvizsgálja, hogy történt-e változás az adatbázis verziójában, és szükség esetén futtatja a migrációkat.
 
 Az utolsó lépés az adatbáziskezelés implementációjához, hogy az alkalmazás indulásakor inicializáljuk az adatbázist. Ehhez egy `Application` osztállyal kell kiegészítenünk az alkalmazásunkat. Az `Application` osztály a teljes alkalmazás életciklus-eseményeit tudja kezelni, illetve arra is alkalmas, hogy itt globális adatokat mentsünk el, amelyeket majd az alkalmazás tetszőleges komponenseiből elérhetővé akarunk tenni. Ezt az alkalmazás "root package"-ébe, a `MainActivity` mellé tegyük:
@@ -298,7 +290,13 @@ Látható, hogy az alkalmazás indulásakor létrehozzuk az adatbázist és a `T
 
 Ezzel így már összeállt az adatbáziskezelő réteg, de még fel kell oldanunk a komponensek közti kommunikációt.
 
+!!!example "BEADANDÓ (1 pont)" 
+	Készíts egy **képernyőképet**, amelyen látszik a 
+    **TodoDatabase kódrészélete**, valamint a **neptun kódod a kódban valahol kommentként**. 
 
+	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 
 ## Üzleti logika

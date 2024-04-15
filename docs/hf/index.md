@@ -7,19 +7,22 @@ Akinek nem sikerül ezt a pontszámot megszerezni, az a vizsgára vihet maximum 
 
 ## Követelmények
 
--	Legalább 5 technológia használata pl.:
-	-	UI (Jetpack Compose + MVVM),
-	-	komplexebb lista (Jetpack Compose),
-	-	perzisztencia, 
-	-	hálózat, 
-	-	Firebase,
-	-	pozíciómeghatározás, 
-	-	animáció, 
-	-	stílusok/témák (komplex, teljes alkalmazásra kiterjedő kinézet),
-	-	Service, 
-	-	BroadcastReceiver, 
-	-	Content Provider, 
-	-	stb.
+-	Technoloógiák:
+	-	Kötelezően:
+		-	Compose UI
+		-	MVVM vagy ezzel egyenértékű egyéb architektúra
+		-	Dependency Injection
+	-	Legalább **3 komplexebb** technológia használata, melyet **minden esetben a laborvezető dönt el, hogy elégséges-e**, pl.:
+		-	perzisztencia, 
+		-	hálózat, 
+		-	Firebase,
+		-	pozíciómeghatározás, 
+		-	komplex animáció, 
+		-	stílusok/témák (komplex, teljes alkalmazásra kiterjedő kinézet),
+		-	Service, 
+		-	BroadcastReceiver, 
+		-	Content Provider, 
+		-	stb.
 -	Az alkalmazás felhasználói felületéhez Jetpack Compose-t kell használni.
 -	Kotlin nyelven kell készülnie.
 -	Önálló alkalmazás legalább 3-4 képernyővel/nézettel.
@@ -59,7 +62,7 @@ A házi feladat beadásának platformja a laborokhoz hasonlóan a Github Classro
 
 ### Specifikáció
 
-A specifikáció beadás határideje a **9. hét vége (2023. november 5. 23:59)**.
+A specifikáció beadás határideje a **9. hét vége (2024. április  21. 23:59)**.
 A specifikáció elkészítése közben a "**spec**" branchen dolgozz. Erre az ágra akárhány kommitot tehetsz.
 Sablont a README.md fájl tartalmaz, azt kell kiegészíteni, és feltölteni a repóba a megadott határidőig.
 A beadás akkor teljes, ha a "spec" branch-en megtalálható a README.md fájlban a specifikáció. A beadást egy pull request jelzi, amely pull requestet a laborvezetődhöz kell rendelned.
@@ -67,7 +70,7 @@ A specifikáció elkészítése előfeltétele a házi feladat elfogadásának.
 
 ### Házi feladat
 
-A házi feladat beadás határideje a **13. hét vége (2023. december 3. 23:59)**.
+A házi feladat beadás határideje a **13. hét vége (2024. május 19. 23:59)**.
 A házi feladat elkészítése közben a "**hf**" branchen dolgozz. Erre az ágra akárhány kommitot tehetsz. 
 A projektet mindenképpen ebbe a repository-ba hozd létre, a fejlesztést végig itt végezd.
 A beadás akkor teljes, ha a "hf" branch-en megtalálható a projekted teljes forráskódja. A beadást egy pull request jelzi, amely pull requestet a laborvezetődhöz kell rendelned.

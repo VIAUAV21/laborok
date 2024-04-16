@@ -1026,11 +1026,12 @@ Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a más
 
 <p>Sajnos a Firebase plugin nincs rendszeresen frissítve, és így előfordul, hogy a függőségek régi verzióját adja hozzá a <code>build.gradle</code> fájlokhoz. Ezért most frissíteni fogjuk az imént automatikusan felvett függőségeket, valamint innentől manuálisan fogjuk hozzáadni az újabbakat az <em>Assistant</em> használata helyett. Fontos, hogy mindenből az itt leírt verziót használjuk.</p>
 <p>Ellenőrizzük a projekt szintű <code>build.gradle</code> fájlban a <code>google-services</code>-t, hogy az alábbi verzióval rendelkezik:</p>
-<div class="highlight"><pre><span></span><code><span class="n">classpath</span><span class="w"> </span><span class="s1">&#39;com.google.gms:google-services:4.4.0&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="n">classpath</span><span class="w"> </span><span class="s1">&#39;com.google.gms:google-services:4.4.1&#39;</span>
 </code></pre></div>
 <p>A Firebase BoM segítségével egységesen tudjuk kezelni az összes firebase könyvtárunk verziószámát.
 Cseréljük le a modul szintű <code>build.gradle</code>-ben a <code>firebase-auth</code> verziót a következőre:
-<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="o">(</span><span class="n">platform</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-bom:32.4.0&quot;</span><span class="o">))</span>
+<div class="highlight"><pre><span></span><code><span class="n">val</span><span class="w"> </span><span class="n">firebaseBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">platform</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-bom:32.8.1&quot;</span><span class="o">)</span>
+<span class="n">implementation</span><span class="o">(</span><span class="n">firebaseBom</span><span class="o">)</span>
 <span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-auth-ktx&quot;</span><span class="o">)</span>
 </code></pre></div></p>
 <p>A generált projektváz többi általános függősége (pl. appcompat és ktx-core könyvtárak) is elavult lehet, ezt az Android Studio jelzi is sötétsárga háttérrel. Ezekre ráállva a kurzorral az Alt-Enter gyorsbillenytűvel kiválaszthatjuk ezeknek a frissítését.</p>
@@ -1388,8 +1389,8 @@ ugyanezen menüpont alatt lesznek elérhetők.</p>
           </path>
         </svg>
       </span>
-      <span title="2023. október 23. 00:40:09">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-10-23T00:40:09+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-10-23</span>
+      <span title="2024. április 16. 14:01:18">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-04-16T14:01:18+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-04-16</span>
       </span>
     </span>
 
@@ -1404,10 +1405,10 @@ ugyanezen menüpont alatt lesznek elérhetők.</p>
         </svg>
       </span>
       <span>Szerzők</span>
-      <nav><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
-          <img src="https://avatars.githubusercontent.com/u/8405234?v=4?size=72" alt="@danim1130">
-        </a><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
+      <nav><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
           <img src="https://avatars.githubusercontent.com/u/23335752?v=4?size=72" alt="@gazdilaci">
+        </a><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
+          <img src="https://avatars.githubusercontent.com/u/8405234?v=4?size=72" alt="@danim1130">
         </a></nav>      
     </span>
   </div>

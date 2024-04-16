@@ -115,13 +115,14 @@ Sajnos a Firebase plugin nincs rendszeresen frissítve, és így előfordul, hog
 Ellenőrizzük a projekt szintű `build.gradle` fájlban a `google-services`-t, hogy az alábbi verzióval rendelkezik:
 
 ```groovy
-classpath 'com.google.gms:google-services:4.4.0'
+classpath 'com.google.gms:google-services:4.4.1'
 ```
 
 A Firebase BoM segítségével egységesen tudjuk kezelni az összes firebase könyvtárunk verziószámát.
 Cseréljük le a modul szintű `build.gradle`-ben a `firebase-auth` verziót a következőre:
 ```groovy
-implementation(platform("com.google.firebase:firebase-bom:32.4.0"))
+val firebaseBom = platform("com.google.firebase:firebase-bom:32.8.1")
+implementation(firebaseBom)
 implementation("com.google.firebase:firebase-auth-ktx")
 ```
 

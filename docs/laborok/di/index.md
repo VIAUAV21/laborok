@@ -1,9 +1,10 @@
-# Labor08 - Függőséginjektálás a Dagger és a Hilt segítségével (Todo)
+# Labor08 - Függőséginjektálás a Dagger és a Hilt segítségével, tesztelés (Todo)
 
 ## Bevezetés
 
 A korábbi laborokon már elsajátítottuk, hogyan lehet az Android alkalmazásunkat lazán csatolt réteges architektúrával megvalósítani. Ez egyértelműen segíti az alkalmazás rugalmas fejlesztését, esetleg az egyes rétegek is lecserélhetők, de ha megnézzük a kódot, még mindig viszonylag jelentős függést találunk, hiszen ahol egy másik rétegbeli komponenst hozunk létre, ott a példányosítás a kódba van "égetve", a másik réteg lecseréléséhez itt is módosítanunk kellene a kódot. Ezekre a problémákra nyújt megoldást a függőséginjektálás (dependency injection). Ez egy általános szoftverfejlesztési technika, amelyet nemcsak Androidon, hanem más platformokon is használunk. Ebben a laborban az Androidon használható Dagger és Hilt könyvtárakat ismerjük meg, amellyel Androidon tudunk függőséginjektálást végezni. A két könyvtárat gyakran együtt használjuk, a Dagger alapvetőbb, alacsonyabb szintű funkciókat nyújt, a Hilt pedig erre épül rá, hogy könnyebbé tegye a fejlesztést.
 
+A labornak egy másik fontos témája az Android alkalmazások tesztelése.
 
 ## Előkészületek
 
@@ -36,7 +37,7 @@ A Dagger/Hilt feladata tehát az lesz, hogy az alkalmazásunk egymástól függ�
 Többféle függőséginjektáló keretrendszer létezik Androidon, és az Android platformon kívül is, ezek némileg más elveken működnek. A Dagger a legjobb teljesítmény érdekében úgy működik, hogy nem futás közben oldja fel a függőségeket, hanem a fordítási folyamatba avatkozik bele, és már aközben feltérképezi a függőségi viszonyok jelölésére alkalmazott annotációkat. Ezért a projekt inicializálásának részeként szükséges felvennünk egy gradle plugint is a folyamatba. Először a projekt szintű `build.gradle.kts` fájlba vegyük fel a a következő sort a pluginek közé:
 
 ```kotlin
-id("com.google.dagger.hilt.android") version "2.48" apply false
+id("com.google.dagger.hilt.android") version "2.51.1" apply false
 ```
 
 Majd a modul szintű `build.gradle` fájlban alkalmazzuk a plugint:
@@ -61,9 +62,10 @@ kapt {
 
 ```kotlin
 // Hilt
-implementation("com.google.dagger:hilt-android:2.48")
-kapt("com.google.dagger:hilt-compiler:2.48")
-implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+val hiltVersion = "2.51.1"
+implementation("com.google.dagger:hilt-android:$hiltVersion")
+kapt("com.google.dagger:hilt-compiler:$hiltVersion")
+implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 ```
 
 Ezzel a build folyamat és a függőségek rendben vannak. Most globálisan, az alkalmazás szintjén inicializálnunk kell a Daggert, hogy létrejöjjön egy kontextus, amelyben a függőségeket menedzseli. Ehhez a `TodoApplication` osztályra tegyük rá a `@HiltAndroidApp` annotációt:
@@ -93,13 +95,6 @@ class MainActivity : ComponentActivity() {
 ```
 
 Ezzel a közös inicializációs feladatok elkészültek, de még tényleges injektálható komponenseket és injektálandó függőségeket nem hoztunk létre. Most elkezdjük a "bedrótozott" függőségi viszonyokat függőséginjektálásra cserélni.
-
-!!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik a **fenti lépésekhez tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
-
-	A képet a megoldásban a repository-ba f1.png néven töltsd föl.
-
-	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 ## Az adatbázismodul elkészítése
 
@@ -155,10 +150,10 @@ class TodoApplication : Application() {
 }
 ```
 
-!!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, a **fenti lépésekhez tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+!!!example "BEADANDÓ (1 pont)"
+	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, a **fenti lépésekhez tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**.
 
-	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
+	A képet a megoldásban a repository-ba f1.png néven töltsd föl.
 
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
@@ -473,13 +468,6 @@ fun CheckTodoScreen(
 }
 ```
 
-!!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, a **fenti lépésekhez tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
-
-	A képet a megoldásban a repository-ba f3.png néven töltsd föl.
-
-	A képernyőkép szükséges feltétele a pontszám megszerzésének.
-
 ## A usecases modul elkészítése
 
 Már csak a usecases modult kell elkészítenünk. Ehhez készítsünk először egy `domain.di` package-et, és ebbe hozzuk létre az alábbit:
@@ -747,19 +735,188 @@ class TodosViewModel @Inject constructor(
 }
 ```
 
-!!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, a **fenti lépésekhez tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+!!!example "BEADANDÓ (1 pont)"
+	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, a **fenti lépésekhez tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**.
 
-	A képet a megoldásban a repository-ba f4.png néven töltsd föl.
+	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
 
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
-## Önálló feladat 
+## Az alkalmazás tesztelése
+
+Az elkészült alkalmazásnak most egy-egy részét automatizált tesztekkel fogjuk ellenőrizni. Az automatizált teszteket két fő típusra oszthatjuk Androidon:
+
+* Lokális tesztek: ezek olyan tesztek amelyek bármiféle virtualizált környezet nélkül, pusztán Java kódnak a fejlesztői gépen történő futtatásával végrehajthatók.
+* Instrumentált tesztek: ezek a tesztek az emulátoron futnak.
+
+### Lokális tesztek futtatása
+
+A lokális tesztek közt is megkülönböztethetünk különböző típusokat aszerint, hogy architekturálisan mekkora részét érintik a kódnak. A kód kis egységeit, gyakorlatban metódusait ellenőrző teszteket unitteszteknek nevezzük. Ha a teszt néhány osztály kódján is áthív, akkor integrációs tesztről beszélünk, ha pedig valamilyen komplexebb, sok komponenst érintő folyamatot tesztel, akkor rendszertesztnek nevezzük.
+
+A lokális tesztek közül leggyakrabban unitteszteket készítünk, a nagyobb egységeket pedig gyakrabban már instrumentált tesztekkel ellenőrizzük. Most a lokális tesztek közül a unittesztekre koncentrálunk. Ezek a legkönnyebben elkészíthetőek és számos előnyük van:
+
+* Szisztematikus módszert adnak a rendszer teljes leteszteléséhez
+* Gyorsan lefutnak
+* Mivel minden teszt egy kis egységre vonatkozik, a meghiúsuló teszt jól rámutat a probléma helyére is
+
+A unittesztek esetén fontos kihívás, hogy a függőségeket izoláljuk, leválasszuk, hiszen ha azok is meghívódnának, akkor nem unittesztről beszélnénk, hanem integrációs tesztről, és a fenti előnyök nem teljesülnének. Különösen az az előny veszne el, hogy a teszt jól mutatja a hiba helyét. Ezért a tesztekben a függőségeket valamilyen *test double* objektummal, tipikusan *mock* objektummal cseréljük le. A mock objektum egy "buta", de "felprogramozható" komponens, ami éppen csak annyit csinál, amit a teszt idejére elvárunk tőle, azaz tipikusan valamilyen beégetett adatot ad vissza. Ezen kívül a segítségével ellenőrizhető az is, hogy a lecserélt függőségen a tesztelt kódrészlet tényleg elvégezte a várt hívást.
+
+Az alkalmazásban nincsenek túl bonyolult üzleti logika részek, de a tesztelés technikáját jól meg tudjuk figyelni. Most a `TodoRepositoryImpl` osztályt fogjuk tesztelni. Konvenció szerint osztályokhoz készítünk tesztosztályokat, és a tesztosztályokban minden tesztelt metódus egy lehetséges lefutásához készítünk egy tesztmetódust. A tesztosztályokat a tesztelt osztályokkal azonos package-be tesszük, és nevükben a `Test` utótagot használjuk.
+
+Először fel kell vennünk a teszteléshez használandó függőségeket a projektbe! Mivel a kapott vázban eddig nem voltak tesztek, így ezek a függőségek teljesen hiányoztak. A lokális tesztekhez a `testImplementation` scope-ot kell használnunk. Vegyük fel az alábbi függőségeket, és szinkronizáljuk a projektet:
+
+```kotlin
+// Testing
+testImplementation("junit:junit:4.13.2")
+testImplementation("org.mockito:mockito-core:5.11.0")
+testImplementation("org.mockito:mockito-inline:5.2.0")
+testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
+```
+
+Hozzuk létre a `data.datasource` package-et ezért a `test` könyvtárban is! A lokális tesztek a `test` könyvtárban vannak, az `androidTest` könyvtár pedig az instrumentált tesztek helye.
+
+A létrehozott package-ben hozzunk létre egy `TodoRepositoryImplTest` osztályt az alábbi módon:
+
+```kotlin
+@RunWith(MockitoJUnitRunner::class)
+class TodoRepositoryImplTest {
+
+    @Mock
+    lateinit var todoDao: TodoDao
+
+    @Test
+    fun testGetAllTodos() {
+        val sampleTodo = TodoEntity(
+            1,
+            "Test app",
+            Priority.HIGH,
+            LocalDate(2024, 4, 30),
+            "Write unit tests for our Todo app"
+        )
+        val mockDao = mock<TodoDao> {
+            on { getAllTodos() } doReturn (flowOf(listOf(sampleTodo)))
+        }
+        val todoRepositoryImpl = TodoRepositoryImpl(mockDao)
+        val result = todoRepositoryImpl.getAllTodos()
+        runBlocking {
+            Assert.assertTrue(result.first().contains(sampleTodo))
+            verify(mockDao, times(1)).getAllTodos()
+        }
+    }
+}
+```
+
+Nézzük át a laborvezetővel együtt, hogyan működik a teszt!
+
+Alapvetően minden teszt három lépésből áll:
+
+1. A *test fixture*, azaz a tesztelni kívánt kódrészlethez szükséges kezdeti állapot felállítása. Ha egy "sikeres" lefutást szeretnénk tesztelni, akkor ennek megfelelően készítjük elő a környezetet. Ha pedig egy hiba utána elvárt hatást, pl. exception dobódik, hibaüzenet íródik ki stb. szeretnénk tesztelni, akkor ennek megfelelően. Idetartozik a függőségek kiváltása is.
+1. A tesztelni kívánt kódrészlet futtatása.
+1. Az elvárt eredmények megfogalmazása, annak ellenőrzése, hogy teljesültek-e (*assertions*). Ha mock objektumokat használtunk, akkor idetartozik annak ellenőrzése is, hogy rajtuk meghívódtak-e azok a metódusok, amelyek meghívódására számítottunk.
+
+A példánkban a `TodoRepositoryImpl` osztály `getAllTodos` metódusa csupán annyit tesz, hogy továbbhívja a `TodoDao` osztály `getAllTodos` metódusát, majd ennek eredményét visszaadja. A tesztünk ezért nem lesz túl bonyolult. Alapvetően abból áll, hogy készítenünk kell egy `TodoDao` mock objektumot, amely beégetett `TodoEntity` listát fog visszaadni. Ezt a mockot kell odaadnunk a `TodoRepositoryImp` függőségének, majd meg kell hívnunk a tesztelni kívánt metódust, és meg kell vizsgálni, hogy a beégetett listát adta-e vissza, valamint a mockunknak az azonos nevű metódusa szintén hívódott-e.
+
+Futtassuk le a tesztet!
+
+### Instrumentált tesztek futtatása
+
+Bonyolultabb teszteket sem lehetetlen lokális tesztként futtatni, de a függőségek szövevényessége miatt ez egy jóval bonyolultabb feladat lenne. Praktikusabb ezért ha összetettebb folyamatok teszteléséhez az emulátort is segítségül hívjuk. Ilyen például a Compose segítségével készített UI tesztelése. Az Android által biztosított eszközökkel létre tudjuk hozni a komponenseinket egy emulált környezetben, és a teszt kódjából interakciókat is ki tudunk váltani (pl. írjunk be szöveget egy mezőbe, kattintsunk egy gombon stb.). Ez a fajta tesztelés láthatóan jóval közelebb áll ahhoz a módhoz, ahogyan az alkalmazás majd ténylegesen futni fog. Logikusan belétható ugyanakkor az is, hogy ezek a tesztek jóval bonyolultabbak, és lassabban is fognak futni.
+
+Az instrumentált teszteket az `androidTest` könyvtárban lehet létrehozni. Mivel ezek nagyobb léptékű tesztek is lehetnek, nem feltétlen tartoznak logikailag egy komponenshez. Amennyiben azonban odatartoznak, javasolt ezeket is azonos package-be tenni és a lokális tesztekéhez hasonló elnevezési konvenció szerint elnevezni.
+
+Először itt is a függőségek felvételével kezdünk:
+
+```kotlin
+androidTestImplementation("androidx.test.ext:junit:1.1.5")
+androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+debugImplementation("androidx.compose.ui:ui-tooling")
+debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+// Hilt for testing
+androidTestImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
+kaptAndroidTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
+```
+
+A példánkban azt fogjuk tesztelni, hogy ha új teendő létrehozásánál a dátumválasztó ikonjára kattintunk, akkor valóban előugrik a dátumválasztó komponens. Mielőtt a tényleges tesztet megírjuk, gondoskodnunk kell róla, hogy a tesztből majd a felhasználói felületen a dátumválasztó ikonját meg tudjuk hivatkozni. Ha lenne rajta megjelenített szöveg, a tesztből ez alapján is lehetne hivatkozni, de jelen esetben csak egy ikonról van szó. Úgy tudjuk azonosíthatóvá tenni, hogy a `Modifierén` keresztül egy test taggel látjuk el. Módosítsuk eszerint a `TodoEditor` osztályban a `DatePicker` komponens hívását:
+
+```kotlin
+DatePicker(
+	pickedDate = pickedDate,
+	onClick = onDatePickerClicked,
+	modifier = Modifier
+		.weight(1f)
+		.fillMaxWidth(fraction)
+		.testTag("datePickerIcon"),
+	enabled = enabled
+)
+```
+
+Most már elkészíthetjük a tesztet! Mivel a teszt a `CreateTodoScreen` osztályhoz köthető, ez pedig a `feature.todo_create` package-ben van, először hozzuk létre ezt a package-et az `androidTest` mappában is.
+
+Majd készítsük el a `CreateTodoScreenTest` osztályunkat:
+
+```kotlin
+class CreateTodoScreenTest {
+    @get:Rule
+    val composeTestRule = createAndroidComposeRule<MainActivity>()
+
+    @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
+    @Test
+    fun testDatePickerDialogIsShownWhenClickedOnDatePickerIcon() {
+        composeTestRule.activity.setContent {
+            CreateTodoScreen(
+                onNavigateBack = {  })
+        }
+        
+        composeTestRule.onNodeWithText("Select date").assertIsNotDisplayed()
+
+        composeTestRule.onNode(hasTestTag("datePickerIcon")).performClick()
+
+        composeTestRule.onNodeWithText("Select date").assertIsDisplayed()
+    }
+}
+```
+
+A teszt fő eleme a `createAndroidComposeRule` hívás, amely egy `teszt rule`-t ad vissza. Ezen keresztül renderelhetjük a kívánt Compose tartalmat, és ezen keresztül történik a kívánt akciók kiváltása és az elvárt eredmény ellenőrzése is. Ha valamilyen elemnek a megjelenését akarjuk tesztelni, érdemes azt is megfogalmazni, hogy a kiváltott interakció előtt még nincs megjelenítve.
+
+Futtassuk le a tesztet! Figyeljük meg, hogy végigkövethető az emulátoron is a teszt futása.
+
+!!!example "BEADANDÓ (1 pont)"
+	Készíts egy **képernyőképet**, amelyen látszik a **lefutott teszt**, a **hozzá tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**.
+
+	A képet a megoldásban a repository-ba f3.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
+
+## Önálló feladat 1. - Dependency Injection befejezése
 
 A `TodoUseCases` osztályban egyelőre csak a `LoadTodosUseCase` függőséget hozzuk létre a modulban, és injektáljuk a Dagger/Hilt segítségével, a többi usecase most is manuálisan példányosodik a repository átadásával. Folytasd az átalakítást, és hozd létre az összes usecase-t a usecase modulban, hogy utána már a Dagger/Hilt kezelje őket!
 
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, az **átalakított kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+
+	A képet a megoldásban a repository-ba f4.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
+
+
+## Önálló feladat 2. - Újabb teszt készítése
+
+Készítsünk egy tesztet arra vonatkozóan, hogy ha a prioritásválasztóra kattintunk, akkor az összes lehetséges választható prioritás megjelenik a képernyőn!
+
+Segítség az implementációhoz:
+
+* Most elég a `TodoEditor` komponensből kiindulni, nem szükséges a teljes `Screen` tesztelése.
+* A `TodoEditor` meghívásakor ki kell töltenünk a kötelező paramétereit, de mivel ezekre a tesztben nem támaszkodunk, ezért üres sztringeket, üres függvényeket használhatunk helyettük.
+* Lássuk el test taggel a legördülő listát.
+* Fogalmazzuk meg, hogy a választott alapértelmezett prioritás látható a képernyőn, de a többi szövege nem.
+* Emuláljunk kattintást!
+* Fogalmazzuk meg, hogy most a többi prioritás is megjelent!
+* A teszt a közös példa szerint is működik, de itt elég lehet az egyszerűbb `createComposeRule()`, majd a `composeTestRule.setContent` is.
+
+!!!example "BEADANDÓ (1 pont)"
+	Készíts egy **képernyőképet**, amelyen látszik a **lefutott teszt**, a **hozzá tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**.
 
 	A képet a megoldásban a repository-ba f5.png néven töltsd föl.
 

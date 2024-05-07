@@ -312,7 +312,7 @@ class AlarmApplication : Application()
         ...
 ```
 
-Bár még az alkalmazáslogikánk nem működik ténylegesen, vegyük fel ide a szükséges engedélyeket is. Az alkalmazásunk egy előtérben futó (foreground) Service-t fog használni ahhoz, hogy az időzítés akkor is működjön, ha az alkalmazás `Activity`-je már nem látható. Az ilyen Service-ekhez kötelező, hogy legyen értesítés az értesítési sávon, hogy a felhasználó mindig lássa, hogy milyen alkalmazások futnak a háttérben. (Ennek egy tipikus példája a zenelejátszó alkalmazások esete is.() Ezért az értesítésekhez szükséges engedélyt is fel kell venni. Szükséges még a pontos riasztás, és a pontos riasztás időzítésének engedélye:
+Bár még az alkalmazáslogikánk nem működik ténylegesen, vegyük fel ide a szükséges engedélyeket is. Az alkalmazásunk egy előtérben futó (foreground) Service-t fog használni ahhoz, hogy az időzítés akkor is működjön, ha az alkalmazás `Activity`-je már nem látható. Az ilyen Service-ekhez kötelező, hogy legyen értesítés az értesítési sávon, hogy a felhasználó mindig lássa, hogy milyen alkalmazások futnak a háttérben. (Ennek egy tipikus példája a zenelejátszó alkalmazások esete is. Ezért az értesítésekhez szükséges engedélyt is fel kell venni. Szükséges még a pontos riasztás, és a pontos riasztás időzítésének engedélye:
 
 ```xml
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />

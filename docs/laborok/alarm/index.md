@@ -315,12 +315,16 @@ class AlarmApplication : Application()
 Bár még az alkalmazáslogikánk nem működik ténylegesen, vegyük fel ide a szükséges engedélyeket is. Az alkalmazásunk egy előtérben futó (foreground) Service-t fog használni ahhoz, hogy az időzítés akkor is működjön, ha az alkalmazás `Activity`-je már nem látható. Az ilyen Service-ekhez kötelező, hogy legyen értesítés az értesítési sávon, hogy a felhasználó mindig lássa, hogy milyen alkalmazások futnak a háttérben. (Ennek egy tipikus példája a zenelejátszó alkalmazások esete is.() Ezért az értesítésekhez szükséges engedélyt is fel kell venni. Szükséges még a pontos riasztás, és a pontos riasztás időzítésének engedélye:
 
 ```xml
-<uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-<uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
 <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-<uses-permission android:name="android.permission.USE_EXACT_ALARM"/>
+<uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 ```
+
+Android 14 (API level 34) óta az előtérben futó service-ek típusát is szükséges megadni a Manifestben az engedélynél/Service komponensnél, illetve a Service indításakor. Lásd: https://developer.android.com/develop/background-work/services/fg-service-types   
 
 Még a `MainActivity` elkészítése maradt hátra az alapvető feladatok közül. Ebben elkérjük az engedélyeket, és megjelenítjük a létrehozott képernyőt:
 
@@ -339,7 +343,7 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             requestPermissions(
                 Manifest.permission.POST_NOTIFICATIONS
             )
@@ -640,10 +644,21 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
                             cancelAlarm()
                         )
                     )
-                    startForeground(
-                        NOTIFICATION_ID,
-                        notificationHelper.notificationBuilder.build()
-                    )
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                    {
+                        startForeground(
+                            NOTIFICATION_ID,
+                            notificationHelper.notificationBuilder.build(),
+                            FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+                        )
+                    }
+                    else
+                    {
+                        startForeground(
+                            NOTIFICATION_ID,
+                            notificationHelper.notificationBuilder.build()
+                        )
+                    }
                     setAlarm { h, m, s ->
                         notificationHelper.updateNotification(
                             h, m, s,
@@ -877,7 +892,8 @@ Mivel a `Service` is egy fő komponenstípus Androidon, ezért ezt a Manifest f�
 <service
     android:name=".service.AlarmService"
     android:enabled="true"
-    android:exported="false"/>
+    android:exported="false"
+    android:foregroundServiceType="specialUse" />
 ```
 
 Most már összeköthetők a `ViewModel` és a `Service` is az `AlarmViewModel` megfelelő kiegészítésével:

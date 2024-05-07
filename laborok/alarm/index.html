@@ -1190,12 +1190,15 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <span class="w">        </span><span class="err">...</span>
 </code></pre></div>
 <p>Bár még az alkalmazáslogikánk nem működik ténylegesen, vegyük fel ide a szükséges engedélyeket is. Az alkalmazásunk egy előtérben futó (foreground) Service-t fog használni ahhoz, hogy az időzítés akkor is működjön, ha az alkalmazás <code>Activity</code>-je már nem látható. Az ilyen Service-ekhez kötelező, hogy legyen értesítés az értesítési sávon, hogy a felhasználó mindig lássa, hogy milyen alkalmazások futnak a háttérben. (Ennek egy tipikus példája a zenelejátszó alkalmazások esete is.() Ezért az értesítésekhez szükséges engedélyt is fel kell venni. Szükséges még a pontos riasztás, és a pontos riasztás időzítésének engedélye:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.FOREGROUND_SERVICE&quot;</span><span class="nt">/&gt;</span>
-<span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.POST_NOTIFICATIONS&quot;</span><span class="nt">/&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.FOREGROUND_SERVICE&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.FOREGROUND_SERVICE_SPECIAL_USE&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.POST_NOTIFICATIONS&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 
 <span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.SCHEDULE_EXACT_ALARM&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
-<span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.USE_EXACT_ALARM&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.USE_EXACT_ALARM&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 </code></pre></div>
+<p>Android 14 (API level 34) óta az előtérben futó service-ek típusát is szükséges megadni a Manifestben az engedélynél/Service komponensnél, illetve a Service indításakor. Lásd: <a href="https://developer.android.com/develop/background-work/services/fg-service-types">https://developer.android.com/develop/background-work/services/fg-service-types</a>   </p>
 <p>Még a <code>MainActivity</code> elkészítése maradt hátra az alapvető feladatok közül. Ebben elkérjük az engedélyeket, és megjelenítjük a létrehozott képernyőt:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalPermissionsApi</span>
 <span class="nd">@ExperimentalAnimationApi</span>
@@ -1211,7 +1214,7 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Build</span><span class="p">.</span><span class="na">VERSION</span><span class="p">.</span><span class="na">SDK_INT</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">Build</span><span class="p">.</span><span class="na">VERSION_CODES</span><span class="p">.</span><span class="na">TIRAMISU</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Build</span><span class="p">.</span><span class="na">VERSION</span><span class="p">.</span><span class="na">SDK_INT</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">Build</span><span class="p">.</span><span class="na">VERSION_CODES</span><span class="p">.</span><span class="na">TIRAMISU</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">requestPermissions</span><span class="p">(</span>
 <span class="w">                </span><span class="n">Manifest</span><span class="p">.</span><span class="na">permission</span><span class="p">.</span><span class="na">POST_NOTIFICATIONS</span>
 <span class="w">            </span><span class="p">)</span>
@@ -1484,10 +1487,21 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <span class="w">                            </span><span class="n">cancelAlarm</span><span class="p">()</span>
 <span class="w">                        </span><span class="p">)</span>
 <span class="w">                    </span><span class="p">)</span>
-<span class="w">                    </span><span class="n">startForeground</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">NOTIFICATION_ID</span><span class="p">,</span>
-<span class="w">                        </span><span class="n">notificationHelper</span><span class="p">.</span><span class="na">notificationBuilder</span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
-<span class="w">                    </span><span class="p">)</span>
+<span class="w">                    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Build</span><span class="p">.</span><span class="na">VERSION</span><span class="p">.</span><span class="na">SDK_INT</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">Build</span><span class="p">.</span><span class="na">VERSION_CODES</span><span class="p">.</span><span class="na">Q</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">{</span>
+<span class="w">                        </span><span class="n">startForeground</span><span class="p">(</span>
+<span class="w">                            </span><span class="n">NOTIFICATION_ID</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">notificationHelper</span><span class="p">.</span><span class="na">notificationBuilder</span><span class="p">.</span><span class="na">build</span><span class="p">(),</span>
+<span class="w">                            </span><span class="n">FOREGROUND_SERVICE_TYPE_SPECIAL_USE</span>
+<span class="w">                        </span><span class="p">)</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                    </span><span class="k">else</span>
+<span class="w">                    </span><span class="p">{</span>
+<span class="w">                        </span><span class="n">startForeground</span><span class="p">(</span>
+<span class="w">                            </span><span class="n">NOTIFICATION_ID</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">notificationHelper</span><span class="p">.</span><span class="na">notificationBuilder</span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
+<span class="w">                        </span><span class="p">)</span>
+<span class="w">                    </span><span class="p">}</span>
 <span class="w">                    </span><span class="n">setAlarm</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">-&gt;</span>
 <span class="w">                        </span><span class="n">notificationHelper</span><span class="p">.</span><span class="na">updateNotification</span><span class="p">(</span>
 <span class="w">                            </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">,</span>
@@ -1716,7 +1730,8 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;service</span>
 <span class="w">    </span><span class="na">android:name=</span><span class="s">&quot;.service.AlarmService&quot;</span>
 <span class="w">    </span><span class="na">android:enabled=</span><span class="s">&quot;true&quot;</span>
-<span class="w">    </span><span class="na">android:exported=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="na">android:exported=</span><span class="s">&quot;false&quot;</span>
+<span class="w">    </span><span class="na">android:foregroundServiceType=</span><span class="s">&quot;specialUse&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 </code></pre></div>
 <p>Most már összeköthetők a <code>ViewModel</code> és a <code>Service</code> is az <code>AlarmViewModel</code> megfelelő kiegészítésével:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
@@ -1810,8 +1825,8 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
           </path>
         </svg>
       </span>
-      <span title="2023. október 8. 18:25:25">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-10-08T18:25:25+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-10-08</span>
+      <span title="2024. május 7. 10:00:56">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-05-07T10:00:56+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-05-07</span>
       </span>
     </span>
 
@@ -1826,7 +1841,9 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
         </svg>
       </span>
       <span>Szerzők</span>
-      <nav><a href="https://github.com/gaborbsd" target="_blank" rel="noopener noreferrer" class="md-author" title="@gaborbsd">
+      <nav><a href="https://github.com/kpomazi" target="_blank" rel="noopener noreferrer" class="md-author" title="@kpomazi">
+          <img src="https://avatars.githubusercontent.com/u/22079595?v=4?size=72" alt="@kpomazi">
+        </a><a href="https://github.com/gaborbsd" target="_blank" rel="noopener noreferrer" class="md-author" title="@gaborbsd">
           <img src="https://avatars.githubusercontent.com/u/5345619?v=4?size=72" alt="@gaborbsd">
         </a><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
           <img src="https://avatars.githubusercontent.com/u/23335752?v=4?size=72" alt="@gazdilaci">
@@ -1884,5 +1901,7 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
         <script src="../../js/timeago_mkdocs_material.js"></script>
       
     
-  <script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
 </html>

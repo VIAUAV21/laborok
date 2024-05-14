@@ -45,7 +45,7 @@ Vegyük fel az alábbi függőségeket a modul szintű build.gradle fájlunkba, 
 ```kotlin
 dependencies {
     // Compose Bill of Materials
-    val composeBom = platform("androidx.compose:compose-bom:2023.10.01")
+    val composeBom = platform("androidx.compose:compose-bom:2024.05.00")
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
@@ -61,19 +61,19 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
 
     // Core
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.activity:activity-compose:1.8.1")
+    implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.activity:activity-compose:1.9.0")
 
     // Lifecycle, Viewmodel
-    val lifecycle_version = "2.6.2"
+    val lifecycle_version = "2.7.0"
     implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
 
     // Navigation
-    implementation("androidx.navigation:navigation-compose:2.7.5")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
 
     // Permissions
-    implementation("com.google.accompanist:accompanist-permissions:0.33.2-alpha")
+    implementation("com.google.accompanist:accompanist-permissions:0.35.0-alpha")
 
     // Coil
     implementation("io.coil-kt:coil-compose:2.5.0")
@@ -380,6 +380,7 @@ Az engedélyek kezelésére most az [Accompanist](https://google.github.io/accom
 Az alkalmazásunknak szüksége lesz engedélyekre a kapcsolatok eléréséhez, szerkesztéséhez, valamint hívás indításához, ezeket vegyük fel a 
 `manifest` fájlba az `application` tagen kívülre:
 ```xml
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>

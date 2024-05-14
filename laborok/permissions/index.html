@@ -1042,7 +1042,7 @@
 <p>Vegyük fel az alábbi függőségeket a modul szintű build.gradle fájlunkba, majd a laborvezetővel tekintsük át őket.</p>
 <div class="highlight"><pre><span></span><code><span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// Compose Bill of Materials</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">composeBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">platform</span><span class="p">(</span><span class="s">&quot;androidx.compose:compose-bom:2023.10.01&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">composeBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">platform</span><span class="p">(</span><span class="s">&quot;androidx.compose:compose-bom:2024.05.00&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">composeBom</span><span class="p">)</span>
 <span class="w">    </span><span class="n">androidTestImplementation</span><span class="p">(</span><span class="n">composeBom</span><span class="p">)</span>
 
@@ -1058,19 +1058,19 @@
 <span class="w">    </span><span class="n">debugImplementation</span><span class="p">(</span><span class="s">&quot;androidx.compose.ui:ui-tooling&quot;</span><span class="p">)</span>
 
 <span class="w">    </span><span class="c1">// Core</span>
-<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.core:core-ktx:1.9.0&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.activity:activity-compose:1.8.1&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.core:core-ktx:1.13.1&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.activity:activity-compose:1.9.0&quot;</span><span class="p">)</span>
 
 <span class="w">    </span><span class="c1">// Lifecycle, Viewmodel</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">lifecycle_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.6.2&quot;</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">lifecycle_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.7.0&quot;</span>
 <span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.lifecycle:lifecycle-runtime-compose:</span><span class="si">$</span><span class="n">lifecycle_version</span><span class="s">&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.lifecycle:lifecycle-viewmodel-compose:</span><span class="si">$</span><span class="n">lifecycle_version</span><span class="s">&quot;</span><span class="p">)</span>
 
 <span class="w">    </span><span class="c1">// Navigation</span>
-<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.navigation:navigation-compose:2.7.5&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.navigation:navigation-compose:2.7.7&quot;</span><span class="p">)</span>
 
 <span class="w">    </span><span class="c1">// Permissions</span>
-<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;com.google.accompanist:accompanist-permissions:0.33.2-alpha&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;com.google.accompanist:accompanist-permissions:0.35.0-alpha&quot;</span><span class="p">)</span>
 
 <span class="w">    </span><span class="c1">// Coil</span>
 <span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;io.coil-kt:coil-compose:2.5.0&quot;</span><span class="p">)</span>
@@ -1331,7 +1331,8 @@ A műveletekben a ContentProvider által adott adatok eléréséhez a ContentRes
 <h3 id="engedelyek-kezelese">Engedélyek kezelése<a class="headerlink" href="#engedelyek-kezelese" title="Permanent link">&para;</a></h3>
 <p>Az alkalmazásunknak szüksége lesz engedélyekre a kapcsolatok eléréséhez, szerkesztéséhez, valamint hívás indításához, ezeket vegyük fel a 
 <code>manifest</code> fájlba az <code>application</code> tagen kívülre:
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.READ_CONTACTS&quot;</span><span class="nt">/&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&lt;uses-feature</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.hardware.telephony&quot;</span><span class="w"> </span><span class="na">android:required=</span><span class="s">&quot;false&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.READ_CONTACTS&quot;</span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.WRITE_CONTACTS&quot;</span><span class="nt">/&gt;</span>
 <span class="w">    </span><span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.CALL_PHONE&quot;</span><span class="nt">/&gt;</span>
 </code></pre></div></p>
@@ -2575,8 +2576,8 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
           </path>
         </svg>
       </span>
-      <span title="2023. november 27. 10:29:27">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-27T10:29:27+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-27</span>
+      <span title="2024. május 14. 15:58:28">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-05-14T15:58:28+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-05-14</span>
       </span>
     </span>
 
@@ -2591,12 +2592,12 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
         </svg>
       </span>
       <span>Szerzők</span>
-      <nav><a href="https://github.com/kpomazi" target="_blank" rel="noopener noreferrer" class="md-author" title="@kpomazi">
+      <nav><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
+          <img src="https://avatars.githubusercontent.com/u/8405234?v=4?size=72" alt="@danim1130">
+        </a><a href="https://github.com/kpomazi" target="_blank" rel="noopener noreferrer" class="md-author" title="@kpomazi">
           <img src="https://avatars.githubusercontent.com/u/22079595?v=4?size=72" alt="@kpomazi">
         </a><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
           <img src="https://avatars.githubusercontent.com/u/23335752?v=4?size=72" alt="@gazdilaci">
-        </a><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
-          <img src="https://avatars.githubusercontent.com/u/8405234?v=4?size=72" alt="@danim1130">
         </a></nav>      
     </span>
   </div>

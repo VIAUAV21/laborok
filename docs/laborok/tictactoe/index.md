@@ -265,6 +265,8 @@ class MainActivity : AppCompatActivity() {
 !!!tip "lateinit"
 	A [`lateinit`](https://kotlinlang.org/docs/reference/properties.html#late-initialized-properties-and-variables) kulcsszóval megjelölt property-ket a fordító megengedi inicializálatlanul hagyni az osztály konstruktorának lefutása utánig, anélkül, hogy nullable-ként kéne azokat megjelölnünk (ami később kényelmetlenné tenné a használatukat, mert mindig ellenőriznünk kéne, hogy `null`-e az értékük). Ez praktikus olyan esetekben, amikor egy osztály inicializálása nem a konstruktorában történik (például ahogy az `Activity`-k esetében az `onCreate`-ben), mert később az esetleges `null` eset lekezelése nélkül használhatjuk majd a property-t. A `lateinit` használatával átvállaljuk a felelősséget a fordítótól, hogy a property-t az első használata előtt inicializálni fogjuk - ellenkező esetben kivételt kapunk.
 
+Cseréljük le a fenti minta alapján a másik két Activity kódját is ViewBinding alapú megoldásra!
+
 ## Highscore gomb eseménykezelő
 
 Az *Eredmények* menüpontra kattintva egy `Toast` üzenetet kell megjeleníteni. Ehhez meg kell keresni az *Eredmények* menüpont gombját és be kell állítani neki az alábbi eseménykezelőt a `MainActivity` `onCreate()` függvényén belül:
@@ -300,8 +302,7 @@ Ahogy korábban említettük, az *Infó* menü elindítja az `AboutActivity`-t. 
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AboutActivity"
-    tools:viewBindingIgnore="true">
+    tools:context=".AboutActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -506,8 +507,7 @@ Ahhoz, hogy a `GameActivity` ezt a játékteret megjelenítse, módosítsuk a ho
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameActivity"
-    tools:viewBindingIgnore="true">
+    tools:context=".GameActivity">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentGameArea"

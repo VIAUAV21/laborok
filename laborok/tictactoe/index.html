@@ -1215,6 +1215,7 @@ A <code>binding</code> példány működéséhez három dolgot kell tennünk:</p
 <p class="admonition-title">lateinit</p>
 <p>A <a href="https://kotlinlang.org/docs/reference/properties.html#late-initialized-properties-and-variables"><code>lateinit</code></a> kulcsszóval megjelölt property-ket a fordító megengedi inicializálatlanul hagyni az osztály konstruktorának lefutása utánig, anélkül, hogy nullable-ként kéne azokat megjelölnünk (ami később kényelmetlenné tenné a használatukat, mert mindig ellenőriznünk kéne, hogy <code>null</code>-e az értékük). Ez praktikus olyan esetekben, amikor egy osztály inicializálása nem a konstruktorában történik (például ahogy az <code>Activity</code>-k esetében az <code>onCreate</code>-ben), mert később az esetleges <code>null</code> eset lekezelése nélkül használhatjuk majd a property-t. A <code>lateinit</code> használatával átvállaljuk a felelősséget a fordítótól, hogy a property-t az első használata előtt inicializálni fogjuk - ellenkező esetben kivételt kapunk.</p>
 </div>
+<p>Cseréljük le a fenti minta alapján a másik két Activity kódját is ViewBinding alapú megoldásra!</p>
 <h2 id="highscore-gomb-esemenykezelo">Highscore gomb eseménykezelő<a class="headerlink" href="#highscore-gomb-esemenykezelo" title="Permanent link">&para;</a></h2>
 <p>Az <em>Eredmények</em> menüpontra kattintva egy <code>Toast</code> üzenetet kell megjeleníteni. Ehhez meg kell keresni az <em>Eredmények</em> menüpont gombját és be kell állítani neki az alábbi eseménykezelőt a <code>MainActivity</code> <code>onCreate()</code> függvényén belül:</p>
 <div class="highlight"><pre><span></span><code><span class="n">binding</span><span class="p">.</span><span class="na">btnHighScores</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
@@ -1242,8 +1243,7 @@ A <code>binding</code> példány működéséhez három dolgot kell tennünk:</p
 <span class="w">    </span><span class="na">xmlns:tools=</span><span class="s">&quot;http://schemas.android.com/tools&quot;</span>
 <span class="w">    </span><span class="na">android:layout_width=</span><span class="s">&quot;match_parent&quot;</span>
 <span class="w">    </span><span class="na">android:layout_height=</span><span class="s">&quot;match_parent&quot;</span>
-<span class="w">    </span><span class="na">tools:context=</span><span class="s">&quot;.AboutActivity&quot;</span>
-<span class="w">    </span><span class="na">tools:viewBindingIgnore=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="na">tools:context=</span><span class="s">&quot;.AboutActivity&quot;</span><span class="nt">&gt;</span>
 
 <span class="w">    </span><span class="nt">&lt;TextView</span>
 <span class="w">        </span><span class="na">android:id=</span><span class="s">&quot;@+id/textView&quot;</span>
@@ -1434,8 +1434,7 @@ A <code>binding</code> példány működéséhez három dolgot kell tennünk:</p
 <span class="w">    </span><span class="na">xmlns:tools=</span><span class="s">&quot;http://schemas.android.com/tools&quot;</span>
 <span class="w">    </span><span class="na">android:layout_width=</span><span class="s">&quot;match_parent&quot;</span>
 <span class="w">    </span><span class="na">android:layout_height=</span><span class="s">&quot;match_parent&quot;</span>
-<span class="w">    </span><span class="na">tools:context=</span><span class="s">&quot;.GameActivity&quot;</span>
-<span class="w">    </span><span class="na">tools:viewBindingIgnore=</span><span class="s">&quot;true&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="na">tools:context=</span><span class="s">&quot;.GameActivity&quot;</span><span class="nt">&gt;</span>
 
 <span class="w">    </span><span class="nt">&lt;androidx.fragment.app.FragmentContainerView</span>
 <span class="w">        </span><span class="na">android:id=</span><span class="s">&quot;@+id/fragmentGameArea&quot;</span>
@@ -1662,8 +1661,8 @@ Próbáljuk ki az alkalmazást! Most már az <em>Új játék</em> gombra nyomva 
           </path>
         </svg>
       </span>
-      <span title="2024. február 22. 15:40:51">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-02-22T15:40:51+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-02-22</span>
+      <span title="2024. szeptember 10. 10:33:01">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-09-10T10:33:01+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-09-10</span>
       </span>
     </span>
 

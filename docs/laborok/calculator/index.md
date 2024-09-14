@@ -42,6 +42,7 @@ Első lépésként indítsuk el az Android Studio-t, majd:
 2. A projekt neve legyen `Calculator`, a kezdő package pedig `hu.bme.aut.android.calculator`.
 3. Nyelvnek továbbra is a **Kotlin**-t használjuk.
 4. A minimum API szint pedig legyen **24: Android 7.0 (Nougat)**.
+5. A Build configuration language legyen **Kotlin DSL**.
 
 ![](./assets/new_project.png)
 
@@ -52,10 +53,15 @@ Ha ezzel megvagyunk, akkor térjünk rá a *Gradle* fájlokra, amik a projektün
 
 A *Jetpack Navigation* könyvtár használata miatt vegyük fel a többi plugin mellé a `androidx.navigation.safeargs`-ot:
 
-```groovy
-plugins {
-	...
-	id("androidx.navigation.safeargs") version "2.7.7" apply false
+```kotlin
+buildscript {
+    repositories {
+        google()
+    }
+    dependencies {
+        val nav_version = "2.8.0"
+        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
+    }
 }
 ```
 
@@ -73,11 +79,6 @@ android {
 }
 ```
 
-Győződjünk meg arról, hogy a függőségként felvett könyvtárak verziója a lehető legfrissebb. (Ez akkor áll fenn, ha egyik könyvtár sincs sárga színnel (*Warning*) kiemelve.)
-
-!!!info ""
-	Ha szerepelnének ilyen figyelmeztetések, akkor a kurzorunkat a megfelelő könyvtár felé vive megjelenik egy ablak, amin belül a `Change to 'some_version'`-re kattintva módosíthatjuk az aktuális verziót egy újabbra.
-
 Vegyük fel azokat a további függőségeket, amikre még szükségünk lesz a projekt során. Ehhez a pluginok közé még vegyük fel a `androidx.navigation.safeargs.kotlin`-t.
 
 ```groovy
@@ -90,9 +91,8 @@ android { ... }
 
 dependencies {
 	...
-    val nav_version = "2.7.7"
-    implementation ("androidx.navigation:navigation-fragment-ktx:$nav_version")
-    implementation ("androidx.navigation:navigation-ui-ktx:$nav_version")
+    implementation (libs.androidx.navigation.fragment.ktx)
+    implementation (libs.androidx.navigation.ui.ktx)
 }
 ```
 
@@ -171,6 +171,7 @@ Keressük meg a `MainActivity`-hez tartozó `activity_main.xml` fájlt (`res/lay
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -855,8 +856,8 @@ A `RecyclerView` implementálása így három lépésből áll:
 
 
 1. lépés: *View* elem *layout*-jának meghatározása
-1. lépés: *Adapter* osztály implementálása
-1. lépés: `RecyclerView` felvétele a *Fragment*/*Activity*-ben és inicializálása a megfelelő osztályban
+2. lépés: *Adapter* osztály implementálása
+3. lépés: `RecyclerView` felvétele a *Fragment*/*Activity*-ben és inicializálása a megfelelő osztályban
 
 Hozzunk lére egy új *XML* fájlt `view_history_item.xml` néven a`res/layout` mappában. A lista elem `LinearLayout`-ot használ a komponensei vízszintes sorba történő elrendezéséhez (`android:orientation="horizontal"`). A `LinearLayout` esetén is rendelhetünk súlyozást (arányokat) az egyes *View* komponensekhez az `android:weightSum` és az `android:layout_weight` attribútumok segítségével.
 

@@ -443,7 +443,7 @@ A laborra fordítható idő miatt csak ismerkedjünk meg az *XML* felépítési 
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TableRow
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_weight="1">
         ...
     </TableRow>
@@ -487,7 +487,7 @@ A konzol alatt lévő sorokban a művelet és szám gombok következnek. A gombo
 	    android:layout_height="match_parent">
 	
 	    <TableRow
-	        android:layout_width="fill_parent"
+	        android:layout_width="match_parent"
 	        android:layout_weight="1">
 	
 	        <TextView
@@ -504,7 +504,7 @@ A konzol alatt lévő sorokban a művelet és szám gombok következnek. A gombo
 	    </TableRow>
 	
 	    <TableRow
-	        android:layout_width="fill_parent"
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="1">
 	
@@ -546,7 +546,7 @@ A konzol alatt lévő sorokban a művelet és szám gombok következnek. A gombo
 	    </TableRow>
 	
 	    <TableRow
-	        android:layout_width="fill_parent"
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="1">
 	
@@ -588,7 +588,7 @@ A konzol alatt lévő sorokban a művelet és szám gombok következnek. A gombo
 	    </TableRow>
 	
 	    <TableRow
-	        android:layout_width="fill_parent"
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="1">
 	
@@ -630,7 +630,7 @@ A konzol alatt lévő sorokban a művelet és szám gombok következnek. A gombo
 	    </TableRow>
 	
 	    <TableRow
-	        android:layout_width="fill_parent"
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="1">
 	
@@ -672,10 +672,9 @@ A konzol alatt lévő sorokban a művelet és szám gombok következnek. A gombo
 	    </TableRow>
 	
 	    <TableRow
-	        android:layout_width="fill_parent"
+	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_weight="1"
-	        android:weightSum="4">
+	        android:layout_weight="1">
 	
 	        <Button
 	            android:id="@+id/number0Button"
@@ -885,15 +884,15 @@ Hozzunk lére egy új *XML* fájlt `view_history_item.xml` néven a`res/layout` 
     android:orientation="horizontal"
     android:gravity="center_vertical"
     android:layout_margin="5dp"
-    android:weightSum="5">
+    android:weightSum="10">
 
     <TextView
         android:id="@+id/operationTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         tools:text="1 + 1 = 2"
         android:layout_margin="5dp"
-        android:layout_weight="4"
+        android:layout_weight="7"
         android:textSize="22sp"
         android:layout_gravity="start"
         android:fontFamily="sans-serif-medium" />
@@ -901,11 +900,11 @@ Hozzunk lére egy új *XML* fájlt `view_history_item.xml` néven a`res/layout` 
     <Button
         android:id="@+id/loadButton"
         style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:text="@string/button_text_load"
-        android:layout_weight="1"/>
+        android:layout_weight="3"/>
 
 </LinearLayout>
 ```
@@ -1113,7 +1112,7 @@ Ha ezzel megvagyunk keressük meg a `res/layout` mappában lévő `fragment_hist
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/historyAppBar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -1130,11 +1129,11 @@ Ha ezzel megvagyunk keressük meg a `res/layout` mappában lévő `fragment_hist
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/historyRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:clipToPadding="false"
-        android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/historyAppBar"

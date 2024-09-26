@@ -65,6 +65,20 @@ buildscript {
 }
 ```
 
+A *libs.version.toml* fájlba vegyük fel a következőket:
+```groovy
+[versions]
+...
+navigation = "2.8.0"
+
+[libraries]
+...
+androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
+androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
+
+```
+
+
 Nyissuk meg a **module** szintű *Gradle* fájlunkat.
 
 Engedélyezzük a View Binding-ot:

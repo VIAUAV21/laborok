@@ -9,8 +9,8 @@ Az alkalmazásban a tényleges bejelentkeztetési logika most nem kap helyet, pu
 A megvalósítandó felhasználói felületet az alábbi képernyőképek szemléltetik:
 
 <p float="left">
-<img src="./assets/login.png" width="300" align="middle">
-<img src="./assets/home.png" width="300" align="middle">
+<img src="./assets/login.png" width="320" align="middle">
+<img src="./assets/home.png" width="320" align="middle">
 </p>
 
 ## Előkészületek
@@ -36,7 +36,9 @@ Első lépésként indítsuk el az Android Studio-t, majd:
 
 1. Hozzunk létre egy új projektet, válasszuk az *Empty Activity* lehetőséget.
 1. A projekt neve legyen `ComposeBasics`, a kezdő package pedig `hu.bme.aut.android.composebasics`.
-1. A minimum API szint legyen *API24: Android 7.0 (Nougat)*.
+1. Nyelvnek válasszuk a *Kotlin*-t.
+1. A minimum API szint legyen API24: Android 7.0.
+1. A *Build configuration language* Kotlin DSL legyen.
 
 !!!danger "FILE PATH"
 	A projekt mindenképpen a repository-ban lévő ComposeBasics könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!
@@ -66,104 +68,74 @@ A `strings.xml` fájl működését már ismerjük, töltsük fel ezt előre a k
 </resources>
 ```
 
-## Függőségek frissítése
+## Függőségek
+
+### Függőségek frissítése
 
 Az Android Studio a projekt létrehozásakor felveszi ugyan a *Compose*-t a függésegek közé, de némileg elavult verziókat használ. Frissítsük a modul szintű `build.gradle.kts` fájlban a függőségeket az alábbiakra, majd szinkronizáljuk is a projektet:
 
-```gradle
-dependencies {
-    val composeBom = platform("androidx.compose:compose-bom:2024.02.02")
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
-
-    implementation ("androidx.compose.material3:material3")
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material:material-icons-extended")
-
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-
-    implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.activity:activity-compose:1.8.2")
-
-    implementation("androidx.navigation:navigation-compose:2.7.7")
-
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-}
-```
-
-!!! info "Gradle Version Catalogs"
+!!!info "Gradle Version Catalogs"
 	Az *Android Studio Iguana*-tól vagy *Gradle 8.3*-tól kezdődően a függőségek kezelésére a *Gradle* bevezette a `Version Catalog`-ot.	
 
 	A Gradle Version Catalogs lehetővé teszi a függőségek és bővítmények skálázható módon történő hozzáadását és karbantartását a projekthez. Ahelyett, hogy a függőségeket és verziókat az egyes build fájlokban beégetnénk, egy központi katalógusban definiáljuk őket, és az egyes modulokban csak hivatkozunk rájuk. Így frissítés esetén elég egy helyen átírnunk például a verziószámot.
 
-	A függőségeink a Version Catalogban (`libs.version.toml`):
+A függőségeink a Version Catalogban (`libs.version.toml`):
 
-	```gradle
-	[versions]
-	agp = "8.3.0"
-	kotlin = "1.9.0"
-	coreKtx = "1.12.0"
-	junit = "4.13.2"
-	junitVersion = "1.1.5"
-	espressoCore = "3.5.1"
-	lifecycleRuntimeKtx = "2.7.0"
-	activityCompose = "1.8.2"
-	composeBom = "2024.02.02"
-	navigationCompose = "2.7.7"
-	
-	[libraries]
-	androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-	junit = { group = "junit", name = "junit", version.ref = "junit" }
-	androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-	androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
-	androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
-	androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
-	androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-	androidx-ui = { group = "androidx.compose.ui", name = "ui" }
-	androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-	androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-	androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-	androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-	androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-	androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-	androidx-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose"}
-	androidx-material-extendedicons = {group = "androidx.compose.material", name = "material-icons-extended"}
-	
-	[plugins]
-	androidApplication = { id = "com.android.application", version.ref = "agp" }
-	jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-	```
+```gradle
+[versions]
+agp = "8.5.2"
+kotlin = "1.9.0"
+coreKtx = "1.13.1"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.8.6"
+activityCompose = "1.9.2"
+composeBom = "2024.09.02"
 
-	Illetve a modul szintű `build.gradle.kts` fájlban:
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 
-	```gradle
-	dependencies {
-	
-	    implementation(libs.androidx.core.ktx)
-	    implementation(libs.androidx.lifecycle.runtime.ktx)
-	    implementation(libs.androidx.activity.compose)
-	    implementation(platform(libs.androidx.compose.bom))
-	    implementation(libs.androidx.ui)
-	    implementation(libs.androidx.ui.graphics)
-	    implementation(libs.androidx.ui.tooling.preview)
-	    implementation(libs.androidx.material3)
-	    implementation(libs.androidx.navigation)
-	    implementation(libs.androidx.material.extendedicons)
-	    testImplementation(libs.junit)
-	    androidTestImplementation(libs.androidx.junit)
-	    androidTestImplementation(libs.androidx.espresso.core)
-	    androidTestImplementation(platform(libs.androidx.compose.bom))
-	    androidTestImplementation(libs.androidx.ui.test.junit4)
-	    debugImplementation(libs.androidx.ui.tooling)
-	    debugImplementation(libs.androidx.ui.test.manifest)
-	
-	}
-	```
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+```
+
+Illetve a modul szintű `build.gradle.kts` fájlban:
+
+```gradle
+dependencies {
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+}
+```
 
 A fenti függőségekhez 34-es SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű `build.gradle.kts` fájlunkban:
 
@@ -171,13 +143,41 @@ A fenti függőségekhez 34-es SDK-val kell fordítanunk a projektet, ha a legen
     compileSdk = 34
 ```
 
+
+## Függőség felvétele
+
+Az általunk használni kívánt ikonokhoz szükségünk van a `Material Icons Extended` modulra, valamint a navigációhoz a [`Navigation Component`](https://developer.android.com/guide/navigation)-re.
+
+Vegyük fel a szükséges referenciákat a `libs.versions.toml` fájlba:
+
+```gradle
+[versions]
+materialIconsExtended = "1.7.2"
+navigationCompose = "2.8.1"
+...
+
+[libraries]
+androidx-material-icons-extended = { group = "androidx.compose.material", name="material-icons-extended", version.ref="materialIconsExtended"}
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+...
+```
+
+Majd a függőséget a modul szintű `build.gradle.kts` fájlba:
+
+```gradle
+implementation(libs.androidx.material.icons.extended)
+implementation(libs.androidx.navigation.compose)
+...
+```
+
+
 ## Elemi UI építőelemek elkészítése
 
 A fenti képeken látható, hogy a bejelentkeztetési form egyedi kinézetű szövegmezőkből és címkékből épülnek fel. A *Compose* alapelve - ahogyan a neve is tükrözi, - hogy a felhasználói felületünket hierarchikusan építhetjük fel, és a kisebb építőelemekből összetettebbeket állíthatunk össze. Ez egyrészt segíti a fejlesztői gondolkodást, hiszen könnyen tudunk a felhasználói felület adott részére koncentrálni, ezeket függetlenül elkészíteni, és így idővel a részekből már könnyen összerakható lesz a teljes kívánt UI is. Másrészt, ez a megközelítés segíti az újrafelhasználást, hiszen a kisebb felületi elemek könnyen újrafelhasználhatók az alkalmazás különböző részeiben is.
 
 Készítsünk először egy igen általános szövegmezőt, amelyet majd az éppen aktuális igényeknek megfelelően gazdagon tudunk paraméterezni. Tulajdonképpen a rendszer részét képező `TextField` is sokrétű funkcionalitással rendelkezik, azonban szeretnénk egy magasabb szintű komponenst, amely számunkra könnyebben használható, és a hibajelzés megjelenítését is megoldja.
 
-Először hozzunk létre ehhez egy `hu.bme.aut.android.composebasics.ui.common` package-et. Ebbe fognak kerülni az alapvető fontosságú UI építőelemeink.
+Először hozzunk létre ehhez egy `hu.bme.aut.android.composebasics.ui.common` *package*-et. Ebbe fognak kerülni az alapvető fontosságú UI építőelemeink.
 
 Ezen belül készítsünk egy `NormalTextField` komponenst a következő tartalommal:
 
@@ -187,25 +187,28 @@ package hu.bme.aut.android.composebasics.ui.common
 @ExperimentalMaterial3Api
 @Composable
 fun NormalTextField(
+    modifier: Modifier = Modifier,
     value: String,
     label: String,
     onValueChange: (String) -> Unit,
-    leadingIcon: @Composable (() -> Unit)?,
-    trailingIcon: @Composable (() -> Unit)?,
-    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     isError: Boolean = false,
-    onDone: (KeyboardActionScope.() -> Unit)?
+    onDone: (KeyboardActionScope.() -> Unit)?,
+    leadingIcon: @Composable (() -> Unit)?,
+    trailingIcon: @Composable (() -> Unit)?
 ) {
-    TextField(
+    OutlinedTextField(
         value = value.trim(),
         onValueChange = onValueChange,
         label = { Text(text = label) },
         leadingIcon = leadingIcon,
         trailingIcon = if (isError) {
             {
-                Icon(imageVector = Icons.Default.ErrorOutline, contentDescription = null)
+                Icon(
+                    imageVector = Icons.Default.ErrorOutline,
+                    contentDescription = null
+                )
             }
         } else {
             {
@@ -236,7 +239,7 @@ fun NormalTextField(
 
 Tekintsük át a fenti kódot! A komponens a konstruktoron keresztül számos paramétert át tud venni:
 
-- **value**: a szövegmező tartalma; ezt egyszerűen továbbadjuk a felhasznált `TextField` komponensnek, de az eleji/végi whitespace karaktereket a `trim()` segítségével levágjuk
+- **value**: a szövegmező tartalma; ezt egyszerűen továbbadjuk a felhasznált `OutlinedTextField` komponensnek, de az eleji/végi whitespace karaktereket a `trim()` segítségével levágjuk
 - **label**: a szövegmező címkéje, amely magyarázza annak tartalmát; ezt egy `Text` composable-be csomagolva továbbadjuk
 - **onValueChange**: eseménykezelő, amely a tartalom megváltoztatásakor hívódik; egyszerűen továbbadjuk
 - **leadingIcon** és **traliningIcon**: a szövegmező elején és végén megjelenítendő ikonok, amelyeket egy újabb composable függvényként lehet megadni; a komponensünk beépített hibajelzést valósít meg, ezért ha hiba van beállítva, akkor a szöveg végén nem a beállított ikon, hanem hibajelzés jelenik meg
@@ -248,7 +251,7 @@ Tekintsük át a fenti kódot! A komponens a konstruktoron keresztül számos pa
 
 A `modifier` értékeként a komponens felhasználásakor nagyon sok paraméter megadható. Erre számos példát láthatunk az Android hivatalos dokumentációjában: https://developer.android.com/jetpack/compose/modifiers
 
-A felhasznált `TextField` komponensen további jellemzőket is beállítottunk, amelyeket egyébként a `NormalTextField` nem tud kívülről felülbírálhatóvá tenni. Ezek jelentése:
+A felhasznált `OutlinedTextField` komponensen további jellemzőket is beállítottunk, amelyeket egyébként a `NormalTextField` nem tud kívülről felülbírálhatóvá tenni. Ezek jelentése:
 
 - **singleLine**: csak egy sort lehet begépelni a szövegmezőbe
 - **keyboardOptions**: ez állítja be, hogy milyen jellegű billentyűzet jelenjen meg a képernyőn, és milyen IME gyorsgomb tartozzon a szerkesztőhöz. Itt mindig egyszerű szöveges billentyűzetet és "kész" gombot választunk. Ha emailt vagy telefonszámot gépeltetnénk be, akkor megjeleníthetünk ehhez alkalmasabb billentyűzetet is.
@@ -260,7 +263,7 @@ Ezzel elkészült az első composable komponensünk, de mivel még sok hiányzik
 @ExperimentalMaterial3Api
 @Preview
 @Composable
-fun NormalTextView_Preview() {
+fun NormalTextViewPreview() {
     NormalTextField(
         value = "Csetneki Péter",
         label = "Név",
@@ -282,7 +285,7 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 @ExperimentalMaterial3Api
 @Preview
 @Composable
-fun NormalTextView_Error_Preview() {
+fun NormalTextViewErrorPreview() {
     NormalTextField(
         value = "abc",
         label = "Mennyiség (kg)",
@@ -309,15 +312,15 @@ package hu.bme.aut.android.composebasics.ui.common
 @ExperimentalMaterial3Api
 @Composable
 fun PasswordTextField(
+    modifier: Modifier = Modifier,
     value: String,
     label: String,
-    modifier: Modifier = Modifier,
     onValueChange: (String) -> Unit,
-    leadingIcon: @Composable (() -> Unit)?,
     enabled: Boolean = true,
     readOnly: Boolean = false,
     isError: Boolean = false,
     onDone: (KeyboardActionScope.() -> Unit)?,
+    leadingIcon: @Composable (() -> Unit)?,
     isVisible: Boolean = true,
     onVisibilityChanged: () -> Unit,
 ) {
@@ -326,7 +329,7 @@ fun PasswordTextField(
     } else {
         Icons.Rounded.Visibility
     }
-    TextField(
+    OutlinedTextField(
         value = value.trim(),
         onValueChange = onValueChange,
         label = { Text(text = label) },
@@ -415,7 +418,7 @@ fun LoginScreen(
                 trailingIcon = { },
                 onDone = { }
             )
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             PasswordTextField(
                 value = passwordValue,
                 label = stringResource(id = R.string.textfield_label_password),
@@ -434,7 +437,7 @@ fun LoginScreen(
                 onVisibilityChanged = { isPasswordVisible = !isPasswordVisible },
                 onDone = { }
             )
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
                     if (usernameValue.isEmpty()) {
@@ -445,7 +448,8 @@ fun LoginScreen(
                         onLoginClick(usernameValue)
                     }
                 },
-                modifier = Modifier.width(TextFieldDefaults.MinWidth)
+                modifier = Modifier.width(TextFieldDefaults.MinWidth),
+                shape = RectangleShape
             ) {
                 Text(text = stringResource(id = R.string.button_label_login))
             }
@@ -456,7 +460,7 @@ fun LoginScreen(
 
 Egy fontos eddig nem látott elem, hogy a felhasználói felület elemeinek állapottárolására (pl. szövegmező tartalma, látható-e valami, jelölőnégyzet be van pipálva stb.) `MutableState` típusú tárolókat kell létrehoznunk. Ezt a `mutableStateOf()` factory-metódussal tudjuk megtenni, és ennek meg kell adni a kezdőállapotot. Mindezt az inicializációt lazy betöltéssel akarjuk végezni, hogy a felület felépítése közben történjen. Ehhez használjuk a `remember` kulcsszót.
 
-Feltűnnek még különböző konténerelemek, amelyek segítségével a felületi elemek elrendezését tudjuk meghatározni. Ilyen a korábban már érintett `Box`. Ez alkalmas a teljes képernyőtartalmak befoglalására. Ezzel állítjuk be a hátteret a Material témánk szerintire, illetve hogy a képernyő teljes tartalmát töltse ki a befoglalt tartalom. Ezen belül látunk egy `Column` elemet, amellyel egy oszlopba vannak rendezve egymás alá a szövegmezők. A vízszintes igazítás az oszlopon középre van állítva. Az oszlopon kívül helyezkedik el a `BottomTextButton`, ami majd a regisztrációs oldalra visz. A középső oszlopon a normál és a jelszavas saját szövegmezőn, valamint alattuk egy bejelentkeztető gomb van megadva, köztük térelválasztó `Spacer` komponenssel.
+Feltűnnek még különböző konténerelemek, amelyek segítségével a felületi elemek elrendezését tudjuk meghatározni. Ilyen a korábban már érintett `Box`. Ez alkalmas a teljes képernyőtartalmak befoglalására. Ezzel állítjuk be a hátteret a Material témánk szerintire, illetve hogy a képernyő teljes egészét töltse ki a befoglalt tartalom. Ezen belül látunk egy `Column` elemet, amellyel egy oszlopba vannak rendezve egymás alá a szövegmezők és a bejelentkező gomb. A vízszintes igazítás az oszlopon középre van állítva. A normál és a jelszavas saját szövegmezők, valamint a bejelentkeztető gomb között térelválasztó `Spacer` komponenseket találunk.
 
 Összességében azt figyelhetjük meg, hogy a logika egy része már itt fel van oldva, hiszen az állapot egyes részeit itt kezeljük, és ehhez kapcsolódóan eseménykezelőket is adunk tovább az építőelemként szolgáló kisebb komponenseknek. Viszont vannak olyan dolgok, mint pl. a login gomb eseménykezelője, amelyek még mindig felülről jönnek. Alapvetően a Compose-ban úgy kell gondolkodnunk, hogy az állapotot, amire több felületi elemnek szüksége van, azt feljebb kell emelnünk egy közös ősbe. Ezt az Android terminológia úgy hívja, hogy [`state hoisting`](https://developer.android.com/jetpack/compose/state-hoisting) Pl. a begépelt felhasználónevet a szövegmező is használja, illetve a befoglaló bejelentkező képernyőnél is szükség van rá. Maga a bejelentkező képernyő a legfelső komponens a hierarchiában, amelyik használja, ezért itt tudjuk ezt az állapotot kezelni. A navigáció viszont, hogy mi történjen a gombokra kattintáskor, az már más komponenseket is érint, ezért azt fentebbi szinten kell kezelni, ezért ez még mindig paraméterként érkezik a képernyőt megtestesítő komponenshez.
 
@@ -469,7 +473,7 @@ Nézzük is meg az elkészült komponenst:
 @ExperimentalMaterial3Api
 @Preview(showBackground = true)
 @Composable
-fun LoginScreen_Preview() {
+fun LoginScreenPreview() {
     LoginScreen(
         onLoginClick = { }
     )
@@ -481,7 +485,7 @@ fun LoginScreen_Preview() {
 
 	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
 
-A második elkészítendő képernyőnk az alkalmazás "főképernyője", amit sikeres bejelentkezés után lát a felhasználó. Viszont itt már részben érintenünk kell a képernyők közti navigáció kérdését is, hiszen a képernyőnek lesz egy menüje, ahonnan majd más képernyőkre lehet navigálni. Ehhez egy `navigation` package-et hozzunk létre, és ebbe kerüljön az alábbi `Screen` osztály. Itt `sealed classot` alkalmazunk a lehetséges képernyők leírására, mert csak előre megadott számú képernyőnk van, és a főképernyő argumentumot is kaphat. A `sealed class` kicsit hasonlít az `enumhoz`, de támogatja ezt a fontos különbséget is. Az osztály előtt definiált konstansokat később fogjuk használni, amikor teljesen összerakjuk a navigációs gráfot.
+A második elkészítendő képernyőnk az alkalmazás "főképernyője", amit sikeres bejelentkezés után lát a felhasználó. Viszont itt már részben érintenünk kell a képernyők közti navigáció kérdését is, hiszen a képernyőnek lesz egy menüje, ahonnan majd más képernyőkre lehet navigálni. Ehhez egy `navigation` package-et hozzunk létre, és ebbe kerüljön az alábbi `Screen` osztály. Itt `sealed class`-t alkalmazunk a lehetséges képernyők leírására, mert csak előre megadott számú képernyőnk van, és a főképernyő argumentumot is kaphat. A `sealed class` kicsit hasonlít az `enumhoz`, de támogatja ezt a fontos különbséget is. Az osztály előtt definiált konstansokat később fogjuk használni, amikor teljesen összerakjuk a navigációs gráfot.
 
 ```kotlin
 package hu.bme.aut.android.composebasics.navigation
@@ -559,7 +563,9 @@ fun Menu(
                 modifier = Modifier.clip(RoundedCornerShape(5.dp))
             )
             if (index != items.lastIndex) {
-                Divider(modifier = Modifier.height(10.dp).padding(vertical = 5.dp))
+                HorizontalDivider(modifier = Modifier
+                    .height(10.dp)
+                    .padding(vertical = 5.dp))
             }
         }
     }
@@ -599,11 +605,23 @@ fun HomeScreen(
                 },
                 actions = {
                     IconButton(onClick = onLogout) {
-                        Icon(imageVector = Icons.Default.Logout, contentDescription = null)
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.Logout,
+                            contentDescription = null
+                        )
                     }
                     IconButton(onClick = { expandedMenu = !expandedMenu }) {
                         Icon(imageVector = Icons.Default.MoreVert, contentDescription = null)
                     }
+                    Menu(
+                        expanded = expandedMenu,
+                        items = MenuItemUiModel.entries.toTypedArray(),
+                        onDismissRequest = { expandedMenu = false },
+                        onClick = {
+                            onMenuItemClick(it)
+                            expandedMenu = false
+                        },
+                    )
                 }
             )
         },
@@ -628,17 +646,6 @@ fun HomeScreen(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.align(Alignment.Center)
             )
-            Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.TopEnd).padding(5.dp)) {
-                Menu(
-                    expanded = expandedMenu,
-                    items = MenuItemUiModel.values(),
-                    onDismissRequest = { expandedMenu = false },
-                    onClick = {
-                        onMenuItemClick(it)
-                        expandedMenu = false
-                    },
-                )
-            }
         }
     }
 }
@@ -662,7 +669,7 @@ Nézzük meg, hogyan fest az elkészített főképernyő:
 @ExperimentalMaterial3Api
 @Preview(showBackground = true)
 @Composable
-fun HomeScreen_Preview() {
+fun HomeScreenPreview() {
     HomeScreen(
         argument = "Felhasználó",
         onLogout = {},
@@ -699,7 +706,7 @@ fun NavGraphBuilder.authNavGraph(
 }
 ```
 
-A kódból azt tudjuk megállapítani, hogy a navigációs gráf a bejelentkeztetési képernyőn kezdődik, és neki is van egy útvonalazonosítója, amelyet most a korábban definiált `AUTH_GRAPH_ROUTE` konstanssal adtunk meg. A navigációban composable felületi elemeket adhatunk meg, mindegyikhez tartozik egy-egy útvonal, ezekhez a `Screen` osztályból hivatkozzuk meg a megfelelő útvonalat. Látható, hogy a hierarchikusan összeállított felhasználói felületek "utolsó" paraméterei itt kapnak konkrét értétek. Konkréten a bejelentkezés gomb eseménykezelője van itt lambda-kifejezésként megadva. Ez a lambda-kifejezés valójában a navigációs kontrollert hívja meg, és azzal navigáltat a megfelelő útvonalra, amit a kontroller a navigációs gráf alapján felold. Figyeljük meg, hogy a bejelentkezés után a főképernyő útvonalába a felhasználónevet mint paramétert is belekódoljuk. Azt is láthatjuk, hogy tényleges bejelentkeztető logika itt nem történik, de ha erre lenne szükségünk, azt itt megtehetnénk, hiszen itt van megadva a bejelentkezés gomb eseménykezelője.
+A kódból azt tudjuk megállapítani, hogy a navigációs gráf a bejelentkeztetési képernyőn kezdődik, és neki is van egy útvonalazonosítója, amelyet most a korábban definiált `AUTH_GRAPH_ROUTE` konstanssal adtunk meg. A navigációban *composable* felületi elemeket adhatunk meg: mindegyikhez tartozik egy-egy útvonal, ezekhez a `Screen` osztályból hivatkozzuk meg a megfelelő útvonalat. Látható, hogy a hierarchikusan összeállított felhasználói felületek "utolsó" paraméterei itt kapnak konkrét értétet. Konkrétan a bejelentkezés gomb eseménykezelője van itt lambda-kifejezésként megadva. Ez a lambda-kifejezés valójában a navigációs kontrollert hívja meg, és azzal navigáltat a megfelelő útvonalra, amit a kontroller a navigációs gráf alapján felold. Figyeljük meg, hogy a bejelentkezés után a főképernyő útvonalába a felhasználónevet mint paramétert is belekódoljuk. Azt is láthatjuk, hogy tényleges bejelentkeztető logika itt nem történik, de ha erre lenne szükségünk, azt itt megtehetnénk, hiszen itt van megadva a bejelentkezés gomb eseménykezelője.
 
 A másik navigációs gráf a bejelentkezés utáni navigációt írja le:
 
@@ -788,7 +795,11 @@ package hu.bme.aut.android.composebasics
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import hu.bme.aut.android.composebasics.navigation.NavGraph
 import hu.bme.aut.android.composebasics.ui.theme.ComposeBasicsTheme
@@ -797,15 +808,30 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
-            ComposeBasicsTheme {
+            ComposeBasicsTheme() {
                 val navController = rememberNavController()
-                NavGraph(navController = navController)
+                Box(modifier = Modifier.safeDrawingPadding()) {
+                    NavGraph(navController = navController)
+                }
             }
         }
     }
 }
 ```
+
+!!!note "EdgeToEdge"
+	Android 15-től (API 35) az alkalmazásunk képes a rendszer UI (StatusBar, NavigationBar, soft keyboard, stb.) alá is rajzolni. Ezzel valósították meg azt, hogy a készülék teljes képernyőjét használni tudjuk a szélétől a széléig. Ez hasznos lehet számtalan esetben, amikor "teljes képernyős" alkalmazást szeretnénk írni, nem korlátoz minket az elfedő rendszer UI. A funkció természetesen alacsonyabb API szinteken is elérhető, erre való a fent is látható `enableEdgeToEdge` függvényhívás.
+
+	Ez viszont amennyire hasznos, annyi problémát is tud okozni, ha e miatt valami vezérlőnk becsúszik mondjuk a szoftveres billentyűzet alá, amit így nem tudunk elérni. Ennek kiküszöbölésére találták ki az [inseteket](https://developer.android.com/develop/ui/compose/layouts/insets). Ennek számos beállítása van, amellyel nem kell nekünk kézzel megtippelni, hogy például a *status bar* hány dp magas, különösen, hogy ezek az értékek futásidőben változhatnak (lásd szoftveres billentyűzet). A számos beállítás közül mi most a fent látható `safeDrawindPadding`-et használjuk, ami mint neve is mutatja, pont akkora *paddinget* állít mindenhova, hogy semmit se takarjon ki a rendszer UI. (Természetesen ez nem csak az `Activity`-ben, hanem minden `Screenen` és `Composable`-ön kölün is használható.)
+
+	A funkció egyik jó demonstrációja, hogy a LoginScreen vezérlői, amik a teljes oldal közepére vannak helyezve, a szoftveres billentyűzet megjelenésekor nem takaródnak le, hanem a szabadon maradó hely közepére csúsznak.
+
+	<p align="center"> 
+	<img src="./assets/login.png" width="160" align="middle">
+	<img src="./assets/login2.png" width="160" align="middle">
+	</p>
 
 Próbáljuk ki az alkalmazást!
 
@@ -831,7 +857,7 @@ Próbáld ki így az alkalmazást!
 Adj hozzá a login oldal aljához egy teljes oldal szélességű gombot, ahol az új felhasználó a regisztráció oldalra navigálhatna. A gomb újrahasználható komponensként legyen megvalósítva. Az alábbi kép mutatja az elkészítendő felületet:
 
 <p float="left">
-<img src="./assets/login2.png" width="300" align="middle">
+<img src="./assets/login.png" width="320" align="middle">
 </p>
 
 Segítség: a `Surface` és a `Text` composable functionök a segítségedre lehetnek a megoldásban.

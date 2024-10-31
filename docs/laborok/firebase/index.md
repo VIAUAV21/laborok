@@ -112,34 +112,19 @@ Következő lépésben szintén az *Assistant*-ban az *Authenticate using a cust
 
 Sajnos a Firebase plugin nincs rendszeresen frissítve, és így előfordul, hogy a függőségek régi verzióját adja hozzá a `build.gradle.kts` fájlokhoz. Ezért most frissíteni fogjuk az imént automatikusan felvett függőségeket, valamint innentől manuálisan fogjuk hozzáadni az újabbakat az *Assistant* használata helyett. Fontos, hogy mindenből az itt leírt verziót használjuk.
 
-Ellenőrizzük a `libs.versions.toml` fájlban a `google-services`-t, hogy az alábbi verzióval rendelkezik:
+Ellenőrizzük a projekt szintű `build.gradle` fájlban a `google-services`-t, hogy az alábbi verzióval rendelkezik:
 
-```toml
-[versions]
-googleGmsGoogleServices = "4.4.2"
+```groovy
+classpath 'com.google.gms:google-services:4.4.2'
 ```
 
 A Firebase BoM segítségével egységesen tudjuk kezelni az összes firebase könyvtárunk verziószámát.
 
-Cseréljük le a `libs.versions.toml` fájlban a `firebaseAuth` -ot a következőre:
-
-```toml
-[versions]
-firebaseBom = "33.5.1"
-...
-[libraries]
-firebase-bom = {group= "com.google.firebase", name="firebase-bom", version.ref="firebaseBom"}
-firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx" }
-```
-
-Majd a modul szintű `build.gradle.kts`-ben használjuk is ezeket:
-```gradle
-dependencies {
-    ...
-    //Firebase
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth)
-}
+Cseréljük le a modul szintű `build.gradle`-ben a `firebase-auth` verziót a következőre:
+```groovy
+val firebaseBom = platform("com.google.firebase:firebase-bom:32.8.1")
+implementation(firebaseBom)
+implementation("com.google.firebase:firebase-auth-ktx")
 ```
 
 A generált projektváz többi általános függősége (pl. appcompat és ktx-core könyvtárak) is elavult lehet, ezt az Android Studio jelzi is sötétsárga háttérrel. Ezekre ráállva a kurzorral az Alt-Enter gyorsbillenytűvel kiválaszthatjuk ezeknek a frissítését.
@@ -264,20 +249,8 @@ Következő lépésben a feladatok listázását fogjuk implementálni a projekt
  
 Adjuk hozzá a projekthez a *Cloud Firestore* támogatást:
 
-`libs.versions.toml`:
-
-```toml
-[libraries]
-firebase-firestore = {group = "com.google.firebase", name = "firebase-firestore-ktx"}
-```
-
-modul szintű `build.gradle.kts`:
-
-```gradle
-dependencies {
-    ...
-    implementation(libs.firebase.firestore)
-}
+```groovy
+implementation("com.google.firebase:firebase-firestore-ktx")
 ```
 
 Kapcsoljuk be a *Cloud Firestore*-t a *Firebase console*-on is . Az adatbázist *test mode*-ban fogjuk használni, így egyelőre publikusan írható/olvasható lesz, de cserébe nem kell konfigurálnunk a hozzáférés-szabályozást. Ezt természetesen később mindenképp meg kellene tenni egy éles projektben.
@@ -436,20 +409,8 @@ Próbáljuk ki az alkalmazásunkat! Ellenőrizzük, hogy tényleg létrejönnek 
 
 Adjuk hozzá a projektünkhöz a *Firebase Messaging* függőséget:
 
-`libs.versions.toml`:
-
-```toml
-[libraries]
-firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging-ktx" }
-```
-
-modul szintű `build.gradle.kts`:
-
-```gradle
-dependencies {
-    ...
-    implementation(libs.firebase.messaging)
-}
+```groovy
+implementation("com.google.firebase:firebase-messaging-ktx")
 ```
 
 Csupán ennyi elegendő a push alapvető működéséhez, ha így újrafordítjuk az alkalmazást, a Firebase felületéről vagy API-jával küldött push üzeneteket automatikusan megkapják a mobil kliensek és egy *Notification*-ben megjelenítik.
@@ -480,44 +441,21 @@ Adjuk hozzá a projekthez a függőségeket:
  
 `libs.versions.toml`:
 
-```toml
-[versions]
-crashlytics = "3.0.2"
-...
-[libraries]
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
-...
-[plugins]
-google-firebase-crashlytics = {id = "com.google.firebase.crashlytics", version.ref = "crashlytics"}
+```groovy
+id("com.google.firebase.crashlytics") version "3.0.2" apply false
 ```
 
-A projekt szintű `build.gradle.kts` fájlban fel kell vennünk függőségként egy plugint:
+Ezekkel a módosításokkal egy Gradle plugint adtunk hozzá a projektünkhöz, amit a modul szintű `build.gradle` fájl elején be kell kapcsolnunk a már meglévők után:
 
-projekt szintű `build.gradle.kts`:
-
-```gradle
-plugins {
-    alias(libs.plugins.google.firebase.crashlytics) apply false
-	...
-}
+```groovy
+id("com.google.firebase.crashlytics")
 ```
 
-Majd a modul szintű `build.gradle.kts` fájlban be is kell kapcsolnunk a *plugint*, valamint fel kell vennünk a szükséges függőségeket:
+Végül pedig szükségünk van két egyszerű Gradle függőségre is, amit a meglévő Firebase függőségek mellé helyezhetünk, a modul szintű `build.gradle` fájlban:
 
-modul szintű `build.gradle.kts`:
-
-```gradle
-plugins {
-    alias(libs.plugins.google.firebase.crashlytics)
-	...
-}
-...
-dependencies {
-    ...
-    implementation(libs.firebase.crashlytics)
-    implementation(libs.firebase.analytics)
-}
+```groovy
+implementation("com.google.firebase:firebase-crashlytics-ktx")
+implementation("com.google.firebase:firebase-analytics-ktx")
 ```
 
 <p align="center">

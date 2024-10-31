@@ -122,7 +122,7 @@ A Firebase BoM segítségével egységesen tudjuk kezelni az összes firebase k�
 
 Cseréljük le a modul szintű `build.gradle`-ben a `firebase-auth` verziót a következőre:
 ```groovy
-val firebaseBom = platform("com.google.firebase:firebase-bom:32.8.1")
+val firebaseBom = platform("com.google.firebase:firebase-bom:33.5.1")
 implementation(firebaseBom)
 implementation("com.google.firebase:firebase-auth-ktx")
 ```
@@ -437,10 +437,8 @@ Természetesen lehetőség van saját push üzenet feldolgozó szolgáltatás k�
 
 A Firebase Console-on először navigáljunk a Crashlytics menüpontra, és kapcsoljuk be a funkciót. Válasszuk az új Firebase alkalmazás integrációját.
 
-Adjuk hozzá a projekthez a függőségeket: 
+Adjuk hozzá a projekthez a függőségeket a projekt szintű `build.gradle.kts` fájlba: 
  
-`libs.versions.toml`:
-
 ```groovy
 id("com.google.firebase.crashlytics") version "3.0.2" apply false
 ```

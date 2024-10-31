@@ -1030,7 +1030,7 @@ Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a más
 </code></pre></div>
 <p>A Firebase BoM segítségével egységesen tudjuk kezelni az összes firebase könyvtárunk verziószámát.</p>
 <p>Cseréljük le a modul szintű <code>build.gradle</code>-ben a <code>firebase-auth</code> verziót a következőre:
-<div class="highlight"><pre><span></span><code><span class="n">val</span><span class="w"> </span><span class="n">firebaseBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">platform</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-bom:32.8.1&quot;</span><span class="o">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">val</span><span class="w"> </span><span class="n">firebaseBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">platform</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-bom:33.5.1&quot;</span><span class="o">)</span>
 <span class="n">implementation</span><span class="o">(</span><span class="n">firebaseBom</span><span class="o">)</span>
 <span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-auth-ktx&quot;</span><span class="o">)</span>
 </code></pre></div></p>
@@ -1309,8 +1309,7 @@ válasszuk ki az alkalmazást, hogy minden futó példány megkapja az üzenetet
 <p>Természetesen lehetőség van saját push üzenet feldolgozó szolgáltatás készítésére is egy <code>FirebaseMessagingService</code> létrehozásával, melyről további részletek <a href="https://firebase.google.com/docs/cloud-messaging/android/receive">itt olvashatók</a>.  </p>
 <h2 id="crashlytics">Crashlytics<a class="headerlink" href="#crashlytics" title="Permanent link">&para;</a></h2>
 <p>A Firebase Console-on először navigáljunk a Crashlytics menüpontra, és kapcsoljuk be a funkciót. Válasszuk az új Firebase alkalmazás integrációját.</p>
-<p>Adjuk hozzá a projekthez a függőségeket: </p>
-<p><code>libs.versions.toml</code>:</p>
+<p>Adjuk hozzá a projekthez a függőségeket a projekt szintű <code>build.gradle.kts</code> fájlba: </p>
 <div class="highlight"><pre><span></span><code><span class="n">id</span><span class="o">(</span><span class="s2">&quot;com.google.firebase.crashlytics&quot;</span><span class="o">)</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s2">&quot;3.0.2&quot;</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
 </code></pre></div>
 <p>Ezekkel a módosításokkal egy Gradle plugint adtunk hozzá a projektünkhöz, amit a modul szintű <code>build.gradle</code> fájl elején be kell kapcsolnunk a már meglévők után:</p>
@@ -1394,8 +1393,8 @@ ugyanezen menüpont alatt lesznek elérhetők.</p>
           </path>
         </svg>
       </span>
-      <span title="2024. október 31. 12:17:44">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-10-31T12:17:44+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-10-31</span>
+      <span title="2024. október 31. 12:22:00">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-10-31T12:22:00+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-10-31</span>
       </span>
     </span>
 

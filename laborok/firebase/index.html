@@ -1025,26 +1025,14 @@ Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a más
 </p>
 
 <p>Sajnos a Firebase plugin nincs rendszeresen frissítve, és így előfordul, hogy a függőségek régi verzióját adja hozzá a <code>build.gradle.kts</code> fájlokhoz. Ezért most frissíteni fogjuk az imént automatikusan felvett függőségeket, valamint innentől manuálisan fogjuk hozzáadni az újabbakat az <em>Assistant</em> használata helyett. Fontos, hogy mindenből az itt leírt verziót használjuk.</p>
-<p>Ellenőrizzük a <code>libs.versions.toml</code> fájlban a <code>google-services</code>-t, hogy az alábbi verzióval rendelkezik:</p>
-<div class="highlight"><pre><span></span><code><span class="k">[versions]</span>
-<span class="n">googleGmsGoogleServices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;4.4.2&quot;</span>
+<p>Ellenőrizzük a projekt szintű <code>build.gradle</code> fájlban a <code>google-services</code>-t, hogy az alábbi verzióval rendelkezik:</p>
+<div class="highlight"><pre><span></span><code><span class="n">classpath</span><span class="w"> </span><span class="s1">&#39;com.google.gms:google-services:4.4.2&#39;</span>
 </code></pre></div>
 <p>A Firebase BoM segítségével egységesen tudjuk kezelni az összes firebase könyvtárunk verziószámát.</p>
-<p>Cseréljük le a <code>libs.versions.toml</code> fájlban a <code>firebaseAuth</code> -ot a következőre:</p>
-<div class="highlight"><pre><span></span><code><span class="k">[versions]</span>
-<span class="n">firebaseBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;33.5.1&quot;</span>
-<span class="p">...</span>
-<span class="k">[libraries]</span>
-<span class="n">firebase-bom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">group</span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.google.firebase&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s">&quot;firebase-bom&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="n">ref</span><span class="o">=</span><span class="s">&quot;firebaseBom&quot;</span><span class="p">}</span>
-<span class="n">firebase-auth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.google.firebase&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;firebase-auth-ktx&quot;</span><span class="w"> </span><span class="p">}</span>
-</code></pre></div>
-<p>Majd a modul szintű <code>build.gradle.kts</code>-ben használjuk is ezeket:
-<div class="highlight"><pre><span></span><code>dependencies {
-    ...
-    //Firebase
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth)
-}
+<p>Cseréljük le a modul szintű <code>build.gradle</code>-ben a <code>firebase-auth</code> verziót a következőre:
+<div class="highlight"><pre><span></span><code><span class="n">val</span><span class="w"> </span><span class="n">firebaseBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">platform</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-bom:32.8.1&quot;</span><span class="o">)</span>
+<span class="n">implementation</span><span class="o">(</span><span class="n">firebaseBom</span><span class="o">)</span>
+<span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-auth-ktx&quot;</span><span class="o">)</span>
 </code></pre></div></p>
 <p>A generált projektváz többi általános függősége (pl. appcompat és ktx-core könyvtárak) is elavult lehet, ezt az Android Studio jelzi is sötétsárga háttérrel. Ezekre ráállva a kurzorral az Alt-Enter gyorsbillenytűvel kiválaszthatjuk ezeknek a frissítését.</p>
 <p>Ahhoz, hogy az e-mail alapú regisztráció és authentikáció megfelelően működjön, a <em>Firebase console</em>-ban az <em>Authentication -&gt; Sign-in method</em> alatt az <em>Email/Password</em> providert engedélyezni kell.</p>
@@ -1152,15 +1140,7 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>AuthService</code> int
 <h2 id="feladatok-listazasa-keszitese">Feladatok listázása, készítése<a class="headerlink" href="#feladatok-listazasa-keszitese" title="Permanent link">&para;</a></h2>
 <p>Következő lépésben a feladatok listázását fogjuk implementálni a projekten belül.</p>
 <p>Adjuk hozzá a projekthez a <em>Cloud Firestore</em> támogatást:</p>
-<p><code>libs.versions.toml</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="k">[libraries]</span>
-<span class="n">firebase-firestore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.google.firebase&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;firebase-firestore-ktx&quot;</span><span class="p">}</span>
-</code></pre></div>
-<p>modul szintű <code>build.gradle.kts</code>:</p>
-<div class="highlight"><pre><span></span><code>dependencies {
-    ...
-    implementation(libs.firebase.firestore)
-}
+<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-firestore-ktx&quot;</span><span class="o">)</span>
 </code></pre></div>
 <p>Kapcsoljuk be a <em>Cloud Firestore</em>-t a <em>Firebase console</em>-on is . Az adatbázist <em>test mode</em>-ban fogjuk használni, így egyelőre publikusan írható/olvasható lesz, de cserébe nem kell konfigurálnunk a hozzáférés-szabályozást. Ezt természetesen később mindenképp meg kellene tenni egy éles projektben.</p>
 <p align="center">
@@ -1308,15 +1288,7 @@ Végül ne felejtsük el befrissíteni a <code>TodoApplication</code> osztályun
 </div>
 <h2 id="push-ertesitesek">Push értesítések<a class="headerlink" href="#push-ertesitesek" title="Permanent link">&para;</a></h2>
 <p>Adjuk hozzá a projektünkhöz a <em>Firebase Messaging</em> függőséget:</p>
-<p><code>libs.versions.toml</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="k">[libraries]</span>
-<span class="n">firebase-messaging</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.google.firebase&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;firebase-messaging-ktx&quot;</span><span class="w"> </span><span class="p">}</span>
-</code></pre></div>
-<p>modul szintű <code>build.gradle.kts</code>:</p>
-<div class="highlight"><pre><span></span><code>dependencies {
-    ...
-    implementation(libs.firebase.messaging)
-}
+<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-messaging-ktx&quot;</span><span class="o">)</span>
 </code></pre></div>
 <p>Csupán ennyi elegendő a push alapvető működéséhez, ha így újrafordítjuk az alkalmazást, a Firebase felületéről vagy API-jával küldött push üzeneteket automatikusan megkapják a mobil kliensek és egy <em>Notification</em>-ben megjelenítik.</p>
 <p>Próbáljuk ki a push küldést a <em>Firebase console</em>-ról (<em>Cloud messaging menüpont</em> alatt <em>Send your first message</em>), és vizsgáljuk meg, hogyan érkezik meg telefonra, <strong>ha nem fut az alkalmazás</strong>. (Amikor fut az alkalmazás, akkor tőlünk várja az üzenet lekezelését az API.)
@@ -1339,35 +1311,14 @@ válasszuk ki az alkalmazást, hogy minden futó példány megkapja az üzenetet
 <p>A Firebase Console-on először navigáljunk a Crashlytics menüpontra, és kapcsoljuk be a funkciót. Válasszuk az új Firebase alkalmazás integrációját.</p>
 <p>Adjuk hozzá a projekthez a függőségeket: </p>
 <p><code>libs.versions.toml</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="k">[versions]</span>
-<span class="n">crashlytics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;3.0.2&quot;</span>
-<span class="p">...</span>
-<span class="k">[libraries]</span>
-<span class="n">firebase-crashlytics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.google.firebase&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;firebase-crashlytics-ktx&quot;</span><span class="w"> </span><span class="p">}</span>
-<span class="n">firebase-analytics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.google.firebase&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;firebase-analytics-ktx&quot;</span><span class="w"> </span><span class="p">}</span>
-<span class="p">...</span>
-<span class="k">[plugins]</span>
-<span class="n">google-firebase-crashlytics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.google.firebase.crashlytics&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;crashlytics&quot;</span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="n">id</span><span class="o">(</span><span class="s2">&quot;com.google.firebase.crashlytics&quot;</span><span class="o">)</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s2">&quot;3.0.2&quot;</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
 </code></pre></div>
-<p>A projekt szintű <code>build.gradle.kts</code> fájlban fel kell vennünk függőségként egy plugint:</p>
-<p>projekt szintű <code>build.gradle.kts</code>:</p>
-<div class="highlight"><pre><span></span><code>plugins {
-    alias(libs.plugins.google.firebase.crashlytics) apply false
-    ...
-}
+<p>Ezekkel a módosításokkal egy Gradle plugint adtunk hozzá a projektünkhöz, amit a modul szintű <code>build.gradle</code> fájl elején be kell kapcsolnunk a már meglévők után:</p>
+<div class="highlight"><pre><span></span><code><span class="n">id</span><span class="o">(</span><span class="s2">&quot;com.google.firebase.crashlytics&quot;</span><span class="o">)</span>
 </code></pre></div>
-<p>Majd a modul szintű <code>build.gradle.kts</code> fájlban be is kell kapcsolnunk a <em>plugint</em>, valamint fel kell vennünk a szükséges függőségeket:</p>
-<p>modul szintű <code>build.gradle.kts</code>:</p>
-<div class="highlight"><pre><span></span><code>plugins {
-    alias(libs.plugins.google.firebase.crashlytics)
-    ...
-}
-...
-dependencies {
-    ...
-    implementation(libs.firebase.crashlytics)
-    implementation(libs.firebase.analytics)
-}
+<p>Végül pedig szükségünk van két egyszerű Gradle függőségre is, amit a meglévő Firebase függőségek mellé helyezhetünk, a modul szintű <code>build.gradle</code> fájlban:</p>
+<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-crashlytics-ktx&quot;</span><span class="o">)</span>
+<span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-analytics-ktx&quot;</span><span class="o">)</span>
 </code></pre></div>
 <p align="center">
 <a class="glightbox" href="./assets/firebase_crash.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_crash.png"></a>
@@ -1443,8 +1394,8 @@ ugyanezen menüpont alatt lesznek elérhetők.</p>
           </path>
         </svg>
       </span>
-      <span title="2024. október 30. 23:50:40">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-10-30T23:50:40+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-10-30</span>
+      <span title="2024. október 31. 12:17:44">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-10-31T12:17:44+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-10-31</span>
       </span>
     </span>
 
@@ -1461,10 +1412,10 @@ ugyanezen menüpont alatt lesznek elérhetők.</p>
       <span>Szerzők</span>
       <nav><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
           <img src="https://avatars.githubusercontent.com/u/23335752?v=4?size=72" alt="@gazdilaci">
-        </a><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
-          <img src="https://avatars.githubusercontent.com/u/8405234?v=4?size=72" alt="@danim1130">
         </a><a href="https://github.com/web-flow" target="_blank" rel="noopener noreferrer" class="md-author" title="@web-flow">
           <img src="https://avatars.githubusercontent.com/u/19864447?v=4?size=72" alt="@web-flow">
+        </a><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
+          <img src="https://avatars.githubusercontent.com/u/8405234?v=4?size=72" alt="@danim1130">
         </a></nav>      
     </span>
   </div>

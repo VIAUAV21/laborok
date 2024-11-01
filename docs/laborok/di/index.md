@@ -34,10 +34,28 @@ Ellenőrízzük, hogy a létrejött projekt lefordul és helyesen működik!
 
 A Dagger/Hilt feladata tehát az lesz, hogy az alkalmazásunk egymástól függő komponenseit lazábban csatolt módon köti össze. A gyakorlatban ez azt jelenti, hogy ha egy bizonyos típusú függőségre van szükségünk, és az adott függőség meg van jelölve mint injektálandó függőség, akkor a könyvtárak el fogják végezni nekünk az adott függőség megkeresését és beállítását. Ez történhet például egy konstruktornak történő paraméterátadáson keresztül. Ennek előnye, hogy ha egy komponenst lecserélünk - például ahogyan a Firebase laboron lecseréltük a memóriabeli implementációkat éles, Firebase-ben működőkre - akkor nem szükséges a kódunkat módosítani, csupán meg kell adni a Daggernek/Hiltnek, hogy az elérhető implementációk közül melyik legyen az, amelyiket szükség esetén alkalmazza.
 
-Többféle függőséginjektáló keretrendszer létezik Androidon, és az Android platformon kívül is, ezek némileg más elveken működnek. A Dagger a legjobb teljesítmény érdekében úgy működik, hogy nem futás közben oldja fel a függőségeket, hanem a fordítási folyamatba avatkozik bele, és már aközben feltérképezi a függőségi viszonyok jelölésére alkalmazott annotációkat. Ezért a projekt inicializálásának részeként szükséges felvennünk egy gradle plugint is a folyamatba. Először a projekt szintű `build.gradle.kts` fájlba vegyük fel a a következő sort a pluginek közé:
+Többféle függőséginjektáló keretrendszer létezik Androidon, és az Android platformon kívül is, ezek némileg más elveken működnek. A Dagger a legjobb teljesítmény érdekében úgy működik, hogy nem futás közben oldja fel a függőségeket, hanem a fordítási folyamatba avatkozik bele, és már aközben feltérképezi a függőségi viszonyok jelölésére alkalmazott annotációkat. Ezért a projekt inicializálásának részeként szükséges felvennünk egy gradle plugint is a folyamatba.
+
+Először a `libs.versions.toml` fájlunkba vegyük fel az új függőségekhez kapcsolódó bejegyzéseket:
+
+```
+[versions]
+hilt = "2.51.1"
+hilt-navigation-compose = "1.2.0"
+
+[libraries]
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose"}
+
+[plugins]
+google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
+```
+
+Majd a projekt szintű `build.gradle.kts` fájlba vegyük fel a a következő sort a pluginek közé:
 
 ```kotlin
-id("com.google.dagger.hilt.android") version "2.51.1" apply false
+alias(libs.plugins.google.dagger.hilt.android) apply false
 ```
 
 Majd a modul szintű `build.gradle` fájlban alkalmazzuk a plugint:
@@ -46,26 +64,17 @@ Majd a modul szintű `build.gradle` fájlban alkalmazzuk a plugint:
 plugins {
     ...
 
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.google.dagger.hilt.android)
 }
 ```
 
-És a kapthoz kapcsoljuk is be a hibás típusok korrekcióját:
-
-```kotlin
-kapt {
-    correctErrorTypes = true
-}
-```
-
-És vegyünk fel még két függőséget, majd szinkronizáljuk a projektet:
+És vegyük még fel a szükséges függőségeket, majd szinkronizáljuk a projektet:
 
 ```kotlin
 // Hilt
-val hiltVersion = "2.51.1"
-implementation("com.google.dagger:hilt-android:$hiltVersion")
-kapt("com.google.dagger:hilt-compiler:$hiltVersion")
-implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+implementation(libs.hilt.android)
+implementation(libs.hilt.navigation.compose)
+ksp(libs.hilt.compiler)
 ```
 
 Ezzel a build folyamat és a függőségek rendben vannak. Most globálisan, az alkalmazás szintjén inicializálnunk kell a Daggert, hogy létrejöjjön egy kontextus, amelyben a függőségeket menedzseli. Ehhez a `TodoApplication` osztályra tegyük rá a `@HiltAndroidApp` annotációt:
@@ -763,14 +772,30 @@ A unittesztek esetén fontos kihívás, hogy a függőségeket izoláljuk, levá
 
 Az alkalmazásban nincsenek túl bonyolult üzleti logika részek, de a tesztelés technikáját jól meg tudjuk figyelni. Most a `TodoRepositoryImpl` osztályt fogjuk tesztelni. Konvenció szerint osztályokhoz készítünk tesztosztályokat, és a tesztosztályokban minden tesztelt metódus egy lehetséges lefutásához készítünk egy tesztmetódust. A tesztosztályokat a tesztelt osztályokkal azonos package-be tesszük, és nevükben a `Test` utótagot használjuk.
 
-Először fel kell vennünk a teszteléshez használandó függőségeket a projektbe! Mivel a kapott vázban eddig nem voltak tesztek, így ezek a függőségek teljesen hiányoztak. A lokális tesztekhez a `testImplementation` scope-ot kell használnunk. Vegyük fel az alábbi függőségeket, és szinkronizáljuk a projektet:
+Először fel kell vennünk a teszteléshez használandó függőségeket a projektbe! Mivel a kapott vázban eddig nem voltak tesztek, így ezek a függőségek teljesen hiányoztak. A lokális tesztekhez a `testImplementation` scope-ot kell használnunk. Vegyük fel az alábbi függőségeket, először a `libs.versions.toml` fájllal kezdve:
+
+```
+[versions]
+junit = "4.13.2"
+mockitoCore = "5.11.0"
+mockitoInline = "5.2.0"
+mockitoKotlin = "5.2.1"
+
+[libraries]
+junit = { module = "junit:junit", version.ref = "junit" }
+mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
+```
+
+Majd folytassuk a modulszintű `build.gradle.kts` fájllal:
 
 ```kotlin
 // Testing
-testImplementation("junit:junit:4.13.2")
-testImplementation("org.mockito:mockito-core:5.11.0")
-testImplementation("org.mockito:mockito-inline:5.2.0")
-testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
+testImplementation(libs.junit)
+testImplementation(libs.mockito.core)
+testImplementation(libs.mockito.inline)
+testImplementation(libs.mockito.kotlin)
 ```
 
 Hozzuk létre a `data.datasource` package-et ezért a `test` könyvtárban is! A lokális tesztek a `test` könyvtárban vannak, az `androidTest` könyvtár pedig az instrumentált tesztek helye.
@@ -778,6 +803,25 @@ Hozzuk létre a `data.datasource` package-et ezért a `test` könyvtárban is! A
 A létrehozott package-ben hozzunk létre egy `TodoRepositoryImplTest` osztályt az alábbi módon:
 
 ```kotlin
+package hu.bme.aut.android.todo.data.datasource
+
+import hu.bme.aut.android.todo.data.dao.TodoDao
+import hu.bme.aut.android.todo.data.entities.TodoEntity
+import hu.bme.aut.android.todo.domain.model.Priority
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.runBlocking
+import kotlinx.datetime.LocalDate
+import org.junit.Assert
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.junit.MockitoJUnitRunner
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.times
+import org.mockito.kotlin.verify
+
 @RunWith(MockitoJUnitRunner::class)
 class TodoRepositoryImplTest {
 
@@ -824,18 +868,38 @@ Bonyolultabb teszteket sem lehetetlen lokális tesztként futtatni, de a függő
 
 Az instrumentált teszteket az `androidTest` könyvtárban lehet létrehozni. Mivel ezek nagyobb léptékű tesztek is lehetnek, nem feltétlen tartoznak logikailag egy komponenshez. Amennyiben azonban odatartoznak, javasolt ezeket is azonos package-be tenni és a lokális tesztekéhez hasonló elnevezési konvenció szerint elnevezni.
 
-Először itt is a függőségek felvételével kezdünk:
+Először itt is a függőségek felvételével kezdünk, a `libs.versions.toml` fájllal:
+
+```
+[versions]
+espressoCore = "3.6.1"
+hiltAndroidTesting = "2.51.1"
+hiltAndroidCompiler = "2.51.1"
+junitVersion = "1.2.1"
+
+
+[libraries]
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
+androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTesting" }
+```
+
+Majd hivatkozzuk is meg ezeket a modulszintű `build.gradle.kts` fájlban:
 
 ```kotlin
-androidTestImplementation("androidx.test.ext:junit:1.1.5")
-androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-debugImplementation("androidx.compose.ui:ui-tooling")
-debugImplementation("androidx.compose.ui:ui-test-manifest")
+// Instrumented testing
+androidTestImplementation(libs.androidx.junit)
+androidTestImplementation(libs.androidx.espresso.core)
+androidTestImplementation(libs.androidx.ui.test.junit4)
+debugImplementation(libs.androidx.ui.tooling)
+debugImplementation(libs.androidx.ui.test.manifest)
 
 // Hilt for testing
-androidTestImplementation("com.google.dagger:hilt-android-testing:$hiltVersion")
-kaptAndroidTest("com.google.dagger:hilt-android-compiler:$hiltVersion")
+androidTestImplementation(libs.hilt.android.testing)
+kspAndroidTest(libs.hilt.android.compiler)
 ```
 
 A példánkban azt fogjuk tesztelni, hogy ha új teendő létrehozásánál a dátumválasztó ikonjára kattintunk, akkor valóban előugrik a dátumválasztó komponens. Mielőtt a tényleges tesztet megírjuk, gondoskodnunk kell róla, hogy a tesztből majd a felhasználói felületen a dátumválasztó ikonját meg tudjuk hivatkozni. Ha lenne rajta megjelenített szöveg, a tesztből ez alapján is lehetne hivatkozni, de jelen esetben csak egy ikonról van szó. Úgy tudjuk azonosíthatóvá tenni, hogy a `Modifierén` keresztül egy test taggel látjuk el. Módosítsuk eszerint a `TodoEditor` osztályban a `DatePicker` komponens hívását:
@@ -857,6 +921,21 @@ Most már elkészíthetjük a tesztet! Mivel a teszt a `CreateTodoScreen` osztá
 Majd készítsük el a `CreateTodoScreenTest` osztályunkat:
 
 ```kotlin
+package hu.bme.aut.android.todo.feature.todo_create
+
+import androidx.activity.compose.setContent
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsNotDisplayed
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import hu.bme.aut.android.todo.MainActivity
+import org.junit.Rule
+import org.junit.Test
+
 class CreateTodoScreenTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
@@ -866,9 +945,9 @@ class CreateTodoScreenTest {
     fun testDatePickerDialogIsShownWhenClickedOnDatePickerIcon() {
         composeTestRule.activity.setContent {
             CreateTodoScreen(
-                onNavigateBack = {  })
+                onNavigateBack = { })
         }
-        
+
         composeTestRule.onNodeWithText("Select date").assertIsNotDisplayed()
 
         composeTestRule.onNode(hasTestTag("datePickerIcon")).performClick()

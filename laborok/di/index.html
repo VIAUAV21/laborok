@@ -963,27 +963,35 @@
 <p>Ellenőrízzük, hogy a létrejött projekt lefordul és helyesen működik!</p>
 <h2 id="a-dagger-es-a-hilt-inicializalasa">A Dagger és a Hilt inicializálása<a class="headerlink" href="#a-dagger-es-a-hilt-inicializalasa" title="Permanent link">&para;</a></h2>
 <p>A Dagger/Hilt feladata tehát az lesz, hogy az alkalmazásunk egymástól függő komponenseit lazábban csatolt módon köti össze. A gyakorlatban ez azt jelenti, hogy ha egy bizonyos típusú függőségre van szükségünk, és az adott függőség meg van jelölve mint injektálandó függőség, akkor a könyvtárak el fogják végezni nekünk az adott függőség megkeresését és beállítását. Ez történhet például egy konstruktornak történő paraméterátadáson keresztül. Ennek előnye, hogy ha egy komponenst lecserélünk - például ahogyan a Firebase laboron lecseréltük a memóriabeli implementációkat éles, Firebase-ben működőkre - akkor nem szükséges a kódunkat módosítani, csupán meg kell adni a Daggernek/Hiltnek, hogy az elérhető implementációk közül melyik legyen az, amelyiket szükség esetén alkalmazza.</p>
-<p>Többféle függőséginjektáló keretrendszer létezik Androidon, és az Android platformon kívül is, ezek némileg más elveken működnek. A Dagger a legjobb teljesítmény érdekében úgy működik, hogy nem futás közben oldja fel a függőségeket, hanem a fordítási folyamatba avatkozik bele, és már aközben feltérképezi a függőségi viszonyok jelölésére alkalmazott annotációkat. Ezért a projekt inicializálásának részeként szükséges felvennünk egy gradle plugint is a folyamatba. Először a projekt szintű <code>build.gradle.kts</code> fájlba vegyük fel a a következő sort a pluginek közé:</p>
-<div class="highlight"><pre><span></span><code><span class="n">id</span><span class="p">(</span><span class="s">&quot;com.google.dagger.hilt.android&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s">&quot;2.51.1&quot;</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
+<p>Többféle függőséginjektáló keretrendszer létezik Androidon, és az Android platformon kívül is, ezek némileg más elveken működnek. A Dagger a legjobb teljesítmény érdekében úgy működik, hogy nem futás közben oldja fel a függőségeket, hanem a fordítási folyamatba avatkozik bele, és már aközben feltérképezi a függőségi viszonyok jelölésére alkalmazott annotációkat. Ezért a projekt inicializálásának részeként szükséges felvennünk egy gradle plugint is a folyamatba.</p>
+<p>Először a <code>libs.versions.toml</code> fájlunkba vegyük fel az új függőségekhez kapcsolódó bejegyzéseket:</p>
+<div class="highlight"><pre><span></span><code>[versions]
+hilt = &quot;2.51.1&quot;
+hilt-navigation-compose = &quot;1.2.0&quot;
+
+[libraries]
+hilt-android = { module = &quot;com.google.dagger:hilt-android&quot;, version.ref = &quot;hilt&quot; }
+hilt-compiler = { module = &quot;com.google.dagger:hilt-compiler&quot;, version.ref = &quot;hilt&quot; }
+hilt-navigation-compose = { module = &quot;androidx.hilt:hilt-navigation-compose&quot;, version.ref = &quot;hilt-navigation-compose&quot;}
+
+[plugins]
+google-dagger-hilt-android = { id = &quot;com.google.dagger.hilt.android&quot;, version.ref = &quot;hilt&quot;}
+</code></pre></div>
+<p>Majd a projekt szintű <code>build.gradle.kts</code> fájlba vegyük fel a a következő sort a pluginek közé:</p>
+<div class="highlight"><pre><span></span><code><span class="n">alias</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">plugins</span><span class="p">.</span><span class="na">google</span><span class="p">.</span><span class="na">dagger</span><span class="p">.</span><span class="na">hilt</span><span class="p">.</span><span class="na">android</span><span class="p">)</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
 </code></pre></div>
 <p>Majd a modul szintű <code>build.gradle</code> fájlban alkalmazzuk a plugint:</p>
 <div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="p">...</span>
 
-<span class="w">    </span><span class="n">id</span><span class="p">(</span><span class="s">&quot;com.google.dagger.hilt.android&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">alias</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">plugins</span><span class="p">.</span><span class="na">google</span><span class="p">.</span><span class="na">dagger</span><span class="p">.</span><span class="na">hilt</span><span class="p">.</span><span class="na">android</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>És a kapthoz kapcsoljuk is be a hibás típusok korrekcióját:</p>
-<div class="highlight"><pre><span></span><code><span class="n">kapt</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">correctErrorTypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>És vegyünk fel még két függőséget, majd szinkronizáljuk a projektet:</p>
+<p>És vegyük még fel a szükséges függőségeket, majd szinkronizáljuk a projektet:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// Hilt</span>
-<span class="kd">val</span><span class="w"> </span><span class="nv">hiltVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.51.1&quot;</span>
-<span class="n">implementation</span><span class="p">(</span><span class="s">&quot;com.google.dagger:hilt-android:</span><span class="si">$</span><span class="n">hiltVersion</span><span class="s">&quot;</span><span class="p">)</span>
-<span class="n">kapt</span><span class="p">(</span><span class="s">&quot;com.google.dagger:hilt-compiler:</span><span class="si">$</span><span class="n">hiltVersion</span><span class="s">&quot;</span><span class="p">)</span>
-<span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.hilt:hilt-navigation-compose:1.2.0&quot;</span><span class="p">)</span>
+<span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">hilt</span><span class="p">.</span><span class="na">android</span><span class="p">)</span>
+<span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">hilt</span><span class="p">.</span><span class="na">navigation</span><span class="p">.</span><span class="na">compose</span><span class="p">)</span>
+<span class="n">ksp</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">hilt</span><span class="p">.</span><span class="na">compiler</span><span class="p">)</span>
 </code></pre></div>
 <p>Ezzel a build folyamat és a függőségek rendben vannak. Most globálisan, az alkalmazás szintjén inicializálnunk kell a Daggert, hogy létrejöjjön egy kontextus, amelyben a függőségeket menedzseli. Ehhez a <code>TodoApplication</code> osztályra tegyük rá a <code>@HiltAndroidApp</code> annotációt:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltAndroidApp</span>
@@ -1611,16 +1619,48 @@ a <code>data.di</code> package-be:</p>
 </ul>
 <p>A unittesztek esetén fontos kihívás, hogy a függőségeket izoláljuk, leválasszuk, hiszen ha azok is meghívódnának, akkor nem unittesztről beszélnénk, hanem integrációs tesztről, és a fenti előnyök nem teljesülnének. Különösen az az előny veszne el, hogy a teszt jól mutatja a hiba helyét. Ezért a tesztekben a függőségeket valamilyen <em>test double</em> objektummal, tipikusan <em>mock</em> objektummal cseréljük le. A mock objektum egy "buta", de "felprogramozható" komponens, ami éppen csak annyit csinál, amit a teszt idejére elvárunk tőle, azaz tipikusan valamilyen beégetett adatot ad vissza. Ezen kívül a segítségével ellenőrizhető az is, hogy a lecserélt függőségen a tesztelt kódrészlet tényleg elvégezte a várt hívást.</p>
 <p>Az alkalmazásban nincsenek túl bonyolult üzleti logika részek, de a tesztelés technikáját jól meg tudjuk figyelni. Most a <code>TodoRepositoryImpl</code> osztályt fogjuk tesztelni. Konvenció szerint osztályokhoz készítünk tesztosztályokat, és a tesztosztályokban minden tesztelt metódus egy lehetséges lefutásához készítünk egy tesztmetódust. A tesztosztályokat a tesztelt osztályokkal azonos package-be tesszük, és nevükben a <code>Test</code> utótagot használjuk.</p>
-<p>Először fel kell vennünk a teszteléshez használandó függőségeket a projektbe! Mivel a kapott vázban eddig nem voltak tesztek, így ezek a függőségek teljesen hiányoztak. A lokális tesztekhez a <code>testImplementation</code> scope-ot kell használnunk. Vegyük fel az alábbi függőségeket, és szinkronizáljuk a projektet:</p>
+<p>Először fel kell vennünk a teszteléshez használandó függőségeket a projektbe! Mivel a kapott vázban eddig nem voltak tesztek, így ezek a függőségek teljesen hiányoztak. A lokális tesztekhez a <code>testImplementation</code> scope-ot kell használnunk. Vegyük fel az alábbi függőségeket, először a <code>libs.versions.toml</code> fájllal kezdve:</p>
+<div class="highlight"><pre><span></span><code>[versions]
+junit = &quot;4.13.2&quot;
+mockitoCore = &quot;5.11.0&quot;
+mockitoInline = &quot;5.2.0&quot;
+mockitoKotlin = &quot;5.2.1&quot;
+
+[libraries]
+junit = { module = &quot;junit:junit&quot;, version.ref = &quot;junit&quot; }
+mockito-inline = { module = &quot;org.mockito:mockito-inline&quot;, version.ref = &quot;mockitoInline&quot; }
+mockito-core = { module = &quot;org.mockito:mockito-core&quot;, version.ref = &quot;mockitoCore&quot; }
+mockito-kotlin = { module = &quot;org.mockito.kotlin:mockito-kotlin&quot;, version.ref = &quot;mockitoKotlin&quot; }
+</code></pre></div>
+<p>Majd folytassuk a modulszintű <code>build.gradle.kts</code> fájllal:</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// Testing</span>
-<span class="n">testImplementation</span><span class="p">(</span><span class="s">&quot;junit:junit:4.13.2&quot;</span><span class="p">)</span>
-<span class="n">testImplementation</span><span class="p">(</span><span class="s">&quot;org.mockito:mockito-core:5.11.0&quot;</span><span class="p">)</span>
-<span class="n">testImplementation</span><span class="p">(</span><span class="s">&quot;org.mockito:mockito-inline:5.2.0&quot;</span><span class="p">)</span>
-<span class="n">testImplementation</span><span class="p">(</span><span class="s">&quot;org.mockito.kotlin:mockito-kotlin:5.2.1&quot;</span><span class="p">)</span>
+<span class="n">testImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">junit</span><span class="p">)</span>
+<span class="n">testImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">mockito</span><span class="p">.</span><span class="na">core</span><span class="p">)</span>
+<span class="n">testImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">mockito</span><span class="p">.</span><span class="na">inline</span><span class="p">)</span>
+<span class="n">testImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">mockito</span><span class="p">.</span><span class="na">kotlin</span><span class="p">)</span>
 </code></pre></div>
 <p>Hozzuk létre a <code>data.datasource</code> package-et ezért a <code>test</code> könyvtárban is! A lokális tesztek a <code>test</code> könyvtárban vannak, az <code>androidTest</code> könyvtár pedig az instrumentált tesztek helye.</p>
 <p>A létrehozott package-ben hozzunk létre egy <code>TodoRepositoryImplTest</code> osztályt az alábbi módon:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@RunWith</span><span class="p">(</span><span class="n">MockitoJUnitRunner</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.datasource</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.dao.TodoDao</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.entities.TodoEntity</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.model.Priority</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.first</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.flowOf</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.runBlocking</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.datetime.LocalDate</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.junit.Assert</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.junit.Test</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.junit.runner.RunWith</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.mockito.Mock</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.mockito.junit.MockitoJUnitRunner</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.mockito.kotlin.doReturn</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.mockito.kotlin.mock</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.mockito.kotlin.times</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.mockito.kotlin.verify</span>
+
+<span class="nd">@RunWith</span><span class="p">(</span><span class="n">MockitoJUnitRunner</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">TodoRepositoryImplTest</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="nd">@Mock</span>
@@ -1659,16 +1699,33 @@ a <code>data.di</code> package-be:</p>
 <h3 id="instrumentalt-tesztek-futtatasa">Instrumentált tesztek futtatása<a class="headerlink" href="#instrumentalt-tesztek-futtatasa" title="Permanent link">&para;</a></h3>
 <p>Bonyolultabb teszteket sem lehetetlen lokális tesztként futtatni, de a függőségek szövevényessége miatt ez egy jóval bonyolultabb feladat lenne. Praktikusabb ezért ha összetettebb folyamatok teszteléséhez az emulátort is segítségül hívjuk. Ilyen például a Compose segítségével készített UI tesztelése. Az Android által biztosított eszközökkel létre tudjuk hozni a komponenseinket egy emulált környezetben, és a teszt kódjából interakciókat is ki tudunk váltani (pl. írjunk be szöveget egy mezőbe, kattintsunk egy gombon stb.). Ez a fajta tesztelés láthatóan jóval közelebb áll ahhoz a módhoz, ahogyan az alkalmazás majd ténylegesen futni fog. Logikusan belétható ugyanakkor az is, hogy ezek a tesztek jóval bonyolultabbak, és lassabban is fognak futni.</p>
 <p>Az instrumentált teszteket az <code>androidTest</code> könyvtárban lehet létrehozni. Mivel ezek nagyobb léptékű tesztek is lehetnek, nem feltétlen tartoznak logikailag egy komponenshez. Amennyiben azonban odatartoznak, javasolt ezeket is azonos package-be tenni és a lokális tesztekéhez hasonló elnevezési konvenció szerint elnevezni.</p>
-<p>Először itt is a függőségek felvételével kezdünk:</p>
-<div class="highlight"><pre><span></span><code><span class="n">androidTestImplementation</span><span class="p">(</span><span class="s">&quot;androidx.test.ext:junit:1.1.5&quot;</span><span class="p">)</span>
-<span class="n">androidTestImplementation</span><span class="p">(</span><span class="s">&quot;androidx.test.espresso:espresso-core:3.5.1&quot;</span><span class="p">)</span>
-<span class="n">androidTestImplementation</span><span class="p">(</span><span class="s">&quot;androidx.compose.ui:ui-test-junit4&quot;</span><span class="p">)</span>
-<span class="n">debugImplementation</span><span class="p">(</span><span class="s">&quot;androidx.compose.ui:ui-tooling&quot;</span><span class="p">)</span>
-<span class="n">debugImplementation</span><span class="p">(</span><span class="s">&quot;androidx.compose.ui:ui-test-manifest&quot;</span><span class="p">)</span>
+<p>Először itt is a függőségek felvételével kezdünk, a <code>libs.versions.toml</code> fájllal:</p>
+<div class="highlight"><pre><span></span><code>[versions]
+espressoCore = &quot;3.6.1&quot;
+hiltAndroidTesting = &quot;2.51.1&quot;
+hiltAndroidCompiler = &quot;2.51.1&quot;
+junitVersion = &quot;1.2.1&quot;
+
+
+[libraries]
+androidx-espresso-core = { module = &quot;androidx.test.espresso:espresso-core&quot;, version.ref = &quot;espressoCore&quot; }
+androidx-junit = { module = &quot;androidx.test.ext:junit&quot;, version.ref = &quot;junitVersion&quot; }
+androidx-ui-test-junit4 = { module = &quot;androidx.compose.ui:ui-test-junit4&quot; }
+androidx-ui-test-manifest = { module = &quot;androidx.compose.ui:ui-test-manifest&quot; }
+androidx-ui-tooling = { module = &quot;androidx.compose.ui:ui-tooling&quot; }
+hilt-android-testing = { module = &quot;com.google.dagger:hilt-android-testing&quot;, version.ref = &quot;hiltAndroidTesting&quot; }
+</code></pre></div>
+<p>Majd hivatkozzuk is meg ezeket a modulszintű <code>build.gradle.kts</code> fájlban:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Instrumented testing</span>
+<span class="n">androidTestImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">junit</span><span class="p">)</span>
+<span class="n">androidTestImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">espresso</span><span class="p">.</span><span class="na">core</span><span class="p">)</span>
+<span class="n">androidTestImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">ui</span><span class="p">.</span><span class="na">test</span><span class="p">.</span><span class="na">junit4</span><span class="p">)</span>
+<span class="n">debugImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">ui</span><span class="p">.</span><span class="na">tooling</span><span class="p">)</span>
+<span class="n">debugImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">ui</span><span class="p">.</span><span class="na">test</span><span class="p">.</span><span class="na">manifest</span><span class="p">)</span>
 
 <span class="c1">// Hilt for testing</span>
-<span class="n">androidTestImplementation</span><span class="p">(</span><span class="s">&quot;com.google.dagger:hilt-android-testing:</span><span class="si">$</span><span class="n">hiltVersion</span><span class="s">&quot;</span><span class="p">)</span>
-<span class="n">kaptAndroidTest</span><span class="p">(</span><span class="s">&quot;com.google.dagger:hilt-android-compiler:</span><span class="si">$</span><span class="n">hiltVersion</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">androidTestImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">hilt</span><span class="p">.</span><span class="na">android</span><span class="p">.</span><span class="na">testing</span><span class="p">)</span>
+<span class="n">kspAndroidTest</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">hilt</span><span class="p">.</span><span class="na">android</span><span class="p">.</span><span class="na">compiler</span><span class="p">)</span>
 </code></pre></div>
 <p>A példánkban azt fogjuk tesztelni, hogy ha új teendő létrehozásánál a dátumválasztó ikonjára kattintunk, akkor valóban előugrik a dátumválasztó komponens. Mielőtt a tényleges tesztet megírjuk, gondoskodnunk kell róla, hogy a tesztből majd a felhasználói felületen a dátumválasztó ikonját meg tudjuk hivatkozni. Ha lenne rajta megjelenített szöveg, a tesztből ez alapján is lehetne hivatkozni, de jelen esetben csak egy ikonról van szó. Úgy tudjuk azonosíthatóvá tenni, hogy a <code>Modifierén</code> keresztül egy test taggel látjuk el. Módosítsuk eszerint a <code>TodoEditor</code> osztályban a <code>DatePicker</code> komponens hívását:</p>
 <div class="highlight"><pre><span></span><code><span class="n">DatePicker</span><span class="p">(</span>
@@ -1683,7 +1740,22 @@ a <code>data.di</code> package-be:</p>
 </code></pre></div>
 <p>Most már elkészíthetjük a tesztet! Mivel a teszt a <code>CreateTodoScreen</code> osztályhoz köthető, ez pedig a <code>feature.todo_create</code> package-ben van, először hozzuk létre ezt a package-et az <code>androidTest</code> mappában is.</p>
 <p>Majd készítsük el a <code>CreateTodoScreenTest</code> osztályunkat:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">CreateTodoScreenTest</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.feature.todo_create</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.compose.setContent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ExperimentalMaterial3Api</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.ExperimentalComposeUiApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.test.assertIsDisplayed</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.test.assertIsNotDisplayed</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.test.hasTestTag</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.test.junit4.createAndroidComposeRule</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.test.onNodeWithText</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.test.performClick</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.MainActivity</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.junit.Rule</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.junit.Test</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">CreateTodoScreenTest</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nd">@get</span><span class="p">:</span><span class="n">Rule</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">composeTestRule</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createAndroidComposeRule</span><span class="o">&lt;</span><span class="n">MainActivity</span><span class="o">&gt;</span><span class="p">()</span>
 
@@ -1692,7 +1764,7 @@ a <code>data.di</code> package-be:</p>
 <span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">testDatePickerDialogIsShownWhenClickedOnDatePickerIcon</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">composeTestRule</span><span class="p">.</span><span class="na">activity</span><span class="p">.</span><span class="na">setContent</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">CreateTodoScreen</span><span class="p">(</span>
-<span class="w">                </span><span class="n">onNavigateBack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="p">})</span>
+<span class="w">                </span><span class="n">onNavigateBack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">})</span>
 <span class="w">        </span><span class="p">}</span>
 
 <span class="w">        </span><span class="n">composeTestRule</span><span class="p">.</span><span class="na">onNodeWithText</span><span class="p">(</span><span class="s">&quot;Select date&quot;</span><span class="p">).</span><span class="na">assertIsNotDisplayed</span><span class="p">()</span>
@@ -1747,8 +1819,8 @@ a <code>data.di</code> package-be:</p>
           </path>
         </svg>
       </span>
-      <span title="2024. április 21. 11:36:39">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-04-21T11:36:39+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-04-21</span>
+      <span title="2024. november 1. 10:04:53">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-11-01T10:04:53+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-11-01</span>
       </span>
     </span>
 

@@ -72,17 +72,23 @@ Tekintsük át a laborvezetővel a meglévő kódot!
 
 A Retrofit, Paging és Coil könyvtárak használatához a következő függőségek szükségesek (ezek már szerepelnek a projektben, ne vegyük fel őket újra):
 ```kotlin
-    // Retrofit
-    val retrofit_version = "2.9.0"
-    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
-    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
-    implementation("com.squareup.retrofit2:converter-moshi:$retrofit_version")
+    [versions]
+    retrofit = "2.11.0"
+    paging= "3.3.2"
+    coil = "2.5.0"
+    
+    [libraries]
+    retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+    retrofit-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
+    paging = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
+    coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
-    // Paging 3.0
-    implementation("androidx.paging:paging-compose:3.3.0-alpha02")
-
-    // Coil
-    implementation("io.coil-kt:coil-compose:2.5.0")
+    dependencies {
+        implementation(libs.retrofit)
+        implementation(libs.retrofit.moshi)
+        implementation(libs.paging)
+        implementation(libs.coil)
+    }
 ```
 
 A `data.model` package-be hozzuk létre az alábbi két fájlt, melyek az API használatához szükségesek:
@@ -103,11 +109,11 @@ data class UnsplashPhoto(
 data class UserData(
     val username: String,
     val name: String,
-    @field:Json(name = "total_likes")
+    @Json(name = "total_likes")
     val totalLikes: Int,
-    @field:Json(name = "total_photos")
+    @Json(name = "total_photos")
     val totalPhotos: Int,
-    @field:Json(name = "profile_image") @Embedded
+    @Json(name = "profile_image") @Embedded
     val profileImage: UserProfileImage,
 )
 
@@ -125,12 +131,12 @@ data class Urls(
 
 Az `@Embedded` annotációval megjelelőt mezők osztályainak mezői közvetlenül hivatkozhatók az SQL querykben.  
 
-A `Moshi` automatikusan megoldja majd az egyes tagváltozók szerializálását, kivéve ott, ahol eltér a név. Ezt a `@field:Json` annotációval jelezhetjük.
+A `Moshi` automatikusan megoldja majd az egyes tagváltozók szerializálását, kivéve ott, ahol eltér a név. Ezt a `Json` annotációval jelezhetjük.
 
 `SearchResult.kt`:
 ```kotlin
 data class SearchResult(
-    @field:Json(name = "results") val photos: List<UnsplashPhoto>
+    @Json(name = "results") val photos: List<UnsplashPhoto>
 )
 ```
 
@@ -727,10 +733,10 @@ fun PhotosFeedScreen(
     viewModel: PhotosFeedViewModel = viewModel(factory = PhotosFeedViewModel.Factory)
 ) {
     
-    val state by viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     val photos = state.photos?.collectAsLazyPagingItems()
-    val selectedPhoto = state.photo?.collectAsState(null)
+    val selectedPhoto = state.photo?.collectAsStateWithLifecycle(null)
 
     val configuration = LocalConfiguration.current
     val screenWidth = configuration.screenWidthDp.dp

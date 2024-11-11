@@ -1025,23 +1025,23 @@ A Coil használatának előnyei:  </p>
 </div>
 <h3 id="fuggosegek">Függőségek<a class="headerlink" href="#fuggosegek" title="Permanent link">&para;</a></h3>
 <p>A Retrofit, Paging és Coil könyvtárak használatához a következő függőségek szükségesek (ezek már szerepelnek a projektben, ne vegyük fel őket újra):
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="o">[</span><span class="n">versions</span><span class="o">]</span>
-<span class="w">    </span><span class="n">retrofit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.11.0&quot;</span>
-<span class="w">    </span><span class="n">paging</span><span class="o">=</span><span class="w"> </span><span class="s">&quot;3.3.2&quot;</span>
-<span class="w">    </span><span class="n">coil</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.5.0&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">versions</span><span class="o">]</span>
+<span class="n">retrofit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.11.0&quot;</span>
+<span class="n">paging</span><span class="o">=</span><span class="w"> </span><span class="s">&quot;3.3.2&quot;</span>
+<span class="n">coil</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.5.0&quot;</span>
 
-<span class="w">    </span><span class="o">[</span><span class="n">libraries</span><span class="o">]</span>
-<span class="w">    </span><span class="n">retrofit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.squareup.retrofit2&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;retrofit&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;retrofit&quot;</span><span class="w"> </span><span class="p">}</span>
-<span class="w">    </span><span class="n">retrofit</span><span class="o">-</span><span class="n">moshi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.squareup.retrofit2&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;converter-moshi&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;retrofit&quot;</span><span class="w"> </span><span class="p">}</span>
-<span class="w">    </span><span class="n">paging</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;androidx.paging&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;paging-compose&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;paging&quot;</span><span class="w"> </span><span class="p">}</span>
-<span class="w">    </span><span class="n">coil</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;io.coil-kt&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;coil-compose&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;coil&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="o">[</span><span class="n">libraries</span><span class="o">]</span>
+<span class="n">retrofit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.squareup.retrofit2&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;retrofit&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;retrofit&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">retrofit</span><span class="o">-</span><span class="n">moshi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.squareup.retrofit2&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;converter-moshi&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;retrofit&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">paging</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;androidx.paging&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;paging-compose&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;paging&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">coil</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;io.coil-kt&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;coil-compose&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;coil&quot;</span><span class="w"> </span><span class="p">}</span>
 
-<span class="w">    </span><span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">retrofit</span><span class="p">)</span>
-<span class="w">        </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">retrofit</span><span class="p">.</span><span class="na">moshi</span><span class="p">)</span>
-<span class="w">        </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">paging</span><span class="p">)</span>
-<span class="w">        </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">coil</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">retrofit</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">retrofit</span><span class="p">.</span><span class="na">moshi</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">paging</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">coil</span><span class="p">)</span>
+<span class="p">}</span>
 </code></pre></div></p>
 <p>A <code>data.model</code> package-be hozzuk létre az alábbi két fájlt, melyek az API használatához szükségesek:</p>
 <p><code>UnsplashPhoto.kt</code>:
@@ -1297,7 +1297,7 @@ Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/
 <p>A távoli kulcsok lehetővé teszik, hogy információt menthessünk el a legutóbbi oldalról, amelyet a szerverről kértek le. Az alkalmazás felhasználhatja ezt az információt a következő betöltendő adatoldal azonosításához és kéréséhez.</p>
 <p>A távoli kulcsok olyan kulcsok, amelyeket a RemoteMediator implementáció arra használ, hogy közölje a backend szolgáltatással, melyik adatot kell legközelebb betölteni. A legegyszerűbb esetben minden lapozott adat elemhez tartozik egy távoli kulcs, amelyre könnyen hivatkozhat. Azonban ha a távoli kulcsok nem feleltethetőek meg a konkrét elemeknek, nekünk kell őket kezelni a load hívásban.</p>
 <p>Amikor a távoli kulcsok nem közvetlenül kapcsolódnak a listaelemekhez, célszerű őket külön táblázatban tárolni a helyi adatbázisban. Definiálni kell egy Room entitást, amely egy távoli kulcsokból álló táblázatot reprezentál.</p>
-<p>Hozzuk létre az alábbi osztályt a <code>data.local.model</code> package-ben:</p>
+<p>Hozzuk létre az alábbi osztályt a <code>data.model</code> package-ben:</p>
 <p><code>UnsplashPhotoRemoteKeys.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="nd">@Entity</span><span class="p">(</span><span class="n">tableName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;remote_keys&quot;</span><span class="p">)</span>
 <span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">UnsplashPhotoRemoteKeys</span><span class="p">(</span>
@@ -1435,10 +1435,11 @@ Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/
 <span class="w">            </span><span class="p">.</span><span class="na">connectTimeout</span><span class="p">(</span><span class="m">15</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">SECONDS</span><span class="p">)</span>
 <span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
 
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">moshi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Moshi</span><span class="p">.</span><span class="na">Builder</span><span class="p">().</span><span class="na">addLast</span><span class="p">(</span><span class="n">KotlinJsonAdapterFactory</span><span class="p">()).</span><span class="na">build</span><span class="p">()</span>
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">retrofit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Retrofit</span><span class="p">.</span><span class="na">Builder</span><span class="p">()</span>
 <span class="w">            </span><span class="p">.</span><span class="na">baseUrl</span><span class="p">(</span><span class="s">&quot;https://api.unsplash.com/&quot;</span><span class="p">)</span>
 <span class="w">            </span><span class="p">.</span><span class="na">client</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
-<span class="w">            </span><span class="p">.</span><span class="na">addConverterFactory</span><span class="p">(</span><span class="n">MoshiConverterFactory</span><span class="p">.</span><span class="na">create</span><span class="p">())</span>
+<span class="w">            </span><span class="p">.</span><span class="na">addConverterFactory</span><span class="p">(</span><span class="n">MoshiConverterFactory</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="n">moshi</span><span class="p">))</span>
 <span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
 
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">api</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">retrofit</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="n">UnsplashApi</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">)</span>
@@ -1462,12 +1463,12 @@ Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/
 </div>
 <h2 id="onallo-feladat-1-kulonbozo-kepernyomeretek-tamogatasa">Önálló feladat 1 - Különböző képernyőméretek támogatása<a class="headerlink" href="#onallo-feladat-1-kulonbozo-kepernyomeretek-tamogatasa" title="Permanent link">&para;</a></h2>
 <p>Szeretnénk felkészíteni az alkalmazásunkat, hogy különböző méretű képernyők esetén máshogy, az adott készülék számára optimális módon jelenleg meg.
-Ezzez elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a kategóriáinkra:</p>
+Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a kategóriáinkra:</p>
 <p><code>WindowSize.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">WindowSize</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Compact</span><span class="p">,</span><span class="w"> </span><span class="n">Medium</span><span class="p">,</span><span class="w"> </span><span class="n">Expanded</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div></p>
 <p>Ezt követően hozzuk létre a maradék két elrendezésünket a <code>feature.photos_feed.screensbysize</code> package-ben:</p>
-<p><code>PhotosFeedScreen_Compact.kt</code>:
+<p><code>PhotosFeed_Compact.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@ExperimentalMaterialApi</span>
 <span class="nd">@Composable</span>
@@ -1501,8 +1502,8 @@ Ezzez elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="w">                </span><span class="n">LazyColumn</span><span class="p">(</span>
 <span class="w">                    </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">()</span>
 <span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">items</span><span class="p">(</span><span class="n">photos</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">photo</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">                        </span><span class="n">photo</span><span class="o">?.</span><span class="na">let</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">                    </span><span class="n">items</span><span class="p">(</span><span class="n">photos</span><span class="p">.</span><span class="na">itemCount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">                        </span><span class="n">photos</span><span class="o">[</span><span class="n">index</span><span class="o">]?.</span><span class="na">let</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">-&gt;</span>
 <span class="w">                            </span><span class="n">PhotoItem</span><span class="p">(</span>
 <span class="w">                                </span><span class="n">photo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">,</span>
 <span class="w">                                </span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onPhotoItemClick</span>
@@ -1520,7 +1521,7 @@ Ezzez elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div></p>
-<p><code>PhotosFeedScreen_Expanded.kt</code>:
+<p><code>PhotosFeed_Expanded.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@ExperimentalMaterialApi</span>
 <span class="nd">@Composable</span>
@@ -1559,8 +1560,8 @@ Ezzez elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="w">                        </span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="nb">it</span><span class="p">)</span>
 <span class="w">                        </span><span class="p">.</span><span class="na">weight</span><span class="p">(</span><span class="m">1f</span><span class="p">)</span>
 <span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">items</span><span class="p">(</span><span class="n">photos</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">photo</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">                        </span><span class="n">photo</span><span class="o">?.</span><span class="na">let</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">                    </span><span class="n">items</span><span class="p">(</span><span class="n">photos</span><span class="p">.</span><span class="na">itemCount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">                        </span><span class="n">photos</span><span class="o">[</span><span class="n">index</span><span class="o">]?.</span><span class="na">let</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">-&gt;</span>
 <span class="w">                            </span><span class="n">PhotoItem</span><span class="p">(</span>
 <span class="w">                                </span><span class="n">photo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">,</span>
 <span class="w">                                </span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onPhotoItemClick</span>
@@ -1697,8 +1698,9 @@ Ezzez elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div></p>
-<p>Majd az Activity-t is állítsuk be ezek használatára:</p>
+</code></pre></div>
+Vegyük fel a <code>material3</code> könyvtár mintájára a <code>material3-window-size-class</code> függőséget (link)[<a href="https://developer.android.com/jetpack/androidx/releases/compose-material3">https://developer.android.com/jetpack/androidx/releases/compose-material3</a>]
+Majd az Activity-t is állítsuk be ezek használatára:</p>
 <p><code>MainActivity.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">MainActivity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ComponentActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nd">@OptIn</span><span class="p">(</span>
@@ -1749,8 +1751,8 @@ Alt+Enterrel vegyük fel az annotációra kattintva a hiányző függőséget.</
           </path>
         </svg>
       </span>
-      <span title="2024. november 10. 22:00:32">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-11-10T22:00:32+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-11-10</span>
+      <span title="2024. november 11. 17:19:39">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-11-11T17:19:39+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-11-11</span>
       </span>
     </span>
 

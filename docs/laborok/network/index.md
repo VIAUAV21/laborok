@@ -72,23 +72,23 @@ Tekintsük át a laborvezetővel a meglévő kódot!
 
 A Retrofit, Paging és Coil könyvtárak használatához a következő függőségek szükségesek (ezek már szerepelnek a projektben, ne vegyük fel őket újra):
 ```kotlin
-    [versions]
-    retrofit = "2.11.0"
-    paging= "3.3.2"
-    coil = "2.5.0"
-    
-    [libraries]
-    retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-    retrofit-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
-    paging = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
-    coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+[versions]
+retrofit = "2.11.0"
+paging= "3.3.2"
+coil = "2.5.0"
 
-    dependencies {
-        implementation(libs.retrofit)
-        implementation(libs.retrofit.moshi)
-        implementation(libs.paging)
-        implementation(libs.coil)
-    }
+[libraries]
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
+paging = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
+coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+
+dependencies {
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.moshi)
+    implementation(libs.paging)
+    implementation(libs.coil)
+}
 ```
 
 A `data.model` package-be hozzuk létre az alábbi két fájlt, melyek az API használatához szükségesek:
@@ -390,7 +390,7 @@ A távoli kulcsok olyan kulcsok, amelyeket a RemoteMediator implementáció arra
 
 Amikor a távoli kulcsok nem közvetlenül kapcsolódnak a listaelemekhez, célszerű őket külön táblázatban tárolni a helyi adatbázisban. Definiálni kell egy Room entitást, amely egy távoli kulcsokból álló táblázatot reprezentál.
 
-Hozzuk létre az alábbi osztályt a `data.local.model` package-ben:
+Hozzuk létre az alábbi osztályt a `data.model` package-ben:
 
 `UnsplashPhotoRemoteKeys.kt`:
 ```kotlin
@@ -547,10 +547,11 @@ class UnsplashApplication : Application() {
             .connectTimeout(15, TimeUnit.SECONDS)
             .build()
 
+        val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
         val retrofit = Retrofit.Builder()
             .baseUrl("https://api.unsplash.com/")
             .client(client)
-            .addConverterFactory(MoshiConverterFactory.create())
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
 
         val api = retrofit.create(UnsplashApi::class.java)
@@ -578,7 +579,7 @@ class UnsplashApplication : Application() {
 ## Önálló feladat 1 - Különböző képernyőméretek támogatása
 
 Szeretnénk felkészíteni az alkalmazásunkat, hogy különböző méretű képernyők esetén máshogy, az adott készülék számára optimális módon jelenleg meg.
-Ezzez elsőként a `util` package-ben hozzunk létre egy osztályt a kategóriáinkra:
+Ezzel elsőként a `util` package-ben hozzunk létre egy osztályt a kategóriáinkra:
 
 `WindowSize.kt`:
 ```kotlin
@@ -587,7 +588,7 @@ enum class WindowSize { Compact, Medium, Expanded }
 
 Ezt követően hozzuk létre a maradék két elrendezésünket a `feature.photos_feed.screensbysize` package-ben:
 
-`PhotosFeedScreen_Compact.kt`:
+`PhotosFeed_Compact.kt`:
 ```kotlin
 @ExperimentalMaterial3Api
 @ExperimentalMaterialApi
@@ -622,8 +623,8 @@ fun PhotosFeedScreen_Compact(
                 LazyColumn(
                     modifier = modifier.fillMaxSize()
                 ) {
-                    items(photos) { photo ->
-                        photo?.let { model ->
+                    items(photos.itemCount) { index ->
+                        photos[index]?.let { model ->
                             PhotoItem(
                                 photo = model,
                                 onClick = onPhotoItemClick
@@ -642,7 +643,7 @@ fun PhotosFeedScreen_Compact(
 }
 ```
 
-`PhotosFeedScreen_Expanded.kt`:
+`PhotosFeed_Expanded.kt`:
 ```kotlin
 @ExperimentalMaterial3Api
 @ExperimentalMaterialApi
@@ -682,8 +683,8 @@ fun PhotosFeedScreen_Expanded(
                         .padding(it)
                         .weight(1f)
                 ) {
-                    items(photos) { photo ->
-                        photo?.let { model ->
+                    items(photos.itemCount) { index ->
+                        photos[index]?.let { model ->
                             PhotoItem(
                                 photo = model,
                                 onClick = onPhotoItemClick
@@ -827,7 +828,7 @@ fun NavGraph(
     }
 }
 ```
-
+Vegyük fel a `material3` könyvtár mintájára a `material3-window-size-class` függőséget (link)[https://developer.android.com/jetpack/androidx/releases/compose-material3]
 Majd az Activity-t is állítsuk be ezek használatára:
 
 `MainActivity.kt`:

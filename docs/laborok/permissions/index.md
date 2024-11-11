@@ -40,71 +40,88 @@ Ezután indítsuk el az Android Studio-t, majd:
 Ellenőrízzük, hogy a létrejött projekt lefordul és helyesen működik!
 
 ### Verziók frissítése
-Vegyük fel az alábbi függőségeket a modul szintű build.gradle fájlunkba, majd a laborvezetővel tekintsük át őket.
+Vegyük fel az alábbi függőségeket a `libs.versions.toml` fájlunkba, illetve a modul szintű `build.gradle.kts` fájlokba, majd a laborvezetővel tekintsük át őket.
+
+```kotlin
+[versions]
+agp = "8.6.1"
+kotlin = "1.9.0"
+coreKtx = "1.15.0"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.8.7"
+activityCompose = "1.9.3"
+composeBom = "2024.10.01"
+navigation = "2.8.3"
+coil = "2.5.0"
+accompanist = "0.36.0"
+
+[libraries]
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
+androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
+accompanist-permission = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+```
 
 ```kotlin
 dependencies {
-    // Compose Bill of Materials
-    val composeBom = platform("androidx.compose:compose-bom:2024.05.00")
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
 
-    // Compose
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material:material-icons-extended")
-
-    // Compose testing
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-
-    // Core
-    implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.activity:activity-compose:1.9.0")
-
-    // Lifecycle, Viewmodel
-    val lifecycle_version = "2.7.0"
-    implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycle_version")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
-
-    // Navigation
-    implementation("androidx.navigation:navigation-compose:2.7.7")
-
-    // Permissions
-    implementation("com.google.accompanist:accompanist-permissions:0.35.0-alpha")
-
-    // Coil
-    implementation("io.coil-kt:coil-compose:2.5.0")
-
-    //Testing
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.coil)
+    implementation(libs.accompanist.permission)
 }
 ```
 
-Ezek mellett ellenőrizzük a kotlin plugin és a compose verzióját. A labor készítésekor a következőek voltak érvényben:
+Ezek mellett ellenőrizzük a compose verzióját. A labor készítésekor a következőek voltak érvényben:
 
-- _Projekt_ szintű `build.gradle`:
-```gradle
-plugins {  
-  ...
-  id 'org.jetbrains.kotlin.android' version '1.8.10' apply false  
-}
-```
 - _Modul_ szintű `build.gradle`:
 ```gradle
 android {
     ...
     composeOptions {
-        kotlinCompilerExtensionVersion '1.4.3'
+        kotlinCompilerExtensionVersion '1.5.15'
     }
 }
 ```
 
-A modul szintű `build.gradle` fájlban álllítsuk át a `compileSdk` értékét **34**-re!
+A modul szintű `build.gradle` fájlban álllítsuk át a `compileSdk` értékét **35**-re!
 
 Végül vegyük fel előre az alkalmazáshoz szükséges szöveges erőforrásokat:
 
@@ -180,6 +197,7 @@ Végül frissítsük a `MainActivity` tartalmát úgy, hogy a `NavGraph` Composa
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
             ContactsTheme {
                 NavGraph()
@@ -750,7 +768,7 @@ fun ContactListItem(
                 }
                 Spacer(modifier = Modifier.width(5.dp))
                 IconButton(onClick = { onSendSms(contact.phoneNumber) }) {
-                    VectorImage(Icons.Default.Sms)
+                    VectorImage(Icons.Default.Email)
                         .AsImage(tint = MaterialTheme.colorScheme.primary)
                 }
             }
@@ -891,7 +909,7 @@ fun ContactsScreen(
 Ezt követően frissíthetjük a `Screen` osztályunk az új útvonallal:
 
 ```kotlin
-object Contacts: Screen(route = "contacts")
+data object Contacts: Screen(route = "contacts")
 ```
 
 Illetve kiegészíthetjük a `NavGraph` osztályt is a listanézetünkkel:
@@ -1093,18 +1111,6 @@ fun ContactDataItem(
                     onValueChange = onValueChange,
                     singleLine = true,
                     shape = RectangleShape,
-                    colors = TextFieldDefaults.textFieldColors(
-                        focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        disabledTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        containerColor = Color.Transparent,
-                        focusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        unfocusedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        disabledLabelColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent,
-                        disabledIndicatorColor = Color.Transparent,
-                        errorIndicatorColor = Color.Transparent,
-                    ),
                     enabled = enabled,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -1222,7 +1228,7 @@ fun AddNewContactScreen(
                         VectorImage(Icons.Default.ArrowBack).AsImage()
                     }
                 },
-                colors = TopAppBarDefaults.smallTopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
                     actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -1238,7 +1244,7 @@ fun AddNewContactScreen(
                 }
             ) {
                 Icon(
-                    imageVector = Icons.Default.Save,
+                    imageVector = Icons.Default.Add,
                     contentDescription = null
                 )
             }
@@ -1310,7 +1316,7 @@ fun PhotoPicker(
             .clip(shape = RoundedCornerShape(100.dp))
     ) {
         Icon(
-            imageVector = Icons.Default.Image,
+            imageVector = Icons.Default.AccountBox,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.primary,
             modifier = Modifier.size(40.dp)
@@ -1352,7 +1358,7 @@ sealed class UiEvent {
 Egészítsük ki a `Screen` osztályunkat az újabb útvonallal:
 
 ```kotlin
-object AddContact: Screen(route = "add_contact")
+data object AddContact: Screen(route = "add_contact")
 ```
 
 A `Navgraph`-ban kezeljük a FAB-unk érintését, és vegyük fel az új képernyőt:
@@ -1563,7 +1569,7 @@ fun ContactDetailsScreen(
                         VectorImage(Icons.Default.ArrowBack).AsImage()
                     }
                 },
-                colors = TopAppBarDefaults.smallTopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
                     actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -1619,14 +1625,14 @@ fun ContactDetailsScreen(
                         )
                         ActionButton(
                             onClick = { viewModel.onEvent(ContactDetailsEvent.SendSms) },
-                            icon = VectorImage(Icons.Default.Sms),
+                            icon = VectorImage(Icons.Default.Email),
                             modifier = Modifier
                                 .weight(1f)
                                 .padding(horizontal = 5.dp)
                         )
                         ActionButton(
                             onClick = { /*TODO*/ },
-                            icon = VectorImage(Icons.Default.Mail),
+                            icon = VectorImage(Icons.Default.MailOutline),
                             modifier = Modifier.weight(1f)
                         )
                     }
@@ -1663,7 +1669,7 @@ fun ContactDetailsScreen_Preview() {
 Egészítsük ki a `Screen` osztályunkat az újabb útvonallal:
 
 ```kotlin
-object ContactDetails: Screen(route = "contact/{id}") {
+data object ContactDetails: Screen(route = "contact/{id}") {
         fun passId(id: String) = "contact/$id"
     }
 ```

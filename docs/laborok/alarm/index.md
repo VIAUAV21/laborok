@@ -32,18 +32,7 @@ A feladatok megoldása során ne felejtsd el követni a [feladat beadás folyama
 
 Nyissuk meg a template-ben levő projektet, és a laborvezetővel tekintsük át a tartalmát. A projektben
 a UI építőelemei és a `drawable` erőforrások már megtalálhatók. Ezekhez fogjuk elkészíteni az időzítő
-üzleti logikáját, amit összekötünk az előkészített felhasználói felülettel.
-
-## A függőségek beállítása
-
-Vegyük fel az alábbi függőségeket a modul szintű `build.gradle.kts` fájlba. Ezekre az idő megadásához
-lesz majd szükségünk.
-
-```kotlin
-implementation("com.maxkeppeler.sheets-compose-dialogs:core:1.0.3")
-implementation("com.maxkeppeler.sheets-compose-dialogs:clock:1.0.3")
-implementation("com.maxkeppeler.sheets-compose-dialogs:duration:1.0.3")
-```
+üzleti logikáját, amit összekötünk az előkészített felhasználói felülettel. Tekintsük át a függőségeket is.
 
 ## A doménmodellek elkészítése
 
@@ -503,13 +492,6 @@ class NotificationHelper @Inject constructor(
 }
 ```
 
-!!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik az **általad írt kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
-
-	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
-
-	A képernyőkép szükséges feltétele a pontszám megszerzésének.
-
 Tekintsük át, hogyan épül fel ez az osztály!
 
 - Két függősége van: a `NotificationManager` segítségével kezelhetők az értesítések a rendszeren, viszont az ennek átadott értesítések akár elég összetettek is lehetnek, ezért a builder tervezési minta szerint a `NotificationBuilder` segítségével kell őket felépítenünk.
@@ -518,6 +500,13 @@ Tekintsük át, hogyan épül fel ez az osztály!
 - A `setNotificationButton` segítségével gombokat adhatunk az értesítéshez. Hogy milyen és hány gombot szeretnénk hozzáadni, ez az időzítő állapotától függ, ezért hasznos, hogy külön metódussal adhassuk meg. Például szüneteltetést végző gomb hozzáadásának akkor van értelme, ha az időzítő épp fut.
 
 - A `createNotificationChannel` értesítési csatornát hoz létre. Az Android O óta az értesítéseket csatornákhoz kell rendelni. Ez azért hasznos, mert a felhasználó az alkalmazáson belül csatornánként tudja tiltani vagy engedélyezni a csatornákat. Pl. a fontos értesítések külön csatornára szervezhetők, és az elhanyagolhatóbb jelentőségűeket a felhasználó könnyedén letilthatja. Jelen alkalmazásban ezt a lehetőséget nem használjuk ki, csupán egy csatornánk lesz, de azt akkor is létre kell hozzuk. A csatorna többszöri létrehozása nem okoz problémát, ezért elég minden értesítés előtt meghívni, hogy biztosan létrejöjjön, nem szükséges tesztelni, hogy létezik-e.
+
+!!!example "BEADANDÓ (1 pont)" 
+	Készíts egy **képernyőképet**, amelyen látszik az **általad írt kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+
+	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 Látható, hogy a `NotificationManager` és a `NotificationBuilder` a `NotificationHelper` függőségei, amelyeket a konstruktoron keresztül kap meg a Dagger/Hilt segítségével. Viszont ehhez még konfiguráció szükséges, hogy ezek a komponensek valóban létrejöjjenek. Hozzuk létre a `notification.di` package-et, majd ebben az alábbi modult:
 

@@ -638,13 +638,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#a-fuggosegek-beallitasa" class="md-nav__link">
-    A függőségek beállítása
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#a-domenmodellek-elkeszitese" class="md-nav__link">
     A doménmodellek elkészítése
   </a>
@@ -839,13 +832,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#a-fuggosegek-beallitasa" class="md-nav__link">
-    A függőségek beállítása
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#a-domenmodellek-elkeszitese" class="md-nav__link">
     A doménmodellek elkészítése
   </a>
@@ -937,14 +923,7 @@
 <h2 id="a-projekt-megnyitasa">A projekt megnyitása<a class="headerlink" href="#a-projekt-megnyitasa" title="Permanent link">&para;</a></h2>
 <p>Nyissuk meg a template-ben levő projektet, és a laborvezetővel tekintsük át a tartalmát. A projektben
 a UI építőelemei és a <code>drawable</code> erőforrások már megtalálhatók. Ezekhez fogjuk elkészíteni az időzítő
-üzleti logikáját, amit összekötünk az előkészített felhasználói felülettel.</p>
-<h2 id="a-fuggosegek-beallitasa">A függőségek beállítása<a class="headerlink" href="#a-fuggosegek-beallitasa" title="Permanent link">&para;</a></h2>
-<p>Vegyük fel az alábbi függőségeket a modul szintű <code>build.gradle.kts</code> fájlba. Ezekre az idő megadásához
-lesz majd szükségünk.</p>
-<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;com.maxkeppeler.sheets-compose-dialogs:core:1.0.3&quot;</span><span class="p">)</span>
-<span class="n">implementation</span><span class="p">(</span><span class="s">&quot;com.maxkeppeler.sheets-compose-dialogs:clock:1.0.3&quot;</span><span class="p">)</span>
-<span class="n">implementation</span><span class="p">(</span><span class="s">&quot;com.maxkeppeler.sheets-compose-dialogs:duration:1.0.3&quot;</span><span class="p">)</span>
-</code></pre></div>
+üzleti logikáját, amit összekötünk az előkészített felhasználói felülettel. Tekintsük át a függőségeket is.</p>
 <h2 id="a-domenmodellek-elkeszitese">A doménmodellek elkészítése<a class="headerlink" href="#a-domenmodellek-elkeszitese" title="Permanent link">&para;</a></h2>
 <p>Először néhány olyan osztályt készítünk, amelyekkel az alkalmazás aktuális állapota, illetve az állapotváltozást előidéző események reprezentálhatók. Ehhez készítsünk egy <code>util</code> package-et. Ebbe hozzuk létre az alábbi osztályt:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">AlarmEvent</span><span class="w"> </span><span class="p">{</span>
@@ -1351,12 +1330,6 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<div class="admonition example">
-<p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
-<p>A képet a megoldásban a repository-ba f2.png néven töltsd föl.</p>
-<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
-</div>
 <p>Tekintsük át, hogyan épül fel ez az osztály!</p>
 <ul>
 <li>Két függősége van: a <code>NotificationManager</code> segítségével kezelhetők az értesítések a rendszeren, viszont az ennek átadott értesítések akár elég összetettek is lehetnek, ezért a builder tervezési minta szerint a <code>NotificationBuilder</code> segítségével kell őket felépítenünk.</li>
@@ -1369,6 +1342,12 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <p>A <code>createNotificationChannel</code> értesítési csatornát hoz létre. Az Android O óta az értesítéseket csatornákhoz kell rendelni. Ez azért hasznos, mert a felhasználó az alkalmazáson belül csatornánként tudja tiltani vagy engedélyezni a csatornákat. Pl. a fontos értesítések külön csatornára szervezhetők, és az elhanyagolhatóbb jelentőségűeket a felhasználó könnyedén letilthatja. Jelen alkalmazásban ezt a lehetőséget nem használjuk ki, csupán egy csatornánk lesz, de azt akkor is létre kell hozzuk. A csatorna többszöri létrehozása nem okoz problémát, ezért elég minden értesítés előtt meghívni, hogy biztosan létrejöjjön, nem szükséges tesztelni, hogy létezik-e.</p>
 </li>
 </ul>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik az <strong>általad írt kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>A képet a megoldásban a repository-ba f2.png néven töltsd föl.</p>
+<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
+</div>
 <p>Látható, hogy a <code>NotificationManager</code> és a <code>NotificationBuilder</code> a <code>NotificationHelper</code> függőségei, amelyeket a konstruktoron keresztül kap meg a Dagger/Hilt segítségével. Viszont ehhez még konfiguráció szükséges, hogy ezek a komponensek valóban létrejöjjenek. Hozzuk létre a <code>notification.di</code> package-et, majd ebben az alábbi modult:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalAnimationApi</span>
 <span class="nd">@Module</span>
@@ -1825,8 +1804,8 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
           </path>
         </svg>
       </span>
-      <span title="2024. május 7. 10:18:48">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-05-07T10:18:48+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-05-07</span>
+      <span title="2024. november 19. 11:40:43">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-11-19T11:40:43+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-11-19</span>
       </span>
     </span>
 
@@ -1843,12 +1822,12 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
       <span>Szerzők</span>
       <nav><a href="https://github.com/kpomazi" target="_blank" rel="noopener noreferrer" class="md-author" title="@kpomazi">
           <img src="https://avatars.githubusercontent.com/u/22079595?v=4?size=72" alt="@kpomazi">
+        </a><a href="https://github.com/web-flow" target="_blank" rel="noopener noreferrer" class="md-author" title="@web-flow">
+          <img src="https://avatars.githubusercontent.com/u/19864447?v=4?size=72" alt="@web-flow">
         </a><a href="https://github.com/gaborbsd" target="_blank" rel="noopener noreferrer" class="md-author" title="@gaborbsd">
           <img src="https://avatars.githubusercontent.com/u/5345619?v=4?size=72" alt="@gaborbsd">
         </a><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
           <img src="https://avatars.githubusercontent.com/u/23335752?v=4?size=72" alt="@gazdilaci">
-        </a><a href="https://github.com/web-flow" target="_blank" rel="noopener noreferrer" class="md-author" title="@web-flow">
-          <img src="https://avatars.githubusercontent.com/u/19864447?v=4?size=72" alt="@web-flow">
         </a></nav>      
     </span>
   </div>

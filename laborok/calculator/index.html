@@ -998,25 +998,24 @@
 </div>
 <p>Ha ezzel megvagyunk, akkor térjünk rá a <em>Gradle</em> fájlokra, amik a projektünk buildelési folyamatának konfigurációjáért felelnek. Elsőre nézzük a <strong>project</strong> szintű <em>Gradle</em> fájlt:</p>
 <p>A <em>Jetpack Navigation</em> könyvtár használata miatt vegyük fel a többi plugin mellé a <code>androidx.navigation.safeargs</code>-ot:</p>
-<div class="highlight"><pre><span></span><code><span class="n">buildscript</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">repositories</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">google</span><span class="p">()</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">nav_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.8.0&quot;</span>
-<span class="w">        </span><span class="n">classpath</span><span class="p">(</span><span class="s">&quot;androidx.navigation:navigation-safe-args-gradle-plugin:</span><span class="si">$</span><span class="n">nav_version</span><span class="s">&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="n">alias</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">plugins</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">navigation</span><span class="p">.</span><span class="na">safe</span><span class="p">.</span><span class="na">args</span><span class="p">)</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>A <em>libs.version.toml</em> fájlba vegyük fel a következőket:
 <div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">versions</span><span class="o">]</span>
 <span class="o">...</span>
-<span class="n">navigation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;2.8.0&quot;</span>
+<span class="n">navigation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;2.8.8&quot;</span>
 
 <span class="o">[</span><span class="n">libraries</span><span class="o">]</span>
 <span class="o">...</span>
 <span class="n">androidx</span><span class="o">-</span><span class="n">navigation</span><span class="o">-</span><span class="n">fragment</span><span class="o">-</span><span class="n">ktx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;androidx.navigation&quot;</span><span class="o">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;navigation-fragment-ktx&quot;</span><span class="o">,</span><span class="w"> </span><span class="n">version</span><span class="o">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;navigation&quot;</span><span class="w"> </span><span class="o">}</span>
 <span class="n">androidx</span><span class="o">-</span><span class="n">navigation</span><span class="o">-</span><span class="n">ui</span><span class="o">-</span><span class="n">ktx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;androidx.navigation&quot;</span><span class="o">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;navigation-ui-ktx&quot;</span><span class="o">,</span><span class="w"> </span><span class="n">version</span><span class="o">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;navigation&quot;</span><span class="w"> </span><span class="o">}</span>
+
+<span class="o">[</span><span class="n">plugins</span><span class="o">]</span>
+<span class="o">...</span>
+<span class="n">androidx</span><span class="o">-</span><span class="n">navigation</span><span class="o">-</span><span class="n">safe</span><span class="o">-</span><span class="n">args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;androidx.navigation.safeargs&quot;</span><span class="o">,</span><span class="w"> </span><span class="n">version</span><span class="o">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;navigation&quot;</span><span class="w"> </span><span class="o">}</span>
 </code></pre></div></p>
 <p>Nyissuk meg a <strong>module</strong> szintű <em>Gradle</em> fájlunkat.</p>
 <p>Engedélyezzük a View Binding-ot:</p>
@@ -1031,7 +1030,7 @@
 <p>Vegyük fel azokat a további függőségeket, amikre még szükségünk lesz a projekt során. Ehhez a pluginok közé még vegyük fel a <code>androidx.navigation.safeargs.kotlin</code>-t.</p>
 <div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="o">{</span>
 <span class="w">    </span><span class="o">...</span>
-<span class="w">    </span><span class="n">id</span><span class="o">(</span><span class="s2">&quot;androidx.navigation.safeargs.kotlin&quot;</span><span class="o">)</span>
+<span class="w">    </span><span class="n">alias</span><span class="o">(</span><span class="n">libs</span><span class="o">.</span><span class="na">plugins</span><span class="o">.</span><span class="na">androidx</span><span class="o">.</span><span class="na">navigation</span><span class="o">.</span><span class="na">safe</span><span class="o">.</span><span class="na">args</span><span class="o">)</span>
 <span class="o">}</span>
 
 <span class="n">android</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="o">...</span><span class="w"> </span><span class="o">}</span>
@@ -2104,8 +2103,8 @@ Ezután implementáljuk az <code>initButtons()</code> metódust. </p>
           </path>
         </svg>
       </span>
-      <span title="2024. szeptember 26. 16:05:39">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-09-26T16:05:39+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-09-26</span>
+      <span title="2025. február 27. 14:05:01">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-02-27T14:05:01+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-02-27</span>
       </span>
     </span>
 
@@ -2120,14 +2119,14 @@ Ezután implementáljuk az <code>initButtons()</code> metódust. </p>
         </svg>
       </span>
       <span>Szerzők</span>
-      <nav><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
-          <img src="https://avatars.githubusercontent.com/u/23335752?v=4?size=72" alt="@gazdilaci">
+      <nav><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
+          <img src="https://avatars.githubusercontent.com/u/8405234?v=4?size=72" alt="@danim1130">
         </a><a href="https://github.com/web-flow" target="_blank" rel="noopener noreferrer" class="md-author" title="@web-flow">
           <img src="https://avatars.githubusercontent.com/u/19864447?v=4?size=72" alt="@web-flow">
+        </a><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
+          <img src="https://avatars.githubusercontent.com/u/23335752?v=4?size=72" alt="@gazdilaci">
         </a><a href="https://github.com/kpomazi" target="_blank" rel="noopener noreferrer" class="md-author" title="@kpomazi">
           <img src="https://avatars.githubusercontent.com/u/22079595?v=4?size=72" alt="@kpomazi">
-        </a><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
-          <img src="https://avatars.githubusercontent.com/u/8405234?v=4?size=72" alt="@danim1130">
         </a><a href="https://github.com/hlev97" target="_blank" rel="noopener noreferrer" class="md-author" title="@hlev97">
           <img src="https://avatars.githubusercontent.com/u/60049137?v=4?size=72" alt="@hlev97">
         </a></nav>      

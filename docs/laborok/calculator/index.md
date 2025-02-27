@@ -54,14 +54,9 @@ Ha ezzel megvagyunk, akkor térjünk rá a *Gradle* fájlokra, amik a projektün
 A *Jetpack Navigation* könyvtár használata miatt vegyük fel a többi plugin mellé a `androidx.navigation.safeargs`-ot:
 
 ```kotlin
-buildscript {
-    repositories {
-        google()
-    }
-    dependencies {
-        val nav_version = "2.8.0"
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
-    }
+plugins {
+    ...
+    alias(libs.plugins.androidx.navigation.safe.args) apply false
 }
 ```
 
@@ -69,13 +64,16 @@ A *libs.version.toml* fájlba vegyük fel a következőket:
 ```groovy
 [versions]
 ...
-navigation = "2.8.0"
+navigation = "2.8.8"
 
 [libraries]
 ...
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation" }
 
+[plugins]
+...
+androidx-navigation-safe-args = { id = "androidx.navigation.safeargs", version.ref = "navigation" }
 ```
 
 
@@ -98,7 +96,7 @@ Vegyük fel azokat a további függőségeket, amikre még szükségünk lesz a 
 ```groovy
 plugins {
     ...
-    id("androidx.navigation.safeargs.kotlin")
+    alias(libs.plugins.androidx.navigation.safe.args)
 }
 
 android { ... }

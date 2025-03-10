@@ -1020,15 +1020,15 @@
 </div>
 <p>A függőségeink a Version Catalogban (<code>libs.version.toml</code>):</p>
 <div class="highlight"><pre><span></span><code>[versions]
-agp = &quot;8.5.2&quot;
-kotlin = &quot;1.9.0&quot;
-coreKtx = &quot;1.13.1&quot;
+agp = &quot;8.8.2&quot;
+kotlin = &quot;2.1.10&quot;
+coreKtx = &quot;1.15.0&quot;
 junit = &quot;4.13.2&quot;
 junitVersion = &quot;1.2.1&quot;
 espressoCore = &quot;3.6.1&quot;
-lifecycleRuntimeKtx = &quot;2.8.6&quot;
-activityCompose = &quot;1.9.2&quot;
-composeBom = &quot;2024.09.02&quot;
+lifecycleRuntimeKtx = &quot;2.8.7&quot;
+activityCompose = &quot;1.10.1&quot;
+composeBom = &quot;2025.02.00&quot;
 
 [libraries]
 androidx-core-ktx = { group = &quot;androidx.core&quot;, name = &quot;core-ktx&quot;, version.ref = &quot;coreKtx&quot; }
@@ -1048,7 +1048,8 @@ androidx-material3 = { group = &quot;androidx.compose.material3&quot;, name = &q
 
 [plugins]
 android-application = { id = &quot;com.android.application&quot;, version.ref = &quot;agp&quot; }
-jetbrains-kotlin-android = { id = &quot;org.jetbrains.kotlin.android&quot;, version.ref = &quot;kotlin&quot; }
+kotlin-android = { id = &quot;org.jetbrains.kotlin.android&quot;, version.ref = &quot;kotlin&quot; }
+kotlin-compose = { id = &quot;org.jetbrains.kotlin.plugin.compose&quot;, version.ref = &quot;kotlin&quot; }
 </code></pre></div>
 <p>Illetve a modul szintű <code>build.gradle.kts</code> fájlban:</p>
 <div class="highlight"><pre><span></span><code>dependencies {
@@ -1070,15 +1071,15 @@ jetbrains-kotlin-android = { id = &quot;org.jetbrains.kotlin.android&quot;, vers
     debugImplementation(libs.androidx.ui.test.manifest)
 }
 </code></pre></div>
-<p>A fenti függőségekhez 34-es SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű <code>build.gradle.kts</code> fájlunkban:</p>
-<div class="highlight"><pre><span></span><code>    compileSdk = 34
+<p>A fenti függőségekhez 35-ös SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű <code>build.gradle.kts</code> fájlunkban:</p>
+<div class="highlight"><pre><span></span><code>    compileSdk = 35
 </code></pre></div>
 <h2 id="fuggoseg-felvetele">Függőség felvétele<a class="headerlink" href="#fuggoseg-felvetele" title="Permanent link">&para;</a></h2>
 <p>Az általunk használni kívánt ikonokhoz szükségünk van a <code>Material Icons Extended</code> modulra, valamint a navigációhoz a <a href="https://developer.android.com/guide/navigation"><code>Navigation Component</code></a>-re.</p>
 <p>Vegyük fel a szükséges referenciákat a <code>libs.versions.toml</code> fájlba:</p>
 <div class="highlight"><pre><span></span><code>[versions]
-materialIconsExtended = &quot;1.7.2&quot;
-navigationCompose = &quot;2.8.1&quot;
+materialIconsExtended = &quot;1.7.8&quot;
+navigationCompose = &quot;2.8.8&quot;
 ...
 
 [libraries]
@@ -1092,13 +1093,12 @@ implementation(libs.androidx.navigation.compose)
 ...
 </code></pre></div>
 <h2 id="elemi-ui-epitoelemek-elkeszitese">Elemi UI építőelemek elkészítése<a class="headerlink" href="#elemi-ui-epitoelemek-elkeszitese" title="Permanent link">&para;</a></h2>
-<p>A fenti képeken látható, hogy a bejelentkeztetési form egyedi kinézetű szövegmezőkből és címkékből épülnek fel. A <em>Compose</em> alapelve - ahogyan a neve is tükrözi, - hogy a felhasználói felületünket hierarchikusan építhetjük fel, és a kisebb építőelemekből összetettebbeket állíthatunk össze. Ez egyrészt segíti a fejlesztői gondolkodást, hiszen könnyen tudunk a felhasználói felület adott részére koncentrálni, ezeket függetlenül elkészíteni, és így idővel a részekből már könnyen összerakható lesz a teljes kívánt UI is. Másrészt, ez a megközelítés segíti az újrafelhasználást, hiszen a kisebb felületi elemek könnyen újrafelhasználhatók az alkalmazás különböző részeiben is.</p>
+<p>A fenti képeken látható, hogy a bejelentkeztetési form egyedi kinézetű szövegmezőkből és címkékből épül fel. A <em>Compose</em> alapelve - ahogyan a neve is tükrözi, - hogy a felhasználói felületünket hierarchikusan építhetjük fel, és a kisebb építőelemekből összetettebbeket állíthatunk össze. Ez egyrészt segíti a fejlesztői gondolkodást, hiszen könnyen tudunk a felhasználói felület adott részére koncentrálni, ezeket függetlenül elkészíteni, és így idővel a részekből már könnyen összerakható lesz a teljes kívánt UI is. Másrészt, ez a megközelítés segíti az újrafelhasználást, hiszen a kisebb felületi elemek könnyen újrafelhasználhatók az alkalmazás különböző részeiben is.</p>
 <p>Készítsünk először egy igen általános szövegmezőt, amelyet majd az éppen aktuális igényeknek megfelelően gazdagon tudunk paraméterezni. Tulajdonképpen a rendszer részét képező <code>TextField</code> is sokrétű funkcionalitással rendelkezik, azonban szeretnénk egy magasabb szintű komponenst, amely számunkra könnyebben használható, és a hibajelzés megjelenítését is megoldja.</p>
 <p>Először hozzunk létre ehhez egy <code>hu.bme.aut.android.composebasics.ui.common</code> <em>package</em>-et. Ebbe fognak kerülni az alapvető fontosságú UI építőelemeink.</p>
 <p>Ezen belül készítsünk egy <code>NormalTextField</code> komponenst a következő tartalommal:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.common</span>
 
-<span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">NormalTextField</span><span class="p">(</span>
 <span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
@@ -1106,11 +1106,15 @@ implementation(libs.androidx.navigation.compose)
 <span class="w">    </span><span class="n">label</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
 <span class="w">    </span><span class="n">onValueChange</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
 <span class="w">    </span><span class="n">enabled</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="n">readOnly</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">    </span><span class="n">isError</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">    </span><span class="n">onDone</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">KeyboardActionScope</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">)</span><span class="o">?</span><span class="p">,</span>
-<span class="w">    </span><span class="n">leadingIcon</span><span class="p">:</span><span class="w"> </span><span class="nd">@Composable</span><span class="w"> </span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">)</span><span class="o">?</span><span class="p">,</span>
-<span class="w">    </span><span class="n">trailingIcon</span><span class="p">:</span><span class="w"> </span><span class="nd">@Composable</span><span class="w"> </span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">)</span><span class="o">?</span>
+<span class="w">    </span><span class="n">leadingIcon</span><span class="p">:</span><span class="w"> </span><span class="nd">@Composable</span><span class="w"> </span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">)</span><span class="o">?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="n">trailingIcon</span><span class="p">:</span><span class="w"> </span><span class="nd">@Composable</span><span class="w"> </span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">)</span><span class="o">?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="n">keyboardOptions</span><span class="p">:</span><span class="w"> </span><span class="n">KeyboardOptions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyboardOptions</span><span class="p">(</span>
+<span class="w">        </span><span class="n">keyboardType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyboardType</span><span class="p">.</span><span class="na">Text</span><span class="p">,</span>
+<span class="w">        </span><span class="n">imeAction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ImeAction</span><span class="p">.</span><span class="na">Done</span>
+<span class="w">    </span><span class="p">),</span>
+<span class="w">    </span><span class="n">singleLine</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">OutlinedTextField</span><span class="p">(</span>
 <span class="w">        </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="na">trim</span><span class="p">(),</span>
@@ -1131,16 +1135,11 @@ implementation(libs.androidx.navigation.compose)
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span>
-<span class="w">            </span><span class="p">.</span><span class="na">width</span><span class="p">(</span><span class="n">TextFieldDefaults</span><span class="p">.</span><span class="na">MinWidth</span><span class="p">),</span>
-<span class="w">        </span><span class="n">singleLine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="n">readOnly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readOnly</span><span class="p">,</span>
+<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span><span class="p">,</span>
+<span class="w">        </span><span class="n">singleLine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">singleLine</span><span class="p">,</span>
 <span class="w">        </span><span class="n">isError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">isError</span><span class="p">,</span>
 <span class="w">        </span><span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enabled</span><span class="p">,</span>
-<span class="w">        </span><span class="n">keyboardOptions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyboardOptions</span><span class="p">(</span>
-<span class="w">            </span><span class="n">keyboardType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyboardType</span><span class="p">.</span><span class="na">Text</span><span class="p">,</span>
-<span class="w">            </span><span class="n">imeAction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ImeAction</span><span class="p">.</span><span class="na">Done</span>
-<span class="w">        </span><span class="p">),</span>
+<span class="w">        </span><span class="n">keyboardOptions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">keyboardOptions</span><span class="p">,</span>
 <span class="w">        </span><span class="n">keyboardActions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyboardActions</span><span class="p">(</span>
 <span class="w">            </span><span class="n">onDone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onDone</span>
 <span class="w">        </span><span class="p">)</span>
@@ -1152,34 +1151,30 @@ implementation(libs.androidx.navigation.compose)
 </div>
 <p>Tekintsük át a fenti kódot! A komponens a konstruktoron keresztül számos paramétert át tud venni:</p>
 <ul>
+<li><strong>modifier</strong>: a megjelenést módosító paraméterek; itt továbbadjuk a megadottakat, és még hozzáadjuk, hogy a téma szerinti minimális szélesség lépjen érvényre</li>
 <li><strong>value</strong>: a szövegmező tartalma; ezt egyszerűen továbbadjuk a felhasznált <code>OutlinedTextField</code> komponensnek, de az eleji/végi whitespace karaktereket a <code>trim()</code> segítségével levágjuk</li>
 <li><strong>label</strong>: a szövegmező címkéje, amely magyarázza annak tartalmát; ezt egy <code>Text</code> composable-be csomagolva továbbadjuk</li>
 <li><strong>onValueChange</strong>: eseménykezelő, amely a tartalom megváltoztatásakor hívódik; egyszerűen továbbadjuk</li>
-<li><strong>leadingIcon</strong> és <strong>traliningIcon</strong>: a szövegmező elején és végén megjelenítendő ikonok, amelyeket egy újabb composable függvényként lehet megadni; a komponensünk beépített hibajelzést valósít meg, ezért ha hiba van beállítva, akkor a szöveg végén nem a beállított ikon, hanem hibajelzés jelenik meg</li>
-<li><strong>modifier</strong>: a megjelenést módosító paraméterek; itt továbbadjuk a megadottakat, és még hozzáadjuk, hogy a téma szerinti minimális szélesség lépjen érvényre</li>
 <li><strong>enabled</strong>: engedélyezve van-e a szövegmező?</li>
-<li><strong>readOnly</strong>: csak olvasható-e a szövegmező?</li>
 <li><strong>isError</strong>: ha a szövegmező tartalma nem érvényes, akkor beállíthatjuk <code>true</code> értékre, és a szövegmező végén egy hibajelző ikon fog megjelenni.</li>
 <li><strong>onDone</strong>: eseménykezelő, hogy mi történjen, ha a szerkesztést a felhasználó befejezte</li>
+<li><strong>leadingIcon</strong> és <strong>traliningIcon</strong>: a szövegmező elején és végén megjelenítendő ikonok, amelyeket egy újabb composable függvényként lehet megadni; a komponensünk beépített hibajelzést valósít meg, ezért ha hiba van beállítva, akkor a szöveg végén nem a beállított ikon, hanem hibajelzés jelenik meg</li>
+<li><strong>keyboardOptions</strong>: ez állítja be, hogy milyen jellegű billentyűzet jelenjen meg a képernyőn, és milyen IME gyorsgomb tartozzon a szerkesztőhöz. Ha emailt vagy telefonszámot gépeltetnénk be, akkor megjeleníthetünk ehhez alkalmasabb billentyűzetet is.</li>
 </ul>
 <p>A <code>modifier</code> értékeként a komponens felhasználásakor nagyon sok paraméter megadható. Erre számos példát láthatunk az Android hivatalos dokumentációjában: <a href="https://developer.android.com/jetpack/compose/modifiers">https://developer.android.com/jetpack/compose/modifiers</a></p>
 <p>A felhasznált <code>OutlinedTextField</code> komponensen további jellemzőket is beállítottunk, amelyeket egyébként a <code>NormalTextField</code> nem tud kívülről felülbírálhatóvá tenni. Ezek jelentése:</p>
 <ul>
 <li><strong>singleLine</strong>: csak egy sort lehet begépelni a szövegmezőbe</li>
-<li><strong>keyboardOptions</strong>: ez állítja be, hogy milyen jellegű billentyűzet jelenjen meg a képernyőn, és milyen IME gyorsgomb tartozzon a szerkesztőhöz. Itt mindig egyszerű szöveges billentyűzetet és "kész" gombot választunk. Ha emailt vagy telefonszámot gépeltetnénk be, akkor megjeleníthetünk ehhez alkalmasabb billentyűzetet is.</li>
 <li><strong>keyboardActions</strong>: mi történjen az egyes IME akciók kiváltásakor. Itt csak a korábban megadott <code>onDone</code> eseménykezelőt hívjuk meg.</li>
 </ul>
 <p>Ezzel elkészült az első composable komponensünk, de mivel még sok hiányzik a felhasználói felületből, ezért ezt csak soká tudnánk valójában kipróbálni. Szerencsére a Compose technológia lehetőséget ad rá, hogy fejlesztés közben is pontos előnézetet kapjunk a komponenseinkből. Ezt célszerűen úgy tesszük meg, hogy definiálunk egy előnézeti függvényt, amely a kívánt paraméterezéssel meghívja a composable függvényünket, majd erre a függvényre is rátesszük a <code>@Composable</code> és az <code>@ExperimentalMaterial3Api</code> annotációkat, illetve az előnézet generálásáért felelős <code>@Preview</code> annotációt is. Próbáljuk ki a komponensünket az alábbi tesztfüggvénnyel, amit betehetünk a <code>NormalTextField</code> fájljába:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
-<span class="nd">@Preview</span>
+<div class="highlight"><pre><span></span><code><span class="nd">@Preview</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">NormalTextViewPreview</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">NormalTextField</span><span class="p">(</span>
 <span class="w">        </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Csetneki Péter&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Név&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
-<span class="w">        </span><span class="n">leadingIcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
-<span class="w">        </span><span class="n">trailingIcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
 <span class="w">        </span><span class="n">onDone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
 <span class="w">    </span><span class="p">)</span>
 <span class="p">}</span>
@@ -1189,16 +1184,13 @@ implementation(libs.androidx.navigation.compose)
 </div>
 <p>Előnézeti függvényből többet is létrehozhatunk, hogy lássuk, hogyan néz ki a komponensünk különböző
 paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelenést is:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
-<span class="nd">@Preview</span>
+<div class="highlight"><pre><span></span><code><span class="nd">@Preview</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">NormalTextViewErrorPreview</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">NormalTextField</span><span class="p">(</span>
 <span class="w">        </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;abc&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Mennyiség (kg)&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
-<span class="w">        </span><span class="n">leadingIcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
-<span class="w">        </span><span class="n">trailingIcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
 <span class="w">        </span><span class="n">onDone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
 <span class="w">        </span><span class="n">isError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
 <span class="w">    </span><span class="p">)</span>
@@ -1212,7 +1204,6 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <p>A fentihez hasonlóan a <code>ui.common</code> package-be készítsünk egy újabb komponenst <code>PasswordTextField</code> néven az alábbi tartalommal:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.common</span>
 
-<span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">PasswordTextField</span><span class="p">(</span>
 <span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
@@ -1220,10 +1211,13 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <span class="w">    </span><span class="n">label</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
 <span class="w">    </span><span class="n">onValueChange</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
 <span class="w">    </span><span class="n">enabled</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="n">readOnly</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">    </span><span class="n">isError</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">    </span><span class="n">onDone</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">KeyboardActionScope</span><span class="p">.()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">)</span><span class="o">?</span><span class="p">,</span>
-<span class="w">    </span><span class="n">leadingIcon</span><span class="p">:</span><span class="w"> </span><span class="nd">@Composable</span><span class="w"> </span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">)</span><span class="o">?</span><span class="p">,</span>
+<span class="w">    </span><span class="n">leadingIcon</span><span class="p">:</span><span class="w"> </span><span class="nd">@Composable</span><span class="w"> </span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">)</span><span class="o">?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="n">keyboardOptions</span><span class="p">:</span><span class="w"> </span><span class="n">KeyboardOptions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyboardOptions</span><span class="p">(</span>
+<span class="w">        </span><span class="n">keyboardType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyboardType</span><span class="p">.</span><span class="na">Password</span><span class="p">,</span>
+<span class="w">        </span><span class="n">imeAction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ImeAction</span><span class="p">.</span><span class="na">Done</span>
+<span class="w">    </span><span class="p">),</span>
 <span class="w">    </span><span class="n">isVisible</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">    </span><span class="n">onVisibilityChanged</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1251,20 +1245,40 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span>
-<span class="w">            </span><span class="p">.</span><span class="na">width</span><span class="p">(</span><span class="n">TextFieldDefaults</span><span class="p">.</span><span class="na">MinWidth</span><span class="p">),</span>
+<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span><span class="p">,</span>
 <span class="w">        </span><span class="n">singleLine</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="n">readOnly</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readOnly</span><span class="p">,</span>
 <span class="w">        </span><span class="n">isError</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">isError</span><span class="p">,</span>
 <span class="w">        </span><span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enabled</span><span class="p">,</span>
-<span class="w">        </span><span class="n">keyboardOptions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyboardOptions</span><span class="p">(</span>
-<span class="w">            </span><span class="n">keyboardType</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyboardType</span><span class="p">.</span><span class="na">Password</span><span class="p">,</span>
-<span class="w">            </span><span class="n">imeAction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ImeAction</span><span class="p">.</span><span class="na">Done</span>
-<span class="w">        </span><span class="p">),</span>
+<span class="w">        </span><span class="n">keyboardOptions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">keyboardOptions</span><span class="p">,</span>
 <span class="w">        </span><span class="n">keyboardActions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyboardActions</span><span class="p">(</span>
 <span class="w">            </span><span class="n">onDone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onDone</span>
 <span class="w">        </span><span class="p">),</span>
 <span class="w">        </span><span class="n">visualTransformation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isVisible</span><span class="p">)</span><span class="w"> </span><span class="n">VisualTransformation</span><span class="p">.</span><span class="na">None</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">PasswordVisualTransformation</span><span class="p">(),</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nd">@Preview</span>
+<span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">PasswordTextFieldShownPreview</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">PasswordTextField</span><span class="p">(</span>
+<span class="w">        </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;MySecretPassword&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Jelszó&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">        </span><span class="n">onVisibilityChanged</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">        </span><span class="n">onDone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="nd">@Preview</span>
+<span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">PasswordTextFieldHiddenPreview</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">PasswordTextField</span><span class="p">(</span>
+<span class="w">        </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;MySecretPassword&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Jelszó&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">        </span><span class="n">onVisibilityChanged</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">        </span><span class="n">onDone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
+<span class="w">        </span><span class="n">isVisible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
 <span class="w">    </span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -1279,10 +1293,9 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 </ol>
 <h2 id="az-alkalmazas-fo-kepernyoinek-elkeszitese">Az alkalmazás fő képernyőinek elkészítése<a class="headerlink" href="#az-alkalmazas-fo-kepernyoinek-elkeszitese" title="Permanent link">&para;</a></h2>
 <p>Most, hogy a képernyők minden fontos alkotórésze a rendelkezésünkre áll, elkezdhetjük maguknak a képernyőknek az elkészítését. Kezdjük a bejelentkező képernyővel!</p>
-<p>A képernyőknek és a hozzájuk kapcsolódó kódoknak hozzunk létre egy közös <code>hu.bme.aut.android.composebasics.feature</code> package-et, majd ezen belül a bejelentkező képernyő a <code>login</code> package-be kerüljön! Készítsük el a képernyő kódját <code>LoginScreen</code> néven, majd adjuk meg a következő kódot:</p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.feature.login</span>
+<p>A képernyőknek és a hozzájuk kapcsolódó kódoknak hozzunk létre egy közös <code>hu.bme.aut.android.composebasics.screen</code> package-et, majd ezen belül a bejelentkező képernyő a <code>login</code> package-be kerüljön! Készítsük el a képernyő kódját <code>LoginScreen</code> néven, majd adjuk meg a következő kódot:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.screen.login</span>
 
-<span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">LoginScreen</span><span class="p">(</span>
 <span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
@@ -1303,6 +1316,9 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">Column</span><span class="p">(</span><span class="n">horizontalAlignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alignment</span><span class="p">.</span><span class="na">CenterHorizontally</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">NormalTextField</span><span class="p">(</span>
+<span class="w">                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
+<span class="w">                    </span><span class="p">.</span><span class="na">width</span><span class="p">(</span><span class="n">TextFieldDefaults</span><span class="p">.</span><span class="na">MinWidth</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">.</span><span class="na">height</span><span class="p">(</span><span class="m">64.</span><span class="n">dp</span><span class="p">),</span>
 <span class="w">                </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">usernameValue</span><span class="p">,</span>
 <span class="w">                </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">textfield_label_username</span><span class="p">),</span>
 <span class="w">                </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">newValue</span><span class="w"> </span><span class="o">-&gt;</span>
@@ -1316,11 +1332,16 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <span class="w">                        </span><span class="n">contentDescription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
 <span class="w">                    </span><span class="p">)</span>
 <span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="n">trailingIcon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">},</span>
+<span class="w">                </span><span class="n">keyboardOptions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">KeyboardOptions</span><span class="p">(</span>
+<span class="w">                    </span><span class="n">imeAction</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ImeAction</span><span class="p">.</span><span class="na">Next</span>
+<span class="w">                </span><span class="p">),</span>
 <span class="w">                </span><span class="n">onDone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
 <span class="w">            </span><span class="p">)</span>
 <span class="w">            </span><span class="n">Spacer</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">height</span><span class="p">(</span><span class="m">16.</span><span class="n">dp</span><span class="p">))</span>
 <span class="w">            </span><span class="n">PasswordTextField</span><span class="p">(</span>
+<span class="w">                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
+<span class="w">                    </span><span class="p">.</span><span class="na">width</span><span class="p">(</span><span class="n">TextFieldDefaults</span><span class="p">.</span><span class="na">MinWidth</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">.</span><span class="na">height</span><span class="p">(</span><span class="m">64.</span><span class="n">dp</span><span class="p">),</span>
 <span class="w">                </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">passwordValue</span><span class="p">,</span>
 <span class="w">                </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">textfield_label_password</span><span class="p">),</span>
 <span class="w">                </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">newValue</span><span class="w"> </span><span class="o">-&gt;</span>
@@ -1349,7 +1370,8 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <span class="w">                        </span><span class="n">onLoginClick</span><span class="p">(</span><span class="n">usernameValue</span><span class="p">)</span>
 <span class="w">                    </span><span class="p">}</span>
 <span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">width</span><span class="p">(</span><span class="n">TextFieldDefaults</span><span class="p">.</span><span class="na">MinWidth</span><span class="p">),</span>
+<span class="w">                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
+<span class="w">                    </span><span class="p">.</span><span class="na">width</span><span class="p">(</span><span class="n">TextFieldDefaults</span><span class="p">.</span><span class="na">MinWidth</span><span class="p">),</span>
 <span class="w">                </span><span class="n">shape</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RectangleShape</span>
 <span class="w">            </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">button_label_login</span><span class="p">))</span>
@@ -1365,8 +1387,7 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <p>Aki fejlesztett már a React webes keretrendszerben, annak ismerős lehet ez a koncepció, mert nagyon hasonló a React komponensek működéséhez.</p>
 </div>
 <p>Nézzük is meg az elkészült komponenst:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
-<span class="nd">@Preview</span><span class="p">(</span><span class="n">showBackground</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nd">@Preview</span><span class="p">(</span><span class="n">showSystemUi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">LoginScreenPreview</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">LoginScreen</span><span class="p">(</span>
@@ -1379,12 +1400,9 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik az <strong>előnézet a bejelentkező képernyőről</strong> és <strong>az ahhoz tartozó kódrészlet</strong>. </p>
 <p>A képet a megoldásban a repository-ba f2.png néven töltsd föl.</p>
 </div>
-<p>A második elkészítendő képernyőnk az alkalmazás "főképernyője", amit sikeres bejelentkezés után lát a felhasználó. Viszont itt már részben érintenünk kell a képernyők közti navigáció kérdését is, hiszen a képernyőnek lesz egy menüje, ahonnan majd más képernyőkre lehet navigálni. Ehhez egy <code>navigation</code> package-et hozzunk létre, és ebbe kerüljön az alábbi <code>Screen</code> osztály. Itt <code>sealed class</code>-t alkalmazunk a lehetséges képernyők leírására, mert csak előre megadott számú képernyőnk van, és a főképernyő argumentumot is kaphat. A <code>sealed class</code> kicsit hasonlít az <code>enumhoz</code>, de támogatja ezt a fontos különbséget is. Az osztály előtt definiált konstansokat később fogjuk használni, amikor teljesen összerakjuk a navigációs gráfot.</p>
+<p>A második elkészítendő képernyőnk az alkalmazás "főképernyője", amit sikeres bejelentkezés után lát a felhasználó. Viszont itt már részben érintenünk kell a képernyők közti navigáció kérdését is, hiszen a képernyőnek lesz egy menüje, ahonnan majd más képernyőkre lehet navigálni. </p>
+<p>Ehhez hozzunk létre egy <code>navigation</code> package-et, és ebbe kerüljön az alábbi <code>Screen</code> osztály. Ahhoz, hogy ne sztring összehasonlítás alapján navigáljunk, ebben az osztályban felvesszük az egyes képernyőink navigációs útvonalát "konstansként". <code>sealed class</code>-t alkalmazunk a lehetséges képernyők leírására, mert csak előre megadott számú képernyőnk van, és a főképernyő argumentumot is kaphat. A <code>sealed class</code> kicsit hasonlít az <code>enumhoz</code>, de támogatja ezt a fontos különbséget is. </p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.navigation</span>
-
-<span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">ROOT_GRAPH_ROUTE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;root&quot;</span>
-<span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">AUTH_GRAPH_ROUTE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;auth&quot;</span>
-<span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">MAIN_GRAPH_ROUTE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;main&quot;</span>
 
 <span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Screen</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">route</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">object</span><span class="w"> </span><span class="nc">Login</span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;login&quot;</span><span class="p">)</span>
@@ -1402,8 +1420,8 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <p class="admonition-title">sealed class</p>
 <p>A Kotlin sealed class-ai olyan osztályok, amelyekből korlátozott az öröklés, és fordítási időben minden leszármazott osztálya ismert. Ezeket az osztályokat az enumokhoz hasonló módon tudjuk alkalmazni. Jelen esetben a <code>Home</code> valójában nem a <code>Screen</code> közvetlen leszármazottja, hanem anonim leszármazott osztálya, mivel a felhasználónév paraméterként történő kezelését is tartalmazza.</p>
 </div>
-<p>Maga a főképernyő egy <code>feature.home</code> subpackage-be kerüljön. Először itt is egy segédosztályt hozunk létre. Jelen esetben a menüpontokat fogjuk enumban modellezni. Minden menüpontra jellemző a neve, az ikonja, illetve egy azonosító, ahova navigál:</p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.feature.home</span>
+<p>Maga a főképernyő egy <code>screen.home</code> subpackage-be kerüljön. Először itt is egy segédosztályt hozunk létre a <code>menu</code> package-ben. Jelen esetben a menüpontokat fogjuk enumban modellezni. Minden menüpontra jellemző a neve, az ikonja, illetve egy azonosító, ahova navigál:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.screen.home.menu</span>
 
 <span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">MenuItemUiModel</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">text</span><span class="p">:</span><span class="w"> </span><span class="nd">@Composable</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
@@ -1427,7 +1445,7 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <span class="p">}</span>
 </code></pre></div>
 <p>A menüben szerepelnek profil és beállítás lehetőségek is, amelyekről korábban nem volt szó. Ezek nem lesznek igazi kidolgozott képernyők, de példaképp szerepelnek itt, hogy bemutassuk, hogyan lehetne a főmenüből további oldalakra is elnavigálni. Látható, hogy itt a menüpontoknál meghivatkoztuk a korábban a <code>Screen</code> osztályban definiált képernyőket is. A leírt menüpontokból még fel kell építenünk a menüt is. Elvileg ezt megtehetnénk a teljes főképernyő részeként, de átláthatóbb struktúrát kapunk, ha ezt külön composable komponensbe szervezzük. Ahogyan általában véve a metódusoknál sem átlátható a túl hosszú, úgy a felületi komponenseinket is érdemes kisebb, jobban kezelhető egységekre osztani. Készítsünk tehát egy <code>Menu</code> komponenst:</p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.feature.home</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.screen.home.menu</span>
 
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">Menu</span><span class="p">(</span>
@@ -1460,9 +1478,9 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 </code></pre></div>
 <p>Látjuk, hogy a menüelemek látrehozása is ciklussal történik, és a menüpontok igen könnyen bővíthetőek. A bejárásnál a menüpontok indexét is felhasználjuk, hogy a menüpontok után - az utolsó kivételével - elválasztót is generáljunk.</p>
 <p>Most rátérhetünk a tényleges főképernyő létrehozására:</p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.feature.home</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.screen.home</span>
 
-<span class="nd">@ExperimentalMaterial3Api</span>
+<span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">HomeScreen</span><span class="p">(</span>
 <span class="w">    </span><span class="n">argument</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
@@ -1551,7 +1569,7 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <p>A képernyő többi része a korábbi példák alapján már könnyen érthető.</p>
 <p>Nézzük meg, hogyan fest az elkészített főképernyő:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
-<span class="nd">@Preview</span><span class="p">(</span><span class="n">showBackground</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="nd">@Preview</span><span class="p">(</span><span class="n">showSystemUi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">HomeScreenPreview</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">HomeScreen</span><span class="p">(</span>
@@ -1562,16 +1580,16 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <span class="p">}</span>
 </code></pre></div>
 <h2 id="a-kepernyok-kozotti-navigacio-elkeszitese">A képernyők közötti navigáció elkészítése<a class="headerlink" href="#a-kepernyok-kozotti-navigacio-elkeszitese" title="Permanent link">&para;</a></h2>
-<p>Most már csak össze kell kötnünk a meglévő képernyőket a navigációs szabályokkal. Ehhez navigációs gráfokat fogunk definiálni. Egyrészt definiálunk egy gráfot az authentikáció előtti képernyőkre, itt most csak a bejelentkezés lesz, de egy valós alkalmazásban lehetne pl. egy regisztrációs képernyőnk is. Ezeket a korábban létrehozott <code>navigation</code> package-be tegyük. Az authentikáció előtti gráf a következőképpen néz ki:</p>
+<p>Most már csak össze kell kötnünk a meglévő képernyőket a navigációs szabályokkal. Ehhez egy navigációs gráfokat fogunk definiálni. Ezt a korábban létrehozott <code>navigation</code> package-be tegyük:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.navigation</span>
 
-<span class="nd">@ExperimentalMaterial3Api</span>
-<span class="kd">fun</span><span class="w"> </span><span class="n">NavGraphBuilder</span><span class="p">.</span><span class="nf">authNavGraph</span><span class="p">(</span>
+<span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">NavGraph</span><span class="p">(</span>
 <span class="w">    </span><span class="n">navController</span><span class="p">:</span><span class="w"> </span><span class="n">NavHostController</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">navigation</span><span class="p">(</span>
-<span class="w">        </span><span class="n">startDestination</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">Login</span><span class="p">.</span><span class="na">route</span><span class="p">,</span>
-<span class="w">        </span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AUTH_GRAPH_ROUTE</span>
+<span class="w">    </span><span class="n">NavHost</span><span class="p">(</span>
+<span class="w">        </span><span class="n">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">navController</span><span class="p">,</span>
+<span class="w">        </span><span class="n">startDestination</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">Login</span><span class="p">.</span><span class="na">route</span>
 <span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">composable</span><span class="p">(</span>
 <span class="w">            </span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">Login</span><span class="p">.</span><span class="na">route</span>
@@ -1582,21 +1600,6 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>A kódból azt tudjuk megállapítani, hogy a navigációs gráf a bejelentkeztetési képernyőn kezdődik, és neki is van egy útvonalazonosítója, amelyet most a korábban definiált <code>AUTH_GRAPH_ROUTE</code> konstanssal adtunk meg. A navigációban <em>composable</em> felületi elemeket adhatunk meg: mindegyikhez tartozik egy-egy útvonal, ezekhez a <code>Screen</code> osztályból hivatkozzuk meg a megfelelő útvonalat. Látható, hogy a hierarchikusan összeállított felhasználói felületek "utolsó" paraméterei itt kapnak konkrét értétet. Konkrétan a bejelentkezés gomb eseménykezelője van itt lambda-kifejezésként megadva. Ez a lambda-kifejezés valójában a navigációs kontrollert hívja meg, és azzal navigáltat a megfelelő útvonalra, amit a kontroller a navigációs gráf alapján felold. Figyeljük meg, hogy a bejelentkezés után a főképernyő útvonalába a felhasználónevet mint paramétert is belekódoljuk. Azt is láthatjuk, hogy tényleges bejelentkeztető logika itt nem történik, de ha erre lenne szükségünk, azt itt megtehetnénk, hiszen itt van megadva a bejelentkezés gomb eseménykezelője.</p>
-<p>A másik navigációs gráf a bejelentkezés utáni navigációt írja le:</p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.navigation</span>
-
-<span class="nd">@ExperimentalMaterial3Api</span>
-<span class="kd">fun</span><span class="w"> </span><span class="n">NavGraphBuilder</span><span class="p">.</span><span class="nf">mainNavGraph</span><span class="p">(</span>
-<span class="w">    </span><span class="n">navController</span><span class="p">:</span><span class="w"> </span><span class="n">NavHostController</span>
-<span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">navigation</span><span class="p">(</span>
-<span class="w">        </span><span class="n">startDestination</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">Home</span><span class="p">.</span><span class="na">route</span><span class="p">,</span>
-<span class="w">        </span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAIN_GRAPH_ROUTE</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">composable</span><span class="p">(</span>
 <span class="w">            </span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">Home</span><span class="p">.</span><span class="na">route</span><span class="p">,</span>
 <span class="w">            </span><span class="n">arguments</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">listOf</span><span class="p">(</span>
@@ -1607,7 +1610,7 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">HomeScreen</span><span class="p">(</span>
 <span class="w">                </span><span class="n">argument</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">navController</span><span class="p">.</span><span class="na">currentBackStackEntry</span><span class="o">?.</span><span class="na">arguments</span>
-<span class="w">                                        </span><span class="o">?.</span><span class="na">getString</span><span class="p">(</span><span class="n">Screen</span><span class="p">.</span><span class="na">Home</span><span class="p">.</span><span class="na">Args</span><span class="p">.</span><span class="na">username</span><span class="p">)</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="o">?.</span><span class="na">getString</span><span class="p">(</span><span class="n">Screen</span><span class="p">.</span><span class="na">Home</span><span class="p">.</span><span class="na">Args</span><span class="p">.</span><span class="na">username</span><span class="p">)</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">,</span>
 <span class="w">                </span><span class="n">onLogout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                    </span><span class="n">navController</span><span class="p">.</span><span class="na">popBackStack</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">Login</span><span class="p">.</span><span class="na">route</span><span class="p">,</span><span class="w"> </span><span class="n">inclusive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
 <span class="w">                </span><span class="p">},</span>
@@ -1633,58 +1636,32 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Végül a kettőt egyesítenünk kell:</p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.navigation</span>
-
-<span class="nd">@ExperimentalMaterial3Api</span>
-<span class="nd">@Composable</span>
-<span class="kd">fun</span><span class="w"> </span><span class="nf">NavGraph</span><span class="p">(</span>
-<span class="w">    </span><span class="n">navController</span><span class="p">:</span><span class="w"> </span><span class="n">NavHostController</span>
-<span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">NavHost</span><span class="p">(</span>
-<span class="w">        </span><span class="n">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">navController</span><span class="p">,</span>
-<span class="w">        </span><span class="n">startDestination</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AUTH_GRAPH_ROUTE</span><span class="p">,</span>
-<span class="w">        </span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ROOT_GRAPH_ROUTE</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">authNavGraph</span><span class="p">(</span><span class="n">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">navController</span><span class="p">)</span>
-<span class="w">        </span><span class="n">mainNavGraph</span><span class="p">(</span><span class="n">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">navController</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Figyeljük meg, hogy ebben a gráfban a főképernyőre érkezve hogyan lehet felhasználónevet
-kinyerni! Illetve azt is megállapíthatjuk, hogy a főképernyőre érkezve a backstackről
-törlődik a bejelentkeztető képernyő útvonala. Ez így logikus, hiszen ha már sikeresen
-beléptünk, nem szeretnénk, hogy a back gombra kattintva véletlen kilépjünk az alkalmazásból.
-A gráfban a profil és beállítás oldalak nincsenek kidolgozva, ezért ide csak egy-egy <code>Box</code>
-elemet vettünk fel placeholder szöveggel.</p>
-<p>Már csak a <code>MainActivity</code>-be kell bekötnünk a navigáció szerint feloldott felszín megjelenítését.
-Itt történik az alkalmazás témájának a megadása is:</p>
+<p>A kódból azt tudjuk megállapítani, hogy a navigációs gráf a bejelentkeztetési képernyőn kezdődik. A navigációban <em>composable</em> felületi elemeket adhatunk meg: mindegyikhez tartozik egy-egy útvonal, ezekhez a <code>Screen</code> osztályból hivatkozzuk meg a megfelelő útvonalat. Látható, hogy a hierarchikusan összeállított felhasználói felületek "utolsó" paraméterei itt kapnak konkrét értétet. Konkrétan a bejelentkezés gomb eseménykezelője van itt lambda-kifejezésként megadva. Ez a lambda-kifejezés valójában a navigációs kontrollert hívja meg, és azzal navigáltat a megfelelő útvonalra, amit a kontroller a navigációs gráf alapján felold. Azt is láthatjuk, hogy tényleges bejelentkeztető logika itt nem történik, de ha erre lenne szükségünk, azt itt megtehetnénk, hiszen itt van megadva a bejelentkezés gomb eseménykezelője.</p>
+<p>Figyeljük meg, hogy a bejelentkezés után a főképernyő útvonalába a felhasználónevet mint paramétert is belekódoljuk, hogy aztán a gráfban a <em>Home Screenre</em> kinyerjük azt. Illetve azt is megállapíthatjuk, hogy a főképernyőre érkezve a backstackről törlődik a bejelentkeztető képernyő útvonala. Ez így logikus, hiszen ha már sikeresen beléptünk, nem szeretnénk, hogy a back gombra kattintva véletlen kilépjünk az alkalmazásból. A gráfban a profil és beállítás oldalak nincsenek kidolgozva, ezért ide csak egy-egy <code>Box</code> elemet vettünk fel placeholder szöveggel.</p>
+<p>Már csak a <code>MainActivity</code>-be kell bekötnünk a navigáció szerint feloldott felület megjelenítését. Itt történik az alkalmazás témájának a megadása is:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics</span>
 
-<span class="k">import</span><span class="w"> </span><span class="nn">android.os.Bundle</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.ComponentActivity</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.compose.setContent</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.enableEdgeToEdge</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Box</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.safeDrawingPadding</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ExperimentalMaterial3Api</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation.compose.rememberNavController</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.navigation.NavGraph</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.theme.ComposeBasicsTheme</span>
-
 <span class="kd">class</span><span class="w"> </span><span class="nc">MainActivity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ComponentActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
 <span class="w">        </span><span class="n">enableEdgeToEdge</span><span class="p">()</span>
 <span class="w">        </span><span class="n">setContent</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">ComposeBasicsTheme</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberNavController</span><span class="p">()</span>
-<span class="w">                </span><span class="n">Box</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">safeDrawingPadding</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">NavGraph</span><span class="p">(</span><span class="n">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">navController</span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">ComposeBasicsScreen</span><span class="p">()</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nd">@Preview</span><span class="p">(</span><span class="n">showSystemUi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">ComposeBasicsScreen</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ComposeBasicsTheme</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberNavController</span><span class="p">()</span>
+<span class="w">        </span><span class="n">Box</span><span class="p">(</span>
+<span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
+<span class="w">                </span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">safeDrawingPadding</span><span class="p">()</span>
+<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">NavGraph</span><span class="p">(</span><span class="n">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">navController</span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
@@ -1736,8 +1713,8 @@ Próbáld ki így az alkalmazást!</p>
           </path>
         </svg>
       </span>
-      <span title="2024. szeptember 30. 23:20:28">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-09-30T23:20:28+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-09-30</span>
+      <span title="2025. március 10. 18:32:07">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. március 10. 18:32:07"><span class="timeago" datetime="2025-03-10T18:32:07+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. március 10. 18:32:07">2025-03-10</span>
       </span>
     </span>
 

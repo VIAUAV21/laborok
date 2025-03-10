@@ -83,15 +83,15 @@ A függőségeink a Version Catalogban (`libs.version.toml`):
 
 ```gradle
 [versions]
-agp = "8.5.2"
-kotlin = "1.9.0"
-coreKtx = "1.13.1"
+agp = "8.8.2"
+kotlin = "2.1.10"
+coreKtx = "1.15.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.6"
-activityCompose = "1.9.2"
-composeBom = "2024.09.02"
+lifecycleRuntimeKtx = "2.8.7"
+activityCompose = "1.10.1"
+composeBom = "2025.02.00"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -111,7 +111,8 @@ androidx-material3 = { group = "androidx.compose.material3", name = "material3" 
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ```
 
 Illetve a modul szintű `build.gradle.kts` fájlban:
@@ -137,10 +138,10 @@ dependencies {
 }
 ```
 
-A fenti függőségekhez 34-es SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű `build.gradle.kts` fájlunkban:
+A fenti függőségekhez 35-ös SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű `build.gradle.kts` fájlunkban:
 
 ```gradle
-    compileSdk = 34
+    compileSdk = 35
 ```
 
 
@@ -152,8 +153,8 @@ Vegyük fel a szükséges referenciákat a `libs.versions.toml` fájlba:
 
 ```gradle
 [versions]
-materialIconsExtended = "1.7.2"
-navigationCompose = "2.8.1"
+materialIconsExtended = "1.7.8"
+navigationCompose = "2.8.8"
 ...
 
 [libraries]
@@ -173,7 +174,7 @@ implementation(libs.androidx.navigation.compose)
 
 ## Elemi UI építőelemek elkészítése
 
-A fenti képeken látható, hogy a bejelentkeztetési form egyedi kinézetű szövegmezőkből és címkékből épülnek fel. A *Compose* alapelve - ahogyan a neve is tükrözi, - hogy a felhasználói felületünket hierarchikusan építhetjük fel, és a kisebb építőelemekből összetettebbeket állíthatunk össze. Ez egyrészt segíti a fejlesztői gondolkodást, hiszen könnyen tudunk a felhasználói felület adott részére koncentrálni, ezeket függetlenül elkészíteni, és így idővel a részekből már könnyen összerakható lesz a teljes kívánt UI is. Másrészt, ez a megközelítés segíti az újrafelhasználást, hiszen a kisebb felületi elemek könnyen újrafelhasználhatók az alkalmazás különböző részeiben is.
+A fenti képeken látható, hogy a bejelentkeztetési form egyedi kinézetű szövegmezőkből és címkékből épül fel. A *Compose* alapelve - ahogyan a neve is tükrözi, - hogy a felhasználói felületünket hierarchikusan építhetjük fel, és a kisebb építőelemekből összetettebbeket állíthatunk össze. Ez egyrészt segíti a fejlesztői gondolkodást, hiszen könnyen tudunk a felhasználói felület adott részére koncentrálni, ezeket függetlenül elkészíteni, és így idővel a részekből már könnyen összerakható lesz a teljes kívánt UI is. Másrészt, ez a megközelítés segíti az újrafelhasználást, hiszen a kisebb felületi elemek könnyen újrafelhasználhatók az alkalmazás különböző részeiben is.
 
 Készítsünk először egy igen általános szövegmezőt, amelyet majd az éppen aktuális igényeknek megfelelően gazdagon tudunk paraméterezni. Tulajdonképpen a rendszer részét képező `TextField` is sokrétű funkcionalitással rendelkezik, azonban szeretnénk egy magasabb szintű komponenst, amely számunkra könnyebben használható, és a hibajelzés megjelenítését is megoldja.
 
@@ -184,7 +185,6 @@ Ezen belül készítsünk egy `NormalTextField` komponenst a következő tartalo
 ```kotlin
 package hu.bme.aut.android.composebasics.ui.common
 
-@ExperimentalMaterial3Api
 @Composable
 fun NormalTextField(
     modifier: Modifier = Modifier,
@@ -192,11 +192,15 @@ fun NormalTextField(
     label: String,
     onValueChange: (String) -> Unit,
     enabled: Boolean = true,
-    readOnly: Boolean = false,
     isError: Boolean = false,
     onDone: (KeyboardActionScope.() -> Unit)?,
-    leadingIcon: @Composable (() -> Unit)?,
-    trailingIcon: @Composable (() -> Unit)?
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(
+        keyboardType = KeyboardType.Text,
+        imeAction = ImeAction.Done
+    ),
+    singleLine: Boolean = true,
 ) {
     OutlinedTextField(
         value = value.trim(),
@@ -217,16 +221,11 @@ fun NormalTextField(
                 }
             }
         },
-        modifier = modifier
-            .width(TextFieldDefaults.MinWidth),
-        singleLine = true,
-        readOnly = readOnly,
+        modifier = modifier,
+        singleLine = singleLine,
         isError = isError,
         enabled = enabled,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Done
-        ),
+        keyboardOptions = keyboardOptions,
         keyboardActions = KeyboardActions(
             onDone = onDone
         )
@@ -239,28 +238,26 @@ fun NormalTextField(
 
 Tekintsük át a fenti kódot! A komponens a konstruktoron keresztül számos paramétert át tud venni:
 
+- **modifier**: a megjelenést módosító paraméterek; itt továbbadjuk a megadottakat, és még hozzáadjuk, hogy a téma szerinti minimális szélesség lépjen érvényre
 - **value**: a szövegmező tartalma; ezt egyszerűen továbbadjuk a felhasznált `OutlinedTextField` komponensnek, de az eleji/végi whitespace karaktereket a `trim()` segítségével levágjuk
 - **label**: a szövegmező címkéje, amely magyarázza annak tartalmát; ezt egy `Text` composable-be csomagolva továbbadjuk
 - **onValueChange**: eseménykezelő, amely a tartalom megváltoztatásakor hívódik; egyszerűen továbbadjuk
-- **leadingIcon** és **traliningIcon**: a szövegmező elején és végén megjelenítendő ikonok, amelyeket egy újabb composable függvényként lehet megadni; a komponensünk beépített hibajelzést valósít meg, ezért ha hiba van beállítva, akkor a szöveg végén nem a beállított ikon, hanem hibajelzés jelenik meg
-- **modifier**: a megjelenést módosító paraméterek; itt továbbadjuk a megadottakat, és még hozzáadjuk, hogy a téma szerinti minimális szélesség lépjen érvényre
 - **enabled**: engedélyezve van-e a szövegmező?
-- **readOnly**: csak olvasható-e a szövegmező?
 - **isError**: ha a szövegmező tartalma nem érvényes, akkor beállíthatjuk `true` értékre, és a szövegmező végén egy hibajelző ikon fog megjelenni.
 - **onDone**: eseménykezelő, hogy mi történjen, ha a szerkesztést a felhasználó befejezte
+- **leadingIcon** és **traliningIcon**: a szövegmező elején és végén megjelenítendő ikonok, amelyeket egy újabb composable függvényként lehet megadni; a komponensünk beépített hibajelzést valósít meg, ezért ha hiba van beállítva, akkor a szöveg végén nem a beállított ikon, hanem hibajelzés jelenik meg
+- **keyboardOptions**: ez állítja be, hogy milyen jellegű billentyűzet jelenjen meg a képernyőn, és milyen IME gyorsgomb tartozzon a szerkesztőhöz. Ha emailt vagy telefonszámot gépeltetnénk be, akkor megjeleníthetünk ehhez alkalmasabb billentyűzetet is.
 
-A `modifier` értékeként a komponens felhasználásakor nagyon sok paraméter megadható. Erre számos példát láthatunk az Android hivatalos dokumentációjában: https://developer.android.com/jetpack/compose/modifiers
+A `modifier` értékeként a komponens felhasználásakor nagyon sok paraméter megadható. Erre számos példát láthatunk az Android hivatalos dokumentációjában: [https://developer.android.com/jetpack/compose/modifiers](https://developer.android.com/jetpack/compose/modifiers)
 
 A felhasznált `OutlinedTextField` komponensen további jellemzőket is beállítottunk, amelyeket egyébként a `NormalTextField` nem tud kívülről felülbírálhatóvá tenni. Ezek jelentése:
 
 - **singleLine**: csak egy sort lehet begépelni a szövegmezőbe
-- **keyboardOptions**: ez állítja be, hogy milyen jellegű billentyűzet jelenjen meg a képernyőn, és milyen IME gyorsgomb tartozzon a szerkesztőhöz. Itt mindig egyszerű szöveges billentyűzetet és "kész" gombot választunk. Ha emailt vagy telefonszámot gépeltetnénk be, akkor megjeleníthetünk ehhez alkalmasabb billentyűzetet is.
 - **keyboardActions**: mi történjen az egyes IME akciók kiváltásakor. Itt csak a korábban megadott `onDone` eseménykezelőt hívjuk meg.
 
 Ezzel elkészült az első composable komponensünk, de mivel még sok hiányzik a felhasználói felületből, ezért ezt csak soká tudnánk valójában kipróbálni. Szerencsére a Compose technológia lehetőséget ad rá, hogy fejlesztés közben is pontos előnézetet kapjunk a komponenseinkből. Ezt célszerűen úgy tesszük meg, hogy definiálunk egy előnézeti függvényt, amely a kívánt paraméterezéssel meghívja a composable függvényünket, majd erre a függvényre is rátesszük a `@Composable` és az `@ExperimentalMaterial3Api` annotációkat, illetve az előnézet generálásáért felelős `@Preview` annotációt is. Próbáljuk ki a komponensünket az alábbi tesztfüggvénnyel, amit betehetünk a `NormalTextField` fájljába:
 
 ```kotlin
-@ExperimentalMaterial3Api
 @Preview
 @Composable
 fun NormalTextViewPreview() {
@@ -268,8 +265,6 @@ fun NormalTextViewPreview() {
         value = "Csetneki Péter",
         label = "Név",
         onValueChange = {},
-        leadingIcon = {},
-        trailingIcon = {},
         onDone = {}
     )
 }
@@ -282,7 +277,6 @@ Előnézeti függvényből többet is létrehozhatunk, hogy lássuk, hogyan néz
 paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelenést is:
 
 ```kotlin
-@ExperimentalMaterial3Api
 @Preview
 @Composable
 fun NormalTextViewErrorPreview() {
@@ -290,8 +284,6 @@ fun NormalTextViewErrorPreview() {
         value = "abc",
         label = "Mennyiség (kg)",
         onValueChange = {},
-        leadingIcon = {},
-        trailingIcon = {},
         onDone = {},
         isError = true
     )
@@ -309,7 +301,6 @@ A fentihez hasonlóan a `ui.common` package-be készítsünk egy újabb komponen
 ```kotlin
 package hu.bme.aut.android.composebasics.ui.common
 
-@ExperimentalMaterial3Api
 @Composable
 fun PasswordTextField(
     modifier: Modifier = Modifier,
@@ -317,10 +308,13 @@ fun PasswordTextField(
     label: String,
     onValueChange: (String) -> Unit,
     enabled: Boolean = true,
-    readOnly: Boolean = false,
     isError: Boolean = false,
     onDone: (KeyboardActionScope.() -> Unit)?,
-    leadingIcon: @Composable (() -> Unit)?,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(
+        keyboardType = KeyboardType.Password,
+        imeAction = ImeAction.Done
+    ),
     isVisible: Boolean = true,
     onVisibilityChanged: () -> Unit,
 ) {
@@ -348,20 +342,40 @@ fun PasswordTextField(
                 }
             }
         },
-        modifier = modifier
-            .width(TextFieldDefaults.MinWidth),
+        modifier = modifier,
         singleLine = true,
-        readOnly = readOnly,
         isError = isError,
         enabled = enabled,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Password,
-            imeAction = ImeAction.Done
-        ),
+        keyboardOptions = keyboardOptions,
         keyboardActions = KeyboardActions(
             onDone = onDone
         ),
         visualTransformation = if (isVisible) VisualTransformation.None else PasswordVisualTransformation(),
+    )
+}
+
+@Preview
+@Composable
+fun PasswordTextFieldShownPreview() {
+    PasswordTextField(
+        value = "MySecretPassword",
+        label = "Jelszó",
+        onValueChange = {},
+        onVisibilityChanged = {},
+        onDone = {}
+    )
+}
+
+@Preview
+@Composable
+fun PasswordTextFieldHiddenPreview() {
+    PasswordTextField(
+        value = "MySecretPassword",
+        label = "Jelszó",
+        onValueChange = {},
+        onVisibilityChanged = {},
+        onDone = {},
+        isVisible = false
     )
 }
 ```
@@ -376,12 +390,11 @@ Ez a komponens csak két apró dologban tér el az előzőtől:
 
 Most, hogy a képernyők minden fontos alkotórésze a rendelkezésünkre áll, elkezdhetjük maguknak a képernyőknek az elkészítését. Kezdjük a bejelentkező képernyővel!
 
-A képernyőknek és a hozzájuk kapcsolódó kódoknak hozzunk létre egy közös `hu.bme.aut.android.composebasics.feature` package-et, majd ezen belül a bejelentkező képernyő a `login` package-be kerüljön! Készítsük el a képernyő kódját `LoginScreen` néven, majd adjuk meg a következő kódot:
+A képernyőknek és a hozzájuk kapcsolódó kódoknak hozzunk létre egy közös `hu.bme.aut.android.composebasics.screen` package-et, majd ezen belül a bejelentkező képernyő a `login` package-be kerüljön! Készítsük el a képernyő kódját `LoginScreen` néven, majd adjuk meg a következő kódot:
 
 ```kotlin
-package hu.bme.aut.android.composebasics.feature.login
+package hu.bme.aut.android.composebasics.screen.login
 
-@ExperimentalMaterial3Api
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
@@ -402,6 +415,9 @@ fun LoginScreen(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             NormalTextField(
+                modifier = Modifier
+                    .width(TextFieldDefaults.MinWidth)
+                    .height(64.dp),
                 value = usernameValue,
                 label = stringResource(id = R.string.textfield_label_username),
                 onValueChange = { newValue ->
@@ -415,11 +431,16 @@ fun LoginScreen(
                         contentDescription = null
                     )
                 },
-                trailingIcon = { },
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Next
+                ),
                 onDone = { }
             )
             Spacer(modifier = Modifier.height(16.dp))
             PasswordTextField(
+                modifier = Modifier
+                    .width(TextFieldDefaults.MinWidth)
+                    .height(64.dp),
                 value = passwordValue,
                 label = stringResource(id = R.string.textfield_label_password),
                 onValueChange = { newValue ->
@@ -448,7 +469,8 @@ fun LoginScreen(
                         onLoginClick(usernameValue)
                     }
                 },
-                modifier = Modifier.width(TextFieldDefaults.MinWidth),
+                modifier = Modifier
+                    .width(TextFieldDefaults.MinWidth),
                 shape = RectangleShape
             ) {
                 Text(text = stringResource(id = R.string.button_label_login))
@@ -470,8 +492,7 @@ Feltűnnek még különböző konténerelemek, amelyek segítségével a felüle
 Nézzük is meg az elkészült komponenst:
 
 ```kotlin
-@ExperimentalMaterial3Api
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 fun LoginScreenPreview() {
     LoginScreen(
@@ -485,14 +506,12 @@ fun LoginScreenPreview() {
 
 	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
 
-A második elkészítendő képernyőnk az alkalmazás "főképernyője", amit sikeres bejelentkezés után lát a felhasználó. Viszont itt már részben érintenünk kell a képernyők közti navigáció kérdését is, hiszen a képernyőnek lesz egy menüje, ahonnan majd más képernyőkre lehet navigálni. Ehhez egy `navigation` package-et hozzunk létre, és ebbe kerüljön az alábbi `Screen` osztály. Itt `sealed class`-t alkalmazunk a lehetséges képernyők leírására, mert csak előre megadott számú képernyőnk van, és a főképernyő argumentumot is kaphat. A `sealed class` kicsit hasonlít az `enumhoz`, de támogatja ezt a fontos különbséget is. Az osztály előtt definiált konstansokat később fogjuk használni, amikor teljesen összerakjuk a navigációs gráfot.
+A második elkészítendő képernyőnk az alkalmazás "főképernyője", amit sikeres bejelentkezés után lát a felhasználó. Viszont itt már részben érintenünk kell a képernyők közti navigáció kérdését is, hiszen a képernyőnek lesz egy menüje, ahonnan majd más képernyőkre lehet navigálni. 
+
+Ehhez hozzunk létre egy `navigation` package-et, és ebbe kerüljön az alábbi `Screen` osztály. Ahhoz, hogy ne sztring összehasonlítás alapján navigáljunk, ebben az osztályban felvesszük az egyes képernyőink navigációs útvonalát "konstansként". `sealed class`-t alkalmazunk a lehetséges képernyők leírására, mert csak előre megadott számú képernyőnk van, és a főképernyő argumentumot is kaphat. A `sealed class` kicsit hasonlít az `enumhoz`, de támogatja ezt a fontos különbséget is. 
 
 ```kotlin
 package hu.bme.aut.android.composebasics.navigation
-
-const val ROOT_GRAPH_ROUTE = "root"
-const val AUTH_GRAPH_ROUTE = "auth"
-const val MAIN_GRAPH_ROUTE = "main"
 
 sealed class Screen(val route: String) {
     object Login: Screen(route = "login")
@@ -510,10 +529,10 @@ sealed class Screen(val route: String) {
 !!! info "sealed class"
 	A Kotlin sealed class-ai olyan osztályok, amelyekből korlátozott az öröklés, és fordítási időben minden leszármazott osztálya ismert. Ezeket az osztályokat az enumokhoz hasonló módon tudjuk alkalmazni. Jelen esetben a `Home` valójában nem a `Screen` közvetlen leszármazottja, hanem anonim leszármazott osztálya, mivel a felhasználónév paraméterként történő kezelését is tartalmazza.
 
-Maga a főképernyő egy `feature.home` subpackage-be kerüljön. Először itt is egy segédosztályt hozunk létre. Jelen esetben a menüpontokat fogjuk enumban modellezni. Minden menüpontra jellemző a neve, az ikonja, illetve egy azonosító, ahova navigál:
+Maga a főképernyő egy `screen.home` subpackage-be kerüljön. Először itt is egy segédosztályt hozunk létre a `menu` package-ben. Jelen esetben a menüpontokat fogjuk enumban modellezni. Minden menüpontra jellemző a neve, az ikonja, illetve egy azonosító, ahova navigál:
 
 ```kotlin
-package hu.bme.aut.android.composebasics.feature.home
+package hu.bme.aut.android.composebasics.screen.home.menu
 
 enum class MenuItemUiModel(
     val text: @Composable () -> Unit,
@@ -540,7 +559,7 @@ enum class MenuItemUiModel(
 A menüben szerepelnek profil és beállítás lehetőségek is, amelyekről korábban nem volt szó. Ezek nem lesznek igazi kidolgozott képernyők, de példaképp szerepelnek itt, hogy bemutassuk, hogyan lehetne a főmenüből további oldalakra is elnavigálni. Látható, hogy itt a menüpontoknál meghivatkoztuk a korábban a `Screen` osztályban definiált képernyőket is. A leírt menüpontokból még fel kell építenünk a menüt is. Elvileg ezt megtehetnénk a teljes főképernyő részeként, de átláthatóbb struktúrát kapunk, ha ezt külön composable komponensbe szervezzük. Ahogyan általában véve a metódusoknál sem átlátható a túl hosszú, úgy a felületi komponenseinket is érdemes kisebb, jobban kezelhető egységekre osztani. Készítsünk tehát egy `Menu` komponenst:
 
 ```kotlin
-package hu.bme.aut.android.composebasics.feature.home
+package hu.bme.aut.android.composebasics.screen.home.menu
 
 @Composable
 fun Menu(
@@ -577,9 +596,9 @@ Látjuk, hogy a menüelemek látrehozása is ciklussal történik, és a menüpo
 Most rátérhetünk a tényleges főképernyő létrehozására:
 
 ```kotlin
-package hu.bme.aut.android.composebasics.feature.home
+package hu.bme.aut.android.composebasics.screen.home
 
-@ExperimentalMaterial3Api
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     argument: String,
@@ -667,7 +686,7 @@ Nézzük meg, hogyan fest az elkészített főképernyő:
 
 ```kotlin
 @ExperimentalMaterial3Api
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
@@ -680,18 +699,18 @@ fun HomeScreenPreview() {
 
 ## A képernyők közötti navigáció elkészítése
 
-Most már csak össze kell kötnünk a meglévő képernyőket a navigációs szabályokkal. Ehhez navigációs gráfokat fogunk definiálni. Egyrészt definiálunk egy gráfot az authentikáció előtti képernyőkre, itt most csak a bejelentkezés lesz, de egy valós alkalmazásban lehetne pl. egy regisztrációs képernyőnk is. Ezeket a korábban létrehozott `navigation` package-be tegyük. Az authentikáció előtti gráf a következőképpen néz ki:
+Most már csak össze kell kötnünk a meglévő képernyőket a navigációs szabályokkal. Ehhez egy navigációs gráfokat fogunk definiálni. Ezt a korábban létrehozott `navigation` package-be tegyük:
 
 ```kotlin
 package hu.bme.aut.android.composebasics.navigation
 
-@ExperimentalMaterial3Api
-fun NavGraphBuilder.authNavGraph(
+@Composable
+fun NavGraph(
     navController: NavHostController
 ) {
-    navigation(
-        startDestination = Screen.Login.route,
-        route = AUTH_GRAPH_ROUTE
+    NavHost(
+        navController = navController,
+        startDestination = Screen.Login.route
     ) {
         composable(
             route = Screen.Login.route
@@ -702,25 +721,6 @@ fun NavGraphBuilder.authNavGraph(
                 }
             )
         }
-    }
-}
-```
-
-A kódból azt tudjuk megállapítani, hogy a navigációs gráf a bejelentkeztetési képernyőn kezdődik, és neki is van egy útvonalazonosítója, amelyet most a korábban definiált `AUTH_GRAPH_ROUTE` konstanssal adtunk meg. A navigációban *composable* felületi elemeket adhatunk meg: mindegyikhez tartozik egy-egy útvonal, ezekhez a `Screen` osztályból hivatkozzuk meg a megfelelő útvonalat. Látható, hogy a hierarchikusan összeállított felhasználói felületek "utolsó" paraméterei itt kapnak konkrét értétet. Konkrétan a bejelentkezés gomb eseménykezelője van itt lambda-kifejezésként megadva. Ez a lambda-kifejezés valójában a navigációs kontrollert hívja meg, és azzal navigáltat a megfelelő útvonalra, amit a kontroller a navigációs gráf alapján felold. Figyeljük meg, hogy a bejelentkezés után a főképernyő útvonalába a felhasználónevet mint paramétert is belekódoljuk. Azt is láthatjuk, hogy tényleges bejelentkeztető logika itt nem történik, de ha erre lenne szükségünk, azt itt megtehetnénk, hiszen itt van megadva a bejelentkezés gomb eseménykezelője.
-
-A másik navigációs gráf a bejelentkezés utáni navigációt írja le:
-
-```kotlin
-package hu.bme.aut.android.composebasics.navigation
-
-@ExperimentalMaterial3Api
-fun NavGraphBuilder.mainNavGraph(
-    navController: NavHostController
-) {
-    navigation(
-        startDestination = Screen.Home.route,
-        route = MAIN_GRAPH_ROUTE
-    ) {
         composable(
             route = Screen.Home.route,
             arguments = listOf(
@@ -731,7 +731,7 @@ fun NavGraphBuilder.mainNavGraph(
         ) {
             HomeScreen(
                 argument = navController.currentBackStackEntry?.arguments
-                                        ?.getString(Screen.Home.Args.username) ?: "",
+                    ?.getString(Screen.Home.Args.username) ?: "",
                 onLogout = {
                     navController.popBackStack(route = Screen.Login.route, inclusive = false)
                 },
@@ -758,64 +758,36 @@ fun NavGraphBuilder.mainNavGraph(
 }
 ```
 
-Végül a kettőt egyesítenünk kell:
+A kódból azt tudjuk megállapítani, hogy a navigációs gráf a bejelentkeztetési képernyőn kezdődik. A navigációban *composable* felületi elemeket adhatunk meg: mindegyikhez tartozik egy-egy útvonal, ezekhez a `Screen` osztályból hivatkozzuk meg a megfelelő útvonalat. Látható, hogy a hierarchikusan összeállított felhasználói felületek "utolsó" paraméterei itt kapnak konkrét értétet. Konkrétan a bejelentkezés gomb eseménykezelője van itt lambda-kifejezésként megadva. Ez a lambda-kifejezés valójában a navigációs kontrollert hívja meg, és azzal navigáltat a megfelelő útvonalra, amit a kontroller a navigációs gráf alapján felold. Azt is láthatjuk, hogy tényleges bejelentkeztető logika itt nem történik, de ha erre lenne szükségünk, azt itt megtehetnénk, hiszen itt van megadva a bejelentkezés gomb eseménykezelője.
 
-```kotlin
-package hu.bme.aut.android.composebasics.navigation
+Figyeljük meg, hogy a bejelentkezés után a főképernyő útvonalába a felhasználónevet mint paramétert is belekódoljuk, hogy aztán a gráfban a *Home Screenre* kinyerjük azt. Illetve azt is megállapíthatjuk, hogy a főképernyőre érkezve a backstackről törlődik a bejelentkeztető képernyő útvonala. Ez így logikus, hiszen ha már sikeresen beléptünk, nem szeretnénk, hogy a back gombra kattintva véletlen kilépjünk az alkalmazásból. A gráfban a profil és beállítás oldalak nincsenek kidolgozva, ezért ide csak egy-egy `Box` elemet vettünk fel placeholder szöveggel.
 
-@ExperimentalMaterial3Api
-@Composable
-fun NavGraph(
-    navController: NavHostController
-) {
-    NavHost(
-        navController = navController,
-        startDestination = AUTH_GRAPH_ROUTE,
-        route = ROOT_GRAPH_ROUTE
-    ) {
-        authNavGraph(navController = navController)
-        mainNavGraph(navController = navController)
-    }
-}
-```
-
-Figyeljük meg, hogy ebben a gráfban a főképernyőre érkezve hogyan lehet felhasználónevet
-kinyerni! Illetve azt is megállapíthatjuk, hogy a főképernyőre érkezve a backstackről
-törlődik a bejelentkeztető képernyő útvonala. Ez így logikus, hiszen ha már sikeresen
-beléptünk, nem szeretnénk, hogy a back gombra kattintva véletlen kilépjünk az alkalmazásból.
-A gráfban a profil és beállítás oldalak nincsenek kidolgozva, ezért ide csak egy-egy `Box`
-elemet vettünk fel placeholder szöveggel.
-
-Már csak a `MainActivity`-be kell bekötnünk a navigáció szerint feloldott felszín megjelenítését.
-Itt történik az alkalmazás témájának a megadása is:
+Már csak a `MainActivity`-be kell bekötnünk a navigáció szerint feloldott felület megjelenítését. Itt történik az alkalmazás témájának a megadása is:
 
 ```kotlin
 package hu.bme.aut.android.composebasics
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.ui.Modifier
-import androidx.navigation.compose.rememberNavController
-import hu.bme.aut.android.composebasics.navigation.NavGraph
-import hu.bme.aut.android.composebasics.ui.theme.ComposeBasicsTheme
-
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            ComposeBasicsTheme() {
-                val navController = rememberNavController()
-                Box(modifier = Modifier.safeDrawingPadding()) {
-                    NavGraph(navController = navController)
-                }
-            }
+            ComposeBasicsScreen()
+        }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun ComposeBasicsScreen() {
+    ComposeBasicsTheme() {
+        val navController = rememberNavController()
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .safeDrawingPadding()
+        ) {
+            NavGraph(navController = navController)
         }
     }
 }

@@ -90,7 +90,7 @@ nav:
       - laborok/tictactoe/index.md
       - laborok/calculator/index.md
       - laborok/compose/index.md
-      - laborok/todo_compose_basics/index.md
+      - laborok/todo/index.md
       - laborok/persistence/index.md
       - laborok/firebase/index.md
       - laborok/di/index.md

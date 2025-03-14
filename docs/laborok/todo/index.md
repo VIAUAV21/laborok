@@ -31,7 +31,7 @@ A feladatok megoldása során ne felejtsd el követni a [feladat beadás folyama
 Ezután indítsuk el az Android Studio-t, majd:
 
 1. Hozzunk létre egy új projektet, válasszuk az *Empty Activity* lehetőséget.
-2. A projekt neve legyen `Todo`, a kezdő package pedig `hu.bme.aut.android.todo`.
+2. A projekt neve legyen `Todo`, a kezdő *package* pedig `hu.bme.aut.android.todo`.
 3.  A projektet a repository-n belül egy külön mappában hozzuk létre. 
 4. A minimum API szint legyen 26 (Android 8.0).
 5. A Build configuration language-nél válasszuk a Kotlin DSL-t.
@@ -43,15 +43,29 @@ Ellenőrízzük, hogy a létrejött projekt lefordul és helyesen működik!
 
 ## Verziók frissítése
 
-Vegyük fel a szükséges könyvtárakat a `libs.versions.toml` fájlban:
+Először frissítsük a verziószámokat a `libs.versions.toml` fájlban:
+
+```toml
+[versions]
+agp = "8.8.2"
+kotlin = "2.1.10"
+coreKtx = "1.15.0"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.8.7"
+activityCompose = "1.10.1"
+composeBom = "2025.03.00"
+```
+
+Utána vegyük fel a pluszban szükséges könyvtárakat:
 
 ```toml
 [versions]
 ...
-composeBom = "2024.09.03"
 kotlinxDatetime = "0.4.1"
-lifecycleVersion = "2.8.6"
-navigationCompose = "2.8.2"
+lifecycleVersion = "2.8.7"
+navigationCompose = "2.8.9"
 
 [libraries]
 ...
@@ -91,10 +105,10 @@ dependencies {
 !!!danger "Függőségek"
 	Az itt található kódban minden függőség szerepel, a labor során újat hozzáadni nem kell. Azonban az egyértelműség kedvéért a későbbiekben mindenhol feltüntetjük az adott területhez szükséges függőségeket.
 
-A fenti függőségekhez 34-es SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű `build.gradle.kts` fájlunkban:
+A fenti függőségekhez 35-ös SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű `build.gradle.kts` fájlunkban:
 
 ```gradle
-    compileSdk = 34
+    compileSdk = 35
 ```
 
 ## Szöveges erőforrások definiálása
@@ -111,6 +125,7 @@ A `strings.xml` fájl működését már ismerjük, töltsük fel ezt előre a k
     <string name="priority_title_high">high</string>
     <string name="text_empty_todo_list">"You haven\\'t added any todos yet. "</string>
     <string name="text_your_todo_list">Your todos</string>
+    <string name="text_priority">priority</string>
     <string name="list_item_supporting_text">The due date is: %1$s</string>
     <string name="textfield_label_description">Description</string>
     <string name="textfield_label_title">Title</string>
@@ -129,8 +144,10 @@ Mielőtt nekilátnánk az alkalmazás felületeinek, illetve logikájának kiala
  - Fontosság
  - Azonosító
 
-Hozzunk létre egy új `domain` package-t létre a projektünk gyökerében, mely az alkalmazásunk adatrétegének részeit fogja tartalmazni, majd ezen belül hozzunk létre egy `model` package-et, mely az adatmodellek osztály megfelelőit fogja tartalmazni. Ebben hozzuk létre az alábbi két fájlt:
+Hozzunk létre egy új `domain` *package*-et létre a projektünk gyökerében, mely az alkalmazásunk adatrétegének részeit fogja tartalmazni, majd ezen belül hozzunk létre egy `model` *package*-et, mely az adatmodellek osztály megfelelőit fogja tartalmazni. Ebben hozzuk létre az alábbi két fájlt:
+
 `Todo.kt`:
+
 ```kotlin
 package hu.bme.aut.android.todo.domain.model
 
@@ -146,8 +163,9 @@ data class Todo(
 ```
 
 `Priority.kt`:
+
 ```kotlin
-package hu.bme.aut.android.todo.domain
+package hu.bme.aut.android.todo.domain.model
 
 enum class Priority {  
     NONE,  
@@ -174,11 +192,12 @@ enum class Priority {
 
 Az adat típusú osztályok esetében a Kotlin automatikusan deklarál gyakran használt függvényeket, mint például az `equals()` és `hashCode()` függvényeket különböző objektumok összehasonlításához, illetve egy `toString()` függvényt, mely visszaadja a tárolt változók értékét.
 
-A felhasználói felület kódjának egyszerűsítése érdékében érdemes olyan segédosztályokat is definiálni, melyek már közvetlenül a felületen használt értékeket fogják használni. Ehhez deifiniáljuk a `ui` package-en belül a `model` package-et, és vegyük fel a következő osztályokat:
+A felhasználói felület kódjának egyszerűsítése érdékében érdemes olyan segédosztályokat is definiálni, melyek már közvetlenül a felületen használt értékeket fogják használni. Hozzunk létre egy `presentation` *package*-et a projektünk gyökerében, és helyezzük át ebbe a már létező `ui` *package*-et. Majd deifiniáljuk a `ui` *package*-en belül a `model` *package*-et, és vegyük fel a következő osztályokat:
+
 `UiText.kt`:
 
 ```kotlin
-package hu.bme.aut.android.todo.ui.model
+package hu.bme.aut.android.todo.presentation.ui.model
 
 import android.content.Context
 import androidx.annotation.StringRes
@@ -206,12 +225,12 @@ fun Throwable.toUiText(): UiText {
 }
 ```
 
-Vizsgáljuk meg, hogy tudjuk a `sealed class` segítségével általánosan definiálni a szövegeket, melyek így jöhetnek a beégetett erőforrásból, vagy érkezhetnek a szerveren keresztül egy külső forrásból.
+Vizsgáljuk meg, hogy tudjuk a `sealed class` segítségével általánosan definiálni a szövegeket, melyek így jöhetnek a erőforrásból, vagy érkezhetnek egy külső forrásból.
 
 `PriorityUi.kt`:
 
 ```kotlin
-package hu.bme.aut.android.todo.ui.model
+package hu.bme.aut.android.todo.presentation.ui.model
 
 import androidx.compose.ui.graphics.Color
 import hu.bme.aut.android.todo.R
@@ -261,7 +280,7 @@ fun Priority.asPriorityUi(): PriorityUi {
 `TodoUi.kt`
 
 ```kotlin
-package hu.bme.aut.android.todo.ui.model
+package hu.bme.aut.android.todo.presentation.ui.model
 
 import hu.bme.aut.android.todo.domain.model.Todo
 import kotlinx.datetime.LocalDate
@@ -280,7 +299,7 @@ data class TodoUi(
     val description: String = ""  
 )  
 
-fun Todo.asTodoUi(): TodoUi = TodoUi(  
+fun Todo.asTodoUi(): TodoUi = TodoUi(
     id = id,  
     title = title,  
     priority = priority.asPriorityUi(),  
@@ -288,7 +307,7 @@ fun Todo.asTodoUi(): TodoUi = TodoUi(
     description = description  
 )  
 
-fun TodoUi.asTodo(): Todo = Todo(  
+fun TodoUi.asTodo(): Todo = Todo(
     id = id,  
     title = title,  
     priority = priority.asPriority(),  
@@ -306,13 +325,13 @@ Az előző laborhoz hasonlóan alakítsuk ki a projektben a navigációnál hasz
 
 	```kotlin
 	[versions]
-	navigationCompose = "2.8.1"
+	navigationCompose = "2.8.9"
 
 	[libraries]
 	androidx-navigation-compose = { group = "androidx.navigation", name="navigation-compose", version.ref = "navigationCompose" }
 	```
 
-Hozzunk létre a gyökérkönyvtárban egy új package-et `navigation` néven, majd hozzuk létre benne az útvonalakat reprezentáló `Screen` osztályt:
+Hozzunk létre a gyökérkönyvtárban egy új *package*-et `navigation` néven, majd hozzuk létre benne az útvonalakat reprezentáló `Screen` osztályt:
 
 ```kotlin
 package hu.bme.aut.android.todo.navigation
@@ -322,21 +341,24 @@ sealed class Screen(val route: String) {
 }
 ```
 
- Illetve hozzuk létre a navigációt végző `Composable` függvényt is a `NavGraph.kt` fájlban:
+ Illetve hozzuk létre a navigációt végző *Composable* függvényt is a `NavGraph.kt` fájlban:
 
 ```kotlin
 package hu.bme.aut.android.todo.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun NavGraph(
+    modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
     NavHost(
+        modifier = modifier,
         navController = navController,
         startDestination = ""
     ) {
@@ -345,7 +367,7 @@ fun NavGraph(
 }
 ```
 
-A `NavGraph` Composable szerepe, hogy karban tartsa az útvonalakat, itt fogjuk a navgiációs eseményeket feldolgozni.
+A `NavGraph` *Composable* szerepe, hogy karban tartsa az útvonalakat, itt fogjuk a navgiációs eseményeket feldolgozni.
 
 Végül frissítsük a `MainActivity` tartalmát úgy, hogy a `NavGraph` Composable-t használja:
 
@@ -355,17 +377,27 @@ package hu.bme.aut.android.todo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import hu.bme.aut.android.todo.navigation.NavGraph
-import hu.bme.aut.android.todo.ui.theme.TodoTheme
+import hu.bme.aut.android.todo.presentation.ui.theme.TodoTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TodoTheme {
-                NavGraph()
-            }
+            MainActivityContent()
         }
+    }
+}
+
+@Preview
+@Composable
+private fun MainActivityContent() {
+    TodoTheme {
+        NavGraph(modifier = Modifier.safeDrawingPadding())
     }
 }
 ```
@@ -378,7 +410,7 @@ Ahhoz, hogy az alkalmazásunk működjön, szükségünk lesz egy oldalra, amit 
 - Egy feladatra való kattintás után el kell navigálni egy részletező oldalra.
 - Elérhetővé kell tenni egy új feladat létrehozását, melynek hatására új oldalra kell navigálnunk.
 
-Az új oldalakra való navigáláshoz szükségünk van a navigációt vezérlő kontrollerre, melyet a `NavGraph` Composable kezel, ezért ezeknél az eseményeknél az oldal olyan függvény callback objektumokat fog meghívni, melyeket a konstruktorán keresztül kap meg, így a `NavGraph` könnyen tud értesülni róluk.
+Az új oldalakra való navigáláshoz szükségünk van a navigációt vezérlő kontrollerre, melyet a `NavGraph` *Composable* kezel, ezért ezeknél az eseményeknél az oldal olyan függvény callback objektumokat fog meghívni, melyeket a konstruktorán keresztül kap meg, így a `NavGraph` könnyen tud értesülni róluk.
 
 Az adatok kezeléséhez tipikusan a `ViewModel` osztályt használjuk. A `ViewModel` segítségével biztosítjuk azt, hogy elkülönüljenek az alkalmazásunk megjelenítésért szolgáló kódjai az alkalmazás logikáját biztosító kódjaitól. Míg az előbbiek a felület megjelenéséért felelnek, a `ViewModel` tárolja és dolgozza fel a UI-nak szükséges adatokat.
 ![](assets/compose_viewmodel.png)
@@ -387,36 +419,57 @@ Az adatok kezeléséhez tipikusan a `ViewModel` osztályt használjuk. A `ViewMo
 	Vegyük fel a szükséges függőségeket:
 	```toml
 	[versions]
-	lifecycleVersion = "2.8.6"
+	lifecycleVersion = "2.8.7"
+
 	[libraries]
 	androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name="lifecycle-runtime-compose", version.ref = "lifecycleVersion" }
 	androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name="lifecycle-viewmodel-compose", version.ref = "lifecycleVersion" }
 	``` 
 
-Hozzuk létre a gyökérkönyvtáron belül a `feature` package-et, mely az egyes oldalak `Composable` és `ViewModel` osztályait fogja tartalmazni funkciónként külön *package*-ben, majd hozzuk létre ebben a `todo_list` package-t.
+Hozzuk létre a `presentation` *package*-en belül a `screen` *package*-et, mely az egyes oldalak *Composable* és *ViewModel* osztályait fogja tartalmazni funkciónként külön *package*-ben, majd hozzuk létre ebben a `todo_list` *package*-et.
 
-Először foglalkozzunk az oldalhoz tartozó `ViewModel` osztállyal. Hozzuk létre a `TodoListViewModel.kt` fájlt, majd másoljuk be az alábbi kódrészletet:
+Először foglalkozzunk az oldalhoz tartozó *ViewModel* osztállyal. A `TodoListViewModel.kt` osztályunk fogja tárolni és kezelni a Lista képernyőnk állapotát. Ez a `TodoListState.kt` osztály az alábbiak szerint fog kinézni:
 
 ```kotlin
-package hu.bme.aut.android.todo.feature.todo_list
+package hu.bme.aut.android.todo.presentation.screen.todo_list
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import hu.bme.aut.android.todo.ui.model.PriorityUi
-import hu.bme.aut.android.todo.ui.model.TodoUi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import hu.bme.aut.android.todo.presentation.ui.model.TodoUi
 
 sealed class TodoListState {
     object Loading : TodoListState()
     data class Error(val error: Throwable) : TodoListState()
     data class Result(val todoList : List<TodoUi>) : TodoListState()
 }
+```
+
+Látható, hogy a felületünk három állapotban lehet:
+
+- betöltés alatt,
+- hibás állapotban, ahol a hiba paraméterként megjelenik,
+- vagy eredményes állapotban, ahol az eredményt szintén paraméterként kapjuk meg.
+
+Ezeknek az állapotoknak az összefogására itt is egy `sealed class`-t fogunk alkalmazni a korábban kifejtett előnyei miatt.
+
+Miután megvan az állapotunk, készítsük el az ezt kezelő `TodoListViewModel` osztályt:
+
+`TodoListViewModel.kt`:
+
+```kotlin
+package hu.bme.aut.android.todo.presentation.screen.todo_list
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import hu.bme.aut.android.todo.presentation.ui.model.PriorityUi
+import hu.bme.aut.android.todo.presentation.ui.model.TodoUi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+
+
 
 class TodoListViewModel() : ViewModel() {
     private val _state = MutableStateFlow<TodoListState>(TodoListState.Loading)
@@ -470,14 +523,14 @@ class TodoListViewModel() : ViewModel() {
 }
 ```
 
-A felületet leíró állapot osztályt `sealed class`-ként deklaráljuk, és jól elkülönített állapot osztályokat veszünk fel, így is jelezve, hogy az egyes állapotokban az oldalunkon mit kell megjeleníteni. Ezeket egy `MutableStateFlow` segítségével kezeljük, melyet egy csak olvasható változatában osztunk meg az oldalt reprezentáló `Composable`-el. Az adatok betöltését egyelőre a ViewModel magában végzi el, ez azonban hamarosan ki lesz bővítve külső adatbetöltés támogatásával.
+A felületet leíró állapotot egy `MutableStateFlow` segítségével kezeljük, melyet egy csak olvasható változatában osztunk meg az oldalt reprezentáló *Composable*l-el. Az adatok betöltését egyelőre a *ViewModel* magában végzi el, ez azonban hamarosan ki lesz bővítve külső adatbetöltés támogatásával.
 
-Mivel a `ViewModel` képes túlélni az őt létrehozó komponenst, ezért a kódból mi nem a konstruktor hívásával fogjuk létrehozni a példányt, hanem a keretrendszernek tudunk átadni egy speciális _factory_ metódust, amit a rendszer az első alkalommal meg fog hívni. Ezt a metódust szerveztük ki a `companion object` részbe, ami jelenleg csak létrehoz egy példányt, a későbbiekben azonban hasznos lesz különböző külső értékek inicializálására.
+Mivel a *ViewModel* képes túlélni az őt létrehozó komponenst, ezért a kódból mi nem a konstruktor hívásával fogjuk létrehozni a példányt, hanem a keretrendszernek tudunk átadni egy speciális _factory_ metódust, amit a rendszer az első alkalommal meg fog hívni. Ezt a metódust szerveztük ki a `companion object` részbe, ami jelenleg csak létrehoz egy példányt, a későbbiekben azonban hasznos lesz különböző külső értékek inicializálására.
 
-Hozzuk létre a felületet megvalósító `TodoListScreen.kt` fájlt is ugyanebben a packageben:
+Hozzuk létre a felületet megvalósító `TodoListScreen.kt` fájlt is ugyanebben a *package*-ben:
 
 ```kotlin
-package hu.bme.aut.android.todo.feature.todo_list
+package hu.bme.aut.android.todo.presentation.screen.todo_list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -509,9 +562,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import hu.bme.aut.android.todo.R
-import hu.bme.aut.android.todo.ui.model.toUiText
 import androidx.compose.foundation.lazy.items
 import androidx.compose.ui.tooling.preview.Preview
+import hu.bme.aut.android.todo.presentation.ui.model.toUiText
 
 @Composable
 fun TodoListScreen(
@@ -523,7 +576,9 @@ fun TodoListScreen(
     val context = LocalContext.current
 
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp),
         floatingActionButton = {
             LargeFloatingActionButton(
                 onClick = onFabClick,
@@ -538,7 +593,6 @@ fun TodoListScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(8.dp)
                 .background(
                     color = if (state is TodoListState.Loading || state is TodoListState.Error) {
                         MaterialTheme.colorScheme.secondaryContainer
@@ -550,11 +604,12 @@ fun TodoListScreen(
         ) {
             when (state) {
                 is TodoListState.Loading -> CircularProgressIndicator(
-                    color = MaterialTheme.colorScheme.secondaryContainer
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
 
                 is TodoListState.Error -> Text(
-                    text = state.error.toUiText().asString(context)
+                    text = state.error.toUiText().asString(context),
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
 
                 is TodoListState.Result -> {
@@ -569,11 +624,19 @@ fun TodoListScreen(
     }
 }
 
+@Preview
+@Composable
+fun TodoListScreenPreview() {
+    TodoListScreen(
+        onListItemClick = {},
+        onFabClick = {}
+    )
+}
 ``` 
 
 Mint a legtöbb esetben, itt is egy `Scaffold`-ot használunk az oldalunk kezelésére, melyhez most egy `LargeFloatingActionButton`-t is adunk, amellyel majd új feladatokat lehet létrehozni. Ne felejtsük el a Scaffold fő tartalmában `innerPadding` névvel megkapott `PaddingValues` értékeket a megfelelő helyre beszúrni (ez ebben az esetben a fő `Box` köré kerül. Ezek mellett látható, hogyan tudunk az aktuális állapot különböző értékeinek függvényében elágazni, és különböző elemeket megjeleníteni.
 
-Vizsgáljuk meg, hogyan történik az oldal frissítése! A `collectAsStateWithLifecycle()` függvényhívással automatikusan feliratkozunk a `ViewModel`-ben tárolt állapotra. Ha változás történik ebben, újra le fog futni a `Composable`, mely így már a frisebb állapotot fogja megjeleníteni.
+Vizsgáljuk meg, hogyan történik az oldal frissítése! A `collectAsStateWithLifecycle()` függvényhívással automatikusan feliratkozunk a *ViewModelben* tárolt állapotra. Ha változás történik ebben, újra le fog futni a *Composable*, mely így már a frisebb állapotot fogja megjeleníteni.
 
 Valósítsuk meg a lista megjelenítését is! Másoljuk be az alábbi kódot a megfelelő `else` ágba:
 
@@ -587,7 +650,8 @@ Column {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        items(state.todoList, key = { todo -> todo.id }) { todo ->
+        items(items = state.todoList,
+            key = { todo -> todo.id }) { todo ->
             ListItem(
                 leadingContent = {
                     Icon(
@@ -641,9 +705,15 @@ Column {
 	import androidx.compose.foundation.lazy.items
 	```
 
-Látható, hogy a lista megjelenítésére a `LazyColumn` Composable-t használjuk, mely képes nagy elemszámú listát hatékonyan megjeleníteni. Ahhoz, hogy jól működjön a lista módosítása esetén is (pl. hozzáadás, törlés, átrendezés), mindenképp érdemes a `key` paramétert úgy definiálni, hogy az adott listaelemet egyértelműen beazonosítsa.
+Látható, hogy a lista megjelenítésére a `LazyColumn` *Composable*-t használjuk, mely képes nagy elemszámú listát hatékonyan megjeleníteni. Ahhoz, hogy jól működjön a lista módosítása esetén is (pl. hozzáadás, törlés, átrendezés), mindenképp érdemes a `key` paramétert úgy definiálni, hogy az adott listaelemet egyértelműen beazonosítsa.
 
-Lista elemnek most egy egyszerű `ListItem`-et használunk, ami esetünkben tökéletesen elég. A *leadingContent* helyére a *priority* ikon, a *headlineContent* helyére a *todo* címe, a *supportingContent* helyére a határidő kerül. Természetesen komplexebb listaelemek esetén külön *Composable* készítése ajánlott.
+Lista elemnek most egy egyszerű `ListItem`-et használunk, ami esetünkben tökéletesen elég. A 
+
+- *leadingContent* helyére a *priority* ikon, 
+- a *headlineContent* helyére a *todo* címe, 
+- a *supportingContent* helyére a határidő kerül.
+
+Természetesen komplexebb listaelemek esetén külön *Composable* készítése ajánlott.
 
 Az oldal elkészült, már csak a navigációt kell frissíteni az oldalhoz. Vegyük fel az útvonalat a `Screen` osztályba:
 
@@ -655,23 +725,26 @@ sealed class Screen(val route: String) {
 }
 ```
 
-Illetve a `NavGraph` Composable-t:
+Illetve a `NavGraph` *Composable*-t:
 
 ```kotlin
 package hu.bme.aut.android.todo.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import hu.bme.aut.android.todo.feature.todo_list.TodoListScreen
+import hu.bme.aut.android.todo.presentation.screen.todo_list.TodoListScreen
 
 @Composable
 fun NavGraph(
+    modifier : Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
     NavHost(
+        modifier = modifier,
         navController = navController,
         startDestination = Screen.TodoList.route
     ) {
@@ -699,12 +772,13 @@ Futtassuk az alkalmazás!
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 ## Adatréteg kialakítása
-Ezen a laboron egy egyszerűsített megoldást mutatunk be a feladatok tárolására, mely csak a memóriában menti el az értékeket. Hozzunk létre egy `data` package-et a gyökérkönyvtáron belül, majd hozzuk létre az alábbi két fájlt:
+
+Ezen a laboron egy egyszerűsített megoldást mutatunk be a feladatok tárolására, mely csak a memóriában menti el az értékeket. Hozzunk létre egy `data.repository` *package*-et a gyökérkönyvtáron belül, majd hozzuk létre az alábbi két fájlt:
 
 `TodoRepository.kt`:
 
 ```kotlin
-package hu.bme.aut.android.todo.data
+package hu.bme.aut.android.todo.data.repository
 
 import hu.bme.aut.android.todo.domain.model.Todo
 
@@ -720,7 +794,7 @@ interface ITodoRepository {
 `MemoryTodoRepository.kt` :
 
 ```kotlin
-package hu.bme.aut.android.todo.data
+package hu.bme.aut.android.todo.data.repository
 
 import hu.bme.aut.android.todo.domain.model.Priority
 import hu.bme.aut.android.todo.domain.model.Todo
@@ -753,7 +827,7 @@ object MemoryTodoRepository : ITodoRepository {
         ),
         Todo(
             id = 4,
-            title = "Teszt feladat 4 hosszű szöveg, hogy több sorba kelljen írni",
+            title = "Teszt feladat 4 hosszú szöveg, hogy több sorba kelljen írni",
             priority = Priority.HIGH,
             description = "Feladat leírás 4",
             dueDate = LocalDateTime.now().toKotlinLocalDateTime().date,
@@ -807,11 +881,28 @@ object MemoryTodoRepository : ITodoRepository {
 }
 ```
 
-Az `ITodoRepository` egy általános interfészt ír le, mellyel elérhetővé válnak a feladatok az alkalmazás számára, míg a `MemoryTodoRepository` egy memória alapú megvalósítását mutatja be. Bár itt most nem lenne szükség a `suspend` kulcsszó használatára, ezzel tudjuk biztosítani, hogy a későbbiekben egy adatbázis vagy hálózati `TodoRepository` elkészítése után könnyedén tudjuk migrálni a projektet, ezt a késleltetést imitáljuk a `delay()` függvény hívásával is. Az `object` kulcsszóval a _Singleton_ mintát tudjuk egyszerűen megvalósítani.
+Az `ITodoRepository` egy általános *interface*-t ír le, mellyel elérhetővé válnak a feladatok az alkalmazás számára, míg a `MemoryTodoRepository` egy memória alapú megvalósítását mutatja be. Bár itt most nem lenne szükség a `suspend` kulcsszó használatára, ezzel tudjuk biztosítani, hogy a későbbiekben egy adatbázis vagy hálózati `TodoRepository` elkészítése után könnyedén tudjuk migrálni a projektet. Ezt a késleltetést imitáljuk a `delay()` függvény hívásával is. Az `object` kulcsszóval a _Singleton_ mintát tudjuk egyszerűen megvalósítani.
 
 Frissítsük a `TodoListViewModel` osztályt, hogy ezt a memória alapú megvalósítást használja:
 
 ```kotlin
+package hu.bme.aut.android.todo.presentation.screen.todo_list
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import hu.bme.aut.android.todo.data.repository.ITodoRepository
+import hu.bme.aut.android.todo.data.repository.MemoryTodoRepository
+import hu.bme.aut.android.todo.presentation.ui.model.asTodoUi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+
+
+
 class TodoListViewModel(private val repository: ITodoRepository) : ViewModel() {
     private val _state = MutableStateFlow<TodoListState>(TodoListState.Loading)
     val state = _state.asStateFlow()
@@ -874,20 +965,23 @@ A feladat azonosítóját egy `/` jellel elválasztva tesszük be az útvonalba.
 package hu.bme.aut.android.todo.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import hu.bme.aut.android.todo.feature.todo_detail.TodoDetailScreen
-import hu.bme.aut.android.todo.feature.todo_list.TodoListScreen
+import hu.bme.aut.android.todo.presentation.screen.todo_detail.TodoDetailScreen
+import hu.bme.aut.android.todo.presentation.screen.todo_list.TodoListScreen
 
 @Composable
 fun NavGraph(
+    modifier : Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
     NavHost(
+        modifier = modifier,
         navController = navController,
         startDestination = Screen.TodoList.route
     ) {
@@ -916,12 +1010,26 @@ fun NavGraph(
 ```
 
 Az azonosítót a `composable`-ben is fel kell tüntetnünk az `arguments` paraméterben. Itt tudjuk megadni, hogy milyen típusú lesz az érték, amit átadunk a paraméterben, így a keretrendszer automatikusan át tudja alakítani a megfelelő típussá.
-Hozzunk létre egy új package-et a `feature` package-en belül `todo_detail` néven. 
+
+Hozzunk létre egy új *package*-et a `screen` *package*-en belül `todo_detail` néven. Ebben vegyük fel az állapotokat, a *ViewModelt* és a *screent*:
+
+`TodoDetailState.kt`:
+```kotlin
+package hu.bme.aut.android.todo.presentation.screen.todo_detail
+
+import hu.bme.aut.android.todo.presentation.ui.model.TodoUi
+
+sealed class TodoDetailState {
+    object Loading : TodoDetailState()
+    data class Error(val error: Throwable) : TodoDetailState()
+    data class Result(val todo: TodoUi) : TodoDetailState()
+}
+```
 
 `TodoDetailViewModel.kt`:
 
 ```kotlin
-package hu.bme.aut.android.todo.feature.todo_detail
+package hu.bme.aut.android.todo.presentation.screen.todo_detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -930,20 +1038,13 @@ import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import hu.bme.aut.android.todo.data.ITodoRepository
-import hu.bme.aut.android.todo.data.MemoryTodoRepository
-import hu.bme.aut.android.todo.ui.model.TodoUi
-import hu.bme.aut.android.todo.ui.model.asTodoUi
+import hu.bme.aut.android.todo.data.repository.ITodoRepository
+import hu.bme.aut.android.todo.data.repository.MemoryTodoRepository
+import hu.bme.aut.android.todo.presentation.ui.model.asTodoUi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-
-sealed class TodoDetailState {
-    object Loading : TodoDetailState()
-    data class Error(val error: Throwable) : TodoDetailState()
-    data class Result(val todo: TodoUi) : TodoDetailState()
-}
 
 class TodoDetailViewModel(private val repository: ITodoRepository, private val savedStateHandle: SavedStateHandle) : ViewModel() {
 
@@ -983,12 +1084,12 @@ class TodoDetailViewModel(private val repository: ITodoRepository, private val s
     }
 }
 ```
-Az útvonalban átadott paraméter kiolvasásához a `SavedStateHandle` osztályt használjuk. Ennek az osztálynak a szerepe az olyan adatok mentése, melyet az alkalmazás háttérben történő megsemmisítése és újraindítása után is ki akarunk olvasni. Ezt a funkcióját most nem használjuk ki, viszont a keretrendszer ebbe tölti be az útvonal paramétereket is, melyekhez így könnyen hozzáférünk, amikor az új feladatot kell betölteni.
+Az útvonalban átadott paraméter kiolvasásához a `SavedStateHandle` osztályt használjuk. Ennek az osztálynak a feladata az olyan adatok mentése, melyet az alkalmazás háttérben történő megsemmisítése és újraindítása után is ki akarunk olvasni. Ezt a funkcióját most nem használjuk ki, viszont a keretrendszer ebbe tölti be az útvonal paramétereket is, melyekhez így könnyen hozzáférünk, amikor az új feladatot kell betölteni.
 
 `TodoDetailScreen.kt`:
 
 ```kotlin
-package hu.bme.aut.android.todo.feature.todo_detail
+package hu.bme.aut.android.todo.presentation.screen.todo_detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -1003,7 +1104,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -1019,13 +1120,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import hu.bme.aut.android.todo.ui.model.toUiText
+import hu.bme.aut.android.todo.R
+import hu.bme.aut.android.todo.presentation.ui.model.toUiText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -1037,47 +1139,63 @@ fun TodoDetailScreen(
 
     val context = LocalContext.current
 
-    Scaffold(
-        topBar = {
-            if (state is TodoDetailState.Result) {
-                TopAppBar(
-                    title = { Text(state.todo.title) },
-                    navigationIcon = {
-                        IconButton(onClick = onNavigateBack) {
-                            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                        }
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                        actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
-                    ),
-                )
-            }
-        },
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                color = if (state is TodoDetailState.Loading || state is TodoDetailState.Error) {
+                    MaterialTheme.colorScheme.secondaryContainer
+                } else {
+                    MaterialTheme.colorScheme.background
+                }
+            )
+
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it),
-            contentAlignment = Alignment.Center
-        ) {
-            when (state) {
-                is TodoDetailState.Loading -> CircularProgressIndicator(
-                    color = MaterialTheme.colorScheme.secondaryContainer
-                )
-                is TodoDetailState.Error -> Text(
-                    text = state.error.toUiText().asString(context)
-                )
-                is TodoDetailState.Result -> {
+        when (state) {
+            is TodoDetailState.Loading -> CircularProgressIndicator(
+                color = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+
+            is TodoDetailState.Error -> Text(
+                text = state.error.toUiText().asString(context),
+                color = MaterialTheme.colorScheme.onSecondaryContainer
+            )
+
+            is TodoDetailState.Result -> {
+
+                Scaffold(
+                    topBar = {
+                        TopAppBar(
+                            title = { Text(state.todo.title) },
+                            navigationIcon = {
+                                IconButton(onClick = onNavigateBack) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                        contentDescription = null
+                                    )
+                                }
+                            },
+                            colors = TopAppBarDefaults.topAppBarColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                            ),
+                        )
+                    },
+                ) { contentPadding ->
+
                     val todo = state.todo
                     Column(
-                        modifier = Modifier.fillMaxSize().padding(all = 8.dp)
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(contentPadding)
+                            .padding(all = 8.dp)
                     ) {
                         Text(
                             todo.dueDate,
-                            style = MaterialTheme.typography.titleMedium
+                            style = MaterialTheme.typography.titleLarge
                         )
                         Row(
                             modifier = Modifier
@@ -1091,13 +1209,21 @@ fun TodoDetailScreen(
                                 contentDescription = null,
                                 tint = todo.priority.color,
                                 modifier = Modifier
-                                    .size(24.dp)
+                                    .size(40.dp)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
                                 modifier = Modifier
                                     .weight(weight = 8f),
-                                text = stringResource(id = todo.priority.title),
+                                text = "${
+                                    stringResource(
+                                        id = todo.priority.title
+                                    )
+                                } ${
+                                    stringResource(
+                                        id = R.string.priority
+                                    )
+                                }",
                                 style = MaterialTheme.typography.labelMedium
                             )
                         }
@@ -1110,9 +1236,17 @@ fun TodoDetailScreen(
         }
     }
 }
+
+@Preview
+@Composable
+fun TodoDetailScreenPreview() {
+    TodoDetailScreen(
+        onNavigateBack = {}
+    )
+}
 ```
 
-Végül a lista oldalhoz hasonlóan kiolvassuk a `ViewModel`-ben tárolt állapotot és megjelenítjük a megfelelő felületi elemeket.
+Végül a lista oldalhoz hasonlóan kiolvassuk a *ViewModelben* tárolt állapotot és megjelenítjük a megfelelő felületi elemeket.
 
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amelyen látszik a **részletes nézet** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az **ahhoz tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**! 
@@ -1124,16 +1258,17 @@ Végül a lista oldalhoz hasonlóan kiolvassuk a `ViewModel`-ben tárolt állapo
 
 ## Feladat létrehozása felület komponensek
 
-Az utolsó felület, melyet elkészítünk az alkalmazáshoz, a feladat létrehozása felület lesz. Ehhez több önálló felületi elemre lesz szükségünk, melyeket az oldal előtt létrehozunk. Hozzuk létre a `ui` package-en belül a `common` package-et, mely az olyan `Composable` elemeket tartalmazza, melyeket akár több oldalon is fel tudnánk használni. Ezen belül hozzuk létre az alábbi elemeket:
+Az utolsó felület, melyet elkészítünk az alkalmazáshoz, a feladat létrehozása felület lesz. Ehhez több önálló felületi elemre lesz szükségünk, melyeket az oldal előtt létrehozunk. Hozzuk létre a `ui` *package*-en belül a `common` *package*-et, mely az olyan *Composable* elemeket tartalmazza, melyeket akár több oldalon is fel tudnánk használni. Ezen belül hozzuk létre az alábbi elemeket:
 
 `DateSelector.kt`:
 
 ```kotlin
-package hu.bme.aut.android.todo.ui.common
+package hu.bme.aut.android.todo.presentation.ui.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -1170,34 +1305,32 @@ fun DateSelector(
             .background(MaterialTheme.colorScheme.background)
             .height(TextFieldDefaults.MinHeight)
             .clip(shape = shape)
-            .clickable(enabled = enabled, onClick = onClick),
+            .clickable(enabled = enabled, onClick = onClick)
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.onBackground,
+                shape = shape
+            ),
         shape = shape
     ) {
         Row(
             modifier = modifier
-                .width(TextFieldDefaults.MinWidth)
-                .height(TextFieldDefaults.MinHeight)
-                .clip(shape = shape),
+                .fillMaxSize()
+                .clip(shape = shape)
+                .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 modifier = Modifier
-                    .weight(weight = 8f)
-                    .padding(start = 20.dp),
+                    .weight(1f),
                 text = pickedDate.toString(),
                 style = MaterialTheme.typography.labelMedium
             )
-            IconButton(
-                modifier = Modifier
-                    .weight(weight = 1.5f),
-                onClick = onClick
-            ) {
-                Icon(
-                    imageVector = Icons.Default.EditCalendar,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
-                )
-            }
+            Icon(
+                imageVector = Icons.Default.EditCalendar,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }
@@ -1216,72 +1349,73 @@ fun DateSelectorPreview() {
 `NormalTextField.kt`:
 
 ```kotlin
-package hu.bme.aut.android.todo.ui.common
+package hu.bme.aut.android.todo.presentation.ui.common
 
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActionScope
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ErrorOutline
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 
 @Composable
 fun NormalTextField(
+    modifier: Modifier = Modifier,
     value: String,
     label: String,
     onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    isError: Boolean = false,
+    onDone: (KeyboardActionScope.() -> Unit)?,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
-    singleLine: Boolean = false,
-    enabled: Boolean = true,
-    onDone: (KeyboardActionScope.() -> Unit)?
+    keyboardOptions: KeyboardOptions = KeyboardOptions(
+        keyboardType = KeyboardType.Text,
+        imeAction = ImeAction.Done
+    ),
+    singleLine: Boolean = true,
 ) {
-    val shape = RoundedCornerShape(5.dp)
-
-    TextField(
-        value = value,
+    OutlinedTextField(
+        value = value.trim(),
         onValueChange = onValueChange,
         label = { Text(text = label) },
         leadingIcon = leadingIcon,
-        trailingIcon = trailingIcon,
-        modifier = modifier.clip(shape),
+        trailingIcon = if (isError) {
+            {
+                Icon(
+                    imageVector = Icons.Default.ErrorOutline,
+                    contentDescription = null
+                )
+            }
+        } else {
+            {
+                if (trailingIcon != null) {
+                    trailingIcon()
+                }
+            }
+        },
+        modifier = modifier,
         singleLine = singleLine,
+        isError = isError,
         enabled = enabled,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Done
-        ),
+        keyboardOptions = keyboardOptions,
         keyboardActions = KeyboardActions(
             onDone = onDone
-        ),
-        shape = shape
+        )
     )
-}
-
-@Preview
-@Composable
-fun NormalTextFieldPreview() {
-    NormalTextField(
-        value = "name",
-        label = "Péter",
-        onValueChange = {}) {
-
-    }
 }
 ```
 
 `PriorityDropdown.kt`:
 
 ```kotlin
-package hu.bme.aut.android.todo.ui.common
+package hu.bme.aut.android.todo.presentation.ui.common
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
@@ -1291,6 +1425,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -1319,7 +1454,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import hu.bme.aut.android.todo.ui.model.PriorityUi
+import hu.bme.aut.android.todo.presentation.ui.model.PriorityUi
 
 @Composable
 fun PriorityDropDown(
@@ -1343,34 +1478,38 @@ fun PriorityDropDown(
             .height(TextFieldDefaults.MinHeight)
             .clip(shape = shape)
             .background(MaterialTheme.colorScheme.background)
-            .clickable(enabled = enabled) { expanded = true },
+            .clickable(enabled = enabled) { expanded = true }
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.onBackground,
+                shape = shape
+            ),
         shape = shape
     ) {
         Row(
             modifier = modifier
-                .width(TextFieldDefaults.MinWidth)
-                .height(TextFieldDefaults.MinHeight)
-                .clip(shape = shape),
+                .fillMaxSize()
+                .clip(shape = shape)
+                .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Spacer(modifier = Modifier.width(20.dp))
             Icon(
                 imageVector = Icons.Default.Circle,
                 contentDescription = null,
                 tint = selectedPriority.color,
                 modifier = Modifier
-                    .size(20.dp)
+                    .size(40.dp)
             )
-            Spacer(modifier = Modifier.width(5.dp))
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
                 modifier = Modifier
-                    .weight(weight = 8f),
+                    .weight(weight = 1f),
                 text = stringResource(id = selectedPriority.title),
                 style = MaterialTheme.typography.labelMedium
             )
+            Spacer(modifier = Modifier.width(8.dp))
             IconButton(
                 modifier = Modifier
-                    .weight(weight = 1.5f)
                     .rotate(degrees = angle),
                 onClick = { expanded = true }
             ) {
@@ -1403,7 +1542,7 @@ fun PriorityDropDown(
                                 imageVector = Icons.Default.Circle,
                                 contentDescription = null,
                                 tint = priority.color,
-                                modifier = Modifier.size(22.dp)
+                                modifier = Modifier.size(40.dp)
                             )
                         }
                     )
@@ -1438,7 +1577,7 @@ fun PriorityDropdown_Preview() {
 Ezt a három elemet fogjuk össze a `TodoEditor` komponenssel, melyet ugyanitt hozzunk létre:
 
 ```kotlin
-package hu.bme.aut.android.todo.ui.common
+package hu.bme.aut.android.todo.presentation.ui.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -1449,6 +1588,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -1462,16 +1602,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import hu.bme.aut.android.todo.R
-import hu.bme.aut.android.todo.ui.model.PriorityUi
+import hu.bme.aut.android.todo.presentation.ui.model.PriorityUi
 import kotlinx.datetime.LocalDate
 import java.time.LocalDateTime
 
 @Composable
 fun TodoEditor(
-    titleValue: String,
-    titleOnValueChange: (String) -> Unit,
-    descriptionValue: String,
-    descriptionOnValueChange: (String) -> Unit,
+    title: String,
+    onTitleValueChange: (String) -> Unit,
+    description: String,
+    onDescriptionValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     priorities: List<PriorityUi> = listOf(PriorityUi.Low, PriorityUi.Medium, PriorityUi.High),
     selectedPriority: PriorityUi,
@@ -1487,59 +1627,56 @@ fun TodoEditor(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.secondaryContainer),
+            .background(MaterialTheme.colorScheme.background)
+            .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceAround,
     ) {
         if (enabled) {
             NormalTextField(
-                value = titleValue,
+                value = title,
                 label = stringResource(id = R.string.textfield_label_title),
-                onValueChange = titleOnValueChange,
+                onValueChange = onTitleValueChange,
                 singleLine = true,
                 onDone = { keyboardController?.hide() },
                 modifier = Modifier
-                    .fillMaxWidth(fraction)
-                    .padding(top = 5.dp)
+                    .fillMaxWidth()
             )
         }
-        Spacer(modifier = Modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         PriorityDropDown(
             priorities = priorities,
             selectedPriority = selectedPriority,
             onPrioritySelected = onPrioritySelected,
             modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth(fraction),
+                .fillMaxWidth(),
             enabled = enabled
         )
-        Spacer(modifier = Modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         DateSelector(
             pickedDate = pickedDate,
             onClick = onDateSelectorClicked,
             modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth(fraction),
+                .fillMaxWidth(),
             enabled = enabled
         )
-        Spacer(modifier = Modifier.height(5.dp))
+        Spacer(modifier = Modifier.height(8.dp))
         NormalTextField(
-            value = descriptionValue,
+            value = description,
             label = stringResource(id = R.string.textfield_label_description),
-            onValueChange = descriptionOnValueChange,
+            onValueChange = onDescriptionValueChange,
             singleLine = false,
             onDone = { keyboardController?.hide() },
             modifier = Modifier
-                .weight(10f)
-                .fillMaxWidth(fraction)
-                .padding(bottom = 5.dp),
+                .fillMaxWidth()
+                .weight(1f),
             enabled = enabled
         )
     }
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 fun TodoEditor_Preview() {
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
@@ -1550,12 +1687,12 @@ fun TodoEditor_Preview() {
     val c = LocalDateTime.now()
     val pickedDate by remember { mutableStateOf(LocalDate(c.year, c.month, c.dayOfMonth)) }
 
-    Box(Modifier.fillMaxSize()) {
+    Box(Modifier.fillMaxSize().safeDrawingPadding()) {
         TodoEditor(
-            titleValue = title,
-            titleOnValueChange = { title = it },
-            descriptionValue = description,
-            descriptionOnValueChange = { description = it },
+            title = title,
+            onTitleValueChange = { title = it },
+            description = description,
+            onDescriptionValueChange = { description = it },
             priorities = priorities,
             selectedPriority = selectedPriority,
             onPrioritySelected = { selectedPriority = it },
@@ -1568,14 +1705,14 @@ fun TodoEditor_Preview() {
 }
 ```
 
-Ezek mellett a létrehozás oldalon szükségünk lesz egy `TopAppBar` elemre is. Egy ilyet már létrehoztunk a részletes nézeten, ezt kiemelve és általánosítva hozzuk létre az új `TodoAppBar` elemet ugyanebbe a package-be:
+Ezek mellett a létrehozás oldalon szükségünk lesz egy `TopAppBar` elemre is. Egy ilyet már létrehoztunk a részletes nézeten, ezt kiemelve és általánosítva hozzuk létre az új `TodoAppBar` elemet ugyanebbe a *package*-be:
 
 ```kotlin
-package hu.bme.aut.android.todo.ui.common
+package hu.bme.aut.android.todo.presentation.ui.common
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -1600,16 +1737,16 @@ fun TodoAppBar(
         title = { Text(text = title) },
         navigationIcon = {
             IconButton(onClick = onNavigateBack) {
-                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
 
             }
         },
         actions = actions,
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            titleContentColor = MaterialTheme.colorScheme.onPrimary,
-            actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
-            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
         )
     )
 }
@@ -1636,39 +1773,27 @@ TodoAppBar(
 
 ## Feladat készítése oldal
 
-Hozzuk létre a `feature` package-en belül a `todo_create` package-et. Ezen belül készítsük el az oldal logikáját megvalósító `TodoCreateViewModel` osztályt:
+Hozzuk létre a `screen` *package*-en belül a `todo_create` *package*-et. Ezen belül készítsük el az oldal logikáját megvalósító `TodoCreateViewModel`-t és a hozzá kapcsolódó osztályokat:
+
+`TodoCreateState.kt`:
 
 ```kotlin
-package hu.bme.aut.android.todo.feature.todo_create
+package hu.bme.aut.android.todo.presentation.screen.todo_create
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
-import hu.bme.aut.android.todo.data.ITodoRepository
-import hu.bme.aut.android.todo.data.MemoryTodoRepository
-import hu.bme.aut.android.todo.ui.model.PriorityUi
-import hu.bme.aut.android.todo.ui.model.TodoUi
-import hu.bme.aut.android.todo.ui.model.UiText
-import hu.bme.aut.android.todo.ui.model.asTodo
-import hu.bme.aut.android.todo.ui.model.toUiText
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalDate
+import hu.bme.aut.android.todo.presentation.ui.model.TodoUi
 
 data class TodoCreateState(
     val todo: TodoUi = TodoUi()
 )
+```
 
-sealed class TodoCreateUiEvent {
-    object Success : TodoCreateUiEvent()
-    data class Failure(val error: UiText) : TodoCreateUiEvent()
-}
+`TodoCreateEvent.kt`:
+
+```kotlin
+package hu.bme.aut.android.todo.presentation.screen.todo_create
+
+import hu.bme.aut.android.todo.presentation.ui.model.PriorityUi
+import kotlinx.datetime.LocalDate
 
 sealed class TodoCreateEvent {
     data class ChangeTitle(val text: String) : TodoCreateEvent()
@@ -1677,6 +1802,41 @@ sealed class TodoCreateEvent {
     data class SelectDate(val date: LocalDate) : TodoCreateEvent()
     object SaveTodo : TodoCreateEvent()
 }
+```
+
+`TodoCreateUiEvent.kt`:
+
+```kotlin
+package hu.bme.aut.android.todo.presentation.screen.todo_create
+
+import hu.bme.aut.android.todo.presentation.ui.model.UiText
+
+sealed class TodoCreateUiEvent {
+    object Success : TodoCreateUiEvent()
+    data class Failure(val error: UiText) : TodoCreateUiEvent()
+}
+```
+
+`TodoCreateViewModel.kt`:
+
+```kotlin
+package hu.bme.aut.android.todo.presentation.screen.todo_create
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import hu.bme.aut.android.todo.data.repository.ITodoRepository
+import hu.bme.aut.android.todo.data.repository.MemoryTodoRepository
+import hu.bme.aut.android.todo.presentation.ui.model.asTodo
+import hu.bme.aut.android.todo.presentation.ui.model.toUiText
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class TodoCreateViewModel(
     private val todoRepository: ITodoRepository
@@ -1760,15 +1920,15 @@ class TodoCreateViewModel(
 }
 ```
 
-Ebben a `ViewModel` osztályban két új architektúra mintát is megfigyelhetünk:
+Ebben a *ViewModel* osztályban két új architektúra mintát is megfigyelhetünk:
 
- - A felhasználói felületről érkező eseményeknek egy új osztályt definiáltunk `TodoCreateEvent` néven. Ezeket az eseményeket egy általános, `onEvent()` metódusban kezeljük le, így könnyebben követhető, milyen interakciókra számíthatunk a `ViewModel` oldaláról. Szükség esetén az egyes események kezelésére létrehozható egyedi privát metódus, de a UI csak az `onEvent()`-et hívja meg.
+ - A felhasználói felületről érkező eseményeknek egy új osztályt definiáltunk `TodoCreateEvent` néven. Ezeket az eseményeket egy általános, `onEvent()` metódusban kezeljük le, így könnyebben követhető, milyen interakciókra számíthatunk a *ViewModel* oldaláról. Szükség esetén az egyes események kezelésére létrehozható egyedi privát metódus, de a UI csak az `onEvent()`-et hívja meg.
  - Vannak olyan események, melyekre a UI rétegnek reagálnia kell a megjelenítés helyett. Például egy feladat sikeres létrehozása után azt szeretnénk, hogy az alkalmazás navigáljon vissza az előző oldalra. Ilyenkor azt akarjuk, hogy ez az esemény csak és kizárólag egyszer kerüljön feldolgozásra. Ezeket egy `Channel` segítségével osztjuk meg.
 
-Az ehhez tartozó oldalhoz hozzuk létre a `TodoCreateScreen.kt` fájlt ebbe a package-be:
+Az ehhez tartozó oldalhoz hozzuk létre a `TodoCreateScreen.kt` fájlt ebbe a *package*-be:
 
 ```kotlin
-package hu.bme.aut.android.todo.feature.todo_create
+package hu.bme.aut.android.todo.presentation.screen.todo_create
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -1794,9 +1954,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import hu.bme.aut.android.todo.R
 import hu.bme.aut.android.todo.domain.model.Priority
-import hu.bme.aut.android.todo.ui.common.TodoAppBar
-import hu.bme.aut.android.todo.ui.common.TodoEditor
-import hu.bme.aut.android.todo.ui.model.asPriorityUi
+import hu.bme.aut.android.todo.presentation.ui.common.TodoAppBar
+import hu.bme.aut.android.todo.presentation.ui.common.TodoEditor
+import hu.bme.aut.android.todo.presentation.ui.model.asPriorityUi
 import kotlinx.coroutines.launch
 import kotlinx.datetime.toLocalDate
 
@@ -1815,8 +1975,11 @@ fun TodoCreateScreen(
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { uiEvent ->
-            when(uiEvent) {
-                is TodoCreateUiEvent.Success -> { onNavigateBack() }
+            when (uiEvent) {
+                is TodoCreateUiEvent.Success -> {
+                    onNavigateBack()
+                }
+
                 is TodoCreateUiEvent.Failure -> {
                     scope.launch {
                         hostState.showSnackbar(uiEvent.error.asString(context))
@@ -1852,10 +2015,10 @@ fun TodoCreateScreen(
             contentAlignment = Alignment.Center
         ) {
             TodoEditor(
-                titleValue = state.todo.title,
-                titleOnValueChange = { viewModel.onEvent(TodoCreateEvent.ChangeTitle(it)) },
-                descriptionValue = state.todo.description,
-                descriptionOnValueChange = { viewModel.onEvent(TodoCreateEvent.ChangeDescription(it)) },
+                title = state.todo.title,
+                onTitleValueChange = { viewModel.onEvent(TodoCreateEvent.ChangeTitle(it)) },
+                description = state.todo.description,
+                onDescriptionValueChange = { viewModel.onEvent(TodoCreateEvent.ChangeDescription(it)) },
                 priorities = Priority.entries.map { it.asPriorityUi() },
                 selectedPriority = state.todo.priority,
                 onPrioritySelected = { viewModel.onEvent(TodoCreateEvent.SelectPriority(it)) },
@@ -1890,21 +2053,24 @@ Valósítsuk meg a navigációt is a `NavGraph.kt` fájlban:
 package hu.bme.aut.android.todo.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import hu.bme.aut.android.todo.feature.todo_create.TodoCreateScreen
-import hu.bme.aut.android.todo.feature.todo_detail.TodoDetailScreen
-import hu.bme.aut.android.todo.feature.todo_list.TodoListScreen
+import hu.bme.aut.android.todo.presentation.screen.todo_create.TodoCreateScreen
+import hu.bme.aut.android.todo.presentation.screen.todo_detail.TodoDetailScreen
+import hu.bme.aut.android.todo.presentation.screen.todo_list.TodoListScreen
 
 @Composable
 fun NavGraph(
+    modifier : Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
     NavHost(
+        modifier = modifier,
         navController = navController,
         startDestination = Screen.TodoList.route
     ) {
@@ -1953,14 +2119,20 @@ Próbáljuk ki az alkalmazást! Mit tapasztalunk egy feladat létrehozásánál?
 
 Észrevehetjük, hogy ha létrehozunk egy új feladatot, az nem jelenik meg a listában. Ez azért történik, mert a lista oldal tartalmát csak az oldal létrejöttekor frissítjük be, a feladat létrehozása után történő visszalépés viszont a meglévő oldalra lép vissza, nem hoz létre egy újat. Ezt több módon is meg tudjuk oldani.
 
- - A visszalépés során meghívunk egy metódust, mely befrissíti a lista oldal tartalmát. Ez történhet egy `Channel`-en keresztül az oldal felé, vagy kiemelhetjük a lista nézet `ViewModel` osztályát a navigációs komponensbe, amin így közvetlenül meg tudjuk hívni a lista frissítést.
+ - A visszalépés során meghívunk egy metódust, mely befrissíti a lista oldal tartalmát. Ez történhet egy `Channel`-en keresztül az oldal felé, vagy kiemelhetjük a lista nézet *ViewModel* osztályát a navigációs komponensbe, amin így közvetlenül meg tudjuk hívni a lista frissítést.
  - A feladatokat tároló `Repository` egy reaktív `Flow`-al térne vissza az egyszeri lista helyett, így a lista oldal ezen keresztül tud értesülni a változásokról (pl. Firebase hasonló elven is tud működni)
  - Az oldal aktívvá válásakor automatikusan frissítjük a lista tartalmát is.
 
 Mi most a harmadik megoldást fogjuk alkalmazni. Ehhez értesülnünk kell arról, amikor az adott oldal aktívvá válík (hasonlóan az `Activity` `onResume()` életciklusához). Ezt az [itt látható leírás](https://developer.android.com/jetpack/compose/side-effects#disposableeffect) alapján tudjuk megvalósítani.
 
 `TodoListScreen.kt`:
+
 ```kotlin
+import androidx.compose.runtime.DisposableEffect
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
+
 @Composable
 fun TodoListScreen(
     onListItemClick: (Int) -> Unit,
@@ -1988,7 +2160,7 @@ fun TodoListScreen(
 }
 ```
 
-Tegyük a `ViewModel` loadTodos() metódusát publikussá, és töröljük az inicializáló kódblokkban történő meghívását. Próbáljuk ki az alkalmazást! Ha zavar a töltés miatti képernyő bevillanása, akkor akár ki is vehetjük a `loadTodos()` metódusból a `Loading` állapot beállítását.
+Tegyük a *ViewModel* loadTodos() metódusát publikussá, és töröljük az inicializáló kódblokkban történő meghívását. Próbáljuk ki az alkalmazást! Ha zavar a töltés miatti képernyő bevillanása, akkor akár ki is vehetjük a `loadTodos()` metódusból a `Loading` állapot beállítását.
 
 ## Kiegészítő feladat 2 - Animáció optimalizálás
 
@@ -2005,7 +2177,8 @@ fun PriorityDropDown(
         targetValue = if (expanded) 180f else 0f,
         label = "Priority arrow angle animation"
     )
-	
+    val shape = RoundedCornerShape(5.dp)
+
     Surface(
         ...
     ) {
@@ -2027,18 +2200,14 @@ fun PriorityDropDown(
     }
 }
 ```
-Az `animateFloatAsState()` egy nagyon hasznos State objektumot tesz elérhetővé az objektumonkun belül. A `targetValue` értékét állítva a kiolvasott érték nem egyből, hanem egy átmenettel fogja megközelíteni a célértéket, mely így könnyen felhasználható animációk készítésére. Ráadásul mivel az összes `Composable` egy Kotlin függvénynek felel meg, tetszőleges elágazást vagy felületet létre tudok hozni egy ilyen animáció segítségével. Arra viszont érdemes ügyelni, hogy ezek az animációk minél hatékonyabbak legyenek, mindig csak a szükséges elemeket rajzolják újra.
+Az `animateFloatAsState()` egy nagyon hasznos State objektumot tesz elérhetővé az objektumonkun belül. A `targetValue` értékét állítva a kiolvasott érték nem egyből, hanem egy átmenettel fogja megközelíteni a célértéket, mely így könnyen felhasználható animációk készítésére. Ráadásul mivel az összes *Composable* egy Kotlin függvénynek felel meg, tetszőleges elágazást vagy felületet létre tudok hozni egy ilyen animáció segítségével. Arra viszont érdemes ügyelni, hogy ezek az animációk minél hatékonyabbak legyenek, mindig csak a szükséges elemeket rajzolják újra.
 
 Egy State objektum értéknek a változása során minden kontextust, mely kiolvasta az értékét, újra fogja futtatni. Ebben a helyzetben az IconButton létrehozásakor olvassuk ki az aktuális értékét, mely a `Row` elem függvény callbackjében történik meg, tehát a szög módosítása hatására ezt a kódblokkot mindenképp újra kell futtatnia a Composenak.
 
 Első optimalizációs lépésként beljebb vihetjük a forgatást elvégzó kódrészletet az `IconButton` belsejében található `Icon` elemre:
 
 ```kotlin
-IconButton(
-	modifier = Modifier
-		.weight(weight = 1.5f),
-	onClick = { expanded = true }
-) {
+IconButton(onClick = { expanded = true }) {
 	Icon(
 		imageVector = Icons.Default.ArrowDropDown,
 		contentDescription = null,
@@ -2078,49 +2247,52 @@ Valósítsuk meg a felugró dátumválasztó ablakot a `TodoCreateScreen`-en! Ko
 ??? success "DatePickerDialog"
 	```kotlin
 	if (showDialog) {
-        Box() {
-
-            val datePickerState = rememberDatePickerState()
-
-            DatePickerDialog(
-                onDismissRequest = {
-                    // Dismiss the dialog when the user clicks outside the dialog or on the back
-                    // button. If you want to disable that functionality, simply use an empty
-                    // onDismissRequest.
-                    showDialog = false
-                },
-                confirmButton = {
-                    TextButton(
-                        onClick = {
-                            showDialog = false
-                            val date =
-                                Instant.ofEpochMilli(datePickerState.selectedDateMillis!!)
-                                    .atZone(ZoneId.systemDefault()).toLocalDateTime()
-
-                            viewModel.onEvent(
-                                TodoCreateEvent.SelectDate(
-                                    LocalDate(date.year, date.month, date.dayOfMonth)
-                                )
-                            )
-                        }
-                    ) {
-                        Text(stringResource(R.string.dialog_ok_button_text))
-                    }
-                },
-                dismissButton = {
-                    TextButton(
-                        onClick = {
-                            showDialog = false
-                        }
-                    ) {
-                        Text(stringResource(R.string.dialog_dismiss_button_text))
-                    }
-                }
-            ) {
-                DatePicker(state = datePickerState)
-            }
-        }
-    }	
+	    Box() {
+	
+	        val datePickerState = rememberDatePickerState()
+	
+	        DatePickerDialog(
+	            onDismissRequest = {
+	                // Dismiss the dialog when the user clicks outside the dialog or on the back
+	                // button. If you want to disable that functionality, simply use an empty
+	                // onDismissRequest.
+	                showDialog = false
+	            },
+	            confirmButton = {
+	                TextButton(
+	                    onClick = {
+	                        showDialog = false
+	                        if (datePickerState.selectedDateMillis!=null) {
+	
+	                            val date =
+	                                Instant.ofEpochMilli(datePickerState.selectedDateMillis!!)
+	                                    .atZone(ZoneId.systemDefault()).toLocalDateTime()
+	
+	                            viewModel.onEvent(
+	                                TodoCreateEvent.SelectDate(
+	                                    LocalDate(date.year, date.month, date.dayOfMonth)
+	                                )
+	                            )
+	                        }
+	                    }
+	                ) {
+	                    Text(stringResource(R.string.dialog_ok_button_text))
+	                }
+	            },
+	            dismissButton = {
+	                TextButton(
+	                    onClick = {
+	                        showDialog = false
+	                    }
+	                ) {
+	                    Text(stringResource(R.string.dialog_dismiss_button_text))
+	                }
+	            }
+	        ) {
+	            DatePicker(state = datePickerState)
+	        }
+	    }
+	}
 	```
 
 !!!example "BEADANDÓ (1 pont)" 
@@ -2132,7 +2304,7 @@ Valósítsuk meg a felugró dátumválasztó ablakot a `TodoCreateScreen`-en! Ko
 
 ### Lista összekeverése
 
-Adjunk hozzá egy függvényt a `TodoListViewModel`-hez, mely megkeveri a lista elemeit! Használjuk ehhez a `shuffled()` függvényt. Hívjuk meg ezt a függvényt egy új _floating action button_  megnyomására (tegyük egy `Column`-be a létrehozás gombot, és fölé tegyünk egy új gombot). Vegyük fel a listán belül a `ListItem` `modifier` láncához az `animateItemPlacement()` hívást. Mit tapasztalunk, ha így megkeverjük a lista tartalmát? Mi történik, ha kivesszük a `LazyColumn` `items` blokkjából a `key` paramétert?
+Adjunk hozzá egy függvényt a `TodoListViewModel`-hez, mely megkeveri a lista elemeit! Használjuk ehhez a `shuffled()` függvényt. Hívjuk meg ezt a függvényt egy új _floating action button_  megnyomására (tegyük egy `Column`-be a létrehozás gombot, és fölé tegyünk egy új gombot). Vegyük fel a listán belül a `ListItem` `modifier` láncához az `.animateItem(fadeInSpec = null, fadeOutSpec = null)` hívást. Mit tapasztalunk, ha így megkeverjük a lista tartalmát? Mi történik, ha kivesszük a `LazyColumn` `items` blokkjából a `key` paramétert?
 
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amelyen látszik a **lista megkevert állapotában** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az **animációt tartalmazó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**! 

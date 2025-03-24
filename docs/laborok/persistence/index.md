@@ -77,30 +77,50 @@ A felületi elemek elkészítése után gondoskodni kell a köztük történő n
 
 Most elkészítjük az adatbázis kezeléséért felelős komponenseket. Most is néhol úgy tűnhet majd, hogy bizonyos dolgokat "duplán" valósítunk meg, azonban ennek az előnyei egy valós komplex alkalmazásban mindig érvényesülnek, ezért érdemes megismernünk, és használnunk ezt az architekturális szervezést.
 
-Az első lépés, hogy a Roomot mint függőséget vegyük fel a projektünkbe. Ehhez először a projekt szintű `build.gradle.kts` fájlban állítsuk be a használni kívánt `kapt` plugin verzióját a függőségek közt:
+Az első lépés, hogy a Roomot mint függőséget vegyük fel a projektünkbe. Ehhez először a version catalogba vegyük fel a ksp plugint és a Roomhoz kapcsolódó függőségeket: 
+
+
 
 ```kotlin
-kotlin("kapt") version "1.9.10" apply false
+[versions]
+...
+ksp = "2.1.10-1.0.31"
+room = "2.6.1"
+
+[libraries]
+...
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+
+[plugins]
+kotlin-ksp = {id ="com.google.devtools.ksp", version.ref = "ksp"}
 ```
 
-Majd a modul szintű `build.gradle.kts` fájlban engedélyezzük a `kapt` plugint:
+Majd a projekt szintű `build.gradle.kts` fájlban állítsuk be a használni kívánt `ksp` plugint:
+
+```kotlin
+alias(libs.plugins.kotlin.ksp) apply false
+```
+
+Majd a modul szintű `build.gradle.kts` fájlban használjuk a megadott plugint és a függőségeket:
 
 ```kotlin
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.ksp)
 }
 ```
 
 És ugyanitt vegyük is fel a Room könyvtárat:
 
 ```kotlin
-    // Room
-    val room_version = "2.6.0"
-    implementation("androidx.room:room-runtime:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
+    //Room
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
 ```
 
 Most szükségünk van az elmentett tennivalók adatmodelljére. Mivel a megközelítésünkben a Room könyvtárat használjuk, ez azt jelenti, hogy egy olyan osztályt készítünk, amellyel a szoftverünkben futásidőben egy teendő jól modellezhető, és ezt az osztályt megfeleltetjük az SQLite adatbázisunk egy táblájával. Ez így kényelmes, hiszen a relációs adatmodell kiforrott, közismert, ezért az adatokat gyakran táblákban akarjuk tárolni, ugyanakkor a programunkban az objektumorientált szemléletben mozgunk otthonosan, és az adatokat ezért objektumokban szeretjük tárolni. Ezeket az osztályokat a szoftverfejlesztési terminológiában entitásoknak szoktuk nevezni.

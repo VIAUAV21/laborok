@@ -951,22 +951,37 @@ az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódo
 </div>
 <h2 id="az-adatreteg-elkeszitese">Az adatréteg elkészítése<a class="headerlink" href="#az-adatreteg-elkeszitese" title="Permanent link">&para;</a></h2>
 <p>Most elkészítjük az adatbázis kezeléséért felelős komponenseket. Most is néhol úgy tűnhet majd, hogy bizonyos dolgokat "duplán" valósítunk meg, azonban ennek az előnyei egy valós komplex alkalmazásban mindig érvényesülnek, ezért érdemes megismernünk, és használnunk ezt az architekturális szervezést.</p>
-<p>Az első lépés, hogy a Roomot mint függőséget vegyük fel a projektünkbe. Ehhez először a projekt szintű <code>build.gradle.kts</code> fájlban állítsuk be a használni kívánt <code>kapt</code> plugin verzióját a függőségek közt:</p>
-<div class="highlight"><pre><span></span><code><span class="n">kotlin</span><span class="p">(</span><span class="s">&quot;kapt&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s">&quot;1.9.10&quot;</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
+<p>Az első lépés, hogy a Roomot mint függőséget vegyük fel a projektünkbe. Ehhez először a version catalogba vegyük fel a ksp plugint és a Roomhoz kapcsolódó függőségeket: </p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">versions</span><span class="o">]</span>
+<span class="p">...</span>
+<span class="n">ksp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.1.10-1.0.31&quot;</span>
+<span class="n">room</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.6.1&quot;</span>
+
+<span class="o">[</span><span class="n">libraries</span><span class="o">]</span>
+<span class="p">...</span>
+<span class="n">androidx</span><span class="o">-</span><span class="n">room</span><span class="o">-</span><span class="n">runtime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;androidx.room&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;room-runtime&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;room&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">androidx</span><span class="o">-</span><span class="n">room</span><span class="o">-</span><span class="n">compiler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;androidx.room&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;room-compiler&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;room&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">androidx</span><span class="o">-</span><span class="n">room</span><span class="o">-</span><span class="n">ktx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;androidx.room&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;room-ktx&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;room&quot;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="o">[</span><span class="n">plugins</span><span class="o">]</span>
+<span class="n">kotlin</span><span class="o">-</span><span class="n">ksp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="s">&quot;com.google.devtools.ksp&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ksp&quot;</span><span class="p">}</span>
 </code></pre></div>
-<p>Majd a modul szintű <code>build.gradle.kts</code> fájlban engedélyezzük a <code>kapt</code> plugint:</p>
+<p>Majd a projekt szintű <code>build.gradle.kts</code> fájlban állítsuk be a használni kívánt <code>ksp</code> plugint:</p>
+<div class="highlight"><pre><span></span><code><span class="n">alias</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">plugins</span><span class="p">.</span><span class="na">kotlin</span><span class="p">.</span><span class="na">ksp</span><span class="p">)</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
+</code></pre></div>
+<p>Majd a modul szintű <code>build.gradle.kts</code> fájlban használjuk a megadott plugint és a függőségeket:</p>
 <div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">id</span><span class="p">(</span><span class="s">&quot;com.android.application&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="n">id</span><span class="p">(</span><span class="s">&quot;org.jetbrains.kotlin.android&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="n">kotlin</span><span class="p">(</span><span class="s">&quot;kapt&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">alias</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">plugins</span><span class="p">.</span><span class="na">android</span><span class="p">.</span><span class="na">application</span><span class="p">)</span>
+<span class="w">    </span><span class="n">alias</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">plugins</span><span class="p">.</span><span class="na">kotlin</span><span class="p">.</span><span class="na">android</span><span class="p">)</span>
+<span class="w">    </span><span class="n">alias</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">plugins</span><span class="p">.</span><span class="na">kotlin</span><span class="p">.</span><span class="na">compose</span><span class="p">)</span>
+<span class="w">    </span><span class="n">alias</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">plugins</span><span class="p">.</span><span class="na">kotlin</span><span class="p">.</span><span class="na">ksp</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>És ugyanitt vegyük is fel a Room könyvtárat:</p>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="c1">// Room</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">room_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.6.0&quot;</span>
-<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.room:room-runtime:</span><span class="si">$</span><span class="n">room_version</span><span class="s">&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="n">kapt</span><span class="p">(</span><span class="s">&quot;androidx.room:room-compiler:</span><span class="si">$</span><span class="n">room_version</span><span class="s">&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;androidx.room:room-ktx:</span><span class="si">$</span><span class="n">room_version</span><span class="s">&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="c1">//Room</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">room</span><span class="p">.</span><span class="na">ktx</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">room</span><span class="p">.</span><span class="na">runtime</span><span class="p">)</span>
+<span class="w">    </span><span class="n">ksp</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">room</span><span class="p">.</span><span class="na">compiler</span><span class="p">)</span>
 </code></pre></div>
 <p>Most szükségünk van az elmentett tennivalók adatmodelljére. Mivel a megközelítésünkben a Room könyvtárat használjuk, ez azt jelenti, hogy egy olyan osztályt készítünk, amellyel a szoftverünkben futásidőben egy teendő jól modellezhető, és ezt az osztályt megfeleltetjük az SQLite adatbázisunk egy táblájával. Ez így kényelmes, hiszen a relációs adatmodell kiforrott, közismert, ezért az adatokat gyakran táblákban akarjuk tárolni, ugyanakkor a programunkban az objektumorientált szemléletben mozgunk otthonosan, és az adatokat ezért objektumokban szeretjük tárolni. Ezeket az osztályokat a szoftverfejlesztési terminológiában entitásoknak szoktuk nevezni.</p>
 <p>Hozzunk létre ezért egy <code>data.entities</code> package-et, és ebbe vegyük fel a következőt:</p>
@@ -1327,8 +1342,8 @@ az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódo
           </path>
         </svg>
       </span>
-      <span title="2024. április 12. 09:47:47">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2024. április 12. 09:47:47"><span class="timeago" datetime="2024-04-12T09:47:47+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2024. április 12. 09:47:47">2024-04-12</span>
+      <span title="2025. március 24. 12:24:06">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. március 24. 12:24:06"><span class="timeago" datetime="2025-03-24T12:24:06+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. március 24. 12:24:06">2025-03-24</span>
       </span>
     </span>
 
@@ -1345,10 +1360,10 @@ az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódo
       <span>Szerzők</span>
       <nav><a href="https://github.com/kpomazi" target="_blank" rel="noopener noreferrer" class="md-author" title="@kpomazi">
           <img src="https://avatars.githubusercontent.com/u/22079595?v=4?size=72" alt="@kpomazi">
-        </a><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
-          <img src="https://avatars.githubusercontent.com/u/8405234?v=4?size=72" alt="@danim1130">
         </a><a href="https://github.com/web-flow" target="_blank" rel="noopener noreferrer" class="md-author" title="@web-flow">
           <img src="https://avatars.githubusercontent.com/u/19864447?v=4?size=72" alt="@web-flow">
+        </a><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
+          <img src="https://avatars.githubusercontent.com/u/8405234?v=4?size=72" alt="@danim1130">
         </a><a href="https://github.com/gaborbsd" target="_blank" rel="noopener noreferrer" class="md-author" title="@gaborbsd">
           <img src="https://avatars.githubusercontent.com/u/5345619?v=4?size=72" alt="@gaborbsd">
         </a><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">

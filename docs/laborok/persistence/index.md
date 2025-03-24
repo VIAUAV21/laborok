@@ -186,10 +186,10 @@ Láthatjuk, hogy egyrészt maga az interfész is meg van jelölve, mint DAO komp
 Ezután egy repository komponenst készítünk. Ez némileg úgy tűnik, mintha nem adna hozzá túl sokat a DAO-hoz, azonban fontos célja, hogy a felsőbb rétegeket függetlenítse a Roomtól, hogy ne közvetlen attól függjenek. Tulajdonképpen a kiinduló projektben már létezik egy ilyen komponens, de ezt át kell alakítanunk, mert a korábbi
 verzió még nem használt független domén- és adatbázismodelleket.
 
-Először készítsünk egy `data.repository` package-et, és ebbe mozgassuk át az interfészt, majd cseréljük le az alábbira:
+Az `ITodoRepository` interfészt cseréljük le az alábbira:
 
 ```kotlin
-interface TodoRepository {
+interface ITodoRepository {
     fun getAllTodos(): Flow<List<TodoEntity>>
 
     fun getTodoById(id: Int): Flow<TodoEntity>
@@ -205,7 +205,7 @@ interface TodoRepository {
 Majd pedig ennek az implementációját is készítsük el:
 
 ```kotlin
-class TodoRepositoryImpl(private val dao: TodoDao) : TodoRepository {
+class TodoRepositoryImpl(private val dao: TodoDao) : ITodoRepository {
 
     override fun getAllTodos(): Flow<List<TodoEntity>> = dao.getAllTodos()
 
@@ -221,7 +221,7 @@ class TodoRepositoryImpl(private val dao: TodoDao) : TodoRepository {
 
 A korábbi implementációt, a `MemoryTodoRepository` osztályt most töröljük ki, erre nem lesz már szükség.
 
-A `feature` package-ekben most a viewmodelek is eltörtek, mert egyrészt a repository másik package-be került, másrészt a korábbi repository implementációt töröltük. Ezt nem tudjuk könnyen kijavítani, mert az új repository a konstruktorában a DAO komponenst várja, azt viszont nem konstruktorhívással hozzuk létre, hanem a Room gyártja majd le, ezért ehhez még kell némi kódot írnunk. Másrészt pedig nem is kívánatos, hogy a viewmodel közvetlen a repository-t hívja, hiszen ahogy fentebb indokoltuk, nem előnyös, ha a felhasználói felület komponensek közvetlen az adatbáziskezelési réteggel is függnek egymástól. Ezért majd a doménmodellhez kapcsolódó üzletilogika-komponenseket fogunk bevezetni. De előbb fejezzük be az adatbáziskezelési réteg implementációját!
+A `presentation.screen` package-ekben most a viewmodelek is eltörtek, mert egyrészt a repository másik package-be került, másrészt a korábbi repository implementációt töröltük. Ezt nem tudjuk könnyen kijavítani, mert az új repository a konstruktorában a DAO komponenst várja, azt viszont nem konstruktorhívással hozzuk létre, hanem a Room gyártja majd le, ezért ehhez még kell némi kódot írnunk. Másrészt pedig nem is kívánatos, hogy a viewmodel közvetlen a repository-t hívja, hiszen ahogy fentebb indokoltuk, nem előnyös, ha a felhasználói felület komponensek közvetlen az adatbáziskezelési réteggel is függnek egymástól. Ezért majd a doménmodellhez kapcsolódó üzletilogika-komponenseket fogunk bevezetni. De előbb fejezzük be az adatbáziskezelési réteg implementációját!
 
 Még három feladatunk van az adatbáziskezelő réteg kialakításában. Az első, hogy a letárolni kívánt Java-típusok és az SQLite beépített típusai közt nem teljes az egyezés. Ezt konverterekkel kell áthidalnunk. Készítsünk egy `data.converters` package-et, és ebbe először a dátumokkal kapcsolatos konverterek implementációját:
 
@@ -324,7 +324,7 @@ Ezzel így már összeállt az adatbáziskezelő réteg, de még fel kell oldanu
 Most készítsük el a `domain.usecases` package-et. Ebbe kerülnek az egyes üzletilogika-műveletek megvalósításai. Kezdjük a tennivaló létrehozásával:
 
 ```kotlin
-class SaveTodoUseCase(private val repository: TodoRepository) {
+class SaveTodoUseCase(private val repository: ITodoRepository) {
 
     suspend operator fun invoke(todo: Todo) {
         repository.insertTodo(todo.asTodoEntity())
@@ -338,7 +338,7 @@ Ennek a kódrészletnek a szerepe, hogy - akárcsak a domainmodell - leválasztj
 A fentihez hasonló készítsük el a módosítás use case osztályát:
 
 ```kotlin
-class UpdateTodoUseCase(private val repository: TodoRepository) {
+class UpdateTodoUseCase(private val repository: ITodoRepository) {
 
     suspend operator fun invoke(todo: Todo) {
         repository.updateTodo(todo.asTodoEntity())
@@ -351,7 +351,7 @@ Majd a lekérdezést:
 
 
 ```kotlin
-class LoadTodoUseCase(private val repository: TodoRepository) {
+class LoadTodoUseCase(private val repository: ITodoRepository) {
 
     suspend operator fun invoke(id: Int): Result<Todo> {
         return try {
@@ -367,7 +367,7 @@ class LoadTodoUseCase(private val repository: TodoRepository) {
 A törlést:
 
 ```kotlin
-class DeleteTodoUseCase(private val repository: TodoRepository) {
+class DeleteTodoUseCase(private val repository: ITodoRepository) {
 
     suspend operator fun invoke(id: Int) {
         repository.deleteTodo(id)
@@ -379,7 +379,7 @@ class DeleteTodoUseCase(private val repository: TodoRepository) {
 És legyen egy listázásunk is, amikor minden tennivalót betöltünk:
 
 ```kotlin
-class LoadTodosUseCase(private val repository: TodoRepository) {
+class LoadTodosUseCase(private val repository: ITodoRepository) {
 
     suspend operator fun invoke(): Result<List<Todo>> {
         return try {
@@ -396,7 +396,7 @@ Végül ezeket összefogjuk egy osztály tagváltozóiban:
 
 
 ```kotlin
-class TodoUseCases(repository: TodoRepository) {
+class TodoUseCases(repository: ITodoRepository) {
     val loadTodos = LoadTodosUseCase(repository)
     val loadTodo = LoadTodoUseCase(repository)
     val saveTodo = SaveTodoUseCase(repository)

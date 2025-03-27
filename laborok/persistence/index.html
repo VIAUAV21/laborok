@@ -940,7 +940,7 @@ A labor egyúttal azt is bemutatja, hogy egy modern, összetett alkalamzás kül
 <p>Most a felhasználói felület modelljével haladunk tovább. Ezek a korábban létrehozott domainmodellhez igen hasonlatosak, de a rugalmasabb architektúra és a laza csatolás megvalósítása miatt külön modelleket készítünk a felületen megjelenített adatokhoz. Ez egy ilyen egyszerű alkalmazásnál először indokolatlan duplikációnak tűnhet, az az érzésünk, hogy bizonyos dolgokat többször implementálunk. Azonban ahogy egy alkalmazás fejlődik, bővül, egy ilyen lazán csatolt és átlátható architektúra mindenképp kifizetődővé válik.</p>
 <p>A felhasználói felület modellje is már rendelkezésre áll a kiinduló projektben. Tekintsük át a <code>ui.model</code> package-et! Ebben már rendelkezésre áll a <code>PriorityUi</code> és a <code>TodoUi</code> osztály, illetve konverziós logika is van a fájloban a domain modellbe/modellből történő konvertáláshoz. Találunk még itt egy <code>UiText</code> osztályt a felhasználói felületen megjelenő szöveges üzenetek könnyebb kezeléséhez.</p>
 <p>A fent áttekintett UI modellekre épülnek a felhasználói felület megjelenített részei. Ezek a <code>ui.common</code> package-ben már szintén rendelkezésre állnak. Tekintsük át ezeket is!</p>
-<p>Most az elemi felületi elemekkel végeztünk, most jönnek a tényleges képernyők. Ezek a <code>feature</code> package-ben vannak. Ezen belül három fő funkciót fogunk megkülönböztetni: létrehozás, listázás, megjelenítés. Ezek egy-egy subpackage-ben vannak, és a kiinduló projektben ez is mind rendelkezésre állnak. Tekintsük át ezeket is, és elevenítsük fel a funkciójukat.</p>
+<p>Most az elemi felületi elemekkel végeztünk, most jönnek a tényleges képernyők. Ezek a <code>presentation.screen</code> package-ben vannak. Ezen belül három fő funkciót fogunk megkülönböztetni: létrehozás, listázás, megjelenítés. Ezek egy-egy subpackage-ben vannak, és a kiinduló projektben ez is mind rendelkezésre állnak. Tekintsük át ezeket is, és elevenítsük fel a funkciójukat.</p>
 <p>A felületi elemek elkészítése után gondoskodni kell a köztük történő navigációról is. Ez is már rendelkezésre áll a <code>navigation</code> package-ben. Nézzük át ezeket is!</p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
@@ -1342,8 +1342,8 @@ az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódo
           </path>
         </svg>
       </span>
-      <span title="2025. március 24. 12:33:36">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. március 24. 12:33:36"><span class="timeago" datetime="2025-03-24T12:33:36+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. március 24. 12:33:36">2025-03-24</span>
+      <span title="2025. március 27. 10:45:59">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. március 27. 10:45:59"><span class="timeago" datetime="2025-03-27T10:45:59+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. március 27. 10:45:59">2025-03-27</span>
       </span>
     </span>
 

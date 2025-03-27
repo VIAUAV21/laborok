@@ -61,7 +61,7 @@ A felhasználói felület modellje is már rendelkezésre áll a kiinduló proje
 
 A fent áttekintett UI modellekre épülnek a felhasználói felület megjelenített részei. Ezek a `ui.common` package-ben már szintén rendelkezésre állnak. Tekintsük át ezeket is!
 
-Most az elemi felületi elemekkel végeztünk, most jönnek a tényleges képernyők. Ezek a `feature` package-ben vannak. Ezen belül három fő funkciót fogunk megkülönböztetni: létrehozás, listázás, megjelenítés. Ezek egy-egy subpackage-ben vannak, és a kiinduló projektben ez is mind rendelkezésre állnak. Tekintsük át ezeket is, és elevenítsük fel a funkciójukat.
+Most az elemi felületi elemekkel végeztünk, most jönnek a tényleges képernyők. Ezek a `presentation.screen` package-ben vannak. Ezen belül három fő funkciót fogunk megkülönböztetni: létrehozás, listázás, megjelenítés. Ezek egy-egy subpackage-ben vannak, és a kiinduló projektben ez is mind rendelkezésre állnak. Tekintsük át ezeket is, és elevenítsük fel a funkciójukat.
 
 A felületi elemek elkészítése után gondoskodni kell a köztük történő navigációról is. Ez is már rendelkezésre áll a `navigation` package-ben. Nézzük át ezeket is!
 

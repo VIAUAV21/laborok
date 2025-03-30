@@ -56,28 +56,37 @@ Ellenőrízzük, hogy a létrejött projekt lefordul és helyesen működik!
 ## Projekt előkészítése, konfiguráció
 
 Első lépésként létre kell hozni egy Firebase projektet a Firebase admin felületén (Firebase console), majd egy Android Studio projektet és a kettőt össze kell kötni:
+
 - Navigáljunk a Firebase console felületére: [https://console.firebase.google.com/](https://console.firebase.google.com/) !
 - Jelentkezzünk be!
 - Hozzunk létre egy új projektet a *Create project* elemet választva!
+- A projekt neve legyen *BMETodoNEPTUN_KOD*, ahol a `NEPTUN_KOD` helyére a saját Neptun kódunkat helyettesítsük!
+- A Gemini
+- Az analitikát most még nem szükséges konfigurálni.
+- 
+!!!danger "projekt név"
+	A Neptun kódra azért van szükség, mert ugyanazon laborgép kulcsával ugyanolyan nevű projektet nem hozhatunk létre többször, és több laborcsoport lévén ebből probléma adódhatna. Ugyanerre lesz majd szükség a package név esetén is.
 
 <p align="center">
 <img src="./assets/firebase_create_project_1.png">
 </p>
 
 <p align="center">
+<img src="./assets/firebase_create_project_2.png">
+</p>
+
+<p align="center">
 <img src="./assets/firebase_create_project_3.png">
 </p>
 
-- A projekt neve legyen *BMETodoNEPTUN_KOD*, ahol a `NEPTUN_KOD` helyére a saját Neptun kódunkat helyettesítsük!
-- Az analitikát most még nem szükséges konfigurálni.
-
-!!!danger "projekt név"
-	A Neptun kódra azért van szükség, mert ugyanazon laborgép kulcsával ugyanolyan nevű projektet nem hozhatunk létre többször, és több laborcsoport lévén ebből probléma adódhatna. Ugyanerre lesz majd szükség a package név esetén is.
-
 Sikeres projekt létrehozás után fussák át a laborvezetővel közösen a Firebase console felületét az alábbi elemekre kitérve:
-- Authentication, Firestore és Storage.
 
-Nézzük át a megnyitott projektet! Különös figyelemmel vizsgáljuk át a projekt mostani felépítését, az új részeket (todo_auth, data package), illetve hogyan lehetséges ebben átállni a Firebase szolgáltatásaira.
+- Authentication
+- Cloud Firestore
+- Storage.
+
+!!!warning Áttekintés
+	Nézzük át a megnyitott projektet! Kiemelt figyelemmel vizsgáljuk át a projekt mostani felépítését, az új részeket (authentication, data package), illetve hogy hogyan lehetséges ebben átállni a Firebase szolgáltatásaira.
 
 Adjuk hozzá az `AndroidManifest.xml` fájlhoz az internet használati engedélyt:
 
@@ -93,6 +102,10 @@ A *Firebase Assistant* akkor fogja megtalálni a Firebase console-on létrehozot
 
 Válasszuk az *Assistant*-ban az *Authentication* szakaszt és azon belül az *Authenticate using a custom authentication system*-t, majd a *Connect to Firebase* gombot.
 Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a második szakaszt (*Choose an existing Firebase or Google project*) választva kiválaszthatjuk a projektet, amit a Firebase console-on már létrehoztunk. Itt egyébként lehetőség van új projektet is létrehozni. (Ha elsőre hibát látunk a projekttel való összekapcsolásnál, próbáljuk újra, másodszorra általában sikeresen megtörténik az Android Studio projekt szinkronizálása a Firebase projekttel.)
+
+<p align="center">
+<img src="./assets/firebase_connect.png">
+</p>
 
 !!!info ""
 	A háttérben valójában annyi történik, hogy az alkalmazásunk package neve és az aláíró kulcs *SHA-1 hash-e* alapján hozzáadódik egy Android alkalmazás a Firebase console-on lévő projektünkhöz, és az ahhoz tartozó konfigurációs (`google-services.json`) fájl letöltődik a projektünk könyvtárába az alapértelmezett (`app`) modul alá.
@@ -112,19 +125,63 @@ Következő lépésben szintén az *Assistant*-ban az *Authenticate using a cust
 
 Sajnos a Firebase plugin nincs rendszeresen frissítve, és így előfordul, hogy a függőségek régi verzióját adja hozzá a `build.gradle.kts` fájlokhoz. Ezért most frissíteni fogjuk az imént automatikusan felvett függőségeket, valamint innentől manuálisan fogjuk hozzáadni az újabbakat az *Assistant* használata helyett. Fontos, hogy mindenből az itt leírt verziót használjuk.
 
-Ellenőrizzük a projekt szintű `build.gradle` fájlban a `google-services`-t, hogy az alábbi verzióval rendelkezik:
+Ellenőrizzük a projekt szintű `build.gradle.kts` fájlban a szerepel-e a `google-services`
 
-```groovy
-classpath 'com.google.gms:google-services:4.4.2'
+```gradle
+plugins {
+    alias(libs.plugins.google.gms.google.services) apply false
+	...
+}
+```
+
+Illetve, hogy a `libs.versions.toml` fájlban megfelelő-e a verzió:
+
+```toml
+[versions]
+googleGmsGoogleServices = "4.4.2"
+...
+
+[plugins]
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
+...
 ```
 
 A Firebase BoM segítségével egységesen tudjuk kezelni az összes firebase könyvtárunk verziószámát.
 
-Cseréljük le a modul szintű `build.gradle`-ben a `firebase-auth` verziót a következőre:
-```groovy
-val firebaseBom = platform("com.google.firebase:firebase-bom:33.5.1")
-implementation(firebaseBom)
-implementation("com.google.firebase:firebase-auth-ktx")
+Vegyük fel a Firebase BoM-ot a `libs.versions.toml` fájlba:
+
+```toml
+[versions]
+firebaseBom = "33.11.0"
+
+[libraries]
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+```
+
+Majd a modul szintű `build.gradle.kts` fájlba is:
+
+```gradle
+dependencies {
+    implementation(platform(libs.firebase.bom))
+}
+```
+
+
+Ezek után cseréljük le a `firebase-auth` függőségeket a következőre:
+
+`libs.versions.toml`:
+
+```toml
+[libraries]
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx" }
+```
+
+`build.gradle.kts`:
+
+```gradle
+dependencies {
+	implementation(libs.firebase.auth)
+}
 ```
 
 A generált projektváz többi általános függősége (pl. appcompat és ktx-core könyvtárak) is elavult lehet, ezt az Android Studio jelzi is sötétsárga háttérrel. Ezekre ráállva a kurzorral az Alt-Enter gyorsbillenytűvel kiválaszthatjuk ezeknek a frissítését.
@@ -135,7 +192,7 @@ Ahhoz, hogy az e-mail alapú regisztráció és authentikáció megfelelően mű
 <img src="./assets/firebase_console_auth_method.png">
 </p>
 
-Készítsük el a megfelelő `Service` osztályt. Hozzunk létre a `data/auth` package-en belül a `FirebaseAuthService` osztályt! Valósítsuk meg az `AuthService` interfész egyes metódusait! Ehhez szükségünk lesz egy `FirebaseAuth` objektumra, melyet külső forrásból fogunk megkapni:
+Készítsük el a megfelelő `Service` osztályt. Hozzunk létre a `data.auth` package-en belül a `FirebaseAuthService` osztályt! Valósítsuk meg az `AuthService` interfész egyes metódusait! Ehhez szükségünk lesz egy `FirebaseAuth` objektumra, melyet külső forrásból fogunk megkapni:
 
 ```kotlin
 package hu.bme.aut.android.todo.data.auth  
@@ -249,11 +306,25 @@ Következő lépésben a feladatok listázását fogjuk implementálni a projekt
  
 Adjuk hozzá a projekthez a *Cloud Firestore* támogatást:
 
-```groovy
-implementation("com.google.firebase:firebase-firestore-ktx")
+`libs.versions.toml`:
+
+```toml
+[libraries]
+	firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx" }
+```
+
+Modul szintű `build.gradle.kts`:
+
+```gradle
+dependencies {
+    implementation(libs.firebase.firestore.ktx)
+}
 ```
 
 Kapcsoljuk be a *Cloud Firestore*-t a *Firebase console*-on is . Az adatbázist *test mode*-ban fogjuk használni, így egyelőre publikusan írható/olvasható lesz, de cserébe nem kell konfigurálnunk a hozzáférés-szabályozást. Ezt természetesen később mindenképp meg kellene tenni egy éles projektben.
+
+!!!warning
+	A *test mode*-ban konfigurált adatbázis ugyan publikusan írtahó/olvasható, de alapértelmezés szerint egy időbeni korlát van rá. Ez a mostani labornál nem okoz problémát, de egy hosszabb projektnél, mint például a házi feladat elkészítése, erre érdemes figyelni.
 
 <p align="center">
 <img src="./assets/firebase_create_firestore.png">
@@ -261,11 +332,11 @@ Kapcsoljuk be a *Cloud Firestore*-t a *Firebase console*-on is . Az adatbázist 
 
 Locationnek válasszunk egy hozzánk közel eső opciót.
 
-Hozzuk létre a `todos` package-en belül a `firebase` package-et. Ebben két osztályt fogunk definiálni: a Firestore-ban tárolt adatobjektum osztály modelljét, illetve a kommunikációt megvalósító service kódját.
+Hozzuk létre a `data.todos` package-en belül a `firebase` package-et. Ebben két osztályt fogunk definiálni: a Firestore-ban tárolt adatobjektum osztály modelljét, illetve a kommunikációt megvalósító service kódját.
 
 Hozzuk először létre az adatot reprezentáló osztályt `FirebaseTodo` néven:
 ```kotlin
-package hu.bme.aut.android.todo.data.todos.firebase
+package hu.bme.aut.android.todo.data.todos.firebase.model
 
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
@@ -304,9 +375,11 @@ fun Todo.asFirebaseTodo() = FirebaseTodo(
     description = description,
 )
 ```
+
 Ebben a fájlban definiáltuk a két átalakító függvényt is, mellyel a Firebase és az alkalmazás többi részében használt Todo osztály között tudunk átalakítani. Az egyedüli bonyolult rész a Firebase által használt `Timestamp` osztály használata az időpont eltárolására, erre most részletesen nem térünk ki.
 
 Hozzuk létre a feladatok tárolását végző `FirebaseTodoService` osztályt is ebben a package-ben:
+
 ```kotlin
 package hu.bme.aut.android.todo.data.todos.firebase
 
@@ -316,6 +389,9 @@ import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.firestore.ktx.toObject
 import hu.bme.aut.android.todo.data.auth.AuthService
 import hu.bme.aut.android.todo.data.todos.TodoService
+import hu.bme.aut.android.todo.data.todos.firebase.model.FirebaseTodo
+import hu.bme.aut.android.todo.data.todos.firebase.model.asFirebaseTodo
+import hu.bme.aut.android.todo.data.todos.firebase.model.asTodo
 import hu.bme.aut.android.todo.domain.model.Todo
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
@@ -370,6 +446,7 @@ class FirebaseTodoService(
     }
 }
 ```
+
 Végül ne felejtsük el befrissíteni a `TodoApplication` osztályunkat, hogy a Firestoreban tárolt feladatokat használja az alkalmazás:
 
 ```kotlin
@@ -409,8 +486,19 @@ Próbáljuk ki az alkalmazásunkat! Ellenőrizzük, hogy tényleg létrejönnek 
 
 Adjuk hozzá a projektünkhöz a *Firebase Messaging* függőséget:
 
-```groovy
-implementation("com.google.firebase:firebase-messaging-ktx")
+`libs.versions.toml`:
+
+```toml
+[libraries]
+firebase-messaging-ktx = { group = "com.google.firebase", name="firebase-messaging-ktx" }
+```
+
+`build.gradle.kts`:
+
+```gradle
+dependencies {
+    implementation(libs.firebase.messaging.ktx)
+}
 ```
 
 Csupán ennyi elegendő a push alapvető működéséhez, ha így újrafordítjuk az alkalmazást, a Firebase felületéről vagy API-jával küldött push üzeneteket automatikusan megkapják a mobil kliensek és egy *Notification*-ben megjelenítik.
@@ -428,6 +516,10 @@ válasszuk ki az alkalmazást, hogy minden futó példány megkapja az üzenetet
 </p>
 
 <p align="center">
+<img src="./assets/firebase_push_3.png">
+</p>
+
+<p align="center">
 <img src="./assets/firebase_push_notification_success.png" width="320">
 </p>
 
@@ -437,53 +529,81 @@ Természetesen lehetőség van saját push üzenet feldolgozó szolgáltatás k�
 
 A Firebase Console-on először navigáljunk a Crashlytics menüpontra, és kapcsoljuk be a funkciót. Válasszuk az új Firebase alkalmazás integrációját.
 
-Adjuk hozzá a projekthez a függőségeket a projekt szintű `build.gradle.kts` fájlba: 
+Adjuk hozzá a projekthez a függőségeket:
+
+`libs.versions.toml`:
+
+```toml
+[versions]
+crashlytics = "3.0.3"
+
+[libraries]
+firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx" }
+firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+
+[plugins]
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
+```
+
+Ezekkel a módosításokkal többek között egy Gradle plugint adtunk hozzá a projektünkhöz, amit a modul szintű `build.gradle` fájl elején be kell kapcsolnunk a már meglévők után:
  
-```groovy
-id("com.google.firebase.crashlytics") version "3.0.2" apply false
+```gradle
+plugins {
+	alias(libs.plugins.firebase.crashlytics) apply false
+}
 ```
 
-Ezekkel a módosításokkal egy Gradle plugint adtunk hozzá a projektünkhöz, amit a modul szintű `build.gradle` fájl elején be kell kapcsolnunk a már meglévők után:
+Majd a modul szintű `build.gradle.kts` fájlban: 
 
-```groovy
-id("com.google.firebase.crashlytics")
+```gradle
+plugins {
+	alias(libs.plugins.firebase.crashlytics)
+}
 ```
 
-Végül pedig szükségünk van két egyszerű Gradle függőségre is, amit a meglévő Firebase függőségek mellé helyezhetünk, a modul szintű `build.gradle` fájlban:
+Végül pedig szükségünk van két egyszerű Gradle függőségre is, amit a meglévő Firebase függőségek mellé helyezhetünk, a modul szintű `build.gradle.kts` fájlban:
 
-```groovy
-implementation("com.google.firebase:firebase-crashlytics-ktx")
-implementation("com.google.firebase:firebase-analytics-ktx")
+```gradle
+dependencies {
+    implementation(libs.firebase.crashlytics.ktx)
+    implementation(libs.firebase.analytics.ktx)
+}
 ```
 
-<p align="center">
-<img src="./assets/firebase_crash.png">
-</p>
-
-Vegyünk fel egy új akciót `TodosScreen` `TodoAppBar` részébe, amivel az alkalmazást hibával be tudjuk zárni:
+Vegyünk fel egy új akciót `TodoListScreen` `TodoAppBar` részébe, amivel az alkalmazást hibával be tudjuk zárni:
 
 ```kotlin
 TodoAppBar(
-	title = stringResource(id = StringResources.app_bar_title_todos),
-	actions = {
-		IconButton(onClick = {
-			viewModel.signOut()
-			onSignOut()
-		}) {
-			Icon(imageVector = Icons.Default.Logout, contentDescription = null)
-		}
-		IconButton(onClick = {
-			throw RuntimeException("Test crash!")
-		}) {
-			Icon(imageVector = Icons.Default.Close, contentDescription = null)
-		}
-	}
+    title = UiText.StringResource(id = R.string.app_bar_title_todos).asString(context),
+    actions = {
+        IconButton(onClick = {
+            viewModel.signOut()
+            onSignOut()
+        }) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.Logout,
+                contentDescription = null
+            )
+        }
+        IconButton(onClick = {
+            throw RuntimeException("Test crash!")
+        }) {
+            Icon(
+                imageVector = Icons.Default.Close,
+                contentDescription = null
+            )
+        }
+    }
 )
 ```
 
 Végül a *Firebase console-ban* is engedélyezzük a funkciót a *Crashlytics* menüpont alatt.
 
 Próbáljuk ki saját hibajelzések készítését a menü eseménykezelőjében. Vizsgáljuk meg, megérkezik-e a Firebase Console-ba a hibaüzenet!
+
+<p align="center">
+<img src="./assets/firebase_crash.png">
+</p>
 
 ## Analitika
 
@@ -507,7 +627,7 @@ IconButton(onClick = {
 	FirebaseAnalytics.getInstance(context)
 		.logEvent(FirebaseAnalytics.Event.LOGIN, bundle)
 }) {
-	Icon(imageVector = Icons.Default.Message, contentDescription = null)
+	Icon(imageVector = Icons.AutoMirrored.Filled.Message, contentDescription = null)
 }
 ```
 

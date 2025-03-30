@@ -980,29 +980,42 @@ Az alkalmazás az alábbi fő funkciókat támogatja:
 </div>
 <p>Ellenőrízzük, hogy a létrejött projekt lefordul és helyesen működik!</p>
 <h2 id="projekt-elokeszitese-konfiguracio">Projekt előkészítése, konfiguráció<a class="headerlink" href="#projekt-elokeszitese-konfiguracio" title="Permanent link">&para;</a></h2>
-<p>Első lépésként létre kell hozni egy Firebase projektet a Firebase admin felületén (Firebase console), majd egy Android Studio projektet és a kettőt össze kell kötni:
-- Navigáljunk a Firebase console felületére: <a href="https://console.firebase.google.com/">https://console.firebase.google.com/</a> !
-- Jelentkezzünk be!
-- Hozzunk létre egy új projektet a <em>Create project</em> elemet választva!</p>
+<p>Első lépésként létre kell hozni egy Firebase projektet a Firebase admin felületén (Firebase console), majd egy Android Studio projektet és a kettőt össze kell kötni:</p>
+<ul>
+<li>Navigáljunk a Firebase console felületére: <a href="https://console.firebase.google.com/">https://console.firebase.google.com/</a> !</li>
+<li>Jelentkezzünk be!</li>
+<li>Hozzunk létre egy új projektet a <em>Create project</em> elemet választva!</li>
+<li>A projekt neve legyen <em>BMETodoNEPTUN_KOD</em>, ahol a <code>NEPTUN_KOD</code> helyére a saját Neptun kódunkat helyettesítsük!</li>
+<li>A Gemini</li>
+<li>Az analitikát most még nem szükséges konfigurálni.</li>
+<li></li>
+</ul>
+<div class="admonition danger">
+<p class="admonition-title">projekt név</p>
+<p>A Neptun kódra azért van szükség, mert ugyanazon laborgép kulcsával ugyanolyan nevű projektet nem hozhatunk létre többször, és több laborcsoport lévén ebből probléma adódhatna. Ugyanerre lesz majd szükség a package név esetén is.</p>
+</div>
 <p align="center">
 <a class="glightbox" href="./assets/firebase_create_project_1.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_create_project_1.png"></a>
+</p>
+
+<p align="center">
+<a class="glightbox" href="./assets/firebase_create_project_2.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_create_project_2.png"></a>
 </p>
 
 <p align="center">
 <a class="glightbox" href="./assets/firebase_create_project_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_create_project_3.png"></a>
 </p>
 
+<p>Sikeres projekt létrehozás után fussák át a laborvezetővel közösen a Firebase console felületét az alábbi elemekre kitérve:</p>
 <ul>
-<li>A projekt neve legyen <em>BMETodoNEPTUN_KOD</em>, ahol a <code>NEPTUN_KOD</code> helyére a saját Neptun kódunkat helyettesítsük!</li>
-<li>Az analitikát most még nem szükséges konfigurálni.</li>
+<li>Authentication</li>
+<li>Cloud Firestore</li>
+<li>Storage.</li>
 </ul>
-<div class="admonition danger">
-<p class="admonition-title">projekt név</p>
-<p>A Neptun kódra azért van szükség, mert ugyanazon laborgép kulcsával ugyanolyan nevű projektet nem hozhatunk létre többször, és több laborcsoport lévén ebből probléma adódhatna. Ugyanerre lesz majd szükség a package név esetén is.</p>
+<div class="admonition warning áttekintés">
+<p class="admonition-title">Warning</p>
+<p>Nézzük át a megnyitott projektet! Kiemelt figyelemmel vizsgáljuk át a projekt mostani felépítését, az új részeket (authentication, data package), illetve hogy hogyan lehetséges ebben átállni a Firebase szolgáltatásaira.</p>
 </div>
-<p>Sikeres projekt létrehozás után fussák át a laborvezetővel közösen a Firebase console felületét az alábbi elemekre kitérve:
-- Authentication, Firestore és Storage.</p>
-<p>Nézzük át a megnyitott projektet! Különös figyelemmel vizsgáljuk át a projekt mostani felépítését, az új részeket (todo_auth, data package), illetve hogyan lehetséges ebben átállni a Firebase szolgáltatásaira.</p>
 <p>Adjuk hozzá az <code>AndroidManifest.xml</code> fájlhoz az internet használati engedélyt:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">&quot;android.permission.INTERNET&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
 </code></pre></div>
@@ -1011,6 +1024,10 @@ Az alkalmazás az alábbi fő funkciókat támogatja:
 <p>A <em>Firebase Assistant</em> akkor fogja megtalálni a Firebase console-on létrehozott projektet, ha Android Studioba is ugyanazzal a Google accounttal vagyunk bejelentkezve, mint amivel a console-on létrehoztuk a projektet. Ellenőrizzük ezt mindkét helyen! Amennyiben a <em>Firebase Assistant</em>-ot nem sikerül beüzemelni, manuálisan is összeköthető a két projekt. A leírásban ismertetni fogjuk a lépéseket, amelyeket az <em>Assistant</em> végez el.</p>
 <p>Válasszuk az <em>Assistant</em>-ban az <em>Authentication</em> szakaszt és azon belül az <em>Authenticate using a custom authentication system</em>-t, majd a <em>Connect to Firebase</em> gombot.
 Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a második szakaszt (<em>Choose an existing Firebase or Google project</em>) választva kiválaszthatjuk a projektet, amit a Firebase console-on már létrehoztunk. Itt egyébként lehetőség van új projektet is létrehozni. (Ha elsőre hibát látunk a projekttel való összekapcsolásnál, próbáljuk újra, másodszorra általában sikeresen megtörténik az Android Studio projekt szinkronizálása a Firebase projekttel.)</p>
+<p align="center">
+<a class="glightbox" href="./assets/firebase_connect.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_connect.png"></a>
+</p>
+
 <div class="admonition info">
 <p>A háttérben valójában annyi történik, hogy az alkalmazásunk package neve és az aláíró kulcs <em>SHA-1 hash-e</em> alapján hozzáadódik egy Android alkalmazás a Firebase console-on lévő projektünkhöz, és az ahhoz tartozó konfigurációs (<code>google-services.json</code>) fájl letöltődik a projektünk könyvtárába az alapértelmezett (<code>app</code>) modul alá.</p>
 </div>
@@ -1025,22 +1042,51 @@ Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a más
 </p>
 
 <p>Sajnos a Firebase plugin nincs rendszeresen frissítve, és így előfordul, hogy a függőségek régi verzióját adja hozzá a <code>build.gradle.kts</code> fájlokhoz. Ezért most frissíteni fogjuk az imént automatikusan felvett függőségeket, valamint innentől manuálisan fogjuk hozzáadni az újabbakat az <em>Assistant</em> használata helyett. Fontos, hogy mindenből az itt leírt verziót használjuk.</p>
-<p>Ellenőrizzük a projekt szintű <code>build.gradle</code> fájlban a <code>google-services</code>-t, hogy az alábbi verzióval rendelkezik:</p>
-<div class="highlight"><pre><span></span><code><span class="n">classpath</span><span class="w"> </span><span class="s1">&#39;com.google.gms:google-services:4.4.2&#39;</span>
+<p>Ellenőrizzük a projekt szintű <code>build.gradle.kts</code> fájlban a szerepel-e a <code>google-services</code></p>
+<div class="highlight"><pre><span></span><code>plugins {
+    alias(libs.plugins.google.gms.google.services) apply false
+    ...
+}
+</code></pre></div>
+<p>Illetve, hogy a <code>libs.versions.toml</code> fájlban megfelelő-e a verzió:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[versions]</span>
+<span class="n">googleGmsGoogleServices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;4.4.2&quot;</span>
+<span class="p">...</span>
+
+<span class="k">[plugins]</span>
+<span class="n">google-gms-google-services</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.google.gms.google-services&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;googleGmsGoogleServices&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">...</span>
 </code></pre></div>
 <p>A Firebase BoM segítségével egységesen tudjuk kezelni az összes firebase könyvtárunk verziószámát.</p>
-<p>Cseréljük le a modul szintű <code>build.gradle</code>-ben a <code>firebase-auth</code> verziót a következőre:
-<div class="highlight"><pre><span></span><code><span class="n">val</span><span class="w"> </span><span class="n">firebaseBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">platform</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-bom:33.5.1&quot;</span><span class="o">)</span>
-<span class="n">implementation</span><span class="o">(</span><span class="n">firebaseBom</span><span class="o">)</span>
-<span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-auth-ktx&quot;</span><span class="o">)</span>
-</code></pre></div></p>
+<p>Vegyük fel a Firebase BoM-ot a <code>libs.versions.toml</code> fájlba:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[versions]</span>
+<span class="n">firebaseBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;33.11.0&quot;</span>
+
+<span class="k">[libraries]</span>
+<span class="n">firebase-bom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.google.firebase&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;firebase-bom&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;firebaseBom&quot;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Majd a modul szintű <code>build.gradle.kts</code> fájlba is:</p>
+<div class="highlight"><pre><span></span><code>dependencies {
+    implementation(platform(libs.firebase.bom))
+}
+</code></pre></div>
+<p>Ezek után cseréljük le a <code>firebase-auth</code> függőségeket a következőre:</p>
+<p><code>libs.versions.toml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[libraries]</span>
+<span class="n">firebase-auth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.google.firebase&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;firebase-auth-ktx&quot;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p><code>build.gradle.kts</code>:</p>
+<div class="highlight"><pre><span></span><code>dependencies {
+    implementation(libs.firebase.auth)
+}
+</code></pre></div>
 <p>A generált projektváz többi általános függősége (pl. appcompat és ktx-core könyvtárak) is elavult lehet, ezt az Android Studio jelzi is sötétsárga háttérrel. Ezekre ráállva a kurzorral az Alt-Enter gyorsbillenytűvel kiválaszthatjuk ezeknek a frissítését.</p>
 <p>Ahhoz, hogy az e-mail alapú regisztráció és authentikáció megfelelően működjön, a <em>Firebase console</em>-ban az <em>Authentication -&gt; Sign-in method</em> alatt az <em>Email/Password</em> providert engedélyezni kell.</p>
 <p align="center">
 <a class="glightbox" href="./assets/firebase_console_auth_method.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_console_auth_method.png"></a>
 </p>
 
-<p>Készítsük el a megfelelő <code>Service</code> osztályt. Hozzunk létre a <code>data/auth</code> package-en belül a <code>FirebaseAuthService</code> osztályt! Valósítsuk meg az <code>AuthService</code> interfész egyes metódusait! Ehhez szükségünk lesz egy <code>FirebaseAuth</code> objektumra, melyet külső forrásból fogunk megkapni:</p>
+<p>Készítsük el a megfelelő <code>Service</code> osztályt. Hozzunk létre a <code>data.auth</code> package-en belül a <code>FirebaseAuthService</code> osztályt! Valósítsuk meg az <code>AuthService</code> interfész egyes metódusait! Ehhez szükségünk lesz egy <code>FirebaseAuth</code> objektumra, melyet külső forrásból fogunk megkapni:</p>
 <p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.auth</span><span class="w">  </span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.auth.FirebaseAuth</span><span class="w">  </span>
@@ -1140,17 +1186,28 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>AuthService</code> int
 <h2 id="feladatok-listazasa-keszitese">Feladatok listázása, készítése<a class="headerlink" href="#feladatok-listazasa-keszitese" title="Permanent link">&para;</a></h2>
 <p>Következő lépésben a feladatok listázását fogjuk implementálni a projekten belül.</p>
 <p>Adjuk hozzá a projekthez a <em>Cloud Firestore</em> támogatást:</p>
-<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-firestore-ktx&quot;</span><span class="o">)</span>
+<p><code>libs.versions.toml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[libraries]</span>
+<span class="w">    </span><span class="n">firebase-firestore-ktx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.google.firebase&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;firebase-firestore-ktx&quot;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Modul szintű <code>build.gradle.kts</code>:</p>
+<div class="highlight"><pre><span></span><code>dependencies {
+    implementation(libs.firebase.firestore.ktx)
+}
 </code></pre></div>
 <p>Kapcsoljuk be a <em>Cloud Firestore</em>-t a <em>Firebase console</em>-on is . Az adatbázist <em>test mode</em>-ban fogjuk használni, így egyelőre publikusan írható/olvasható lesz, de cserébe nem kell konfigurálnunk a hozzáférés-szabályozást. Ezt természetesen később mindenképp meg kellene tenni egy éles projektben.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>A <em>test mode</em>-ban konfigurált adatbázis ugyan publikusan írtahó/olvasható, de alapértelmezés szerint egy időbeni korlát van rá. Ez a mostani labornál nem okoz problémát, de egy hosszabb projektnél, mint például a házi feladat elkészítése, erre érdemes figyelni.</p>
+</div>
 <p align="center">
 <a class="glightbox" href="./assets/firebase_create_firestore.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_create_firestore.png"></a>
 </p>
 
 <p>Locationnek válasszunk egy hozzánk közel eső opciót.</p>
-<p>Hozzuk létre a <code>todos</code> package-en belül a <code>firebase</code> package-et. Ebben két osztályt fogunk definiálni: a Firestore-ban tárolt adatobjektum osztály modelljét, illetve a kommunikációt megvalósító service kódját.</p>
+<p>Hozzuk létre a <code>data.todos</code> package-en belül a <code>firebase</code> package-et. Ebben két osztályt fogunk definiálni: a Firestore-ban tárolt adatobjektum osztály modelljét, illetve a kommunikációt megvalósító service kódját.</p>
 <p>Hozzuk először létre az adatot reprezentáló osztályt <code>FirebaseTodo</code> néven:
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.firebase</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.firebase.model</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.Timestamp</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.DocumentId</span>
@@ -1188,9 +1245,9 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>AuthService</code> int
 <span class="w">    </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Timestamp</span><span class="p">(</span><span class="n">Date</span><span class="p">.</span><span class="na">from</span><span class="p">(</span><span class="n">dueDate</span><span class="p">.</span><span class="na">atStartOfDayIn</span><span class="p">(</span><span class="n">TimeZone</span><span class="p">.</span><span class="na">currentSystemDefault</span><span class="p">()).</span><span class="na">toJavaInstant</span><span class="p">())),</span>
 <span class="w">    </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">description</span><span class="p">,</span>
 <span class="p">)</span>
-</code></pre></div>
-Ebben a fájlban definiáltuk a két átalakító függvényt is, mellyel a Firebase és az alkalmazás többi részében használt Todo osztály között tudunk átalakítani. Az egyedüli bonyolult rész a Firebase által használt <code>Timestamp</code> osztály használata az időpont eltárolására, erre most részletesen nem térünk ki.</p>
-<p>Hozzuk létre a feladatok tárolását végző <code>FirebaseTodoService</code> osztályt is ebben a package-ben:
+</code></pre></div></p>
+<p>Ebben a fájlban definiáltuk a két átalakító függvényt is, mellyel a Firebase és az alkalmazás többi részében használt Todo osztály között tudunk átalakítani. Az egyedüli bonyolult rész a Firebase által használt <code>Timestamp</code> osztály használata az időpont eltárolására, erre most részletesen nem térünk ki.</p>
+<p>Hozzuk létre a feladatok tárolását végző <code>FirebaseTodoService</code> osztályt is ebben a package-ben:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.firebase</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.FirebaseFirestore</span>
@@ -1199,6 +1256,9 @@ Ebben a fájlban definiáltuk a két átalakító függvényt is, mellyel a Fire
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.ktx.toObject</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.auth.AuthService</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.TodoService</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.firebase.model.FirebaseTodo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.firebase.model.asFirebaseTodo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.firebase.model.asTodo</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.model.Todo</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.*</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.tasks.await</span>
@@ -1253,7 +1313,7 @@ Ebben a fájlban definiáltuk a két átalakító függvényt is, mellyel a Fire
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-Végül ne felejtsük el befrissíteni a <code>TodoApplication</code> osztályunkat, hogy a Firestoreban tárolt feladatokat használja az alkalmazás:</p>
+<p>Végül ne felejtsük el befrissíteni a <code>TodoApplication</code> osztályunkat, hogy a Firestoreban tárolt feladatokat használja az alkalmazás:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">android.app.Application</span>
@@ -1288,7 +1348,14 @@ Végül ne felejtsük el befrissíteni a <code>TodoApplication</code> osztályun
 </div>
 <h2 id="push-ertesitesek">Push értesítések<a class="headerlink" href="#push-ertesitesek" title="Permanent link">&para;</a></h2>
 <p>Adjuk hozzá a projektünkhöz a <em>Firebase Messaging</em> függőséget:</p>
-<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-messaging-ktx&quot;</span><span class="o">)</span>
+<p><code>libs.versions.toml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[libraries]</span>
+<span class="n">firebase-messaging-ktx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.google.firebase&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s">&quot;firebase-messaging-ktx&quot;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p><code>build.gradle.kts</code>:</p>
+<div class="highlight"><pre><span></span><code>dependencies {
+    implementation(libs.firebase.messaging.ktx)
+}
 </code></pre></div>
 <p>Csupán ennyi elegendő a push alapvető működéséhez, ha így újrafordítjuk az alkalmazást, a Firebase felületéről vagy API-jával küldött push üzeneteket automatikusan megkapják a mobil kliensek és egy <em>Notification</em>-ben megjelenítik.</p>
 <p>Próbáljuk ki a push küldést a <em>Firebase console</em>-ról (<em>Cloud messaging menüpont</em> alatt <em>Send your first message</em>), és vizsgáljuk meg, hogyan érkezik meg telefonra, <strong>ha nem fut az alkalmazás</strong>. (Amikor fut az alkalmazás, akkor tőlünk várja az üzenet lekezelését az API.)
@@ -1303,46 +1370,74 @@ válasszuk ki az alkalmazást, hogy minden futó példány megkapja az üzenetet
 </p>
 
 <p align="center">
+<a class="glightbox" href="./assets/firebase_push_3.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_push_3.png"></a>
+</p>
+
+<p align="center">
 <a class="glightbox" href="./assets/firebase_push_notification_success.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_push_notification_success.png" width="320"></a>
 </p>
 
 <p>Természetesen lehetőség van saját push üzenet feldolgozó szolgáltatás készítésére is egy <code>FirebaseMessagingService</code> létrehozásával, melyről további részletek <a href="https://firebase.google.com/docs/cloud-messaging/android/receive">itt olvashatók</a>.  </p>
 <h2 id="crashlytics">Crashlytics<a class="headerlink" href="#crashlytics" title="Permanent link">&para;</a></h2>
 <p>A Firebase Console-on először navigáljunk a Crashlytics menüpontra, és kapcsoljuk be a funkciót. Válasszuk az új Firebase alkalmazás integrációját.</p>
-<p>Adjuk hozzá a projekthez a függőségeket a projekt szintű <code>build.gradle.kts</code> fájlba: </p>
-<div class="highlight"><pre><span></span><code><span class="n">id</span><span class="o">(</span><span class="s2">&quot;com.google.firebase.crashlytics&quot;</span><span class="o">)</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s2">&quot;3.0.2&quot;</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
-</code></pre></div>
-<p>Ezekkel a módosításokkal egy Gradle plugint adtunk hozzá a projektünkhöz, amit a modul szintű <code>build.gradle</code> fájl elején be kell kapcsolnunk a már meglévők után:</p>
-<div class="highlight"><pre><span></span><code><span class="n">id</span><span class="o">(</span><span class="s2">&quot;com.google.firebase.crashlytics&quot;</span><span class="o">)</span>
-</code></pre></div>
-<p>Végül pedig szükségünk van két egyszerű Gradle függőségre is, amit a meglévő Firebase függőségek mellé helyezhetünk, a modul szintű <code>build.gradle</code> fájlban:</p>
-<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-crashlytics-ktx&quot;</span><span class="o">)</span>
-<span class="n">implementation</span><span class="o">(</span><span class="s2">&quot;com.google.firebase:firebase-analytics-ktx&quot;</span><span class="o">)</span>
-</code></pre></div>
-<p align="center">
-<a class="glightbox" href="./assets/firebase_crash.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_crash.png"></a>
-</p>
+<p>Adjuk hozzá a projekthez a függőségeket:</p>
+<p><code>libs.versions.toml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[versions]</span>
+<span class="n">crashlytics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;3.0.3&quot;</span>
 
-<p>Vegyünk fel egy új akciót <code>TodosScreen</code> <code>TodoAppBar</code> részébe, amivel az alkalmazást hibával be tudjuk zárni:</p>
+<span class="k">[libraries]</span>
+<span class="n">firebase-analytics-ktx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">module</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.google.firebase:firebase-analytics-ktx&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">firebase-crashlytics-ktx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">module</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.google.firebase:firebase-crashlytics-ktx&quot;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="k">[plugins]</span>
+<span class="n">firebase-crashlytics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.google.firebase.crashlytics&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;crashlytics&quot;</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Ezekkel a módosításokkal többek között egy Gradle plugint adtunk hozzá a projektünkhöz, amit a modul szintű <code>build.gradle</code> fájl elején be kell kapcsolnunk a már meglévők után:</p>
+<div class="highlight"><pre><span></span><code>plugins {
+    alias(libs.plugins.firebase.crashlytics) apply false
+}
+</code></pre></div>
+<p>Majd a modul szintű <code>build.gradle.kts</code> fájlban: </p>
+<div class="highlight"><pre><span></span><code>plugins {
+    alias(libs.plugins.firebase.crashlytics)
+}
+</code></pre></div>
+<p>Végül pedig szükségünk van két egyszerű Gradle függőségre is, amit a meglévő Firebase függőségek mellé helyezhetünk, a modul szintű <code>build.gradle.kts</code> fájlban:</p>
+<div class="highlight"><pre><span></span><code>dependencies {
+    implementation(libs.firebase.crashlytics.ktx)
+    implementation(libs.firebase.analytics.ktx)
+}
+</code></pre></div>
+<p>Vegyünk fel egy új akciót <code>TodoListScreen</code> <code>TodoAppBar</code> részébe, amivel az alkalmazást hibával be tudjuk zárni:</p>
 <div class="highlight"><pre><span></span><code><span class="n">TodoAppBar</span><span class="p">(</span>
-<span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">StringResources</span><span class="p">.</span><span class="na">app_bar_title_todos</span><span class="p">),</span>
+<span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UiText</span><span class="p">.</span><span class="na">StringResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">app_bar_title_todos</span><span class="p">).</span><span class="na">asString</span><span class="p">(</span><span class="n">context</span><span class="p">),</span>
 <span class="w">    </span><span class="n">actions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">IconButton</span><span class="p">(</span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">viewModel</span><span class="p">.</span><span class="na">signOut</span><span class="p">()</span>
 <span class="w">            </span><span class="n">onSignOut</span><span class="p">()</span>
 <span class="w">        </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">Icon</span><span class="p">(</span><span class="n">imageVector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Icons</span><span class="p">.</span><span class="na">Default</span><span class="p">.</span><span class="na">Logout</span><span class="p">,</span><span class="w"> </span><span class="n">contentDescription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span>
+<span class="w">            </span><span class="n">Icon</span><span class="p">(</span>
+<span class="w">                </span><span class="n">imageVector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Icons</span><span class="p">.</span><span class="na">AutoMirrored</span><span class="p">.</span><span class="na">Filled</span><span class="p">.</span><span class="na">Logout</span><span class="p">,</span>
+<span class="w">                </span><span class="n">contentDescription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">            </span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">        </span><span class="n">IconButton</span><span class="p">(</span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">throw</span><span class="w"> </span><span class="n">RuntimeException</span><span class="p">(</span><span class="s">&quot;Test crash!&quot;</span><span class="p">)</span>
 <span class="w">        </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">Icon</span><span class="p">(</span><span class="n">imageVector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Icons</span><span class="p">.</span><span class="na">Default</span><span class="p">.</span><span class="na">Close</span><span class="p">,</span><span class="w"> </span><span class="n">contentDescription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span>
+<span class="w">            </span><span class="n">Icon</span><span class="p">(</span>
+<span class="w">                </span><span class="n">imageVector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Icons</span><span class="p">.</span><span class="na">Default</span><span class="p">.</span><span class="na">Close</span><span class="p">,</span>
+<span class="w">                </span><span class="n">contentDescription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">            </span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">)</span>
 </code></pre></div>
 <p>Végül a <em>Firebase console-ban</em> is engedélyezzük a funkciót a <em>Crashlytics</em> menüpont alatt.</p>
 <p>Próbáljuk ki saját hibajelzések készítését a menü eseménykezelőjében. Vizsgáljuk meg, megérkezik-e a Firebase Console-ba a hibaüzenet!</p>
+<p align="center">
+<a class="glightbox" href="./assets/firebase_crash.png" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img src="./assets/firebase_crash.png"></a>
+</p>
+
 <h2 id="analitika">Analitika<a class="headerlink" href="#analitika" title="Permanent link">&para;</a></h2>
 <p>Most engedélyezzük az analitikát a <em>Firebase console</em> <em>Analytics</em> menüpontja alatt!</p>
 <p>Az SDK-t már beállítottuk, ezért a megfelelő Account kiválasztása után a Nextre, majd a Finishre kattinhatunk.</p>
@@ -1358,7 +1453,7 @@ ugyanezen menüpont alatt lesznek elérhetők.</p>
 <span class="w">    </span>FirebaseAnalytics.getInstance(context)
 <span class="w">        </span>.logEvent(FirebaseAnalytics.Event.LOGIN,<span class="w"> </span>bundle)
 })<span class="w"> </span>{
-<span class="w">    </span>Icon(imageVector<span class="w"> </span>=<span class="w"> </span>Icons.Default.Message,<span class="w"> </span>contentDescription<span class="w"> </span>=<span class="w"> </span>null)
+<span class="w">    </span>Icon(imageVector<span class="w"> </span>=<span class="w"> </span>Icons.AutoMirrored.Filled.Message,<span class="w"> </span>contentDescription<span class="w"> </span>=<span class="w"> </span>null)
 }
 </code></pre></div>
 <p>Fontos kiemelni, hogy nem garantált, hogy az analitika valós időben látszik a <em>Firebase console</em>-on. 30 percig vagy akár tovább is tarthat, mire egy-egy esemény itt megjelenik.</p>
@@ -1393,8 +1488,8 @@ ugyanezen menüpont alatt lesznek elérhetők.</p>
           </path>
         </svg>
       </span>
-      <span title="2024. október 31. 12:22:00">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2024. október 31. 12:22:00"><span class="timeago" datetime="2024-10-31T12:22:00+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2024. október 31. 12:22:00">2024-10-31</span>
+      <span title="2025. március 30. 18:38:32">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. március 30. 18:38:32"><span class="timeago" datetime="2025-03-30T18:38:32+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. március 30. 18:38:32">2025-03-30</span>
       </span>
     </span>
 

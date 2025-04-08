@@ -1096,16 +1096,16 @@ a <code>data.di</code> package-be:</p>
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">Factory</span><span class="p">:</span><span class="w"> </span><span class="n">ViewModelProvider</span><span class="p">.</span><span class="na">Factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModelFactory</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">initializer</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">TodoApplication</span><span class="p">.</span><span class="na">repository</span><span class="p">)</span>
-<span class="w">                </span><span class="n">TodosViewModel</span><span class="p">(</span>
+<span class="w">                </span><span class="n">TodoListViewModel</span><span class="p">(</span>
 <span class="w">                    </span><span class="n">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span>
 <span class="w">                </span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 </code></pre></div>
-<p>Ezeket törölnünk kell, viszont gondoskodnunk kell róla, hogy a <code>TodoUseCases</code> is inicializálódjon. Jelenlegi készültségben ezt nem tudjuk még injektálni, csak a <code>TodoRepository</code> komponenst, ennek segítségével viszont példányosítható a <code>TodoUseCases</code>. Illetve még el kell helyezni a viewmodel osztályokon a <code>@HiltViewModel</code> annotációt, hogy a Hilt által menedzselt viewmodellekké váljanak. A <code>TodosViewModel</code> végül így alakul:</p>
+<p>Ezeket törölnünk kell, viszont gondoskodnunk kell róla, hogy a <code>TodoUseCases</code> is inicializálódjon. Jelenlegi készültségben ezt nem tudjuk még injektálni, csak a <code>TodoRepository</code> komponenst, ennek segítségével viszont példányosítható a <code>TodoUseCases</code>. Illetve még el kell helyezni a viewmodel osztályokon a <code>@HiltViewModel</code> annotációt, hogy a Hilt által menedzselt viewmodellekké váljanak. A <code>TodoListViewModel</code> végül így alakul:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
-<span class="kd">class</span><span class="w"> </span><span class="nc">TodosViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">TodoListViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span>
 <span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
@@ -1118,31 +1118,25 @@ a <code>data.di</code> package-be:</p>
 <span class="w">        </span><span class="n">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
 <span class="w">        </span><span class="n">loadTodos</span><span class="p">()</span>
 <span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">isLoading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
 <span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">CoroutineScope</span><span class="p">(</span><span class="n">coroutineContext</span><span class="p">).</span><span class="na">launch</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="na">IO</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="kd">val</span><span class="w"> </span><span class="nv">todos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodos</span><span class="p">().</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">asTodoUi</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
-<span class="w">                    </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">isLoading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">                        </span><span class="n">todos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todos</span>
-<span class="w">                    </span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
-<span class="w">                </span><span class="p">}</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span>
+<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodos</span><span class="p">().</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">asTodoUi</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
+<span class="w">                    </span><span class="n">todoList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todos</span>
+<span class="w">                </span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">isLoading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">                    </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span>
-<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Hasonló átalakításokat kell végeznünk a <code>CheckTodoViewModel</code> osztályon:</p>
+<p>Hasonló átalakításokat kell végeznünk a <code>TodoDetailViewModel</code> osztályon:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
-<span class="kd">class</span><span class="w"> </span><span class="nc">CheckTodoViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">TodoDetailViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">savedState</span><span class="p">:</span><span class="w"> </span><span class="n">SavedStateHandle</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span>
 <span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -1152,126 +1146,30 @@ a <code>data.di</code> package-be:</p>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="p">(</span><span class="n">CheckTodoState</span><span class="p">())</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="p">:</span><span class="w"> </span><span class="n">StateFlow</span><span class="o">&lt;</span><span class="n">CheckTodoState</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_state</span>
 
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_uiEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channel</span><span class="o">&lt;</span><span class="n">UiEvent</span><span class="o">&gt;</span><span class="p">()</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">uiEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">receiveAsFlow</span><span class="p">()</span>
-
-<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onEvent</span><span class="p">(</span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="n">CheckTodoEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">CheckTodoEvent</span><span class="p">.</span><span class="na">EditingTodo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">isEditingTodo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="n">CheckTodoEvent</span><span class="p">.</span><span class="na">StopEditingTodo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">isEditingTodo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">CheckTodoEvent</span><span class="p">.</span><span class="na">ChangeTitle</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">text</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="o">?.</span><span class="na">copy</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">CheckTodoEvent</span><span class="p">.</span><span class="na">ChangeDescription</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">text</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="o">?.</span><span class="na">copy</span><span class="p">(</span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">CheckTodoEvent</span><span class="p">.</span><span class="na">SelectPriority</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">priority</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="o">?.</span><span class="na">copy</span><span class="p">(</span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">CheckTodoEvent</span><span class="p">.</span><span class="na">SelectDate</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">date</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="o">?.</span><span class="na">copy</span><span class="p">(</span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="n">CheckTodoEvent</span><span class="p">.</span><span class="na">DeleteTodo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">onDelete</span><span class="p">()</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="n">CheckTodoEvent</span><span class="p">.</span><span class="na">UpdateTodo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">onUpdate</span><span class="p">()</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-
 <span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
 <span class="w">        </span><span class="n">load</span><span class="p">()</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">load</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">checkNotNull</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">savedState</span><span class="o">[</span><span class="s">&quot;id&quot;</span><span class="o">]</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">checkNotNull</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">savedStateHandle</span><span class="o">[</span><span class="s">&quot;id&quot;</span><span class="o">]</span><span class="p">)</span>
 <span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">isLoadingTodo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
 <span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodo</span><span class="p">(</span><span class="n">todoId</span><span class="p">)</span>
-<span class="w">                </span><span class="n">CoroutineScope</span><span class="p">(</span><span class="n">coroutineContext</span><span class="p">).</span><span class="na">launch</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="na">IO</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                        </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                            </span><span class="n">isLoadingTodo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">                            </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todo</span><span class="p">.</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">asTodoUi</span><span class="p">()</span>
-<span class="w">                        </span><span class="p">)</span>
-<span class="w">                    </span><span class="p">}</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Failure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onUpdate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="na">IO</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">updateTodo</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">todo</span><span class="o">?.</span><span class="na">asTodo</span><span class="p">()</span><span class="o">!!</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Loading</span>
+<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodo</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
+<span class="w">                    </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todo</span><span class="p">.</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">asTodoUi</span><span class="p">()</span>
 <span class="w">                </span><span class="p">)</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Success</span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Failure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onDelete</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">deleteTodo</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">todo</span><span class="o">!!</span><span class="p">.</span><span class="na">id</span><span class="p">)</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Success</span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Failure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Majd a <code>CreateTodoViewModel</code> osztályon is:</p>
+<p>Majd a <code>TodoCreateViewModel</code> osztályon is:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
-<span class="kd">class</span><span class="w"> </span><span class="nc">CreateTodoViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">TodoCreateViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span>
 <span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
@@ -1287,33 +1185,50 @@ a <code>data.di</code> package-be:</p>
 <span class="w">        </span><span class="n">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onEvent</span><span class="p">(</span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="n">CreateTodoEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">when</span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">CreateTodoEvent</span><span class="p">.</span><span class="na">ChangeTitle</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onEvent</span><span class="p">(</span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">ChangeTitle</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">text</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
-<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">)</span>
+<span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">CreateTodoEvent</span><span class="p">.</span><span class="na">ChangeDescription</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">ChangeDescription</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">text</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
-<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">)</span>
+<span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">CreateTodoEvent</span><span class="p">.</span><span class="na">SelectPriority</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">SelectPriority</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">priority</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
-<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">)</span>
+<span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">CreateTodoEvent</span><span class="p">.</span><span class="na">SelectDate</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">SelectDate</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">date</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">.</span><span class="na">toString</span><span class="p">())</span>
-<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">.</span><span class="na">toString</span><span class="p">())</span>
+<span class="w">                    </span><span class="p">)</span>
+<span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
-<span class="w">            </span><span class="n">CreateTodoEvent</span><span class="p">.</span><span class="na">SaveTodo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">SaveTodo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="na">random</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kt">Int</span><span class="p">.</span><span class="na">MAX_VALUE</span><span class="p">).</span><span class="na">toInt</span><span class="p">())</span>
+<span class="w">                    </span><span class="p">)</span>
+<span class="w">                </span><span class="p">}</span>
 <span class="w">                </span><span class="n">onSave</span><span class="p">()</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
@@ -1323,26 +1238,26 @@ a <code>data.di</code> package-be:</p>
 <span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">saveTodo</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">asTodo</span><span class="p">())</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Success</span><span class="p">)</span>
+<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoCreateUiEvent</span><span class="p">.</span><span class="na">Success</span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Failure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
+<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoCreateUiEvent</span><span class="p">.</span><span class="na">Failure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Majd végül az összes screen osztályban változtassuk meg a viewmodel létreozásának módját úgy, hogy a <code>hiltViewModel()</code> hívást használjuk. Pl. a <code>CheckTodoScreen</code> eddig így nézett ki:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="nf">CheckTodoScreen</span><span class="p">(</span>
+<p>Majd végül az összes screen osztályban változtassuk meg a viewmodel létreozásának módját úgy, hogy a <code>hiltViewModel()</code> hívást használjuk. Pl. a <code>TodoDetailScreen</code> eddig így nézett ki:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="nf">TodoDetailScreen</span><span class="p">(</span>
 <span class="w">    </span><span class="n">onNavigateBack</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
-<span class="w">    </span><span class="n">viewModel</span><span class="p">:</span><span class="w"> </span><span class="n">CheckTodoViewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModel</span><span class="p">(</span><span class="n">factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CheckTodoViewModel</span><span class="p">.</span><span class="na">Factory</span><span class="p">)</span>
+<span class="w">    </span><span class="n">viewModel</span><span class="p">:</span><span class="w"> </span><span class="n">TodoDetailViewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModel</span><span class="p">(</span><span class="n">factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailViewModel</span><span class="p">.</span><span class="na">Factory</span><span class="p">)</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// ...</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>A következőképpen módosítsuk:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="nf">CheckTodoScreen</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="nf">TodoDetailScreen</span><span class="p">(</span>
 <span class="w">    </span><span class="n">onNavigateBack</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
-<span class="w">    </span><span class="n">viewModel</span><span class="p">:</span><span class="w"> </span><span class="n">CheckTodoViewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hiltViewModel</span><span class="p">()</span>
+<span class="w">    </span><span class="n">viewModel</span><span class="p">:</span><span class="w"> </span><span class="n">TodoDetailViewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hiltViewModel</span><span class="p">()</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// ...</span>
 <span class="p">}</span>
@@ -1381,171 +1296,92 @@ a <code>data.di</code> package-be:</p>
 <span class="p">}</span>
 </code></pre></div>
 <p>Most már a viewmodel osztályokba nem szükséges a <code>TodoRepository</code> injektálása és a <code>TodoUseCases</code> kézi létrehozása, hiszen a <code>TodoUseCases</code> közvetlen is injektálhatóvá vált. Módosítsuk ennek megfelelően a viewmodel osztályokat!</p>
-<p>A <code>CheckTodoViewModel</code> kódja:</p>
+<p>A <code>TodoDetailViewModel</code> kódja:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
-<span class="kd">class</span><span class="w"> </span><span class="nc">CheckTodoViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">savedState</span><span class="p">:</span><span class="w"> </span><span class="n">SavedStateHandle</span><span class="p">,</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">TodoDetailViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">savedStateHandle</span><span class="p">:</span><span class="w"> </span><span class="n">SavedStateHandle</span>
 <span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="p">(</span><span class="n">CheckTodoState</span><span class="p">())</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="p">:</span><span class="w"> </span><span class="n">StateFlow</span><span class="o">&lt;</span><span class="n">CheckTodoState</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_state</span>
-
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_uiEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channel</span><span class="o">&lt;</span><span class="n">UiEvent</span><span class="o">&gt;</span><span class="p">()</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">uiEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">receiveAsFlow</span><span class="p">()</span>
-
-<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onEvent</span><span class="p">(</span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="n">CheckTodoEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">CheckTodoEvent</span><span class="p">.</span><span class="na">EditingTodo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">isEditingTodo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="n">CheckTodoEvent</span><span class="p">.</span><span class="na">StopEditingTodo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">isEditingTodo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">CheckTodoEvent</span><span class="p">.</span><span class="na">ChangeTitle</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">text</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="o">?.</span><span class="na">copy</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">CheckTodoEvent</span><span class="p">.</span><span class="na">ChangeDescription</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">text</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="o">?.</span><span class="na">copy</span><span class="p">(</span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">CheckTodoEvent</span><span class="p">.</span><span class="na">SelectPriority</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">priority</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="o">?.</span><span class="na">copy</span><span class="p">(</span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">CheckTodoEvent</span><span class="p">.</span><span class="na">SelectDate</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">date</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="o">?.</span><span class="na">copy</span><span class="p">(</span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="n">CheckTodoEvent</span><span class="p">.</span><span class="na">DeleteTodo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">onDelete</span><span class="p">()</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="n">CheckTodoEvent</span><span class="p">.</span><span class="na">UpdateTodo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">onUpdate</span><span class="p">()</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="o">&lt;</span><span class="n">TodoDetailState</span><span class="o">&gt;</span><span class="p">(</span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Loading</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_state</span><span class="p">.</span><span class="na">asStateFlow</span><span class="p">()</span>
 
 <span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">load</span><span class="p">()</span>
+<span class="w">        </span><span class="n">loadTodos</span><span class="p">()</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">load</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">checkNotNull</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">savedState</span><span class="o">[</span><span class="s">&quot;id&quot;</span><span class="o">]</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">checkNotNull</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">savedStateHandle</span><span class="o">[</span><span class="s">&quot;id&quot;</span><span class="o">]</span><span class="p">)</span>
 <span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">isLoadingTodo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
 <span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodo</span><span class="p">(</span><span class="n">todoId</span><span class="p">)</span>
-<span class="w">                </span><span class="n">CoroutineScope</span><span class="p">(</span><span class="n">coroutineContext</span><span class="p">).</span><span class="na">launch</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="na">IO</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                        </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                            </span><span class="n">isLoadingTodo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">                            </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todo</span><span class="p">.</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">asTodoUi</span><span class="p">()</span>
-<span class="w">                        </span><span class="p">)</span>
-<span class="w">                    </span><span class="p">}</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Failure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onUpdate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="na">IO</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">updateTodo</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">todo</span><span class="o">?.</span><span class="na">asTodo</span><span class="p">()</span><span class="o">!!</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Loading</span>
+<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodo</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
+<span class="w">                    </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todo</span><span class="p">.</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">asTodoUi</span><span class="p">()</span>
 <span class="w">                </span><span class="p">)</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Success</span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Failure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onDelete</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">deleteTodo</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">todo</span><span class="o">!!</span><span class="p">.</span><span class="na">id</span><span class="p">)</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Success</span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Failure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>A <code>CreateTodoViewModel</code> így fest:</p>
+<p>A <code>TodoCreateViewModel</code> így fest:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
-<span class="kd">class</span><span class="w"> </span><span class="nc">CreateTodoViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">TodoCreateViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span>
 <span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="p">(</span><span class="n">CreateTodoState</span><span class="p">())</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="p">(</span><span class="n">TodoCreateState</span><span class="p">())</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_state</span><span class="p">.</span><span class="na">asStateFlow</span><span class="p">()</span>
 
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_uiEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channel</span><span class="o">&lt;</span><span class="n">UiEvent</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_uiEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channel</span><span class="o">&lt;</span><span class="n">TodoCreateUiEvent</span><span class="o">&gt;</span><span class="p">()</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">uiEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">receiveAsFlow</span><span class="p">()</span>
 
-<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onEvent</span><span class="p">(</span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="n">CreateTodoEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">when</span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">CreateTodoEvent</span><span class="p">.</span><span class="na">ChangeTitle</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onEvent</span><span class="p">(</span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">ChangeTitle</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">text</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
-<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">)</span>
+<span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">CreateTodoEvent</span><span class="p">.</span><span class="na">ChangeDescription</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">ChangeDescription</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">text</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
-<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">)</span>
+<span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">CreateTodoEvent</span><span class="p">.</span><span class="na">SelectPriority</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">SelectPriority</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">priority</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
-<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">)</span>
+<span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">CreateTodoEvent</span><span class="p">.</span><span class="na">SelectDate</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">SelectDate</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">date</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">.</span><span class="na">toString</span><span class="p">())</span>
-<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">.</span><span class="na">toString</span><span class="p">())</span>
+<span class="w">                    </span><span class="p">)</span>
+<span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
-<span class="w">            </span><span class="n">CreateTodoEvent</span><span class="p">.</span><span class="na">SaveTodo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">SaveTodo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="na">random</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kt">Int</span><span class="p">.</span><span class="na">MAX_VALUE</span><span class="p">).</span><span class="na">toInt</span><span class="p">())</span>
+<span class="w">                    </span><span class="p">)</span>
+<span class="w">                </span><span class="p">}</span>
 <span class="w">                </span><span class="n">onSave</span><span class="p">()</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
@@ -1555,43 +1391,33 @@ a <code>data.di</code> package-be:</p>
 <span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">saveTodo</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">asTodo</span><span class="p">())</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Success</span><span class="p">)</span>
+<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoCreateUiEvent</span><span class="p">.</span><span class="na">Success</span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Failure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
+<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoCreateUiEvent</span><span class="p">.</span><span class="na">Failure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>A <code>TodosViewModel</code> átalakított verziója pedig az alábbi:</p>
+<p>A <code>TodoListViewModel</code> átalakított verziója pedig az alábbi:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
-<span class="kd">class</span><span class="w"> </span><span class="nc">TodosViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">TodoListViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span>
 <span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="p">(</span><span class="n">TodosState</span><span class="p">())</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="o">&lt;</span><span class="n">TodoListState</span><span class="o">&gt;</span><span class="p">(</span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_state</span><span class="p">.</span><span class="na">asStateFlow</span><span class="p">()</span>
 
-<span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">loadTodos</span><span class="p">()</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">isLoading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
 <span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">CoroutineScope</span><span class="p">(</span><span class="n">coroutineContext</span><span class="p">).</span><span class="na">launch</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="na">IO</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="kd">val</span><span class="w"> </span><span class="nv">todos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodos</span><span class="p">().</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">asTodoUi</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
-<span class="w">                    </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">isLoading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">                        </span><span class="n">todos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todos</span>
-<span class="w">                    </span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
-<span class="w">                </span><span class="p">}</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span>
+<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodos</span><span class="p">().</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">asTodoUi</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
+<span class="w">                    </span><span class="n">todoList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todos</span>
+<span class="w">                </span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">isLoading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">                    </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span>
-<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
@@ -1639,9 +1465,9 @@ mockito-kotlin = { module = &quot;org.mockito.kotlin:mockito-kotlin&quot;, versi
 <span class="n">testImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">mockito</span><span class="p">.</span><span class="na">inline</span><span class="p">)</span>
 <span class="n">testImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">mockito</span><span class="p">.</span><span class="na">kotlin</span><span class="p">)</span>
 </code></pre></div>
-<p>Hozzuk létre a <code>data.datasource</code> package-et ezért a <code>test</code> könyvtárban is! A lokális tesztek a <code>test</code> könyvtárban vannak, az <code>androidTest</code> könyvtár pedig az instrumentált tesztek helye.</p>
+<p>Hozzuk létre a <code>data.repository</code> package-et ezért a <code>test</code> könyvtárban is! A lokális tesztek a <code>test</code> könyvtárban vannak, az <code>androidTest</code> könyvtár pedig az instrumentált tesztek helye.</p>
 <p>A létrehozott package-ben hozzunk létre egy <code>TodoRepositoryImplTest</code> osztályt az alábbi módon:</p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.datasource</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.dao.TodoDao</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.entities.TodoEntity</span>
@@ -1739,9 +1565,9 @@ hilt-android-compiler = { module = &quot;com.google.dagger:hilt-android-compiler
 <span class="w">    </span><span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enabled</span>
 <span class="p">)</span>
 </code></pre></div>
-<p>Most már elkészíthetjük a tesztet! Mivel a teszt a <code>CreateTodoScreen</code> osztályhoz köthető, ez pedig a <code>feature.todo_create</code> package-ben van, először hozzuk létre ezt a package-et az <code>androidTest</code> mappában is.</p>
-<p>Majd készítsük el a <code>CreateTodoScreenTest</code> osztályunkat:</p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.feature.todo_create</span>
+<p>Most már elkészíthetjük a tesztet! Mivel a teszt a <code>TodoCreateScreen</code> osztályhoz köthető, ez pedig a <code>screen.todo_create</code> package-ben van, először hozzuk létre ezt a package-et az <code>androidTest</code> mappában is.</p>
+<p>Majd készítsük el a <code>TodoCreateScreenTest</code> osztályunkat:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.screen.todo_create</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.compose.setContent</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ExperimentalMaterial3Api</span>
@@ -1756,7 +1582,7 @@ hilt-android-compiler = { module = &quot;com.google.dagger:hilt-android-compiler
 <span class="k">import</span><span class="w"> </span><span class="nn">org.junit.Rule</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">org.junit.Test</span>
 
-<span class="kd">class</span><span class="w"> </span><span class="nc">CreateTodoScreenTest</span><span class="w"> </span><span class="p">{</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">TodoCreateScreenTest</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nd">@get</span><span class="p">:</span><span class="n">Rule</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">composeTestRule</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createAndroidComposeRule</span><span class="o">&lt;</span><span class="n">MainActivity</span><span class="o">&gt;</span><span class="p">()</span>
 
@@ -1764,7 +1590,7 @@ hilt-android-compiler = { module = &quot;com.google.dagger:hilt-android-compiler
 <span class="w">    </span><span class="nd">@Test</span>
 <span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">testDatePickerDialogIsShownWhenClickedOnDatePickerIcon</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">composeTestRule</span><span class="p">.</span><span class="na">activity</span><span class="p">.</span><span class="na">setContent</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">CreateTodoScreen</span><span class="p">(</span>
+<span class="w">            </span><span class="n">TodoCreateScreen</span><span class="p">(</span>
 <span class="w">                </span><span class="n">onNavigateBack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">})</span>
 <span class="w">        </span><span class="p">}</span>
 
@@ -1820,8 +1646,8 @@ hilt-android-compiler = { module = &quot;com.google.dagger:hilt-android-compiler
           </path>
         </svg>
       </span>
-      <span title="2024. november 5. 22:16:11">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2024. november 5. 22:16:11"><span class="timeago" datetime="2024-11-05T22:16:11+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2024. november 5. 22:16:11">2024-11-05</span>
+      <span title="2025. április 8. 15:42:14">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. április 8. 15:42:14"><span class="timeago" datetime="2025-04-08T15:42:14+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. április 8. 15:42:14">2025-04-08</span>
       </span>
     </span>
 

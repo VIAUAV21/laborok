@@ -210,7 +210,7 @@ A repository viszont szorosan volt csatolva a viewmodelekhez, amelyeket a három
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val todoOperations = TodoUseCases(TodoApplication.repository)
-                TodosViewModel(
+                TodoListViewModel(
                     todoOperations = todoOperations
                 )
             }
@@ -218,11 +218,11 @@ A repository viszont szorosan volt csatolva a viewmodelekhez, amelyeket a három
     }
 ```
 
-Ezeket törölnünk kell, viszont gondoskodnunk kell róla, hogy a `TodoUseCases` is inicializálódjon. Jelenlegi készültségben ezt nem tudjuk még injektálni, csak a `TodoRepository` komponenst, ennek segítségével viszont példányosítható a `TodoUseCases`. Illetve még el kell helyezni a viewmodel osztályokon a `@HiltViewModel` annotációt, hogy a Hilt által menedzselt viewmodellekké váljanak. A `TodosViewModel` végül így alakul:
+Ezeket törölnünk kell, viszont gondoskodnunk kell róla, hogy a `TodoUseCases` is inicializálódjon. Jelenlegi készültségben ezt nem tudjuk még injektálni, csak a `TodoRepository` komponenst, ennek segítségével viszont példányosítható a `TodoUseCases`. Illetve még el kell helyezni a viewmodel osztályokon a `@HiltViewModel` annotációt, hogy a Hilt által menedzselt viewmodellekké váljanak. A `TodoListViewModel` végül így alakul:
 
 ```kotlin
 @HiltViewModel
-class TodosViewModel @Inject constructor(
+class TodoListViewModel @Inject constructor(
     private val repository: TodoRepository
 ) : ViewModel() {
 
@@ -235,34 +235,28 @@ class TodosViewModel @Inject constructor(
         todoOperations = TodoUseCases(repository)
         loadTodos()
     }
-    private fun loadTodos() {
 
+    fun loadTodos() {
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
             try {
-                CoroutineScope(coroutineContext).launch(Dispatchers.IO) {
-                    val todos = todoOperations.loadTodos().getOrThrow().map { it.asTodoUi() }
-                    _state.update { it.copy(
-                        isLoading = false,
-                        todos = todos
-                    ) }
-                }
+                _state.value = TodoListState.Loading
+                val todos = todoOperations.loadTodos().getOrThrow().map { it.asTodoUi() }
+                _state.value = TodoListState.Result(
+                    todoList = todos
+                )
             } catch (e: Exception) {
-                _state.update {  it.copy(
-                    isLoading = false,
-                    error = e
-                ) }
+                _state.value = TodoListState.Error(e)
             }
         }
     }
 }
 ```
 
-Hasonló átalakításokat kell végeznünk a `CheckTodoViewModel` osztályon:
+Hasonló átalakításokat kell végeznünk a `TodoDetailViewModel` osztályon:
 
 ```kotlin
 @HiltViewModel
-class CheckTodoViewModel @Inject constructor(
+class TodoDetailViewModel @Inject constructor(
     private val savedState: SavedStateHandle,
     private val repository: TodoRepository
 ) : ViewModel() {
@@ -271,130 +265,34 @@ class CheckTodoViewModel @Inject constructor(
 
     private val _state = MutableStateFlow(CheckTodoState())
     val state: StateFlow<CheckTodoState> = _state
-
-    private val _uiEvent = Channel<UiEvent>()
-    val uiEvent = _uiEvent.receiveAsFlow()
-
-    fun onEvent(event: CheckTodoEvent) {
-        when (event) {
-            CheckTodoEvent.EditingTodo -> {
-                _state.update {
-                    it.copy(
-                        isEditingTodo = true
-                    )
-                }
-            }
-
-            CheckTodoEvent.StopEditingTodo -> {
-                _state.update {
-                    it.copy(
-                        isEditingTodo = false
-                    )
-                }
-            }
-
-            is CheckTodoEvent.ChangeTitle -> {
-                val newValue = event.text
-                _state.update {
-                    it.copy(
-                        todo = it.todo?.copy(title = newValue)
-                    )
-                }
-            }
-
-            is CheckTodoEvent.ChangeDescription -> {
-                val newValue = event.text
-                _state.update {
-                    it.copy(
-                        todo = it.todo?.copy(description = newValue)
-                    )
-                }
-            }
-
-            is CheckTodoEvent.SelectPriority -> {
-                val newValue = event.priority
-                _state.update {
-                    it.copy(
-                        todo = it.todo?.copy(priority = newValue)
-                    )
-                }
-            }
-
-            is CheckTodoEvent.SelectDate -> {
-                val newValue = event.date.toString()
-                _state.update {
-                    it.copy(
-                        todo = it.todo?.copy(dueDate = newValue)
-                    )
-                }
-            }
-
-            CheckTodoEvent.DeleteTodo -> {
-                onDelete()
-            }
-
-            CheckTodoEvent.UpdateTodo -> {
-                onUpdate()
-            }
-        }
-    }
-
+    
     init {
         todoOperations = TodoUseCases(repository)
         load()
     }
 
-    private fun load() {
-        val todoId = checkNotNull<Int>(savedState["id"])
+    private fun loadTodos() {
+        val id = checkNotNull<Int>(savedStateHandle["id"])
         viewModelScope.launch {
-            _state.update { it.copy(isLoadingTodo = true) }
             try {
-                val todo = todoOperations.loadTodo(todoId)
-                CoroutineScope(coroutineContext).launch(Dispatchers.IO) {
-                    _state.update {
-                        it.copy(
-                            isLoadingTodo = false,
-                            todo = todo.getOrThrow().asTodoUi()
-                        )
-                    }
-                }
-            } catch (e: Exception) {
-                _uiEvent.send(UiEvent.Failure(e.toUiText()))
-            }
-        }
-    }
-
-    private fun onUpdate() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                todoOperations.updateTodo(
-                    _state.value.todo?.asTodo()!!
+                _state.value = TodoDetailState.Loading
+                val todo = todoOperations.loadTodo(id)
+                _state.value = TodoDetailState.Result(
+                    todo = todo.getOrThrow().asTodoUi()
                 )
-                _uiEvent.send(UiEvent.Success)
             } catch (e: Exception) {
-                _uiEvent.send(UiEvent.Failure(e.toUiText()))
-            }
-        }
-    }
-
-    private fun onDelete() {
-        viewModelScope.launch {
-            try {
-                todoOperations.deleteTodo(state.value.todo!!.id)
-                _uiEvent.send(UiEvent.Success)
-            } catch (e: Exception) {
-                _uiEvent.send(UiEvent.Failure(e.toUiText()))
+                _state.value = TodoDetailState.Error(e)
             }
         }
     }
 }
 ```
 
-Majd a `CreateTodoViewModel` osztályon is:
+Majd a `TodoCreateViewModel` osztályon is:
 
 ```kotlin
 @HiltViewModel
-class CreateTodoViewModel @Inject constructor(
+class TodoCreateViewModel @Inject constructor(
     private val repository: TodoRepository
 ) : ViewModel() {
 
@@ -410,33 +308,50 @@ class CreateTodoViewModel @Inject constructor(
         todoOperations = TodoUseCases(repository)
     }
 
-    fun onEvent(event: CreateTodoEvent) {
-        when(event) {
-            is CreateTodoEvent.ChangeTitle -> {
+    fun onEvent(event: TodoCreateEvent) {
+        when (event) {
+            is TodoCreateEvent.ChangeTitle -> {
                 val newValue = event.text
-                _state.update { it.copy(
-                    todo = it.todo.copy(title = newValue)
-                ) }
+                _state.update {
+                    it.copy(
+                        todo = it.todo.copy(title = newValue)
+                    )
+                }
             }
-            is CreateTodoEvent.ChangeDescription -> {
+
+            is TodoCreateEvent.ChangeDescription -> {
                 val newValue = event.text
-                _state.update { it.copy(
-                    todo = it.todo.copy(description = newValue)
-                ) }
+                _state.update {
+                    it.copy(
+                        todo = it.todo.copy(description = newValue)
+                    )
+                }
             }
-            is CreateTodoEvent.SelectPriority -> {
+
+            is TodoCreateEvent.SelectPriority -> {
                 val newValue = event.priority
-                _state.update { it.copy(
-                    todo = it.todo.copy(priority = newValue)
-                ) }
+                _state.update {
+                    it.copy(
+                        todo = it.todo.copy(priority = newValue)
+                    )
+                }
             }
-            is CreateTodoEvent.SelectDate -> {
+
+            is TodoCreateEvent.SelectDate -> {
                 val newValue = event.date
-                _state.update { it.copy(
-                    todo = it.todo.copy(dueDate = newValue.toString())
-                ) }
+                _state.update {
+                    it.copy(
+                        todo = it.todo.copy(dueDate = newValue.toString())
+                    )
+                }
             }
-            CreateTodoEvent.SaveTodo -> {
+
+            TodoCreateEvent.SaveTodo -> {
+                _state.update {
+                    it.copy(
+                        todo = it.todo.copy(id = (Math.random() * Int.MAX_VALUE).toInt())
+                    )
+                }
                 onSave()
             }
         }
@@ -446,21 +361,21 @@ class CreateTodoViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 todoOperations.saveTodo(state.value.todo.asTodo())
-                _uiEvent.send(UiEvent.Success)
+                _uiEvent.send(TodoCreateUiEvent.Success)
             } catch (e: Exception) {
-                _uiEvent.send(UiEvent.Failure(e.toUiText()))
+                _uiEvent.send(TodoCreateUiEvent.Failure(e.toUiText()))
             }
         }
     }
 }
 ```
 
-Majd végül az összes screen osztályban változtassuk meg a viewmodel létreozásának módját úgy, hogy a `hiltViewModel()` hívást használjuk. Pl. a `CheckTodoScreen` eddig így nézett ki:
+Majd végül az összes screen osztályban változtassuk meg a viewmodel létreozásának módját úgy, hogy a `hiltViewModel()` hívást használjuk. Pl. a `TodoDetailScreen` eddig így nézett ki:
 
 ```kotlin
-fun CheckTodoScreen(
+fun TodoDetailScreen(
     onNavigateBack: () -> Unit,
-    viewModel: CheckTodoViewModel = viewModel(factory = CheckTodoViewModel.Factory)
+    viewModel: TodoDetailViewModel = viewModel(factory = TodoDetailViewModel.Factory)
 ) {
 	// ...
 }
@@ -469,9 +384,9 @@ fun CheckTodoScreen(
 A következőképpen módosítsuk:
 
 ```kotlin
-fun CheckTodoScreen(
+fun TodoDetailScreen(
     onNavigateBack: () -> Unit,
-    viewModel: CheckTodoViewModel = hiltViewModel()
+    viewModel: TodoDetailViewModel = hiltViewModel()
 ) {
 	// ...
 }
@@ -519,176 +434,97 @@ class TodoUseCases(
 
 Most már a viewmodel osztályokba nem szükséges a `TodoRepository` injektálása és a `TodoUseCases` kézi létrehozása, hiszen a `TodoUseCases` közvetlen is injektálhatóvá vált. Módosítsuk ennek megfelelően a viewmodel osztályokat!
 
-A `CheckTodoViewModel` kódja:
+A `TodoDetailViewModel` kódja:
 
 ```kotlin
 @HiltViewModel
-class CheckTodoViewModel @Inject constructor(
-    private val savedState: SavedStateHandle,
-    private val todoOperations: TodoUseCases
+class TodoDetailViewModel @Inject constructor(
+    private val todoOperations: TodoUseCases,
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(CheckTodoState())
-    val state: StateFlow<CheckTodoState> = _state
-
-    private val _uiEvent = Channel<UiEvent>()
-    val uiEvent = _uiEvent.receiveAsFlow()
-
-    fun onEvent(event: CheckTodoEvent) {
-        when (event) {
-            CheckTodoEvent.EditingTodo -> {
-                _state.update {
-                    it.copy(
-                        isEditingTodo = true
-                    )
-                }
-            }
-
-            CheckTodoEvent.StopEditingTodo -> {
-                _state.update {
-                    it.copy(
-                        isEditingTodo = false
-                    )
-                }
-            }
-
-            is CheckTodoEvent.ChangeTitle -> {
-                val newValue = event.text
-                _state.update {
-                    it.copy(
-                        todo = it.todo?.copy(title = newValue)
-                    )
-                }
-            }
-
-            is CheckTodoEvent.ChangeDescription -> {
-                val newValue = event.text
-                _state.update {
-                    it.copy(
-                        todo = it.todo?.copy(description = newValue)
-                    )
-                }
-            }
-
-            is CheckTodoEvent.SelectPriority -> {
-                val newValue = event.priority
-                _state.update {
-                    it.copy(
-                        todo = it.todo?.copy(priority = newValue)
-                    )
-                }
-            }
-
-            is CheckTodoEvent.SelectDate -> {
-                val newValue = event.date.toString()
-                _state.update {
-                    it.copy(
-                        todo = it.todo?.copy(dueDate = newValue)
-                    )
-                }
-            }
-
-            CheckTodoEvent.DeleteTodo -> {
-                onDelete()
-            }
-
-            CheckTodoEvent.UpdateTodo -> {
-                onUpdate()
-            }
-        }
-    }
+    private val _state = MutableStateFlow<TodoDetailState>(TodoDetailState.Loading)
+    val state = _state.asStateFlow()
 
     init {
-        load()
+        loadTodos()
     }
 
-    private fun load() {
-        val todoId = checkNotNull<Int>(savedState["id"])
+    private fun loadTodos() {
+        val id = checkNotNull<Int>(savedStateHandle["id"])
         viewModelScope.launch {
-            _state.update { it.copy(isLoadingTodo = true) }
             try {
-                val todo = todoOperations.loadTodo(todoId)
-                CoroutineScope(coroutineContext).launch(Dispatchers.IO) {
-                    _state.update {
-                        it.copy(
-                            isLoadingTodo = false,
-                            todo = todo.getOrThrow().asTodoUi()
-                        )
-                    }
-                }
-            } catch (e: Exception) {
-                _uiEvent.send(UiEvent.Failure(e.toUiText()))
-            }
-        }
-    }
-
-    private fun onUpdate() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                todoOperations.updateTodo(
-                    _state.value.todo?.asTodo()!!
+                _state.value = TodoDetailState.Loading
+                val todo = todoOperations.loadTodo(id)
+                _state.value = TodoDetailState.Result(
+                    todo = todo.getOrThrow().asTodoUi()
                 )
-                _uiEvent.send(UiEvent.Success)
             } catch (e: Exception) {
-                _uiEvent.send(UiEvent.Failure(e.toUiText()))
-            }
-        }
-    }
-
-    private fun onDelete() {
-        viewModelScope.launch {
-            try {
-                todoOperations.deleteTodo(state.value.todo!!.id)
-                _uiEvent.send(UiEvent.Success)
-            } catch (e: Exception) {
-                _uiEvent.send(UiEvent.Failure(e.toUiText()))
+                _state.value = TodoDetailState.Error(e)
             }
         }
     }
 }
 ```
 
-A `CreateTodoViewModel` így fest:
+A `TodoCreateViewModel` így fest:
 
 ```kotlin
 @HiltViewModel
-class CreateTodoViewModel @Inject constructor(
+class TodoCreateViewModel @Inject constructor(
     private val todoOperations: TodoUseCases
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(CreateTodoState())
+    private val _state = MutableStateFlow(TodoCreateState())
     val state = _state.asStateFlow()
 
-    private val _uiEvent = Channel<UiEvent>()
+    private val _uiEvent = Channel<TodoCreateUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    fun onEvent(event: CreateTodoEvent) {
-        when(event) {
-            is CreateTodoEvent.ChangeTitle -> {
+    fun onEvent(event: TodoCreateEvent) {
+        when (event) {
+            is TodoCreateEvent.ChangeTitle -> {
                 val newValue = event.text
-                _state.update { it.copy(
-                    todo = it.todo.copy(title = newValue)
-                ) }
+                _state.update {
+                    it.copy(
+                        todo = it.todo.copy(title = newValue)
+                    )
+                }
             }
-            is CreateTodoEvent.ChangeDescription -> {
+
+            is TodoCreateEvent.ChangeDescription -> {
                 val newValue = event.text
-                _state.update { it.copy(
-                    todo = it.todo.copy(description = newValue)
-                ) }
+                _state.update {
+                    it.copy(
+                        todo = it.todo.copy(description = newValue)
+                    )
+                }
             }
-            is CreateTodoEvent.SelectPriority -> {
+
+            is TodoCreateEvent.SelectPriority -> {
                 val newValue = event.priority
-                _state.update { it.copy(
-                    todo = it.todo.copy(priority = newValue)
-                ) }
+                _state.update {
+                    it.copy(
+                        todo = it.todo.copy(priority = newValue)
+                    )
+                }
             }
-            is CreateTodoEvent.SelectDate -> {
+
+            is TodoCreateEvent.SelectDate -> {
                 val newValue = event.date
-                _state.update { it.copy(
-                    todo = it.todo.copy(dueDate = newValue.toString())
-                ) }
+                _state.update {
+                    it.copy(
+                        todo = it.todo.copy(dueDate = newValue.toString())
+                    )
+                }
             }
-            CreateTodoEvent.SaveTodo -> {
+
+            TodoCreateEvent.SaveTodo -> {
+                _state.update {
+                    it.copy(
+                        todo = it.todo.copy(id = (Math.random() * Int.MAX_VALUE).toInt())
+                    )
+                }
                 onSave()
             }
         }
@@ -698,46 +534,36 @@ class CreateTodoViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 todoOperations.saveTodo(state.value.todo.asTodo())
-                _uiEvent.send(UiEvent.Success)
+                _uiEvent.send(TodoCreateUiEvent.Success)
             } catch (e: Exception) {
-                _uiEvent.send(UiEvent.Failure(e.toUiText()))
+                _uiEvent.send(TodoCreateUiEvent.Failure(e.toUiText()))
             }
         }
     }
 }
 ```
 
-A `TodosViewModel` átalakított verziója pedig az alábbi:
+A `TodoListViewModel` átalakított verziója pedig az alábbi:
 
 ```kotlin
 @HiltViewModel
-class TodosViewModel @Inject constructor(
+class TodoListViewModel @Inject constructor(
     private val todoOperations: TodoUseCases
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(TodosState())
+    private val _state = MutableStateFlow<TodoListState>(TodoListState.Loading)
     val state = _state.asStateFlow()
 
-    init {
-        loadTodos()
-    }
-    private fun loadTodos() {
-
+    fun loadTodos() {
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
             try {
-                CoroutineScope(coroutineContext).launch(Dispatchers.IO) {
-                    val todos = todoOperations.loadTodos().getOrThrow().map { it.asTodoUi() }
-                    _state.update { it.copy(
-                        isLoading = false,
-                        todos = todos
-                    ) }
-                }
+                _state.value = TodoListState.Loading
+                val todos = todoOperations.loadTodos().getOrThrow().map { it.asTodoUi() }
+                _state.value = TodoListState.Result(
+                    todoList = todos
+                )
             } catch (e: Exception) {
-                _state.update {  it.copy(
-                    isLoading = false,
-                    error = e
-                ) }
+                _state.value = TodoListState.Error(e)
             }
         }
     }
@@ -798,12 +624,12 @@ testImplementation(libs.mockito.inline)
 testImplementation(libs.mockito.kotlin)
 ```
 
-Hozzuk létre a `data.datasource` package-et ezért a `test` könyvtárban is! A lokális tesztek a `test` könyvtárban vannak, az `androidTest` könyvtár pedig az instrumentált tesztek helye.
+Hozzuk létre a `data.repository` package-et ezért a `test` könyvtárban is! A lokális tesztek a `test` könyvtárban vannak, az `androidTest` könyvtár pedig az instrumentált tesztek helye.
 
 A létrehozott package-ben hozzunk létre egy `TodoRepositoryImplTest` osztályt az alábbi módon:
 
 ```kotlin
-package hu.bme.aut.android.todo.data.datasource
+package hu.bme.aut.android.todo.data.repository
 
 import hu.bme.aut.android.todo.data.dao.TodoDao
 import hu.bme.aut.android.todo.data.entities.TodoEntity
@@ -917,12 +743,12 @@ DatePicker(
 )
 ```
 
-Most már elkészíthetjük a tesztet! Mivel a teszt a `CreateTodoScreen` osztályhoz köthető, ez pedig a `feature.todo_create` package-ben van, először hozzuk létre ezt a package-et az `androidTest` mappában is.
+Most már elkészíthetjük a tesztet! Mivel a teszt a `TodoCreateScreen` osztályhoz köthető, ez pedig a `screen.todo_create` package-ben van, először hozzuk létre ezt a package-et az `androidTest` mappában is.
 
-Majd készítsük el a `CreateTodoScreenTest` osztályunkat:
+Majd készítsük el a `TodoCreateScreenTest` osztályunkat:
 
 ```kotlin
-package hu.bme.aut.android.todo.feature.todo_create
+package hu.bme.aut.android.todo.screen.todo_create
 
 import androidx.activity.compose.setContent
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -937,7 +763,7 @@ import hu.bme.aut.android.todo.MainActivity
 import org.junit.Rule
 import org.junit.Test
 
-class CreateTodoScreenTest {
+class TodoCreateScreenTest {
     @get:Rule
     val composeTestRule = createAndroidComposeRule<MainActivity>()
 
@@ -945,7 +771,7 @@ class CreateTodoScreenTest {
     @Test
     fun testDatePickerDialogIsShownWhenClickedOnDatePickerIcon() {
         composeTestRule.activity.setContent {
-            CreateTodoScreen(
+            TodoCreateScreen(
                 onNavigateBack = { })
         }
 

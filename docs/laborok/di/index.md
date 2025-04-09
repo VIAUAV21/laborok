@@ -228,7 +228,7 @@ class TodoListViewModel @Inject constructor(
 
     val todoOperations: TodoUseCases
 
-    private val _state = MutableStateFlow(TodosState())
+    private val _state = MutableStateFlow<TodoListState>(TodoListState.Loading)
     val state = _state.asStateFlow()
 
     init {
@@ -257,18 +257,18 @@ Hasonló átalakításokat kell végeznünk a `TodoDetailViewModel` osztályon:
 ```kotlin
 @HiltViewModel
 class TodoDetailViewModel @Inject constructor(
-    private val savedState: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
     private val repository: TodoRepository
 ) : ViewModel() {
 
     val todoOperations: TodoUseCases
 
-    private val _state = MutableStateFlow(CheckTodoState())
-    val state: StateFlow<CheckTodoState> = _state
-    
+    private val _state = MutableStateFlow<TodoDetailState>(TodoDetailState.Loading)
+    val state = _state.asStateFlow()
+
     init {
         todoOperations = TodoUseCases(repository)
-        load()
+        loadTodos()
     }
 
     private fun loadTodos() {
@@ -292,18 +292,19 @@ Majd a `TodoCreateViewModel` osztályon is:
 
 ```kotlin
 @HiltViewModel
+@HiltViewModel
 class TodoCreateViewModel @Inject constructor(
     private val repository: TodoRepository
 ) : ViewModel() {
 
     val todoOperations: TodoUseCases
 
-    private val _state = MutableStateFlow(CreateTodoState())
+    private val _state = MutableStateFlow(TodoCreateState())
     val state = _state.asStateFlow()
 
-    private val _uiEvent = Channel<UiEvent>()
+    private val _uiEvent = Channel<TodoCreateUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
-    
+
     init {
         todoOperations = TodoUseCases(repository)
     }
@@ -598,17 +599,15 @@ A unittesztek esetén fontos kihívás, hogy a függőségeket izoláljuk, levá
 
 Az alkalmazásban nincsenek túl bonyolult üzleti logika részek, de a tesztelés technikáját jól meg tudjuk figyelni. Most a `TodoRepositoryImpl` osztályt fogjuk tesztelni. Konvenció szerint osztályokhoz készítünk tesztosztályokat, és a tesztosztályokban minden tesztelt metódus egy lehetséges lefutásához készítünk egy tesztmetódust. A tesztosztályokat a tesztelt osztályokkal azonos package-be tesszük, és nevükben a `Test` utótagot használjuk.
 
-Először fel kell vennünk a teszteléshez használandó függőségeket a projektbe! Mivel a kapott vázban eddig nem voltak tesztek, így ezek a függőségek teljesen hiányoztak. A lokális tesztekhez a `testImplementation` scope-ot kell használnunk. Vegyük fel az alábbi függőségeket, először a `libs.versions.toml` fájllal kezdve:
+Először fel kell vennünk a teszteléshez használandó függőségeket a projektbe! A tesztelés alapvető fontosságú feladat, ezért az Android Studio új projektnél a legfontosabb függőségeket beleteszi a projektvázba, így a kiindulú projektben is már benne vannak a legfontosabb függőségek. Fogunk viszont mockokat is használni, és ehhez még fel kell vennünk a népszerű Mockito könyvtárat. A lokális tesztekhez a `testImplementation` scope-ot kell használnunk. Vegyük fel az alábbi függőségeket, először a `libs.versions.toml` fájllal kezdve:
 
 ```
 [versions]
-junit = "4.13.2"
 mockitoCore = "5.11.0"
 mockitoInline = "5.2.0"
 mockitoKotlin = "5.2.1"
 
 [libraries]
-junit = { module = "junit:junit", version.ref = "junit" }
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
@@ -617,16 +616,15 @@ mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "
 Majd folytassuk a modulszintű `build.gradle.kts` fájllal:
 
 ```kotlin
-// Testing
-testImplementation(libs.junit)
+// Testing - mocking
 testImplementation(libs.mockito.core)
 testImplementation(libs.mockito.inline)
 testImplementation(libs.mockito.kotlin)
 ```
 
-Hozzuk létre a `data.repository` package-et ezért a `test` könyvtárban is! A lokális tesztek a `test` könyvtárban vannak, az `androidTest` könyvtár pedig az instrumentált tesztek helye.
+Hozzuk létre a szükséges könyvtárstruktúrát a teszteknek. A lokális tesztek a `src/test` könyvtárban vannak, az `src/androidTest` könyvtár pedig az instrumentált tesztek helye. Ezeken belül ugyanúgy `java` vagy `kotlin` könyvtárba kerülnek a forráskódok.
 
-A létrehozott package-ben hozzunk létre egy `TodoRepositoryImplTest` osztályt az alábbi módon:
+Most hozzuk létre a `data.repository` package-et a `test` könyvtárban is, mivel azt a gyakorlatot fogjuk követni, hogy egy osztályhoz tartozó tesztek azonos package-ben, egy azonosan kezdődő, de `Test` utótaggal ellátott tesztosztályban lesznek megvalósítva. A létrehozott package-ben hozzunk létre ezért egy `TodoRepositoryImplTest` osztályt az alábbi módon:
 
 ```kotlin
 package hu.bme.aut.android.todo.data.repository
@@ -694,22 +692,14 @@ Bonyolultabb teszteket sem lehetetlen lokális tesztként futtatni, de a függő
 
 Az instrumentált teszteket az `androidTest` könyvtárban lehet létrehozni. Mivel ezek nagyobb léptékű tesztek is lehetnek, nem feltétlen tartoznak logikailag egy komponenshez. Amennyiben azonban odatartoznak, javasolt ezeket is azonos package-be tenni és a lokális tesztekéhez hasonló elnevezési konvenció szerint elnevezni.
 
-Először itt is a függőségek felvételével kezdünk, a `libs.versions.toml` fájllal:
+Először itt is a függőségek felvételével kezdünk, a `libs.versions.toml` fájllal. Az alapvető függőségek az instrumentált tesztekhez is bekerültek már a projektvázba, de mivel Hiltet használunk, a függőséginjektálásnak az instrumentált tesztekben is működniük kell:
 
 ```
 [versions]
-espressoCore = "3.6.1"
 hiltAndroidTesting = "2.51.1"
 hiltAndroidCompiler = "2.51.1"
-junitVersion = "1.2.1"
-
 
 [libraries]
-androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
-androidx-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
-androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
-androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
-androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTesting" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
 ```
@@ -717,29 +707,21 @@ hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", ve
 Majd hivatkozzuk is meg ezeket a modulszintű `build.gradle.kts` fájlban:
 
 ```kotlin
-// Instrumented testing
-androidTestImplementation(libs.androidx.junit)
-androidTestImplementation(libs.androidx.espresso.core)
-androidTestImplementation(libs.androidx.ui.test.junit4)
-debugImplementation(libs.androidx.ui.tooling)
-debugImplementation(libs.androidx.ui.test.manifest)
-
 // Hilt for testing
 androidTestImplementation(libs.hilt.android.testing)
 kspAndroidTest(libs.hilt.android.compiler)
 ```
 
-A példánkban azt fogjuk tesztelni, hogy ha új teendő létrehozásánál a dátumválasztó ikonjára kattintunk, akkor valóban előugrik a dátumválasztó komponens. Mielőtt a tényleges tesztet megírjuk, gondoskodnunk kell róla, hogy a tesztből majd a felhasználói felületen a dátumválasztó ikonját meg tudjuk hivatkozni. Ha lenne rajta megjelenített szöveg, a tesztből ez alapján is lehetne hivatkozni, de jelen esetben csak egy ikonról van szó. Úgy tudjuk azonosíthatóvá tenni, hogy a `Modifierén` keresztül egy test taggel látjuk el. Módosítsuk eszerint a `TodoEditor` osztályban a `DatePicker` komponens hívását:
+A példánkban azt fogjuk tesztelni, hogy ha új teendő létrehozásánál a dátumválasztó ikonjára kattintunk, akkor valóban előugrik a dátumválasztó komponens. Mielőtt a tényleges tesztet megírjuk, gondoskodnunk kell róla, hogy a tesztből majd a felhasználói felületen a dátumválasztó ikonját meg tudjuk hivatkozni. Ha lenne rajta megjelenített szöveg, a tesztből ez alapján is lehetne hivatkozni, de jelen esetben csak egy ikonról van szó. Úgy tudjuk azonosíthatóvá tenni, hogy a `Modifierén` keresztül egy test taggel látjuk el. Módosítsuk eszerint a `TodoEditor` osztályban a `DateSelector` komponens hívását:
 
 ```kotlin
-DatePicker(
-	pickedDate = pickedDate,
-	onClick = onDatePickerClicked,
-	modifier = Modifier
-		.weight(1f)
-		.fillMaxWidth(fraction)
-		.testTag("datePickerIcon"),
-	enabled = enabled
+DateSelector(
+    pickedDate = pickedDate,
+    onClick = onDateSelectorClicked,
+    modifier = Modifier
+        .fillMaxWidth()
+        .testTag("datePickerIcon"),
+    enabled = enabled
 )
 ```
 

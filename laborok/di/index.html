@@ -1111,7 +1111,7 @@ a <code>data.di</code> package-be:</p>
 
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span>
 
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="p">(</span><span class="n">TodosState</span><span class="p">())</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="o">&lt;</span><span class="n">TodoListState</span><span class="o">&gt;</span><span class="p">(</span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_state</span><span class="p">.</span><span class="na">asStateFlow</span><span class="p">()</span>
 
 <span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span>
@@ -1137,18 +1137,18 @@ a <code>data.di</code> package-be:</p>
 <p>Hasonló átalakításokat kell végeznünk a <code>TodoDetailViewModel</code> osztályon:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">TodoDetailViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">savedState</span><span class="p">:</span><span class="w"> </span><span class="n">SavedStateHandle</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">savedStateHandle</span><span class="p">:</span><span class="w"> </span><span class="n">SavedStateHandle</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span>
 <span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span>
 
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="p">(</span><span class="n">CheckTodoState</span><span class="p">())</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="p">:</span><span class="w"> </span><span class="n">StateFlow</span><span class="o">&lt;</span><span class="n">CheckTodoState</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_state</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="o">&lt;</span><span class="n">TodoDetailState</span><span class="o">&gt;</span><span class="p">(</span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Loading</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_state</span><span class="p">.</span><span class="na">asStateFlow</span><span class="p">()</span>
 
 <span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
-<span class="w">        </span><span class="n">load</span><span class="p">()</span>
+<span class="w">        </span><span class="n">loadTodos</span><span class="p">()</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -1169,16 +1169,17 @@ a <code>data.di</code> package-be:</p>
 </code></pre></div>
 <p>Majd a <code>TodoCreateViewModel</code> osztályon is:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
+<span class="nd">@HiltViewModel</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">TodoCreateViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span>
 <span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span>
 
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="p">(</span><span class="n">CreateTodoState</span><span class="p">())</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="p">(</span><span class="n">TodoCreateState</span><span class="p">())</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_state</span><span class="p">.</span><span class="na">asStateFlow</span><span class="p">()</span>
 
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_uiEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channel</span><span class="o">&lt;</span><span class="n">UiEvent</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_uiEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channel</span><span class="o">&lt;</span><span class="n">TodoCreateUiEvent</span><span class="o">&gt;</span><span class="p">()</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">uiEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">receiveAsFlow</span><span class="p">()</span>
 
 <span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span>
@@ -1445,28 +1446,25 @@ a <code>data.di</code> package-be:</p>
 </ul>
 <p>A unittesztek esetén fontos kihívás, hogy a függőségeket izoláljuk, leválasszuk, hiszen ha azok is meghívódnának, akkor nem unittesztről beszélnénk, hanem integrációs tesztről, és a fenti előnyök nem teljesülnének. Különösen az az előny veszne el, hogy a teszt jól mutatja a hiba helyét. Ezért a tesztekben a függőségeket valamilyen <em>test double</em> objektummal, tipikusan <em>mock</em> objektummal cseréljük le. A mock objektum egy "buta", de "felprogramozható" komponens, ami éppen csak annyit csinál, amit a teszt idejére elvárunk tőle, azaz tipikusan valamilyen beégetett adatot ad vissza. Ezen kívül a segítségével ellenőrizhető az is, hogy a lecserélt függőségen a tesztelt kódrészlet tényleg elvégezte a várt hívást.</p>
 <p>Az alkalmazásban nincsenek túl bonyolult üzleti logika részek, de a tesztelés technikáját jól meg tudjuk figyelni. Most a <code>TodoRepositoryImpl</code> osztályt fogjuk tesztelni. Konvenció szerint osztályokhoz készítünk tesztosztályokat, és a tesztosztályokban minden tesztelt metódus egy lehetséges lefutásához készítünk egy tesztmetódust. A tesztosztályokat a tesztelt osztályokkal azonos package-be tesszük, és nevükben a <code>Test</code> utótagot használjuk.</p>
-<p>Először fel kell vennünk a teszteléshez használandó függőségeket a projektbe! Mivel a kapott vázban eddig nem voltak tesztek, így ezek a függőségek teljesen hiányoztak. A lokális tesztekhez a <code>testImplementation</code> scope-ot kell használnunk. Vegyük fel az alábbi függőségeket, először a <code>libs.versions.toml</code> fájllal kezdve:</p>
+<p>Először fel kell vennünk a teszteléshez használandó függőségeket a projektbe! A tesztelés alapvető fontosságú feladat, ezért az Android Studio új projektnél a legfontosabb függőségeket beleteszi a projektvázba, így a kiindulú projektben is már benne vannak a legfontosabb függőségek. Fogunk viszont mockokat is használni, és ehhez még fel kell vennünk a népszerű Mockito könyvtárat. A lokális tesztekhez a <code>testImplementation</code> scope-ot kell használnunk. Vegyük fel az alábbi függőségeket, először a <code>libs.versions.toml</code> fájllal kezdve:</p>
 <div class="highlight"><pre><span></span><code>[versions]
-junit = &quot;4.13.2&quot;
 mockitoCore = &quot;5.11.0&quot;
 mockitoInline = &quot;5.2.0&quot;
 mockitoKotlin = &quot;5.2.1&quot;
 
 [libraries]
-junit = { module = &quot;junit:junit&quot;, version.ref = &quot;junit&quot; }
 mockito-inline = { module = &quot;org.mockito:mockito-inline&quot;, version.ref = &quot;mockitoInline&quot; }
 mockito-core = { module = &quot;org.mockito:mockito-core&quot;, version.ref = &quot;mockitoCore&quot; }
 mockito-kotlin = { module = &quot;org.mockito.kotlin:mockito-kotlin&quot;, version.ref = &quot;mockitoKotlin&quot; }
 </code></pre></div>
 <p>Majd folytassuk a modulszintű <code>build.gradle.kts</code> fájllal:</p>
-<div class="highlight"><pre><span></span><code><span class="c1">// Testing</span>
-<span class="n">testImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">junit</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="c1">// Testing - mocking</span>
 <span class="n">testImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">mockito</span><span class="p">.</span><span class="na">core</span><span class="p">)</span>
 <span class="n">testImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">mockito</span><span class="p">.</span><span class="na">inline</span><span class="p">)</span>
 <span class="n">testImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">mockito</span><span class="p">.</span><span class="na">kotlin</span><span class="p">)</span>
 </code></pre></div>
-<p>Hozzuk létre a <code>data.repository</code> package-et ezért a <code>test</code> könyvtárban is! A lokális tesztek a <code>test</code> könyvtárban vannak, az <code>androidTest</code> könyvtár pedig az instrumentált tesztek helye.</p>
-<p>A létrehozott package-ben hozzunk létre egy <code>TodoRepositoryImplTest</code> osztályt az alábbi módon:</p>
+<p>Hozzuk létre a szükséges könyvtárstruktúrát a teszteknek. A lokális tesztek a <code>src/test</code> könyvtárban vannak, az <code>src/androidTest</code> könyvtár pedig az instrumentált tesztek helye. Ezeken belül ugyanúgy <code>java</code> vagy <code>kotlin</code> könyvtárba kerülnek a forráskódok.</p>
+<p>Most hozzuk létre a <code>data.repository</code> package-et a <code>test</code> könyvtárban is, mivel azt a gyakorlatot fogjuk követni, hogy egy osztályhoz tartozó tesztek azonos package-ben, egy azonosan kezdődő, de <code>Test</code> utótaggal ellátott tesztosztályban lesznek megvalósítva. A létrehozott package-ben hozzunk létre ezért egy <code>TodoRepositoryImplTest</code> osztályt az alábbi módon:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.dao.TodoDao</span>
@@ -1525,42 +1523,26 @@ mockito-kotlin = { module = &quot;org.mockito.kotlin:mockito-kotlin&quot;, versi
 <h3 id="instrumentalt-tesztek-futtatasa">Instrumentált tesztek futtatása<a class="headerlink" href="#instrumentalt-tesztek-futtatasa" title="Permanent link">&para;</a></h3>
 <p>Bonyolultabb teszteket sem lehetetlen lokális tesztként futtatni, de a függőségek szövevényessége miatt ez egy jóval bonyolultabb feladat lenne. Praktikusabb ezért ha összetettebb folyamatok teszteléséhez az emulátort is segítségül hívjuk. Ilyen például a Compose segítségével készített UI tesztelése. Az Android által biztosított eszközökkel létre tudjuk hozni a komponenseinket egy emulált környezetben, és a teszt kódjából interakciókat is ki tudunk váltani (pl. írjunk be szöveget egy mezőbe, kattintsunk egy gombon stb.). Ez a fajta tesztelés láthatóan jóval közelebb áll ahhoz a módhoz, ahogyan az alkalmazás majd ténylegesen futni fog. Logikusan belétható ugyanakkor az is, hogy ezek a tesztek jóval bonyolultabbak, és lassabban is fognak futni.</p>
 <p>Az instrumentált teszteket az <code>androidTest</code> könyvtárban lehet létrehozni. Mivel ezek nagyobb léptékű tesztek is lehetnek, nem feltétlen tartoznak logikailag egy komponenshez. Amennyiben azonban odatartoznak, javasolt ezeket is azonos package-be tenni és a lokális tesztekéhez hasonló elnevezési konvenció szerint elnevezni.</p>
-<p>Először itt is a függőségek felvételével kezdünk, a <code>libs.versions.toml</code> fájllal:</p>
+<p>Először itt is a függőségek felvételével kezdünk, a <code>libs.versions.toml</code> fájllal. Az alapvető függőségek az instrumentált tesztekhez is bekerültek már a projektvázba, de mivel Hiltet használunk, a függőséginjektálásnak az instrumentált tesztekben is működniük kell:</p>
 <div class="highlight"><pre><span></span><code>[versions]
-espressoCore = &quot;3.6.1&quot;
 hiltAndroidTesting = &quot;2.51.1&quot;
 hiltAndroidCompiler = &quot;2.51.1&quot;
-junitVersion = &quot;1.2.1&quot;
-
 
 [libraries]
-androidx-espresso-core = { module = &quot;androidx.test.espresso:espresso-core&quot;, version.ref = &quot;espressoCore&quot; }
-androidx-junit = { module = &quot;androidx.test.ext:junit&quot;, version.ref = &quot;junitVersion&quot; }
-androidx-ui-test-junit4 = { module = &quot;androidx.compose.ui:ui-test-junit4&quot; }
-androidx-ui-test-manifest = { module = &quot;androidx.compose.ui:ui-test-manifest&quot; }
-androidx-ui-tooling = { module = &quot;androidx.compose.ui:ui-tooling&quot; }
 hilt-android-testing = { module = &quot;com.google.dagger:hilt-android-testing&quot;, version.ref = &quot;hiltAndroidTesting&quot; }
 hilt-android-compiler = { module = &quot;com.google.dagger:hilt-android-compiler&quot;, version.ref = &quot;hiltAndroidCompiler&quot; }
 </code></pre></div>
 <p>Majd hivatkozzuk is meg ezeket a modulszintű <code>build.gradle.kts</code> fájlban:</p>
-<div class="highlight"><pre><span></span><code><span class="c1">// Instrumented testing</span>
-<span class="n">androidTestImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">junit</span><span class="p">)</span>
-<span class="n">androidTestImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">espresso</span><span class="p">.</span><span class="na">core</span><span class="p">)</span>
-<span class="n">androidTestImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">ui</span><span class="p">.</span><span class="na">test</span><span class="p">.</span><span class="na">junit4</span><span class="p">)</span>
-<span class="n">debugImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">ui</span><span class="p">.</span><span class="na">tooling</span><span class="p">)</span>
-<span class="n">debugImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">ui</span><span class="p">.</span><span class="na">test</span><span class="p">.</span><span class="na">manifest</span><span class="p">)</span>
-
-<span class="c1">// Hilt for testing</span>
+<div class="highlight"><pre><span></span><code><span class="c1">// Hilt for testing</span>
 <span class="n">androidTestImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">hilt</span><span class="p">.</span><span class="na">android</span><span class="p">.</span><span class="na">testing</span><span class="p">)</span>
 <span class="n">kspAndroidTest</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">hilt</span><span class="p">.</span><span class="na">android</span><span class="p">.</span><span class="na">compiler</span><span class="p">)</span>
 </code></pre></div>
-<p>A példánkban azt fogjuk tesztelni, hogy ha új teendő létrehozásánál a dátumválasztó ikonjára kattintunk, akkor valóban előugrik a dátumválasztó komponens. Mielőtt a tényleges tesztet megírjuk, gondoskodnunk kell róla, hogy a tesztből majd a felhasználói felületen a dátumválasztó ikonját meg tudjuk hivatkozni. Ha lenne rajta megjelenített szöveg, a tesztből ez alapján is lehetne hivatkozni, de jelen esetben csak egy ikonról van szó. Úgy tudjuk azonosíthatóvá tenni, hogy a <code>Modifierén</code> keresztül egy test taggel látjuk el. Módosítsuk eszerint a <code>TodoEditor</code> osztályban a <code>DatePicker</code> komponens hívását:</p>
-<div class="highlight"><pre><span></span><code><span class="n">DatePicker</span><span class="p">(</span>
+<p>A példánkban azt fogjuk tesztelni, hogy ha új teendő létrehozásánál a dátumválasztó ikonjára kattintunk, akkor valóban előugrik a dátumválasztó komponens. Mielőtt a tényleges tesztet megírjuk, gondoskodnunk kell róla, hogy a tesztből majd a felhasználói felületen a dátumválasztó ikonját meg tudjuk hivatkozni. Ha lenne rajta megjelenített szöveg, a tesztből ez alapján is lehetne hivatkozni, de jelen esetben csak egy ikonról van szó. Úgy tudjuk azonosíthatóvá tenni, hogy a <code>Modifierén</code> keresztül egy test taggel látjuk el. Módosítsuk eszerint a <code>TodoEditor</code> osztályban a <code>DateSelector</code> komponens hívását:</p>
+<div class="highlight"><pre><span></span><code><span class="n">DateSelector</span><span class="p">(</span>
 <span class="w">    </span><span class="n">pickedDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pickedDate</span><span class="p">,</span>
-<span class="w">    </span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onDatePickerClicked</span><span class="p">,</span>
+<span class="w">    </span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onDateSelectorClicked</span><span class="p">,</span>
 <span class="w">    </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
-<span class="w">        </span><span class="p">.</span><span class="na">weight</span><span class="p">(</span><span class="m">1f</span><span class="p">)</span>
-<span class="w">        </span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">(</span><span class="n">fraction</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">()</span>
 <span class="w">        </span><span class="p">.</span><span class="na">testTag</span><span class="p">(</span><span class="s">&quot;datePickerIcon&quot;</span><span class="p">),</span>
 <span class="w">    </span><span class="n">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">enabled</span>
 <span class="p">)</span>
@@ -1646,8 +1628,8 @@ hilt-android-compiler = { module = &quot;com.google.dagger:hilt-android-compiler
           </path>
         </svg>
       </span>
-      <span title="2025. április 8. 15:42:14">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. április 8. 15:42:14"><span class="timeago" datetime="2025-04-08T15:42:14+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. április 8. 15:42:14">2025-04-08</span>
+      <span title="2025. április 9. 08:14:43">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. április 9. 08:14:43"><span class="timeago" datetime="2025-04-09T08:14:43+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. április 9. 08:14:43">2025-04-09</span>
       </span>
     </span>
 

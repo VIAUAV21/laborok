@@ -40,7 +40,7 @@ Először a `libs.versions.toml` fájlunkba vegyük fel az új függőségekhez 
 
 ```
 [versions]
-hilt = "2.51.1"
+hilt = "2.56.1"
 hilt-navigation-compose = "1.2.0"
 
 [libraries]

@@ -696,8 +696,8 @@ Először itt is a függőségek felvételével kezdünk, a `libs.versions.toml`
 
 ```
 [versions]
-hiltAndroidTesting = "2.51.1"
-hiltAndroidCompiler = "2.51.1"
+hiltAndroidTesting = "2.56.1"
+hiltAndroidCompiler = "2.56.1"
 
 [libraries]
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTesting" }

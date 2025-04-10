@@ -545,7 +545,7 @@ firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
 ```
 
-Ezekkel a módosításokkal többek között egy Gradle plugint adtunk hozzá a projektünkhöz, amit a modul szintű `build.gradle` fájl elején be kell kapcsolnunk a már meglévők után:
+Ezekkel a módosításokkal többek között egy Gradle plugint adtunk hozzá a projektünkhöz, amit a projekt szintű `build.gradle` fájl elején be kell kapcsolnunk a már meglévők után:
  
 ```gradle
 plugins {

@@ -70,27 +70,6 @@ Tekintsük át a laborvezetővel a meglévő kódot!
 
 ### Függőségek
 
-A Retrofit, Paging és Coil könyvtárak használatához a következő függőségek szükségesek (ezek már szerepelnek a projektben, ne vegyük fel őket újra):
-```kotlin
-[versions]
-retrofit = "2.11.0"
-paging= "3.3.2"
-coil = "2.5.0"
-
-[libraries]
-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-retrofit-moshi = { group = "com.squareup.retrofit2", name = "converter-moshi", version.ref = "retrofit" }
-paging = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
-coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
-
-dependencies {
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.moshi)
-    implementation(libs.paging)
-    implementation(libs.coil)
-}
-```
-
 A `data.model` package-be hozzuk létre az alábbi két fájlt, melyek az API használatához szükségesek:
 
 `UnsplashPhoto.kt`:
@@ -163,14 +142,13 @@ interface UnsplashPhotoDao {
 }
 ```
 
-Majd a `data.local.database` package-ben hozzuk létre az adatbázist (az `UnsplashPhotoRemoteKeysDao` osztályt később hozzuk létre):
+Majd a `data.local.database` package-ben hozzuk létre az adatbázist:
 
 `UnsplashDatabase.kt`:
 ```kotlin
-@Database(entities = [UnsplashPhoto::class, UnsplashPhotoRemoteKeys::class], version = 1)
+@Database(entities = [UnsplashPhoto::class], version = 1)
 abstract class UnsplashDatabase : RoomDatabase() {
     abstract val photosDao: UnsplashPhotoDao
-    abstract val remoteKeysDao: UnsplashPhotoRemoteKeysDao
 }
 ```
 
@@ -271,6 +249,59 @@ A try-catch blokkban látható, hogy hogyan tudjuk használni a Retrofit interf�
   
 A `PagingSource` implementációja emellett tartalmaznia kell egy `getRefreshKey()` metódust, amely egy `PagingState` objektumot vár paraméterként, és visszaadja a kulcsot, amelyet át kell adni a `load()` metódusnak, amikor az adat frissítése vagy érvénytelenítése történik az első betöltés után. A Paging könyvtár automatikusan meghívja ezt a metódust az adat későbbi frissítésekor.
 
+### Távoli kulcsok
+
+Kezelnünk kell azt a helyzetet, amikor a helyi gyorsítótárban tárolt adatok elavultak a távoli adatforráshoz képest.
+
+A távoli kulcsok lehetővé teszik, hogy információt menthessünk el a legutóbbi oldalról, amelyet a szerverről kértek le. Az alkalmazás felhasználhatja ezt az információt a következő betöltendő adatoldal azonosításához és kéréséhez.
+
+A távoli kulcsok olyan kulcsok, amelyeket a RemoteMediator implementáció arra használ, hogy közölje a backend szolgáltatással, melyik adatot kell legközelebb betölteni. A legegyszerűbb esetben minden lapozott adat elemhez tartozik egy távoli kulcs, amelyre könnyen hivatkozhat. Azonban ha a távoli kulcsok nem feleltethetőek meg a konkrét elemeknek, nekünk kell őket kezelni a load hívásban.
+
+Amikor a távoli kulcsok nem közvetlenül kapcsolódnak a listaelemekhez, célszerű őket külön táblázatban tárolni a helyi adatbázisban. Definiálni kell egy Room entitást, amely egy távoli kulcsokból álló táblázatot reprezentál.
+
+Hozzuk létre az alábbi osztályt a `data.model` package-ben:
+
+`UnsplashPhotoRemoteKeys.kt`:
+```kotlin
+@Entity(tableName = "remote_keys")
+data class UnsplashPhotoRemoteKeys(
+    @PrimaryKey val id: String,
+    val prevKey: Int?,
+    val nextKey: Int?
+)
+```
+
+Emellett definiálni kell egy DAO-t a RemoteKey entitásra.
+
+Hozzuk létre az alábbi osztályt a `data.local.dao` package-ben:
+
+`UnsplashPhotoRemoteKeysDao.kt`:
+```kotlin
+@Dao
+interface UnsplashPhotoRemoteKeysDao {
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllKeys(keys: List<UnsplashPhotoRemoteKeys>)
+
+    @Query("SELECT * FROM remote_keys WHERE id = :id")
+    suspend fun getKeysById(id: String): UnsplashPhotoRemoteKeys
+
+    @Query("DELETE FROM remote_keys")
+    suspend fun deleteAllKeys()
+}
+```
+
+Ezeket az osztályokat az adatbázisunkba is vegyük fel. Ne felejtsük el az adatbázis verziószámát növelni!
+
+`UnsplashDatabase.kt`:
+```kotlin
+@Database(entities = [UnsplashPhoto::class, UnsplashPhotoRemoteKeys::class], version = 2)
+abstract class UnsplashDatabase : RoomDatabase() {
+    abstract val photosDao: UnsplashPhotoDao
+    abstract val remoteKeysDao: UnsplashPhotoRemoteKeysDao
+}
+```
+
 ### A RemoteMediator osztály
 
 Jobb felhasználói élményt biztosíthatunk azzal, ha gondoskodunk arról, hogy az alkalmazásunk használható legyen akkor is, ha az internetkapcsolat instabil vagy ha a felhasználó offline. Az egyik módja ennek, hogy egyszerre lapozunk a hálózatról és egy helyi adatbázisból is. Ezzel az alkalmazás az UI-t egy helyi adatbázisból vezérli és csak akkor kér le adatokat a hálózatról, ha már nincs több adat az adatbázisban.
@@ -310,7 +341,7 @@ class UnsplashRemoteMediator(
                 }
             }
 
-            val response = api.getPhotosFromEditorialFeed(page = page, perPage = INITIAL_PAGE_SIZE)
+            val response = api.getPhotosFromEditorialFeed(page = page, perPage = 10)
             var endOfPaginationReached = false
             if (response.isSuccessful) {
                 val photos = response.body() ?: emptyList()
@@ -379,48 +410,6 @@ A `load()` metódusnak a következő lépéseket kell végrehajtania:
   - Ha a betöltés sikeres és az kapott elemek listája nem üres, akkor tárolja el a lista elemeit az adatbázisban, majd térjen vissza a `MediatorResult.Success` `(endOfPaginationReached = false)` értékkel. Az adatok tárolása után érvénytelenítse az adatforrást, hogy értesítse a Paging könyvtárat az új adatokról.
   - Ha a betöltés sikeres és a kapott elemek listája üres vagy az utolsó oldal indexe, akkor térjen vissza a `MediatorResult.Success` `(endOfPaginationReached = true)` értékkel. Az adatok tárolása után érvénytelenítse az adatforrást, hogy értesítse a Paging könyvtárat az új adatokról.
   - Ha a kérés hibát okoz, akkor térjen vissza a `MediatorResult.Error` értékkel.
-
-### Távoli kulcsok
-
-Kezelnünk kell azt a helyzetet, amikor a helyi gyorsítótárban tárolt adatok elavultak a távoli adatforráshoz képest.
-
-A távoli kulcsok lehetővé teszik, hogy információt menthessünk el a legutóbbi oldalról, amelyet a szerverről kértek le. Az alkalmazás felhasználhatja ezt az információt a következő betöltendő adatoldal azonosításához és kéréséhez.
-
-A távoli kulcsok olyan kulcsok, amelyeket a RemoteMediator implementáció arra használ, hogy közölje a backend szolgáltatással, melyik adatot kell legközelebb betölteni. A legegyszerűbb esetben minden lapozott adat elemhez tartozik egy távoli kulcs, amelyre könnyen hivatkozhat. Azonban ha a távoli kulcsok nem feleltethetőek meg a konkrét elemeknek, nekünk kell őket kezelni a load hívásban.
-
-Amikor a távoli kulcsok nem közvetlenül kapcsolódnak a listaelemekhez, célszerű őket külön táblázatban tárolni a helyi adatbázisban. Definiálni kell egy Room entitást, amely egy távoli kulcsokból álló táblázatot reprezentál.
-
-Hozzuk létre az alábbi osztályt a `data.model` package-ben:
-
-`UnsplashPhotoRemoteKeys.kt`:
-```kotlin
-@Entity(tableName = "remote_keys")
-data class UnsplashPhotoRemoteKeys(
-    @PrimaryKey val id: String,
-    val prevKey: Int?,
-    val nextKey: Int?
-)
-```
-
-Emellett definiálni kell egy DAO-t a RemoteKey entitásra.
-
-Hozzuk létre az alábbi osztályt a `data.local.dao` package-ben:
-
-`UnsplashPhotoRemoteKeysDao.kt`:
-```kotlin
-@Dao
-interface UnsplashPhotoRemoteKeysDao {
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllKeys(keys: List<UnsplashPhotoRemoteKeys>)
-
-    @Query("SELECT * FROM remote_keys WHERE id = :id")
-    suspend fun getKeysById(id: String): UnsplashPhotoRemoteKeys
-
-    @Query("DELETE FROM remote_keys")
-    suspend fun deleteAllKeys()
-}
-```
 
 ### PagingUtil
 

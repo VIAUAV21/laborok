@@ -1041,16 +1041,16 @@
 <h3 id="verziok-frissitese">Verziók frissítése<a class="headerlink" href="#verziok-frissitese" title="Permanent link">&para;</a></h3>
 <p>Vegyük fel az alábbi függőségeket a <code>libs.versions.toml</code> fájlunkba, illetve a modul szintű <code>build.gradle.kts</code> fájlokba, majd a laborvezetővel tekintsük át őket.</p>
 <div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">versions</span><span class="o">]</span>
-<span class="n">agp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;8.6.1&quot;</span>
-<span class="n">kotlin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;1.9.0&quot;</span>
-<span class="n">coreKtx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;1.15.0&quot;</span>
+<span class="n">agp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;8.8.2&quot;</span>
+<span class="n">kotlin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.1.10&quot;</span>
+<span class="n">coreKtx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;1.16.0&quot;</span>
 <span class="n">junit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;4.13.2&quot;</span>
 <span class="n">junitVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;1.2.1&quot;</span>
 <span class="n">espressoCore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;3.6.1&quot;</span>
 <span class="n">lifecycleRuntimeKtx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.8.7&quot;</span>
-<span class="n">activityCompose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;1.9.3&quot;</span>
-<span class="n">composeBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2024.10.01&quot;</span>
-<span class="n">navigation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.8.3&quot;</span>
+<span class="n">activityCompose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;1.10.1&quot;</span>
+<span class="n">composeBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2025.04.01&quot;</span>
+<span class="n">navigation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.8.9&quot;</span>
 <span class="n">coil</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;2.5.0&quot;</span>
 <span class="n">accompanist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;0.36.0&quot;</span>
 
@@ -1078,6 +1078,7 @@
 <span class="o">[</span><span class="n">plugins</span><span class="o">]</span>
 <span class="n">android</span><span class="o">-</span><span class="n">application</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;com.android.application&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;agp&quot;</span><span class="w"> </span><span class="p">}</span>
 <span class="n">kotlin</span><span class="o">-</span><span class="n">android</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;org.jetbrains.kotlin.android&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;kotlin&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="n">kotlin</span><span class="o">-</span><span class="n">compose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;org.jetbrains.kotlin.plugin.compose&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;kotlin&quot;</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">core</span><span class="p">.</span><span class="na">ktx</span><span class="p">)</span>
@@ -1109,7 +1110,7 @@
 <div class="highlight"><pre><span></span><code>android {
     ...
     composeOptions {
-        kotlinCompilerExtensionVersion &#39;1.5.15&#39;
+        kotlinCompilerExtensionVersion = &quot;1.5.15&quot;
     }
 }
 </code></pre></div></li>
@@ -1407,7 +1408,7 @@ A műveletekben a ContentProvider által adott adatok eléréséhez a ContentRes
 <span class="p">}</span>
 </code></pre></div></p>
 <h3 id="lista-felulet-es-logika">Lista felület és logika<a class="headerlink" href="#lista-felulet-es-logika" title="Permanent link">&para;</a></h3>
-<p>Hozzunk létre a gyökérkönyvtáron belül a <code>feature</code> package-et, mely az egyes oldalak <code>Composable</code> és <code>ViewModel</code> osztályait fogja tartalmazni külön packagenként, majd hozzuk létre ebben a <code>contact_list</code> package-t.</p>
+<p>Hozzunk létre a gyökérkönyvtáron belül a <code>feature</code> package-et, mely az egyes oldalak <code>Composable</code> és <code>ViewModel</code> osztályait fogja tartalmazni külön packagenként, majd hozzuk létre ebben a <code>contactlist</code> package-t.</p>
 <p>Először foglalkozzunk az oldalhoz tartozó <code>ViewModel</code> osztállyal. Hozzuk létre a <code>ContactsListViewModel.kt</code> fájlt, majd másoljuk be az alábbi kódrészletet:</p>
 <p><code>ContactsViewModel.kt</code>:
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">ContactsViewModel</span><span class="p">(</span>
@@ -1706,10 +1707,10 @@ Az előző laborhoz hasonlóan a felületet leíró állapot osztályt <code>sea
 <span class="w">        </span><span class="p">},</span>
 <span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span>
 <span class="w">    </span><span class="p">)</span>
-<span class="w">    </span><span class="n">Divider</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">primaryContainer</span><span class="p">)</span>
+<span class="w">    </span><span class="n">HorizontalDivider</span><span class="p">(</span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">primaryContainer</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div></p>
-<p>Ezt követően létrehozhatjuk a képernyőnkhöz tartozó elrendezést a <code>feature.contact_list</code> package-ben.
+<p>Ezt követően létrehozhatjuk a képernyőnkhöz tartozó elrendezést a <code>feature.contactlist</code> package-ben.
 Itt megfigyelhető a korábban említett <code>rememberMultiplePermissionsState</code> használata, illetve az engedélyek meglétének ellenőrzése.
 Az engedélyek elkérése egy AlertDialog segítségével történik.</p>
 <p><code>ContactsScreen.kt</code>:
@@ -2581,8 +2582,8 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
           </path>
         </svg>
       </span>
-      <span title="2024. november 11. 18:05:49">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2024. november 11. 18:05:49"><span class="timeago" datetime="2024-11-11T18:05:49+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2024. november 11. 18:05:49">2024-11-11</span>
+      <span title="2025. május 2. 20:50:14">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. május 2. 20:50:14"><span class="timeago" datetime="2025-05-02T20:50:14+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. május 2. 20:50:14">2025-05-02</span>
       </span>
     </span>
 

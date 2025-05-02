@@ -44,16 +44,16 @@ Vegyük fel az alábbi függőségeket a `libs.versions.toml` fájlunkba, illetv
 
 ```kotlin
 [versions]
-agp = "8.6.1"
-kotlin = "1.9.0"
-coreKtx = "1.15.0"
+agp = "8.8.2"
+kotlin = "2.1.10"
+coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
-activityCompose = "1.9.3"
-composeBom = "2024.10.01"
-navigation = "2.8.3"
+activityCompose = "1.10.1"
+composeBom = "2025.04.01"
+navigation = "2.8.9"
 coil = "2.5.0"
 accompanist = "0.36.0"
 
@@ -81,6 +81,7 @@ accompanist-permission = { group = "com.google.accompanist", name = "accompanist
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ```
 
 ```kotlin
@@ -116,7 +117,7 @@ Ezek mellett ellenőrizzük a compose verzióját. A labor készítésekor a kö
 android {
     ...
     composeOptions {
-        kotlinCompilerExtensionVersion '1.5.15'
+        kotlinCompilerExtensionVersion = "1.5.15"
     }
 }
 ```
@@ -463,7 +464,7 @@ object PermissionsUtil {
 
 ### Lista felület és logika
 
-Hozzunk létre a gyökérkönyvtáron belül a `feature` package-et, mely az egyes oldalak `Composable` és `ViewModel` osztályait fogja tartalmazni külön packagenként, majd hozzuk létre ebben a `contact_list` package-t.
+Hozzunk létre a gyökérkönyvtáron belül a `feature` package-et, mely az egyes oldalak `Composable` és `ViewModel` osztályait fogja tartalmazni külön packagenként, majd hozzuk létre ebben a `contactlist` package-t.
 
 Először foglalkozzunk az oldalhoz tartozó `ViewModel` osztállyal. Hozzuk létre a `ContactsListViewModel.kt` fájlt, majd másoljuk be az alábbi kódrészletet:
 
@@ -775,11 +776,11 @@ fun ContactListItem(
         },
         modifier = modifier
     )
-    Divider(color = MaterialTheme.colorScheme.primaryContainer)
+    HorizontalDivider(color = MaterialTheme.colorScheme.primaryContainer)
 }
 ```
 
-Ezt követően létrehozhatjuk a képernyőnkhöz tartozó elrendezést a `feature.contact_list` package-ben.
+Ezt követően létrehozhatjuk a képernyőnkhöz tartozó elrendezést a `feature.contactlist` package-ben.
 Itt megfigyelhető a korábban említett `rememberMultiplePermissionsState` használata, illetve az engedélyek meglétének ellenőrzése.
 Az engedélyek elkérése egy AlertDialog segítségével történik.
 

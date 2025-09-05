@@ -2,7 +2,7 @@
 
 Az első labor rendhagyó a többihez képest. Itt kevés kóddal fogunk találkozni, inkább az alapok átnézésén van a hangsúly.
 
-A labor célja, hogy bemutassa az Android fejlesztőkörnyezetet, az alkalmazáskészítés, illetve a tesztelés és fordítás folyamatát, az alkalmazás felügyeletét, valamint az emulátor és a fejlesztőkörnyezet funkcióit. Ismertetjük egy egyszerű barchoba alkalmazás elkészítésének módját és labor során a laborvezető részletesen bemutatja az eszközöket.
+A labor célja, hogy bemutassa az Android Studio fejlesztőkörnyezetet, az alkalmazáskészítés, illetve a tesztelés és fordítás folyamatát, az alkalmazás felügyeletét, valamint az emulátor és a fejlesztőkörnyezet funkcióit. Ismertetjük egy Hello World alkalmazás elkészítésének módját és a debugoláshoz használható fontosabb eszközöket.
 
 A labor végén egy jegyzőkönyvet kell beadni a jegy megszerzéséhez.
 
@@ -14,33 +14,37 @@ A mérés az alábbi témákat érinti:
 *   Android projekt létrehozása és futtatása emulátoron
 *   Manifest állomány felépítése
 *   Android Profiler
+*   Android App Inspection
+
 
 ## Előkészületek
 
 A feladatok megoldása során ne felejtsd el követni a [feladat beadás folyamatát](../../tudnivalok/github/GitHub.md).
 
+
 ### Git repository létrehozása és letöltése
 
-1. Moodle-ben keresd meg a laborhoz tartozó meghívó URL-jét és annak segítségével hozd létre a saját repository-dat.
+1. Moodle-ben keresd meg a laborhoz tartozó meghívó URL-jét és annak segítségével hozd létre a saját repository-dat!
 
-1. Várd meg, míg elkészül a repository, majd checkout-old ki.
+1. Várd meg, míg elkészül a repository, majd checkout-old ki!
 
     !!! tip ""
         Egyetemi laborokban, ha a checkout során nem kér a rendszer felhasználónevet és jelszót, és nem sikerül a checkout, akkor valószínűleg a gépen korábban megjegyzett felhasználónévvel próbálkozott a rendszer. Először töröld ki a mentett belépési adatokat (lásd [itt](../../tudnivalok/github/GitHub-credentials.md)), és próbáld újra.
 
-1. Hozz létre egy új ágat `megoldas` néven, és ezen az ágon dolgozz.
+1. Hozz létre egy új ágat `megoldas` néven, és ezen az ágon dolgozz!
 
-1. A `neptun.txt` fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.
+1. A `neptun.txt` fájlba írd bele a Neptun kódodat! A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere!
+
 
 ### Markdown fájl megnyitása
 
-A feladatok megoldása során a dokumentációt markdown formátumban készítsd. Az előbb letöltött git repository-t nyisd meg egy markdown kompatibilis szerkesztővel. Javasolt a Visual Studio Code használata:
+A feladatok megoldása során a dokumentációt markdown formátumban kell elkészíteni. Az előbb letöltött git repository-t nyisd meg egy markdown kompatibilis szerkesztővel! Javasolt a Visual Studio Code használata:
 
-1. Indítsd el a VS Code-ot.
+1. Indítsd el a VS Code-ot!
 
-1. A _File > Open Folder..._ menüvel nyisd meg a git repository könyvtárát.
+1. A _File > Open Folder..._ menüvel nyisd meg a git repository könyvtárát!
 
-1. A bal oldali fában keresd meg a `README.md` fájlt és dupla kattintással nyisd meg.
+1. A bal oldali fában keresük meg a `README.md` fájlt és nyissuk meg dupla kattintással!
 
    - Ezt a fájlt szerkeszd.
    - Ha képet készítesz, azt is tedd a repository alá a többi fájl mellé. Így relatív elérési útvonallal (fájlnév) fogod tudni hivatkozni.
@@ -58,18 +62,15 @@ A feladatok megoldása során a dokumentációt markdown formátumban készítsd
 
 ### Fordítás menete Android platformon
 
-A projekt létrehozása után a forráskód az `src` könyvtárban, míg a felhasználói felület leírására szolgáló XML állományok a `res` könyvtárban találhatók. Az erőforrás állományokat egy `R.java` állomány köti össze a forráskóddal, így könnyedén elérhetjük Java/Kotlin oldalról az XML-ben definiált felületi elemeket. Az Android projekt fordításának eredménye egy APK állomány, melyet közvetlenül telepíthetünk mobil eszközre.
+A projekt létrehozása után a forráskód az `app/src` könyvtárban található. A felhasználói felületet Jetpack Compose használatával, közvetlenül Kotlin kódban definiáljuk, így nincs szükség XML állományokra. Az Android projekt fordításának eredménye egy APK állomány, melyet közvetlenül telepíthetünk mobil eszközre. Jetpack Compose segítségével könnyedén elérhetjük és kezelhetjük a felületi elemeket Kotlin kódból, megkönnyítve ezzel a modern, deklaratív felületkialakítást.
 
 ![](assets/lab-1-compile.png)
 
 *Fordítás menete Android platformon*
 
-1.  A fejlesztő elkészíti a Kotlin forráskódot, valamint az XML alapú felhasználói felület leírást a szükséges erőforrás állományokkal.
+1.  A fejlesztő elkészíti a Kotlin forráskódot, amelyben a felhasználói felületet Jetpack Compose segítségével definiálja. Nincs szükség külön XML alapú felhasználói felület leírásra.
 
-2.  A fejlesztőkörnyezet az erőforrás állományokból folyamatosan naprakészen tartja az `R.java` erőforrás fájlt a fejlesztéshez és a fordításhoz. 
-
-    !!! danger "FONTOS"
-     	**Az `R.java` állomány generált, kézzel SOHA ne módosítsuk!** (Az Android Studio egyébként nem is hagyja.)
+2.  A fejlesztőkörnyezet folyamatosan naprakészen tartja a Compose elemekhez kapcsolódó erőforrásokat és a szükséges build állományokat a fejlesztéshez és a fordításhoz.
 
 3.  A fejlesztő a Manifest állományban beállítja az alkalmazás hozzáférési jogosultságait (pl. Internet elérés, szenzorok használata, stb.), illetve ha futás idejű jogosultságok szükségesek, ezt kezeli.
 
@@ -97,29 +98,27 @@ Az Android Studio a [Gradle](https://gradle.org/) build rendszert használja eze
 
 ### SDK és könyvtárai
 
-A [developer.android.com/studio](https://developer.android.com/studio) oldalról letölthető az IDE és az SDK. Ennek fontosabb mappáit, eszközeit tekintsük át a laborvezető segítségével!
+A [developer.android.com/studio](https://developer.android.com/studio) oldalról letölthető az IDE és az SDK. Tekintsük át ennek a fontosabb mappáit, eszközeit!
 
 ![](assets/ide_android.png)
 
 SDK szerkezet:
 
-*   `docs:` Dokumentáció
-*   `extras:` Különböző extra szoftverek helye. Maven repository, support libes anyagok, analytics SDK, Google [Android USB driver](https://developer.android.com/studio/run/win-usb.html) (amennyiben SDK managerrel ezt is letöltöttük) stb.
-*   `platform-tools:` Fastboot és ADB binárisok helye (legtöbbet használt eszközök)
-*   `platforms`, `samples`, `sources`, `system-images:` Minden API levelhez külön almappában a platform anyagok, források, példaprojektek, OS image-ek
-*   `tools:` Fordítást és tesztelést segítő eszközök, SDK manager, 9Patch drawer, emulátor binárisok stb.
+*   `build-tools`: Fordítást segítő eszközök API szintenkét: AIDL, AAPT2, stb.
+*   `emulator`: Az Android emulátor fájljainak helye. 
+*   `extras`: Különböző extra szoftverek helye. Maven repository, support libes anyagok, analytics SDK, Google [Android USB driver](https://developer.android.com/studio/run/win-usb.html) (amennyiben SDK managerrel ezt is letöltöttük) stb.
+*   `platform-tools`: Fastboot és ADB binárisok helye (legtöbbet használt eszközök).
+*   `platforms`, `sources`, `system-images`: Minden API levelhez külön almappában a platform anyagok, források, OS image-ek
+*   `tools`: Fordítást és tesztelést segítő eszközök, SDK manager, stb.
 
-### AVD és SDK manager
+
+#### SDK manager
 
 Az SDK kezelésére az SDK managert használjuk, ezzel lehet letölteni és frissen tartani az eszközeinket. Indítása az Android Studion keresztül lehetséges.
 
-Az SDK Manager ikonja a fenti toolbaron (vagy Tools -> SDK Manager):
+Az SDK Manager elérhető a Tools -> SDK Manager menüpontból:
 
 ![](assets/sdk_manager_icon.png)
-
-vagy
-
-![](assets/sdk_manager_icon_2.png)
 
 SDK manager felülete:
 
@@ -128,77 +127,85 @@ SDK manager felülete:
 !!! note "Megjegyzés"
 	Korábban létezett egy standalone SDK manager de ennek használata mára deprecated lett. Ha online forrásokban ilyet látunk ne lepődjünk meg.
 
-Indítsuk el az AVD managert, és vizsgáljuk meg a laborvezetővel, hogy rendelkezésre áll-e minden, ami az első alkalmazásunkhoz kelleni fog.
+Indítsuk el az AVD managert, és vizsgáljuk mel, hogy rendelkezésre áll-e minden, ami az első alkalmazásunkhoz kelleni fog.
 
-### AVD
 
-Az AVD az Android Virtual Device rövidítése. Ahogy arról már előadáson is szó esett, nem csak valódi eszközön futtathatjuk a kódunkat, hanem emulátoron is. (Mi is a különbség szimulátor és emulátor között?) Az AVD indítása a fejlesztői környezeten keresztül lehetséges (illetve parancssorból is, de ennek a használatára csak speciális esetekben van szükség).
+### AVD Manager
+
+Az AVD az Android Virtual Device rövidítése. Ahogy arról már előadáson is szó esett, nem csak valódi eszközön futtathatjuk a kódunkat, hanem emulátoron is. (Mi is a különbség szimulátor és emulátor között?) Az AVD indítása a fejlesztői környezeten keresztül (*Tools->Device Manager*), illetve parancssorból is lehetséges, de ennek a használatára csak speciális esetekben van szükség.
 
 Az AVD Manager ikonja:
 
 ![](assets/avd_icon.png)
 
-vagy
-
-![](assets/avd_icon_2.png)
+Az AVD Manager felülete:
 
 ![](assets/avd_manager.png)
 
-A fenti képen jobb oldalon, a kinyíló panelben, a létező virtuális eszközök listáját találjuk, bal oldalon pedig az ún. eszköz definíciókét. Itt néhány előre elkészített sablon áll rendelkezésre. Magunk is készíthetünk ilyet, ha tipikusan egy adott eszközre szeretnénk fejleszteni (pl. Galaxy S4). Készítsünk új emulátort! Értelemszerűen csak olyan API szintű eszközt készíthetünk, amilyenek rendelkezésre állnak az SDK manageren keresztül.
+A fenti képen jobb oldalon, a kinyíló panelben, a létező virtuális eszközök listáját találjuk, bal oldalon pedig az ún. eszköz definíciókét. (Ezt az *Add device* fület,  a *Create Virtual Device* opcióval tudjuk megnyitni a jobb oldalon lévő `+` ikonra kattintás után.) Itt néhány előre elkészített sablon áll rendelkezésre. Magunk is készíthetünk ilyet, ha tipikusan egy adott eszközre szeretnénk fejleszteni (pl. Galaxy S24). 
+
+Készítsünk új emulátort! Értelemszerűen csak olyan API szintű eszközt készíthetünk, amilyenek rendelkezésre állnak az SDK manageren keresztül.
 
 1. A jobb oldali panelon kattintsunk a fent található *Create Virtual Device...* gombra!
-2. Válasszunk az előre definiált készülék sablonokból (pl. *Pixel 7 Pro*), majd nyomjuk meg a *Next* gombot.
-3. Döntsük el, hogy milyen Android verziójú emulátort kívánunk használni. CPU/ABI alapvetően x86_64 legyen, mivel ezekhez kapunk [hardveres gyorsítást](https://developer.android.com/studio/run/emulator-acceleration) is. Itt válasszunk a rendelkezésre állók közül egyet, majd *Next*.
-4. Az eszköz részletes konfigurációja.
-
-    - A virtuális eszköz neve legyen például `Labor_1`.
-    - Válasszuk ki az alapértelmezett orientációt, tetszés szerint kapcsoljuk ki vagy be a készülék keretének megjelenítését.
-
-    A *Show Advanced Settings* alatt további opciókat találunk:
-
-    - Kamera opciók:
+1. Válasszunk az előre definiált készülék sablonokból (pl. *Pixel 9 Pro*), majd nyomjuk meg a *Next* gombot.
+1. Az eszköz konfigurációja:
+	- A virtuális eszköz neve legyen például `Labor_1`.
+	- Döntsük el, hogy milyen Android verziójú emulátort kívánunk használni, illetve, hogy milyen szolgáltatásokra van szükségünk. CPU/ABI alapvetően x86_64 legyen, mivel ezekhez kaphatunk [hardveres gyorsítást](https://developer.android.com/studio/run/emulator-acceleration) is. Itt válasszunk a rendelkezésre állók közül egyet, majd *Next*.
+ ![](assets/avd_create.png)
+1. Az *Additional settings* fül alatt alatt további opciókat találunk:
+	- Tetszés szerint kapcsoljuk ki vagy be a készülék keretének megjelenítését.
+	- Kamera opciók:
         - *WebcamX*, hardveres kamera, ami a számítógépre van csatlakoztatva
         - *Emulated*, egy egyszerű szoftveres megoldás, **most legalább az egyik kamera legyen ilyen**.
         - *VirtualScene*, egy kifinomultabb szoftveres megoldás, amelyben egy 3D világban mozgathatjuk a kamerát.
     - Hálózat: Állíthatjuk a sebességét és a késleltetését is kommunikációs technológiák szerint.
-    - *Boot Option*: Nemrég jelent meg az Android emulátor állapotáról való pillanatkép elmentésének lehetősége. Ez azt takarja, hogy a virtuális operációs rendszer csak felfüggesztésre kerül az emulátor bezáráskor (például a megnyitott alkalmazás is megmarad, a teljes állapotával), és *Quick boot* esetben a teljes OS indítása helyett másodperceken belül elindul az emulált rendszer. *Cold Boot* esetben minden alkalommal leállítja és újra indítja a virtális eszköz teljes operációs rendszerét.
-    - Memória és tárhely: 
-        - RAM: Ha kevés a rendszermemóriánk, nem érdemes 768 MB-nál többet adni, mert könnyen futhatunk problémákba. Ha az emulátor lefagy, vagy az egész OS megáll működés közben, akkor állítsuk alacsonyabbra ezt az értéket. 8 GB vagy több rendszermemória mellett nyugodtan állíthatjuk az emulátor memóriáját 1024, 1536, vagy 2048 MB-ra.
+    - Válasszuk ki az alapértelmezett orientációt.
+    - *Default boot*: Az Android emulátor állapotáról való pillanatkép elmentésének lehetősége. Ez azt takarja, hogy a virtuális operációs rendszer csak felfüggesztésre kerül az emulátor bezáráskor (például a megnyitott alkalmazás is megmarad, a teljes állapotával), és *Quick* esetben a teljes OS indítása helyett másodperceken belül elindul az emulált rendszer. *Cold* esetben viszont minden alkalommal leállítja és újra indítja a virtális eszköz teljes operációs rendszerét.
+    - Belső és külső tárhely mérete, esetleg konkrét image beállítása a tárhely tartalmáról.
+    - Teljesítmény:
+	    - A használandó CPU magok száma.
+	    - Grafikai gyorsítás típusa. (Hardveres gyorsítás csak a megfelelő driver esetén érhető el)     
         - VM heap: az alkalmazások virtuális gépének szól, maradhat az alapérték. Tudni kell, hogy készülékek esetében gyártónként változik.
-        - Belső flash memória és SD kártya mérete, alapvetően jók az alapértelmezett beállításai.
-
+        - A kívánt bináris *interface*.
     - Ha mindent rendben talál az ablak, akkor *Finish*!
 
-![](assets/avd_create.png)
+![](assets/avd_create2.png)
 
-Az Android Virtual Device Manager-ben megjelent az imént létrehozott eszközünk. Itt lehetőség van a korábban megadott paraméterek szerkesztésére, a "készülékről" a felhasználói adatok törlésére (*Wipe Data* - Teljes visszaállítás), illetve az emulátor példány duplikálására vagy törlésére.
+Az Android Virtual Device Manager-ben megjelent az imént létrehozott eszközünk. Itt lehetőség van a korábban megadott paraméterek szerkesztésére, külső eszköz csatlakoztatására, a "készülékről" a felhasználói adatok törlésére (*Wipe Data* - Teljes visszaállítás), illetve az emulátor példány duplikálására vagy törlésére.
 
 A Play gombbal indítsuk el az új emulátort!
 
-Az elindított emulátoron próbáljuk ki az *API Demos* és *Dev Tools* alkalmazásokat!
+!!! danger "Emulátor problémák"
+	Amennyiben az emulátor nem indulna el, ellenőrizzük az alábbi tippeket:
+
+    * Van-e elég hely (minimum 15-20 GB) a meghajtón?
+    * Legfrisebb-e az Android Studio és az sdk?
+    * SDK manager > sdk tools: legrisebb-e az android emulator?
+    * Nincs-e az Android Studio vagy az sdk telepítési útjában szóköz, ékezetes betű vagy különleges karakter?
+    * Próbáltál-e más API-t, Play Store-ral, a nélkül?
+    * Virtualizáció be van-e kapcsolva/engedélyezve van-e a gépen?
+    * Grafikai gyorsítás típusát próbáljuk meg átállítani.
+
+Az elindított emulátoron próbáljunk ki néhány előre telepítétt alkalmazást!
 
 !!! note "Megjegyzés"
 	A gyári emulátoron kívül több alternatíva is létezik, mint pl. a [Genymotion](https://www.genymotion.com/fun-zone/) vagy a [BigNox](https://www.bignox.com/), viszont a Google féle emulátor a legelterjedtebb, így amennyiben ezzel nem jelentkeznek problémáink, maradjunk ennél.
 
-Tesztelés céljából nagyon jól használható az emulátor, amely az alábbi képen látható plusz funkciókat is adja. Lehetőség van többek között egyedi hely beállítására, bejövő hívás szimulálására, stb. A panelt a futó emulátor jobb oldalán található vezérlő gombok közül a *...* gombbal lehet megnyitni:
+Tesztelés céljából nagyon jól használható az emulátor, amely az alábbi képen látható plusz funkciókat is adja. Lehetőség van többek között egyedi hely beállítására, bejövő hívás szimulálására, virtuálisan szenzorok manipulálására, stb. A panelt a futó emulátor jobb oldalán található vezérlő gombok közül a *...* gombbal lehet megnyitni:
 
 ![](assets/avd_extras.png)
 
 
 ## Fejlesztői környezet
 
- Android fejlesztésre a labor során a JetBrains IntelliJ alapjain nyugvó Android Studio-t fogjuk használni. A Studio-val ismerkedők számára hasznos funkció a *Tip of the day*, érdemes egyből kipróbálni, megnézni az adott funkciót. Induláskor alapértelmezetten a legutóbbi projekt nyílik meg, ha nincs ilyen, vagy ha minden projektünket bezártuk, akkor a nyitó képernyő. (A legutóbbi projekt újranyitását a *Settings -> Appeareance & Behavior -> System Settings -> Reopen last project on startup* opcióval ki is kapcsolhatjuk.)
+ Android fejlesztésre a labor során a JetBrains IntelliJ alapjain nyugvó Android Studio-t fogjuk használni. A Studio-val ismerkedők számára hasznos funkció a *Tip of the day*, érdemes egyből kipróbálni, megnézni az adott funkciót. Induláskor alapértelmezetten a legutóbbi projekt nyílik meg, ha nincs ilyen, vagy ha minden projektünket bezártuk, akkor a nyitó képernyő. (A legutóbbi projekt újranyitását a *Settings -> Appeareance & Behavior -> System Settings -> Reopen projects on startup* opcióval ki is kapcsolhatjuk.)
 
-![](assets/studio_old.png)
-
-Az Android Studio Giraffe-ban megújult a környezet felhasználói felülete. Amint látható, jóval letisztultabb dizájnt választottak, sokkal kevesebb a figyelmet elvonó extra a képernyőn, sokkal inkább a kódon van a hangsúly. Ezek között a nézetek között egyszerűen válthatunk a Beállításokban, a New UI menüpontban.
-
-![](assets/studio_new.png)
+![](assets/studio.png)
 
 
 ## High Low Game
 
-A laborvezető segítségével készítsenek egy új alkalmazást!
+A laborvezető segítségével készítsünk egy új alkalmazást!
 
 ### Projekt létrehozása
 
@@ -352,9 +359,8 @@ Figyeljük meg, hogy a játék túléli a forgatásokat is! Ez annak köszönhet
 
 ### Android Studio
 
-Ez a rész azoknak szól, akik korábban már használták az Eclipse nevű IDE-t, és szeretnék megismerni a különbségeket az Android Studio-hoz képest.
+Ez a rész azoknak szól, akik korábban már használtak más IntelliJ terméket vagy az Eclipse nevű IDE-t, és szeretnék megismerni a különbségeket az Android Studio-hoz képest.
 
-*   **Import régi projektekből:** Android Studioban lehetséges a projekt importálása régebbi verziójú projektekből és a régi Eclipse projektekből is.
 *   **Projektstruktúra:** Az Android Studio Gradle-lel fordít, és más felépítést használ. Projekten belül:
     *   `.idea`: IDE fájlok
     *   `app`: forrás
@@ -373,10 +379,9 @@ Ez a rész azoknak szól, akik korábban már használták az Eclipse nevű IDE-
     *   Szigorú lint. A Studio megengedi a warningot. Ezért szigorúbb a lint, több mindenre figyelmeztet (olyan apróságra is, hogy egy View egyik oldalán van padding, a másikon nincs)
     *   Layout szerkesztés. A grafikus layout építés lehetséges.
     *   CTRL-t lenyomva navigálhatunk a kódban, pl. osztályra, metódushívásra kattintva. Ezt a navigációt (és az egyszerű másik osztályba kattintást is) rögzíti, és a historyban előre-hátra gombokkal lehet lépkedni. Ha van az egerünkön/billentyűzetünkön ilyen gomb, és netes böngészés közben aktívan használjuk, ezt a funkciót nagyon hasznosnak fogjuk találni.
+    *   Ha több fájl is meg van nyitva egyszerre, könnyen navigálhatunk az <kbd>ALT</kbd> + <kbd>BAL</kbd>/<kbd>JOBB</kbd> nyilak segítségével az fájlok között.
 
-![](assets/nice_studio.png)
-
-*Szín ikonja a sor elején; kiemelve jobb oldalon, hogy melyik nézeten vagyunk; szabadszavas kiegészítés; a "Hello world" igazából `@string/very_very_very_long_hello_world`.*
+![](assets/studio_nice.png)
 
 
 ### Billentyűkombinációk
@@ -396,10 +401,16 @@ Ez a rész azoknak szól, akik korábban már használták az Eclipse nevű IDE-
 *   <kbd>CTRL</kbd> + <kbd>SHIFT</kbd> + <kbd>N</kbd>: Keresés fájlokban
 *   <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>SHIFT</kbd> + <kbd>N</kbd>: Keresés szimbólumokban (például függvények, property-k)
 *   <kbd>CTRL</kbd> + <kbd>SHIFT</kbd> + <kbd>A</kbd>: Keresés a beállításokban, kiadható parancsokban.
+*   <kbd>ALT</kbd> + <kbd>ENTER</kbd> hiányzó elemek importálása/létrehozása.
+
+[További billentyűkombinációk](https://developer.android.com/studio/intro/keyboard-shortcuts).
+!!!tip "Keresés"
+    Hogy ha bármikor szükségünk van valamire, de esetleg nem találnánk a menüpontok között, akkor a dupla Shift lenyomásával (<kbd>Shift</kbd>+<kbd>Shift</kbd>) kereshetünk az Android Studioban (illetve más JetBrains IDE-kben). Próbáljuk is ki és keressünk rá a "Device Manager" opcióra.
+
 
 ### Eszközök, szerkesztők
 
-A *View* menü *Tool Windows* menüpontjában lehetőség van különböző ablakok ki- és bekapcsolására. Laborvezető segítségével tekintsék át az alábbi eszközöket!
+A *View* menü *Tool Windows* menüpontjában lehetőség van különböző ablakok ki- és bekapcsolására. Tekintsük át az alábbi eszközöket:
 
 *   Project
 *   Structure
@@ -409,59 +420,64 @@ A *View* menü *Tool Windows* menüpontjában lehetőség van különböző abla
 *   Event Log
 *   Gradle
 
-Lehetőség van felosztani a szerkesztőablakot, ehhez kattinsunk egy megnyitott fájl tabfülére jobb gombbal, *Split Vertically/Horizontally*!
+Lehetőség van felosztani a szerkesztőablakot, ehhez kattinsunk egy megnyitott fájl tabfülére jobb gombbal, *Split Right/Down* vagy csak kattintsunk rá hosszan és kezdjük el húzni a kódfelületre!
+
 
 ### Hasznos beállítások
 
-A laborvezető segítségével állítsák be a következő hasznos funkciókat:
+Állítsuk be a következő hasznos funkciókat:
 
-*   kis- nagybetű érzékenység kikapcsolása a kódkiegészítőben (settingsben keresés: *sensitive*)
+*   kis- nagybetű érzékenység kikapcsolása a kódkiegészítőben (settingsben keresés: *Match case*)
 *   "laptop mód" ki- és bekapcsolása (*File -> Power Save Mode*)
-*   sorszámozás bekapcsolása (kód melletti részen bal oldalt: jobb egérgomb, *Show Line Numbers*)
+*   sorszámozás bekapcsolása (kód melletti részen bal oldalt: jobb egérgomb, *Appearance -> Show Line Numbers*)
+
 
 ### Generálható elemek
 
-A Studio sok sablont tartalmaz, röviden tekintsék át a lehetőségeket:
+A Studio sok sablont tartalmaz, röviden tekintsük át a lehetőségeket:
 
 *   Projektfában, projektre jobb gombbal kattintva -> new -> module
 *   Projektfában, modulon belül, "java"-ra kattintva jobb gombbal -> new
 *   Forráskódban <kbd>ALT</kbd>+<kbd>INSERT</kbd> billentyűkombinációra
 
-## Android Profiler
+
+### Android Profiler
 
 A készülék erőforráshasználata [monitorozható](https://developer.android.com/studio/profile/android-profiler) ezen a felületen, amelyet az említett *View -> Tool Windows*-ból érhetünk el.
 
 ![](assets/ap.png)
 
-Például részletes információt kaphatunk a hálózati forgalomról:
+Például részletes információt kaphatunk a processzor és a memória használatáról:
 
-![](assets/ap_network.png)
+![](assets/ap2.png)
 
 
-## Database Inspector
+### App Inspection
 
-A készüléken debuggolt alkalmazásunknak az [adatbázisát](https://developer.android.com/studio/inspect/database) is meg tudjuk tekinteni.
+A készüléken debuggolt alkalmazásunk [hálózati forgalmát](https://developer.android.com/studio/debug/network-profiler) és [adatbázisát](https://developer.android.com/studio/inspect/database) is meg tudjuk tekinteni. (*View -> Tool Windows -> App Inspection*)
+
+![](assets/ni.png)
 
 ![](assets/di.png)
 
-## Device File Explorer
+### Device Explorer
 
-A készüléken lévő fájlrendszert is [böngészhetjük](https://developer.android.com/studio/debug/device-file-explorer).
+A készüléken lévő fájlrendszert is [böngészhetjük](https://developer.android.com/studio/debug/device-file-explorer). (*View -> Tool Windows -> Device Explorer*)
 
-![](assets/dfe.png)
+![](assets/de.png)
 
 ## Feladatok (10 x 0.5 pont)
 
-1.  Az új alkalmazást futtassák emulátoron (akinek saját készüléke van, az is próbálja ki)!
-1.  Helyezzenek breakpointot a kódba, és debug módban indítsák az alkalmazást! (Érdemes megyfigyelni, hogy most másik Gradle Task fut a képernyő alján.)
-1.  Indítsanak hívást és küldjenek SMS-t az emulátorra! Mit tapasztalnak?
-1.  Indítsanak hívást és küldjenek SMS-t az emulátorról! Mit tapasztalnak?
-1.  Tekintse át az Android Profiler nézet funkcióit a laborvezető segítségével!
-1.  Változtassa meg a készülék tartózkodási helyét (GPS) az emulátor megfelelő paneljének segítségével!
-1.  Vizsgálja meg az elindított `HighLowGame` projekt nyitott szálait, memóriafoglalását!
-1.  Vizsgálja meg a Logcat panel tartalmát!
-1.  Vizsgálja meg a Code -> Inspect code eredményét!
-1.  Keresse ki a létrehozott `HighLowGame` projekt mappáját és a build könyvtáron belül vizsgálja meg az `.apk` állomány tartalmát! Ezen belül hol található a lefordított kód? 
+1.  Az új alkalmazást futtassuk emulátoron (akinek saját készüléke van, az is próbálja ki)!
+1.  Helyezzünk breakpointot a kódba, és indítsuk el debug módban az alkalmazást! (Érdemes megyfigyelni, hogy most másik Gradle Task fut a képernyő alján.)
+1.  Indítsunk hívást és küldjünk SMS-t az emulátorra! Mit tapasztalunk?
+1.  Indítsunk hívást és küldjünk SMS-t az emulátorról! Mit tapasztalunk?
+1.  Készítsünk egy képet az emulátorral és keressük meg a fájlrendszerben a Device Explorer segítségével!
+1.  Változtassuk meg a készülék tartózkodási helyét (GPS) az emulátor megfelelő paneljének segítségével!
+1.  Vizsgáljuk meg az elindított `HighLowGame` projekt nyitott szálait, memóriafoglalását!
+1.  Vizsgáljuk meg a Logcat panel tartalmát!
+1.  Vizsgáljuk meg az Code -> Inspect code eredményét!
+1.  Keressük ki a létrehozott `HighLowGame` projekt mappáját és a build könyvtáron belül vizsgálja meg az `.apk` állomány tartalmát! Hol található a lefordított kód? 
 
 !!! example "BEADANDÓ"
 	A labor teljesítéséhez a fenti feladatokat kell végrehajtani és az eredményeket dokumentálni. Ezt minden egyes feladatnál egy képernyőképpel és rövid, néhány mondatos magyarázattal kell megtenni. A jegyzőkönyvet a repository-ban lévő `README.md` fájlban kell elkészíteni.

@@ -590,12 +590,52 @@
     Elemi UI építőelemek elkészítése
   </a>
   
+    <nav class="md-nav" aria-label="Elemi UI építőelemek elkészítése">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#normaltextfield" class="md-nav__link">
+    NormalTextField
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passwordtextfield" class="md-nav__link">
+    PasswordTextField
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
   <a href="#az-alkalmazas-fo-kepernyoinek-elkeszitese" class="md-nav__link">
     Az alkalmazás fő képernyőinek elkészítése
   </a>
+  
+    <nav class="md-nav" aria-label="Az alkalmazás fő képernyőinek elkészítése">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loginscreen" class="md-nav__link">
+    LoginScreen
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#homescreen" class="md-nav__link">
+    HomeScreen
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -895,12 +935,52 @@
     Elemi UI építőelemek elkészítése
   </a>
   
+    <nav class="md-nav" aria-label="Elemi UI építőelemek elkészítése">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#normaltextfield" class="md-nav__link">
+    NormalTextField
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#passwordtextfield" class="md-nav__link">
+    PasswordTextField
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
   <a href="#az-alkalmazas-fo-kepernyoinek-elkeszitese" class="md-nav__link">
     Az alkalmazás fő képernyőinek elkészítése
   </a>
+  
+    <nav class="md-nav" aria-label="Az alkalmazás fő képernyőinek elkészítése">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#loginscreen" class="md-nav__link">
+    LoginScreen
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#homescreen" class="md-nav__link">
+    HomeScreen
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1011,22 +1091,17 @@
 <h2 id="fuggosegek">Függőségek<a class="headerlink" href="#fuggosegek" title="Permanent link">¶</a></h2>
 <h3 id="fuggosegek-frissitese">Függőségek frissítése<a class="headerlink" href="#fuggosegek-frissitese" title="Permanent link">¶</a></h3>
 <p>Az Android Studio a projekt létrehozásakor felveszi ugyan a <em>Compose</em>-t a függésegek közé, de némileg elavult verziókat használ. Frissítsük a modul szintű <code>build.gradle.kts</code> fájlban a függőségeket az alábbiakra, majd szinkronizáljuk is a projektet:</p>
-<div class="admonition info">
-<p class="admonition-title">Gradle Version Catalogs</p>
-<p>Az <em>Android Studio Iguana</em>-tól vagy <em>Gradle 8.3</em>-tól kezdődően a függőségek kezelésére a <em>Gradle</em> bevezette a <code>Version Catalog</code>-ot. </p>
-<p>A Gradle Version Catalogs lehetővé teszi a függőségek és bővítmények skálázható módon történő hozzáadását és karbantartását a projekthez. Ahelyett, hogy a függőségeket és verziókat az egyes build fájlokban beégetnénk, egy központi katalógusban definiáljuk őket, és az egyes modulokban csak hivatkozunk rájuk. Így frissítés esetén elég egy helyen átírnunk például a verziószámot.</p>
-</div>
 <p>A függőségeink a Version Catalogban (<code>libs.version.toml</code>):</p>
 <div class="highlight"><pre><span></span><code>[versions]
-agp = "8.8.2"
-kotlin = "2.1.10"
-coreKtx = "1.15.0"
+agp = "8.12.3"
+kotlin = "2.2.20"
+coreKtx = "1.17.0"
 junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.7"
-activityCompose = "1.10.1"
-composeBom = "2025.02.00"
+junitVersion = "1.3.0"
+espressoCore = "3.7.0"
+lifecycleRuntimeKtx = "2.9.4"
+activityCompose = "1.11.0"
+composeBom = "2025.10.00"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -1069,31 +1144,56 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
     debugImplementation(libs.androidx.ui.test.manifest)
 }
 </code></pre></div>
-<p>A fenti függőségekhez 35-ös SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű <code>build.gradle.kts</code> fájlunkban:</p>
-<div class="highlight"><pre><span></span><code>    compileSdk = 35
+<p>A fenti függőségekhez 36-os SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű <code>build.gradle.kts</code> fájlunkban:</p>
+<div class="highlight"><pre><span></span><code>    compileSdk = 36
 </code></pre></div>
 <h2 id="fuggoseg-felvetele">Függőség felvétele<a class="headerlink" href="#fuggoseg-felvetele" title="Permanent link">¶</a></h2>
-<p>Az általunk használni kívánt ikonokhoz szükségünk van a <code>Material Icons Extended</code> modulra, valamint a navigációhoz a <a href="https://developer.android.com/guide/navigation"><code>Navigation Component</code></a>-re.</p>
+<p>Az általunk használni kívánt ikonokhoz szükségünk van a <code>Material Icons Extended</code> modulra, valamint a navigációhoz a <a href="https://developer.android.com/guide/navigation/navigation-3"><code>Navigation 3</code></a>-re.</p>
 <p>Vegyük fel a szükséges referenciákat a <code>libs.versions.toml</code> fájlba:</p>
 <div class="highlight"><pre><span></span><code>[versions]
-materialIconsExtended = "1.7.8"
-navigationCompose = "2.8.8"
+nav3Core = "1.0.0-alpha11"
+kotlinSerialization = "2.2.20"
+kotlinxSerializationCore = "1.9.0"
 ...
 
 [libraries]
-androidx-material-icons-extended = { group = "androidx.compose.material", name="material-icons-extended", version.ref="materialIconsExtended"}
-androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+androidx-material-icons-extended = { group = "androidx.compose.material", name="material-icons-extended" }
+
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
+...
+
+[plugins]
+jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization"}
 ...
 </code></pre></div>
 <p>Majd a függőséget a modul szintű <code>build.gradle.kts</code> fájlba:</p>
-<div class="highlight"><pre><span></span><code>implementation(libs.androidx.material.icons.extended)
-implementation(libs.androidx.navigation.compose)
+<div class="highlight"><pre><span></span><code>    implementation(libs.androidx.material.icons.extended)
+
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.kotlinx.serialization.core)
 ...
+</code></pre></div>
+<p>Ezen kívül kapcsoljuk be a <em>serialization</em> <em>plugint</em> a <code>build.gradle.kts</code>-ben:</p>
+<p>Projekt szintű <code>build.gradle.kts</code>:</p>
+<div class="highlight"><pre><span></span><code>plugins {
+    alias(libs.plugins.jetbrains.kotlin.serialization) apply false
+    ...
+}
+</code></pre></div>
+<p>Modul szintű <code>build.gradle.kts</code>:</p>
+<div class="highlight"><pre><span></span><code>plugins {
+    alias(libs.plugins.jetbrains.kotlin.serialization)
+    ...
+}
 </code></pre></div>
 <h2 id="elemi-ui-epitoelemek-elkeszitese">Elemi UI építőelemek elkészítése<a class="headerlink" href="#elemi-ui-epitoelemek-elkeszitese" title="Permanent link">¶</a></h2>
 <p>A fenti képeken látható, hogy a bejelentkeztetési form egyedi kinézetű szövegmezőkből és címkékből épül fel. A <em>Compose</em> alapelve - ahogyan a neve is tükrözi, - hogy a felhasználói felületünket hierarchikusan építhetjük fel, és a kisebb építőelemekből összetettebbeket állíthatunk össze. Ez egyrészt segíti a fejlesztői gondolkodást, hiszen könnyen tudunk a felhasználói felület adott részére koncentrálni, ezeket függetlenül elkészíteni, és így idővel a részekből már könnyen összerakható lesz a teljes kívánt UI is. Másrészt, ez a megközelítés segíti az újrafelhasználást, hiszen a kisebb felületi elemek könnyen újrafelhasználhatók az alkalmazás különböző részeiben is.</p>
 <p>Készítsünk először egy igen általános szövegmezőt, amelyet majd az éppen aktuális igényeknek megfelelően gazdagon tudunk paraméterezni. Tulajdonképpen a rendszer részét képező <code>TextField</code> is sokrétű funkcionalitással rendelkezik, azonban szeretnénk egy magasabb szintű komponenst, amely számunkra könnyebben használható, és a hibajelzés megjelenítését is megoldja.</p>
 <p>Először hozzunk létre ehhez egy <code>hu.bme.aut.android.composebasics.ui.common</code> <em>package</em>-et. Ebbe fognak kerülni az alapvető fontosságú UI építőelemeink.</p>
+<h3 id="normaltextfield">NormalTextField<a class="headerlink" href="#normaltextfield" title="Permanent link">¶</a></h3>
 <p>Ezen belül készítsünk egy <code>NormalTextField</code> komponenst a következő tartalommal:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.common</span>
 
@@ -1199,6 +1299,7 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>két előnézet a szövegmező komponensről</strong> és <strong>az ahhoz tartozó kódrészlet</strong>. A név mezőbe a <strong>saját neved</strong> kerüljön. </p>
 <p>A képet a megoldásban a repository-ba f1.png néven töltsd föl.</p>
 </div>
+<h3 id="passwordtextfield">PasswordTextField<a class="headerlink" href="#passwordtextfield" title="Permanent link">¶</a></h3>
 <p>A fentihez hasonlóan a <code>ui.common</code> package-be készítsünk egy újabb komponenst <code>PasswordTextField</code> néven az alábbi tartalommal:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.common</span>
 
@@ -1290,9 +1391,10 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 </li>
 </ol>
 <h2 id="az-alkalmazas-fo-kepernyoinek-elkeszitese">Az alkalmazás fő képernyőinek elkészítése<a class="headerlink" href="#az-alkalmazas-fo-kepernyoinek-elkeszitese" title="Permanent link">¶</a></h2>
+<h3 id="loginscreen">LoginScreen<a class="headerlink" href="#loginscreen" title="Permanent link">¶</a></h3>
 <p>Most, hogy a képernyők minden fontos alkotórésze a rendelkezésünkre áll, elkezdhetjük maguknak a képernyőknek az elkészítését. Kezdjük a bejelentkező képernyővel!</p>
-<p>A képernyőknek és a hozzájuk kapcsolódó kódoknak hozzunk létre egy közös <code>hu.bme.aut.android.composebasics.screen</code> package-et, majd ezen belül a bejelentkező képernyő a <code>login</code> package-be kerüljön! Készítsük el a képernyő kódját <code>LoginScreen</code> néven, majd adjuk meg a következő kódot:</p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.screen.login</span>
+<p>A képernyőknek és a hozzájuk kapcsolódó kódoknak hozzunk létre egy közös <code>hu.bme.aut.android.composebasics.ui.screen</code> package-et, majd ezen belül a bejelentkező képernyő a <code>login</code> package-be kerüljön! Készítsük el a képernyő kódját <code>LoginScreen</code> néven, majd adjuk meg a következő kódot:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.screen.login</span>
 
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">LoginScreen</span><span class="p">(</span>
@@ -1398,59 +1500,59 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik az <strong>előnézet a bejelentkező képernyőről</strong> és <strong>az ahhoz tartozó kódrészlet</strong>. </p>
 <p>A képet a megoldásban a repository-ba f2.png néven töltsd föl.</p>
 </div>
+<h3 id="homescreen">HomeScreen<a class="headerlink" href="#homescreen" title="Permanent link">¶</a></h3>
 <p>A második elkészítendő képernyőnk az alkalmazás "főképernyője", amit sikeres bejelentkezés után lát a felhasználó. Viszont itt már részben érintenünk kell a képernyők közti navigáció kérdését is, hiszen a képernyőnek lesz egy menüje, ahonnan majd más képernyőkre lehet navigálni. </p>
-<p>Ehhez hozzunk létre egy <code>navigation</code> package-et, és ebbe kerüljön az alábbi <code>Screen</code> osztály. Ahhoz, hogy ne sztring összehasonlítás alapján navigáljunk, ebben az osztályban felvesszük az egyes képernyőink navigációs útvonalát "konstansként". <code>sealed class</code>-t alkalmazunk a lehetséges képernyők leírására, mert csak előre megadott számú képernyőnk van, és a főképernyő argumentumot is kaphat. A <code>sealed class</code> kicsit hasonlít az <code>enumhoz</code>, de támogatja ezt a fontos különbséget is. </p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.navigation</span>
+<p>Ehhez hozzunk létre egy <code>navigation</code> package-et, és ebbe kerüljön az alábbi <code>Screen</code> <em>interface</em>. Ahhoz, hogy ne sztring összehasonlítás alapján navigáljunk, ebben az osztályban felvesszük az egyes képernyőink navigációs útvonalát "konstansként". <code>sealed interface</code>-t alkalmazunk a lehetséges képernyők leírására, mert csak előre megadott számú képernyőnk van, és a főképernyő argumentumot is kaphat. A <code>sealed interface</code> kicsit hasonlít az <code>enumhoz</code>, de támogatja ezt a fontos különbséget is. </p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.navigation</span>
 
-<span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Screen</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">route</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">object</span><span class="w"> </span><span class="nc">Login</span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"login"</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">object</span><span class="w"> </span><span class="nc">Home</span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"home/{</span><span class="si">${</span><span class="n">Args</span><span class="p">.</span><span class="na">username</span><span class="si">}</span><span class="s">}"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kd">fun</span><span class="w"> </span><span class="nf">passUsername</span><span class="p">(</span><span class="n">username</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"home/</span><span class="si">$</span><span class="n">username</span><span class="s">"</span>
-<span class="w">        </span><span class="kd">object</span><span class="w"> </span><span class="nc">Args</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">username</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"username"</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="kd">object</span><span class="w"> </span><span class="nc">Profile</span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"profile"</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">object</span><span class="w"> </span><span class="nc">Settings</span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"settings"</span><span class="p">)</span>
+<span class="kd">sealed</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Screen</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">NavKey</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Serializable</span>
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="nc">LoginScreenDestination</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span>
+<span class="w">    </span><span class="nd">@Serializable</span>
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">HomeScreenDestination</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">userName</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span>
+<span class="w">    </span><span class="nd">@Serializable</span>
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="nc">ProfileScreenDestination</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span>
+<span class="w">    </span><span class="nd">@Serializable</span>
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="nc">SettingsScreenDestination</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span>
 <span class="p">}</span>
 </code></pre></div>
 <div class="admonition info">
-<p class="admonition-title">sealed class</p>
-<p>A Kotlin sealed class-ai olyan osztályok, amelyekből korlátozott az öröklés, és fordítási időben minden leszármazott osztálya ismert. Ezeket az osztályokat az enumokhoz hasonló módon tudjuk alkalmazni. Jelen esetben a <code>Home</code> valójában nem a <code>Screen</code> közvetlen leszármazottja, hanem anonim leszármazott osztálya, mivel a felhasználónév paraméterként történő kezelését is tartalmazza.</p>
+<p class="admonition-title">sealed interface</p>
+<p>A Kotlin sealed <em>interface</em>-ei olyan osztályok, amelyekből korlátozott az öröklés, és fordítási időben minden leszármazott osztálya ismert. Ezeket az osztályokat az enumokhoz hasonló módon tudjuk alkalmazni. Jelen esetben a <code>Home</code> valójában nem a <code>Screen</code> közvetlen leszármazottja, hanem anonim leszármazott osztálya, mivel a felhasználónév paraméterként történő kezelését is tartalmazza.</p>
 </div>
 <p>Maga a főképernyő egy <code>screen.home</code> subpackage-be kerüljön. Először itt is egy segédosztályt hozunk létre a <code>menu</code> package-ben. Jelen esetben a menüpontokat fogjuk enumban modellezni. Minden menüpontra jellemző a neve, az ikonja, illetve egy azonosító, ahova navigál:</p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.screen.home.menu</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.screen.home.menu</span>
 
 <span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">MenuItemUiModel</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">text</span><span class="p">:</span><span class="w"> </span><span class="nd">@Composable</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">icon</span><span class="p">:</span><span class="w"> </span><span class="nd">@Composable</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">screenRoute</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">screenRoute</span><span class="p">:</span><span class="w"> </span><span class="n">NavKey</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">PROFILE</span><span class="p">(</span>
-<span class="w">        </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">dropdown_menu_item_label_profile</span><span class="p">))},</span>
+<span class="w">        </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">dropdown_menu_item_label_profile</span><span class="p">))</span><span class="w"> </span><span class="p">},</span>
 <span class="w">        </span><span class="n">icon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">Icon</span><span class="p">(</span><span class="n">imageVector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Icons</span><span class="p">.</span><span class="na">Default</span><span class="p">.</span><span class="na">Person</span><span class="p">,</span><span class="w"> </span><span class="n">contentDescription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span>
 <span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="n">screenRoute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">Profile</span><span class="p">.</span><span class="na">route</span>
+<span class="w">        </span><span class="n">screenRoute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">ProfileScreenDestination</span>
 <span class="w">    </span><span class="p">),</span>
 <span class="w">    </span><span class="n">SETTINGS</span><span class="p">(</span>
-<span class="w">        </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">dropdown_menu_item_label_settings</span><span class="p">))},</span>
+<span class="w">        </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stringResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">string</span><span class="p">.</span><span class="na">dropdown_menu_item_label_settings</span><span class="p">))</span><span class="w"> </span><span class="p">},</span>
 <span class="w">        </span><span class="n">icon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">Icon</span><span class="p">(</span><span class="n">imageVector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Icons</span><span class="p">.</span><span class="na">Default</span><span class="p">.</span><span class="na">Settings</span><span class="p">,</span><span class="w"> </span><span class="n">contentDescription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span>
 <span class="w">        </span><span class="p">},</span>
-<span class="w">        </span><span class="n">screenRoute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">Settings</span><span class="p">.</span><span class="na">route</span>
+<span class="w">        </span><span class="n">screenRoute</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">SettingsScreenDestination</span>
 <span class="w">    </span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>A menüben szerepelnek profil és beállítás lehetőségek is, amelyekről korábban nem volt szó. Ezek nem lesznek igazi kidolgozott képernyők, de példaképp szerepelnek itt, hogy bemutassuk, hogyan lehetne a főmenüből további oldalakra is elnavigálni. Látható, hogy itt a menüpontoknál meghivatkoztuk a korábban a <code>Screen</code> osztályban definiált képernyőket is. A leírt menüpontokból még fel kell építenünk a menüt is. Elvileg ezt megtehetnénk a teljes főképernyő részeként, de átláthatóbb struktúrát kapunk, ha ezt külön composable komponensbe szervezzük. Ahogyan általában véve a metódusoknál sem átlátható a túl hosszú, úgy a felületi komponenseinket is érdemes kisebb, jobban kezelhető egységekre osztani. Készítsünk tehát egy <code>Menu</code> komponenst:</p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.screen.home.menu</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.screen.home.menu</span>
 
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">Menu</span><span class="p">(</span>
 <span class="w">    </span><span class="n">expanded</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
 <span class="w">    </span><span class="n">items</span><span class="p">:</span><span class="w"> </span><span class="n">Array</span><span class="o">&lt;</span><span class="n">MenuItemUiModel</span><span class="o">&gt;</span><span class="p">,</span>
 <span class="w">    </span><span class="n">onDismissRequest</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
-<span class="w">    </span><span class="n">onClick</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
+<span class="w">    </span><span class="n">onClick</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">NavKey</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
 <span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">DropdownMenu</span><span class="p">(</span>
@@ -1476,15 +1578,15 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 </code></pre></div>
 <p>Látjuk, hogy a menüelemek látrehozása is ciklussal történik, és a menüpontok igen könnyen bővíthetőek. A bejárásnál a menüpontok indexét is felhasználjuk, hogy a menüpontok után - az utolsó kivételével - elválasztót is generáljunk.</p>
 <p>Most rátérhetünk a tényleges főképernyő létrehozására:</p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.screen.home</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.screen.home</span>
 
 <span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">HomeScreen</span><span class="p">(</span>
-<span class="w">    </span><span class="n">argument</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">    </span><span class="n">userName</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
 <span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
 <span class="w">    </span><span class="n">onLogout</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
-<span class="w">    </span><span class="n">onMenuItemClick</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span>
+<span class="w">    </span><span class="n">onMenuItemClick</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">NavKey</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">snackbarHostState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">SnackbarHostState</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
@@ -1541,7 +1643,7 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <span class="w">                </span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">(),</span>
 <span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">Text</span><span class="p">(</span>
-<span class="w">                </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Hello, </span><span class="si">$</span><span class="n">argument</span><span class="s">!"</span><span class="p">,</span>
+<span class="w">                </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Hello, </span><span class="si">$</span><span class="n">userName</span><span class="s">!"</span><span class="p">,</span>
 <span class="w">                </span><span class="n">textAlign</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TextAlign</span><span class="p">.</span><span class="na">Center</span><span class="p">,</span>
 <span class="w">                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">align</span><span class="p">(</span><span class="n">Alignment</span><span class="p">.</span><span class="na">Center</span><span class="p">)</span>
 <span class="w">            </span><span class="p">)</span>
@@ -1571,7 +1673,7 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">HomeScreenPreview</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">HomeScreen</span><span class="p">(</span>
-<span class="w">        </span><span class="n">argument</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Felhasználó"</span><span class="p">,</span>
+<span class="w">        </span><span class="n">userName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Felhasználó"</span><span class="p">,</span>
 <span class="w">        </span><span class="n">onLogout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
 <span class="w">        </span><span class="n">onMenuItemClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{}</span>
 <span class="w">    </span><span class="p">)</span>
@@ -1579,63 +1681,63 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 </code></pre></div>
 <h2 id="a-kepernyok-kozotti-navigacio-elkeszitese">A képernyők közötti navigáció elkészítése<a class="headerlink" href="#a-kepernyok-kozotti-navigacio-elkeszitese" title="Permanent link">¶</a></h2>
 <p>Most már csak össze kell kötnünk a meglévő képernyőket a navigációs szabályokkal. Ehhez egy navigációs gráfokat fogunk definiálni. Ezt a korábban létrehozott <code>navigation</code> package-be tegyük:</p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.navigation</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.navigation</span>
 
 <span class="nd">@Composable</span>
-<span class="kd">fun</span><span class="w"> </span><span class="nf">NavGraph</span><span class="p">(</span>
-<span class="w">    </span><span class="n">navController</span><span class="p">:</span><span class="w"> </span><span class="n">NavHostController</span>
-<span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">NavHost</span><span class="p">(</span>
-<span class="w">        </span><span class="n">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">navController</span><span class="p">,</span>
-<span class="w">        </span><span class="n">startDestination</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">Login</span><span class="p">.</span><span class="na">route</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">composable</span><span class="p">(</span>
-<span class="w">            </span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">Login</span><span class="p">.</span><span class="na">route</span>
-<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">LoginScreen</span><span class="p">(</span>
-<span class="w">                </span><span class="n">onLoginClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">navController</span><span class="p">.</span><span class="na">navigate</span><span class="p">(</span><span class="n">Screen</span><span class="p">.</span><span class="na">Home</span><span class="p">.</span><span class="na">passUsername</span><span class="p">(</span><span class="nb">it</span><span class="p">))</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">AppNavigation</span><span class="p">(</span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">backStack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateListOf</span><span class="o">&lt;</span><span class="n">Screen</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Screen</span><span class="p">.</span><span class="na">LoginScreenDestination</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">NavDisplay</span><span class="p">(</span>
+<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span><span class="p">,</span>
+<span class="w">        </span><span class="n">backStack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">backStack</span><span class="p">,</span>
+<span class="w">        </span><span class="n">onBack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">backStack</span><span class="p">.</span><span class="na">removeLastOrNull</span><span class="p">()</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="n">entryProvider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entryProvider</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="n">entry</span><span class="o">&lt;</span><span class="n">Screen</span><span class="p">.</span><span class="na">LoginScreenDestination</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">LoginScreen</span><span class="p">(</span><span class="n">onLoginClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">backStack</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">Screen</span><span class="p">.</span><span class="na">LoginScreenDestination</span><span class="p">)</span>
+<span class="w">                    </span><span class="n">backStack</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Screen</span><span class="p">.</span><span class="na">HomeScreenDestination</span><span class="p">(</span><span class="n">userName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">))</span>
+<span class="w">                </span><span class="p">})</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="n">entry</span><span class="o">&lt;</span><span class="n">Screen</span><span class="p">.</span><span class="na">HomeScreenDestination</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">                </span><span class="n">HomeScreen</span><span class="p">(</span>
+<span class="w">                    </span><span class="n">userName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">key</span><span class="p">.</span><span class="na">userName</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">onLogout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">backStack</span><span class="p">.</span><span class="na">removeLastOrNull</span><span class="p">()</span><span class="w"> </span><span class="p">},</span>
+<span class="w">                    </span><span class="n">onMenuItemClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">backStack</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="nb">it</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">Screen</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="w">                </span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="n">entry</span><span class="o">&lt;</span><span class="n">Screen</span><span class="p">.</span><span class="na">ProfileScreenDestination</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Box</span><span class="p">(</span>
+<span class="w">                    </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">(),</span>
+<span class="w">                    </span><span class="n">contentAlignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alignment</span><span class="p">.</span><span class="na">Center</span>
+<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Profile"</span><span class="p">)</span>
 <span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">)</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="n">composable</span><span class="p">(</span>
-<span class="w">            </span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">Home</span><span class="p">.</span><span class="na">route</span><span class="p">,</span>
-<span class="w">            </span><span class="n">arguments</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">listOf</span><span class="p">(</span>
-<span class="w">                </span><span class="n">navArgument</span><span class="p">(</span><span class="n">Screen</span><span class="p">.</span><span class="na">Home</span><span class="p">.</span><span class="na">Args</span><span class="p">.</span><span class="na">username</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NavType</span><span class="p">.</span><span class="na">StringType</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="n">entry</span><span class="o">&lt;</span><span class="n">Screen</span><span class="p">.</span><span class="na">SettingsScreenDestination</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Box</span><span class="p">(</span>
+<span class="w">                    </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">(),</span>
+<span class="w">                    </span><span class="n">contentAlignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alignment</span><span class="p">.</span><span class="na">Center</span>
+<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Settings"</span><span class="p">)</span>
 <span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">)</span>
-<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">HomeScreen</span><span class="p">(</span>
-<span class="w">                </span><span class="n">argument</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">navController</span><span class="p">.</span><span class="na">currentBackStackEntry</span><span class="o">?.</span><span class="na">arguments</span>
-<span class="w">                    </span><span class="o">?.</span><span class="na">getString</span><span class="p">(</span><span class="n">Screen</span><span class="p">.</span><span class="na">Home</span><span class="p">.</span><span class="na">Args</span><span class="p">.</span><span class="na">username</span><span class="p">)</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="s">""</span><span class="p">,</span>
-<span class="w">                </span><span class="n">onLogout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">navController</span><span class="p">.</span><span class="na">popBackStack</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">Login</span><span class="p">.</span><span class="na">route</span><span class="p">,</span><span class="w"> </span><span class="n">inclusive</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
-<span class="w">                </span><span class="p">},</span>
-<span class="w">                </span><span class="n">onMenuItemClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">navController</span><span class="p">.</span><span class="na">navigate</span><span class="p">(</span><span class="nb">it</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
-<span class="w">            </span><span class="p">)</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="n">composable</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">Profile</span><span class="p">.</span><span class="na">route</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">Box</span><span class="p">(</span>
-<span class="w">                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">(),</span>
-<span class="w">                </span><span class="n">contentAlignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alignment</span><span class="p">.</span><span class="na">Center</span>
-<span class="w">            </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Profile"</span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="n">composable</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">Settings</span><span class="p">.</span><span class="na">route</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">Box</span><span class="p">(</span>
-<span class="w">                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">(),</span>
-<span class="w">                </span><span class="n">contentAlignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alignment</span><span class="p">.</span><span class="na">Center</span>
-<span class="w">            </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Settings"</span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>A kódból azt tudjuk megállapítani, hogy a navigációs gráf a bejelentkeztetési képernyőn kezdődik. A navigációban <em>composable</em> felületi elemeket adhatunk meg: mindegyikhez tartozik egy-egy útvonal, ezekhez a <code>Screen</code> osztályból hivatkozzuk meg a megfelelő útvonalat. Látható, hogy a hierarchikusan összeállított felhasználói felületek "utolsó" paraméterei itt kapnak konkrét értétet. Konkrétan a bejelentkezés gomb eseménykezelője van itt lambda-kifejezésként megadva. Ez a lambda-kifejezés valójában a navigációs kontrollert hívja meg, és azzal navigáltat a megfelelő útvonalra, amit a kontroller a navigációs gráf alapján felold. Azt is láthatjuk, hogy tényleges bejelentkeztető logika itt nem történik, de ha erre lenne szükségünk, azt itt megtehetnénk, hiszen itt van megadva a bejelentkezés gomb eseménykezelője.</p>
-<p>Figyeljük meg, hogy a bejelentkezés után a főképernyő útvonalába a felhasználónevet mint paramétert is belekódoljuk, hogy aztán a gráfban a <em>Home Screenre</em> kinyerjük azt. Illetve azt is megállapíthatjuk, hogy a főképernyőre érkezve a backstackről törlődik a bejelentkeztető képernyő útvonala. Ez így logikus, hiszen ha már sikeresen beléptünk, nem szeretnénk, hogy a back gombra kattintva véletlen kilépjünk az alkalmazásból. A gráfban a profil és beállítás oldalak nincsenek kidolgozva, ezért ide csak egy-egy <code>Box</code> elemet vettünk fel placeholder szöveggel.</p>
+<p>Az AppNavigation függvényünkben először létrehozunk egy backStack-et, ami a navigációs célpontjainkat fogja tartalmazni. Látható, hogy igazából bármi belepakolható lenne ebbe a listába, de mi jelenleg ezt <em>Screen</em>-ekre korlátozzuk, és az egyetlen létező célpontunkat, a LoginScreenDestination-t raktuk bele. Ezek után a NavDisplay függvényparamétereként beállítuk:</p>
+<ul>
+<li>a modifier dekorátort,</li>
+<li>az imént létrehozott backstack-et</li>
+<li>azt a viselkedést, amit a vissza gomb hatására végre kell hajtani (jelen esetben levenni a backstack felső elemét),</li>
+<li>illetve magát a navigációs logikát, ahol attól függően, hogy melyik "állomás"-on vagyöunk, megjelenítünk valamit (jelen esetben a LoginScreenDestination esetén a LoginScreen-t.</li>
+</ul>
+<p>A kódból azt tudjuk megállapítani, hogy a navigáció a bejelentkeztetési képernyőn kezdődik. A navigációban navigációs bejegyzéseket adhatunk meg: mindegyikhez tartozik egy-egy "állomás", ezekhez a <code>Screen</code> osztályból hivatkozzuk meg a megfelelő útvonalat. Látható, hogy a hierarchikusan összeállított felhasználói felületek "utolsó" paraméterei itt kapnak konkrét értétet. Konkrétan a bejelentkezés gomb eseménykezelője van itt lambda-kifejezésként megadva. Ez a lambda-kifejezés valójában a backStack-et módosítja, és azzal navigáltat a megfelelő állomásra. Azt is láthatjuk, hogy tényleges bejelentkeztető logika itt nem történik, de ha erre lenne szükségünk, azt itt megtehetnénk, hiszen itt van megadva a bejelentkezés gomb eseménykezelője.</p>
+<p>Figyeljük meg, hogy a bejelentkezés után a főképernyő hogyan kapja meg a felhasználónevet mint paramétert, illetve a <code>Home Screen</code>-en hogyan nyerjük azt ki . Láthatjuk azt is, hogy a főképernyőre érkezve a backstackről törlődik a bejelentkeztető képernyő útvonala. A navigációban a profil és beállítás oldalak nincsenek kidolgozva, ezért ide csak egy-egy <code>Box</code> elemet vettünk fel placeholder szöveggel.</p>
 <p>Már csak a <code>MainActivity</code>-be kell bekötnünk a navigáció szerint feloldott felület megjelenítését. Itt történik az alkalmazás témájának a megadása is:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics</span>
 
@@ -1653,14 +1755,11 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">ComposeBasicsScreen</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">ComposeBasicsTheme</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberNavController</span><span class="p">()</span>
-<span class="w">        </span><span class="n">Box</span><span class="p">(</span>
+<span class="w">        </span><span class="n">AppNavigation</span><span class="p">(</span>
 <span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
 <span class="w">                </span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">()</span>
 <span class="w">                </span><span class="p">.</span><span class="na">safeDrawingPadding</span><span class="p">()</span>
-<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">NavGraph</span><span class="p">(</span><span class="n">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">navController</span><span class="p">)</span>
-<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -1709,8 +1808,8 @@ Próbáld ki így az alkalmazást!</p>
           </path>
         </svg>
       </span>
-      <span title="2025. március 10. 18:32:07">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. március 10. 18:32:07 CET"><span class="timeago" datetime="2025-03-10T18:32:07+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. március 10. 18:32:07 CET">2025-03-10</span>
+      <span title="2025. október 14. 04:23:43">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. október 14. 04:23:43 CEST"><span class="timeago" datetime="2025-10-14T04:23:43+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. október 14. 04:23:43 CEST">2025-10-14</span>
       </span>
     </span>
 

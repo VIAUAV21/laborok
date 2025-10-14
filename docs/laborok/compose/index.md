@@ -74,24 +74,19 @@ A `strings.xml` fájl működését már ismerjük, töltsük fel ezt előre a k
 
 Az Android Studio a projekt létrehozásakor felveszi ugyan a *Compose*-t a függésegek közé, de némileg elavult verziókat használ. Frissítsük a modul szintű `build.gradle.kts` fájlban a függőségeket az alábbiakra, majd szinkronizáljuk is a projektet:
 
-!!!info "Gradle Version Catalogs"
-	Az *Android Studio Iguana*-tól vagy *Gradle 8.3*-tól kezdődően a függőségek kezelésére a *Gradle* bevezette a `Version Catalog`-ot.	
-
-	A Gradle Version Catalogs lehetővé teszi a függőségek és bővítmények skálázható módon történő hozzáadását és karbantartását a projekthez. Ahelyett, hogy a függőségeket és verziókat az egyes build fájlokban beégetnénk, egy központi katalógusban definiáljuk őket, és az egyes modulokban csak hivatkozunk rájuk. Így frissítés esetén elég egy helyen átírnunk például a verziószámot.
-
 A függőségeink a Version Catalogban (`libs.version.toml`):
 
 ```gradle
 [versions]
-agp = "8.8.2"
-kotlin = "2.1.10"
-coreKtx = "1.15.0"
+agp = "8.12.3"
+kotlin = "2.2.20"
+coreKtx = "1.17.0"
 junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.7"
-activityCompose = "1.10.1"
-composeBom = "2025.02.00"
+junitVersion = "1.3.0"
+espressoCore = "3.7.0"
+lifecycleRuntimeKtx = "2.9.4"
+activityCompose = "1.11.0"
+composeBom = "2025.10.00"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -138,39 +133,69 @@ dependencies {
 }
 ```
 
-A fenti függőségekhez 35-ös SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű `build.gradle.kts` fájlunkban:
+A fenti függőségekhez 36-os SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű `build.gradle.kts` fájlunkban:
 
 ```gradle
-    compileSdk = 35
+    compileSdk = 36
 ```
 
 
 ## Függőség felvétele
 
-Az általunk használni kívánt ikonokhoz szükségünk van a `Material Icons Extended` modulra, valamint a navigációhoz a [`Navigation Component`](https://developer.android.com/guide/navigation)-re.
+Az általunk használni kívánt ikonokhoz szükségünk van a `Material Icons Extended` modulra, valamint a navigációhoz a [`Navigation 3`](https://developer.android.com/guide/navigation/navigation-3)-re.
 
 Vegyük fel a szükséges referenciákat a `libs.versions.toml` fájlba:
 
 ```gradle
 [versions]
-materialIconsExtended = "1.7.8"
-navigationCompose = "2.8.8"
+nav3Core = "1.0.0-alpha11"
+kotlinSerialization = "2.2.20"
+kotlinxSerializationCore = "1.9.0"
 ...
 
 [libraries]
-androidx-material-icons-extended = { group = "androidx.compose.material", name="material-icons-extended", version.ref="materialIconsExtended"}
-androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+androidx-material-icons-extended = { group = "androidx.compose.material", name="material-icons-extended" }
+
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
+...
+
+[plugins]
+jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization"}
 ...
 ```
 
 Majd a függőséget a modul szintű `build.gradle.kts` fájlba:
 
 ```gradle
-implementation(libs.androidx.material.icons.extended)
-implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.material.icons.extended)
+    
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.kotlinx.serialization.core)
 ...
 ```
 
+Ezen kívül kapcsoljuk be a *serialization* *plugint* a `build.gradle.kts`-ben:
+
+Projekt szintű `build.gradle.kts`:
+
+```kts
+plugins {
+    alias(libs.plugins.jetbrains.kotlin.serialization) apply false
+	...
+}
+```
+
+Modul szintű `build.gradle.kts`:
+
+```kts
+plugins {
+    alias(libs.plugins.jetbrains.kotlin.serialization)
+	...
+}
+```
 
 ## Elemi UI építőelemek elkészítése
 
@@ -179,6 +204,8 @@ A fenti képeken látható, hogy a bejelentkeztetési form egyedi kinézetű sz�
 Készítsünk először egy igen általános szövegmezőt, amelyet majd az éppen aktuális igényeknek megfelelően gazdagon tudunk paraméterezni. Tulajdonképpen a rendszer részét képező `TextField` is sokrétű funkcionalitással rendelkezik, azonban szeretnénk egy magasabb szintű komponenst, amely számunkra könnyebben használható, és a hibajelzés megjelenítését is megoldja.
 
 Először hozzunk létre ehhez egy `hu.bme.aut.android.composebasics.ui.common` *package*-et. Ebbe fognak kerülni az alapvető fontosságú UI építőelemeink.
+
+### NormalTextField
 
 Ezen belül készítsünk egy `NormalTextField` komponenst a következő tartalommal:
 
@@ -296,6 +323,8 @@ fun NormalTextViewErrorPreview() {
 	A képet a megoldásban a repository-ba f1.png néven töltsd föl.
 
 
+### PasswordTextField
+
 A fentihez hasonlóan a `ui.common` package-be készítsünk egy újabb komponenst `PasswordTextField` néven az alábbi tartalommal:
 
 ```kotlin
@@ -388,12 +417,14 @@ Ez a komponens csak két apró dologban tér el az előzőtől:
 
 ## Az alkalmazás fő képernyőinek elkészítése
 
+### LoginScreen
+
 Most, hogy a képernyők minden fontos alkotórésze a rendelkezésünkre áll, elkezdhetjük maguknak a képernyőknek az elkészítését. Kezdjük a bejelentkező képernyővel!
 
-A képernyőknek és a hozzájuk kapcsolódó kódoknak hozzunk létre egy közös `hu.bme.aut.android.composebasics.screen` package-et, majd ezen belül a bejelentkező képernyő a `login` package-be kerüljön! Készítsük el a képernyő kódját `LoginScreen` néven, majd adjuk meg a következő kódot:
+A képernyőknek és a hozzájuk kapcsolódó kódoknak hozzunk létre egy közös `hu.bme.aut.android.composebasics.ui.screen` package-et, majd ezen belül a bejelentkező képernyő a `login` package-be kerüljön! Készítsük el a képernyő kódját `LoginScreen` néven, majd adjuk meg a következő kódot:
 
 ```kotlin
-package hu.bme.aut.android.composebasics.screen.login
+package hu.bme.aut.android.composebasics.ui.screen.login
 
 @Composable
 fun LoginScreen(
@@ -506,52 +537,53 @@ fun LoginScreenPreview() {
 
 	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
 
+### HomeScreen
+
 A második elkészítendő képernyőnk az alkalmazás "főképernyője", amit sikeres bejelentkezés után lát a felhasználó. Viszont itt már részben érintenünk kell a képernyők közti navigáció kérdését is, hiszen a képernyőnek lesz egy menüje, ahonnan majd más képernyőkre lehet navigálni. 
 
-Ehhez hozzunk létre egy `navigation` package-et, és ebbe kerüljön az alábbi `Screen` osztály. Ahhoz, hogy ne sztring összehasonlítás alapján navigáljunk, ebben az osztályban felvesszük az egyes képernyőink navigációs útvonalát "konstansként". `sealed class`-t alkalmazunk a lehetséges képernyők leírására, mert csak előre megadott számú képernyőnk van, és a főképernyő argumentumot is kaphat. A `sealed class` kicsit hasonlít az `enumhoz`, de támogatja ezt a fontos különbséget is. 
+Ehhez hozzunk létre egy `navigation` package-et, és ebbe kerüljön az alábbi `Screen` *interface*. Ahhoz, hogy ne sztring összehasonlítás alapján navigáljunk, ebben az osztályban felvesszük az egyes képernyőink navigációs útvonalát "konstansként". `sealed interface`-t alkalmazunk a lehetséges képernyők leírására, mert csak előre megadott számú képernyőnk van, és a főképernyő argumentumot is kaphat. A `sealed interface` kicsit hasonlít az `enumhoz`, de támogatja ezt a fontos különbséget is. 
 
 ```kotlin
-package hu.bme.aut.android.composebasics.navigation
+package hu.bme.aut.android.composebasics.ui.navigation
 
-sealed class Screen(val route: String) {
-    object Login: Screen(route = "login")
-    object Home: Screen(route = "home/{${Args.username}}") {
-        fun passUsername(username: String) = "home/$username"
-        object Args {
-            const val username = "username"
-        }
-    }
-    object Profile: Screen(route = "profile")
-    object Settings: Screen(route = "settings")
+sealed interface Screen : NavKey {
+    @Serializable
+    data object LoginScreenDestination : Screen
+    @Serializable
+    data class HomeScreenDestination(val userName: String) : Screen
+    @Serializable
+    data object ProfileScreenDestination : Screen
+    @Serializable
+    data object SettingsScreenDestination : Screen
 }
 ```
 
-!!! info "sealed class"
-	A Kotlin sealed class-ai olyan osztályok, amelyekből korlátozott az öröklés, és fordítási időben minden leszármazott osztálya ismert. Ezeket az osztályokat az enumokhoz hasonló módon tudjuk alkalmazni. Jelen esetben a `Home` valójában nem a `Screen` közvetlen leszármazottja, hanem anonim leszármazott osztálya, mivel a felhasználónév paraméterként történő kezelését is tartalmazza.
+!!! info "sealed interface"
+	A Kotlin sealed *interface*-ei olyan osztályok, amelyekből korlátozott az öröklés, és fordítási időben minden leszármazott osztálya ismert. Ezeket az osztályokat az enumokhoz hasonló módon tudjuk alkalmazni. Jelen esetben a `Home` valójában nem a `Screen` közvetlen leszármazottja, hanem anonim leszármazott osztálya, mivel a felhasználónév paraméterként történő kezelését is tartalmazza.
 
 Maga a főképernyő egy `screen.home` subpackage-be kerüljön. Először itt is egy segédosztályt hozunk létre a `menu` package-ben. Jelen esetben a menüpontokat fogjuk enumban modellezni. Minden menüpontra jellemző a neve, az ikonja, illetve egy azonosító, ahova navigál:
 
 ```kotlin
-package hu.bme.aut.android.composebasics.screen.home.menu
+package hu.bme.aut.android.composebasics.ui.screen.home.menu
 
 enum class MenuItemUiModel(
     val text: @Composable () -> Unit,
     val icon: @Composable () -> Unit,
-    val screenRoute: String
+    val screenRoute: NavKey
 ) {
     PROFILE(
-        text = { Text(text = stringResource(id = R.string.dropdown_menu_item_label_profile))},
+        text = { Text(text = stringResource(id = R.string.dropdown_menu_item_label_profile)) },
         icon = {
             Icon(imageVector = Icons.Default.Person, contentDescription = null)
         },
-        screenRoute = Screen.Profile.route
+        screenRoute = Screen.ProfileScreenDestination
     ),
     SETTINGS(
-        text = { Text(text = stringResource(id = R.string.dropdown_menu_item_label_settings))},
+        text = { Text(text = stringResource(id = R.string.dropdown_menu_item_label_settings)) },
         icon = {
             Icon(imageVector = Icons.Default.Settings, contentDescription = null)
         },
-        screenRoute = Screen.Settings.route
+        screenRoute = Screen.SettingsScreenDestination
     )
 }
 ```
@@ -559,14 +591,14 @@ enum class MenuItemUiModel(
 A menüben szerepelnek profil és beállítás lehetőségek is, amelyekről korábban nem volt szó. Ezek nem lesznek igazi kidolgozott képernyők, de példaképp szerepelnek itt, hogy bemutassuk, hogyan lehetne a főmenüből további oldalakra is elnavigálni. Látható, hogy itt a menüpontoknál meghivatkoztuk a korábban a `Screen` osztályban definiált képernyőket is. A leírt menüpontokból még fel kell építenünk a menüt is. Elvileg ezt megtehetnénk a teljes főképernyő részeként, de átláthatóbb struktúrát kapunk, ha ezt külön composable komponensbe szervezzük. Ahogyan általában véve a metódusoknál sem átlátható a túl hosszú, úgy a felületi komponenseinket is érdemes kisebb, jobban kezelhető egységekre osztani. Készítsünk tehát egy `Menu` komponenst:
 
 ```kotlin
-package hu.bme.aut.android.composebasics.screen.home.menu
+package hu.bme.aut.android.composebasics.ui.screen.home.menu
 
 @Composable
 fun Menu(
     expanded: Boolean,
     items: Array<MenuItemUiModel>,
     onDismissRequest: () -> Unit,
-    onClick: (String) -> Unit,
+    onClick: (NavKey) -> Unit,
     modifier: Modifier = Modifier
 ) {
     DropdownMenu(
@@ -596,15 +628,15 @@ Látjuk, hogy a menüelemek látrehozása is ciklussal történik, és a menüpo
 Most rátérhetünk a tényleges főképernyő létrehozására:
 
 ```kotlin
-package hu.bme.aut.android.composebasics.screen.home
+package hu.bme.aut.android.composebasics.ui.screen.home
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    argument: String,
+    userName: String,
     modifier: Modifier = Modifier,
     onLogout: () -> Unit,
-    onMenuItemClick: (String) -> Unit
+    onMenuItemClick: (NavKey) -> Unit
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -661,7 +693,7 @@ fun HomeScreen(
                 .fillMaxSize(),
         ) {
             Text(
-                text = "Hello, $argument!",
+                text = "Hello, $userName!",
                 textAlign = TextAlign.Center,
                 modifier = Modifier.align(Alignment.Center)
             )
@@ -690,7 +722,7 @@ Nézzük meg, hogyan fest az elkészített főképernyő:
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
-        argument = "Felhasználó",
+        userName = "Felhasználó",
         onLogout = {},
         onMenuItemClick = {}
     )
@@ -702,65 +734,65 @@ fun HomeScreenPreview() {
 Most már csak össze kell kötnünk a meglévő képernyőket a navigációs szabályokkal. Ehhez egy navigációs gráfokat fogunk definiálni. Ezt a korábban létrehozott `navigation` package-be tegyük:
 
 ```kotlin
-package hu.bme.aut.android.composebasics.navigation
+package hu.bme.aut.android.composebasics.ui.navigation
 
 @Composable
-fun NavGraph(
-    navController: NavHostController
-) {
-    NavHost(
-        navController = navController,
-        startDestination = Screen.Login.route
-    ) {
-        composable(
-            route = Screen.Login.route
-        ) {
-            LoginScreen(
-                onLoginClick = {
-                    navController.navigate(Screen.Home.passUsername(it))
+fun AppNavigation(modifier: Modifier = Modifier) {
+    val backStack = remember { mutableStateListOf<Screen>(Screen.LoginScreenDestination) }
+
+    NavDisplay(
+        modifier = modifier,
+        backStack = backStack,
+        onBack = { backStack.removeLastOrNull() },
+        entryProvider = entryProvider {
+
+            entry<Screen.LoginScreenDestination> {
+                LoginScreen(onLoginClick = {
+                    backStack.remove(Screen.LoginScreenDestination)
+                    backStack.add(Screen.HomeScreenDestination(userName = it))
+                })
+            }
+
+            entry<Screen.HomeScreenDestination> { key ->
+                HomeScreen(
+                    userName = key.userName,
+                    onLogout = { backStack.removeLastOrNull() },
+                    onMenuItemClick = { backStack.add(it as Screen) }
+                )
+            }
+
+            entry<Screen.ProfileScreenDestination> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = "Profile")
                 }
-            )
-        }
-        composable(
-            route = Screen.Home.route,
-            arguments = listOf(
-                navArgument(Screen.Home.Args.username) {
-                    type = NavType.StringType
+            }
+
+            entry<Screen.SettingsScreenDestination> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = "Settings")
                 }
-            )
-        ) {
-            HomeScreen(
-                argument = navController.currentBackStackEntry?.arguments
-                    ?.getString(Screen.Home.Args.username) ?: "",
-                onLogout = {
-                    navController.popBackStack(route = Screen.Login.route, inclusive = false)
-                },
-                onMenuItemClick = { navController.navigate(it) }
-            )
-        }
-        composable(route = Screen.Profile.route) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Profile")
             }
         }
-        composable(route = Screen.Settings.route) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Settings")
-            }
-        }
-    }
+    )
 }
 ```
 
-A kódból azt tudjuk megállapítani, hogy a navigációs gráf a bejelentkeztetési képernyőn kezdődik. A navigációban *composable* felületi elemeket adhatunk meg: mindegyikhez tartozik egy-egy útvonal, ezekhez a `Screen` osztályból hivatkozzuk meg a megfelelő útvonalat. Látható, hogy a hierarchikusan összeállított felhasználói felületek "utolsó" paraméterei itt kapnak konkrét értétet. Konkrétan a bejelentkezés gomb eseménykezelője van itt lambda-kifejezésként megadva. Ez a lambda-kifejezés valójában a navigációs kontrollert hívja meg, és azzal navigáltat a megfelelő útvonalra, amit a kontroller a navigációs gráf alapján felold. Azt is láthatjuk, hogy tényleges bejelentkeztető logika itt nem történik, de ha erre lenne szükségünk, azt itt megtehetnénk, hiszen itt van megadva a bejelentkezés gomb eseménykezelője.
+Az AppNavigation függvényünkben először létrehozunk egy backStack-et, ami a navigációs célpontjainkat fogja tartalmazni. Látható, hogy igazából bármi belepakolható lenne ebbe a listába, de mi jelenleg ezt *Screen*-ekre korlátozzuk, és az egyetlen létező célpontunkat, a LoginScreenDestination-t raktuk bele. Ezek után a NavDisplay függvényparamétereként beállítuk:
 
-Figyeljük meg, hogy a bejelentkezés után a főképernyő útvonalába a felhasználónevet mint paramétert is belekódoljuk, hogy aztán a gráfban a *Home Screenre* kinyerjük azt. Illetve azt is megállapíthatjuk, hogy a főképernyőre érkezve a backstackről törlődik a bejelentkeztető képernyő útvonala. Ez így logikus, hiszen ha már sikeresen beléptünk, nem szeretnénk, hogy a back gombra kattintva véletlen kilépjünk az alkalmazásból. A gráfban a profil és beállítás oldalak nincsenek kidolgozva, ezért ide csak egy-egy `Box` elemet vettünk fel placeholder szöveggel.
+* a modifier dekorátort,
+* az imént létrehozott backstack-et
+* azt a viselkedést, amit a vissza gomb hatására végre kell hajtani (jelen esetben levenni a backstack felső elemét),
+* illetve magát a navigációs logikát, ahol attól függően, hogy melyik "állomás"-on vagyöunk, megjelenítünk valamit (jelen esetben a LoginScreenDestination esetén a LoginScreen-t.
+
+A kódból azt tudjuk megállapítani, hogy a navigáció a bejelentkeztetési képernyőn kezdődik. A navigációban navigációs bejegyzéseket adhatunk meg: mindegyikhez tartozik egy-egy "állomás", ezekhez a `Screen` osztályból hivatkozzuk meg a megfelelő útvonalat. Látható, hogy a hierarchikusan összeállított felhasználói felületek "utolsó" paraméterei itt kapnak konkrét értétet. Konkrétan a bejelentkezés gomb eseménykezelője van itt lambda-kifejezésként megadva. Ez a lambda-kifejezés valójában a backStack-et módosítja, és azzal navigáltat a megfelelő állomásra. Azt is láthatjuk, hogy tényleges bejelentkeztető logika itt nem történik, de ha erre lenne szükségünk, azt itt megtehetnénk, hiszen itt van megadva a bejelentkezés gomb eseménykezelője.
+
+Figyeljük meg, hogy a bejelentkezés után a főképernyő hogyan kapja meg a felhasználónevet mint paramétert, illetve a `Home Screen`-en hogyan nyerjük azt ki . Láthatjuk azt is, hogy a főképernyőre érkezve a backstackről törlődik a bejelentkeztető képernyő útvonala. A navigációban a profil és beállítás oldalak nincsenek kidolgozva, ezért ide csak egy-egy `Box` elemet vettünk fel placeholder szöveggel.
 
 Már csak a `MainActivity`-be kell bekötnünk a navigáció szerint feloldott felület megjelenítését. Itt történik az alkalmazás témájának a megadása is:
 
@@ -781,14 +813,11 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ComposeBasicsScreen() {
     ComposeBasicsTheme() {
-        val navController = rememberNavController()
-        Box(
+        AppNavigation(
             modifier = Modifier
                 .fillMaxSize()
                 .safeDrawingPadding()
-        ) {
-            NavGraph(navController = navController)
-        }
+        )
     }
 }
 ```

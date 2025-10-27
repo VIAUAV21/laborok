@@ -573,22 +573,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#a-reteges-architektura-kialakitasa" class="md-nav__link">
-    A réteges architektúra kialakítása
+  <a href="#a-reteges-architektura" class="md-nav__link">
+    A réteges architektúra
   </a>
+  
+    <nav class="md-nav" aria-label="A réteges architektúra">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-domainmodell-es-az-uzleti-logika" class="md-nav__link">
+    A domainmodell és az üzleti logika
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#a-domainmodell-es-az-uzleti-logika-elkeszitese" class="md-nav__link">
-    A domainmodell és az üzleti logika elkészítése
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#a-felhasznaloi-felulet-elkeszitese" class="md-nav__link">
-    A felhasználói felület elkészítése
+  <a href="#a-felhasznaloi-felulet" class="md-nav__link">
+    A felhasználói felület
   </a>
   
 </li>
@@ -823,22 +829,28 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#a-reteges-architektura-kialakitasa" class="md-nav__link">
-    A réteges architektúra kialakítása
+  <a href="#a-reteges-architektura" class="md-nav__link">
+    A réteges architektúra
   </a>
+  
+    <nav class="md-nav" aria-label="A réteges architektúra">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-domainmodell-es-az-uzleti-logika" class="md-nav__link">
+    A domainmodell és az üzleti logika
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#a-domainmodell-es-az-uzleti-logika-elkeszitese" class="md-nav__link">
-    A domainmodell és az üzleti logika elkészítése
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#a-felhasznaloi-felulet-elkeszitese" class="md-nav__link">
-    A felhasználói felület elkészítése
+  <a href="#a-felhasznaloi-felulet" class="md-nav__link">
+    A felhasználói felület
   </a>
   
 </li>
@@ -921,25 +933,25 @@ A labor egyúttal azt is bemutatja, hogy egy modern, összetett alkalamzás kül
 <p>A <code>neptun.txt</code> fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.</p>
 </li>
 </ol>
-<p>A Room megismeréséhez ebben a laborban egy előre elkészített projektben fogunk dolgozni, ez megtalálható a repository-n belül. Indítsuk el az Android Studio-t, majd nyissuk meg a projektet.</p>
+<p>A Room megismeréséhez ebben a laborban egy előre elkészített projektben fogunk dolgozni, ez megtalálható a repository-n belül. Indítsuk el az Android Studio-t, majd nyissuk meg a <code>ToDo</code> projektet.</p>
 <div class="admonition danger">
 <p class="admonition-title">FILE PATH</p>
 <p>A projekt a repository-ban lévő <code>Todo</code> könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!</p>
 </div>
 <p>Ellenőrízzük, hogy a létrejött projekt lefordul és helyesen működik!</p>
-<h2 id="a-reteges-architektura-kialakitasa">A réteges architektúra kialakítása<a class="headerlink" href="#a-reteges-architektura-kialakitasa" title="Permanent link">¶</a></h2>
+<h2 id="a-reteges-architektura">A réteges architektúra<a class="headerlink" href="#a-reteges-architektura" title="Permanent link">¶</a></h2>
 <p>Egy összetettebb alkalmazáson belül a kódot rétegekbe szervezzük, hogy a működés jól átlátható legyen, illetve hogy az alkalmazás egyes részei kevésbé függjenek a többitől. A réteges architektúránkban lesz egy domain modell és üzleti logika, amely a megvalósított funkcionalitás megjelenéstől és adatbáziskezeléstől független részét képezi. A felhasználói felületen bevitt adatoknak külön modellje lesz, és ezt majd át kell alakítanunk a független domain modellre. Az adatbázisba mentéshez szintén külön modellt használunk, és ebben az esetben is konverzióra lesz szükségünk a domain modell és az adatbázismodell között. Az így kialakított rétegezéssel a megjelenítés és az adatbázismodell sem függenek egymástól, csupán a független domain modelltől. Így mind a megjelenés, mind az adabáziskezelő réteg könnyebben módosítható a másiktől függetlenül.</p>
-<h2 id="a-domainmodell-es-az-uzleti-logika-elkeszitese">A domainmodell és az üzleti logika elkészítése<a class="headerlink" href="#a-domainmodell-es-az-uzleti-logika-elkeszitese" title="Permanent link">¶</a></h2>
-<p>Először a domain réteggel foglalkozunk, ez tulajdonképpen már rendelkezésre áll a <code>domain.model</code> package-ben. Ez a domain (a megoldandó feladat) nagyjából technológiafüggetlen része, amelybe még nem vegyülnek a konkrét adattárolási technológiával vagy megjelenítéssel kapcsolatos részletek. Ezzel a közbülső réteggel az alkalmazásunk komponensei lazábban csatolttá válnak, és megkönnyítik, hogy kevés módosítással lecseréljük akár az adatbáziskezelésért felelős Roomot, akár a megjelenítést. Az itt megvalósított üzleti logika műveletek nem függenek közvetlen a Roomtól, csak a reposiory komponensektől, és mivel a tennivalók független domainmodelljével dolgoznak, a megjelenítéstől is függetlenek.</p>
+<h3 id="a-domainmodell-es-az-uzleti-logika">A domainmodell és az üzleti logika<a class="headerlink" href="#a-domainmodell-es-az-uzleti-logika" title="Permanent link">¶</a></h3>
+<p>Először a domain réteggel foglalkozunk, ez tulajdonképpen már rendelkezésre áll a <code>domain.model</code> package-ben. Ez a domain (a megoldandó feladat) nagyjából technológiafüggetlen része, amelybe még nem vegyülnek a konkrét adattárolási technológiával vagy megjelenítéssel kapcsolatos részletek. Ezzel a közbülső réteggel az alkalmazásunk komponensei lazábban csatolttá válnak, és megkönnyítik, hogy kevés módosítással lecseréljük akár az adatbáziskezelésért felelős Roomot, akár a megjelenítést. Az itt megvalósított üzleti logika műveletek nem függenek közvetlen a <em>Room</em>-tól, csak a reposiory komponensektől, és mivel a tennivalók független domainmodelljével dolgoznak, a megjelenítéstől is függetlenek.</p>
 <p>Természetesen más architektúrával is lehet működőképes alkalmazást készíteni, de ez a megoldás vált Android platformon konvencionálissá, ezért ha ezt követjük, akkor könnyebben tudunk együtt dolgozni más fejlesztőkkel. A hivatalos dokumentáció is szentel ennek a kérdésnek egy fejezetet:
 <a href="https://developer.android.com/topic/architecture/domain-layer">https://developer.android.com/topic/architecture/domain-layer</a></p>
 <p>Tekintsük át a <code>domain.model</code> package-et, nézzük meg, hogyan épül fel a domainmodell!</p>
-<h2 id="a-felhasznaloi-felulet-elkeszitese">A felhasználói felület elkészítése<a class="headerlink" href="#a-felhasznaloi-felulet-elkeszitese" title="Permanent link">¶</a></h2>
+<h2 id="a-felhasznaloi-felulet">A felhasználói felület<a class="headerlink" href="#a-felhasznaloi-felulet" title="Permanent link">¶</a></h2>
 <p>Most a felhasználói felület modelljével haladunk tovább. Ezek a korábban létrehozott domainmodellhez igen hasonlatosak, de a rugalmasabb architektúra és a laza csatolás megvalósítása miatt külön modelleket készítünk a felületen megjelenített adatokhoz. Ez egy ilyen egyszerű alkalmazásnál először indokolatlan duplikációnak tűnhet, az az érzésünk, hogy bizonyos dolgokat többször implementálunk. Azonban ahogy egy alkalmazás fejlődik, bővül, egy ilyen lazán csatolt és átlátható architektúra mindenképp kifizetődővé válik.</p>
-<p>A felhasználói felület modellje is már rendelkezésre áll a kiinduló projektben. Tekintsük át a <code>ui.model</code> package-et! Ebben már rendelkezésre áll a <code>PriorityUi</code> és a <code>TodoUi</code> osztály, illetve konverziós logika is van a fájloban a domain modellbe/modellből történő konvertáláshoz. Találunk még itt egy <code>UiText</code> osztályt a felhasználói felületen megjelenő szöveges üzenetek könnyebb kezeléséhez.</p>
-<p>A fent áttekintett UI modellekre épülnek a felhasználói felület megjelenített részei. Ezek a <code>ui.common</code> package-ben már szintén rendelkezésre állnak. Tekintsük át ezeket is!</p>
-<p>Most az elemi felületi elemekkel végeztünk, most jönnek a tényleges képernyők. Ezek a <code>presentation.screen</code> package-ben vannak. Ezen belül három fő funkciót fogunk megkülönböztetni: létrehozás, listázás, megjelenítés. Ezek egy-egy subpackage-ben vannak, és a kiinduló projektben ez is mind rendelkezésre állnak. Tekintsük át ezeket is, és elevenítsük fel a funkciójukat.</p>
-<p>A felületi elemek elkészítése után gondoskodni kell a köztük történő navigációról is. Ez is már rendelkezésre áll a <code>navigation</code> package-ben. Nézzük át ezeket is!</p>
+<p>A felhasználói felület modellje is már rendelkezésre áll a kiinduló projektben. Tekintsük át a <code>ui.model</code> <em>package</em>-et! Ebben már rendelkezésre áll a <code>PriorityUi</code> és a <code>TodoUi</code> osztály, illetve konverziós logika is van a fájloban a domain modellbe/modellből történő konvertáláshoz. Találunk még itt egy <code>UiText</code> osztályt a felhasználói felületen megjelenő szöveges üzenetek könnyebb kezeléséhez.</p>
+<p>A fent áttekintett UI modellekre épülnek a felhasználói felület megjelenített részei. Ezek a <code>ui.common</code> <em>package</em>-ben már szintén rendelkezésre állnak. Tekintsük át ezeket is!</p>
+<p>Most, hogy az elemi felületi elemekkel végeztünk, jöhetnek a tényleges képernyők. Ezek a <code>ui.screen</code> <em>package</em>-ben vannak. Ezen belül három fő funkciót fogunk megkülönböztetni: létrehozás, listázás, megjelenítés. Ezek egy-egy <em>subpackage</em>-ben vannak, és a kiinduló projektben mind rendelkezésre állnak. Tekintsük át ezeket is, és elevenítsük fel a funkciójukat.</p>
+<p>A felületi elemek elkészítése után gondoskodnunk kell a köztük történő navigációról is. Ez is már rendelkezésre áll a <code>ui.navigation</code> package-ben. Nézzük át ezt is!</p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>teendők listája a futó alkalmazásban</strong>,
@@ -948,12 +960,12 @@ az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódo
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <h2 id="az-adatreteg-elkeszitese">Az adatréteg elkészítése<a class="headerlink" href="#az-adatreteg-elkeszitese" title="Permanent link">¶</a></h2>
-<p>Most elkészítjük az adatbázis kezeléséért felelős komponenseket. Most is néhol úgy tűnhet majd, hogy bizonyos dolgokat "duplán" valósítunk meg, azonban ennek az előnyei egy valós komplex alkalmazásban mindig érvényesülnek, ezért érdemes megismernünk, és használnunk ezt az architekturális szervezést.</p>
-<p>Az első lépés, hogy a Roomot mint függőséget vegyük fel a projektünkbe. Ehhez először a version catalogba vegyük fel a ksp plugint és a Roomhoz kapcsolódó függőségeket: </p>
+<p>Készítsük el az adatbázis kezeléséért felelős komponenseket. Most is néhol úgy tűnhet majd, hogy bizonyos dolgokat "duplán" valósítunk meg, azonban ennek az előnyei egy valós komplex alkalmazásban mindig érvényesülnek, ezért érdemes megismernünk, és használnunk ezt az architekturális szervezést.</p>
+<p>Az első lépés, hogy a <em>Room</em>-ot mint függőséget vegyük fel a projektünkbe. Ehhez először a <em>version catalogba</em> vegyük fel a ksp plugint és a Roomhoz kapcsolódó függőségeket: </p>
 <div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">versions</span><span class="o">]</span>
 <span class="p">...</span>
-<span class="n">ksp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"2.1.10-1.0.31"</span>
-<span class="n">room</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"2.6.1"</span>
+<span class="n">ksp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"2.2.10-2.0.2"</span>
+<span class="n">room</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"2.8.3"</span>
 
 <span class="o">[</span><span class="n">libraries</span><span class="o">]</span>
 <span class="p">...</span>
@@ -964,26 +976,36 @@ az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódo
 <span class="o">[</span><span class="n">plugins</span><span class="o">]</span>
 <span class="n">kotlin</span><span class="o">-</span><span class="n">ksp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="s">"com.google.devtools.ksp"</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"ksp"</span><span class="p">}</span>
 </code></pre></div>
-<p>Majd a projekt szintű <code>build.gradle.kts</code> fájlban állítsuk be a használni kívánt <code>ksp</code> plugint:</p>
-<div class="highlight"><pre><span></span><code><span class="n">alias</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">plugins</span><span class="p">.</span><span class="na">kotlin</span><span class="p">.</span><span class="na">ksp</span><span class="p">)</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
+<p>Majd a projekt szintű <code>build.gradle.kts</code> fájlban állítsuk be a használni kívánt <a href="https://kotlinlang.org/docs/ksp-overview.html">KSP-Kotlin Symbol Procesing</a>: plugint:</p>
+<div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="n">alias</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">plugins</span><span class="p">.</span><span class="na">kotlin</span><span class="p">.</span><span class="na">ksp</span><span class="p">)</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Majd a modul szintű <code>build.gradle.kts</code> fájlban használjuk a megadott plugint és a függőségeket:</p>
 <div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">alias</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">plugins</span><span class="p">.</span><span class="na">android</span><span class="p">.</span><span class="na">application</span><span class="p">)</span>
-<span class="w">    </span><span class="n">alias</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">plugins</span><span class="p">.</span><span class="na">kotlin</span><span class="p">.</span><span class="na">android</span><span class="p">)</span>
-<span class="w">    </span><span class="n">alias</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">plugins</span><span class="p">.</span><span class="na">kotlin</span><span class="p">.</span><span class="na">compose</span><span class="p">)</span>
+<span class="w">    </span><span class="p">...</span>
 <span class="w">    </span><span class="n">alias</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">plugins</span><span class="p">.</span><span class="na">kotlin</span><span class="p">.</span><span class="na">ksp</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>És ugyanitt vegyük is fel a Room könyvtárat:</p>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="c1">//Room</span>
+<p>Ugyanitt vegyük fel a függőségeket is:</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="c1">//Room</span>
 <span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">room</span><span class="p">.</span><span class="na">ktx</span><span class="p">)</span>
 <span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">room</span><span class="p">.</span><span class="na">runtime</span><span class="p">)</span>
 <span class="w">    </span><span class="n">ksp</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">room</span><span class="p">.</span><span class="na">compiler</span><span class="p">)</span>
 </code></pre></div>
-<p>Most szükségünk van az elmentett tennivalók adatmodelljére. Mivel a megközelítésünkben a Room könyvtárat használjuk, ez azt jelenti, hogy egy olyan osztályt készítünk, amellyel a szoftverünkben futásidőben egy teendő jól modellezhető, és ezt az osztályt megfeleltetjük az SQLite adatbázisunk egy táblájával. Ez így kényelmes, hiszen a relációs adatmodell kiforrott, közismert, ezért az adatokat gyakran táblákban akarjuk tárolni, ugyanakkor a programunkban az objektumorientált szemléletben mozgunk otthonosan, és az adatokat ezért objektumokban szeretjük tárolni. Ezeket az osztályokat a szoftverfejlesztési terminológiában entitásoknak szoktuk nevezni.</p>
+<p>Szükségünk van az elmentett tennivalók adatmodelljére. Mivel a megközelítésünkben a <em>Room</em> könyvtárat használjuk, ez azt jelenti, hogy egy olyan osztályt kell készítenünk, amellyel a szoftverünkben futásidőben egy teendő jól modellezhető. Ezt az osztályt feleltetjük meg az SQLite adatbázisunk egy táblájával. Ez így kényelmes, hiszen a relációs adatmodell kiforrott, közismert, ezért az adatokat gyakran táblákban akarjuk tárolni, ugyanakkor a programunkban az objektumorientált szemléletben mozgunk otthonosan, és az adatokat ezért objektumokban szeretjük tárolni. Ezeket az osztályokat a szoftverfejlesztési terminológiában entitásoknak szoktuk nevezni.</p>
 <p>Hozzunk létre ezért egy <code>data.entities</code> package-et, és ebbe vegyük fel a következőt:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Entity</span><span class="p">(</span><span class="n">tableName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"todo_table"</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.entities</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Entity</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.PrimaryKey</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.model.Priority</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.model.Todo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.datetime.LocalDate</span>
+
+<span class="nd">@Entity</span><span class="p">(</span><span class="n">tableName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"todo_table"</span><span class="p">)</span>
 <span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">TodoEntity</span><span class="p">(</span>
 <span class="w">    </span><span class="nd">@PrimaryKey</span><span class="p">(</span><span class="n">autoGenerate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">title</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
@@ -1008,10 +1030,25 @@ az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódo
 <span class="w">    </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">description</span>
 <span class="p">)</span>
 </code></pre></div>
-<p>Ebben a kódban a Room könyvtár annotációval meg van jelölve, hogy az osztály egy entitás lesz, és a <code>todo_table</code> nevű táblába lesznek a példányai leképezve, valamint az <code>id</code> nevű tagváltozójának megfelelő oszlop lesz az elsődleges kulcs, és ennek értékeit beszúráskor fogja egyedi értékként generálni a környezet, vagyis nem kell nekünk gondoskodnunk róla, hogy minden új teendő új egyedi azonosítót kapjon.</p>
-<p>A következő lépés, hogy az entitáshoz kapcsolódó alapműveleteket is támogassuk a Room könyvtár segítségével. Ezt egy DAO (Data Access Object) komponenssel fogjuk megvalósítani. A DAO egy - szintén nem csak Android alatt alkalmazott - tervezési minta, amelynek a lényege, hogy az egy entitáshoz kapcsolódó összes adatbázisműveleteket egy komponensbe gyűjtjük össze. Ez egyrészt jól áttekinthető, illetve ha az adatbázist le szeretnénk cserélni más technológiára, akkor elvileg elegendő lenne a DAO komponens módosítása, bár ilyen jellegű módosításra manapság általában nincs szükség.</p>
+<p>Látható, hogy a <code>TodoEntity</code> osztályunk nagyon hasonló a már korábban meglévő <code>Todo</code> osztályunkhoz néhány különbséggel:</p>
+<ul>
+<li><code>@Entity</code> annotációval meg van jelölve, hogy az osztály egy entitás lesz, és a <code>todo_table</code> nevű táblában lesznek tárolva a példányai.</li>
+<li>Az <code>id</code> nevű tagváltozója meg van jelölve a <code>@PrimaryKey</code> annotációval, ami azt jelenti, hogy az annak megfelelő oszlop lesz az elsődleges kulcs, és ennek értékeit beszúráskor fogja egyedi értékként generálni a környezet, vagyis nem kell nekünk gondoskodnunk róla, hogy minden új teendő új egyedi azonosítót kapjon.</li>
+<li>Ezek mellett a szokásos konverziós függvényeinket helyetük még el itt: <code>Todo</code>-ról <code>TodoEntity</code>-re és vissza.</li>
+</ul>
+<p>A következő lépés, hogy az entitáshoz kapcsolódó alapműveleteket is támogassuk a <em>Room</em> könyvtár segítségével. Ezt egy <em>DAO (Data Access Object)</em> komponenssel fogjuk megvalósítani. A <em>DAO</em> egy - szintén nem csak Android alatt alkalmazott - tervezési minta, amelynek a lényege, hogy az egy entitáshoz kapcsolódó összes adatbázisműveleteket egy komponensbe gyűjtjük össze. Ez egyrészt jól áttekinthető, illetve ha az adatbázist le szeretnénk cserélni más technológiára, akkor elvileg elegendő lenne a DAO komponens módosítása, bár ilyen jellegű módosításra manapság általában nincs szükség.</p>
 <p>Hozzunk létre egy <code>data.dao</code> package-et, és ebbe vegyük fel az alábbit:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Dao</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.dao</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Dao</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Insert</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.OnConflictStrategy</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Query</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Update</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.entities.TodoEntity</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.Flow</span>
+
+<span class="nd">@Dao</span>
 <span class="kd">interface</span><span class="w"> </span><span class="nc">TodoDao</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="nd">@Insert</span><span class="p">(</span><span class="n">onConflict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OnConflictStrategy</span><span class="p">.</span><span class="na">REPLACE</span><span class="p">)</span>
@@ -1030,11 +1067,18 @@ az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódo
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">deleteTodo</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Láthatjuk, hogy egyrészt maga az interfész is meg van jelölve, mint DAO komponens, másrészt az egyes műveleteken is Room annotációk vannak. A Room az annotációból, illetve az annotált metódus paramétereiből és visszatérési értékéből ki tudja következtetni a szándékunkat. Beszéljük át az egyes metódusok jelentését a gyakorlatvezetővel! Mivel ez a komponens egy interfész, ezt nem mi fogjuk implementálni, hanem a Room készíti el futásidőben az implementációját.</p>
-<p>Ezután egy repository komponenst készítünk. Ez némileg úgy tűnik, mintha nem adna hozzá túl sokat a DAO-hoz, azonban fontos célja, hogy a felsőbb rétegeket függetlenítse a Roomtól, hogy ne közvetlen attól függjenek. Tulajdonképpen a kiinduló projektben már létezik egy ilyen komponens, de ezt át kell alakítanunk, mert a korábbi
-verzió még nem használt független domén- és adatbázismodelleket.</p>
+<p>Láthatjuk, hogy egyrészt maga az <em>interface</em> is meg van jelölve, mint <em>DAO</em> komponens, másrészt az egyes műveleteken is <em>Room</em> annotációk vannak.</p>
+<p>Egy <code>@Dao</code> annotációval ellátott <em>interface</em> a <em>Room</em> kódgenerátora számára azt jelzi, hogy generálni kell az <em>interface</em>-hez egy olyan implementációt, ami a függvényeket az azokon lévő annotációk (<code>@Query</code>, <code>@Insert</code>, <code>@Update</code>, <code>@Delete</code>) alapján valósítja meg.</p>
+<p>Figyeljük meg, hogy az Android Studio a <code>@Query</code> annotáció paramétereként átadott <em>SQLite</em> scriptre is nyújt kódkiegészítést, hiba jelzést!</p>
+<p>Ezután egy <em>repository</em> komponenst készítünk. Ez némileg úgy tűnik, mintha nem adna hozzá túl sokat a <em>DAO</em>-hoz, azonban fontos célja, hogy a felsőbb rétegeket függetlenítse a <em>Room</em>-tól, hogy ne közvetlen attól függjenek. Tulajdonképpen a kiinduló projektben már létezik egy ilyen komponens, de ezt át kell alakítanunk, mert a korábbi
+verzió még nem használt független domain- és adatbázismodelleket.</p>
 <p>Az <code>ITodoRepository</code> interfészt cseréljük le az alábbira:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">interface</span><span class="w"> </span><span class="nc">ITodoRepository</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.entities.TodoEntity</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.Flow</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nc">ITodoRepository</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getAllTodos</span><span class="p">():</span><span class="w"> </span><span class="n">Flow</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">TodoEntity</span><span class="o">&gt;&gt;</span>
 
 <span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getTodoById</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">):</span><span class="w"> </span><span class="n">Flow</span><span class="o">&lt;</span><span class="n">TodoEntity</span><span class="o">&gt;</span>
@@ -1046,8 +1090,14 @@ verzió még nem használt független domén- és adatbázismodelleket.</p>
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">deleteTodo</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Majd pedig ennek az implementációját is készítsük el:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TodoRepositoryImpl</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">dao</span><span class="p">:</span><span class="w"> </span><span class="n">TodoDao</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="w"> </span><span class="p">{</span>
+<p>Majd pedig ennek <em>Room</em>-os implementációját is készítsük el:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.dao.TodoDao</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.entities.TodoEntity</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.Flow</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">RoomTodoRepository</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">dao</span><span class="p">:</span><span class="w"> </span><span class="n">TodoDao</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getAllTodos</span><span class="p">():</span><span class="w"> </span><span class="n">Flow</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">TodoEntity</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dao</span><span class="p">.</span><span class="na">getAllTodos</span><span class="p">()</span>
 
@@ -1061,19 +1111,29 @@ verzió még nem használt független domén- és adatbázismodelleket.</p>
 <span class="p">}</span>
 </code></pre></div>
 <p>A korábbi implementációt, a <code>MemoryTodoRepository</code> osztályt most töröljük ki, erre nem lesz már szükség.</p>
-<p>A <code>presentation.screen</code> package-ekben most a viewmodelek is eltörtek, mert egyrészt a repository másik package-be került, másrészt a korábbi repository implementációt töröltük. Ezt nem tudjuk könnyen kijavítani, mert az új repository a konstruktorában a DAO komponenst várja, azt viszont nem konstruktorhívással hozzuk létre, hanem a Room gyártja majd le, ezért ehhez még kell némi kódot írnunk. Másrészt pedig nem is kívánatos, hogy a viewmodel közvetlen a repository-t hívja, hiszen ahogy fentebb indokoltuk, nem előnyös, ha a felhasználói felület komponensek közvetlen az adatbáziskezelési réteggel is függnek egymástól. Ezért majd a doménmodellhez kapcsolódó üzletilogika-komponenseket fogunk bevezetni. De előbb fejezzük be az adatbáziskezelési réteg implementációját!</p>
+<p>A <code>ui.screen</code> <em>package</em>-ekben most a viewmodelek is eltörtek, mert egyrészt a <em>repository</em> másik <em>package</em>-be került, másrészt a korábbi repository implementációt töröltük. Ezt nem tudjuk könnyen kijavítani, mert az új repository a konstruktorában a DAO komponenst várja, azt viszont nem konstruktorhívással hozzuk létre, hanem a <em>Room</em> gyártja majd le, ezért ehhez még kell némi kódot írnunk. Másrészt pedig nem is kívánatos, hogy a <em>viewmodel</em> közvetlen a <em>repository</em>-t hívja, hiszen ahogy fentebb indokoltuk, nem előnyös, ha a felhasználói felület komponensek közvetlen az adatbáziskezelési réteggel is függnek egymástól. Ezért majd a doménmodellhez kapcsolódó üzletilogika-komponenseket fogunk bevezetni. De előbb fejezzük be az adatbáziskezelési réteg implementációját!</p>
 <p>Még három feladatunk van az adatbáziskezelő réteg kialakításában. Az első, hogy a letárolni kívánt Java-típusok és az SQLite beépített típusai közt nem teljes az egyezés. Ezt konverterekkel kell áthidalnunk. Készítsünk egy <code>data.converters</code> package-et, és ebbe először a dátumokkal kapcsolatos konverterek implementációját:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">object</span><span class="w"> </span><span class="nc">LocalDateConverter</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.converters</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.TypeConverter</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.datetime.LocalDate</span>
+
+<span class="kd">object</span><span class="w"> </span><span class="nc">LocalDateConverter</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="nd">@TypeConverter</span>
 <span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">.</span><span class="nf">asString</span><span class="p">():</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span>
 
 <span class="w">    </span><span class="nd">@TypeConverter</span>
-<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="n">String</span><span class="p">.</span><span class="nf">asLocalDateTime</span><span class="p">():</span><span class="w"> </span><span class="n">LocalDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">toLocalDate</span><span class="p">()</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="n">String</span><span class="p">.</span><span class="nf">asLocalDateTime</span><span class="p">():</span><span class="w"> </span><span class="n">LocalDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">.</span><span class="na">parse</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>A metódusokon levő <code>@TypeConverter</code> annotáció jelzi a Room számára, hogy ezeket a függvényeket konverzióhoz használhatja, a szignatúrából pedig egyértelműen kikövetkeztethető, hogy milyen típusok közt tud velük konvertálni. Most a prioritás enumerációt is támogassuk a megfelelő konverterekkel:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">object</span><span class="w"> </span><span class="nc">TodoPriorityConverter</span><span class="w"> </span><span class="p">{</span>
+<p>A metódusokon levő <code>@TypeConverter</code> annotáció jelzi a <em>Room</em> számára, hogy ezeket a függvényeket konverzióhoz használhatja, a szignatúrából pedig egyértelműen kikövetkeztethető, hogy milyen típusok közt tud velük konvertálni. Most a prioritás enumerációt is támogassuk a megfelelő konverterekkel:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.converters</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.TypeConverter</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.model.Priority</span>
+
+<span class="kd">object</span><span class="w"> </span><span class="nc">TodoPriorityConverter</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="nd">@TypeConverter</span>
 <span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="n">Priority</span><span class="p">.</span><span class="nf">asString</span><span class="p">():</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">name</span>
@@ -1090,7 +1150,17 @@ verzió még nem használt független domén- és adatbázismodelleket.</p>
 <span class="p">}</span>
 </code></pre></div>
 <p>A második lépés, hogy az elkészült komponensekből össze kell állítanunk az adatbáziskezelés globális beállításait összefogó <code>RoomDatabase</code> implementációnkat. Ezt tegyük a <code>data</code> package gyökerébe:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Database</span><span class="p">(</span><span class="n">entities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">TodoEntity</span><span class="o">::</span><span class="n">class</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Database</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.RoomDatabase</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.TypeConverters</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.converters.LocalDateConverter</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.converters.TodoPriorityConverter</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.dao.TodoDao</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.entities.TodoEntity</span>
+
+<span class="nd">@Database</span><span class="p">(</span><span class="n">entities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">TodoEntity</span><span class="o">::</span><span class="n">class</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
 <span class="nd">@TypeConverters</span><span class="p">(</span><span class="n">TodoPriorityConverter</span><span class="o">::</span><span class="n">class</span><span class="p">,</span><span class="w"> </span><span class="n">LocalDateConverter</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">TodoDatabase</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">RoomDatabase</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">dao</span><span class="p">:</span><span class="w"> </span><span class="n">TodoDao</span>
@@ -1098,27 +1168,35 @@ verzió még nem használt független domén- és adatbázismodelleket.</p>
 </code></pre></div>
 <p>Figyeljük meg az annotációkat! Itt meg vannak hivatkozva a használni kívánt entitások és konverterek, illetve az adatbázisséma egy verziószámot is kap. Ez azért hasznos, mert ahogy fejlődik az alkalmazás, az adatbázis sémája is változhat, fejlődhet. Ilyen esetekben arra is lehetőséget ad a Room, hogy migrációkat biztosítsunk a régebbi adatbázissémákról történő frissítésre. Ha telepítve van az alkalmazás régi verziója, amely már mentett el adatokat az eszközre, és frissítjük az alkalmazást, akkor a következő indulás után a Room megvizsgálja, hogy történt-e változás az adatbázis verziójában, és szükség esetén futtatja a migrációkat.</p>
 <p>Az utolsó lépés az adatbáziskezelés implementációjához, hogy az alkalmazás indulásakor inicializáljuk az adatbázist. Ehhez egy <code>Application</code> osztállyal kell kiegészítenünk az alkalmazásunkat. Az <code>Application</code> osztály a teljes alkalmazás életciklus-eseményeit tudja kezelni, illetve arra is alkalmas, hogy itt globális adatokat mentsünk el, amelyeket majd az alkalmazás tetszőleges komponenseiből elérhetővé akarunk tenni. Ezt az alkalmazás "root package"-ébe, a <code>MainActivity</code> mellé tegyük:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TodoApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.app.Application</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Room</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.TodoDatabase</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.ITodoRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.RoomTodoRepository</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">TodoApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
 <span class="w">        </span><span class="kd">private</span><span class="w"> </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">db</span><span class="p">:</span><span class="w"> </span><span class="n">TodoDatabase</span>
 
-<span class="w">        </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepositoryImpl</span>
+<span class="w">        </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">()</span>
 <span class="w">        </span><span class="n">db</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Room</span><span class="p">.</span><span class="na">databaseBuilder</span><span class="p">(</span>
-<span class="w">            </span><span class="n">applicationContext</span><span class="p">,</span>
-<span class="w">            </span><span class="n">TodoDatabase</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">,</span>
-<span class="w">            </span><span class="s">"todo_database"</span>
-<span class="w">        </span><span class="p">).</span><span class="na">fallbackToDestructiveMigration</span><span class="p">().</span><span class="na">build</span><span class="p">()</span>
+<span class="w">                </span><span class="n">applicationContext</span><span class="p">,</span>
+<span class="w">                </span><span class="n">TodoDatabase</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">,</span>
+<span class="w">                </span><span class="s">"todo_database"</span>
+<span class="w">            </span><span class="p">).</span><span class="na">fallbackToDestructiveMigration</span><span class="p">(</span><span class="kc">false</span><span class="p">).</span><span class="na">build</span><span class="p">()</span>
 
-<span class="w">        </span><span class="n">repository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoRepositoryImpl</span><span class="p">(</span><span class="n">db</span><span class="p">.</span><span class="na">dao</span><span class="p">)</span>
+<span class="w">        </span><span class="n">repository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RoomTodoRepository</span><span class="p">(</span><span class="n">db</span><span class="p">.</span><span class="na">dao</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Látható, hogy az alkalmazás indulásakor létrehozzuk az adatbázist és a <code>TodoRepositoryImpl</code>-et, majd ezeket az osztály companion objectjébe el is mentjük. Hogy az <code>Application</code> osztály tényleg az elvásárunk szerint működjünk, még meg is kell hivatkozni a <code>Manifest.xml</code> fájl <code>application</code> elemében. Cseréljük az <code>application</code> elem nyitó tagjét az alábbira:</p>
+<p>Látható, hogy az alkalmazás indulásakor létrehozzuk az adatbázist és a <code>RoomTodoRepository</code>-t, majd ezeket az osztály companion objectjébe el is mentjük. Hogy az <code>Application</code> osztály tényleg az elvásárunk szerint működjünk, még meg is kell hivatkozni a <code>Manifest.xml</code> fájl <code>application</code> elemében. Cseréljük az <code>application</code> elem nyitó tagjét az alábbira:</p>
 <div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nt">&lt;application</span>
 <span class="w">        </span><span class="na">android:name=</span><span class="s">".TodoApplication"</span>
 <span class="w">        </span><span class="na">android:allowBackup=</span><span class="s">"true"</span>
@@ -1128,8 +1206,7 @@ verzió még nem használt független domén- és adatbázismodelleket.</p>
 <span class="w">        </span><span class="na">android:label=</span><span class="s">"@string/app_name"</span>
 <span class="w">        </span><span class="na">android:roundIcon=</span><span class="s">"@mipmap/ic_launcher_round"</span>
 <span class="w">        </span><span class="na">android:supportsRtl=</span><span class="s">"true"</span>
-<span class="w">        </span><span class="na">android:theme=</span><span class="s">"@style/Theme.Todo"</span>
-<span class="w">        </span><span class="na">tools:targetApi=</span><span class="s">"31"</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="na">android:theme=</span><span class="s">"@style/Theme.Todo"</span><span class="nt">&gt;</span>
 </code></pre></div>
 <p>Ezzel így már összeállt az adatbáziskezelő réteg, de még fel kell oldanunk a komponensek közti kommunikációt.</p>
 <div class="admonition example">
@@ -1141,7 +1218,13 @@ verzió még nem használt független domén- és adatbázismodelleket.</p>
 </div>
 <h2 id="uzleti-logika">Üzleti logika<a class="headerlink" href="#uzleti-logika" title="Permanent link">¶</a></h2>
 <p>Most készítsük el a <code>domain.usecases</code> package-et. Ebbe kerülnek az egyes üzletilogika-műveletek megvalósításai. Kezdjük a tennivaló létrehozásával:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">SaveTodoUseCase</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.usecases</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.entities.asTodoEntity</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.ITodoRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.model.Todo</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">SaveTodoUseCase</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">operator</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">invoke</span><span class="p">(</span><span class="n">todo</span><span class="p">:</span><span class="w"> </span><span class="n">Todo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">repository</span><span class="p">.</span><span class="na">insertTodo</span><span class="p">(</span><span class="n">todo</span><span class="p">.</span><span class="na">asTodoEntity</span><span class="p">())</span>
@@ -1149,9 +1232,15 @@ verzió még nem használt független domén- és adatbázismodelleket.</p>
 
 <span class="p">}</span>
 </code></pre></div>
-<p>Ennek a kódrészletnek a szerepe, hogy - akárcsak a domainmodell - leválasztja az üzleti logikát az adatrétegről. Jelen esetben az üzleti logikánk igen egyszerű, és ezért ezek a műveletek tulajdonképpen csak meghívják az adatréteget a repository komponenseken keresztül, illetve konvertálják a domainmodelleket entitásokká. Egy összetettebb alkalmazásban ez nem feltétlen van így, és ez a réteg akár bonyolultabb is lehet, több adatműveletből nagyobb léptékű, összetettebb műveleteket valósíthat meg.</p>
+<p>Ennek a kódrészletnek a szerepe, hogy - akárcsak a domainmodell - leválasztja az üzleti logikát az adatrétegről. Jelen esetben az üzleti logikánk igen egyszerű, és ezért ezek a műveletek tulajdonképpen csak meghívják az adatréteget a repository komponenseken keresztül, illetve konvertálják a domainmodelleket entitásokká. Egy összetettebb alkalmazásban ez nem feltétlen van így, és ez a réteg akár bonyolultabb is lehet, több adatműveletből álló nagyobb léptékű, összetettebb műveleteket valósíthat meg.</p>
 <p>A fentihez hasonló készítsük el a módosítás use case osztályát:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">UpdateTodoUseCase</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.usecases</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.entities.asTodoEntity</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.ITodoRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.model.Todo</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">UpdateTodoUseCase</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">operator</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">invoke</span><span class="p">(</span><span class="n">todo</span><span class="p">:</span><span class="w"> </span><span class="n">Todo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">repository</span><span class="p">.</span><span class="na">updateTodo</span><span class="p">(</span><span class="n">todo</span><span class="p">.</span><span class="na">asTodoEntity</span><span class="p">())</span>
@@ -1160,7 +1249,15 @@ verzió még nem használt független domén- és adatbázismodelleket.</p>
 <span class="p">}</span>
 </code></pre></div>
 <p>Majd a lekérdezést:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">LoadTodoUseCase</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.usecases</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.entities.asTodo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.ITodoRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.model.Todo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.first</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">java.io.IOException</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">LoadTodoUseCase</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">operator</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">invoke</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">):</span><span class="w"> </span><span class="n">Result</span><span class="o">&lt;</span><span class="n">Todo</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
@@ -1173,7 +1270,11 @@ verzió még nem használt független domén- és adatbázismodelleket.</p>
 <span class="p">}</span>
 </code></pre></div>
 <p>A törlést:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">DeleteTodoUseCase</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.usecases</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.ITodoRepository</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">DeleteTodoUseCase</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">operator</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">invoke</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">repository</span><span class="p">.</span><span class="na">deleteTodo</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
@@ -1182,7 +1283,15 @@ verzió még nem használt független domén- és adatbázismodelleket.</p>
 <span class="p">}</span>
 </code></pre></div>
 <p>És legyen egy listázásunk is, amikor minden tennivalót betöltünk:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">LoadTodosUseCase</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.usecases</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.entities.asTodo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.ITodoRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.model.Todo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.first</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">java.io.IOException</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">LoadTodosUseCase</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">operator</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">invoke</span><span class="p">():</span><span class="w"> </span><span class="n">Result</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Todo</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
@@ -1211,63 +1320,59 @@ verzió még nem használt független domén- és adatbázismodelleket.</p>
 <span class="p">}</span>
 </code></pre></div>
 <p>Majd ennek megfelelően módosítsuk a mentést és az inicializálást is:</p>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onSave</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">saveTodo</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">asTodo</span><span class="p">())</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoCreateUiEvent</span><span class="p">.</span><span class="na">Success</span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoCreateUiEvent</span><span class="p">.</span><span class="na">Failure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
-<span class="w">            </span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onSave</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">saveTodo</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">asTodo</span><span class="p">())</span>
+<span class="w">            </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoCreateScreenUiEvent</span><span class="p">.</span><span class="na">Success</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoCreateScreenUiEvent</span><span class="p">.</span><span class="na">Failure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 
-<span class="w">    </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">Factory</span><span class="p">:</span><span class="w"> </span><span class="n">ViewModelProvider</span><span class="p">.</span><span class="na">Factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModelFactory</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">initializer</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">TodoApplication</span><span class="p">.</span><span class="na">repository</span><span class="p">)</span>
-<span class="w">                </span><span class="n">TodoCreateViewModel</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span>
-<span class="w">                </span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span>
+<span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">Factory</span><span class="p">:</span><span class="w"> </span><span class="n">ViewModelProvider</span><span class="p">.</span><span class="na">Factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModelFactory</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">initializer</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">TodoApplication</span><span class="p">.</span><span class="na">repository</span><span class="p">)</span>
+<span class="w">            </span><span class="n">TodoCreateViewModel</span><span class="p">(</span>
+<span class="w">                </span><span class="n">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span>
+<span class="w">            </span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Folytassuk a részletező nézettel, itt is hasonlóak lesznek a változások:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TodoDetailViewModel</span><span class="p">(</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">,</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">savedStateHandle</span><span class="p">:</span><span class="w"> </span><span class="n">SavedStateHandle</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TodoDetailViewModel</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">)</span><span class="w"> </span><span class="p">:</span>
+<span class="w">    </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="p">...</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Majd:</p>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">checkNotNull</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">savedStateHandle</span><span class="o">[</span><span class="s">"id"</span><span class="o">]</span><span class="p">)</span>
-<span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Loading</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodo</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todo</span><span class="p">.</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">asTodoUi</span><span class="p">()</span>
-<span class="w">                </span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodo</span><span class="p">(</span><span class="n">todoId</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Loading</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodo</span><span class="p">(</span><span class="n">todoId</span><span class="p">)</span>
+<span class="w">            </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
+<span class="w">                </span><span class="n">todo</span><span class="p">.</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">asTodoUi</span><span class="p">()</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 
-<span class="w">    </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">Factory</span><span class="p">:</span><span class="w"> </span><span class="n">ViewModelProvider</span><span class="p">.</span><span class="na">Factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModelFactory</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">initializer</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">TodoApplication</span><span class="p">.</span><span class="na">repository</span><span class="p">)</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">savedStateHandle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createSavedStateHandle</span><span class="p">()</span>
-<span class="w">                </span><span class="n">TodoDetailViewModel</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todoOperations</span><span class="p">,</span>
-<span class="w">                    </span><span class="n">savedStateHandle</span>
-<span class="w">                </span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span>
+<span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">Factory</span><span class="p">:</span><span class="w"> </span><span class="n">ViewModelProvider</span><span class="p">.</span><span class="na">Factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModelFactory</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">TodoApplication</span><span class="p">.</span><span class="na">repository</span><span class="p">)</span>
+<span class="w">        </span><span class="n">initializer</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">TodoDetailViewModel</span><span class="p">(</span>
+<span class="w">                </span><span class="n">todoOperations</span>
+<span class="w">            </span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Végül a listázó nézet következik:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TodoListViewModel</span><span class="p">(</span>
@@ -1277,30 +1382,42 @@ verzió még nem használt független domén- és adatbázismodelleket.</p>
 <span class="p">}</span>
 </code></pre></div>
 <p>Majd:</p>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodos</span><span class="p">().</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">asTodoUi</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todoList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todos</span>
-<span class="w">                </span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">             </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span>
+<span class="w">             </span><span class="kd">val</span><span class="w"> </span><span class="nv">todos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodos</span><span class="p">().</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">asTodoUi</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
+<span class="w">             </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
+<span class="w">                 </span><span class="n">todoList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todos</span>
+<span class="w">             </span><span class="p">)</span>
+<span class="w">         </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">             </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="w">         </span><span class="p">}</span>
+<span class="w">     </span><span class="p">}</span>
+<span class="w"> </span><span class="p">}</span>
 
-<span class="w">    </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">Factory</span><span class="p">:</span><span class="w"> </span><span class="n">ViewModelProvider</span><span class="p">.</span><span class="na">Factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModelFactory</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">initializer</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">TodoApplication</span><span class="p">.</span><span class="na">repository</span><span class="p">)</span>
-<span class="w">                </span><span class="n">TodoListViewModel</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todoOperations</span>
-<span class="w">                </span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">deleteTodo</span><span class="p">(</span><span class="n">todo</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUi</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">     </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">             </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">deleteTodo</span><span class="p">(</span><span class="n">todo</span><span class="p">.</span><span class="na">asTodo</span><span class="p">().</span><span class="na">id</span><span class="p">)</span>
+<span class="w">             </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoListScreenUiEvent</span><span class="p">.</span><span class="na">DeleteSuccess</span><span class="p">)</span>
+<span class="w">         </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">             </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoListScreenUiEvent</span><span class="p">.</span><span class="na">DeleteFailure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
+
+<span class="w">         </span><span class="p">}</span>
+<span class="w">     </span><span class="p">}</span>
+<span class="w"> </span><span class="p">}</span>
+
+<span class="w"> </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
+<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="nv">Factory</span><span class="p">:</span><span class="w"> </span><span class="n">ViewModelProvider</span><span class="p">.</span><span class="na">Factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModelFactory</span><span class="w"> </span><span class="p">{</span>
+<span class="w">         </span><span class="n">initializer</span><span class="w"> </span><span class="p">{</span>
+<span class="w">             </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">TodoApplication</span><span class="p">.</span><span class="na">repository</span><span class="p">)</span>
+<span class="w">             </span><span class="n">TodoListViewModel</span><span class="p">(</span>
+<span class="w">                 </span><span class="n">todoOperations</span>
+<span class="w">             </span><span class="p">)</span>
+<span class="w">         </span><span class="p">}</span>
+<span class="w">     </span><span class="p">}</span>
+<span class="w"> </span><span class="p">}</span>
 </code></pre></div>
 <p>Most már kipróbálható az alkalmazás, és a létrehozott teendők ténylegesen az adatbázisba mentődnek.</p>
 <div class="admonition example">
@@ -1338,8 +1455,8 @@ az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódo
           </path>
         </svg>
       </span>
-      <span title="2025. március 27. 10:45:59">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. március 27. 10:45:59 CET"><span class="timeago" datetime="2025-03-27T10:45:59+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. március 27. 10:45:59 CET">2025-03-27</span>
+      <span title="2025. október 27. 14:14:47">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. október 27. 14:14:47 CET"><span class="timeago" datetime="2025-10-27T14:14:47+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. október 27. 14:14:47 CET">2025-10-27</span>
       </span>
     </span>
 

@@ -63,7 +63,7 @@ Utána vegyük fel a pluszban szükséges könyvtárakat és plugineket:
 ```toml
 [versions]
 ...
-kotlinxDatetime = "0.4.1"
+kotlinxDatetime = "0.7.1"
 viewModel = "2.9.4"
 nav3Core = "1.0.0-alpha11"
 kotlinSerialization = "2.2.20"

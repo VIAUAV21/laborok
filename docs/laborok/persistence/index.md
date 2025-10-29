@@ -273,10 +273,10 @@ import kotlinx.datetime.LocalDate
 object LocalDateConverter {
 
     @TypeConverter
-    fun LocalDate.asString(): String = this.toString()
+    fun localDateToString(localDate: LocalDate): String = localDate.toString()
 
     @TypeConverter
-    fun String.asLocalDateTime(): LocalDate = LocalDate.parse(this)
+    fun stringToLocalDate(string : String): LocalDate = LocalDate.parse(string)
 }
 ```
 
@@ -291,11 +291,11 @@ import hu.bme.aut.android.todo.domain.model.Priority
 object TodoPriorityConverter {
 
     @TypeConverter
-    fun Priority.asString(): String = this.name
+    fun priorityToString(priority: Priority): String = priority.name
 
     @TypeConverter
-    fun String.asPriority(): Priority {
-        return when(this) {
+    fun priorityFromString(string: String): Priority {
+        return when(string) {
             Priority.LOW.name -> Priority.LOW
             Priority.MEDIUM.name -> Priority.MEDIUM
             Priority.HIGH.name -> Priority.HIGH
@@ -494,7 +494,11 @@ Végül ezeket összefogjuk egy osztály tagváltozóiban:
 
 
 ```kotlin
-class TodoUseCases(repository: ITodoRepository) {
+package hu.bme.aut.android.todo.domain.usecases
+
+import hu.bme.aut.android.todo.data.repository.ITodoRepository
+
+class AllTodoUseCases(repository: ITodoRepository) {
     val loadTodos = LoadTodosUseCase(repository)
     val loadTodo = LoadTodoUseCase(repository)
     val saveTodo = SaveTodoUseCase(repository)
@@ -507,7 +511,7 @@ Most módosítanunk kell a viewmodeljeinket. Kezdjük a létrehozás művelettel
 
 ```kotlin
 class TodoCreateViewModel(
-    private val todoOperations: TodoUseCases
+    private val todoOperations: AllTodoUseCases
 ) : ViewModel() {
     ...
 }
@@ -530,7 +534,7 @@ private fun onSave() {
 companion object {
     val Factory: ViewModelProvider.Factory = viewModelFactory {
         initializer {
-            val todoOperations = TodoUseCases(TodoApplication.repository)
+            val todoOperations = AllTodoUseCases(TodoApplication.repository)
             TodoCreateViewModel(
                 todoOperations = todoOperations
             )
@@ -542,8 +546,9 @@ companion object {
 Folytassuk a részletező nézettel, itt is hasonlóak lesznek a változások:
 
 ```kotlin
-class TodoDetailViewModel(private val todoOperations: TodoUseCases) :
-    ViewModel() {
+class TodoDetailViewModel(
+	private val todoOperations: AllTodoUseCases
+) : ViewModel() {
         ...
 }
 ```
@@ -567,7 +572,7 @@ fun loadTodo(todoId: Int) {
 
 companion object {
     val Factory: ViewModelProvider.Factory = viewModelFactory {
-        val todoOperations = TodoUseCases(TodoApplication.repository)
+        val todoOperations = AllTodoUseCases(TodoApplication.repository)
         initializer {
             TodoDetailViewModel(
                 todoOperations
@@ -581,7 +586,7 @@ Végül a listázó nézet következik:
 
 ```kotlin
 class TodoListViewModel(
-    private val todoOperations: TodoUseCases
+    private val todoOperations: AllTodoUseCases
 ) : ViewModel() {
     ...
 }
@@ -590,42 +595,42 @@ class TodoListViewModel(
 Majd:
 
 ```kotlin
- private fun loadTodos() {
-     viewModelScope.launch {
-         try {
-             _state.value = TodoListState.Loading
-             val todos = todoOperations.loadTodos().getOrThrow().map { it.asTodoUi() }
-             _state.value = TodoListState.Result(
-                 todoList = todos
-             )
-         } catch (e: Exception) {
-             _state.value = TodoListState.Error(e)
-         }
-     }
- }
+private fun loadTodos() {
+    viewModelScope.launch {
+        try {
+            _state.value = TodoListState.Loading
+            val todos = todoOperations.loadTodos().getOrThrow().map { it.asTodoUi() }
+            _state.value = TodoListState.Result(
+                todoList = todos
+            )
+        } catch (e: Exception) {
+            _state.value = TodoListState.Error(e)
+        }
+    }
+}
 
- private fun deleteTodo(todo: TodoUi) {
-     viewModelScope.launch {
-         try {
-             todoOperations.deleteTodo(todo.asTodo().id)
-             _uiEvent.send(TodoListScreenUiEvent.DeleteSuccess)
-         } catch (e: Exception) {
-             _uiEvent.send(TodoListScreenUiEvent.DeleteFailure(e.toUiText()))
+private fun deleteTodo(todo: TodoUi) {
+    viewModelScope.launch {
+        try {
+            todoOperations.deleteTodo(todo.asTodo().id)
+            _uiEvent.send(TodoListScreenUiEvent.DeleteSuccess)
+        } catch (e: Exception) {
+            _uiEvent.send(TodoListScreenUiEvent.DeleteFailure(e.toUiText()))
 
-         }
-     }
- }
+        }
+    }
+}
 
- companion object {
-     val Factory: ViewModelProvider.Factory = viewModelFactory {
-         initializer {
-             val todoOperations = TodoUseCases(TodoApplication.repository)
-             TodoListViewModel(
-                 todoOperations
-             )
-         }
-     }
- }
+companion object {
+    val Factory: ViewModelProvider.Factory = viewModelFactory {
+        initializer {
+            val todoOperations = AllTodoUseCases(TodoApplication.repository)
+            TodoListViewModel(
+                todoOperations
+            )
+        }
+    }
+}
 ```
 
 Most már kipróbálható az alkalmazás, és a létrehozott teendők ténylegesen az adatbázisba mentődnek.

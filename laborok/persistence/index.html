@@ -1121,10 +1121,10 @@ verzió még nem használt független domain- és adatbázismodelleket.</p>
 <span class="kd">object</span><span class="w"> </span><span class="nc">LocalDateConverter</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="nd">@TypeConverter</span>
-<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">.</span><span class="nf">asString</span><span class="p">():</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">localDateToString</span><span class="p">(</span><span class="n">localDate</span><span class="p">:</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">):</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">localDate</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span>
 
 <span class="w">    </span><span class="nd">@TypeConverter</span>
-<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="n">String</span><span class="p">.</span><span class="nf">asLocalDateTime</span><span class="p">():</span><span class="w"> </span><span class="n">LocalDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">.</span><span class="na">parse</span><span class="p">(</span><span class="k">this</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">stringToLocalDate</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">):</span><span class="w"> </span><span class="n">LocalDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">.</span><span class="na">parse</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>A metódusokon levő <code>@TypeConverter</code> annotáció jelzi a <em>Room</em> számára, hogy ezeket a függvényeket konverzióhoz használhatja, a szignatúrából pedig egyértelműen kikövetkeztethető, hogy milyen típusok közt tud velük konvertálni. Most a prioritás enumerációt is támogassuk a megfelelő konverterekkel:</p>
@@ -1136,11 +1136,11 @@ verzió még nem használt független domain- és adatbázismodelleket.</p>
 <span class="kd">object</span><span class="w"> </span><span class="nc">TodoPriorityConverter</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="nd">@TypeConverter</span>
-<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="n">Priority</span><span class="p">.</span><span class="nf">asString</span><span class="p">():</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">name</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">priorityToString</span><span class="p">(</span><span class="n">priority</span><span class="p">:</span><span class="w"> </span><span class="n">Priority</span><span class="p">):</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">priority</span><span class="p">.</span><span class="na">name</span>
 
 <span class="w">    </span><span class="nd">@TypeConverter</span>
-<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="n">String</span><span class="p">.</span><span class="nf">asPriority</span><span class="p">():</span><span class="w"> </span><span class="n">Priority</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">when</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">priorityFromString</span><span class="p">(</span><span class="n">string</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">):</span><span class="w"> </span><span class="n">Priority</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">when</span><span class="p">(</span><span class="n">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">Priority</span><span class="p">.</span><span class="na">LOW</span><span class="p">.</span><span class="na">name</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Priority</span><span class="p">.</span><span class="na">LOW</span>
 <span class="w">            </span><span class="n">Priority</span><span class="p">.</span><span class="na">MEDIUM</span><span class="p">.</span><span class="na">name</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Priority</span><span class="p">.</span><span class="na">MEDIUM</span>
 <span class="w">            </span><span class="n">Priority</span><span class="p">.</span><span class="na">HIGH</span><span class="p">.</span><span class="na">name</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Priority</span><span class="p">.</span><span class="na">HIGH</span>
@@ -1304,7 +1304,11 @@ verzió még nem használt független domain- és adatbázismodelleket.</p>
 <span class="p">}</span>
 </code></pre></div>
 <p>Végül ezeket összefogjuk egy osztály tagváltozóiban:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TodoUseCases</span><span class="p">(</span><span class="n">repository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.usecases</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.ITodoRepository</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">AllTodoUseCases</span><span class="p">(</span><span class="n">repository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">loadTodos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LoadTodosUseCase</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">loadTodo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LoadTodoUseCase</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">saveTodo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SaveTodoUseCase</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
@@ -1314,7 +1318,7 @@ verzió még nem használt független domain- és adatbázismodelleket.</p>
 </code></pre></div>
 <p>Most módosítanunk kell a viewmodeljeinket. Kezdjük a létrehozás művelettel! Először is konstruktorban már nem a repository-t kapjuk meg, hanem a <code>TodoUseCases</code> osztályra kapunk referenciát:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TodoCreateViewModel</span><span class="p">(</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">AllTodoUseCases</span>
 <span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="p">...</span>
 <span class="p">}</span>
@@ -1334,7 +1338,7 @@ verzió még nem használt független domain- és adatbázismodelleket.</p>
 <span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">Factory</span><span class="p">:</span><span class="w"> </span><span class="n">ViewModelProvider</span><span class="p">.</span><span class="na">Factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModelFactory</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">initializer</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">TodoApplication</span><span class="p">.</span><span class="na">repository</span><span class="p">)</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AllTodoUseCases</span><span class="p">(</span><span class="n">TodoApplication</span><span class="p">.</span><span class="na">repository</span><span class="p">)</span>
 <span class="w">            </span><span class="n">TodoCreateViewModel</span><span class="p">(</span>
 <span class="w">                </span><span class="n">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span>
 <span class="w">            </span><span class="p">)</span>
@@ -1343,8 +1347,9 @@ verzió még nem használt független domain- és adatbázismodelleket.</p>
 <span class="p">}</span>
 </code></pre></div>
 <p>Folytassuk a részletező nézettel, itt is hasonlóak lesznek a változások:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TodoDetailViewModel</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">)</span><span class="w"> </span><span class="p">:</span>
-<span class="w">    </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TodoDetailViewModel</span><span class="p">(</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">AllTodoUseCases</span>
+<span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="p">...</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -1365,7 +1370,7 @@ verzió még nem használt független domain- és adatbázismodelleket.</p>
 
 <span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">Factory</span><span class="p">:</span><span class="w"> </span><span class="n">ViewModelProvider</span><span class="p">.</span><span class="na">Factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModelFactory</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">TodoApplication</span><span class="p">.</span><span class="na">repository</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AllTodoUseCases</span><span class="p">(</span><span class="n">TodoApplication</span><span class="p">.</span><span class="na">repository</span><span class="p">)</span>
 <span class="w">        </span><span class="n">initializer</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">TodoDetailViewModel</span><span class="p">(</span>
 <span class="w">                </span><span class="n">todoOperations</span>
@@ -1376,48 +1381,48 @@ verzió még nem használt független domain- és adatbázismodelleket.</p>
 </code></pre></div>
 <p>Végül a listázó nézet következik:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TodoListViewModel</span><span class="p">(</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">AllTodoUseCases</span>
 <span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="p">...</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Majd:</p>
-<div class="highlight"><pre><span></span><code><span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">     </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">             </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span>
-<span class="w">             </span><span class="kd">val</span><span class="w"> </span><span class="nv">todos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodos</span><span class="p">().</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">asTodoUi</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
-<span class="w">             </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
-<span class="w">                 </span><span class="n">todoList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todos</span>
-<span class="w">             </span><span class="p">)</span>
-<span class="w">         </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">             </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-<span class="w">         </span><span class="p">}</span>
-<span class="w">     </span><span class="p">}</span>
-<span class="w"> </span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">todos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodos</span><span class="p">().</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">asTodoUi</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
+<span class="w">            </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
+<span class="w">                </span><span class="n">todoList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todos</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 
-<span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">deleteTodo</span><span class="p">(</span><span class="n">todo</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUi</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">     </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">             </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">deleteTodo</span><span class="p">(</span><span class="n">todo</span><span class="p">.</span><span class="na">asTodo</span><span class="p">().</span><span class="na">id</span><span class="p">)</span>
-<span class="w">             </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoListScreenUiEvent</span><span class="p">.</span><span class="na">DeleteSuccess</span><span class="p">)</span>
-<span class="w">         </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">             </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoListScreenUiEvent</span><span class="p">.</span><span class="na">DeleteFailure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
+<span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">deleteTodo</span><span class="p">(</span><span class="n">todo</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUi</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">deleteTodo</span><span class="p">(</span><span class="n">todo</span><span class="p">.</span><span class="na">asTodo</span><span class="p">().</span><span class="na">id</span><span class="p">)</span>
+<span class="w">            </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoListScreenUiEvent</span><span class="p">.</span><span class="na">DeleteSuccess</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoListScreenUiEvent</span><span class="p">.</span><span class="na">DeleteFailure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
 
-<span class="w">         </span><span class="p">}</span>
-<span class="w">     </span><span class="p">}</span>
-<span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 
-<span class="w"> </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
-<span class="w">     </span><span class="kd">val</span><span class="w"> </span><span class="nv">Factory</span><span class="p">:</span><span class="w"> </span><span class="n">ViewModelProvider</span><span class="p">.</span><span class="na">Factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModelFactory</span><span class="w"> </span><span class="p">{</span>
-<span class="w">         </span><span class="n">initializer</span><span class="w"> </span><span class="p">{</span>
-<span class="w">             </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">TodoApplication</span><span class="p">.</span><span class="na">repository</span><span class="p">)</span>
-<span class="w">             </span><span class="n">TodoListViewModel</span><span class="p">(</span>
-<span class="w">                 </span><span class="n">todoOperations</span>
-<span class="w">             </span><span class="p">)</span>
-<span class="w">         </span><span class="p">}</span>
-<span class="w">     </span><span class="p">}</span>
-<span class="w"> </span><span class="p">}</span>
+<span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">Factory</span><span class="p">:</span><span class="w"> </span><span class="n">ViewModelProvider</span><span class="p">.</span><span class="na">Factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModelFactory</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">initializer</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AllTodoUseCases</span><span class="p">(</span><span class="n">TodoApplication</span><span class="p">.</span><span class="na">repository</span><span class="p">)</span>
+<span class="w">            </span><span class="n">TodoListViewModel</span><span class="p">(</span>
+<span class="w">                </span><span class="n">todoOperations</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Most már kipróbálható az alkalmazás, és a létrehozott teendők ténylegesen az adatbázisba mentődnek.</p>
 <div class="admonition example">
@@ -1455,8 +1460,8 @@ az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódo
           </path>
         </svg>
       </span>
-      <span title="2025. október 27. 14:14:47">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. október 27. 14:14:47 CET"><span class="timeago" datetime="2025-10-27T14:14:47+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. október 27. 14:14:47 CET">2025-10-27</span>
+      <span title="2025. október 29. 23:23:20">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. október 29. 23:23:20 CET"><span class="timeago" datetime="2025-10-29T23:23:20+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. október 29. 23:23:20 CET">2025-10-29</span>
       </span>
     </span>
 

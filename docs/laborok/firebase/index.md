@@ -27,6 +27,7 @@ Az alkalmazás az alábbi fő funkciókat támogatja:
 
 **Az anyag részletes megértéséhez javasoljuk, hogy figyelje a laborvezető utasításait és labor után is 10-20 percet szánjon a kódrészek megértésére.**
 
+
 ## Előkészületek
 
 A feladatok megoldása során ne felejtsd el követni a [feladat beadás folyamatát](../../tudnivalok/github/GitHub.md).
@@ -35,23 +36,22 @@ A feladatok megoldása során ne felejtsd el követni a [feladat beadás folyama
 
 1. Moodle-ben keresd meg a laborhoz tartozó meghívó URL-jét és annak segítségével hozd létre a saját repository-dat.
 
-2. Várd meg, míg elkészül a repository, majd checkout-old ki.
+1. Várd meg, míg elkészül a repository, majd checkout-old ki.
 
     !!! tip ""
         Egyetemi laborokban, ha a checkout során nem kér a rendszer felhasználónevet és jelszót, és nem sikerül a checkout, akkor valószínűleg a gépen korábban megjegyzett felhasználónévvel próbálkozott a rendszer. Először töröld ki a mentett belépési adatokat (lásd [itt](../../tudnivalok/github/GitHub-credentials.md)), és próbáld újra.
 
-3. Hozz létre egy új ágat `megoldas` néven, és ezen az ágon dolgozz.
+1. Hozz létre egy új ágat `megoldas` néven, és ezen az ágon dolgozz.
 
-4. A `neptun.txt` fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.
+1. A `neptun.txt` fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.
 
-A Firebase megismeréséhez ebben a laborban egy előre elkészített projektbe fogjuk integrálni a különböző szolgáltatásokat. Ez megtalálható a repository-n belül is, valamilyen probléma esetén a kezdőprojektet [erről a linkről érhető el](./assets/Todo_firebase_starter.zip).
-
-Ezután indítsuk el az Android Studio-t, majd nyissuk meg a kicsomagolt projektet.
+A Firebase funkcióinak megismeréséhez ebben a laborban egy előre elkészített projektbe fogjuk integrálni a különböző szolgáltatásokat. Ez megtalálható a repository-n belül. Indítsuk el az Android Studio-t, majd nyissuk meg a `ToDo` projektet.
 
 !!!danger "FILE PATH"
 	A projekt a repository-ban lévő `Todo` könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!
 
 Ellenőrízzük, hogy a létrejött projekt lefordul és helyesen működik!
+
 
 ## Projekt előkészítése, konfiguráció
 
@@ -138,7 +138,7 @@ Illetve, hogy a `libs.versions.toml` fájlban megfelelő-e a verzió:
 
 ```toml
 [versions]
-googleGmsGoogleServices = "4.4.2"
+googleGmsGoogleServices = "4.4.4"
 ...
 
 [plugins]
@@ -152,7 +152,7 @@ Vegyük fel a Firebase BoM-ot a `libs.versions.toml` fájlba:
 
 ```toml
 [versions]
-firebaseBom = "33.11.0"
+firebaseBom = "34.5.0"
 
 [libraries]
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
@@ -173,7 +173,7 @@ Ezek után cseréljük le a `firebase-auth` függőségeket a következőre:
 
 ```toml
 [libraries]
-firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 ```
 
 `build.gradle.kts`:
@@ -192,10 +192,10 @@ Ahhoz, hogy az e-mail alapú regisztráció és authentikáció megfelelően mű
 <img src="./assets/firebase_console_auth_method.png">
 </p>
 
-Készítsük el a megfelelő `Service` osztályt. Hozzunk létre a `data.auth` package-en belül a `FirebaseAuthService` osztályt! Valósítsuk meg az `AuthService` interfész egyes metódusait! Ehhez szükségünk lesz egy `FirebaseAuth` objektumra, melyet külső forrásból fogunk megkapni:
+Készítsük el a megfelelő `Repository` osztályt. Hozzunk létre a `data.auth` package-en belül a `FirebaseAuthRepository` osztályt! Valósítsuk meg az `IAuthRepository` *interface* egyes metódusait! Ehhez szükségünk lesz egy `FirebaseAuth` objektumra, melyet külső forrásból fogunk megkapni:
 
 ```kotlin
-package hu.bme.aut.android.todo.data.auth  
+package hu.bme.aut.android.todo.data.repository.auth
   
 import com.google.firebase.auth.FirebaseAuth  
 import com.google.firebase.auth.UserProfileChangeRequest  
@@ -205,7 +205,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow  
 import kotlinx.coroutines.tasks.await
 
-class FirebaseAuthService(private val firebaseAuth: FirebaseAuth) : AuthService {
+class FirebaseAuthRepository(private val firebaseAuth: FirebaseAuth) : IAuthRepository {
     override val currentUserId: String? get() = firebaseAuth.currentUser?.uid
     override val hasUser: Boolean get() = firebaseAuth.currentUser != null
     override val currentUser: Flow<User?> get() = callbackFlow {
@@ -247,9 +247,9 @@ class FirebaseAuthService(private val firebaseAuth: FirebaseAuth) : AuthService 
     }
 }
 ```
-Nézzük át, hogyan tudtuk az általunk definiált `AuthService` interfészhez illeszteni a Firebase által biztosított API-t!
+Nézzük át, hogyan tudtuk az általunk definiált `IAuthRepository` *interface*-hez illeszteni a *Firebase* által biztosított API-t!
 
-Sokszor a biztosított API közvetlenül megfeleltethető az általunk definiált szolgáltatásokkal, mint például a `currentUser` vagy `hasUser` mezőknél. Itt egyedül arra kell figyelnünk, hogy ne maradjon le a `get()` definíció, akkor ugyanis a `Service` létrejöttekor történne egy értékadás, nem pedig minden egyes kiolvasásnál egy függvényhívás.
+Sokszor a biztosított API közvetlenül megfeleltethető az általunk definiált szolgáltatásokkal, mint például a `currentUser` vagy `hasUser` mezőknél. Itt egyedül arra kell figyelnünk, hogy ne maradjon le a `get()` definíció, akkor ugyanis a `Repository` létrejöttekor történne egy értékadás, nem pedig minden egyes kiolvasásnál egy függvényhívás.
 
 Ha szerencsénk van, akkor a felhasznált API beépítetten támogatni fogja a Kotlin különböző funkcionalitásait, mint például a Kotlinos típusok, contract-ok és coroutine-ok. Sokszor viszont Java alapú könyvtárakat kapunk, amiket nekünk kell adaptálni Kotlin környezetre. Erre egy jó példa a `currentUser` mező. Ez a `callbackFlow` metódust használja, melynek segítségével a callback jellegű API-t tudjuk átalakítani `Flow` jellegű eredménnyé. A blokkon belül egy listenert regisztrálunk be, mellyel meg tudjuk figyelni, ha változás történik az aktuális felhasználók körében. Ekkor a `trySend()` metódussal tudjuk a Flow-ra feliratkozó felé elküldeni az új felhasználó adatait. Érdemes arra is figyelni, hogy ez a listener csak a feliratkozás után kezd el értékeket kiküldeni. Annak érdekében, hogy a UI egyből megkapja az aktuális értéket, a feliratkozás előtt kiküldjük az aktuális felhasználó adatait is.
 
@@ -266,29 +266,30 @@ override suspend fun authenticate(email: String, password: String) = suspendCoro
 
 A `suspendCoroutine` metódus le fogja futtatni a benne megadott blokkot, majd addig várakoztatja a coroutine-t, ameddig a blokkban megkapott `Continuation` objektumon keresztül nem jelezzük a hívás végeredményét. Ezzel a függvénnyel könnyedén át tudjuk alakítani a `Callback` jellegű működéseket `suspend` alapúra. Arra azonban figyeljünk, hogy minden esetben meghívódjon a `Continuation` valamelyik `resume` metódusa, ellenkező esetben ugyanis befagy az adott coroutine, sose fog tudni továbblépni. Hasonlóan hasznos függvény a `suspendCancellableCoroutine`, mellyel azokat az eseteket is le tudjuk kezelni, ha a coroutine-t a folyamat közben törlik.
 
-Állítsuk át az alkalmazásunkat, hogy ezt az új `FirebaseAuthService`-t használja! Ehhez módosítsuk a `TodoApplication` osztályunkat:
+Állítsuk át az alkalmazásunkat, hogy ezt az új `FirebaseAuthRepository`-t használja! Ehhez módosítsuk a `TodoApplication` osztályunkat:
 
 ```kotlin
-package hu.bme.aut.android.todo  
-  
-import android.app.Application  
-import com.google.firebase.auth.FirebaseAuth  
-import hu.bme.aut.android.todo.data.auth.AuthService  
-import hu.bme.aut.android.todo.data.auth.FirebaseAuthService  
-import hu.bme.aut.android.todo.data.todos.MemoryTodoService  
-import hu.bme.aut.android.todo.data.todos.TodoService
+package hu.bme.aut.android.todo
 
-class TodoApplication : Application(){
+import android.app.Application
+import com.google.firebase.auth.FirebaseAuth
+import hu.bme.aut.android.todo.data.repository.auth.FirebaseAuthService
+import hu.bme.aut.android.todo.data.repository.auth.IAuthRepository
+import hu.bme.aut.android.todo.data.repository.todo.ITodoRepository
+import hu.bme.aut.android.todo.data.repository.todo.MemoryTodoRepository
+
+class TodoApplication : Application() {
+    companion object {
+        lateinit var authRepository: IAuthRepository
+        lateinit var todoRepository: ITodoRepository
+    }
+
     override fun onCreate() {
         super.onCreate()
-        authService = FirebaseAuthService(FirebaseAuth.getInstance())
-        todoService = MemoryTodoService()
+        authRepository = FirebaseAuthService(FirebaseAuth.getInstance())
+        todoRepository = MemoryTodoRepository()
     }
 
-    companion object{
-        lateinit var authService: AuthService
-        lateinit var todoService: TodoService
-    }
 }
 ```
 
@@ -298,7 +299,11 @@ Próbáljuk ki az alkalmazást! Hozzunk létre egy új felhasználót!
 	Ugyan nem kapunk semmi visszajelzést, de a Firebase nem fogad el 6 karakternél rövidebb jelszót. Így amennyiben rövid a jelszavunk, úgy tűnhet, hogy a gombnyomás hatására nem történik semmi, nem működik a regisztráció. Ilyenkor ellenőrizzük, hogy mindenképpen legalább 6 hosszú jelszót adtunk-e meg.
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik Firebase Authentication oldalán a beregisztrált felhasználó, illetve a `FirebaseAuthService` forráskódja, melyben a Neptun-kód komment formájában látható. A képernyőkép szükséges feltétele a pontszám megszerzésének.
+	Készíts egy képernyő képet, amin látszódik a **Firebase Authentication oldalán a beregisztrált felhasználó**, illetve a **`FirebaseAuthRepository` forráskódja**, melyben a Neptun-kódod komment formájában látható. 
+
+	A képet a megoldásban a repository-ba f1.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 ## Feladatok listázása, készítése
 
@@ -310,14 +315,14 @@ Adjuk hozzá a projekthez a *Cloud Firestore* támogatást:
 
 ```toml
 [libraries]
-	firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx" }
+	firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
 ```
 
 Modul szintű `build.gradle.kts`:
 
 ```gradle
 dependencies {
-    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.firestore)
 }
 ```
 
@@ -327,16 +332,17 @@ Kapcsoljuk be a *Cloud Firestore*-t a *Firebase console*-on is . Az adatbázist 
 	A *test mode*-ban konfigurált adatbázis ugyan publikusan írtahó/olvasható, de alapértelmezés szerint egy időbeni korlát van rá. Ez a mostani labornál nem okoz problémát, de egy hosszabb projektnél, mint például a házi feladat elkészítése, erre érdemes figyelni.
 
 <p align="center">
-<img src="./assets/firebase_create_firestore.png">
+<img src="./assets/firebase_console_create_firestore.png">
 </p>
 
 Locationnek válasszunk egy hozzánk közel eső opciót.
 
-Hozzuk létre a `data.todos` package-en belül a `firebase` package-et. Ebben két osztályt fogunk definiálni: a Firestore-ban tárolt adatobjektum osztály modelljét, illetve a kommunikációt megvalósító service kódját.
+Hozzuk létre a `data` package-en belül a `firebase` package-et. Ebben két osztályt fogunk definiálni: a Firestore-ban tárolt adatobjektum osztály modelljét, illetve a kommunikációt megvalósító service kódját.
 
 Hozzuk először létre az adatot reprezentáló osztályt `FirebaseTodo` néven:
+
 ```kotlin
-package hu.bme.aut.android.todo.data.todos.firebase.model
+package hu.bme.aut.android.todo.data.firebase.model
 
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
@@ -347,6 +353,8 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.Date
+import kotlin.time.ExperimentalTime
+import kotlin.time.toJavaInstant
 
 data class FirebaseTodo(
     @DocumentId val id: String = "",
@@ -367,72 +375,80 @@ fun FirebaseTodo.asTodo() = Todo(
     description = description,
 )
 
+@OptIn(ExperimentalTime::class)
 fun Todo.asFirebaseTodo() = FirebaseTodo(
     id = id,
     title = title,
     priority = priority,
-    dueDate = Timestamp(Date.from(dueDate.atStartOfDayIn(TimeZone.currentSystemDefault()).toJavaInstant())),
+    dueDate = Timestamp(dueDate.atStartOfDayIn(TimeZone.currentSystemDefault()).toJavaInstant()),
     description = description,
 )
 ```
 
 Ebben a fájlban definiáltuk a két átalakító függvényt is, mellyel a Firebase és az alkalmazás többi részében használt Todo osztály között tudunk átalakítani. Az egyedüli bonyolult rész a Firebase által használt `Timestamp` osztály használata az időpont eltárolására, erre most részletesen nem térünk ki.
 
-Hozzuk létre a feladatok tárolását végző `FirebaseTodoService` osztályt is ebben a package-ben:
+Hozzuk létre a feladatok tárolását végző `FirebaseTodoRepository` osztályt is ebben a package-ben:
 
 ```kotlin
-package hu.bme.aut.android.todo.data.todos.firebase
+package hu.bme.aut.android.todo.data.repository.todo
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.snapshots
-import com.google.firebase.firestore.ktx.toObjects
-import com.google.firebase.firestore.ktx.toObject
-import hu.bme.aut.android.todo.data.auth.AuthService
-import hu.bme.aut.android.todo.data.todos.TodoService
-import hu.bme.aut.android.todo.data.todos.firebase.model.FirebaseTodo
-import hu.bme.aut.android.todo.data.todos.firebase.model.asFirebaseTodo
-import hu.bme.aut.android.todo.data.todos.firebase.model.asTodo
+import com.google.firebase.firestore.snapshots
+import hu.bme.aut.android.todo.data.firebase.model.FirebaseTodo
+import hu.bme.aut.android.todo.data.firebase.model.asFirebaseTodo
+import hu.bme.aut.android.todo.data.repository.auth.IAuthRepository
 import hu.bme.aut.android.todo.domain.model.Todo
+import com.google.firebase.firestore.toObject
+import com.google.firebase.firestore.toObjects
+import hu.bme.aut.android.todo.data.firebase.model.asTodo
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
 
-class FirebaseTodoService(
+class FirebaseTodoRepository(
     private val firestore: FirebaseFirestore,
-    private val authService: AuthService
-) : TodoService {
+    private val authRepository: IAuthRepository
+) : ITodoRepository {
 
-    override val todos: Flow<List<Todo>> = authService.currentUser.flatMapLatest { user ->
-        if (user == null) flow { emit(emptyList()) }
-        else currentCollection(user.id)
-            .snapshots()
-            .map { snapshot ->
-                snapshot
-                    .toObjects<FirebaseTodo>()
-                    .map {
-                        it.asTodo()
-                    }
-            }
-    }
-
-    override suspend fun getTodo(id: String): Todo? =
-        authService.currentUserId?.let {
-            currentCollection(it).document(id).get().await().toObject<FirebaseTodo>()?.asTodo()
+    @OptIn(ExperimentalCoroutinesApi::class)
+    override suspend fun getAllTodos(): Flow<List<Todo>> =
+        authRepository.currentUser.flatMapLatest { user ->
+            if (user == null) flow { emit(emptyList()) }
+            else currentCollection(user.id)
+                .snapshots()
+                .map { snapshot ->
+                    snapshot
+                        .toObjects<FirebaseTodo>()
+                        .map {
+                            it.asTodo()
+                        }
+                }
         }
 
-    override suspend fun saveTodo(todo: Todo) {
-        authService.currentUserId?.let {
+    override suspend fun getTodoById(id: String): Flow<Todo?> =
+        flow {
+            emit(
+                authRepository.currentUserId?.let {
+                    currentCollection(it).document(id).get().await().toObject<FirebaseTodo>()
+                        ?.asTodo()
+                }
+            )
+        }
+
+    override suspend fun insertTodo(todo: Todo) {
+        authRepository.currentUserId?.let {
             currentCollection(it).add(todo.asFirebaseTodo()).await()
         }
     }
 
     override suspend fun updateTodo(todo: Todo) {
-        authService.currentUserId?.let {
+        authRepository.currentUserId?.let {
             currentCollection(it).document(todo.id).set(todo.asFirebaseTodo()).await()
         }
     }
 
     override suspend fun deleteTodo(id: String) {
-        authService.currentUserId?.let {
+        authRepository.currentUserId?.let {
             currentCollection(it).document(id).delete().await()
         }
     }
@@ -455,29 +471,35 @@ package hu.bme.aut.android.todo
 import android.app.Application
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import hu.bme.aut.android.todo.data.auth.AuthService
-import hu.bme.aut.android.todo.data.auth.FirebaseAuthService
-import hu.bme.aut.android.todo.data.todos.TodoService
-import hu.bme.aut.android.todo.data.todos.firebase.FirebaseTodoService
+import hu.bme.aut.android.todo.data.repository.auth.FirebaseAuthRepository
+import hu.bme.aut.android.todo.data.repository.auth.IAuthRepository
+import hu.bme.aut.android.todo.data.repository.todo.FirebaseTodoRepository
+import hu.bme.aut.android.todo.data.repository.todo.ITodoRepository
 
-class TodoApplication : Application(){
+class TodoApplication : Application() {
+    companion object {
+        lateinit var authRepository: IAuthRepository
+        lateinit var todoRepository: ITodoRepository
+    }
+
     override fun onCreate() {
         super.onCreate()
-        authService = FirebaseAuthService(FirebaseAuth.getInstance())
-        todoService = FirebaseTodoService(FirebaseFirestore.getInstance(), authService)
+        authRepository = FirebaseAuthRepository(FirebaseAuth.getInstance())
+        todoRepository = FirebaseTodoRepository(FirebaseFirestore.getInstance(), authRepository)
     }
 
-    companion object{
-        lateinit var authService: AuthService
-        lateinit var todoService: TodoService
-    }
 }
+
 ```
 
 Próbáljuk ki az alkalmazásunkat! Ellenőrizzük, hogy tényleg létrejönnek az adatbázisban is a feladatok.
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik Firebase Firestore oldalán a létrehozott feladat, illetve a futó alkalmazás, melyben az egyik létrehozott feladat tartalmazza a Neptun-kódot. A képernyőkép szükséges feltétele a pontszám megszerzésének.
+	Készíts egy képernyő képet, amin látszódik **Firebase Firestore oldalán a létrehozott feladat**, illetve a **futó alkalmazás**, melyben az egyik létrehozott feladat tartalmazza a Neptun-kódot.
+
+	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 !!!warning "Messaging, Crashlytics, Analytics"
 	A kövezkező technológiák átfutási ideje sajnos hosszabb, így az eredményre nem ritkán órákat is várni kell. (A notificationnek néhány perc alatt meg kell jönnie.)
@@ -490,7 +512,7 @@ Adjuk hozzá a projektünkhöz a *Firebase Messaging* függőséget:
 
 ```toml
 [libraries]
-firebase-messaging-ktx = { group = "com.google.firebase", name="firebase-messaging-ktx" }
+firebase-messaging = { group = "com.google.firebase", name="firebase-messaging" }
 ```
 
 `build.gradle.kts`:
@@ -535,11 +557,11 @@ Adjuk hozzá a projekthez a függőségeket:
 
 ```toml
 [versions]
-crashlytics = "3.0.3"
+crashlytics = "3.0.6"
 
 [libraries]
-firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx" }
-firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx" }
+firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics" }
+firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics" }
 
 [plugins]
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
@@ -565,8 +587,8 @@ Végül pedig szükségünk van két egyszerű Gradle függőségre is, amit a m
 
 ```gradle
 dependencies {
-    implementation(libs.firebase.crashlytics.ktx)
-    implementation(libs.firebase.analytics.ktx)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
 }
 ```
 
@@ -634,11 +656,15 @@ IconButton(onClick = {
 Fontos kiemelni, hogy nem garantált, hogy az analitika valós időben látszik a *Firebase console*-on. 30 percig vagy akár tovább is tarthat, mire egy-egy esemény itt megjelenik.
 
 <p align="center">
-<img src="./assets/firebase_analytics.png">
+<img src="./assets/firebase_console_analytics.png">
 </p>
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik a futó alkalmazás a lista oldalon, illetve a két új akciógomb forráskódja, melyben a Neptun-kód komment formájában látható. A képernyőkép szükséges feltétele a pontszám megszerzésének.
+	Készíts egy képernyő képet, amin látszódik a futó alkalmazás **a lista oldalon**, illetve a k**ét új akciógomb forráskódja**, melyben a Neptun-kódod komment formájában látható. 
+
+	A képet a megoldásban a repository-ba f3.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 ## Önálló feladatok
 
@@ -646,10 +672,18 @@ Fontos kiemelni, hogy nem garantált, hogy az analitika valós időben látszik 
 Valósítsuk meg, hogy a bejelentkező képernyő helyett egyből a lista oldalra ugorjunk, ha a felhasználó kijelentkezés helyett csak bezárta az alkalmazást!
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik a futó alkalmazás a lista oldalon, az automatikus bejelentkezést megvalósító forráskód, melyben a Neptun-kód komment formájában látható. A képernyőkép szükséges feltétele a pontszám megszerzésének.
+	Készíts egy képernyő képet, amin látszódik a futó alkalmazás **a lista oldalon**, az **automatikus bejelentkezést megvalósító forráskód**, melyben a Neptun-kód komment formájában látható. 
+
+	A képet a megoldásban a repository-ba f4.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 ### Navigáció esemény jelzése
 Küldjünk egy analitikai eseményt abban az esetben, ha a felhasználó megnyitja valamelyik feladatát! Az esemény tartalmazza a feladat azonosítóját is. Figyeljünk arra, hogy megfelelő névvel küldjük el az eseményt!
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy képernyő képet, amin látszódik a futó alkalmazás a lista oldalon, a navigáció során az eseményt kiküldő forráskód, melyben a Neptun-kód komment formájában látható. A képernyőkép szükséges feltétele a pontszám megszerzésének.
+	Készíts egy képernyő képet, amin látszódik a **futó alkalmazás a lista oldalon**, a navigáció során az **eseményt kiküldő forráskód**, melyben a Neptun-kód komment formájában látható. 
+
+	A képet a megoldásban a repository-ba f5.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.

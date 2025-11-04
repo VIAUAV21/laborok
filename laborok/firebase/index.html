@@ -970,8 +970,7 @@ Az alkalmazás az alábbi fő funkciókat támogatja:
 <p>A <code>neptun.txt</code> fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.</p>
 </li>
 </ol>
-<p>A Firebase megismeréséhez ebben a laborban egy előre elkészített projektbe fogjuk integrálni a különböző szolgáltatásokat. Ez megtalálható a repository-n belül is, valamilyen probléma esetén a kezdőprojektet <a href="./assets/Todo_firebase_starter.zip">erről a linkről érhető el</a>.</p>
-<p>Ezután indítsuk el az Android Studio-t, majd nyissuk meg a kicsomagolt projektet.</p>
+<p>A Firebase funkcióinak megismeréséhez ebben a laborban egy előre elkészített projektbe fogjuk integrálni a különböző szolgáltatásokat. Ez megtalálható a repository-n belül. Indítsuk el az Android Studio-t, majd nyissuk meg a <code>ToDo</code> projektet.</p>
 <div class="admonition danger">
 <p class="admonition-title">FILE PATH</p>
 <p>A projekt a repository-ban lévő <code>Todo</code> könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!</p>
@@ -1048,7 +1047,7 @@ Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a más
 </code></pre></div>
 <p>Illetve, hogy a <code>libs.versions.toml</code> fájlban megfelelő-e a verzió:</p>
 <div class="highlight"><pre><span></span><code><span class="k">[versions]</span>
-<span class="n">googleGmsGoogleServices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"4.4.2"</span>
+<span class="n">googleGmsGoogleServices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"4.4.4"</span>
 <span class="p">...</span>
 
 <span class="k">[plugins]</span>
@@ -1058,7 +1057,7 @@ Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a más
 <p>A Firebase BoM segítségével egységesen tudjuk kezelni az összes firebase könyvtárunk verziószámát.</p>
 <p>Vegyük fel a Firebase BoM-ot a <code>libs.versions.toml</code> fájlba:</p>
 <div class="highlight"><pre><span></span><code><span class="k">[versions]</span>
-<span class="n">firebaseBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"33.11.0"</span>
+<span class="n">firebaseBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"34.5.0"</span>
 
 <span class="k">[libraries]</span>
 <span class="n">firebase-bom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"com.google.firebase"</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"firebase-bom"</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"firebaseBom"</span><span class="w"> </span><span class="p">}</span>
@@ -1071,7 +1070,7 @@ Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a más
 <p>Ezek után cseréljük le a <code>firebase-auth</code> függőségeket a következőre:</p>
 <p><code>libs.versions.toml</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="k">[libraries]</span>
-<span class="n">firebase-auth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"com.google.firebase"</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"firebase-auth-ktx"</span><span class="w"> </span><span class="p">}</span>
+<span class="n">firebase-auth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"com.google.firebase"</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"firebase-auth"</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
 <p><code>build.gradle.kts</code>:</p>
 <div class="highlight"><pre><span></span><code>dependencies {
@@ -1084,8 +1083,8 @@ Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a más
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/firebase_console_auth_method.png" data-desc-position="bottom"><img src="./assets/firebase_console_auth_method.png"></a>
 </p>
 
-<p>Készítsük el a megfelelő <code>Service</code> osztályt. Hozzunk létre a <code>data.auth</code> package-en belül a <code>FirebaseAuthService</code> osztályt! Valósítsuk meg az <code>AuthService</code> interfész egyes metódusait! Ehhez szükségünk lesz egy <code>FirebaseAuth</code> objektumra, melyet külső forrásból fogunk megkapni:</p>
-<p></p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.auth</span><span class="w">  </span>
+<p>Készítsük el a megfelelő <code>Repository</code> osztályt. Hozzunk létre a <code>data.auth</code> package-en belül a <code>FirebaseAuthRepository</code> osztályt! Valósítsuk meg az <code>IAuthRepository</code> <em>interface</em> egyes metódusait! Ehhez szükségünk lesz egy <code>FirebaseAuth</code> objektumra, melyet külső forrásból fogunk megkapni:</p>
+<p></p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.auth</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.auth.FirebaseAuth</span><span class="w">  </span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.auth.UserProfileChangeRequest</span><span class="w">  </span>
@@ -1095,7 +1094,7 @@ Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a más
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.callbackFlow</span><span class="w">  </span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.tasks.await</span>
 
-<span class="kd">class</span><span class="w"> </span><span class="nc">FirebaseAuthService</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">firebaseAuth</span><span class="p">:</span><span class="w"> </span><span class="n">FirebaseAuth</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">AuthService</span><span class="w"> </span><span class="p">{</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">FirebaseAuthRepository</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">firebaseAuth</span><span class="p">:</span><span class="w"> </span><span class="n">FirebaseAuth</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">IAuthRepository</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">currentUserId</span><span class="p">:</span><span class="w"> </span><span class="kt">String?</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">firebaseAuth</span><span class="p">.</span><span class="na">currentUser</span><span class="o">?.</span><span class="na">uid</span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">hasUser</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">firebaseAuth</span><span class="p">.</span><span class="na">currentUser</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">currentUser</span><span class="p">:</span><span class="w"> </span><span class="n">Flow</span><span class="o">&lt;</span><span class="n">User?&gt;</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">callbackFlow</span><span class="w"> </span><span class="p">{</span>
@@ -1137,8 +1136,8 @@ Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a más
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-Nézzük át, hogyan tudtuk az általunk definiált <code>AuthService</code> interfészhez illeszteni a Firebase által biztosított API-t!<p></p>
-<p>Sokszor a biztosított API közvetlenül megfeleltethető az általunk definiált szolgáltatásokkal, mint például a <code>currentUser</code> vagy <code>hasUser</code> mezőknél. Itt egyedül arra kell figyelnünk, hogy ne maradjon le a <code>get()</code> definíció, akkor ugyanis a <code>Service</code> létrejöttekor történne egy értékadás, nem pedig minden egyes kiolvasásnál egy függvényhívás.</p>
+Nézzük át, hogyan tudtuk az általunk definiált <code>IAuthRepository</code> <em>interface</em>-hez illeszteni a <em>Firebase</em> által biztosított API-t!<p></p>
+<p>Sokszor a biztosított API közvetlenül megfeleltethető az általunk definiált szolgáltatásokkal, mint például a <code>currentUser</code> vagy <code>hasUser</code> mezőknél. Itt egyedül arra kell figyelnünk, hogy ne maradjon le a <code>get()</code> definíció, akkor ugyanis a <code>Repository</code> létrejöttekor történne egy értékadás, nem pedig minden egyes kiolvasásnál egy függvényhívás.</p>
 <p>Ha szerencsénk van, akkor a felhasznált API beépítetten támogatni fogja a Kotlin különböző funkcionalitásait, mint például a Kotlinos típusok, contract-ok és coroutine-ok. Sokszor viszont Java alapú könyvtárakat kapunk, amiket nekünk kell adaptálni Kotlin környezetre. Erre egy jó példa a <code>currentUser</code> mező. Ez a <code>callbackFlow</code> metódust használja, melynek segítségével a callback jellegű API-t tudjuk átalakítani <code>Flow</code> jellegű eredménnyé. A blokkon belül egy listenert regisztrálunk be, mellyel meg tudjuk figyelni, ha változás történik az aktuális felhasználók körében. Ekkor a <code>trySend()</code> metódussal tudjuk a Flow-ra feliratkozó felé elküldeni az új felhasználó adatait. Érdemes arra is figyelni, hogy ez a listener csak a feliratkozás után kezd el értékeket kiküldeni. Annak érdekében, hogy a UI egyből megkapja az aktuális értéket, a feliratkozás előtt kiküldjük az aktuális felhasználó adatait is.</p>
 <p>A többi utasításnál a Firebase egy <code>Task</code> típusú eredmény objektummal tér vissza. A Java világában erre fel tudunk iratkozni, és az eredményét egy Callback-ben le tudjuk kezelni. Szerencsére azonban a Firebase általános könytvárában megtalálható egy Kotlin kiegészítő metódus, mellyel a <code>Task</code> bevárható coroutine kontextusban az <code>await()</code> kulcsszóval. A teljesség kedvéért nézzük meg az alábbi példát, hogyan lehet egy Callback jellegű API-t átalakítani <code>suspend</code> fajtájú függvénnyé:</p>
 <div class="highlight"><pre><span></span><code><span class="kd">override</span><span class="w"> </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">authenticate</span><span class="p">(</span><span class="n">email</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">suspendCoroutine</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">continuation</span><span class="w"> </span><span class="o">-&gt;</span>
@@ -1149,27 +1148,28 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>AuthService</code> int
 <span class="p">}</span>
 </code></pre></div>
 <p>A <code>suspendCoroutine</code> metódus le fogja futtatni a benne megadott blokkot, majd addig várakoztatja a coroutine-t, ameddig a blokkban megkapott <code>Continuation</code> objektumon keresztül nem jelezzük a hívás végeredményét. Ezzel a függvénnyel könnyedén át tudjuk alakítani a <code>Callback</code> jellegű működéseket <code>suspend</code> alapúra. Arra azonban figyeljünk, hogy minden esetben meghívódjon a <code>Continuation</code> valamelyik <code>resume</code> metódusa, ellenkező esetben ugyanis befagy az adott coroutine, sose fog tudni továbblépni. Hasonlóan hasznos függvény a <code>suspendCancellableCoroutine</code>, mellyel azokat az eseteket is le tudjuk kezelni, ha a coroutine-t a folyamat közben törlik.</p>
-<p>Állítsuk át az alkalmazásunkat, hogy ezt az új <code>FirebaseAuthService</code>-t használja! Ehhez módosítsuk a <code>TodoApplication</code> osztályunkat:</p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo</span><span class="w">  </span>
+<p>Állítsuk át az alkalmazásunkat, hogy ezt az új <code>FirebaseAuthRepository</code>-t használja! Ehhez módosítsuk a <code>TodoApplication</code> osztályunkat:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo</span>
 
-<span class="k">import</span><span class="w"> </span><span class="nn">android.app.Application</span><span class="w">  </span>
-<span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.auth.FirebaseAuth</span><span class="w">  </span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.auth.AuthService</span><span class="w">  </span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.auth.FirebaseAuthService</span><span class="w">  </span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.MemoryTodoService</span><span class="w">  </span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.TodoService</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.app.Application</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.auth.FirebaseAuth</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.auth.FirebaseAuthService</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.auth.IAuthRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.todo.ITodoRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.todo.MemoryTodoRepository</span>
 
-<span class="kd">class</span><span class="w"> </span><span class="nc">TodoApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">(){</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">TodoApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">authRepository</span><span class="p">:</span><span class="w"> </span><span class="n">IAuthRepository</span>
+<span class="w">        </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">todoRepository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span>
+<span class="w">    </span><span class="p">}</span>
+
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">()</span>
-<span class="w">        </span><span class="n">authService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FirebaseAuthService</span><span class="p">(</span><span class="n">FirebaseAuth</span><span class="p">.</span><span class="na">getInstance</span><span class="p">())</span>
-<span class="w">        </span><span class="n">todoService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MemoryTodoService</span><span class="p">()</span>
+<span class="w">        </span><span class="n">authRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FirebaseAuthService</span><span class="p">(</span><span class="n">FirebaseAuth</span><span class="p">.</span><span class="na">getInstance</span><span class="p">())</span>
+<span class="w">        </span><span class="n">todoRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MemoryTodoRepository</span><span class="p">()</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="n">companion</span><span class="w"> </span><span class="n">object</span><span class="p">{</span>
-<span class="w">        </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">authService</span><span class="p">:</span><span class="w"> </span><span class="n">AuthService</span>
-<span class="w">        </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">todoService</span><span class="p">:</span><span class="w"> </span><span class="n">TodoService</span>
-<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Próbáljuk ki az alkalmazást! Hozzunk létre egy új felhasználót!</p>
@@ -1179,18 +1179,20 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>AuthService</code> int
 </div>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy képernyő képet, amin látszódik Firebase Authentication oldalán a beregisztrált felhasználó, illetve a <code>FirebaseAuthService</code> forráskódja, melyben a Neptun-kód komment formájában látható. A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
+<p>Készíts egy képernyő képet, amin látszódik a <strong>Firebase Authentication oldalán a beregisztrált felhasználó</strong>, illetve a <strong><code>FirebaseAuthRepository</code> forráskódja</strong>, melyben a Neptun-kódod komment formájában látható. </p>
+<p>A képet a megoldásban a repository-ba f1.png néven töltsd föl.</p>
+<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <h2 id="feladatok-listazasa-keszitese">Feladatok listázása, készítése<a class="headerlink" href="#feladatok-listazasa-keszitese" title="Permanent link">¶</a></h2>
 <p>Következő lépésben a feladatok listázását fogjuk implementálni a projekten belül.</p>
 <p>Adjuk hozzá a projekthez a <em>Cloud Firestore</em> támogatást:</p>
 <p><code>libs.versions.toml</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="k">[libraries]</span>
-<span class="w">    </span><span class="n">firebase-firestore-ktx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"com.google.firebase"</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"firebase-firestore-ktx"</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">firebase-firestore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"com.google.firebase"</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"firebase-firestore"</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
 <p>Modul szintű <code>build.gradle.kts</code>:</p>
 <div class="highlight"><pre><span></span><code>dependencies {
-    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.firestore)
 }
 </code></pre></div>
 <p>Kapcsoljuk be a <em>Cloud Firestore</em>-t a <em>Firebase console</em>-on is . Az adatbázist <em>test mode</em>-ban fogjuk használni, így egyelőre publikusan írható/olvasható lesz, de cserébe nem kell konfigurálnunk a hozzáférés-szabályozást. Ezt természetesen később mindenképp meg kellene tenni egy éles projektben.</p>
@@ -1199,13 +1201,13 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>AuthService</code> int
 <p>A <em>test mode</em>-ban konfigurált adatbázis ugyan publikusan írtahó/olvasható, de alapértelmezés szerint egy időbeni korlát van rá. Ez a mostani labornál nem okoz problémát, de egy hosszabb projektnél, mint például a házi feladat elkészítése, erre érdemes figyelni.</p>
 </div>
 <p align="center">
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/firebase_create_firestore.png" data-desc-position="bottom"><img src="./assets/firebase_create_firestore.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/firebase_console_create_firestore.png" data-desc-position="bottom"><img src="./assets/firebase_console_create_firestore.png"></a>
 </p>
 
 <p>Locationnek válasszunk egy hozzánk közel eső opciót.</p>
-<p>Hozzuk létre a <code>data.todos</code> package-en belül a <code>firebase</code> package-et. Ebben két osztályt fogunk definiálni: a Firestore-ban tárolt adatobjektum osztály modelljét, illetve a kommunikációt megvalósító service kódját.</p>
-<p>Hozzuk először létre az adatot reprezentáló osztályt <code>FirebaseTodo</code> néven:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.firebase.model</span>
+<p>Hozzuk létre a <code>data</code> package-en belül a <code>firebase</code> package-et. Ebben két osztályt fogunk definiálni: a Firestore-ban tárolt adatobjektum osztály modelljét, illetve a kommunikációt megvalósító service kódját.</p>
+<p>Hozzuk először létre az adatot reprezentáló osztályt <code>FirebaseTodo</code> néven:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.firebase.model</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.Timestamp</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.DocumentId</span>
@@ -1216,6 +1218,8 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>AuthService</code> int
 <span class="k">import</span><span class="w"> </span><span class="nn">java.time.LocalDateTime</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">java.time.ZoneId</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">java.util.Date</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlin.time.ExperimentalTime</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlin.time.toJavaInstant</span>
 
 <span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">FirebaseTodo</span><span class="p">(</span>
 <span class="w">    </span><span class="nd">@DocumentId</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">,</span>
@@ -1236,68 +1240,76 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>AuthService</code> int
 <span class="w">    </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">description</span><span class="p">,</span>
 <span class="p">)</span>
 
+<span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalTime</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="kd">fun</span><span class="w"> </span><span class="n">Todo</span><span class="p">.</span><span class="nf">asFirebaseTodo</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FirebaseTodo</span><span class="p">(</span>
 <span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span>
 <span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">title</span><span class="p">,</span>
 <span class="w">    </span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">priority</span><span class="p">,</span>
-<span class="w">    </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Timestamp</span><span class="p">(</span><span class="n">Date</span><span class="p">.</span><span class="na">from</span><span class="p">(</span><span class="n">dueDate</span><span class="p">.</span><span class="na">atStartOfDayIn</span><span class="p">(</span><span class="n">TimeZone</span><span class="p">.</span><span class="na">currentSystemDefault</span><span class="p">()).</span><span class="na">toJavaInstant</span><span class="p">())),</span>
+<span class="w">    </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Timestamp</span><span class="p">(</span><span class="n">dueDate</span><span class="p">.</span><span class="na">atStartOfDayIn</span><span class="p">(</span><span class="n">TimeZone</span><span class="p">.</span><span class="na">currentSystemDefault</span><span class="p">()).</span><span class="na">toJavaInstant</span><span class="p">()),</span>
 <span class="w">    </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">description</span><span class="p">,</span>
 <span class="p">)</span>
-</code></pre></div><p></p>
+</code></pre></div>
 <p>Ebben a fájlban definiáltuk a két átalakító függvényt is, mellyel a Firebase és az alkalmazás többi részében használt Todo osztály között tudunk átalakítani. Az egyedüli bonyolult rész a Firebase által használt <code>Timestamp</code> osztály használata az időpont eltárolására, erre most részletesen nem térünk ki.</p>
-<p>Hozzuk létre a feladatok tárolását végző <code>FirebaseTodoService</code> osztályt is ebben a package-ben:</p>
-<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.firebase</span>
+<p>Hozzuk létre a feladatok tárolását végző <code>FirebaseTodoRepository</code> osztályt is ebben a package-ben:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.todo</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.FirebaseFirestore</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.ktx.snapshots</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.ktx.toObjects</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.ktx.toObject</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.auth.AuthService</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.TodoService</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.firebase.model.FirebaseTodo</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.firebase.model.asFirebaseTodo</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.firebase.model.asTodo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.snapshots</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.firebase.model.FirebaseTodo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.firebase.model.asFirebaseTodo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.auth.IAuthRepository</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.model.Todo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.toObject</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.toObjects</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.firebase.model.asTodo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.ExperimentalCoroutinesApi</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.*</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.tasks.await</span>
 
-<span class="kd">class</span><span class="w"> </span><span class="nc">FirebaseTodoService</span><span class="p">(</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">FirebaseTodoRepository</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">firestore</span><span class="p">:</span><span class="w"> </span><span class="n">FirebaseFirestore</span><span class="p">,</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">authService</span><span class="p">:</span><span class="w"> </span><span class="n">AuthService</span>
-<span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">TodoService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">authRepository</span><span class="p">:</span><span class="w"> </span><span class="n">IAuthRepository</span>
+<span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="w"> </span><span class="p">{</span>
 
-<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todos</span><span class="p">:</span><span class="w"> </span><span class="n">Flow</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Todo</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">authService</span><span class="p">.</span><span class="na">currentUser</span><span class="p">.</span><span class="na">flatMapLatest</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">user</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">flow</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">emit</span><span class="p">(</span><span class="n">emptyList</span><span class="p">())</span><span class="w"> </span><span class="p">}</span>
-<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="n">currentCollection</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="na">id</span><span class="p">)</span>
-<span class="w">            </span><span class="p">.</span><span class="na">snapshots</span><span class="p">()</span>
-<span class="w">            </span><span class="p">.</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">snapshot</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">                </span><span class="n">snapshot</span>
-<span class="w">                    </span><span class="p">.</span><span class="na">toObjects</span><span class="o">&lt;</span><span class="n">FirebaseTodo</span><span class="o">&gt;</span><span class="p">()</span>
-<span class="w">                    </span><span class="p">.</span><span class="na">map</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                        </span><span class="nb">it</span><span class="p">.</span><span class="na">asTodo</span><span class="p">()</span>
-<span class="w">                    </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getTodo</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">):</span><span class="w"> </span><span class="n">Todo? </span><span class="o">=</span>
-<span class="w">        </span><span class="n">authService</span><span class="p">.</span><span class="na">currentUserId</span><span class="o">?.</span><span class="na">let</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">currentCollection</span><span class="p">(</span><span class="nb">it</span><span class="p">).</span><span class="na">document</span><span class="p">(</span><span class="n">id</span><span class="p">).</span><span class="na">get</span><span class="p">().</span><span class="na">await</span><span class="p">().</span><span class="na">toObject</span><span class="o">&lt;</span><span class="n">FirebaseTodo</span><span class="o">&gt;</span><span class="p">()</span><span class="o">?.</span><span class="na">asTodo</span><span class="p">()</span>
+<span class="w">    </span><span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalCoroutinesApi</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getAllTodos</span><span class="p">():</span><span class="w"> </span><span class="n">Flow</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Todo</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">authRepository</span><span class="p">.</span><span class="na">currentUser</span><span class="p">.</span><span class="na">flatMapLatest</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">user</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">user</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">flow</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">emit</span><span class="p">(</span><span class="n">emptyList</span><span class="p">())</span><span class="w"> </span><span class="p">}</span>
+<span class="w">            </span><span class="k">else</span><span class="w"> </span><span class="n">currentCollection</span><span class="p">(</span><span class="n">user</span><span class="p">.</span><span class="na">id</span><span class="p">)</span>
+<span class="w">                </span><span class="p">.</span><span class="na">snapshots</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">snapshot</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">                    </span><span class="n">snapshot</span>
+<span class="w">                        </span><span class="p">.</span><span class="na">toObjects</span><span class="o">&lt;</span><span class="n">FirebaseTodo</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">                        </span><span class="p">.</span><span class="na">map</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                            </span><span class="nb">it</span><span class="p">.</span><span class="na">asTodo</span><span class="p">()</span>
+<span class="w">                        </span><span class="p">}</span>
+<span class="w">                </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 
-<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">saveTodo</span><span class="p">(</span><span class="n">todo</span><span class="p">:</span><span class="w"> </span><span class="n">Todo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">authService</span><span class="p">.</span><span class="na">currentUserId</span><span class="o">?.</span><span class="na">let</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getTodoById</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">):</span><span class="w"> </span><span class="n">Flow</span><span class="o">&lt;</span><span class="n">Todo?&gt;</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">flow</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">emit</span><span class="p">(</span>
+<span class="w">                </span><span class="n">authRepository</span><span class="p">.</span><span class="na">currentUserId</span><span class="o">?.</span><span class="na">let</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">currentCollection</span><span class="p">(</span><span class="nb">it</span><span class="p">).</span><span class="na">document</span><span class="p">(</span><span class="n">id</span><span class="p">).</span><span class="na">get</span><span class="p">().</span><span class="na">await</span><span class="p">().</span><span class="na">toObject</span><span class="o">&lt;</span><span class="n">FirebaseTodo</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">                        </span><span class="o">?.</span><span class="na">asTodo</span><span class="p">()</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">insertTodo</span><span class="p">(</span><span class="n">todo</span><span class="p">:</span><span class="w"> </span><span class="n">Todo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">authRepository</span><span class="p">.</span><span class="na">currentUserId</span><span class="o">?.</span><span class="na">let</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">currentCollection</span><span class="p">(</span><span class="nb">it</span><span class="p">).</span><span class="na">add</span><span class="p">(</span><span class="n">todo</span><span class="p">.</span><span class="na">asFirebaseTodo</span><span class="p">()).</span><span class="na">await</span><span class="p">()</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">updateTodo</span><span class="p">(</span><span class="n">todo</span><span class="p">:</span><span class="w"> </span><span class="n">Todo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">authService</span><span class="p">.</span><span class="na">currentUserId</span><span class="o">?.</span><span class="na">let</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">authRepository</span><span class="p">.</span><span class="na">currentUserId</span><span class="o">?.</span><span class="na">let</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">currentCollection</span><span class="p">(</span><span class="nb">it</span><span class="p">).</span><span class="na">document</span><span class="p">(</span><span class="n">todo</span><span class="p">.</span><span class="na">id</span><span class="p">).</span><span class="na">set</span><span class="p">(</span><span class="n">todo</span><span class="p">.</span><span class="na">asFirebaseTodo</span><span class="p">()).</span><span class="na">await</span><span class="p">()</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">deleteTodo</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">authService</span><span class="p">.</span><span class="na">currentUserId</span><span class="o">?.</span><span class="na">let</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">authRepository</span><span class="p">.</span><span class="na">currentUserId</span><span class="o">?.</span><span class="na">let</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">currentCollection</span><span class="p">(</span><span class="nb">it</span><span class="p">).</span><span class="na">document</span><span class="p">(</span><span class="n">id</span><span class="p">).</span><span class="na">delete</span><span class="p">().</span><span class="na">await</span><span class="p">()</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
@@ -1317,28 +1329,31 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>AuthService</code> int
 <span class="k">import</span><span class="w"> </span><span class="nn">android.app.Application</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.auth.FirebaseAuth</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.firestore.FirebaseFirestore</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.auth.AuthService</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.auth.FirebaseAuthService</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.TodoService</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.todos.firebase.FirebaseTodoService</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.auth.FirebaseAuthRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.auth.IAuthRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.todo.FirebaseTodoRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.todo.ITodoRepository</span>
 
-<span class="kd">class</span><span class="w"> </span><span class="nc">TodoApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">(){</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">TodoApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">authRepository</span><span class="p">:</span><span class="w"> </span><span class="n">IAuthRepository</span>
+<span class="w">        </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">todoRepository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span>
+<span class="w">    </span><span class="p">}</span>
+
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">()</span>
-<span class="w">        </span><span class="n">authService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FirebaseAuthService</span><span class="p">(</span><span class="n">FirebaseAuth</span><span class="p">.</span><span class="na">getInstance</span><span class="p">())</span>
-<span class="w">        </span><span class="n">todoService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FirebaseTodoService</span><span class="p">(</span><span class="n">FirebaseFirestore</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(),</span><span class="w"> </span><span class="n">authService</span><span class="p">)</span>
+<span class="w">        </span><span class="n">authRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FirebaseAuthRepository</span><span class="p">(</span><span class="n">FirebaseAuth</span><span class="p">.</span><span class="na">getInstance</span><span class="p">())</span>
+<span class="w">        </span><span class="n">todoRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FirebaseTodoRepository</span><span class="p">(</span><span class="n">FirebaseFirestore</span><span class="p">.</span><span class="na">getInstance</span><span class="p">(),</span><span class="w"> </span><span class="n">authRepository</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="n">companion</span><span class="w"> </span><span class="n">object</span><span class="p">{</span>
-<span class="w">        </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">authService</span><span class="p">:</span><span class="w"> </span><span class="n">AuthService</span>
-<span class="w">        </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">todoService</span><span class="p">:</span><span class="w"> </span><span class="n">TodoService</span>
-<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Próbáljuk ki az alkalmazásunkat! Ellenőrizzük, hogy tényleg létrejönnek az adatbázisban is a feladatok.</p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy képernyő képet, amin látszódik Firebase Firestore oldalán a létrehozott feladat, illetve a futó alkalmazás, melyben az egyik létrehozott feladat tartalmazza a Neptun-kódot. A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
+<p>Készíts egy képernyő képet, amin látszódik <strong>Firebase Firestore oldalán a létrehozott feladat</strong>, illetve a <strong>futó alkalmazás</strong>, melyben az egyik létrehozott feladat tartalmazza a Neptun-kódot.</p>
+<p>A képet a megoldásban a repository-ba f2.png néven töltsd föl.</p>
+<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Messaging, Crashlytics, Analytics</p>
@@ -1348,7 +1363,7 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>AuthService</code> int
 <p>Adjuk hozzá a projektünkhöz a <em>Firebase Messaging</em> függőséget:</p>
 <p><code>libs.versions.toml</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="k">[libraries]</span>
-<span class="n">firebase-messaging-ktx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"com.google.firebase"</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s">"firebase-messaging-ktx"</span><span class="w"> </span><span class="p">}</span>
+<span class="n">firebase-messaging</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"com.google.firebase"</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="o">=</span><span class="s">"firebase-messaging"</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
 <p><code>build.gradle.kts</code>:</p>
 <div class="highlight"><pre><span></span><code>dependencies {
@@ -1381,11 +1396,11 @@ válasszuk ki az alkalmazást, hogy minden futó példány megkapja az üzenetet
 <p>Adjuk hozzá a projekthez a függőségeket:</p>
 <p><code>libs.versions.toml</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="k">[versions]</span>
-<span class="n">crashlytics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"3.0.3"</span>
+<span class="n">crashlytics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"3.0.6"</span>
 
 <span class="k">[libraries]</span>
-<span class="n">firebase-analytics-ktx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">module</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"com.google.firebase:firebase-analytics-ktx"</span><span class="w"> </span><span class="p">}</span>
-<span class="n">firebase-crashlytics-ktx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">module</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"com.google.firebase:firebase-crashlytics-ktx"</span><span class="w"> </span><span class="p">}</span>
+<span class="n">firebase-analytics-ktx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">module</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"com.google.firebase:firebase-analytics"</span><span class="w"> </span><span class="p">}</span>
+<span class="n">firebase-crashlytics-ktx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">module</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"com.google.firebase:firebase-crashlytics"</span><span class="w"> </span><span class="p">}</span>
 
 <span class="k">[plugins]</span>
 <span class="n">firebase-crashlytics</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"com.google.firebase.crashlytics"</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="n">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"crashlytics"</span><span class="w"> </span><span class="p">}</span>
@@ -1402,8 +1417,8 @@ válasszuk ki az alkalmazást, hogy minden futó példány megkapja az üzenetet
 </code></pre></div>
 <p>Végül pedig szükségünk van két egyszerű Gradle függőségre is, amit a meglévő Firebase függőségek mellé helyezhetünk, a modul szintű <code>build.gradle.kts</code> fájlban:</p>
 <div class="highlight"><pre><span></span><code>dependencies {
-    implementation(libs.firebase.crashlytics.ktx)
-    implementation(libs.firebase.analytics.ktx)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
 }
 </code></pre></div>
 <p>Vegyünk fel egy új akciót <code>TodoListScreen</code> <code>TodoAppBar</code> részébe, amivel az alkalmazást hibával be tudjuk zárni:</p>
@@ -1456,25 +1471,31 @@ ugyanezen menüpont alatt lesznek elérhetők.</p>
 </code></pre></div>
 <p>Fontos kiemelni, hogy nem garantált, hogy az analitika valós időben látszik a <em>Firebase console</em>-on. 30 percig vagy akár tovább is tarthat, mire egy-egy esemény itt megjelenik.</p>
 <p align="center">
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/firebase_analytics.png" data-desc-position="bottom"><img src="./assets/firebase_analytics.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/firebase_console_analytics.png" data-desc-position="bottom"><img src="./assets/firebase_console_analytics.png"></a>
 </p>
 
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy képernyő képet, amin látszódik a futó alkalmazás a lista oldalon, illetve a két új akciógomb forráskódja, melyben a Neptun-kód komment formájában látható. A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
+<p>Készíts egy képernyő képet, amin látszódik a futó alkalmazás <strong>a lista oldalon</strong>, illetve a k**ét új akciógomb forráskódja**, melyben a Neptun-kódod komment formájában látható. </p>
+<p>A képet a megoldásban a repository-ba f3.png néven töltsd föl.</p>
+<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <h2 id="onallo-feladatok">Önálló feladatok<a class="headerlink" href="#onallo-feladatok" title="Permanent link">¶</a></h2>
 <h3 id="automatikus-bejelentkezes">Automatikus bejelentkezés<a class="headerlink" href="#automatikus-bejelentkezes" title="Permanent link">¶</a></h3>
 <p>Valósítsuk meg, hogy a bejelentkező képernyő helyett egyből a lista oldalra ugorjunk, ha a felhasználó kijelentkezés helyett csak bezárta az alkalmazást!</p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy képernyő képet, amin látszódik a futó alkalmazás a lista oldalon, az automatikus bejelentkezést megvalósító forráskód, melyben a Neptun-kód komment formájában látható. A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
+<p>Készíts egy képernyő képet, amin látszódik a futó alkalmazás <strong>a lista oldalon</strong>, az <strong>automatikus bejelentkezést megvalósító forráskód</strong>, melyben a Neptun-kód komment formájában látható. </p>
+<p>A képet a megoldásban a repository-ba f4.png néven töltsd föl.</p>
+<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <h3 id="navigacio-esemeny-jelzese">Navigáció esemény jelzése<a class="headerlink" href="#navigacio-esemeny-jelzese" title="Permanent link">¶</a></h3>
 <p>Küldjünk egy analitikai eseményt abban az esetben, ha a felhasználó megnyitja valamelyik feladatát! Az esemény tartalmazza a feladat azonosítóját is. Figyeljünk arra, hogy megfelelő névvel küldjük el az eseményt!</p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy képernyő képet, amin látszódik a futó alkalmazás a lista oldalon, a navigáció során az eseményt kiküldő forráskód, melyben a Neptun-kód komment formájában látható. A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
+<p>Készíts egy képernyő képet, amin látszódik a <strong>futó alkalmazás a lista oldalon</strong>, a navigáció során az <strong>eseményt kiküldő forráskód</strong>, melyben a Neptun-kód komment formájában látható. </p>
+<p>A képet a megoldásban a repository-ba f5.png néven töltsd föl.</p>
+<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 
     <hr>
@@ -1484,8 +1505,8 @@ ugyanezen menüpont alatt lesznek elérhetők.</p>
           </path>
         </svg>
       </span>
-      <span title="2025. április 3. 13:02:08">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. április 3. 13:02:08 CEST"><span class="timeago" datetime="2025-04-03T13:02:08+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. április 3. 13:02:08 CEST">2025-04-03</span>
+      <span title="2025. november 4. 03:34:49">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. november 4. 03:34:49 CET"><span class="timeago" datetime="2025-11-04T03:34:49+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. november 4. 03:34:49 CET">2025-11-04</span>
       </span>
     </span>
 

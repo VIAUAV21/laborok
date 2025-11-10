@@ -60,7 +60,7 @@ Tekintsük át a laborvezetővel a meglévő kódot!
 
 !!! info "Coil"
 
-    A Coil (Coroutine Image Loader) egy kép betöltő könyvtár Androidra, amelyet a Kotlin koroutinokra épül.   
+    A Coil (Coroutine Image Loader) egy kép betöltő könyvtár Androidra, amelyet a Kotlin coroutinokra épül.   
     A Coil használatának előnyei:  
 
     - Gyors: A Coil számos optimalizálást végez, beleértve a memória- és lemeztároló gyorsítótárazást, az átméretezést a memóriában, az automatikus kérések szüneteltetését/leállítását és még sok mást.  
@@ -70,10 +70,21 @@ Tekintsük át a laborvezetővel a meglévő kódot!
 
 ### Függőségek
 
+Tekintsük át a kiinduló projektben lévő függőségeket!
+
+### Modellek és adatbázis
+
 A `data.model` package-be hozzuk létre az alábbi két fájlt, melyek az API használatához szükségesek:
 
 `UnsplashPhoto.kt`:
 ```kotlin
+package hu.bme.aut.android.network.data.model
+
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import com.squareup.moshi.Json
+
 @Entity(tableName = "photos")
 data class UnsplashPhoto(
     @PrimaryKey(autoGenerate = false)
@@ -114,6 +125,10 @@ A `Moshi` automatikusan megoldja majd az egyes tagváltozók szerializálását,
 
 `SearchResult.kt`:
 ```kotlin
+package hu.bme.aut.android.network.data.model
+
+import com.squareup.moshi.Json
+
 data class SearchResult(
     @Json(name = "results") val photos: List<UnsplashPhoto>
 )
@@ -123,6 +138,15 @@ Hozzuk létre az első DAO-t a `data.local.dao` package-ben:
 
 `UnsplashPhotoDao.kt`:
 ```kotlin
+package hu.bme.aut.android.network.data.local.dao
+
+import androidx.paging.PagingSource
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import hu.bme.aut.android.network.data.model.UnsplashPhoto
+import kotlinx.coroutines.flow.Flow
+
 @Dao
 interface UnsplashPhotoDao {
     @Insert
@@ -146,6 +170,13 @@ Majd a `data.local.database` package-ben hozzuk létre az adatbázist:
 
 `UnsplashDatabase.kt`:
 ```kotlin
+package hu.bme.aut.android.network.data.local.database
+
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import hu.bme.aut.android.network.data.local.dao.UnsplashPhotoDao
+import hu.bme.aut.android.network.data.model.UnsplashPhoto
+
 @Database(entities = [UnsplashPhoto::class], version = 1)
 abstract class UnsplashDatabase : RoomDatabase() {
     abstract val photosDao: UnsplashPhotoDao
@@ -166,29 +197,41 @@ Hozzuk létre a lenti interface-t a `data.remote.api` package-ben.
 
 `UnsplashApi.kt`:
 ```kotlin
+package hu.bme.aut.android.network.data.remote.api
+
+import hu.bme.aut.android.network.data.model.SearchResult
+import hu.bme.aut.android.network.data.model.UnsplashPhoto
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
+
 interface UnsplashApi {
 
     @GET("/photos")
     suspend fun getPhotosFromEditorialFeed(
         @Query("page") page: Int = 1,
         @Query("per_page") perPage: Int = 10,
-        @Query("client_id") clientId: String = "ACCESS_KEY",
+        @Query("client_id") clientId: String = CLIENT_ID,
     ): Response<List<UnsplashPhoto>>
 
     @GET("/photos/{id}")
     suspend fun getPhotoById(
         @Path("id") id: String,
-        @Query("client_id") clientId: String = "ACCESS_KEY",
+        @Query("client_id") clientId: String = CLIENT_ID,
     ): Response<UnsplashPhoto>
 
     @GET("/search/photos")
     suspend fun getSearchResults(
-        @Query("client_id") clientId: String = "ACCESS_KEY",
+        @Query("client_id") clientId: String = CLIENT_ID,
         @Query("page") page: Int = 1,
         @Query("per_page") perPage: Int = 10,
         @Query("query") searchTerms: String,
     ): Response<SearchResult>
 
+    companion object {
+        private const val CLIENT_ID: String = "ACCESS_KEY"
+    }
 }
 ```
 
@@ -198,14 +241,87 @@ A Retrofit annotációi segítségével egyszerűen tudjuk definiálni a kérés
 Cseréljük le az itt szereplő `ACCESS_KEY` stringet az Unsplashen regisztráció után elérhető saját kulcsunkra.
 Az https://unsplash.com/oauth/applications oldalon regisztráció után egy új applikációt kell létrehozni, és azt megnyitva találhatjuk meg a kulcsot.
 
+### PagingUtil
+
+
+Hozzuk létre a `PagingUtil` osztályt az `util` package-ben a paging konfigurálására és placeholderek beállítására:
+
+`PagingUtil.kt`:
+```kotlin
+package hu.bme.aut.android.network.util
+
+import android.os.Parcel
+import android.os.Parcelable
+import androidx.compose.foundation.lazy.grid.LazyGridItemScope
+import androidx.compose.foundation.lazy.grid.LazyGridScope
+import androidx.compose.runtime.Composable
+import androidx.paging.compose.LazyPagingItems
+
+object PagingUtil {
+    const val INITIAL_PAGE_SIZE = 10
+    const val INITIAL_PAGE = 1
+
+    fun <T: Any> LazyGridScope.items(
+        items: LazyPagingItems<T>,
+        key: ((item: T) -> Any)? = null,
+        itemContent: @Composable LazyGridItemScope.(value: T?) -> Unit
+    ) {
+        items(
+            count = items.itemCount,
+            key = if (key == null) null else { index ->
+                val item = items.peek(index)
+                if (item == null) {
+                    PagingPlaceholderKey(index)
+                } else {
+                    key(item)
+                }
+            }
+        ) { index ->
+            itemContent(items[index])
+        }
+    }
+
+    data class PagingPlaceholderKey(private val index: Int) : Parcelable {
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeInt(index)
+        }
+
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        companion object {
+            @Suppress("unused")
+            @JvmField
+            val CREATOR: Parcelable.Creator<PagingPlaceholderKey> =
+                object : Parcelable.Creator<PagingPlaceholderKey> {
+                    override fun createFromParcel(parcel: Parcel) =
+                        PagingPlaceholderKey(parcel.readInt())
+
+                    override fun newArray(size: Int) = arrayOfNulls<PagingPlaceholderKey?>(size)
+                }
+        }
+    }
+}
+```
+
 ### A PagingSource osztály
 
-Az első lépés egy PagingSource implementáció meghatározása, hogy az adatforrás azonosítható legyen. A PagingSource API osztálya tartalmazza a load() metódust, amelyet felül kell írni, hogy jelentse, hogyan lehet lapozott adatokat visszanyerni a megfelelő adatforrásból.
+Ezután határozzunk meg egy PagingSource implementációt, hogy az adatforrás azonosítható legyen. A PagingSource API osztálya tartalmazza a load() metódust, amelyet felül kell írni, hogy jelentse, hogyan lehet lapozott adatokat visszanyerni a megfelelő adatforrásból.
 
 Hozzuk létre az alábbi osztályt a `data.paging` package-ben:
 
 `SearchPagingSource.kt`:
 ```kotlin
+package hu.bme.aut.android.network.data.paging
+
+import android.util.Log
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
+import hu.bme.aut.android.network.data.model.UnsplashPhoto
+import hu.bme.aut.android.network.data.remote.api.UnsplashApi
+import hu.bme.aut.android.network.util.PagingUtil.INITIAL_PAGE_SIZE
+
 class SearchPagingSource(
     private val api: UnsplashApi,
     private val searchTerms: String
@@ -263,6 +379,11 @@ Hozzuk létre az alábbi osztályt a `data.model` package-ben:
 
 `UnsplashPhotoRemoteKeys.kt`:
 ```kotlin
+package hu.bme.aut.android.network.data.model
+
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
 @Entity(tableName = "remote_keys")
 data class UnsplashPhotoRemoteKeys(
     @PrimaryKey val id: String,
@@ -277,6 +398,14 @@ Hozzuk létre az alábbi osztályt a `data.local.dao` package-ben:
 
 `UnsplashPhotoRemoteKeysDao.kt`:
 ```kotlin
+package hu.bme.aut.android.network.data.local.dao
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import hu.bme.aut.android.network.data.model.UnsplashPhotoRemoteKeys
+
 @Dao
 interface UnsplashPhotoRemoteKeysDao {
 
@@ -295,6 +424,15 @@ Ezeket az osztályokat az adatbázisunkba is vegyük fel. Ne felejtsük el az ad
 
 `UnsplashDatabase.kt`:
 ```kotlin
+package hu.bme.aut.android.network.data.local.database
+
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import hu.bme.aut.android.network.data.local.dao.UnsplashPhotoDao
+import hu.bme.aut.android.network.data.local.dao.UnsplashPhotoRemoteKeysDao
+import hu.bme.aut.android.network.data.model.UnsplashPhoto
+import hu.bme.aut.android.network.data.model.UnsplashPhotoRemoteKeys
+
 @Database(entities = [UnsplashPhoto::class, UnsplashPhotoRemoteKeys::class], version = 2)
 abstract class UnsplashDatabase : RoomDatabase() {
     abstract val photosDao: UnsplashPhotoDao
@@ -318,6 +456,22 @@ Hozzuk létre az alábbi osztályt a `data.paging` package-ben:
 
 `UnsplashRemoteMediator.kt`:
 ```kotlin
+package hu.bme.aut.android.network.data.paging
+
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadType
+import androidx.paging.PagingState
+import androidx.paging.RemoteMediator
+import androidx.room.withTransaction
+import coil3.network.HttpException
+import hu.bme.aut.android.network.data.local.database.UnsplashDatabase
+import hu.bme.aut.android.network.data.model.UnsplashPhoto
+import hu.bme.aut.android.network.data.model.UnsplashPhotoRemoteKeys
+import hu.bme.aut.android.network.data.remote.api.UnsplashApi
+import hu.bme.aut.android.network.util.PagingUtil.INITIAL_PAGE
+import java.io.IOException
+import java.io.InvalidObjectException
+
 @ExperimentalPagingApi
 class UnsplashRemoteMediator(
     private val api: UnsplashApi,
@@ -336,7 +490,9 @@ class UnsplashRemoteMediator(
                 }
                 LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
                 LoadType.APPEND -> {
-                    val remoteKeys = getRemoteKeysForLastItem(state) ?: throw InvalidObjectException("Result is empty")
+                    val remoteKeys = getRemoteKeysForLastItem(state) ?: throw InvalidObjectException(
+                        "Result is empty"
+                    )
                     remoteKeys.nextKey ?: return MediatorResult.Success(endOfPaginationReached = true)
                 }
             }
@@ -411,65 +567,26 @@ A `load()` metódusnak a következő lépéseket kell végrehajtania:
   - Ha a betöltés sikeres és a kapott elemek listája üres vagy az utolsó oldal indexe, akkor térjen vissza a `MediatorResult.Success` `(endOfPaginationReached = true)` értékkel. Az adatok tárolása után érvénytelenítse az adatforrást, hogy értesítse a Paging könyvtárat az új adatokról.
   - Ha a kérés hibát okoz, akkor térjen vissza a `MediatorResult.Error` értékkel.
 
-### PagingUtil
-
-
-Hozzuk létre a `PagingUtil` osztályt az `util` package-ben a paging konfigurálására és placeholderek beállítására:
-
-`PagingUtil.kt`:
-```kotlin
-object PagingUtil {
-    const val INITIAL_PAGE_SIZE = 10
-    const val INITIAL_PAGE = 1
-
-    fun <T: Any> LazyGridScope.items(
-        items: LazyPagingItems<T>,
-        key: ((item: T) -> Any)? = null,
-        itemContent: @Composable LazyGridItemScope.(value: T?) -> Unit
-    ) {
-        items(
-            count = items.itemCount,
-            key = if (key == null) null else { index ->
-                val item = items.peek(index)
-                if (item == null) {
-                    PagingPlaceholderKey(index)
-                } else {
-                    key(item)
-                }
-            }
-        ) { index ->
-            itemContent(items[index])
-        }
-    }
-
-    data class PagingPlaceholderKey(private val index: Int) : Parcelable {
-        override fun writeToParcel(parcel: Parcel, flags: Int) {
-            parcel.writeInt(index)
-        }
-
-        override fun describeContents(): Int {
-            return 0
-        }
-
-        companion object {
-            @Suppress("unused")
-            @JvmField
-            val CREATOR: Parcelable.Creator<PagingPlaceholderKey> =
-                object : Parcelable.Creator<PagingPlaceholderKey> {
-                    override fun createFromParcel(parcel: Parcel) =
-                        PagingPlaceholderKey(parcel.readInt())
-
-                    override fun newArray(size: Int) = arrayOfNulls<PagingPlaceholderKey?>(size)
-                }
-        }
-    }
-}
-```
-
 A `data.repository` package-be vegyük fel a lenti `DataSource` osztályt, melyen keresztül a ViewModel eléri a kéréseinket:
 
 `UnsplashPhotoDataSource.kt`:
 ```kotlin
+package hu.bme.aut.android.network.data.repository
+
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import hu.bme.aut.android.network.data.local.database.UnsplashDatabase
+import hu.bme.aut.android.network.data.model.UnsplashPhoto
+import hu.bme.aut.android.network.data.paging.SearchPagingSource
+import hu.bme.aut.android.network.data.paging.UnsplashRemoteMediator
+import hu.bme.aut.android.network.data.remote.api.UnsplashApi
+import hu.bme.aut.android.network.util.PagingUtil.INITIAL_PAGE_SIZE
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+
 @ExperimentalPagingApi
 class UnsplashPhotoDataSource(
     private val api: UnsplashApi,
@@ -480,7 +597,7 @@ class UnsplashPhotoDataSource(
         return Pager(
             config = PagingConfig(pageSize = INITIAL_PAGE_SIZE),
             remoteMediator = UnsplashRemoteMediator(api, db),
-            pagingSourceFactory = {  db.photosDao.getAllPhotos() }
+            pagingSourceFactory = { db.photosDao.getAllPhotos() }
         ).flow
     }
 
@@ -509,14 +626,27 @@ class UnsplashPhotoDataSource(
 }
 ```
 
-Ha a flow-emit résznél hibát kapunk, cseréljük le az importot a következőre: `import kotlinx.coroutines.flow.flow`.
-
 Itt láthatjuk a `Pager` osztály használatát a lapozott adatok folyamának beállításához.
 	
 Végül hozzuk létre a saját Application osztályunkat a gyökér package-ben:
 
 `UnsplashApplication.kt`:
 ```kotlin	
+package hu.bme.aut.android.network
+
+import android.app.Application
+import androidx.paging.ExperimentalPagingApi
+import androidx.room.Room
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import hu.bme.aut.android.network.data.local.database.UnsplashDatabase
+import hu.bme.aut.android.network.data.remote.api.UnsplashApi
+import hu.bme.aut.android.network.data.repository.UnsplashPhotoDataSource
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
+
 @ExperimentalPagingApi
 class UnsplashApplication : Application() {
     companion object {
@@ -545,7 +675,7 @@ class UnsplashApplication : Application() {
 
         val api = retrofit.create(UnsplashApi::class.java)
 
-        photoDataSource = UnsplashPhotoDataSource(api,db)
+        photoDataSource = UnsplashPhotoDataSource(api, db)
 
     }
 }
@@ -579,6 +709,26 @@ Ezt követően hozzuk létre a maradék két elrendezésünket a `feature.photos
 
 `PhotosFeed_Compact.kt`:
 ```kotlin
+package hu.bme.aut.android.network.feature.photos_feed.screensbysize
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.PullRefreshState
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.paging.compose.LazyPagingItems
+import hu.bme.aut.android.network.ui.common.PhotoItem
+import hu.bme.aut.android.network.ui.common.SearchTopAppBar
+import hu.bme.aut.android.network.ui.model.UnsplashPhotoUiModel
+
 @ExperimentalMaterial3Api
 @ExperimentalMaterialApi
 @Composable
@@ -591,12 +741,10 @@ fun PhotosFeedScreen_Compact(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val state = rememberLazyListState()
     Scaffold(
         modifier = modifier,
         topBar = {
             SearchTopAppBar(
-                isScrollInProgress = state.isScrollInProgress,
                 value = value,
                 onValueChange = onValueChange
             )
@@ -634,75 +782,166 @@ fun PhotosFeedScreen_Compact(
 
 `PhotosFeed_Expanded.kt`:
 ```kotlin
+package hu.bme.aut.android.network.feature.photos_feed.screensbysize
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.PullRefreshState
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.paging.compose.LazyPagingItems
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import hu.bme.aut.android.network.R
+import hu.bme.aut.android.network.ui.common.PhotoItem
+import hu.bme.aut.android.network.ui.common.SearchTopAppBar
+import hu.bme.aut.android.network.ui.model.UnsplashPhotoUiModel
+
 @ExperimentalMaterial3Api
 @ExperimentalMaterialApi
 @Composable
 fun PhotosFeedScreen_Expanded(
+    refreshState: PullRefreshState,
+    refreshing: Boolean,
+    modifier: Modifier = Modifier,
+    photo: UnsplashPhotoUiModel? = null,
     onPhotoItemClick: (String) -> Unit,
     photos: LazyPagingItems<UnsplashPhotoUiModel>,
     value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    loadedPhoto: UnsplashPhotoUiModel? = null,
+    onValueChange: (String) -> Unit
 ) {
-    val density = LocalDensity.current
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
     val state = rememberLazyGridState()
 
-    Row(modifier = modifier.fillMaxSize()) {
-        Row(
-            modifier = Modifier.fillMaxSize()
+    var isPhotoOpen by rememberSaveable { mutableStateOf(false) }
+
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        topBar = {
+            SearchTopAppBar(
+                value = value,
+                onValueChange = onValueChange
+            )
+        }
+    ) {
+        Box(
+            modifier = modifier
+                .fillMaxSize()
+                .padding(it)
         ) {
-            Scaffold(
-                modifier = Modifier.fillMaxSize(),
-                topBar = {
-                    SearchTopAppBar(
-                        isScrollInProgress = state.isScrollInProgress,
-                        value = value,
-                        onValueChange = onValueChange
-                    )
-                }
-            ) {
+            if(!refreshing) {
                 LazyVerticalGrid(
                     state = state,
                     columns = GridCells.Adaptive(240.dp),
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(it)
-                        .weight(1f)
                 ) {
                     items(photos.itemCount) { index ->
                         photos[index]?.let { model ->
                             PhotoItem(
                                 photo = model,
-                                onClick = onPhotoItemClick
+                                onClick = {
+                                    onPhotoItemClick(model.id)
+                                    isPhotoOpen = true
+                                }
                             )
                         }
                     }
                 }
             }
-
-            AnimatedVisibility(
-                visible = loadedPhoto != null && screenWidth >= 1000.dp,
-                enter = slideInHorizontally {
-                    with(density) { 40.dp.roundToPx() }
-                } + expandHorizontally(
-                    expandFrom = Alignment.End
-                ) + fadeIn(
-                    initialAlpha = 0.3f
-                ),
-                exit = slideOutHorizontally() + shrinkHorizontally() + fadeOut(),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(5.dp)
-                    .weight(1f)
-            ) {
-                PhotoDetails(
-                    loadedPhoto = loadedPhoto!!,
-                    windowSize = WindowSize.Expanded
-                )
+            PullRefreshIndicator(
+                refreshing = refreshing,
+                state = refreshState,
+                modifier = Modifier.align(Alignment.TopCenter)
+            )
+        }
+    }
+    if (isPhotoOpen) {
+        Dialog(
+            onDismissRequest = {
+                isPhotoOpen = false
             }
+        ) {
+            photo?.let {
+                val context = LocalContext.current
+                Column (
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    AsyncImage(
+                        model = ImageRequest.Builder(context)
+                            .data(photo.photoUrl)
+                            .crossfade(enable = true)
+                            .build(),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        placeholder = painterResource(id = R.drawable.placeholder),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1f)
+                    )
+                    Row (
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(MaterialTheme.colors.surface)
+                    ) {
+                        AsyncImage(
+                            model = ImageRequest.Builder(context)
+                                .data(photo.userProfileImageUrl)
+                                .crossfade(enable = true)
+                                .build(),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            placeholder = painterResource(id = R.drawable.placeholder),
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .size(80.dp)
+                                .clip(CircleShape)
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(text = photo.username)
+                    }
+                }
+            } ?: CircularProgressIndicator()
         }
     }
 }
@@ -712,6 +951,26 @@ Frissítsük a Screenünket, hogy használja a fenti Composable-öket:
 
 `PhotosFeedScreen.kt`:
 ```kotlin
+package hu.bme.aut.android.network.feature.photos_feed
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.compose.collectAsLazyPagingItems
+import hu.bme.aut.android.network.feature.photos_feed.screensbysize.PhotosFeedScreen_Compact
+import hu.bme.aut.android.network.feature.photos_feed.screensbysize.PhotosFeedScreen_Expanded
+import hu.bme.aut.android.network.feature.photos_feed.screensbysize.PhotosFeedScreen_Medium
+import hu.bme.aut.android.network.util.WindowSize
+
 @ExperimentalMaterial3Api
 @ExperimentalMaterialApi
 @ExperimentalPagingApi
@@ -722,14 +981,11 @@ fun PhotosFeedScreen(
     onPhotoItemClick: (String) -> Unit = {},
     viewModel: PhotosFeedViewModel = viewModel(factory = PhotosFeedViewModel.Factory)
 ) {
-    
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val photos = state.photos?.collectAsLazyPagingItems()
-    val selectedPhoto = state.photo?.collectAsStateWithLifecycle(null)
 
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
+    val selectedPhoto = state.photo?.collectAsStateWithLifecycle(null)
 
     val refreshState = rememberPullRefreshState(
         refreshing = state.isLoading,
@@ -748,6 +1004,7 @@ fun PhotosFeedScreen(
                     onValueChange = viewModel::onSearchTermsChange
                 )
             }
+
             WindowSize.Medium -> {
                 PhotosFeedScreen_Medium(
                     refreshState = refreshState,
@@ -758,13 +1015,14 @@ fun PhotosFeedScreen(
                     onValueChange = viewModel::onSearchTermsChange
                 )
             }
+
             WindowSize.Expanded -> {
                 PhotosFeedScreen_Expanded(
-                    onPhotoItemClick = if (screenWidth >= 1000.dp) {
-                            viewModel::loadSelectedPhoto
-                    } else onPhotoItemClick,
+                    refreshState = refreshState,
+                    refreshing = state.isLoading,
+                    onPhotoItemClick = viewModel::loadSelectedPhoto,
+                    photo = selectedPhoto?.value,
                     photos = photos,
-                    loadedPhoto = selectedPhoto?.value,
                     value = state.searchTerms,
                     onValueChange = viewModel::onSearchTermsChange
                 )
@@ -777,76 +1035,123 @@ fun PhotosFeedScreen(
     }
 }
 ```
-
-A `PhotoDetails.kt`-ban szüntessük meg a három windowsize-ot tartalmazó sor kommentezését.
 	
-Frissítsük a NavGraph-ot:
-`NavGraph.kt`:
+Frissítsük az AppNavigation-t:
+`AppNavigation.kt`:
 ```kotlin
-@ExperimentalMaterial3Api
-@ExperimentalPagingApi
-@ExperimentalMaterialApi
+package hu.bme.aut.android.network.navigation
+
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
+import androidx.paging.ExperimentalPagingApi
+import hu.bme.aut.android.network.feature.loaded_photo.LoadedPhotoScreen
+import hu.bme.aut.android.network.feature.photos_feed.PhotosFeedScreen
+import hu.bme.aut.android.network.util.WindowSize
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class,
+    ExperimentalPagingApi::class
+)
 @Composable
-fun NavGraph(
+fun AppNavigation(
+    modifier: Modifier = Modifier,
     windowSize: WindowSize = WindowSize.Compact,
 ) {
-    val navController = rememberNavController()
+    val backStack = rememberNavBackStack(Screen.PhotosFeedDestination)
 
-    NavHost(
-        navController = navController,
-        startDestination = Screen.PhotosFeed.route
-    ) {
-        composable(route = Screen.PhotosFeed.route) {
-            PhotosFeedScreen(
-                windowSize = windowSize,
-                onPhotoItemClick = { photoId ->
-                    navController.navigate(Screen.LoadedPhoto.passPhotoId(photoId))
-                }
-            )
+    NavDisplay(
+        modifier = modifier,
+        backStack = backStack,
+        onBack = { backStack.removeLastOrNull() },
+        entryProvider = entryProvider {
+
+            entry<Screen.PhotosFeedDestination> {
+                PhotosFeedScreen(
+                    windowSize = windowSize,
+                    onPhotoItemClick = {
+                        backStack.add(Screen.LoadedPhotoDestination(photoId = it))
+                    }
+                )
+            }
+
+            entry<Screen.LoadedPhotoDestination> { key ->
+                LoadedPhotoScreen(
+                    photoId = key.photoId,
+                    onNavigateBack = {
+                        backStack.removeLastOrNull()
+                    }
+                )
+            }
         }
-        composable(
-            route = Screen.LoadedPhoto.route,
-            arguments = listOf(
-                navArgument("photoId") {
-                    type = NavType.StringType
-                }
-            )
-        ) {
-            LoadedPhotoScreen()
-        }
-    }
+    )
 }
 ```
-Vegyük fel a `material3` könyvtár mintájára a `material3-window-size-class` függőséget (link)[https://developer.android.com/jetpack/androidx/releases/compose-material3]
-Majd az Activity-t is állítsuk be ezek használatára:
+Vegyük fel a `material3` könyvtár mintájára a `material3-window-size-class` függőséget (link)[https://developer.android.com/jetpack/androidx/releases/compose-material3]:
+
+```kotlin
+implementation "androidx.compose.material3:material3-window-size-class:1.4.0"
+```
+
+Láthatjuk, hogy a dokumentációból kiemelt kódsor használatával megkerüljük a könyvtárnak és verziójának a libs.version.toml fájlban való definiálását, és az Android Studio sárga aláhúzással figyelmeztet is, hogy ezt ne tegyük. Szerencsére egy kattintásra, automatikusan átalakítja nekünk ezt a megfelelő módon, figyeljük meg a változásokat!
+
+Majd az Activity-t is állítsuk be a különböző képernyőméretek használatára:
 
 `MainActivity.kt`:
 ```kotlin
+package hu.bme.aut.android.network
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.paging.ExperimentalPagingApi
+import hu.bme.aut.android.network.navigation.AppNavigation
+import hu.bme.aut.android.network.ui.theme.UnsplashTheme
+import hu.bme.aut.android.network.util.WindowSize
+
+
 class MainActivity : ComponentActivity() {
     @OptIn(
-        ExperimentalMaterial3WindowSizeClassApi::class,
         ExperimentalMaterial3Api::class,
         ExperimentalPagingApi::class,
-        ExperimentalMaterialApi::class
+        ExperimentalMaterialApi::class,
+        ExperimentalMaterial3WindowSizeClassApi::class
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            UnsplashTheme {
-                val windowSize = when (calculateWindowSizeClass(this).widthSizeClass) {
-                    WindowWidthSizeClass.Compact -> WindowSize.Compact
-                    WindowWidthSizeClass.Medium -> WindowSize.Medium
-                    WindowWidthSizeClass.Expanded -> WindowSize.Expanded
-                    else -> WindowSize.Compact
-                }
-
-                NavGraph(windowSize = windowSize)
+            val windowSize = when (calculateWindowSizeClass(this).widthSizeClass) {
+                WindowWidthSizeClass.Compact -> WindowSize.Compact
+                WindowWidthSizeClass.Medium -> WindowSize.Medium
+                WindowWidthSizeClass.Expanded -> WindowSize.Expanded
+                else -> WindowSize.Compact
             }
+            MainActivityContent(windowSize = windowSize)
         }
     }
 }
+
+@Composable
+fun MainActivityContent(windowSize: WindowSize) {
+    UnsplashTheme {
+        AppNavigation(
+            modifier = Modifier.safeDrawingPadding(),
+            windowSize = windowSize
+        )
+    }
+}
 ```
-Alt+Enterrel vegyük fel az annotációra kattintva a hiányző függőséget.
 
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amelyen látszik a **működő alkalmazás a más méretben megjelenő képekkel** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel),  a **más méretű képernyőkhöz tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 

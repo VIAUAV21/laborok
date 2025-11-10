@@ -40,13 +40,13 @@ Először a `libs.versions.toml` fájlunkba vegyük fel az új függőségekhez 
 
 ```
 [versions]
-hilt = "2.56.1"
-hilt-navigation-compose = "1.2.0"
+hilt = "2.57.2"
+hilt-lifecycle-viewmodel-compose = "1.3.0"
 
 [libraries]
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose"}
+hilt-lifecycle-viewmodel-compose = { module = "androidx.hilt:hilt-lifecycle-viewmodel-compose", version.ref = "hilt-lifecycle-viewmodel-compose"}
 
 [plugins]
 google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
@@ -71,10 +71,14 @@ plugins {
 És vegyük még fel a szükséges függőségeket, majd szinkronizáljuk a projektet:
 
 ```kotlin
-// Hilt
-implementation(libs.hilt.android)
-implementation(libs.hilt.navigation.compose)
-ksp(libs.hilt.compiler)
+dependencies {
+    // ...
+
+    // Hilt
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.lifecycle.viewmodel.compose)
+    ksp(libs.hilt.compiler)
+}
 ```
 
 Ezzel a build folyamat és a függőségek rendben vannak. Most globálisan, az alkalmazás szintjén inicializálnunk kell a Daggert, hogy létrejöjjön egy kontextus, amelyben a függőségeket menedzseli. Ehhez a `TodoApplication` osztályra tegyük rá a `@HiltAndroidApp` annotációt:
@@ -91,16 +95,15 @@ Majd nyissuk meg a `MainActivity` osztályt is, ezen pedig az `@AndroidEntryPoin
 ```kotlin
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TodoTheme {
-                NavGraph()
-            }
+            MainActivityContent()
         }
     }
 }
+
+// ...
 ```
 
 Ezzel a közös inicializációs feladatok elkészültek, de még tényleges injektálható komponenseket és injektálandó függőségeket nem hoztunk létre. Most elkezdjük a "bedrótozott" függőségi viszonyokat függőséginjektálásra cserélni.
@@ -110,6 +113,19 @@ Ezzel a közös inicializációs feladatok elkészültek, de még tényleges inj
 A Dagger és a Hilt által kezelt komponensek a jobb átláthatóság érdekében modulokra oszthatók. Minden modul komponenseket hoz létre, amelyeket a megjelölt injektálási pontokon a könyvtárak fel fognak használni. Az első modulunk a `TodoDatabase` és a `TodoDao` létrehozását fogja elvégezni. Hozzunk létre ennek a modulnak egy `data.di` package-et, és ebbe vegyük fel a modult megvalósító osztályunkat:
 
 ```kotlin
+package hu.bme.aut.android.todo.data.di
+
+import android.content.Context
+import androidx.room.Room
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import hu.bme.aut.android.todo.data.TodoDatabase
+import hu.bme.aut.android.todo.data.dao.TodoDao
+import jakarta.inject.Singleton
+
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
@@ -122,7 +138,7 @@ object DatabaseModule {
         context,
         TodoDatabase::class.java,
         "todo_database"
-    ).fallbackToDestructiveMigration().build()
+    ).fallbackToDestructiveMigration(false).build()
 
     @Provides
     @Singleton
@@ -141,6 +157,14 @@ Most, hogy a komponenseket legyártottuk, arról kell gondoskodni, eltávolítsu
 A `TodoApplication` osztályunk most így fest:
 
 ```kotlin
+package hu.bme.aut.android.todo
+
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+import hu.bme.aut.android.todo.data.dao.TodoDao
+import hu.bme.aut.android.todo.data.repository.RoomTodoRepository
+import jakarta.inject.Inject
+
 @HiltAndroidApp
 class TodoApplication : Application() {
 
@@ -148,19 +172,19 @@ class TodoApplication : Application() {
     lateinit var dao: TodoDao
 
     companion object {
-        lateinit var repository: TodoRepositoryImpl
+        lateinit var repository: RoomTodoRepository
     }
 
     override fun onCreate() {
         super.onCreate()
 
-        repository = TodoRepositoryImpl(dao)
+        repository = RoomTodoRepository(dao)
     }
 }
 ```
 
 !!!example "BEADANDÓ (1 pont)"
-	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, a **fenti lépésekhez tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**.
+	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, a **DatabaseModule kódja**, valamint a **NEPTUN kódod a kódban valahol kommentként**.
 
 	A képet a megoldásban a repository-ba f1.png néven töltsd föl.
 
@@ -173,6 +197,16 @@ a kézi létrehozást. Ehhez először szintén egy modult kell létrehoznunk. T
 a `data.di` package-be:
 
 ```kotlin
+package hu.bme.aut.android.todo.data.di
+
+import dagger.Binds
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import hu.bme.aut.android.todo.data.repository.ITodoRepository
+import hu.bme.aut.android.todo.data.repository.RoomTodoRepository
+import jakarta.inject.Singleton
+
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
@@ -180,224 +214,60 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindTodoRepository(
-        todoRepositoryImpl: TodoRepositoryImpl
-    ): TodoRepository
+        todoRepositoryImpl: RoomTodoRepository
+    ): ITodoRepository
 
 }
 ```
 
-Ez a modul némileg másképp működik, mint a korábbi. Egyrészt az osztály absztrakt, illetve nem a `@Provides` annotációt használtuk, hanem a `@Binds`-et, és az ezzel megjelölt metódus azt határozza meg, hogy amikor `TodoRepository` típusú függőségre van szükségünk, akkor annak a konkrét `TodoRepositoryImpl` típusú implementációját kell használni. Most már kivehetjük a `TodoApplication` osztályból a repository kezelését is, így az osztályunk üres lesz, de a Hilt inicializációja miatt továbbra is szükség van rá, hogy megtartsuk:
+Ez a modul némileg másképp működik, mint a korábbi. Egyrészt az osztály absztrakt, illetve nem a `@Provides` annotációt használtuk, hanem a `@Binds`-ot, és az ezzel megjelölt metódus azt határozza meg, hogy amikor `ITodoRepository` típusú függőségre van szükségünk, akkor annak a konkrét `RoomTodoRepository` típusú implementációját kell használni. Most már kivehetjük a `TodoApplication` osztályból a repository kezelését is, így az osztályunk üres lesz, de a Hilt inicializációja miatt továbbra is szükség van rá, hogy megtartsuk:
 
 ```kotlin
 @HiltAndroidApp
 class TodoApplication : Application()
 ```
 
-Viszont a `TodoRepositoryImpl` példányosításához szükség van a `TodoDao` osztályre, és mivel innentől ezt a Dagger/Hilt végzi, ezért az `@Inject` annotáció használatával jelezni kell, hogy példányosításkor a `TodoDao`-t függőségként szeretnénk injektálni. Írjuk át az osztály fejlécét az alábbira:
+Viszont a `RoomTodoRepository` példányosításához szükség van a `TodoDao` osztályra, és mivel innentől ezt a Dagger/Hilt végzi, ezért az `@Inject` annotáció használatával jelezni kell, hogy példányosításkor a `TodoDao`-t függőségként szeretnénk injektálni. Írjuk át az osztály fejlécét az alábbira:
 
 ```kotlin
-class TodoRepositoryImpl @Inject constructor(
+class RoomTodoRepository @Inject constructor(
     private val dao: TodoDao
-) : TodoRepository {
-	// ...
+) : ITodoRepository {
+    // ...
 }
 ```
 
-A repository viszont szorosan volt csatolva a viewmodelekhez, amelyeket a három feature-höz írtunk. Még ezeket is át kell alakítanunk hozzá, hogy az alkalmazás újra használható legyen. Jelenleg mindhárom viewmodel osztályunkban az alábbihoz hasonló factory-k vannak:
+A repository-t viszont már nem érjük el a TodoApplication-ön keresztül, pedig mind a három ViewModel-ünket ilyen módon inicializáltuk. Még ezeket is át kell alakítanunk ahhoz, hogy az alkalmazás újra használható legyen. Jelenleg mindhárom ViewModel osztályunkban az alábbihoz hasonló factory-k vannak:
 
 ```kotlin
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val todoOperations = TodoUseCases(TodoApplication.repository)
-                TodoListViewModel(
-                    todoOperations = todoOperations
-                )
-            }
-        }
-    }
-```
-
-Ezeket törölnünk kell, viszont gondoskodnunk kell róla, hogy a `TodoUseCases` is inicializálódjon. Jelenlegi készültségben ezt nem tudjuk még injektálni, csak a `TodoRepository` komponenst, ennek segítségével viszont példányosítható a `TodoUseCases`. Illetve még el kell helyezni a viewmodel osztályokon a `@HiltViewModel` annotációt, hogy a Hilt által menedzselt viewmodellekké váljanak. A `TodoListViewModel` végül így alakul:
-
-```kotlin
-@HiltViewModel
-class TodoListViewModel @Inject constructor(
-    private val repository: TodoRepository
-) : ViewModel() {
-
-    val todoOperations: TodoUseCases
-
-    private val _state = MutableStateFlow<TodoListState>(TodoListState.Loading)
-    val state = _state.asStateFlow()
-
-    init {
-        todoOperations = TodoUseCases(repository)
-        loadTodos()
-    }
-
-    fun loadTodos() {
-        viewModelScope.launch {
-            try {
-                _state.value = TodoListState.Loading
-                val todos = todoOperations.loadTodos().getOrThrow().map { it.asTodoUi() }
-                _state.value = TodoListState.Result(
-                    todoList = todos
-                )
-            } catch (e: Exception) {
-                _state.value = TodoListState.Error(e)
-            }
+companion object {
+    val Factory: ViewModelProvider.Factory = viewModelFactory {
+        initializer {
+            val todoOperations = AllTodoUseCases(TodoApplication.repository)
+            TodoListViewModel(todoOperations)
         }
     }
 }
 ```
 
-Hasonló átalakításokat kell végeznünk a `TodoDetailViewModel` osztályon:
+Ezeket törölnünk kell, viszont gondoskodnunk kell róla, hogy az `AllTodoUseCases` is inicializálódjon, hiszen a ViewModel-jeink függenek tőle. 
+
+## A usecase modul elkészítése
+
+Írjuk meg a TodoUseCaseModule-t a `domain.di` package-ben:
 
 ```kotlin
-@HiltViewModel
-class TodoDetailViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
-    private val repository: TodoRepository
-) : ViewModel() {
+package hu.bme.aut.android.todo.domain.di
 
-    val todoOperations: TodoUseCases
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import hu.bme.aut.android.todo.data.repository.ITodoRepository
+import hu.bme.aut.android.todo.domain.usecases.AllTodoUseCases
+import hu.bme.aut.android.todo.domain.usecases.LoadTodosUseCase
+import jakarta.inject.Singleton
 
-    private val _state = MutableStateFlow<TodoDetailState>(TodoDetailState.Loading)
-    val state = _state.asStateFlow()
-
-    init {
-        todoOperations = TodoUseCases(repository)
-        loadTodos()
-    }
-
-    private fun loadTodos() {
-        val id = checkNotNull<Int>(savedStateHandle["id"])
-        viewModelScope.launch {
-            try {
-                _state.value = TodoDetailState.Loading
-                val todo = todoOperations.loadTodo(id)
-                _state.value = TodoDetailState.Result(
-                    todo = todo.getOrThrow().asTodoUi()
-                )
-            } catch (e: Exception) {
-                _state.value = TodoDetailState.Error(e)
-            }
-        }
-    }
-}
-```
-
-Majd a `TodoCreateViewModel` osztályon is:
-
-```kotlin
-@HiltViewModel
-@HiltViewModel
-class TodoCreateViewModel @Inject constructor(
-    private val repository: TodoRepository
-) : ViewModel() {
-
-    val todoOperations: TodoUseCases
-
-    private val _state = MutableStateFlow(TodoCreateState())
-    val state = _state.asStateFlow()
-
-    private val _uiEvent = Channel<TodoCreateUiEvent>()
-    val uiEvent = _uiEvent.receiveAsFlow()
-
-    init {
-        todoOperations = TodoUseCases(repository)
-    }
-
-    fun onEvent(event: TodoCreateEvent) {
-        when (event) {
-            is TodoCreateEvent.ChangeTitle -> {
-                val newValue = event.text
-                _state.update {
-                    it.copy(
-                        todo = it.todo.copy(title = newValue)
-                    )
-                }
-            }
-
-            is TodoCreateEvent.ChangeDescription -> {
-                val newValue = event.text
-                _state.update {
-                    it.copy(
-                        todo = it.todo.copy(description = newValue)
-                    )
-                }
-            }
-
-            is TodoCreateEvent.SelectPriority -> {
-                val newValue = event.priority
-                _state.update {
-                    it.copy(
-                        todo = it.todo.copy(priority = newValue)
-                    )
-                }
-            }
-
-            is TodoCreateEvent.SelectDate -> {
-                val newValue = event.date
-                _state.update {
-                    it.copy(
-                        todo = it.todo.copy(dueDate = newValue.toString())
-                    )
-                }
-            }
-
-            TodoCreateEvent.SaveTodo -> {
-                _state.update {
-                    it.copy(
-                        todo = it.todo.copy(id = (Math.random() * Int.MAX_VALUE).toInt())
-                    )
-                }
-                onSave()
-            }
-        }
-    }
-
-    private fun onSave() {
-        viewModelScope.launch {
-            try {
-                todoOperations.saveTodo(state.value.todo.asTodo())
-                _uiEvent.send(TodoCreateUiEvent.Success)
-            } catch (e: Exception) {
-                _uiEvent.send(TodoCreateUiEvent.Failure(e.toUiText()))
-            }
-        }
-    }
-}
-```
-
-Majd végül az összes screen osztályban változtassuk meg a viewmodel létreozásának módját úgy, hogy a `hiltViewModel()` hívást használjuk. Pl. a `TodoDetailScreen` eddig így nézett ki:
-
-```kotlin
-fun TodoDetailScreen(
-    onNavigateBack: () -> Unit,
-    viewModel: TodoDetailViewModel = viewModel(factory = TodoDetailViewModel.Factory)
-) {
-	// ...
-}
-```
-
-A következőképpen módosítsuk:
-
-```kotlin
-fun TodoDetailScreen(
-    onNavigateBack: () -> Unit,
-    viewModel: TodoDetailViewModel = hiltViewModel()
-) {
-	// ...
-}
-```
-
-## A usecases modul elkészítése
-
-Már csak a usecases modult kell elkészítenünk. Ehhez készítsünk először egy `domain.di` package-et, és ebbe hozzuk létre az alábbit:
-
-```kotlin
 @Module
 @InstallIn(SingletonComponent::class)
 object TodoUseCaseModule {
@@ -405,27 +275,28 @@ object TodoUseCaseModule {
     @Provides
     @Singleton
     fun provideLoadTodosUseCase(
-        repository: TodoRepository
+        repository: ITodoRepository
     ): LoadTodosUseCase = LoadTodosUseCase(repository)
 
     @Provides
     @Singleton
-    fun provideTodoUseCases(
-        repository: TodoRepository,
+    fun provideAllTodoUseCases(
+        repository: ITodoRepository,
         loadTodos: LoadTodosUseCase
-    ): TodoUseCases = TodoUseCases(repository, loadTodos)
+    ): AllTodoUseCases = AllTodoUseCases(repository, loadTodos)
 
 }
 ```
 
-A `TodoUseCases` osztályt pedig így alakítsuk át:
+Láthatjuk, hogy jelenleg csak az `AllTodoUseCases` és `LoadTodosUseCase` osztályokat tudjuk injektálni a szükséges helyekre, mivel ezekhez írtunk `@Provides` anntációval ellátott factory metódusokat. A modult az önálló feladatban egészítjük majd ki a további usecase-ekkel.
+
+Az `AllTodoUseCases` osztályt ennek megfelelően így alakítsuk át:
 
 ```kotlin
-class TodoUseCases(
-    val repository: TodoRepository,
+class AllTodoUseCases(
+    val repository: ITodoRepository,
     val loadTodos: LoadTodosUseCase
 ) {
-    
     val loadTodo = LoadTodoUseCase(repository)
     val saveTodo = SaveTodoUseCase(repository)
     val updateTodo = UpdateTodoUseCase(repository)
@@ -433,58 +304,149 @@ class TodoUseCases(
 }
 ```
 
-Most már a viewmodel osztályokba nem szükséges a `TodoRepository` injektálása és a `TodoUseCases` kézi létrehozása, hiszen a `TodoUseCases` közvetlen is injektálhatóvá vált. Módosítsuk ennek megfelelően a viewmodel osztályokat!
+Most már kiválthatjuk a `todoOperations` manuális példányosítását a ViewModellekben hiszen az `AllTodoUseCases` közvetlenül is injektálhatóvá vált. Módosítsuk ennek megfelelően ezeket az osztályokat, azaz injektáljuk a megfelelő függőséget a kontruktorukba. Továbbá lássuk el őket a `@HiltViewModel` annotációval, ami lehetővé teszi maguknak a ViewModelleknek az egyszerű példányosítását, ami innentől fogva `viewModelFactory` használata nélkül fog történni!
 
-A `TodoDetailViewModel` kódja:
+A `TodoListViewModel` ezentúl így néz ki:
 
 ```kotlin
+package hu.bme.aut.android.todo.ui.screen.todo_list
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import hu.bme.aut.android.todo.domain.usecases.AllTodoUseCases
+import hu.bme.aut.android.todo.ui.model.TodoUi
+import hu.bme.aut.android.todo.ui.model.asTodo
+import hu.bme.aut.android.todo.ui.model.asTodoUi
+import hu.bme.aut.android.todo.ui.model.toUiText
+import jakarta.inject.Inject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
+
+@HiltViewModel
+class TodoListViewModel @Inject constructor(
+    private val todoOperations: AllTodoUseCases
+) : ViewModel() {
+    private val _state = MutableStateFlow<TodoListState>(TodoListState.Loading)
+    val state = _state.asStateFlow()
+
+    private val _uiEvent = Channel<TodoListScreenUiEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
+
+    fun onEvent(event: TodoListScreenEvent) {
+        when (event) {
+            is TodoListScreenEvent.LoadTodos -> {
+                loadTodos()
+            }
+
+            is TodoListScreenEvent.DeleteTodo -> {
+                deleteTodo(event.todo)
+            }
+        }
+    }
+
+    private fun loadTodos() {
+        viewModelScope.launch {
+            try {
+                _state.value = TodoListState.Loading
+                todoOperations.loadTodos().getOrThrow().collectLatest {
+                    _state.value = TodoListState.Result(
+                        todoList = it.map { it.asTodoUi() })
+                }
+            } catch (e: Exception) {
+                _state.value = TodoListState.Error(e)
+            }
+        }
+    }
+
+    private fun deleteTodo(todo: TodoUi) {
+        viewModelScope.launch {
+            try {
+                todoOperations.deleteTodo(todo.asTodo().id)
+                _uiEvent.send(TodoListScreenUiEvent.DeleteSuccess)
+            } catch (e: Exception) {
+                _uiEvent.send(TodoListScreenUiEvent.DeleteFailure(e.toUiText()))
+            }
+        }
+    }
+}
+``` 
+A `TodoDetailViewModel` hasonlóan változik:
+
+```kotlin
+package hu.bme.aut.android.todo.ui.screen.todo_detail
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import hu.bme.aut.android.todo.domain.usecases.AllTodoUseCases
+import hu.bme.aut.android.todo.ui.model.asTodoUi
+import jakarta.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+
 @HiltViewModel
 class TodoDetailViewModel @Inject constructor(
-    private val todoOperations: TodoUseCases,
-    private val savedStateHandle: SavedStateHandle
+    private val todoOperations: AllTodoUseCases
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<TodoDetailState>(TodoDetailState.Loading)
     val state = _state.asStateFlow()
 
-    init {
-        loadTodos()
-    }
-
-    private fun loadTodos() {
-        val id = checkNotNull<Int>(savedStateHandle["id"])
+    fun loadTodo(todoId: Int) {
         viewModelScope.launch {
             try {
                 _state.value = TodoDetailState.Loading
-                val todo = todoOperations.loadTodo(id)
-                _state.value = TodoDetailState.Result(
-                    todo = todo.getOrThrow().asTodoUi()
-                )
+                todoOperations.loadTodo(todoId).getOrThrow().collectLatest {
+                    _state.value = TodoDetailState.Result(it.asTodoUi())
+                }
             } catch (e: Exception) {
                 _state.value = TodoDetailState.Error(e)
             }
         }
     }
 }
-```
+``` 
 
-A `TodoCreateViewModel` így fest:
+Végül a `TodoCreateViewModel` kódja így módosul:
 
 ```kotlin
+package hu.bme.aut.android.todo.ui.screen.todo_create
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import hu.bme.aut.android.todo.domain.usecases.AllTodoUseCases
+import hu.bme.aut.android.todo.ui.model.asTodo
+import hu.bme.aut.android.todo.ui.model.toUiText
+import jakarta.inject.Inject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+
 @HiltViewModel
 class TodoCreateViewModel @Inject constructor(
-    private val todoOperations: TodoUseCases
+    private val todoOperations: AllTodoUseCases
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(TodoCreateState())
+    private val _state = MutableStateFlow(TodoCreateScreenState())
     val state = _state.asStateFlow()
 
-    private val _uiEvent = Channel<TodoCreateUiEvent>()
+    private val _uiEvent = Channel<TodoCreateScreenUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    fun onEvent(event: TodoCreateEvent) {
+    fun onEvent(event: TodoCreateScreenEvent) {
         when (event) {
-            is TodoCreateEvent.ChangeTitle -> {
+            is TodoCreateScreenEvent.ChangeTitle -> {
                 val newValue = event.text
                 _state.update {
                     it.copy(
@@ -493,7 +455,7 @@ class TodoCreateViewModel @Inject constructor(
                 }
             }
 
-            is TodoCreateEvent.ChangeDescription -> {
+            is TodoCreateScreenEvent.ChangeDescription -> {
                 val newValue = event.text
                 _state.update {
                     it.copy(
@@ -502,7 +464,7 @@ class TodoCreateViewModel @Inject constructor(
                 }
             }
 
-            is TodoCreateEvent.SelectPriority -> {
+            is TodoCreateScreenEvent.SelectPriority -> {
                 val newValue = event.priority
                 _state.update {
                     it.copy(
@@ -511,7 +473,7 @@ class TodoCreateViewModel @Inject constructor(
                 }
             }
 
-            is TodoCreateEvent.SelectDate -> {
+            is TodoCreateScreenEvent.SelectDate -> {
                 val newValue = event.date
                 _state.update {
                     it.copy(
@@ -520,10 +482,14 @@ class TodoCreateViewModel @Inject constructor(
                 }
             }
 
-            TodoCreateEvent.SaveTodo -> {
+            TodoCreateScreenEvent.SaveTodo -> {
                 _state.update {
                     it.copy(
-                        todo = it.todo.copy(id = (Math.random() * Int.MAX_VALUE).toInt())
+                        todo = it.todo.copy(
+                            id = (Math.random()*Int.MAX_VALUE).toInt(),
+                            title = it.todo.title.trim(),
+                            description = it.todo.description.trim()
+                        )
                     )
                 }
                 onSave()
@@ -535,44 +501,44 @@ class TodoCreateViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 todoOperations.saveTodo(state.value.todo.asTodo())
-                _uiEvent.send(TodoCreateUiEvent.Success)
+                _uiEvent.send(TodoCreateScreenUiEvent.Success)
             } catch (e: Exception) {
-                _uiEvent.send(TodoCreateUiEvent.Failure(e.toUiText()))
+                _uiEvent.send(TodoCreateScreenUiEvent.Failure(e.toUiText()))
             }
         }
     }
+
 }
 ```
 
-A `TodoListViewModel` átalakított verziója pedig az alábbi:
+Majd végül az összes screen osztályban változtassuk meg a ViewModel létrehozásának módját úgy, hogy a `hiltViewModel()` hívást használjuk. Például a `TodoDetailScreen` eddig így nézett ki:
 
 ```kotlin
-@HiltViewModel
-class TodoListViewModel @Inject constructor(
-    private val todoOperations: TodoUseCases
-) : ViewModel() {
-
-    private val _state = MutableStateFlow<TodoListState>(TodoListState.Loading)
-    val state = _state.asStateFlow()
-
-    fun loadTodos() {
-        viewModelScope.launch {
-            try {
-                _state.value = TodoListState.Loading
-                val todos = todoOperations.loadTodos().getOrThrow().map { it.asTodoUi() }
-                _state.value = TodoListState.Result(
-                    todoList = todos
-                )
-            } catch (e: Exception) {
-                _state.value = TodoListState.Error(e)
-            }
-        }
-    }
+fun TodoDetailScreen(
+    todoId: Int,
+    onNavigateBack: () -> Unit,
+    viewModel: TodoDetailViewModel = viewModel(factory = TodoDetailViewModel.Factory)
+) {
+	// ...
 }
 ```
 
+Innentől kezdve szimplán egy elegáns hiltViewModel() hívás szükséges:
+
+```kotlin
+fun TodoDetailScreen(
+    todoId: Int,
+    onNavigateBack: () -> Unit,
+    viewModel: TodoDetailViewModel = hiltViewModel()
+) {
+	// ...
+}
+```
+
+Módosítsuk ezt a `TodoListScreen` és a `TodoCreateScreen` esetében is! 
+
 !!!example "BEADANDÓ (1 pont)"
-	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, a **fenti lépésekhez tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**.
+	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, az **egyik ViewModel példányosítása**, valamint a **NEPTUN kódod a kódban valahol kommentként**.
 
 	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
 
@@ -597,15 +563,15 @@ A lokális tesztek közül leggyakrabban unitteszteket készítünk, a nagyobb e
 
 A unittesztek esetén fontos kihívás, hogy a függőségeket izoláljuk, leválasszuk, hiszen ha azok is meghívódnának, akkor nem unittesztről beszélnénk, hanem integrációs tesztről, és a fenti előnyök nem teljesülnének. Különösen az az előny veszne el, hogy a teszt jól mutatja a hiba helyét. Ezért a tesztekben a függőségeket valamilyen *test double* objektummal, tipikusan *mock* objektummal cseréljük le. A mock objektum egy "buta", de "felprogramozható" komponens, ami éppen csak annyit csinál, amit a teszt idejére elvárunk tőle, azaz tipikusan valamilyen beégetett adatot ad vissza. Ezen kívül a segítségével ellenőrizhető az is, hogy a lecserélt függőségen a tesztelt kódrészlet tényleg elvégezte a várt hívást.
 
-Az alkalmazásban nincsenek túl bonyolult üzleti logika részek, de a tesztelés technikáját jól meg tudjuk figyelni. Most a `TodoRepositoryImpl` osztályt fogjuk tesztelni. Konvenció szerint osztályokhoz készítünk tesztosztályokat, és a tesztosztályokban minden tesztelt metódus egy lehetséges lefutásához készítünk egy tesztmetódust. A tesztosztályokat a tesztelt osztályokkal azonos package-be tesszük, és nevükben a `Test` utótagot használjuk.
+Az alkalmazásban nincsenek túl bonyolult üzleti logika részek, de a tesztelés technikáját jól meg tudjuk figyelni. Most a `RoomTodoRepository` osztályt fogjuk tesztelni. Konvenció szerint osztályokhoz készítünk tesztosztályokat, és a tesztosztályokban minden tesztelt metódus egy lehetséges lefutásához készítünk egy tesztmetódust. A tesztosztályokat a tesztelt osztályokkal azonos package-be tesszük, és nevükben a `Test` utótagot használjuk.
 
-Először fel kell vennünk a teszteléshez használandó függőségeket a projektbe! A tesztelés alapvető fontosságú feladat, ezért az Android Studio új projektnél a legfontosabb függőségeket beleteszi a projektvázba, így a kiindulú projektben is már benne vannak a legfontosabb függőségek. Fogunk viszont mockokat is használni, és ehhez még fel kell vennünk a népszerű Mockito könyvtárat. A lokális tesztekhez a `testImplementation` scope-ot kell használnunk. Vegyük fel az alábbi függőségeket, először a `libs.versions.toml` fájllal kezdve:
+Először fel kell vennünk a teszteléshez használandó függőségeket a projektbe! A tesztelés alapvető fontosságú feladat, ezért az Android Studio új projektnél a legfontosabb függőségeket beleteszi a projektvázba, így a kiinduló projektben is már benne vannak a legfontosabb függőségek. Fogunk viszont mockokat is használni, és ehhez még fel kell vennünk a népszerű Mockito könyvtárat. A lokális tesztekhez a `testImplementation` scope-ot kell használnunk. Vegyük fel az alábbi függőségeket, először a `libs.versions.toml` fájllal kezdve:
 
 ```
 [versions]
-mockitoCore = "5.11.0"
+mockitoCore = "5.20.0"
 mockitoInline = "5.2.0"
-mockitoKotlin = "5.2.1"
+mockitoKotlin = "6.1.0"
 
 [libraries]
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
@@ -624,7 +590,7 @@ testImplementation(libs.mockito.kotlin)
 
 Hozzuk létre a szükséges könyvtárstruktúrát a teszteknek. A lokális tesztek a `src/test` könyvtárban vannak, az `src/androidTest` könyvtár pedig az instrumentált tesztek helye. Ezeken belül ugyanúgy `java` vagy `kotlin` könyvtárba kerülnek a forráskódok.
 
-Most hozzuk létre a `data.repository` package-et a `test` könyvtárban is, mivel azt a gyakorlatot fogjuk követni, hogy egy osztályhoz tartozó tesztek azonos package-ben, egy azonosan kezdődő, de `Test` utótaggal ellátott tesztosztályban lesznek megvalósítva. A létrehozott package-ben hozzunk létre ezért egy `TodoRepositoryImplTest` osztályt az alábbi módon:
+Most hozzuk létre a `data.repository` package-et a `test` könyvtárban is, mivel azt a gyakorlatot fogjuk követni, hogy egy osztályhoz tartozó tesztek azonos package-ben, egy azonosan kezdődő, de `Test` utótaggal ellátott tesztosztályban lesznek megvalósítva. A létrehozott package-ben hozzunk létre ezért egy `RoomTodoRepositoryTest` osztályt az alábbi módon:
 
 ```kotlin
 package hu.bme.aut.android.todo.data.repository
@@ -639,7 +605,6 @@ import kotlinx.datetime.LocalDate
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
@@ -647,10 +612,7 @@ import org.mockito.kotlin.times
 import org.mockito.kotlin.verify
 
 @RunWith(MockitoJUnitRunner::class)
-class TodoRepositoryImplTest {
-
-    @Mock
-    lateinit var todoDao: TodoDao
+class RoomTodoRepositoryTest {
 
     @Test
     fun testGetAllTodos() {
@@ -664,8 +626,8 @@ class TodoRepositoryImplTest {
         val mockDao = mock<TodoDao> {
             on { getAllTodos() } doReturn (flowOf(listOf(sampleTodo)))
         }
-        val todoRepositoryImpl = TodoRepositoryImpl(mockDao)
-        val result = todoRepositoryImpl.getAllTodos()
+        val roomTodoRepository = RoomTodoRepository(mockDao)
+        val result = roomTodoRepository.getAllTodos()
         runBlocking {
             Assert.assertTrue(result.first().contains(sampleTodo))
             verify(mockDao, times(1)).getAllTodos()
@@ -678,17 +640,17 @@ Nézzük át a laborvezetővel együtt, hogyan működik a teszt!
 
 Alapvetően minden teszt három lépésből áll:
 
-1. A *test fixture*, azaz a tesztelni kívánt kódrészlethez szükséges kezdeti állapot felállítása. Ha egy "sikeres" lefutást szeretnénk tesztelni, akkor ennek megfelelően készítjük elő a környezetet. Ha pedig egy hiba utána elvárt hatást, pl. exception dobódik, hibaüzenet íródik ki stb. szeretnénk tesztelni, akkor ennek megfelelően. Idetartozik a függőségek kiváltása is.
+1. A *test fixture*, azaz a tesztelni kívánt kódrészlethez szükséges kezdeti állapot felállítása. Ha egy "sikeres" lefutást szeretnénk tesztelni, akkor ennek megfelelően készítjük elő a környezetet. Ha pedig egy hiba utáni elvárt hatást, pl. exception dobódik, hibaüzenet íródik ki stb. szeretnénk tesztelni, akkor ennek megfelelően. Idetartozik a függőségek kiváltása is.
 1. A tesztelni kívánt kódrészlet futtatása.
 1. Az elvárt eredmények megfogalmazása, annak ellenőrzése, hogy teljesültek-e (*assertions*). Ha mock objektumokat használtunk, akkor idetartozik annak ellenőrzése is, hogy rajtuk meghívódtak-e azok a metódusok, amelyek meghívódására számítottunk.
 
-A példánkban a `TodoRepositoryImpl` osztály `getAllTodos` metódusa csupán annyit tesz, hogy továbbhívja a `TodoDao` osztály `getAllTodos` metódusát, majd ennek eredményét visszaadja. A tesztünk ezért nem lesz túl bonyolult. Alapvetően abból áll, hogy készítenünk kell egy `TodoDao` mock objektumot, amely beégetett `TodoEntity` listát fog visszaadni. Ezt a mockot kell odaadnunk a `TodoRepositoryImp` függőségének, majd meg kell hívnunk a tesztelni kívánt metódust, és meg kell vizsgálni, hogy a beégetett listát adta-e vissza, valamint a mockunknak az azonos nevű metódusa szintén hívódott-e.
+A példánkban a `RoomTodoRepository` osztály `getAllTodos` metódusa csupán annyit tesz, hogy továbbhívja a `TodoDao` osztály `getAllTodos` metódusát, majd ennek eredményét visszaadja. A tesztünk ezért nem lesz túl bonyolult. Alapvetően abból áll, hogy készítenünk kell egy `TodoDao` mock objektumot, amely beégetett `TodoEntity` listát fog visszaadni. Ezt a mockot kell átadnunk a `RoomTodoRepository` függőségeként, majd meg kell hívnunk a tesztelni kívánt metódust, és meg kell vizsgálni, hogy a beégetett listát adta-e vissza, valamint a mockunknak az azonos nevű metódusa szintén hívódott-e.
 
 Futtassuk le a tesztet!
 
 ### Instrumentált tesztek futtatása
 
-Bonyolultabb teszteket sem lehetetlen lokális tesztként futtatni, de a függőségek szövevényessége miatt ez egy jóval bonyolultabb feladat lenne. Praktikusabb ezért ha összetettebb folyamatok teszteléséhez az emulátort is segítségül hívjuk. Ilyen például a Compose segítségével készített UI tesztelése. Az Android által biztosított eszközökkel létre tudjuk hozni a komponenseinket egy emulált környezetben, és a teszt kódjából interakciókat is ki tudunk váltani (pl. írjunk be szöveget egy mezőbe, kattintsunk egy gombon stb.). Ez a fajta tesztelés láthatóan jóval közelebb áll ahhoz a módhoz, ahogyan az alkalmazás majd ténylegesen futni fog. Logikusan belétható ugyanakkor az is, hogy ezek a tesztek jóval bonyolultabbak, és lassabban is fognak futni.
+Bonyolultabb teszteket sem lehetetlen lokális tesztként futtatni, de a függőségek szövevényessége miatt ez egy jóval bonyolultabb feladat lenne. Praktikusabb ezért ha összetettebb folyamatok teszteléséhez az emulátort is segítségül hívjuk. Ilyen például a Compose segítségével készített UI tesztelése. Az Android által biztosított eszközökkel létre tudjuk hozni a komponenseinket egy emulált környezetben, és a teszt kódjából interakciókat is ki tudunk váltani (pl. írjunk be szöveget egy mezőbe, kattintsunk egy gombon stb.). Ez a fajta tesztelés láthatóan jóval közelebb áll ahhoz a módhoz, ahogyan az alkalmazás majd ténylegesen futni fog. Logikusan belátható ugyanakkor az is, hogy ezek a tesztek jóval bonyolultabbak, és lassabban is fognak futni.
 
 Az instrumentált teszteket az `androidTest` könyvtárban lehet létrehozni. Mivel ezek nagyobb léptékű tesztek is lehetnek, nem feltétlen tartoznak logikailag egy komponenshez. Amennyiben azonban odatartoznak, javasolt ezeket is azonos package-be tenni és a lokális tesztekéhez hasonló elnevezési konvenció szerint elnevezni.
 
@@ -696,8 +658,8 @@ Először itt is a függőségek felvételével kezdünk, a `libs.versions.toml`
 
 ```
 [versions]
-hiltAndroidTesting = "2.56.1"
-hiltAndroidCompiler = "2.56.1"
+hiltAndroidTesting = "2.57.2"
+hiltAndroidCompiler = "2.57.2"
 
 [libraries]
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTesting" }
@@ -742,6 +704,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import hu.bme.aut.android.todo.MainActivity
+import hu.bme.aut.android.todo.ui.screen.todo_create.TodoCreateScreen
 import org.junit.Rule
 import org.junit.Test
 
@@ -771,7 +734,7 @@ A teszt fő eleme a `createAndroidComposeRule` hívás, amely egy `teszt rule`-t
 Futtassuk le a tesztet! Figyeljük meg, hogy végigkövethető az emulátoron is a teszt futása.
 
 !!!example "BEADANDÓ (1 pont)"
-	Készíts egy **képernyőképet**, amelyen látszik a **lefutott teszt**, a **hozzá tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**.
+	Készíts egy **képernyőképet**, amelyen látszik a **lefutott teszt**, a **hozzá tartozó kódrészlet**, valamint a **NEPTUN kódod a kódban valahol kommentként**.
 
 	A képet a megoldásban a repository-ba f3.png néven töltsd föl.
 
@@ -779,10 +742,10 @@ Futtassuk le a tesztet! Figyeljük meg, hogy végigkövethető az emulátoron is
 
 ## Önálló feladat 1. - Dependency Injection befejezése
 
-A `TodoUseCases` osztályban egyelőre csak a `LoadTodosUseCase` függőséget hozzuk létre a modulban, és injektáljuk a Dagger/Hilt segítségével, a többi usecase most is manuálisan példányosodik a repository átadásával. Folytasd az átalakítást, és hozd létre az összes usecase-t a usecase modulban, hogy utána már a Dagger/Hilt kezelje őket!
+Az `AllTodoUseCases` osztályban egyelőre csak a `LoadTodosUseCase` függőséget hozzuk létre a modulban, és injektáljuk a Dagger/Hilt segítségével, a többi usecase most is manuálisan példányosodik a repository átadásával. Folytasd az átalakítást, és hozd létre az összes usecase-t a usecase modulban, hogy utána már a Dagger/Hilt kezelje őket!
 
 !!!example "BEADANDÓ (1 pont)" 
-	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, az **átalakított kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 
+	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazás**, a **TodoUseCaseModul kódja**, valamint a **NEPTUN kódod a kódban valahol kommentként**. 
 
 	A képet a megoldásban a repository-ba f4.png néven töltsd föl.
 
@@ -804,7 +767,7 @@ Segítség az implementációhoz:
 * A teszt a közös példa szerint is működik, de itt elég lehet az egyszerűbb `createComposeRule()`, majd a `composeTestRule.setContent` is.
 
 !!!example "BEADANDÓ (1 pont)"
-	Készíts egy **képernyőképet**, amelyen látszik a **lefutott teszt**, a **hozzá tartozó kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**.
+	Készíts egy **képernyőképet**, amelyen látszik a **lefutott teszt**, a **hozzá tartozó kódrészlet**, valamint a **NEPTUN kódod a kódban valahol kommentként**.
 
 	A képet a megoldásban a repository-ba f5.png néven töltsd föl.
 

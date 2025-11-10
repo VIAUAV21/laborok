@@ -622,8 +622,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#a-usecases-modul-elkeszitese" class="md-nav__link">
-    A usecases modul elkészítése
+  <a href="#a-usecase-modul-elkeszitese" class="md-nav__link">
+    A usecase modul elkészítése
   </a>
   
 </li>
@@ -864,8 +864,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#a-usecases-modul-elkeszitese" class="md-nav__link">
-    A usecases modul elkészítése
+  <a href="#a-usecase-modul-elkeszitese" class="md-nav__link">
+    A usecase modul elkészítése
   </a>
   
 </li>
@@ -964,13 +964,13 @@
 <p>Többféle függőséginjektáló keretrendszer létezik Androidon, és az Android platformon kívül is, ezek némileg más elveken működnek. A Dagger a legjobb teljesítmény érdekében úgy működik, hogy nem futás közben oldja fel a függőségeket, hanem a fordítási folyamatba avatkozik bele, és már aközben feltérképezi a függőségi viszonyok jelölésére alkalmazott annotációkat. Ezért a projekt inicializálásának részeként szükséges felvennünk egy gradle plugint is a folyamatba.</p>
 <p>Először a <code>libs.versions.toml</code> fájlunkba vegyük fel az új függőségekhez kapcsolódó bejegyzéseket:</p>
 <div class="highlight"><pre><span></span><code>[versions]
-hilt = "2.56.1"
-hilt-navigation-compose = "1.2.0"
+hilt = "2.57.2"
+hilt-lifecycle-viewmodel-compose = "1.3.0"
 
 [libraries]
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose"}
+hilt-lifecycle-viewmodel-compose = { module = "androidx.hilt:hilt-lifecycle-viewmodel-compose", version.ref = "hilt-lifecycle-viewmodel-compose"}
 
 [plugins]
 google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
@@ -986,10 +986,14 @@ google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.re
 <span class="p">}</span>
 </code></pre></div>
 <p>És vegyük még fel a szükséges függőségeket, majd szinkronizáljuk a projektet:</p>
-<div class="highlight"><pre><span></span><code><span class="c1">// Hilt</span>
-<span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">hilt</span><span class="p">.</span><span class="na">android</span><span class="p">)</span>
-<span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">hilt</span><span class="p">.</span><span class="na">navigation</span><span class="p">.</span><span class="na">compose</span><span class="p">)</span>
-<span class="n">ksp</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">hilt</span><span class="p">.</span><span class="na">compiler</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+
+<span class="w">    </span><span class="c1">// Hilt</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">hilt</span><span class="p">.</span><span class="na">android</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">hilt</span><span class="p">.</span><span class="na">lifecycle</span><span class="p">.</span><span class="na">viewmodel</span><span class="p">.</span><span class="na">compose</span><span class="p">)</span>
+<span class="w">    </span><span class="n">ksp</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">hilt</span><span class="p">.</span><span class="na">compiler</span><span class="p">)</span>
+<span class="p">}</span>
 </code></pre></div>
 <p>Ezzel a build folyamat és a függőségek rendben vannak. Most globálisan, az alkalmazás szintjén inicializálnunk kell a Daggert, hogy létrejöjjön egy kontextus, amelyben a függőségeket menedzseli. Ehhez a <code>TodoApplication</code> osztályra tegyük rá a <code>@HiltAndroidApp</code> annotációt:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltAndroidApp</span>
@@ -1000,21 +1004,33 @@ google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.re
 <p>Majd nyissuk meg a <code>MainActivity</code> osztályt is, ezen pedig az <code>@AndroidEntryPoint</code> annotációt helyezzük el:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@AndroidEntryPoint</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">MainActivity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ComponentActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
 <span class="w">        </span><span class="n">setContent</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">TodoTheme</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">NavGraph</span><span class="p">()</span>
-<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">MainActivityContent</span><span class="p">()</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
+
+<span class="c1">// ...</span>
 </code></pre></div>
 <p>Ezzel a közös inicializációs feladatok elkészültek, de még tényleges injektálható komponenseket és injektálandó függőségeket nem hoztunk létre. Most elkezdjük a "bedrótozott" függőségi viszonyokat függőséginjektálásra cserélni.</p>
 <h2 id="az-adatbazismodul-elkeszitese">Az adatbázismodul elkészítése<a class="headerlink" href="#az-adatbazismodul-elkeszitese" title="Permanent link">¶</a></h2>
 <p>A Dagger és a Hilt által kezelt komponensek a jobb átláthatóság érdekében modulokra oszthatók. Minden modul komponenseket hoz létre, amelyeket a megjelölt injektálási pontokon a könyvtárak fel fognak használni. Az első modulunk a <code>TodoDatabase</code> és a <code>TodoDao</code> létrehozását fogja elvégezni. Hozzunk létre ennek a modulnak egy <code>data.di</code> package-et, és ebbe vegyük fel a modult megvalósító osztályunkat:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Module</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.di</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.content.Context</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Room</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.Module</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.Provides</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.InstallIn</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.android.qualifiers.ApplicationContext</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.components.SingletonComponent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.TodoDatabase</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.dao.TodoDao</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">jakarta.inject.Singleton</span>
+
+<span class="nd">@Module</span>
 <span class="nd">@InstallIn</span><span class="p">(</span><span class="n">SingletonComponent</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="kd">object</span><span class="w"> </span><span class="nc">DatabaseModule</span><span class="w"> </span><span class="p">{</span>
 
@@ -1026,7 +1042,7 @@ google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.re
 <span class="w">        </span><span class="n">context</span><span class="p">,</span>
 <span class="w">        </span><span class="n">TodoDatabase</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">,</span>
 <span class="w">        </span><span class="s">"todo_database"</span>
-<span class="w">    </span><span class="p">).</span><span class="na">fallbackToDestructiveMigration</span><span class="p">().</span><span class="na">build</span><span class="p">()</span>
+<span class="w">    </span><span class="p">).</span><span class="na">fallbackToDestructiveMigration</span><span class="p">(</span><span class="kc">false</span><span class="p">).</span><span class="na">build</span><span class="p">()</span>
 
 <span class="w">    </span><span class="nd">@Provides</span>
 <span class="w">    </span><span class="nd">@Singleton</span>
@@ -1039,26 +1055,34 @@ google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.re
 <p>A metódusokon levő <code>@Provides</code> határozza meg, hogy a metódusok "factory" metódusként szolgáljanak, és az általuk visszaadott objektumok a Dagger által kezelt komponensekké váljanak. A <code>@Singleton</code> annotáció azt adja meg, hogy ezekből a komponensekből egyetlen példány készüljön, és az egész alkalmazáson keresztül mindenhol ezt használjuk függőségként. Legtöbbször elegendő egy példány, és ezért ez a célravezető megoldás.</p>
 <p>Most, hogy a komponenseket legyártottuk, arról kell gondoskodni, eltávolítsuk ezeknek a komponenseknek a korábbi módon történő létrehozását, és megjelöljük azokat a helyeket, ahova a Dagger és Hilt könyvtáraknak ezeket a komponenseket függőségként injektálniuk kell. Korábban a <code>TodoDatabase</code> létrehozása a <code>TodoApplication</code> osztályban volt. Innen eltávolítjuk a példányosítást, viszont a repository komponensünket egyelőre nem bíztuk a Dagger/Hilt párosra, ezért ezt még mindig létre kell hozni, ehhez viszont szükség van a <code>TodoDao</code>-ra, amit viszont már ide is injektálhatunk. </p>
 <p>A <code>TodoApplication</code> osztályunk most így fest:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@HiltAndroidApp</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.app.Application</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.android.HiltAndroidApp</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.dao.TodoDao</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.RoomTodoRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">jakarta.inject.Inject</span>
+
+<span class="nd">@HiltAndroidApp</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">TodoApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="nd">@Inject</span>
 <span class="w">    </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">dao</span><span class="p">:</span><span class="w"> </span><span class="n">TodoDao</span>
 
 <span class="w">    </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
-<span class="w">        </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepositoryImpl</span>
+<span class="w">        </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">RoomTodoRepository</span>
 <span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">()</span>
 
-<span class="w">        </span><span class="n">repository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoRepositoryImpl</span><span class="p">(</span><span class="n">dao</span><span class="p">)</span>
+<span class="w">        </span><span class="n">repository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RoomTodoRepository</span><span class="p">(</span><span class="n">dao</span><span class="p">)</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>, a <strong>fenti lépésekhez tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>.</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>, a <strong>DatabaseModule kódja</strong>, valamint a <strong>NEPTUN kódod a kódban valahol kommentként</strong>.</p>
 <p>A képet a megoldásban a repository-ba f1.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
@@ -1066,258 +1090,191 @@ google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.re
 <p>A fentihez hasonlóan most a repository-t is a Dagger/Hilt kezelésére bízzuk, és megszüntetjük
 a kézi létrehozást. Ehhez először szintén egy modult kell létrehoznunk. Tegyük ezt szintén
 a <code>data.di</code> package-be:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Module</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.di</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.Binds</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.Module</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.InstallIn</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.components.SingletonComponent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.ITodoRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.RoomTodoRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">jakarta.inject.Singleton</span>
+
+<span class="nd">@Module</span>
 <span class="nd">@InstallIn</span><span class="p">(</span><span class="n">SingletonComponent</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">RepositoryModule</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="nd">@Binds</span>
 <span class="w">    </span><span class="nd">@Singleton</span>
 <span class="w">    </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">bindTodoRepository</span><span class="p">(</span>
-<span class="w">        </span><span class="n">todoRepositoryImpl</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepositoryImpl</span>
-<span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="n">TodoRepository</span>
+<span class="w">        </span><span class="n">todoRepositoryImpl</span><span class="p">:</span><span class="w"> </span><span class="n">RoomTodoRepository</span>
+<span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="n">ITodoRepository</span>
 
 <span class="p">}</span>
 </code></pre></div>
-<p>Ez a modul némileg másképp működik, mint a korábbi. Egyrészt az osztály absztrakt, illetve nem a <code>@Provides</code> annotációt használtuk, hanem a <code>@Binds</code>-et, és az ezzel megjelölt metódus azt határozza meg, hogy amikor <code>TodoRepository</code> típusú függőségre van szükségünk, akkor annak a konkrét <code>TodoRepositoryImpl</code> típusú implementációját kell használni. Most már kivehetjük a <code>TodoApplication</code> osztályból a repository kezelését is, így az osztályunk üres lesz, de a Hilt inicializációja miatt továbbra is szükség van rá, hogy megtartsuk:</p>
+<p>Ez a modul némileg másképp működik, mint a korábbi. Egyrészt az osztály absztrakt, illetve nem a <code>@Provides</code> annotációt használtuk, hanem a <code>@Binds</code>-ot, és az ezzel megjelölt metódus azt határozza meg, hogy amikor <code>ITodoRepository</code> típusú függőségre van szükségünk, akkor annak a konkrét <code>RoomTodoRepository</code> típusú implementációját kell használni. Most már kivehetjük a <code>TodoApplication</code> osztályból a repository kezelését is, így az osztályunk üres lesz, de a Hilt inicializációja miatt továbbra is szükség van rá, hogy megtartsuk:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltAndroidApp</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">TodoApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">()</span>
 </code></pre></div>
-<p>Viszont a <code>TodoRepositoryImpl</code> példányosításához szükség van a <code>TodoDao</code> osztályre, és mivel innentől ezt a Dagger/Hilt végzi, ezért az <code>@Inject</code> annotáció használatával jelezni kell, hogy példányosításkor a <code>TodoDao</code>-t függőségként szeretnénk injektálni. Írjuk át az osztály fejlécét az alábbira:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TodoRepositoryImpl</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
+<p>Viszont a <code>RoomTodoRepository</code> példányosításához szükség van a <code>TodoDao</code> osztályra, és mivel innentől ezt a Dagger/Hilt végzi, ezért az <code>@Inject</code> annotáció használatával jelezni kell, hogy példányosításkor a <code>TodoDao</code>-t függőségként szeretnénk injektálni. Írjuk át az osztály fejlécét az alábbira:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">RoomTodoRepository</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">dao</span><span class="p">:</span><span class="w"> </span><span class="n">TodoDao</span>
-<span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span><span class="w"> </span><span class="p">{</span>
+<span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="c1">// ...</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>A repository viszont szorosan volt csatolva a viewmodelekhez, amelyeket a három feature-höz írtunk. Még ezeket is át kell alakítanunk hozzá, hogy az alkalmazás újra használható legyen. Jelenleg mindhárom viewmodel osztályunkban az alábbihoz hasonló factory-k vannak:</p>
-<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">Factory</span><span class="p">:</span><span class="w"> </span><span class="n">ViewModelProvider</span><span class="p">.</span><span class="na">Factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModelFactory</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">initializer</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">TodoApplication</span><span class="p">.</span><span class="na">repository</span><span class="p">)</span>
-<span class="w">                </span><span class="n">TodoListViewModel</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span>
-<span class="w">                </span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-</code></pre></div>
-<p>Ezeket törölnünk kell, viszont gondoskodnunk kell róla, hogy a <code>TodoUseCases</code> is inicializálódjon. Jelenlegi készültségben ezt nem tudjuk még injektálni, csak a <code>TodoRepository</code> komponenst, ennek segítségével viszont példányosítható a <code>TodoUseCases</code>. Illetve még el kell helyezni a viewmodel osztályokon a <code>@HiltViewModel</code> annotációt, hogy a Hilt által menedzselt viewmodellekké váljanak. A <code>TodoListViewModel</code> végül így alakul:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
-<span class="kd">class</span><span class="w"> </span><span class="nc">TodoListViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span>
-<span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span>
-
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="o">&lt;</span><span class="n">TodoListState</span><span class="o">&gt;</span><span class="p">(</span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_state</span><span class="p">.</span><span class="na">asStateFlow</span><span class="p">()</span>
-
-<span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
-<span class="w">        </span><span class="n">loadTodos</span><span class="p">()</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodos</span><span class="p">().</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">asTodoUi</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todoList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todos</span>
-<span class="w">                </span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span>
+<p>A repository-t viszont már nem érjük el a TodoApplication-ön keresztül, pedig mind a három ViewModel-ünket ilyen módon inicializáltuk. Még ezeket is át kell alakítanunk ahhoz, hogy az alkalmazás újra használható legyen. Jelenleg mindhárom ViewModel osztályunkban az alábbihoz hasonló factory-k vannak:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">Factory</span><span class="p">:</span><span class="w"> </span><span class="n">ViewModelProvider</span><span class="p">.</span><span class="na">Factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModelFactory</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">initializer</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AllTodoUseCases</span><span class="p">(</span><span class="n">TodoApplication</span><span class="p">.</span><span class="na">repository</span><span class="p">)</span>
+<span class="w">            </span><span class="n">TodoListViewModel</span><span class="p">(</span><span class="n">todoOperations</span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Hasonló átalakításokat kell végeznünk a <code>TodoDetailViewModel</code> osztályon:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
-<span class="kd">class</span><span class="w"> </span><span class="nc">TodoDetailViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">savedStateHandle</span><span class="p">:</span><span class="w"> </span><span class="n">SavedStateHandle</span><span class="p">,</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span>
-<span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<p>Ezeket törölnünk kell, viszont gondoskodnunk kell róla, hogy az <code>AllTodoUseCases</code> is inicializálódjon, hiszen a ViewModel-jeink függenek tőle. </p>
+<h2 id="a-usecase-modul-elkeszitese">A usecase modul elkészítése<a class="headerlink" href="#a-usecase-modul-elkeszitese" title="Permanent link">¶</a></h2>
+<p>Írjuk meg a TodoUseCaseModule-t a <code>domain.di</code> package-ben:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.di</span>
 
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.Module</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.Provides</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.InstallIn</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.components.SingletonComponent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.ITodoRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.usecases.AllTodoUseCases</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.usecases.LoadTodosUseCase</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">jakarta.inject.Singleton</span>
 
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="o">&lt;</span><span class="n">TodoDetailState</span><span class="o">&gt;</span><span class="p">(</span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Loading</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_state</span><span class="p">.</span><span class="na">asStateFlow</span><span class="p">()</span>
-
-<span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
-<span class="w">        </span><span class="n">loadTodos</span><span class="p">()</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">checkNotNull</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">savedStateHandle</span><span class="o">[</span><span class="s">"id"</span><span class="o">]</span><span class="p">)</span>
-<span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Loading</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodo</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todo</span><span class="p">.</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">asTodoUi</span><span class="p">()</span>
-<span class="w">                </span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Majd a <code>TodoCreateViewModel</code> osztályon is:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
-<span class="nd">@HiltViewModel</span>
-<span class="kd">class</span><span class="w"> </span><span class="nc">TodoCreateViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span>
-<span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span>
-
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="p">(</span><span class="n">TodoCreateState</span><span class="p">())</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_state</span><span class="p">.</span><span class="na">asStateFlow</span><span class="p">()</span>
-
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_uiEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channel</span><span class="o">&lt;</span><span class="n">TodoCreateUiEvent</span><span class="o">&gt;</span><span class="p">()</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">uiEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">receiveAsFlow</span><span class="p">()</span>
-
-<span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">todoOperations</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onEvent</span><span class="p">(</span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">ChangeTitle</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">text</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">ChangeDescription</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">text</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">SelectPriority</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">priority</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">)</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">SelectDate</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">date</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newValue</span><span class="p">.</span><span class="na">toString</span><span class="p">())</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">SaveTodo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="na">random</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kt">Int</span><span class="p">.</span><span class="na">MAX_VALUE</span><span class="p">).</span><span class="na">toInt</span><span class="p">())</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">                </span><span class="n">onSave</span><span class="p">()</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onSave</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">saveTodo</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">asTodo</span><span class="p">())</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoCreateUiEvent</span><span class="p">.</span><span class="na">Success</span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoCreateUiEvent</span><span class="p">.</span><span class="na">Failure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>Majd végül az összes screen osztályban változtassuk meg a viewmodel létreozásának módját úgy, hogy a <code>hiltViewModel()</code> hívást használjuk. Pl. a <code>TodoDetailScreen</code> eddig így nézett ki:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="nf">TodoDetailScreen</span><span class="p">(</span>
-<span class="w">    </span><span class="n">onNavigateBack</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
-<span class="w">    </span><span class="n">viewModel</span><span class="p">:</span><span class="w"> </span><span class="n">TodoDetailViewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModel</span><span class="p">(</span><span class="n">factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailViewModel</span><span class="p">.</span><span class="na">Factory</span><span class="p">)</span>
-<span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="c1">// ...</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>A következőképpen módosítsuk:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="nf">TodoDetailScreen</span><span class="p">(</span>
-<span class="w">    </span><span class="n">onNavigateBack</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
-<span class="w">    </span><span class="n">viewModel</span><span class="p">:</span><span class="w"> </span><span class="n">TodoDetailViewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hiltViewModel</span><span class="p">()</span>
-<span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="c1">// ...</span>
-<span class="p">}</span>
-</code></pre></div>
-<h2 id="a-usecases-modul-elkeszitese">A usecases modul elkészítése<a class="headerlink" href="#a-usecases-modul-elkeszitese" title="Permanent link">¶</a></h2>
-<p>Már csak a usecases modult kell elkészítenünk. Ehhez készítsünk először egy <code>domain.di</code> package-et, és ebbe hozzuk létre az alábbit:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@Module</span>
+<span class="nd">@Module</span>
 <span class="nd">@InstallIn</span><span class="p">(</span><span class="n">SingletonComponent</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="kd">object</span><span class="w"> </span><span class="nc">TodoUseCaseModule</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="nd">@Provides</span>
 <span class="w">    </span><span class="nd">@Singleton</span>
 <span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">provideLoadTodosUseCase</span><span class="p">(</span>
-<span class="w">        </span><span class="n">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span>
+<span class="w">        </span><span class="n">repository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span>
 <span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="n">LoadTodosUseCase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LoadTodosUseCase</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
 
 <span class="w">    </span><span class="nd">@Provides</span>
 <span class="w">    </span><span class="nd">@Singleton</span>
-<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">provideTodoUseCases</span><span class="p">(</span>
-<span class="w">        </span><span class="n">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">provideAllTodoUseCases</span><span class="p">(</span>
+<span class="w">        </span><span class="n">repository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="p">,</span>
 <span class="w">        </span><span class="n">loadTodos</span><span class="p">:</span><span class="w"> </span><span class="n">LoadTodosUseCase</span>
-<span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">(</span><span class="n">repository</span><span class="p">,</span><span class="w"> </span><span class="n">loadTodos</span><span class="p">)</span>
+<span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="n">AllTodoUseCases</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AllTodoUseCases</span><span class="p">(</span><span class="n">repository</span><span class="p">,</span><span class="w"> </span><span class="n">loadTodos</span><span class="p">)</span>
 
 <span class="p">}</span>
 </code></pre></div>
-<p>A <code>TodoUseCases</code> osztályt pedig így alakítsuk át:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">TodoUseCases</span><span class="p">(</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">TodoRepository</span><span class="p">,</span>
+<p>Láthatjuk, hogy jelenleg csak az <code>AllTodoUseCases</code> és <code>LoadTodosUseCase</code> osztályokat tudjuk injektálni a szükséges helyekre, mivel ezekhez írtunk <code>@Provides</code> anntációval ellátott factory metódusokat. A modult az önálló feladatban egészítjük majd ki a további usecase-ekkel.</p>
+<p>Az <code>AllTodoUseCases</code> osztályt ennek megfelelően így alakítsuk át:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">AllTodoUseCases</span><span class="p">(</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">loadTodos</span><span class="p">:</span><span class="w"> </span><span class="n">LoadTodosUseCase</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
-
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">loadTodo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LoadTodoUseCase</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">saveTodo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SaveTodoUseCase</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">updateTodo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UpdateTodoUseCase</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">deleteTodo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DeleteTodoUseCase</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Most már a viewmodel osztályokba nem szükséges a <code>TodoRepository</code> injektálása és a <code>TodoUseCases</code> kézi létrehozása, hiszen a <code>TodoUseCases</code> közvetlen is injektálhatóvá vált. Módosítsuk ennek megfelelően a viewmodel osztályokat!</p>
-<p>A <code>TodoDetailViewModel</code> kódja:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
+<p>Most már kiválthatjuk a <code>todoOperations</code> manuális példányosítását a ViewModellekben hiszen az <code>AllTodoUseCases</code> közvetlenül is injektálhatóvá vált. Módosítsuk ennek megfelelően ezeket az osztályokat, azaz injektáljuk a megfelelő függőséget a kontruktorukba. Továbbá lássuk el őket a <code>@HiltViewModel</code> annotációval, ami lehetővé teszi maguknak a ViewModelleknek az egyszerű példányosítását, ami innentől fogva <code>viewModelFactory</code> használata nélkül fog történni!</p>
+<p>A <code>TodoListViewModel</code> ezentúl így néz ki:</p>
+<p></p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.screen.todo_list</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.ViewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewModelScope</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.android.lifecycle.HiltViewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.usecases.AllTodoUseCases</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.TodoUi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.asTodo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.asTodoUi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.toUiText</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">jakarta.inject.Inject</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.channels.Channel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.MutableStateFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.asStateFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.collectLatest</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.receiveAsFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.launch</span>
+
+<span class="nd">@HiltViewModel</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">TodoListViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">AllTodoUseCases</span>
+<span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="o">&lt;</span><span class="n">TodoListState</span><span class="o">&gt;</span><span class="p">(</span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_state</span><span class="p">.</span><span class="na">asStateFlow</span><span class="p">()</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_uiEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channel</span><span class="o">&lt;</span><span class="n">TodoListScreenUiEvent</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">uiEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">receiveAsFlow</span><span class="p">()</span>
+
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onEvent</span><span class="p">(</span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="n">TodoListScreenEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoListScreenEvent</span><span class="p">.</span><span class="na">LoadTodos</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">loadTodos</span><span class="p">()</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoListScreenEvent</span><span class="p">.</span><span class="na">DeleteTodo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">deleteTodo</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="na">todo</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span>
+<span class="w">                </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodos</span><span class="p">().</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">collectLatest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
+<span class="w">                        </span><span class="n">todoList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">asTodoUi</span><span class="p">()</span><span class="w"> </span><span class="p">})</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">deleteTodo</span><span class="p">(</span><span class="n">todo</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUi</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">deleteTodo</span><span class="p">(</span><span class="n">todo</span><span class="p">.</span><span class="na">asTodo</span><span class="p">().</span><span class="na">id</span><span class="p">)</span>
+<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoListScreenUiEvent</span><span class="p">.</span><span class="na">DeleteSuccess</span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoListScreenUiEvent</span><span class="p">.</span><span class="na">DeleteFailure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+A <code>TodoDetailViewModel</code> hasonlóan változik:<p></p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.screen.todo_detail</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.ViewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewModelScope</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.android.lifecycle.HiltViewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.usecases.AllTodoUseCases</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.asTodoUi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">jakarta.inject.Inject</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.MutableStateFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.asStateFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.collectLatest</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.launch</span>
+
+<span class="nd">@HiltViewModel</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">TodoDetailViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span><span class="p">,</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">savedStateHandle</span><span class="p">:</span><span class="w"> </span><span class="n">SavedStateHandle</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">AllTodoUseCases</span>
 <span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="o">&lt;</span><span class="n">TodoDetailState</span><span class="o">&gt;</span><span class="p">(</span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Loading</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_state</span><span class="p">.</span><span class="na">asStateFlow</span><span class="p">()</span>
 
-<span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">loadTodos</span><span class="p">()</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">checkNotNull</span><span class="o">&lt;</span><span class="kt">Int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">savedStateHandle</span><span class="o">[</span><span class="s">"id"</span><span class="o">]</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodo</span><span class="p">(</span><span class="n">todoId</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Loading</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodo</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todo</span><span class="p">.</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">asTodoUi</span><span class="p">()</span>
-<span class="w">                </span><span class="p">)</span>
+<span class="w">                </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodo</span><span class="p">(</span><span class="n">todoId</span><span class="p">).</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">collectLatest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span><span class="nb">it</span><span class="p">.</span><span class="na">asTodoUi</span><span class="p">())</span>
+<span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailState</span><span class="p">.</span><span class="na">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span>
@@ -1325,21 +1282,37 @@ a <code>data.di</code> package-be:</p>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>A <code>TodoCreateViewModel</code> így fest:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
+<p>Végül a <code>TodoCreateViewModel</code> kódja így módosul:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.screen.todo_create</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.ViewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewModelScope</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.android.lifecycle.HiltViewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.usecases.AllTodoUseCases</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.asTodo</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.model.toUiText</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">jakarta.inject.Inject</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.channels.Channel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.MutableStateFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.asStateFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.receiveAsFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.update</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.launch</span>
+
+<span class="nd">@HiltViewModel</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">TodoCreateViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">AllTodoUseCases</span>
 <span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="p">(</span><span class="n">TodoCreateState</span><span class="p">())</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="p">(</span><span class="n">TodoCreateScreenState</span><span class="p">())</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_state</span><span class="p">.</span><span class="na">asStateFlow</span><span class="p">()</span>
 
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_uiEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channel</span><span class="o">&lt;</span><span class="n">TodoCreateUiEvent</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_uiEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Channel</span><span class="o">&lt;</span><span class="n">TodoCreateScreenUiEvent</span><span class="o">&gt;</span><span class="p">()</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">uiEvent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">receiveAsFlow</span><span class="p">()</span>
 
-<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onEvent</span><span class="p">(</span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onEvent</span><span class="p">(</span><span class="n">event</span><span class="p">:</span><span class="w"> </span><span class="n">TodoCreateScreenEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">ChangeTitle</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateScreenEvent</span><span class="p">.</span><span class="na">ChangeTitle</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">text</span>
 <span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
@@ -1348,7 +1321,7 @@ a <code>data.di</code> package-be:</p>
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
 
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">ChangeDescription</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateScreenEvent</span><span class="p">.</span><span class="na">ChangeDescription</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">text</span>
 <span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
@@ -1357,7 +1330,7 @@ a <code>data.di</code> package-be:</p>
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
 
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">SelectPriority</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateScreenEvent</span><span class="p">.</span><span class="na">SelectPriority</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">priority</span>
 <span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
@@ -1366,7 +1339,7 @@ a <code>data.di</code> package-be:</p>
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
 
-<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">SelectDate</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">is</span><span class="w"> </span><span class="n">TodoCreateScreenEvent</span><span class="p">.</span><span class="na">SelectDate</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">newValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">date</span>
 <span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
@@ -1375,10 +1348,14 @@ a <code>data.di</code> package-be:</p>
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
 
-<span class="w">            </span><span class="n">TodoCreateEvent</span><span class="p">.</span><span class="na">SaveTodo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">TodoCreateScreenEvent</span><span class="p">.</span><span class="na">SaveTodo</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="na">random</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kt">Int</span><span class="p">.</span><span class="na">MAX_VALUE</span><span class="p">).</span><span class="na">toInt</span><span class="p">())</span>
+<span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
+<span class="w">                            </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="na">random</span><span class="p">()</span><span class="o">*</span><span class="kt">Int</span><span class="p">.</span><span class="na">MAX_VALUE</span><span class="p">).</span><span class="na">toInt</span><span class="p">(),</span>
+<span class="w">                            </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">title</span><span class="p">.</span><span class="na">trim</span><span class="p">(),</span>
+<span class="w">                            </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">description</span><span class="p">.</span><span class="na">trim</span><span class="p">()</span>
+<span class="w">                        </span><span class="p">)</span>
 <span class="w">                    </span><span class="p">)</span>
 <span class="w">                </span><span class="p">}</span>
 <span class="w">                </span><span class="n">onSave</span><span class="p">()</span>
@@ -1390,41 +1367,37 @@ a <code>data.di</code> package-be:</p>
 <span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">saveTodo</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">asTodo</span><span class="p">())</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoCreateUiEvent</span><span class="p">.</span><span class="na">Success</span><span class="p">)</span>
+<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoCreateScreenUiEvent</span><span class="p">.</span><span class="na">Success</span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoCreateUiEvent</span><span class="p">.</span><span class="na">Failure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
+<span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">TodoCreateScreenUiEvent</span><span class="p">.</span><span class="na">Failure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
+
 <span class="p">}</span>
 </code></pre></div>
-<p>A <code>TodoListViewModel</code> átalakított verziója pedig az alábbi:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
-<span class="kd">class</span><span class="w"> </span><span class="nc">TodoListViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoOperations</span><span class="p">:</span><span class="w"> </span><span class="n">TodoUseCases</span>
-<span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="o">&lt;</span><span class="n">TodoListState</span><span class="o">&gt;</span><span class="p">(</span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span><span class="p">)</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_state</span><span class="p">.</span><span class="na">asStateFlow</span><span class="p">()</span>
-
-<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Loading</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">todos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">loadTodos</span><span class="p">().</span><span class="na">getOrThrow</span><span class="p">().</span><span class="na">map</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">asTodoUi</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Result</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">todoList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todos</span>
-<span class="w">                </span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoListState</span><span class="p">.</span><span class="na">Error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
+<p>Majd végül az összes screen osztályban változtassuk meg a ViewModel létrehozásának módját úgy, hogy a <code>hiltViewModel()</code> hívást használjuk. Például a <code>TodoDetailScreen</code> eddig így nézett ki:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="nf">TodoDetailScreen</span><span class="p">(</span>
+<span class="w">    </span><span class="n">todoId</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
+<span class="w">    </span><span class="n">onNavigateBack</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
+<span class="w">    </span><span class="n">viewModel</span><span class="p">:</span><span class="w"> </span><span class="n">TodoDetailViewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModel</span><span class="p">(</span><span class="n">factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoDetailViewModel</span><span class="p">.</span><span class="na">Factory</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
 <span class="p">}</span>
 </code></pre></div>
+<p>Innentől kezdve szimplán egy elegáns hiltViewModel() hívás szükséges:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">fun</span><span class="w"> </span><span class="nf">TodoDetailScreen</span><span class="p">(</span>
+<span class="w">    </span><span class="n">todoId</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
+<span class="w">    </span><span class="n">onNavigateBack</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
+<span class="w">    </span><span class="n">viewModel</span><span class="p">:</span><span class="w"> </span><span class="n">TodoDetailViewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hiltViewModel</span><span class="p">()</span>
+<span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Módosítsuk ezt a <code>TodoListScreen</code> és a <code>TodoCreateScreen</code> esetében is! </p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>, a <strong>fenti lépésekhez tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>.</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>, az <strong>egyik ViewModel példányosítása</strong>, valamint a <strong>NEPTUN kódod a kódban valahol kommentként</strong>.</p>
 <p>A képet a megoldásban a repository-ba f2.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
@@ -1443,12 +1416,12 @@ a <code>data.di</code> package-be:</p>
 <li>Mivel minden teszt egy kis egységre vonatkozik, a meghiúsuló teszt jól rámutat a probléma helyére is</li>
 </ul>
 <p>A unittesztek esetén fontos kihívás, hogy a függőségeket izoláljuk, leválasszuk, hiszen ha azok is meghívódnának, akkor nem unittesztről beszélnénk, hanem integrációs tesztről, és a fenti előnyök nem teljesülnének. Különösen az az előny veszne el, hogy a teszt jól mutatja a hiba helyét. Ezért a tesztekben a függőségeket valamilyen <em>test double</em> objektummal, tipikusan <em>mock</em> objektummal cseréljük le. A mock objektum egy "buta", de "felprogramozható" komponens, ami éppen csak annyit csinál, amit a teszt idejére elvárunk tőle, azaz tipikusan valamilyen beégetett adatot ad vissza. Ezen kívül a segítségével ellenőrizhető az is, hogy a lecserélt függőségen a tesztelt kódrészlet tényleg elvégezte a várt hívást.</p>
-<p>Az alkalmazásban nincsenek túl bonyolult üzleti logika részek, de a tesztelés technikáját jól meg tudjuk figyelni. Most a <code>TodoRepositoryImpl</code> osztályt fogjuk tesztelni. Konvenció szerint osztályokhoz készítünk tesztosztályokat, és a tesztosztályokban minden tesztelt metódus egy lehetséges lefutásához készítünk egy tesztmetódust. A tesztosztályokat a tesztelt osztályokkal azonos package-be tesszük, és nevükben a <code>Test</code> utótagot használjuk.</p>
-<p>Először fel kell vennünk a teszteléshez használandó függőségeket a projektbe! A tesztelés alapvető fontosságú feladat, ezért az Android Studio új projektnél a legfontosabb függőségeket beleteszi a projektvázba, így a kiindulú projektben is már benne vannak a legfontosabb függőségek. Fogunk viszont mockokat is használni, és ehhez még fel kell vennünk a népszerű Mockito könyvtárat. A lokális tesztekhez a <code>testImplementation</code> scope-ot kell használnunk. Vegyük fel az alábbi függőségeket, először a <code>libs.versions.toml</code> fájllal kezdve:</p>
+<p>Az alkalmazásban nincsenek túl bonyolult üzleti logika részek, de a tesztelés technikáját jól meg tudjuk figyelni. Most a <code>RoomTodoRepository</code> osztályt fogjuk tesztelni. Konvenció szerint osztályokhoz készítünk tesztosztályokat, és a tesztosztályokban minden tesztelt metódus egy lehetséges lefutásához készítünk egy tesztmetódust. A tesztosztályokat a tesztelt osztályokkal azonos package-be tesszük, és nevükben a <code>Test</code> utótagot használjuk.</p>
+<p>Először fel kell vennünk a teszteléshez használandó függőségeket a projektbe! A tesztelés alapvető fontosságú feladat, ezért az Android Studio új projektnél a legfontosabb függőségeket beleteszi a projektvázba, így a kiinduló projektben is már benne vannak a legfontosabb függőségek. Fogunk viszont mockokat is használni, és ehhez még fel kell vennünk a népszerű Mockito könyvtárat. A lokális tesztekhez a <code>testImplementation</code> scope-ot kell használnunk. Vegyük fel az alábbi függőségeket, először a <code>libs.versions.toml</code> fájllal kezdve:</p>
 <div class="highlight"><pre><span></span><code>[versions]
-mockitoCore = "5.11.0"
+mockitoCore = "5.20.0"
 mockitoInline = "5.2.0"
-mockitoKotlin = "5.2.1"
+mockitoKotlin = "6.1.0"
 
 [libraries]
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
@@ -1462,7 +1435,7 @@ mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "
 <span class="n">testImplementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">mockito</span><span class="p">.</span><span class="na">kotlin</span><span class="p">)</span>
 </code></pre></div>
 <p>Hozzuk létre a szükséges könyvtárstruktúrát a teszteknek. A lokális tesztek a <code>src/test</code> könyvtárban vannak, az <code>src/androidTest</code> könyvtár pedig az instrumentált tesztek helye. Ezeken belül ugyanúgy <code>java</code> vagy <code>kotlin</code> könyvtárba kerülnek a forráskódok.</p>
-<p>Most hozzuk létre a <code>data.repository</code> package-et a <code>test</code> könyvtárban is, mivel azt a gyakorlatot fogjuk követni, hogy egy osztályhoz tartozó tesztek azonos package-ben, egy azonosan kezdődő, de <code>Test</code> utótaggal ellátott tesztosztályban lesznek megvalósítva. A létrehozott package-ben hozzunk létre ezért egy <code>TodoRepositoryImplTest</code> osztályt az alábbi módon:</p>
+<p>Most hozzuk létre a <code>data.repository</code> package-et a <code>test</code> könyvtárban is, mivel azt a gyakorlatot fogjuk követni, hogy egy osztályhoz tartozó tesztek azonos package-ben, egy azonosan kezdődő, de <code>Test</code> utótaggal ellátott tesztosztályban lesznek megvalósítva. A létrehozott package-ben hozzunk létre ezért egy <code>RoomTodoRepositoryTest</code> osztályt az alábbi módon:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.dao.TodoDao</span>
@@ -1475,7 +1448,6 @@ mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "
 <span class="k">import</span><span class="w"> </span><span class="nn">org.junit.Assert</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">org.junit.Test</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">org.junit.runner.RunWith</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">org.mockito.Mock</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">org.mockito.junit.MockitoJUnitRunner</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">org.mockito.kotlin.doReturn</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">org.mockito.kotlin.mock</span>
@@ -1483,10 +1455,7 @@ mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "
 <span class="k">import</span><span class="w"> </span><span class="nn">org.mockito.kotlin.verify</span>
 
 <span class="nd">@RunWith</span><span class="p">(</span><span class="n">MockitoJUnitRunner</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
-<span class="kd">class</span><span class="w"> </span><span class="nc">TodoRepositoryImplTest</span><span class="w"> </span><span class="p">{</span>
-
-<span class="w">    </span><span class="nd">@Mock</span>
-<span class="w">    </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">todoDao</span><span class="p">:</span><span class="w"> </span><span class="n">TodoDao</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">RoomTodoRepositoryTest</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="nd">@Test</span>
 <span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">testGetAllTodos</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -1500,8 +1469,8 @@ mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">mockDao</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mock</span><span class="o">&lt;</span><span class="n">TodoDao</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">on</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">getAllTodos</span><span class="p">()</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="n">doReturn</span><span class="w"> </span><span class="p">(</span><span class="n">flowOf</span><span class="p">(</span><span class="n">listOf</span><span class="p">(</span><span class="n">sampleTodo</span><span class="p">)))</span>
 <span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">todoRepositoryImpl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoRepositoryImpl</span><span class="p">(</span><span class="n">mockDao</span><span class="p">)</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">todoRepositoryImpl</span><span class="p">.</span><span class="na">getAllTodos</span><span class="p">()</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">roomTodoRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RoomTodoRepository</span><span class="p">(</span><span class="n">mockDao</span><span class="p">)</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">roomTodoRepository</span><span class="p">.</span><span class="na">getAllTodos</span><span class="p">()</span>
 <span class="w">        </span><span class="n">runBlocking</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">Assert</span><span class="p">.</span><span class="na">assertTrue</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="na">first</span><span class="p">().</span><span class="na">contains</span><span class="p">(</span><span class="n">sampleTodo</span><span class="p">))</span>
 <span class="w">            </span><span class="n">verify</span><span class="p">(</span><span class="n">mockDao</span><span class="p">,</span><span class="w"> </span><span class="n">times</span><span class="p">(</span><span class="m">1</span><span class="p">)).</span><span class="na">getAllTodos</span><span class="p">()</span>
@@ -1512,19 +1481,19 @@ mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "
 <p>Nézzük át a laborvezetővel együtt, hogyan működik a teszt!</p>
 <p>Alapvetően minden teszt három lépésből áll:</p>
 <ol>
-<li>A <em>test fixture</em>, azaz a tesztelni kívánt kódrészlethez szükséges kezdeti állapot felállítása. Ha egy "sikeres" lefutást szeretnénk tesztelni, akkor ennek megfelelően készítjük elő a környezetet. Ha pedig egy hiba utána elvárt hatást, pl. exception dobódik, hibaüzenet íródik ki stb. szeretnénk tesztelni, akkor ennek megfelelően. Idetartozik a függőségek kiváltása is.</li>
+<li>A <em>test fixture</em>, azaz a tesztelni kívánt kódrészlethez szükséges kezdeti állapot felállítása. Ha egy "sikeres" lefutást szeretnénk tesztelni, akkor ennek megfelelően készítjük elő a környezetet. Ha pedig egy hiba utáni elvárt hatást, pl. exception dobódik, hibaüzenet íródik ki stb. szeretnénk tesztelni, akkor ennek megfelelően. Idetartozik a függőségek kiváltása is.</li>
 <li>A tesztelni kívánt kódrészlet futtatása.</li>
 <li>Az elvárt eredmények megfogalmazása, annak ellenőrzése, hogy teljesültek-e (<em>assertions</em>). Ha mock objektumokat használtunk, akkor idetartozik annak ellenőrzése is, hogy rajtuk meghívódtak-e azok a metódusok, amelyek meghívódására számítottunk.</li>
 </ol>
-<p>A példánkban a <code>TodoRepositoryImpl</code> osztály <code>getAllTodos</code> metódusa csupán annyit tesz, hogy továbbhívja a <code>TodoDao</code> osztály <code>getAllTodos</code> metódusát, majd ennek eredményét visszaadja. A tesztünk ezért nem lesz túl bonyolult. Alapvetően abból áll, hogy készítenünk kell egy <code>TodoDao</code> mock objektumot, amely beégetett <code>TodoEntity</code> listát fog visszaadni. Ezt a mockot kell odaadnunk a <code>TodoRepositoryImp</code> függőségének, majd meg kell hívnunk a tesztelni kívánt metódust, és meg kell vizsgálni, hogy a beégetett listát adta-e vissza, valamint a mockunknak az azonos nevű metódusa szintén hívódott-e.</p>
+<p>A példánkban a <code>RoomTodoRepository</code> osztály <code>getAllTodos</code> metódusa csupán annyit tesz, hogy továbbhívja a <code>TodoDao</code> osztály <code>getAllTodos</code> metódusát, majd ennek eredményét visszaadja. A tesztünk ezért nem lesz túl bonyolult. Alapvetően abból áll, hogy készítenünk kell egy <code>TodoDao</code> mock objektumot, amely beégetett <code>TodoEntity</code> listát fog visszaadni. Ezt a mockot kell átadnunk a <code>RoomTodoRepository</code> függőségeként, majd meg kell hívnunk a tesztelni kívánt metódust, és meg kell vizsgálni, hogy a beégetett listát adta-e vissza, valamint a mockunknak az azonos nevű metódusa szintén hívódott-e.</p>
 <p>Futtassuk le a tesztet!</p>
 <h3 id="instrumentalt-tesztek-futtatasa">Instrumentált tesztek futtatása<a class="headerlink" href="#instrumentalt-tesztek-futtatasa" title="Permanent link">¶</a></h3>
-<p>Bonyolultabb teszteket sem lehetetlen lokális tesztként futtatni, de a függőségek szövevényessége miatt ez egy jóval bonyolultabb feladat lenne. Praktikusabb ezért ha összetettebb folyamatok teszteléséhez az emulátort is segítségül hívjuk. Ilyen például a Compose segítségével készített UI tesztelése. Az Android által biztosított eszközökkel létre tudjuk hozni a komponenseinket egy emulált környezetben, és a teszt kódjából interakciókat is ki tudunk váltani (pl. írjunk be szöveget egy mezőbe, kattintsunk egy gombon stb.). Ez a fajta tesztelés láthatóan jóval közelebb áll ahhoz a módhoz, ahogyan az alkalmazás majd ténylegesen futni fog. Logikusan belétható ugyanakkor az is, hogy ezek a tesztek jóval bonyolultabbak, és lassabban is fognak futni.</p>
+<p>Bonyolultabb teszteket sem lehetetlen lokális tesztként futtatni, de a függőségek szövevényessége miatt ez egy jóval bonyolultabb feladat lenne. Praktikusabb ezért ha összetettebb folyamatok teszteléséhez az emulátort is segítségül hívjuk. Ilyen például a Compose segítségével készített UI tesztelése. Az Android által biztosított eszközökkel létre tudjuk hozni a komponenseinket egy emulált környezetben, és a teszt kódjából interakciókat is ki tudunk váltani (pl. írjunk be szöveget egy mezőbe, kattintsunk egy gombon stb.). Ez a fajta tesztelés láthatóan jóval közelebb áll ahhoz a módhoz, ahogyan az alkalmazás majd ténylegesen futni fog. Logikusan belátható ugyanakkor az is, hogy ezek a tesztek jóval bonyolultabbak, és lassabban is fognak futni.</p>
 <p>Az instrumentált teszteket az <code>androidTest</code> könyvtárban lehet létrehozni. Mivel ezek nagyobb léptékű tesztek is lehetnek, nem feltétlen tartoznak logikailag egy komponenshez. Amennyiben azonban odatartoznak, javasolt ezeket is azonos package-be tenni és a lokális tesztekéhez hasonló elnevezési konvenció szerint elnevezni.</p>
 <p>Először itt is a függőségek felvételével kezdünk, a <code>libs.versions.toml</code> fájllal. Az alapvető függőségek az instrumentált tesztekhez is bekerültek már a projektvázba, de mivel Hiltet használunk, a függőséginjektálásnak az instrumentált tesztekben is működniük kell:</p>
 <div class="highlight"><pre><span></span><code>[versions]
-hiltAndroidTesting = "2.56.1"
-hiltAndroidCompiler = "2.56.1"
+hiltAndroidTesting = "2.57.2"
+hiltAndroidCompiler = "2.57.2"
 
 [libraries]
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTesting" }
@@ -1559,6 +1528,7 @@ hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", ve
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.test.onNodeWithText</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.test.performClick</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.MainActivity</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.screen.todo_create.TodoCreateScreen</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">org.junit.Rule</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">org.junit.Test</span>
 
@@ -1586,15 +1556,15 @@ hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", ve
 <p>Futtassuk le a tesztet! Figyeljük meg, hogy végigkövethető az emulátoron is a teszt futása.</p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>lefutott teszt</strong>, a <strong>hozzá tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>.</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>lefutott teszt</strong>, a <strong>hozzá tartozó kódrészlet</strong>, valamint a <strong>NEPTUN kódod a kódban valahol kommentként</strong>.</p>
 <p>A képet a megoldásban a repository-ba f3.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <h2 id="onallo-feladat-1-dependency-injection-befejezese">Önálló feladat 1. - Dependency Injection befejezése<a class="headerlink" href="#onallo-feladat-1-dependency-injection-befejezese" title="Permanent link">¶</a></h2>
-<p>A <code>TodoUseCases</code> osztályban egyelőre csak a <code>LoadTodosUseCase</code> függőséget hozzuk létre a modulban, és injektáljuk a Dagger/Hilt segítségével, a többi usecase most is manuálisan példányosodik a repository átadásával. Folytasd az átalakítást, és hozd létre az összes usecase-t a usecase modulban, hogy utána már a Dagger/Hilt kezelje őket!</p>
+<p>Az <code>AllTodoUseCases</code> osztályban egyelőre csak a <code>LoadTodosUseCase</code> függőséget hozzuk létre a modulban, és injektáljuk a Dagger/Hilt segítségével, a többi usecase most is manuálisan példányosodik a repository átadásával. Folytasd az átalakítást, és hozd létre az összes usecase-t a usecase modulban, hogy utána már a Dagger/Hilt kezelje őket!</p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>, az <strong>átalakított kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>futó alkalmazás</strong>, a <strong>TodoUseCaseModul kódja</strong>, valamint a <strong>NEPTUN kódod a kódban valahol kommentként</strong>. </p>
 <p>A képet a megoldásban a repository-ba f4.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
@@ -1612,7 +1582,7 @@ hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", ve
 </ul>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
-<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>lefutott teszt</strong>, a <strong>hozzá tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>.</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>lefutott teszt</strong>, a <strong>hozzá tartozó kódrészlet</strong>, valamint a <strong>NEPTUN kódod a kódban valahol kommentként</strong>.</p>
 <p>A képet a megoldásban a repository-ba f5.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
@@ -1624,8 +1594,8 @@ hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", ve
           </path>
         </svg>
       </span>
-      <span title="2025. április 10. 11:20:10">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. április 10. 11:20:10 CEST"><span class="timeago" datetime="2025-04-10T11:20:10+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. április 10. 11:20:10 CEST">2025-04-10</span>
+      <span title="2025. november 10. 13:51:33">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. november 10. 13:51:33 CET"><span class="timeago" datetime="2025-11-10T13:51:33+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. november 10. 13:51:33 CET">2025-11-10</span>
       </span>
     </span>
 

@@ -644,8 +644,22 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#modellek-es-adatbazis" class="md-nav__link">
+    Modellek és adatbázis
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#a-retrofit-interfesz" class="md-nav__link">
     A Retrofit interfész
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pagingutil" class="md-nav__link">
+    PagingUtil
   </a>
   
 </li>
@@ -667,13 +681,6 @@
           <li class="md-nav__item">
   <a href="#a-remotemediator-osztaly" class="md-nav__link">
     A RemoteMediator osztály
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pagingutil" class="md-nav__link">
-    PagingUtil
   </a>
   
 </li>
@@ -886,8 +893,22 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#modellek-es-adatbazis" class="md-nav__link">
+    Modellek és adatbázis
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#a-retrofit-interfesz" class="md-nav__link">
     A Retrofit interfész
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pagingutil" class="md-nav__link">
+    PagingUtil
   </a>
   
 </li>
@@ -909,13 +930,6 @@
           <li class="md-nav__item">
   <a href="#a-remotemediator-osztaly" class="md-nav__link">
     A RemoteMediator osztály
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pagingutil" class="md-nav__link">
-    PagingUtil
   </a>
   
 </li>
@@ -1012,7 +1026,7 @@ Tekintsük át a laborvezetővel a meglévő kódot!</p>
 </div>
 <div class="admonition info">
 <p class="admonition-title">Coil</p>
-<p>A Coil (Coroutine Image Loader) egy kép betöltő könyvtár Androidra, amelyet a Kotlin koroutinokra épül. <br>
+<p>A Coil (Coroutine Image Loader) egy kép betöltő könyvtár Androidra, amelyet a Kotlin coroutinokra épül. <br>
 A Coil használatának előnyei:  </p>
 <ul>
 <li>Gyors: A Coil számos optimalizálást végez, beleértve a memória- és lemeztároló gyorsítótárazást, az átméretezést a memóriában, az automatikus kérések szüneteltetését/leállítását és még sok mást.  </li>
@@ -1022,9 +1036,18 @@ A Coil használatának előnyei:  </p>
 </ul>
 </div>
 <h3 id="fuggosegek">Függőségek<a class="headerlink" href="#fuggosegek" title="Permanent link">¶</a></h3>
+<p>Tekintsük át a kiinduló projektben lévő függőségeket!</p>
+<h3 id="modellek-es-adatbazis">Modellek és adatbázis<a class="headerlink" href="#modellek-es-adatbazis" title="Permanent link">¶</a></h3>
 <p>A <code>data.model</code> package-be hozzuk létre az alábbi két fájlt, melyek az API használatához szükségesek:</p>
 <p><code>UnsplashPhoto.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="nd">@Entity</span><span class="p">(</span><span class="n">tableName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"photos"</span><span class="p">)</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Embedded</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Entity</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.PrimaryKey</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.squareup.moshi.Json</span>
+
+<span class="nd">@Entity</span><span class="p">(</span><span class="n">tableName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"photos"</span><span class="p">)</span>
 <span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">UnsplashPhoto</span><span class="p">(</span>
 <span class="w">    </span><span class="nd">@PrimaryKey</span><span class="p">(</span><span class="n">autoGenerate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
@@ -1060,13 +1083,26 @@ A Coil használatának előnyei:  </p>
 <p>Az <code>@Embedded</code> annotációval megjelelőt mezők osztályainak mezői közvetlenül hivatkozhatók az SQL querykben.  </p>
 <p>A <code>Moshi</code> automatikusan megoldja majd az egyes tagváltozók szerializálását, kivéve ott, ahol eltér a név. Ezt a <code>Json</code> annotációval jelezhetjük.</p>
 <p><code>SearchResult.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">SearchResult</span><span class="p">(</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">com.squareup.moshi.Json</span>
+
+<span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">SearchResult</span><span class="p">(</span>
 <span class="w">    </span><span class="nd">@Json</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"results"</span><span class="p">)</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">photos</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">UnsplashPhoto</span><span class="o">&gt;</span>
 <span class="p">)</span>
 </code></pre></div><p></p>
 <p>Hozzuk létre az első DAO-t a <code>data.local.dao</code> package-ben:</p>
 <p><code>UnsplashPhotoDao.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="nd">@Dao</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.dao</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.PagingSource</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Dao</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Insert</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Query</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhoto</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.Flow</span>
+
+<span class="nd">@Dao</span>
 <span class="kd">interface</span><span class="w"> </span><span class="nc">UnsplashPhotoDao</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nd">@Insert</span>
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">insertPhotos</span><span class="p">(</span><span class="n">photos</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">UnsplashPhoto</span><span class="o">&gt;</span><span class="p">)</span>
@@ -1086,7 +1122,14 @@ A Coil használatának előnyei:  </p>
 </code></pre></div><p></p>
 <p>Majd a <code>data.local.database</code> package-ben hozzuk létre az adatbázist:</p>
 <p><code>UnsplashDatabase.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="nd">@Database</span><span class="p">(</span><span class="n">entities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">UnsplashPhoto</span><span class="o">::</span><span class="n">class</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.database</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Database</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.RoomDatabase</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.dao.UnsplashPhotoDao</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhoto</span>
+
+<span class="nd">@Database</span><span class="p">(</span><span class="n">entities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">UnsplashPhoto</span><span class="o">::</span><span class="n">class</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
 <span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">UnsplashDatabase</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">RoomDatabase</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">photosDao</span><span class="p">:</span><span class="w"> </span><span class="n">UnsplashPhotoDao</span>
 <span class="p">}</span>
@@ -1101,40 +1144,120 @@ A Coil használatának előnyei:  </p>
 <p>Az Unsplash API három végpontját fogjuk használni a képek, egy adott kép lekérésére, valamint a keresés végrehajtására.
 Hozzuk létre a lenti interface-t a <code>data.remote.api</code> package-ben.</p>
 <p><code>UnsplashApi.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="kd">interface</span><span class="w"> </span><span class="nc">UnsplashApi</span><span class="w"> </span><span class="p">{</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.remote.api</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.SearchResult</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhoto</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">retrofit2.Response</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">retrofit2.http.GET</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">retrofit2.http.Path</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">retrofit2.http.Query</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nc">UnsplashApi</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="nd">@GET</span><span class="p">(</span><span class="s">"/photos"</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getPhotosFromEditorialFeed</span><span class="p">(</span>
 <span class="w">        </span><span class="nd">@Query</span><span class="p">(</span><span class="s">"page"</span><span class="p">)</span><span class="w"> </span><span class="n">page</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span>
 <span class="w">        </span><span class="nd">@Query</span><span class="p">(</span><span class="s">"per_page"</span><span class="p">)</span><span class="w"> </span><span class="n">perPage</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span>
-<span class="w">        </span><span class="nd">@Query</span><span class="p">(</span><span class="s">"client_id"</span><span class="p">)</span><span class="w"> </span><span class="n">clientId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"ACCESS_KEY"</span><span class="p">,</span>
+<span class="w">        </span><span class="nd">@Query</span><span class="p">(</span><span class="s">"client_id"</span><span class="p">)</span><span class="w"> </span><span class="n">clientId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CLIENT_ID</span><span class="p">,</span>
 <span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="n">Response</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">UnsplashPhoto</span><span class="o">&gt;&gt;</span>
 
 <span class="w">    </span><span class="nd">@GET</span><span class="p">(</span><span class="s">"/photos/{id}"</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getPhotoById</span><span class="p">(</span>
 <span class="w">        </span><span class="nd">@Path</span><span class="p">(</span><span class="s">"id"</span><span class="p">)</span><span class="w"> </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
-<span class="w">        </span><span class="nd">@Query</span><span class="p">(</span><span class="s">"client_id"</span><span class="p">)</span><span class="w"> </span><span class="n">clientId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"ACCESS_KEY"</span><span class="p">,</span>
+<span class="w">        </span><span class="nd">@Query</span><span class="p">(</span><span class="s">"client_id"</span><span class="p">)</span><span class="w"> </span><span class="n">clientId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CLIENT_ID</span><span class="p">,</span>
 <span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="n">Response</span><span class="o">&lt;</span><span class="n">UnsplashPhoto</span><span class="o">&gt;</span>
 
 <span class="w">    </span><span class="nd">@GET</span><span class="p">(</span><span class="s">"/search/photos"</span><span class="p">)</span>
 <span class="w">    </span><span class="kd">suspend</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getSearchResults</span><span class="p">(</span>
-<span class="w">        </span><span class="nd">@Query</span><span class="p">(</span><span class="s">"client_id"</span><span class="p">)</span><span class="w"> </span><span class="n">clientId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"ACCESS_KEY"</span><span class="p">,</span>
+<span class="w">        </span><span class="nd">@Query</span><span class="p">(</span><span class="s">"client_id"</span><span class="p">)</span><span class="w"> </span><span class="n">clientId</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CLIENT_ID</span><span class="p">,</span>
 <span class="w">        </span><span class="nd">@Query</span><span class="p">(</span><span class="s">"page"</span><span class="p">)</span><span class="w"> </span><span class="n">page</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">,</span>
 <span class="w">        </span><span class="nd">@Query</span><span class="p">(</span><span class="s">"per_page"</span><span class="p">)</span><span class="w"> </span><span class="n">perPage</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span><span class="p">,</span>
 <span class="w">        </span><span class="nd">@Query</span><span class="p">(</span><span class="s">"query"</span><span class="p">)</span><span class="w"> </span><span class="n">searchTerms</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
 <span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="n">Response</span><span class="o">&lt;</span><span class="n">SearchResult</span><span class="o">&gt;</span>
 
+<span class="w">    </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="kd">private</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">CLIENT_ID</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"ACCESS_KEY"</span>
+<span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p></p>
 <p>Ha a Reponse-t nem tudná beimportálni az Android Studio, vegyük fel kézzel az <code>import retrofit2.Response</code> sort.</p>
 <p>A Retrofit annotációi segítségével egyszerűen tudjuk definiálni a kéréseinket.<br>
 Cseréljük le az itt szereplő <code>ACCESS_KEY</code> stringet az Unsplashen regisztráció után elérhető saját kulcsunkra.
 Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/applications</a> oldalon regisztráció után egy új applikációt kell létrehozni, és azt megnyitva találhatjuk meg a kulcsot.</p>
+<h3 id="pagingutil">PagingUtil<a class="headerlink" href="#pagingutil" title="Permanent link">¶</a></h3>
+<p>Hozzuk létre a <code>PagingUtil</code> osztályt az <code>util</code> package-ben a paging konfigurálására és placeholderek beállítására:</p>
+<p><code>PagingUtil.kt</code>:
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.util</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.os.Parcel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.os.Parcelable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.lazy.grid.LazyGridItemScope</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.lazy.grid.LazyGridScope</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.compose.LazyPagingItems</span>
+
+<span class="kd">object</span><span class="w"> </span><span class="nc">PagingUtil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">INITIAL_PAGE_SIZE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">INITIAL_PAGE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
+
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="o">&lt;</span><span class="n">T</span><span class="p">:</span><span class="w"> </span><span class="n">Any</span><span class="o">&gt;</span><span class="w"> </span><span class="n">LazyGridScope</span><span class="p">.</span><span class="nf">items</span><span class="p">(</span>
+<span class="w">        </span><span class="n">items</span><span class="p">:</span><span class="w"> </span><span class="n">LazyPagingItems</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">key</span><span class="p">:</span><span class="w"> </span><span class="p">((</span><span class="n">item</span><span class="p">:</span><span class="w"> </span><span class="n">T</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Any</span><span class="p">)</span><span class="o">?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">        </span><span class="n">itemContent</span><span class="p">:</span><span class="w"> </span><span class="nd">@Composable</span><span class="w"> </span><span class="n">LazyGridItemScope</span><span class="p">.(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="n">T?)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">items</span><span class="p">(</span>
+<span class="w">            </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">items</span><span class="p">.</span><span class="na">itemCount</span><span class="p">,</span>
+<span class="w">            </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">key</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">items</span><span class="p">.</span><span class="na">peek</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">item</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">PagingPlaceholderKey</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+<span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">key</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">            </span><span class="n">itemContent</span><span class="p">(</span><span class="n">items</span><span class="o">[</span><span class="n">index</span><span class="o">]</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">PagingPlaceholderKey</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">index</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Parcelable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">writeToParcel</span><span class="p">(</span><span class="n">parcel</span><span class="p">:</span><span class="w"> </span><span class="n">Parcel</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">parcel</span><span class="p">.</span><span class="na">writeInt</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">describeContents</span><span class="p">():</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="m">0</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="nd">@Suppress</span><span class="p">(</span><span class="s">"unused"</span><span class="p">)</span>
+<span class="w">            </span><span class="nd">@JvmField</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">CREATOR</span><span class="p">:</span><span class="w"> </span><span class="n">Parcelable</span><span class="p">.</span><span class="na">Creator</span><span class="o">&lt;</span><span class="n">PagingPlaceholderKey</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                </span><span class="k">object</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Parcelable</span><span class="p">.</span><span class="na">Creator</span><span class="o">&lt;</span><span class="n">PagingPlaceholderKey</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">createFromParcel</span><span class="p">(</span><span class="n">parcel</span><span class="p">:</span><span class="w"> </span><span class="n">Parcel</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
+<span class="w">                        </span><span class="n">PagingPlaceholderKey</span><span class="p">(</span><span class="n">parcel</span><span class="p">.</span><span class="na">readInt</span><span class="p">())</span>
+
+<span class="w">                    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">newArray</span><span class="p">(</span><span class="n">size</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arrayOfNulls</span><span class="o">&lt;</span><span class="n">PagingPlaceholderKey?&gt;</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p></p>
 <h3 id="a-pagingsource-osztaly">A PagingSource osztály<a class="headerlink" href="#a-pagingsource-osztaly" title="Permanent link">¶</a></h3>
-<p>Az első lépés egy PagingSource implementáció meghatározása, hogy az adatforrás azonosítható legyen. A PagingSource API osztálya tartalmazza a load() metódust, amelyet felül kell írni, hogy jelentse, hogyan lehet lapozott adatokat visszanyerni a megfelelő adatforrásból.</p>
+<p>Ezután határozzunk meg egy PagingSource implementációt, hogy az adatforrás azonosítható legyen. A PagingSource API osztálya tartalmazza a load() metódust, amelyet felül kell írni, hogy jelentse, hogyan lehet lapozott adatokat visszanyerni a megfelelő adatforrásból.</p>
 <p>Hozzuk létre az alábbi osztályt a <code>data.paging</code> package-ben:</p>
 <p><code>SearchPagingSource.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">SearchPagingSource</span><span class="p">(</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.paging</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.util.Log</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.PagingSource</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.PagingState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhoto</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.remote.api.UnsplashApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.util.PagingUtil.INITIAL_PAGE_SIZE</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">SearchPagingSource</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">api</span><span class="p">:</span><span class="w"> </span><span class="n">UnsplashApi</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">searchTerms</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span>
 <span class="p">):</span><span class="w"> </span><span class="n">PagingSource</span><span class="o">&lt;</span><span class="kt">Int</span><span class="p">,</span><span class="w"> </span><span class="n">UnsplashPhoto</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -1178,7 +1301,12 @@ Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/
 <p>Amikor a távoli kulcsok nem közvetlenül kapcsolódnak a listaelemekhez, célszerű őket külön táblázatban tárolni a helyi adatbázisban. Definiálni kell egy Room entitást, amely egy távoli kulcsokból álló táblázatot reprezentál.</p>
 <p>Hozzuk létre az alábbi osztályt a <code>data.model</code> package-ben:</p>
 <p><code>UnsplashPhotoRemoteKeys.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="nd">@Entity</span><span class="p">(</span><span class="n">tableName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"remote_keys"</span><span class="p">)</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Entity</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.PrimaryKey</span>
+
+<span class="nd">@Entity</span><span class="p">(</span><span class="n">tableName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"remote_keys"</span><span class="p">)</span>
 <span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">UnsplashPhotoRemoteKeys</span><span class="p">(</span>
 <span class="w">    </span><span class="nd">@PrimaryKey</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">prevKey</span><span class="p">:</span><span class="w"> </span><span class="kt">Int?</span><span class="p">,</span>
@@ -1188,7 +1316,15 @@ Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/
 <p>Emellett definiálni kell egy DAO-t a RemoteKey entitásra.</p>
 <p>Hozzuk létre az alábbi osztályt a <code>data.local.dao</code> package-ben:</p>
 <p><code>UnsplashPhotoRemoteKeysDao.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="nd">@Dao</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.dao</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Dao</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Insert</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.OnConflictStrategy</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Query</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhotoRemoteKeys</span>
+
+<span class="nd">@Dao</span>
 <span class="kd">interface</span><span class="w"> </span><span class="nc">UnsplashPhotoRemoteKeysDao</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="nd">@Insert</span><span class="p">(</span><span class="n">onConflict</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OnConflictStrategy</span><span class="p">.</span><span class="na">REPLACE</span><span class="p">)</span>
@@ -1203,7 +1339,16 @@ Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/
 </code></pre></div><p></p>
 <p>Ezeket az osztályokat az adatbázisunkba is vegyük fel. Ne felejtsük el az adatbázis verziószámát növelni!</p>
 <p><code>UnsplashDatabase.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="nd">@Database</span><span class="p">(</span><span class="n">entities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">UnsplashPhoto</span><span class="o">::</span><span class="n">class</span><span class="p">,</span><span class="w"> </span><span class="n">UnsplashPhotoRemoteKeys</span><span class="o">::</span><span class="n">class</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.database</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Database</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.RoomDatabase</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.dao.UnsplashPhotoDao</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.dao.UnsplashPhotoRemoteKeysDao</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhoto</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhotoRemoteKeys</span>
+
+<span class="nd">@Database</span><span class="p">(</span><span class="n">entities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">UnsplashPhoto</span><span class="o">::</span><span class="n">class</span><span class="p">,</span><span class="w"> </span><span class="n">UnsplashPhotoRemoteKeys</span><span class="o">::</span><span class="n">class</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
 <span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">UnsplashDatabase</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">RoomDatabase</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">photosDao</span><span class="p">:</span><span class="w"> </span><span class="n">UnsplashPhotoDao</span>
 <span class="w">    </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">remoteKeysDao</span><span class="p">:</span><span class="w"> </span><span class="n">UnsplashPhotoRemoteKeysDao</span>
@@ -1217,7 +1362,23 @@ Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/
 <p>Így a <code>RemoteMediator</code> biztosítja, hogy az alkalmazás azokat az adatokat töltse be, amelyeket a felhasználók a megfelelő sorrendben szeretnének látni.</p>
 <p>Hozzuk létre az alábbi osztályt a <code>data.paging</code> package-ben:</p>
 <p><code>UnsplashRemoteMediator.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalPagingApi</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.paging</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.ExperimentalPagingApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.LoadType</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.PagingState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.RemoteMediator</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.withTransaction</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">coil3.network.HttpException</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.database.UnsplashDatabase</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhoto</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhotoRemoteKeys</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.remote.api.UnsplashApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.util.PagingUtil.INITIAL_PAGE</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">java.io.IOException</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">java.io.InvalidObjectException</span>
+
+<span class="nd">@ExperimentalPagingApi</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">UnsplashRemoteMediator</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">api</span><span class="p">:</span><span class="w"> </span><span class="n">UnsplashApi</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">db</span><span class="p">:</span><span class="w"> </span><span class="n">UnsplashDatabase</span>
@@ -1235,7 +1396,9 @@ Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/
 <span class="w">                </span><span class="p">}</span>
 <span class="w">                </span><span class="n">LoadType</span><span class="p">.</span><span class="na">PREPEND</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">MediatorResult</span><span class="p">.</span><span class="na">Success</span><span class="p">(</span><span class="n">endOfPaginationReached</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
 <span class="w">                </span><span class="n">LoadType</span><span class="p">.</span><span class="na">APPEND</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="kd">val</span><span class="w"> </span><span class="nv">remoteKeys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getRemoteKeysForLastItem</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="n">InvalidObjectException</span><span class="p">(</span><span class="s">"Result is empty"</span><span class="p">)</span>
+<span class="w">                    </span><span class="kd">val</span><span class="w"> </span><span class="nv">remoteKeys</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getRemoteKeysForLastItem</span><span class="p">(</span><span class="n">state</span><span class="p">)</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="n">InvalidObjectException</span><span class="p">(</span>
+<span class="w">                        </span><span class="s">"Result is empty"</span>
+<span class="w">                    </span><span class="p">)</span>
 <span class="w">                    </span><span class="n">remoteKeys</span><span class="p">.</span><span class="na">nextKey</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">MediatorResult</span><span class="p">.</span><span class="na">Success</span><span class="p">(</span><span class="n">endOfPaginationReached</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
@@ -1308,59 +1471,25 @@ Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/
 <li>Ha a betöltés sikeres és a kapott elemek listája üres vagy az utolsó oldal indexe, akkor térjen vissza a <code>MediatorResult.Success</code> <code>(endOfPaginationReached = true)</code> értékkel. Az adatok tárolása után érvénytelenítse az adatforrást, hogy értesítse a Paging könyvtárat az új adatokról.</li>
 <li>Ha a kérés hibát okoz, akkor térjen vissza a <code>MediatorResult.Error</code> értékkel.</li>
 </ul>
-<h3 id="pagingutil">PagingUtil<a class="headerlink" href="#pagingutil" title="Permanent link">¶</a></h3>
-<p>Hozzuk létre a <code>PagingUtil</code> osztályt az <code>util</code> package-ben a paging konfigurálására és placeholderek beállítására:</p>
-<p><code>PagingUtil.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="kd">object</span><span class="w"> </span><span class="nc">PagingUtil</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">INITIAL_PAGE_SIZE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">10</span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">INITIAL_PAGE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>
-
-<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="o">&lt;</span><span class="n">T</span><span class="p">:</span><span class="w"> </span><span class="n">Any</span><span class="o">&gt;</span><span class="w"> </span><span class="n">LazyGridScope</span><span class="p">.</span><span class="nf">items</span><span class="p">(</span>
-<span class="w">        </span><span class="n">items</span><span class="p">:</span><span class="w"> </span><span class="n">LazyPagingItems</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">,</span>
-<span class="w">        </span><span class="n">key</span><span class="p">:</span><span class="w"> </span><span class="p">((</span><span class="n">item</span><span class="p">:</span><span class="w"> </span><span class="n">T</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Any</span><span class="p">)</span><span class="o">?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">        </span><span class="n">itemContent</span><span class="p">:</span><span class="w"> </span><span class="nd">@Composable</span><span class="w"> </span><span class="n">LazyGridItemScope</span><span class="p">.(</span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="n">T?)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">items</span><span class="p">(</span>
-<span class="w">            </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">items</span><span class="p">.</span><span class="na">itemCount</span><span class="p">,</span>
-<span class="w">            </span><span class="n">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">key</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">items</span><span class="p">.</span><span class="na">peek</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
-<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">item</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">PagingPlaceholderKey</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">key</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">}</span>
-<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">            </span><span class="n">itemContent</span><span class="p">(</span><span class="n">items</span><span class="o">[</span><span class="n">index</span><span class="o">]</span><span class="p">)</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">PagingPlaceholderKey</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">index</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Parcelable</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">writeToParcel</span><span class="p">(</span><span class="n">parcel</span><span class="p">:</span><span class="w"> </span><span class="n">Parcel</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">parcel</span><span class="p">.</span><span class="na">writeInt</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
-<span class="w">        </span><span class="p">}</span>
-
-<span class="w">        </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">describeContents</span><span class="p">():</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="m">0</span>
-<span class="w">        </span><span class="p">}</span>
-
-<span class="w">        </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
-<span class="w">            </span><span class="nd">@Suppress</span><span class="p">(</span><span class="s">"unused"</span><span class="p">)</span>
-<span class="w">            </span><span class="nd">@JvmField</span>
-<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">CREATOR</span><span class="p">:</span><span class="w"> </span><span class="n">Parcelable</span><span class="p">.</span><span class="na">Creator</span><span class="o">&lt;</span><span class="n">PagingPlaceholderKey</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span>
-<span class="w">                </span><span class="k">object</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="nc">Parcelable</span><span class="p">.</span><span class="na">Creator</span><span class="o">&lt;</span><span class="n">PagingPlaceholderKey</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">createFromParcel</span><span class="p">(</span><span class="n">parcel</span><span class="p">:</span><span class="w"> </span><span class="n">Parcel</span><span class="p">)</span><span class="w"> </span><span class="o">=</span>
-<span class="w">                        </span><span class="n">PagingPlaceholderKey</span><span class="p">(</span><span class="n">parcel</span><span class="p">.</span><span class="na">readInt</span><span class="p">())</span>
-
-<span class="w">                    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">newArray</span><span class="p">(</span><span class="n">size</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">arrayOfNulls</span><span class="o">&lt;</span><span class="n">PagingPlaceholderKey?&gt;</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div><p></p>
 <p>A <code>data.repository</code> package-be vegyük fel a lenti <code>DataSource</code> osztályt, melyen keresztül a ViewModel eléri a kéréseinket:</p>
 <p><code>UnsplashPhotoDataSource.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalPagingApi</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.repository</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.ExperimentalPagingApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.Pager</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.PagingConfig</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.PagingData</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.database.UnsplashDatabase</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhoto</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.paging.SearchPagingSource</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.paging.UnsplashRemoteMediator</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.remote.api.UnsplashApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.util.PagingUtil.INITIAL_PAGE_SIZE</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.Flow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.first</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.flow</span>
+
+<span class="nd">@ExperimentalPagingApi</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">UnsplashPhotoDataSource</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">api</span><span class="p">:</span><span class="w"> </span><span class="n">UnsplashApi</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">db</span><span class="p">:</span><span class="w"> </span><span class="n">UnsplashDatabase</span>
@@ -1370,7 +1499,7 @@ Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">Pager</span><span class="p">(</span>
 <span class="w">            </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PagingConfig</span><span class="p">(</span><span class="n">pageSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">INITIAL_PAGE_SIZE</span><span class="p">),</span>
 <span class="w">            </span><span class="n">remoteMediator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UnsplashRemoteMediator</span><span class="p">(</span><span class="n">api</span><span class="p">,</span><span class="w"> </span><span class="n">db</span><span class="p">),</span>
-<span class="w">            </span><span class="n">pagingSourceFactory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="n">db</span><span class="p">.</span><span class="na">photosDao</span><span class="p">.</span><span class="na">getAllPhotos</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
+<span class="w">            </span><span class="n">pagingSourceFactory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="na">photosDao</span><span class="p">.</span><span class="na">getAllPhotos</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
 <span class="w">        </span><span class="p">).</span><span class="na">flow</span>
 <span class="w">    </span><span class="p">}</span>
 
@@ -1398,11 +1527,25 @@ Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p></p>
-<p>Ha a flow-emit résznél hibát kapunk, cseréljük le az importot a következőre: <code>import kotlinx.coroutines.flow.flow</code>.</p>
 <p>Itt láthatjuk a <code>Pager</code> osztály használatát a lapozott adatok folyamának beállításához.</p>
 <p>Végül hozzuk létre a saját Application osztályunkat a gyökér package-ben:</p>
 <p><code>UnsplashApplication.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalPagingApi</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.app.Application</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.ExperimentalPagingApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Room</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.squareup.moshi.Moshi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.database.UnsplashDatabase</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.remote.api.UnsplashApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.repository.UnsplashPhotoDataSource</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">okhttp3.OkHttpClient</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">retrofit2.Retrofit</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">retrofit2.converter.moshi.MoshiConverterFactory</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">java.util.concurrent.TimeUnit</span>
+
+<span class="nd">@ExperimentalPagingApi</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">UnsplashApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
 <span class="w">        </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">photoDataSource</span><span class="p">:</span><span class="w"> </span><span class="n">UnsplashPhotoDataSource</span>
@@ -1430,7 +1573,7 @@ Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/
 
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">api</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">retrofit</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="n">UnsplashApi</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">)</span>
 
-<span class="w">        </span><span class="n">photoDataSource</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UnsplashPhotoDataSource</span><span class="p">(</span><span class="n">api</span><span class="p">,</span><span class="n">db</span><span class="p">)</span>
+<span class="w">        </span><span class="n">photoDataSource</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UnsplashPhotoDataSource</span><span class="p">(</span><span class="n">api</span><span class="p">,</span><span class="w"> </span><span class="n">db</span><span class="p">)</span>
 
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
@@ -1455,7 +1598,27 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 </code></pre></div><p></p>
 <p>Ezt követően hozzuk létre a maradék két elrendezésünket a <code>feature.photos_feed.screensbysize</code> package-ben:</p>
 <p><code>PhotosFeed_Compact.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.feature.photos_feed.screensbysize</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Box</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxSize</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.padding</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.lazy.LazyColumn</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.ExperimentalMaterialApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.pullrefresh.PullRefreshIndicator</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.pullrefresh.PullRefreshState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.pullrefresh.pullRefresh</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ExperimentalMaterial3Api</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Scaffold</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Alignment</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.compose.LazyPagingItems</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.ui.common.PhotoItem</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.ui.common.SearchTopAppBar</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.ui.model.UnsplashPhotoUiModel</span>
+
+<span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@ExperimentalMaterialApi</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">PhotosFeedScreen_Compact</span><span class="p">(</span>
@@ -1467,12 +1630,10 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="w">    </span><span class="n">onValueChange</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
 <span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberLazyListState</span><span class="p">()</span>
 <span class="w">    </span><span class="n">Scaffold</span><span class="p">(</span>
 <span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span><span class="p">,</span>
 <span class="w">        </span><span class="n">topBar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">SearchTopAppBar</span><span class="p">(</span>
-<span class="w">                </span><span class="n">isScrollInProgress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">isScrollInProgress</span><span class="p">,</span>
 <span class="w">                </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span>
 <span class="w">                </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onValueChange</span>
 <span class="w">            </span><span class="p">)</span>
@@ -1508,82 +1669,193 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="p">}</span>
 </code></pre></div><p></p>
 <p><code>PhotosFeed_Expanded.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.feature.photos_feed.screensbysize</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.background</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Arrangement</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Box</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Column</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Row</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Spacer</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.aspectRatio</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxSize</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxWidth</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.padding</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.size</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.width</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.lazy.grid.GridCells</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.lazy.grid.LazyVerticalGrid</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.lazy.grid.rememberLazyGridState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.shape.CircleShape</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.shape.RoundedCornerShape</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.ExperimentalMaterialApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.MaterialTheme</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.pullrefresh.PullRefreshIndicator</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.pullrefresh.PullRefreshState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.CircularProgressIndicator</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ExperimentalMaterial3Api</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Scaffold</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.getValue</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.mutableStateOf</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.saveable.rememberSaveable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.setValue</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Alignment</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.draw.clip</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.layout.ContentScale</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.platform.LocalContext</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.res.painterResource</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.unit.dp</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.window.Dialog</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.compose.LazyPagingItems</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">coil3.compose.AsyncImage</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">coil3.request.ImageRequest</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">coil3.request.crossfade</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.R</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.ui.common.PhotoItem</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.ui.common.SearchTopAppBar</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.ui.model.UnsplashPhotoUiModel</span>
+
+<span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@ExperimentalMaterialApi</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">PhotosFeedScreen_Expanded</span><span class="p">(</span>
+<span class="w">    </span><span class="n">refreshState</span><span class="p">:</span><span class="w"> </span><span class="n">PullRefreshState</span><span class="p">,</span>
+<span class="w">    </span><span class="n">refreshing</span><span class="p">:</span><span class="w"> </span><span class="kt">Boolean</span><span class="p">,</span>
+<span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
+<span class="w">    </span><span class="n">photo</span><span class="p">:</span><span class="w"> </span><span class="n">UnsplashPhotoUiModel? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">    </span><span class="n">onPhotoItemClick</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
 <span class="w">    </span><span class="n">photos</span><span class="p">:</span><span class="w"> </span><span class="n">LazyPagingItems</span><span class="o">&lt;</span><span class="n">UnsplashPhotoUiModel</span><span class="o">&gt;</span><span class="p">,</span>
 <span class="w">    </span><span class="n">value</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
-<span class="w">    </span><span class="n">onValueChange</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
-<span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
-<span class="w">    </span><span class="n">loadedPhoto</span><span class="p">:</span><span class="w"> </span><span class="n">UnsplashPhotoUiModel? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">    </span><span class="n">onValueChange</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">density</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalDensity</span><span class="p">.</span><span class="na">current</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">configuration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalConfiguration</span><span class="p">.</span><span class="na">current</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">screenWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">configuration</span><span class="p">.</span><span class="na">screenWidthDp</span><span class="p">.</span><span class="na">dp</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberLazyGridState</span><span class="p">()</span>
 
-<span class="w">    </span><span class="n">Row</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">Row</span><span class="p">(</span>
-<span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">()</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">isPhotoOpen</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">rememberSaveable</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateOf</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">Scaffold</span><span class="p">(</span>
+<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">topBar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">SearchTopAppBar</span><span class="p">(</span>
+<span class="w">                </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span>
+<span class="w">                </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onValueChange</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Box</span><span class="p">(</span>
+<span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span>
+<span class="w">                </span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">()</span>
+<span class="w">                </span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="nb">it</span><span class="p">)</span>
 <span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">Scaffold</span><span class="p">(</span>
-<span class="w">                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">(),</span>
-<span class="w">                </span><span class="n">topBar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">SearchTopAppBar</span><span class="p">(</span>
-<span class="w">                        </span><span class="n">isScrollInProgress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">isScrollInProgress</span><span class="p">,</span>
-<span class="w">                        </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">,</span>
-<span class="w">                        </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onValueChange</span>
-<span class="w">                    </span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">refreshing</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">LazyVerticalGrid</span><span class="p">(</span>
 <span class="w">                    </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">,</span>
 <span class="w">                    </span><span class="n">columns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GridCells</span><span class="p">.</span><span class="na">Adaptive</span><span class="p">(</span><span class="m">240.</span><span class="n">dp</span><span class="p">),</span>
 <span class="w">                    </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
 <span class="w">                        </span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">()</span>
-<span class="w">                        </span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="nb">it</span><span class="p">)</span>
-<span class="w">                        </span><span class="p">.</span><span class="na">weight</span><span class="p">(</span><span class="m">1f</span><span class="p">)</span>
 <span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                    </span><span class="n">items</span><span class="p">(</span><span class="n">photos</span><span class="p">.</span><span class="na">itemCount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">-&gt;</span>
 <span class="w">                        </span><span class="n">photos</span><span class="o">[</span><span class="n">index</span><span class="o">]?.</span><span class="na">let</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">-&gt;</span>
 <span class="w">                            </span><span class="n">PhotoItem</span><span class="p">(</span>
 <span class="w">                                </span><span class="n">photo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">,</span>
-<span class="w">                                </span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">onPhotoItemClick</span>
+<span class="w">                                </span><span class="n">onClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                                    </span><span class="n">onPhotoItemClick</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="na">id</span><span class="p">)</span>
+<span class="w">                                    </span><span class="n">isPhotoOpen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">                                </span><span class="p">}</span>
 <span class="w">                            </span><span class="p">)</span>
 <span class="w">                        </span><span class="p">}</span>
 <span class="w">                    </span><span class="p">}</span>
 <span class="w">                </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
-
-<span class="w">            </span><span class="n">AnimatedVisibility</span><span class="p">(</span>
-<span class="w">                </span><span class="n">visible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loadedPhoto</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">screenWidth</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">1000.</span><span class="n">dp</span><span class="p">,</span>
-<span class="w">                </span><span class="n">enter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slideInHorizontally</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">with</span><span class="p">(</span><span class="n">density</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="m">40.</span><span class="n">dp</span><span class="p">.</span><span class="na">roundToPx</span><span class="p">()</span><span class="w"> </span><span class="p">}</span>
-<span class="w">                </span><span class="p">}</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">expandHorizontally</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">expandFrom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alignment</span><span class="p">.</span><span class="na">End</span>
-<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fadeIn</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">initialAlpha</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0.3f</span>
-<span class="w">                </span><span class="p">),</span>
-<span class="w">                </span><span class="n">exit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slideOutHorizontally</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">shrinkHorizontally</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fadeOut</span><span class="p">(),</span>
-<span class="w">                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
-<span class="w">                    </span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">()</span>
-<span class="w">                    </span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="m">5.</span><span class="n">dp</span><span class="p">)</span>
-<span class="w">                    </span><span class="p">.</span><span class="na">weight</span><span class="p">(</span><span class="m">1f</span><span class="p">)</span>
-<span class="w">            </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">PhotoDetails</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">loadedPhoto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loadedPhoto</span><span class="o">!!</span><span class="p">,</span>
-<span class="w">                    </span><span class="n">windowSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WindowSize</span><span class="p">.</span><span class="na">Expanded</span>
-<span class="w">                </span><span class="p">)</span>
+<span class="w">            </span><span class="n">PullRefreshIndicator</span><span class="p">(</span>
+<span class="w">                </span><span class="n">refreshing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">refreshing</span><span class="p">,</span>
+<span class="w">                </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">refreshState</span><span class="p">,</span>
+<span class="w">                </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">align</span><span class="p">(</span><span class="n">Alignment</span><span class="p">.</span><span class="na">TopCenter</span><span class="p">)</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">isPhotoOpen</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Dialog</span><span class="p">(</span>
+<span class="w">            </span><span class="n">onDismissRequest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">isPhotoOpen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span>
 <span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">photo</span><span class="o">?.</span><span class="na">let</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalContext</span><span class="p">.</span><span class="na">current</span>
+<span class="w">                </span><span class="n">Column</span><span class="w"> </span><span class="p">(</span>
+<span class="w">                    </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
+<span class="w">                        </span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">(),</span>
+<span class="w">                    </span><span class="n">horizontalAlignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alignment</span><span class="p">.</span><span class="na">CenterHorizontally</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">verticalArrangement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arrangement</span><span class="p">.</span><span class="na">Center</span>
+<span class="w">                </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">AsyncImage</span><span class="p">(</span>
+<span class="w">                        </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ImageRequest</span><span class="p">.</span><span class="na">Builder</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+<span class="w">                            </span><span class="p">.</span><span class="na">data</span><span class="p">(</span><span class="n">photo</span><span class="p">.</span><span class="na">photoUrl</span><span class="p">)</span>
+<span class="w">                            </span><span class="p">.</span><span class="na">crossfade</span><span class="p">(</span><span class="n">enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">                            </span><span class="p">.</span><span class="na">build</span><span class="p">(),</span>
+<span class="w">                        </span><span class="n">contentDescription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">contentScale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentScale</span><span class="p">.</span><span class="na">Crop</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">placeholder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">painterResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">drawable</span><span class="p">.</span><span class="na">placeholder</span><span class="p">),</span>
+<span class="w">                        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
+<span class="w">                            </span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">()</span>
+<span class="w">                            </span><span class="p">.</span><span class="na">aspectRatio</span><span class="p">(</span><span class="m">1f</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">)</span>
+<span class="w">                    </span><span class="n">Row</span><span class="w"> </span><span class="p">(</span>
+<span class="w">                        </span><span class="n">horizontalArrangement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arrangement</span><span class="p">.</span><span class="na">Center</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">verticalAlignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alignment</span><span class="p">.</span><span class="na">CenterVertically</span><span class="p">,</span>
+<span class="w">                        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
+<span class="w">                            </span><span class="p">.</span><span class="na">fillMaxWidth</span><span class="p">()</span>
+<span class="w">                            </span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="n">vertical</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">8.</span><span class="n">dp</span><span class="p">)</span>
+<span class="w">                            </span><span class="p">.</span><span class="na">clip</span><span class="p">(</span><span class="n">RoundedCornerShape</span><span class="p">(</span><span class="m">8.</span><span class="n">dp</span><span class="p">))</span>
+<span class="w">                            </span><span class="p">.</span><span class="na">background</span><span class="p">(</span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colors</span><span class="p">.</span><span class="na">surface</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="n">AsyncImage</span><span class="p">(</span>
+<span class="w">                            </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ImageRequest</span><span class="p">.</span><span class="na">Builder</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
+<span class="w">                                </span><span class="p">.</span><span class="na">data</span><span class="p">(</span><span class="n">photo</span><span class="p">.</span><span class="na">userProfileImageUrl</span><span class="p">)</span>
+<span class="w">                                </span><span class="p">.</span><span class="na">crossfade</span><span class="p">(</span><span class="n">enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
+<span class="w">                                </span><span class="p">.</span><span class="na">build</span><span class="p">(),</span>
+<span class="w">                            </span><span class="n">contentDescription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">contentScale</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentScale</span><span class="p">.</span><span class="na">Crop</span><span class="p">,</span>
+<span class="w">                            </span><span class="n">placeholder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">painterResource</span><span class="p">(</span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">R</span><span class="p">.</span><span class="na">drawable</span><span class="p">.</span><span class="na">placeholder</span><span class="p">),</span>
+<span class="w">                            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
+<span class="w">                                </span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="m">8.</span><span class="n">dp</span><span class="p">)</span>
+<span class="w">                                </span><span class="p">.</span><span class="na">size</span><span class="p">(</span><span class="m">80.</span><span class="n">dp</span><span class="p">)</span>
+<span class="w">                                </span><span class="p">.</span><span class="na">clip</span><span class="p">(</span><span class="n">CircleShape</span><span class="p">)</span>
+<span class="w">                        </span><span class="p">)</span>
+<span class="w">                        </span><span class="n">Spacer</span><span class="p">(</span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">width</span><span class="p">(</span><span class="m">10.</span><span class="n">dp</span><span class="p">))</span>
+<span class="w">                        </span><span class="n">Text</span><span class="p">(</span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">photo</span><span class="p">.</span><span class="na">username</span><span class="p">)</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="n">CircularProgressIndicator</span><span class="p">()</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p></p>
 <p>Frissítsük a Screenünket, hogy használja a fenti Composable-öket:</p>
 <p><code>PhotosFeedScreen.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.feature.photos_feed</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Box</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxSize</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.ExperimentalMaterialApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.pullrefresh.rememberPullRefreshState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ExperimentalMaterial3Api</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.getValue</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.compose.collectAsStateWithLifecycle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewmodel.compose.viewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.ExperimentalPagingApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.compose.collectAsLazyPagingItems</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.feature.photos_feed.screensbysize.PhotosFeedScreen_Compact</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.feature.photos_feed.screensbysize.PhotosFeedScreen_Expanded</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.feature.photos_feed.screensbysize.PhotosFeedScreen_Medium</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.util.WindowSize</span>
+
+<span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@ExperimentalMaterialApi</span>
 <span class="nd">@ExperimentalPagingApi</span>
 <span class="nd">@Composable</span>
@@ -1593,14 +1865,11 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="w">    </span><span class="n">onPhotoItemClick</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{},</span>
 <span class="w">    </span><span class="n">viewModel</span><span class="p">:</span><span class="w"> </span><span class="n">PhotosFeedViewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModel</span><span class="p">(</span><span class="n">factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PhotosFeedViewModel</span><span class="p">.</span><span class="na">Factory</span><span class="p">)</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
-
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">viewModel</span><span class="p">.</span><span class="na">state</span><span class="p">.</span><span class="na">collectAsStateWithLifecycle</span><span class="p">()</span>
 
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">photos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">photos</span><span class="o">?.</span><span class="na">collectAsLazyPagingItems</span><span class="p">()</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">selectedPhoto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">photo</span><span class="o">?.</span><span class="na">collectAsStateWithLifecycle</span><span class="p">(</span><span class="kc">null</span><span class="p">)</span>
 
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">configuration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalConfiguration</span><span class="p">.</span><span class="na">current</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">screenWidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">configuration</span><span class="p">.</span><span class="na">screenWidthDp</span><span class="p">.</span><span class="na">dp</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">selectedPhoto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">photo</span><span class="o">?.</span><span class="na">collectAsStateWithLifecycle</span><span class="p">(</span><span class="kc">null</span><span class="p">)</span>
 
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">refreshState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberPullRefreshState</span><span class="p">(</span>
 <span class="w">        </span><span class="n">refreshing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">isLoading</span><span class="p">,</span>
@@ -1619,6 +1888,7 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="w">                    </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModel</span><span class="o">::</span><span class="n">onSearchTermsChange</span>
 <span class="w">                </span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span>
+
 <span class="w">            </span><span class="n">WindowSize</span><span class="p">.</span><span class="na">Medium</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">PhotosFeedScreen_Medium</span><span class="p">(</span>
 <span class="w">                    </span><span class="n">refreshState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">refreshState</span><span class="p">,</span>
@@ -1629,13 +1899,14 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="w">                    </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModel</span><span class="o">::</span><span class="n">onSearchTermsChange</span>
 <span class="w">                </span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span>
+
 <span class="w">            </span><span class="n">WindowSize</span><span class="p">.</span><span class="na">Expanded</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">PhotosFeedScreen_Expanded</span><span class="p">(</span>
-<span class="w">                    </span><span class="n">onPhotoItemClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">screenWidth</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="m">1000.</span><span class="n">dp</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                            </span><span class="n">viewModel</span><span class="o">::</span><span class="n">loadSelectedPhoto</span>
-<span class="w">                    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="n">onPhotoItemClick</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">refreshState</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">refreshState</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">refreshing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">isLoading</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">onPhotoItemClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModel</span><span class="o">::</span><span class="n">loadSelectedPhoto</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">photo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">selectedPhoto</span><span class="o">?.</span><span class="na">value</span><span class="p">,</span>
 <span class="w">                    </span><span class="n">photos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">photos</span><span class="p">,</span>
-<span class="w">                    </span><span class="n">loadedPhoto</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">selectedPhoto</span><span class="o">?.</span><span class="na">value</span><span class="p">,</span>
 <span class="w">                    </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">state</span><span class="p">.</span><span class="na">searchTerms</span><span class="p">,</span>
 <span class="w">                    </span><span class="n">onValueChange</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModel</span><span class="o">::</span><span class="n">onSearchTermsChange</span>
 <span class="w">                </span><span class="p">)</span>
@@ -1648,71 +1919,115 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p></p>
-<p>A <code>PhotoDetails.kt</code>-ban szüntessük meg a három windowsize-ot tartalmazó sor kommentezését.</p>
-<p>Frissítsük a NavGraph-ot:
-<code>NavGraph.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalMaterial3Api</span>
-<span class="nd">@ExperimentalPagingApi</span>
-<span class="nd">@ExperimentalMaterialApi</span>
+<p>Frissítsük az AppNavigation-t:
+<code>AppNavigation.kt</code>:
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.navigation</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.ExperimentalMaterialApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ExperimentalMaterial3Api</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation3.runtime.entryProvider</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation3.runtime.rememberNavBackStack</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation3.ui.NavDisplay</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.ExperimentalPagingApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.feature.loaded_photo.LoadedPhotoScreen</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.feature.photos_feed.PhotosFeedScreen</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.util.WindowSize</span>
+
+<span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">,</span><span class="w"> </span><span class="n">ExperimentalMaterialApi</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ExperimentalPagingApi</span><span class="o">::</span><span class="kd">class</span>
+<span class="err">)</span>
 <span class="nd">@Composable</span>
-<span class="kd">fun</span><span class="w"> </span><span class="nf">NavGraph</span><span class="p">(</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">AppNavigation</span><span class="p">(</span>
+<span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
 <span class="w">    </span><span class="n">windowSize</span><span class="p">:</span><span class="w"> </span><span class="n">WindowSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WindowSize</span><span class="p">.</span><span class="na">Compact</span><span class="p">,</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberNavController</span><span class="p">()</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">backStack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberNavBackStack</span><span class="p">(</span><span class="n">Screen</span><span class="p">.</span><span class="na">PhotosFeedDestination</span><span class="p">)</span>
 
-<span class="w">    </span><span class="n">NavHost</span><span class="p">(</span>
-<span class="w">        </span><span class="n">navController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">navController</span><span class="p">,</span>
-<span class="w">        </span><span class="n">startDestination</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">PhotosFeed</span><span class="p">.</span><span class="na">route</span>
-<span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="n">composable</span><span class="p">(</span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">PhotosFeed</span><span class="p">.</span><span class="na">route</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">PhotosFeedScreen</span><span class="p">(</span>
-<span class="w">                </span><span class="n">windowSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">windowSize</span><span class="p">,</span>
-<span class="w">                </span><span class="n">onPhotoItemClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">photoId</span><span class="w"> </span><span class="o">-&gt;</span>
-<span class="w">                    </span><span class="n">navController</span><span class="p">.</span><span class="na">navigate</span><span class="p">(</span><span class="n">Screen</span><span class="p">.</span><span class="na">LoadedPhoto</span><span class="p">.</span><span class="na">passPhotoId</span><span class="p">(</span><span class="n">photoId</span><span class="p">))</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">)</span>
+<span class="w">    </span><span class="n">NavDisplay</span><span class="p">(</span>
+<span class="w">        </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span><span class="p">,</span>
+<span class="w">        </span><span class="n">backStack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">backStack</span><span class="p">,</span>
+<span class="w">        </span><span class="n">onBack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">backStack</span><span class="p">.</span><span class="na">removeLastOrNull</span><span class="p">()</span><span class="w"> </span><span class="p">},</span>
+<span class="w">        </span><span class="n">entryProvider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">entryProvider</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">            </span><span class="n">entry</span><span class="o">&lt;</span><span class="n">Screen</span><span class="p">.</span><span class="na">PhotosFeedDestination</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">PhotosFeedScreen</span><span class="p">(</span>
+<span class="w">                    </span><span class="n">windowSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">windowSize</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">onPhotoItemClick</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="n">backStack</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Screen</span><span class="p">.</span><span class="na">LoadedPhotoDestination</span><span class="p">(</span><span class="n">photoId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">))</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="n">entry</span><span class="o">&lt;</span><span class="n">Screen</span><span class="p">.</span><span class="na">LoadedPhotoDestination</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">key</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">                </span><span class="n">LoadedPhotoScreen</span><span class="p">(</span>
+<span class="w">                    </span><span class="n">photoId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">key</span><span class="p">.</span><span class="na">photoId</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">onNavigateBack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                        </span><span class="n">backStack</span><span class="p">.</span><span class="na">removeLastOrNull</span><span class="p">()</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                </span><span class="p">)</span>
+<span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="n">composable</span><span class="p">(</span>
-<span class="w">            </span><span class="n">route</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Screen</span><span class="p">.</span><span class="na">LoadedPhoto</span><span class="p">.</span><span class="na">route</span><span class="p">,</span>
-<span class="w">            </span><span class="n">arguments</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">listOf</span><span class="p">(</span>
-<span class="w">                </span><span class="n">navArgument</span><span class="p">(</span><span class="s">"photoId"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NavType</span><span class="p">.</span><span class="na">StringType</span>
-<span class="w">                </span><span class="p">}</span>
-<span class="w">            </span><span class="p">)</span>
-<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">LoadedPhotoScreen</span><span class="p">()</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
-Vegyük fel a <code>material3</code> könyvtár mintájára a <code>material3-window-size-class</code> függőséget (link)[<a href="https://developer.android.com/jetpack/androidx/releases/compose-material3">https://developer.android.com/jetpack/androidx/releases/compose-material3</a>]
-Majd az Activity-t is állítsuk be ezek használatára:<p></p>
+Vegyük fel a <code>material3</code> könyvtár mintájára a <code>material3-window-size-class</code> függőséget (link)[<a href="https://developer.android.com/jetpack/androidx/releases/compose-material3">https://developer.android.com/jetpack/androidx/releases/compose-material3</a>]:<p></p>
+<div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="w"> </span><span class="s">"androidx.compose.material3:material3-window-size-class:1.4.0"</span>
+</code></pre></div>
+<p>Láthatjuk, hogy a dokumentációból kiemelt kódsor használatával megkerüljük a könyvtárnak és verziójának a libs.version.toml fájlban való definiálását, és az Android Studio sárga aláhúzással figyelmeztet is, hogy ezt ne tegyük. Szerencsére egy kattintásra, automatikusan átalakítja nekünk ezt a megfelelő módon, figyeljük meg a változásokat!</p>
+<p>Majd az Activity-t is állítsuk be a különböző képernyőméretek használatára:</p>
 <p><code>MainActivity.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">MainActivity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ComponentActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.os.Bundle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.ComponentActivity</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.compose.setContent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.safeDrawingPadding</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.ExperimentalMaterialApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ExperimentalMaterial3Api</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.windowsizeclass.WindowWidthSizeClass</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.windowsizeclass.calculateWindowSizeClass</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.ExperimentalPagingApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.navigation.AppNavigation</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.ui.theme.UnsplashTheme</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.util.WindowSize</span>
+
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">MainActivity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ComponentActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nd">@OptIn</span><span class="p">(</span>
-<span class="w">        </span><span class="n">ExperimentalMaterial3WindowSizeClassApi</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
 <span class="w">        </span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
 <span class="w">        </span><span class="n">ExperimentalPagingApi</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
-<span class="w">        </span><span class="n">ExperimentalMaterialApi</span><span class="o">::</span><span class="kd">class</span>
+<span class="w">        </span><span class="n">ExperimentalMaterialApi</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
+<span class="w">        </span><span class="n">ExperimentalMaterial3WindowSizeClassApi</span><span class="o">::</span><span class="kd">class</span>
 <span class="w">    </span><span class="err">)</span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
 <span class="w">        </span><span class="n">setContent</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="n">UnsplashTheme</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">windowSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="n">calculateWindowSizeClass</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="na">widthSizeClass</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">WindowWidthSizeClass</span><span class="p">.</span><span class="na">Compact</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">WindowSize</span><span class="p">.</span><span class="na">Compact</span>
-<span class="w">                    </span><span class="n">WindowWidthSizeClass</span><span class="p">.</span><span class="na">Medium</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">WindowSize</span><span class="p">.</span><span class="na">Medium</span>
-<span class="w">                    </span><span class="n">WindowWidthSizeClass</span><span class="p">.</span><span class="na">Expanded</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">WindowSize</span><span class="p">.</span><span class="na">Expanded</span>
-<span class="w">                    </span><span class="k">else</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">WindowSize</span><span class="p">.</span><span class="na">Compact</span>
-<span class="w">                </span><span class="p">}</span>
-
-<span class="w">                </span><span class="n">NavGraph</span><span class="p">(</span><span class="n">windowSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">windowSize</span><span class="p">)</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">windowSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="p">(</span><span class="n">calculateWindowSizeClass</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="na">widthSizeClass</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">WindowWidthSizeClass</span><span class="p">.</span><span class="na">Compact</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">WindowSize</span><span class="p">.</span><span class="na">Compact</span>
+<span class="w">                </span><span class="n">WindowWidthSizeClass</span><span class="p">.</span><span class="na">Medium</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">WindowSize</span><span class="p">.</span><span class="na">Medium</span>
+<span class="w">                </span><span class="n">WindowWidthSizeClass</span><span class="p">.</span><span class="na">Expanded</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">WindowSize</span><span class="p">.</span><span class="na">Expanded</span>
+<span class="w">                </span><span class="k">else</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">WindowSize</span><span class="p">.</span><span class="na">Compact</span>
 <span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">MainActivityContent</span><span class="p">(</span><span class="n">windowSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">windowSize</span><span class="p">)</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
-</code></pre></div>
-Alt+Enterrel vegyük fel az annotációra kattintva a hiányző függőséget.<p></p>
+
+<span class="nd">@Composable</span>
+<span class="kd">fun</span><span class="w"> </span><span class="nf">MainActivityContent</span><span class="p">(</span><span class="n">windowSize</span><span class="p">:</span><span class="w"> </span><span class="n">WindowSize</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">UnsplashTheme</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">AppNavigation</span><span class="p">(</span>
+<span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">.</span><span class="na">safeDrawingPadding</span><span class="p">(),</span>
+<span class="w">            </span><span class="n">windowSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">windowSize</span>
+<span class="w">        </span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div><p></p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>működő alkalmazás a más méretben megjelenő képekkel</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel),  a <strong>más méretű képernyőkhöz tartozó kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
@@ -1735,8 +2050,8 @@ Alt+Enterrel vegyük fel az annotációra kattintva a hiányző függőséget.<p
           </path>
         </svg>
       </span>
-      <span title="2025. április 28. 23:59:16">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. április 28. 23:59:16 CEST"><span class="timeago" datetime="2025-04-28T23:59:16+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. április 28. 23:59:16 CEST">2025-04-28</span>
+      <span title="2025. november 10. 20:31:04">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. november 10. 20:31:04 CET"><span class="timeago" datetime="2025-11-10T20:31:04+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. november 10. 20:31:04 CET">2025-11-10</span>
       </span>
     </span>
 

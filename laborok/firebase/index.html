@@ -1028,7 +1028,7 @@ Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a más
 <div class="admonition info">
 <p>A háttérben valójában annyi történik, hogy az alkalmazásunk package neve és az aláíró kulcs <em>SHA-1 hash-e</em> alapján hozzáadódik egy Android alkalmazás a Firebase console-on lévő projektünkhöz, és az ahhoz tartozó konfigurációs (<code>google-services.json</code>) fájl letöltődik a projektünk könyvtárába az alapértelmezett (<code>app</code>) modul alá.</p>
 </div>
-<p>Ezt a lépéssorozatot manuálisan is végrehajthatjuk a Firebase console-on az <em>Add Firebase to your Android app</em>-et választva. A debug kulcs <em>SHA-1</em> lenyomata ilyenkor a jobb oldalon található Gradle fülön generálható. A fenti sorban kattintsunk az <em>Execute Gradle Task</em> menüpontra, majd a felugró ablakban Írjuk be a <em>gradle signingreport</em>-ot, és nyomjunk egy entert. Ezek utánaz alsó <em>Run</em> ablakban megtalálható az <em>SHA-1</em> kulcs.</p>
+<p>Ezt a lépéssorozatot manuálisan is végrehajthatjuk a Firebase console-on az <em>Add Firebase to your Android app</em>-et választva. A debug kulcs <em>SHA-1</em> lenyomata ilyenkor a jobb oldalon található Gradle fülön generálható. A fenti sorban kattintsunk az <em>Execute Gradle Task</em> menüpontra, majd a felugró ablakban Írjuk be a <em>gradle signingReport</em>-ot, és nyomjunk egy entert. Ezek utánaz alsó <em>Run</em> ablakban megtalálható az <em>SHA-1</em> kulcs.</p>
 <p align="center">
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/android_studio_signingreport.png" data-desc-position="bottom"><img src="./assets/android_studio_signingreport.png"></a>
 </p>
@@ -1367,7 +1367,7 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>IAuthRepository</code>
 </code></pre></div>
 <p><code>build.gradle.kts</code>:</p>
 <div class="highlight"><pre><span></span><code>dependencies {
-    implementation(libs.firebase.messaging.ktx)
+    implementation(libs.firebase.messaging)
 }
 </code></pre></div>
 <p>Csupán ennyi elegendő a push alapvető működéséhez, ha így újrafordítjuk az alkalmazást, a Firebase felületéről vagy API-jával küldött push üzeneteket automatikusan megkapják a mobil kliensek és egy <em>Notification</em>-ben megjelenítik.</p>
@@ -1417,8 +1417,8 @@ válasszuk ki az alkalmazást, hogy minden futó példány megkapja az üzenetet
 </code></pre></div>
 <p>Végül pedig szükségünk van két egyszerű Gradle függőségre is, amit a meglévő Firebase függőségek mellé helyezhetünk, a modul szintű <code>build.gradle.kts</code> fájlban:</p>
 <div class="highlight"><pre><span></span><code>dependencies {
-    implementation(libs.firebase.crashlytics)
-    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics.ktx)
+    implementation(libs.firebase.analytics.ktx)
 }
 </code></pre></div>
 <p>Vegyünk fel egy új akciót <code>TodoListScreen</code> <code>TodoAppBar</code> részébe, amivel az alkalmazást hibával be tudjuk zárni:</p>
@@ -1448,7 +1448,7 @@ válasszuk ki az alkalmazást, hogy minden futó példány megkapja az üzenetet
 <p>Végül a <em>Firebase console-ban</em> is engedélyezzük a funkciót a <em>Crashlytics</em> menüpont alatt.</p>
 <p>Próbáljuk ki saját hibajelzések készítését a menü eseménykezelőjében. Vizsgáljuk meg, megérkezik-e a Firebase Console-ba a hibaüzenet!</p>
 <p align="center">
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/firebase_crash.png" data-desc-position="bottom"><img src="./assets/firebase_crash.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/firebase_console_crash.png" data-desc-position="bottom"><img src="./assets/firebase_console_crash.png"></a>
 </p>
 
 <h2 id="analitika">Analitika<a class="headerlink" href="#analitika" title="Permanent link">¶</a></h2>
@@ -1505,8 +1505,8 @@ ugyanezen menüpont alatt lesznek elérhetők.</p>
           </path>
         </svg>
       </span>
-      <span title="2025. november 4. 03:34:49">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. november 4. 03:34:49 CET"><span class="timeago" datetime="2025-11-04T03:34:49+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. november 4. 03:34:49 CET">2025-11-04</span>
+      <span title="2025. november 12. 15:24:48">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. november 12. 15:24:48 CET"><span class="timeago" datetime="2025-11-12T15:24:48+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. november 12. 15:24:48 CET">2025-11-12</span>
       </span>
     </span>
 

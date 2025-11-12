@@ -110,7 +110,7 @@ Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a más
 !!!info ""
 	A háttérben valójában annyi történik, hogy az alkalmazásunk package neve és az aláíró kulcs *SHA-1 hash-e* alapján hozzáadódik egy Android alkalmazás a Firebase console-on lévő projektünkhöz, és az ahhoz tartozó konfigurációs (`google-services.json`) fájl letöltődik a projektünk könyvtárába az alapértelmezett (`app`) modul alá.
 
-Ezt a lépéssorozatot manuálisan is végrehajthatjuk a Firebase console-on az *Add Firebase to your Android app*-et választva. A debug kulcs *SHA-1* lenyomata ilyenkor a jobb oldalon található Gradle fülön generálható. A fenti sorban kattintsunk az *Execute Gradle Task* menüpontra, majd a felugró ablakban Írjuk be a *gradle signingreport*-ot, és nyomjunk egy entert. Ezek utánaz alsó *Run* ablakban megtalálható az *SHA-1* kulcs.
+Ezt a lépéssorozatot manuálisan is végrehajthatjuk a Firebase console-on az *Add Firebase to your Android app*-et választva. A debug kulcs *SHA-1* lenyomata ilyenkor a jobb oldalon található Gradle fülön generálható. A fenti sorban kattintsunk az *Execute Gradle Task* menüpontra, majd a felugró ablakban Írjuk be a *gradle signingReport*-ot, és nyomjunk egy entert. Ezek utánaz alsó *Run* ablakban megtalálható az *SHA-1* kulcs.
 
 <p align="center">
 <img src="./assets/android_studio_signingreport.png">
@@ -519,7 +519,7 @@ firebase-messaging = { group = "com.google.firebase", name="firebase-messaging" 
 
 ```gradle
 dependencies {
-    implementation(libs.firebase.messaging.ktx)
+    implementation(libs.firebase.messaging)
 }
 ```
 
@@ -587,8 +587,8 @@ Végül pedig szükségünk van két egyszerű Gradle függőségre is, amit a m
 
 ```gradle
 dependencies {
-    implementation(libs.firebase.crashlytics)
-    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics.ktx)
+    implementation(libs.firebase.analytics.ktx)
 }
 ```
 
@@ -624,7 +624,7 @@ Végül a *Firebase console-ban* is engedélyezzük a funkciót a *Crashlytics* 
 Próbáljuk ki saját hibajelzések készítését a menü eseménykezelőjében. Vizsgáljuk meg, megérkezik-e a Firebase Console-ba a hibaüzenet!
 
 <p align="center">
-<img src="./assets/firebase_crash.png">
+<img src="./assets/firebase_console_crash.png">
 </p>
 
 ## Analitika

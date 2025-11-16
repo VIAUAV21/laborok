@@ -4,6 +4,13 @@
 
 Ezen a laboron megismerkedünk Android a hálózati hívások elvégzésének egyik legelterjedtebb megvalósításával (Retrofit), a Paging Library-vel, illetve azzal, hogy a Compose keretrendszerben hogyan tudunk különböző képernyőméreteket támogatni.
 
+<p style="text-align: center">
+    <img src="./assets/phone_feed.png" width="300">
+    <img src="./assets/phone_details.png" width="300">
+</p>
+<p style="text-align: center">
+    <img src="./assets/tablet_feed_and_details.png" width="650">
+</p>
 
 ## Előkészületek
 
@@ -35,9 +42,9 @@ Tekintsük át a laborvezetővel a meglévő kódot!
 
 !!! info "Retrofit" 
 
-    A [Retrofit](https://square.github.io/retrofit/) egy általános célú HTTP könyvtár Java és Kötlin környezetben. Széles körben használják, számos projektben bizonyított már (kvázi ipari standard). Azért használjuk, hogy ne kelljen alacsony színtű hálózati hívásokat implementálni.
+    A [Retrofit](https://square.github.io/retrofit/) egy általános célú HTTP könyvtár Java és Kotlin környezetben. Széles körben használják, számos projektben bizonyított már (kvázi ipari standard). Azért használjuk, hogy ne kelljen alacsony szintű hálózati hívásokat implementálni.
 
-    Segítségével elég egy interface-ben annotációk segítségével leírni az API-t (ez pl. a [Swagger](https://swagger.io/) eszközzel generálható is), majd e mögé készít a Retrofit egy olyan osztályt, mely a szükséges hálózati hívásokat elvégzi. A Retrofit a háttérben az [OkHttp3](https://github.com/square/okhttp)-at használja, valamint az objektumok JSON formátumba történő sorosítását a [Moshi](https://github.com/square/moshi) libraryvel végzi. Ezért ezeket is be kell hivatkozni.
+    Segítségével elég egy interface-ben annotációk segítségével leírni az API-t (ez pl. a [Swagger](https://swagger.io/) eszközzel generálható is), majd e mögé készít a Retrofit egy olyan osztályt, mely a szükséges hálózati hívásokat elvégzi. A Retrofit a háttérben az [OkHttp3](https://github.com/square/okhttp)-at használja, valamint az objektumok JSON formátumba történő sorosítását a [Moshi](https://github.com/square/moshi) library-vel végzi. Ezért ezeket is be kell hivatkozni.
 
 !!! info "Paging 3.0"  
 
@@ -66,7 +73,7 @@ Tekintsük át a laborvezetővel a meglévő kódot!
     - Gyors: A Coil számos optimalizálást végez, beleértve a memória- és lemeztároló gyorsítótárazást, az átméretezést a memóriában, az automatikus kérések szüneteltetését/leállítását és még sok mást.  
     - Könnyű: A Coil kb. 2000 metódust ad az APK-hoz (azoknak az alkalmazásoknak, amelyek már használják az OkHttp és a Coroutines könyvtárakat), ami hasonló a Picasso-hoz és jelentősen kevesebb, mint a Glide és a Fresco könyvtárak.  
     - Könnyen használható: A Coil API-ja a Kotlin nyelv funkcióit használja a könnyű használat és a minimális boilerplate kód érdekében.  
-    - Modern: A Coil a Kotlin nyelvűséget helyezi előtérbe és a modern könyvtárakat használja, beleértve a Coroutines-t, az OkHttp-t, az Okio-t és az AndroidX Lifecycles-t.  
+    - Modern: A Coil a Kotlin nyelv sajátosságait használja ki és modern könyvtárakon alapszik, beleértve a Coroutines-t, az OkHttp-t, az Okio-t és az AndroidX Lifecycles-t.  
 
 ### Függőségek
 
@@ -119,7 +126,7 @@ data class Urls(
 )
 ```
 
-Az `@Embedded` annotációval megjelelőt mezők osztályainak mezői közvetlenül hivatkozhatók az SQL querykben.  
+Az `@Embedded` annotációval megjelölt mezők osztályainak mezői közvetlenül hivatkozhatók az SQL lekérdezésekben.  
 
 A `Moshi` automatikusan megoldja majd az egyes tagváltozók szerializálását, kivéve ott, ahol eltér a név. Ezt a `Json` annotációval jelezhetjük.
 
@@ -192,7 +199,7 @@ abstract class UnsplashDatabase : RoomDatabase() {
 
 ### A Retrofit interfész
 
-Az Unsplash API három végpontját fogjuk használni a képek, egy adott kép lekérésére, valamint a keresés végrehajtására.
+Az Unsplash API három végpontját fogjuk használni a képek, illetve egy adott kép lekérésére, valamint a keresés végrehajtására.
 Hozzuk létre a lenti interface-t a `data.remote.api` package-ben.
 
 `UnsplashApi.kt`:
@@ -235,14 +242,11 @@ interface UnsplashApi {
 }
 ```
 
-Ha a Reponse-t nem tudná beimportálni az Android Studio, vegyük fel kézzel az `import retrofit2.Response` sort.
-
 A Retrofit annotációi segítségével egyszerűen tudjuk definiálni a kéréseinket.  
 Cseréljük le az itt szereplő `ACCESS_KEY` stringet az Unsplashen regisztráció után elérhető saját kulcsunkra.
 Az https://unsplash.com/oauth/applications oldalon regisztráció után egy új applikációt kell létrehozni, és azt megnyitva találhatjuk meg a kulcsot.
 
 ### PagingUtil
-
 
 Hozzuk létre a `PagingUtil` osztályt az `util` package-ben a paging konfigurálására és placeholderek beállítására:
 
@@ -363,7 +367,7 @@ A `LoadResult` objektum az adatbetöltés eredményét tartalmazza. A `LoadResul
 
 A try-catch blokkban látható, hogy hogyan tudjuk használni a Retrofit interfészünket hálózati hívás elvégzésére.
   
-A `PagingSource` implementációja emellett tartalmaznia kell egy `getRefreshKey()` metódust, amely egy `PagingState` objektumot vár paraméterként, és visszaadja a kulcsot, amelyet át kell adni a `load()` metódusnak, amikor az adat frissítése vagy érvénytelenítése történik az első betöltés után. A Paging könyvtár automatikusan meghívja ezt a metódust az adat későbbi frissítésekor.
+A `PagingSource` implementációjának emellett tartalmaznia kell egy `getRefreshKey()` metódust, amely egy `PagingState` objektumot vár paraméterként, és visszaadja a kulcsot, amelyet át kell adni a `load()` metódusnak, amikor az adat frissítése vagy érvénytelenítése történik az első betöltés után. A Paging könyvtár automatikusan meghívja ezt a metódust az adat későbbi frissítésekor.
 
 ### Távoli kulcsok
 
@@ -371,7 +375,7 @@ Kezelnünk kell azt a helyzetet, amikor a helyi gyorsítótárban tárolt adatok
 
 A távoli kulcsok lehetővé teszik, hogy információt menthessünk el a legutóbbi oldalról, amelyet a szerverről kértek le. Az alkalmazás felhasználhatja ezt az információt a következő betöltendő adatoldal azonosításához és kéréséhez.
 
-A távoli kulcsok olyan kulcsok, amelyeket a RemoteMediator implementáció arra használ, hogy közölje a backend szolgáltatással, melyik adatot kell legközelebb betölteni. A legegyszerűbb esetben minden lapozott adat elemhez tartozik egy távoli kulcs, amelyre könnyen hivatkozhat. Azonban ha a távoli kulcsok nem feleltethetőek meg a konkrét elemeknek, nekünk kell őket kezelni a load hívásban.
+A távoli kulcsok olyan kulcsok, amelyeket a RemoteMediator implementáció arra használ, hogy közölje a backend szolgáltatással, melyik adatot kell legközelebb betölteni. A legegyszerűbb esetben minden lapozott adatelemhez tartozik egy távoli kulcs, amelyre könnyen hivatkozhat. Azonban ha a távoli kulcsok nem feleltethetőek meg a konkrét elemeknek, nekünk kell őket kezelni a load hívásban.
 
 Amikor a távoli kulcsok nem közvetlenül kapcsolódnak a listaelemekhez, célszerű őket külön táblázatban tárolni a helyi adatbázisban. Definiálni kell egy Room entitást, amely egy távoli kulcsokból álló táblázatot reprezentál.
 
@@ -444,9 +448,9 @@ abstract class UnsplashDatabase : RoomDatabase() {
 
 Jobb felhasználói élményt biztosíthatunk azzal, ha gondoskodunk arról, hogy az alkalmazásunk használható legyen akkor is, ha az internetkapcsolat instabil vagy ha a felhasználó offline. Az egyik módja ennek, hogy egyszerre lapozunk a hálózatról és egy helyi adatbázisból is. Ezzel az alkalmazás az UI-t egy helyi adatbázisból vezérli és csak akkor kér le adatokat a hálózatról, ha már nincs több adat az adatbázisban.
 
-A Paging könyvtár a `RemoteMediator` komponenst biztosítja ehhez az esethez. A `RemoteMediator` a Paging könyvtár jelzéseként működik, amikor az alkalmazás kimerül az előtárolt adatból. Ezt a jelzést lehet használni további adatok betöltésére a hálózatról, és azokat helyi adatbázisban tárolni, ahol egy `PagingSource` betöltheti és a felhasználói felületen megjelenítheti.
+A Paging könyvtár a `RemoteMediator` komponenst biztosítja ehhez az esethez. A `RemoteMediator` a Paging könyvtár jelzéseként működik, amikor az alkalmazás kimerül az előre eltárolt adatokból. Ezt a jelzést lehet használni további adatok betöltésére a hálózatról, és azokat helyi adatbázisban tárolni, ahol egy `PagingSource` betöltheti és a felhasználói felületen megjelenítheti.
 
-Ha további adatokra van szükség, a Paging könyvtár meghívja a `RemoteMediator` implementációjából a `load()` metódust. Ez egy suspending függvény, így hosszú ideig futó munkát végezhet biztonságosan. Ez a függvény általában az új adatokat egy hálózati forrásból szedi le, majd elmenti helyi tárolóba.
+Ha további adatokra van szükség, a Paging könyvtár meghívja a `RemoteMediator` implementációjából a `load()` metódust. Ez egy suspending függvény, így hosszú ideig futó munkát végezhet biztonságosan. Ez a függvény az új adatokat általában egy hálózati forrásból szedi le, majd elmenti helyi tárolóba.
 
 Ez a folyamat új adatokkal működik, de idővel az adatok tárolása az adatbázisban érvénytelenítést igényelhet, például amikor a felhasználó kézzel indítja el a frissítést. Ezt a `LoadType` tulajdonság jelzi, amelyet át kell adni a `load()` metódusnak. A `LoadType` tájékoztatja a `RemoteMediator`-t arról, hogy a meglévő adatokat frissíteni kell-e, vagy olyan további adatokat kell-e lekérni, amelyeket a meglévő listához kell hozzáadni.
 
@@ -947,7 +951,7 @@ fun PhotosFeedScreen_Expanded(
 }
 ```
 
-Frissítsük a Screenünket, hogy használja a fenti Composable-öket:
+Frissítsük a PhotosFeedScreen-ünket, hogy használja a fenti Composable-öket:
 
 `PhotosFeedScreen.kt`:
 ```kotlin
@@ -1036,7 +1040,7 @@ fun PhotosFeedScreen(
 }
 ```
 	
-Frissítsük az AppNavigation-t:
+Frissítsük az AppNavigation-t, hogy megkapjon egy WindowSize típusú objektumot és átadja a PhotosFeedScreen-nek:
 `AppNavigation.kt`:
 ```kotlin
 package hu.bme.aut.android.network.navigation
@@ -1096,7 +1100,7 @@ Vegyük fel a `material3` könyvtár mintájára a `material3-window-size-class`
 implementation "androidx.compose.material3:material3-window-size-class:1.4.0"
 ```
 
-Láthatjuk, hogy a dokumentációból kiemelt kódsor használatával megkerüljük a könyvtárnak és verziójának a libs.version.toml fájlban való definiálását, és az Android Studio sárga aláhúzással figyelmeztet is, hogy ezt ne tegyük. Szerencsére egy kattintásra, automatikusan átalakítja nekünk ezt a megfelelő módon, figyeljük meg a változásokat!
+Láthatjuk, hogy a dokumentációból kiemelt kódsor használatával megkerüljük a könyvtárnak és verziójának a libs.version.toml fájlban való definiálását, és az Android Studio sárga aláhúzással figyelmeztet is, hogy ehelyett kövessük az ajánlott módszert a könyvtár hozzáadásához. Szerencsére egy kattintásra, automatikusan átalakítja nekünk ezt a megfelelő módon, figyeljük meg a változásokat!
 
 Majd az Activity-t is állítsuk be a különböző képernyőméretek használatára:
 
@@ -1163,7 +1167,7 @@ fun MainActivityContent(windowSize: WindowSize) {
 	
 ## Önálló feladat 2 - Dependency Injection
 
-Írjuk át a projektet úgy, hogy az előző laboron megismert Dependency Injection keretrendszereket használja!
+Írjuk át a projektet úgy, hogy az előző laboron megismert `Dependency Injection` keretrendszereket használja!
 
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amelyen látszik a **működő alkalmazás** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel),  a **dependency injectionjöz tartozó releváns kódrészlet**, valamint a **neptun kódod a kódban valahol kommentként**. 

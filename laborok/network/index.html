@@ -974,6 +974,14 @@
 <h1 id="labor09-network-es-paging-unsplash">Labor09 - Network és Paging (Unsplash)<a class="headerlink" href="#labor09-network-es-paging-unsplash" title="Permanent link">¶</a></h1>
 <h2 id="bevezetes">Bevezetés<a class="headerlink" href="#bevezetes" title="Permanent link">¶</a></h2>
 <p>Ezen a laboron megismerkedünk Android a hálózati hívások elvégzésének egyik legelterjedtebb megvalósításával (Retrofit), a Paging Library-vel, illetve azzal, hogy a Compose keretrendszerben hogyan tudunk különböző képernyőméreteket támogatni.</p>
+<p style="text-align: center">
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/phone_feed.png" data-desc-position="bottom"><img src="./assets/phone_feed.png" width="300"></a>
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/phone_details.png" data-desc-position="bottom"><img src="./assets/phone_details.png" width="300"></a>
+</p>
+<p style="text-align: center">
+    <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/tablet_feed_and_details.png" data-desc-position="bottom"><img src="./assets/tablet_feed_and_details.png" width="650"></a>
+</p>
+
 <h2 id="elokeszuletek">Előkészületek<a class="headerlink" href="#elokeszuletek" title="Permanent link">¶</a></h2>
 <p>A feladatok megoldása során ne felejtsd el követni a <a href="../../tudnivalok/github/GitHub/">feladat beadás folyamatát</a>.</p>
 <h3 id="git-repository-letrehozasa-es-letoltese">Git repository létrehozása és letöltése<a class="headerlink" href="#git-repository-letrehozasa-es-letoltese" title="Permanent link">¶</a></h3>
@@ -1002,8 +1010,8 @@ Tekintsük át a laborvezetővel a meglévő kódot!</p>
 <h3 id="konyvtarak">Könyvtárak<a class="headerlink" href="#konyvtarak" title="Permanent link">¶</a></h3>
 <div class="admonition info">
 <p class="admonition-title">Retrofit</p>
-<p>A <a href="https://square.github.io/retrofit/">Retrofit</a> egy általános célú HTTP könyvtár Java és Kötlin környezetben. Széles körben használják, számos projektben bizonyított már (kvázi ipari standard). Azért használjuk, hogy ne kelljen alacsony színtű hálózati hívásokat implementálni.</p>
-<p>Segítségével elég egy interface-ben annotációk segítségével leírni az API-t (ez pl. a <a href="https://swagger.io/">Swagger</a> eszközzel generálható is), majd e mögé készít a Retrofit egy olyan osztályt, mely a szükséges hálózati hívásokat elvégzi. A Retrofit a háttérben az <a href="https://github.com/square/okhttp">OkHttp3</a>-at használja, valamint az objektumok JSON formátumba történő sorosítását a <a href="https://github.com/square/moshi">Moshi</a> libraryvel végzi. Ezért ezeket is be kell hivatkozni.</p>
+<p>A <a href="https://square.github.io/retrofit/">Retrofit</a> egy általános célú HTTP könyvtár Java és Kotlin környezetben. Széles körben használják, számos projektben bizonyított már (kvázi ipari standard). Azért használjuk, hogy ne kelljen alacsony szintű hálózati hívásokat implementálni.</p>
+<p>Segítségével elég egy interface-ben annotációk segítségével leírni az API-t (ez pl. a <a href="https://swagger.io/">Swagger</a> eszközzel generálható is), majd e mögé készít a Retrofit egy olyan osztályt, mely a szükséges hálózati hívásokat elvégzi. A Retrofit a háttérben az <a href="https://github.com/square/okhttp">OkHttp3</a>-at használja, valamint az objektumok JSON formátumba történő sorosítását a <a href="https://github.com/square/moshi">Moshi</a> library-vel végzi. Ezért ezeket is be kell hivatkozni.</p>
 </div>
 <div class="admonition info">
 <p class="admonition-title">Paging 3.0</p>
@@ -1032,7 +1040,7 @@ A Coil használatának előnyei:  </p>
 <li>Gyors: A Coil számos optimalizálást végez, beleértve a memória- és lemeztároló gyorsítótárazást, az átméretezést a memóriában, az automatikus kérések szüneteltetését/leállítását és még sok mást.  </li>
 <li>Könnyű: A Coil kb. 2000 metódust ad az APK-hoz (azoknak az alkalmazásoknak, amelyek már használják az OkHttp és a Coroutines könyvtárakat), ami hasonló a Picasso-hoz és jelentősen kevesebb, mint a Glide és a Fresco könyvtárak.  </li>
 <li>Könnyen használható: A Coil API-ja a Kotlin nyelv funkcióit használja a könnyű használat és a minimális boilerplate kód érdekében.  </li>
-<li>Modern: A Coil a Kotlin nyelvűséget helyezi előtérbe és a modern könyvtárakat használja, beleértve a Coroutines-t, az OkHttp-t, az Okio-t és az AndroidX Lifecycles-t.  </li>
+<li>Modern: A Coil a Kotlin nyelv sajátosságait használja ki és modern könyvtárakon alapszik, beleértve a Coroutines-t, az OkHttp-t, az Okio-t és az AndroidX Lifecycles-t.  </li>
 </ul>
 </div>
 <h3 id="fuggosegek">Függőségek<a class="headerlink" href="#fuggosegek" title="Permanent link">¶</a></h3>
@@ -1080,7 +1088,7 @@ A Coil használatának előnyei:  </p>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">full</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span>
 <span class="p">)</span>
 </code></pre></div><p></p>
-<p>Az <code>@Embedded</code> annotációval megjelelőt mezők osztályainak mezői közvetlenül hivatkozhatók az SQL querykben.  </p>
+<p>Az <code>@Embedded</code> annotációval megjelölt mezők osztályainak mezői közvetlenül hivatkozhatók az SQL lekérdezésekben.  </p>
 <p>A <code>Moshi</code> automatikusan megoldja majd az egyes tagváltozók szerializálását, kivéve ott, ahol eltér a név. Ezt a <code>Json</code> annotációval jelezhetjük.</p>
 <p><code>SearchResult.kt</code>:
 </p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model</span>
@@ -1141,7 +1149,7 @@ A Coil használatának előnyei:  </p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <h3 id="a-retrofit-interfesz">A Retrofit interfész<a class="headerlink" href="#a-retrofit-interfesz" title="Permanent link">¶</a></h3>
-<p>Az Unsplash API három végpontját fogjuk használni a képek, egy adott kép lekérésére, valamint a keresés végrehajtására.
+<p>Az Unsplash API három végpontját fogjuk használni a képek, illetve egy adott kép lekérésére, valamint a keresés végrehajtására.
 Hozzuk létre a lenti interface-t a <code>data.remote.api</code> package-ben.</p>
 <p><code>UnsplashApi.kt</code>:
 </p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.remote.api</span>
@@ -1181,7 +1189,6 @@ Hozzuk létre a lenti interface-t a <code>data.remote.api</code> package-ben.</p
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p></p>
-<p>Ha a Reponse-t nem tudná beimportálni az Android Studio, vegyük fel kézzel az <code>import retrofit2.Response</code> sort.</p>
 <p>A Retrofit annotációi segítségével egyszerűen tudjuk definiálni a kéréseinket.<br>
 Cseréljük le az itt szereplő <code>ACCESS_KEY</code> stringet az Unsplashen regisztráció után elérhető saját kulcsunkra.
 Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/applications</a> oldalon regisztráció után egy új applikációt kell létrehozni, és azt megnyitva találhatjuk meg a kulcsot.</p>
@@ -1293,11 +1300,11 @@ Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/
 <li>Sikertelen esetben <code>LoadResult.Error</code> objektum.  </li>
 </ul>
 <p>A try-catch blokkban látható, hogy hogyan tudjuk használni a Retrofit interfészünket hálózati hívás elvégzésére.</p>
-<p>A <code>PagingSource</code> implementációja emellett tartalmaznia kell egy <code>getRefreshKey()</code> metódust, amely egy <code>PagingState</code> objektumot vár paraméterként, és visszaadja a kulcsot, amelyet át kell adni a <code>load()</code> metódusnak, amikor az adat frissítése vagy érvénytelenítése történik az első betöltés után. A Paging könyvtár automatikusan meghívja ezt a metódust az adat későbbi frissítésekor.</p>
+<p>A <code>PagingSource</code> implementációjának emellett tartalmaznia kell egy <code>getRefreshKey()</code> metódust, amely egy <code>PagingState</code> objektumot vár paraméterként, és visszaadja a kulcsot, amelyet át kell adni a <code>load()</code> metódusnak, amikor az adat frissítése vagy érvénytelenítése történik az első betöltés után. A Paging könyvtár automatikusan meghívja ezt a metódust az adat későbbi frissítésekor.</p>
 <h3 id="tavoli-kulcsok">Távoli kulcsok<a class="headerlink" href="#tavoli-kulcsok" title="Permanent link">¶</a></h3>
 <p>Kezelnünk kell azt a helyzetet, amikor a helyi gyorsítótárban tárolt adatok elavultak a távoli adatforráshoz képest.</p>
 <p>A távoli kulcsok lehetővé teszik, hogy információt menthessünk el a legutóbbi oldalról, amelyet a szerverről kértek le. Az alkalmazás felhasználhatja ezt az információt a következő betöltendő adatoldal azonosításához és kéréséhez.</p>
-<p>A távoli kulcsok olyan kulcsok, amelyeket a RemoteMediator implementáció arra használ, hogy közölje a backend szolgáltatással, melyik adatot kell legközelebb betölteni. A legegyszerűbb esetben minden lapozott adat elemhez tartozik egy távoli kulcs, amelyre könnyen hivatkozhat. Azonban ha a távoli kulcsok nem feleltethetőek meg a konkrét elemeknek, nekünk kell őket kezelni a load hívásban.</p>
+<p>A távoli kulcsok olyan kulcsok, amelyeket a RemoteMediator implementáció arra használ, hogy közölje a backend szolgáltatással, melyik adatot kell legközelebb betölteni. A legegyszerűbb esetben minden lapozott adatelemhez tartozik egy távoli kulcs, amelyre könnyen hivatkozhat. Azonban ha a távoli kulcsok nem feleltethetőek meg a konkrét elemeknek, nekünk kell őket kezelni a load hívásban.</p>
 <p>Amikor a távoli kulcsok nem közvetlenül kapcsolódnak a listaelemekhez, célszerű őket külön táblázatban tárolni a helyi adatbázisban. Definiálni kell egy Room entitást, amely egy távoli kulcsokból álló táblázatot reprezentál.</p>
 <p>Hozzuk létre az alábbi osztályt a <code>data.model</code> package-ben:</p>
 <p><code>UnsplashPhotoRemoteKeys.kt</code>:
@@ -1356,8 +1363,8 @@ Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/
 </code></pre></div><p></p>
 <h3 id="a-remotemediator-osztaly">A RemoteMediator osztály<a class="headerlink" href="#a-remotemediator-osztaly" title="Permanent link">¶</a></h3>
 <p>Jobb felhasználói élményt biztosíthatunk azzal, ha gondoskodunk arról, hogy az alkalmazásunk használható legyen akkor is, ha az internetkapcsolat instabil vagy ha a felhasználó offline. Az egyik módja ennek, hogy egyszerre lapozunk a hálózatról és egy helyi adatbázisból is. Ezzel az alkalmazás az UI-t egy helyi adatbázisból vezérli és csak akkor kér le adatokat a hálózatról, ha már nincs több adat az adatbázisban.</p>
-<p>A Paging könyvtár a <code>RemoteMediator</code> komponenst biztosítja ehhez az esethez. A <code>RemoteMediator</code> a Paging könyvtár jelzéseként működik, amikor az alkalmazás kimerül az előtárolt adatból. Ezt a jelzést lehet használni további adatok betöltésére a hálózatról, és azokat helyi adatbázisban tárolni, ahol egy <code>PagingSource</code> betöltheti és a felhasználói felületen megjelenítheti.</p>
-<p>Ha további adatokra van szükség, a Paging könyvtár meghívja a <code>RemoteMediator</code> implementációjából a <code>load()</code> metódust. Ez egy suspending függvény, így hosszú ideig futó munkát végezhet biztonságosan. Ez a függvény általában az új adatokat egy hálózati forrásból szedi le, majd elmenti helyi tárolóba.</p>
+<p>A Paging könyvtár a <code>RemoteMediator</code> komponenst biztosítja ehhez az esethez. A <code>RemoteMediator</code> a Paging könyvtár jelzéseként működik, amikor az alkalmazás kimerül az előre eltárolt adatokból. Ezt a jelzést lehet használni további adatok betöltésére a hálózatról, és azokat helyi adatbázisban tárolni, ahol egy <code>PagingSource</code> betöltheti és a felhasználói felületen megjelenítheti.</p>
+<p>Ha további adatokra van szükség, a Paging könyvtár meghívja a <code>RemoteMediator</code> implementációjából a <code>load()</code> metódust. Ez egy suspending függvény, így hosszú ideig futó munkát végezhet biztonságosan. Ez a függvény az új adatokat általában egy hálózati forrásból szedi le, majd elmenti helyi tárolóba.</p>
 <p>Ez a folyamat új adatokkal működik, de idővel az adatok tárolása az adatbázisban érvénytelenítést igényelhet, például amikor a felhasználó kézzel indítja el a frissítést. Ezt a <code>LoadType</code> tulajdonság jelzi, amelyet át kell adni a <code>load()</code> metódusnak. A <code>LoadType</code> tájékoztatja a <code>RemoteMediator</code>-t arról, hogy a meglévő adatokat frissíteni kell-e, vagy olyan további adatokat kell-e lekérni, amelyeket a meglévő listához kell hozzáadni.</p>
 <p>Így a <code>RemoteMediator</code> biztosítja, hogy az alkalmazás azokat az adatokat töltse be, amelyeket a felhasználók a megfelelő sorrendben szeretnének látni.</p>
 <p>Hozzuk létre az alábbi osztályt a <code>data.paging</code> package-ben:</p>
@@ -1833,7 +1840,7 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p></p>
-<p>Frissítsük a Screenünket, hogy használja a fenti Composable-öket:</p>
+<p>Frissítsük a PhotosFeedScreen-ünket, hogy használja a fenti Composable-öket:</p>
 <p><code>PhotosFeedScreen.kt</code>:
 </p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.feature.photos_feed</span>
 
@@ -1919,7 +1926,7 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p></p>
-<p>Frissítsük az AppNavigation-t:
+<p>Frissítsük az AppNavigation-t, hogy megkapjon egy WindowSize típusú objektumot és átadja a PhotosFeedScreen-nek:
 <code>AppNavigation.kt</code>:
 </p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.navigation</span>
 
@@ -1975,7 +1982,7 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 Vegyük fel a <code>material3</code> könyvtár mintájára a <code>material3-window-size-class</code> függőséget (link)[<a href="https://developer.android.com/jetpack/androidx/releases/compose-material3">https://developer.android.com/jetpack/androidx/releases/compose-material3</a>]:<p></p>
 <div class="highlight"><pre><span></span><code><span class="n">implementation</span><span class="w"> </span><span class="s">"androidx.compose.material3:material3-window-size-class:1.4.0"</span>
 </code></pre></div>
-<p>Láthatjuk, hogy a dokumentációból kiemelt kódsor használatával megkerüljük a könyvtárnak és verziójának a libs.version.toml fájlban való definiálását, és az Android Studio sárga aláhúzással figyelmeztet is, hogy ezt ne tegyük. Szerencsére egy kattintásra, automatikusan átalakítja nekünk ezt a megfelelő módon, figyeljük meg a változásokat!</p>
+<p>Láthatjuk, hogy a dokumentációból kiemelt kódsor használatával megkerüljük a könyvtárnak és verziójának a libs.version.toml fájlban való definiálását, és az Android Studio sárga aláhúzással figyelmeztet is, hogy ehelyett kövessük az ajánlott módszert a könyvtár hozzáadásához. Szerencsére egy kattintásra, automatikusan átalakítja nekünk ezt a megfelelő módon, figyeljük meg a változásokat!</p>
 <p>Majd az Activity-t is állítsuk be a különböző képernyőméretek használatára:</p>
 <p><code>MainActivity.kt</code>:
 </p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network</span>
@@ -2035,7 +2042,7 @@ Vegyük fel a <code>material3</code> könyvtár mintájára a <code>material3-wi
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <h2 id="onallo-feladat-2-dependency-injection">Önálló feladat 2 - Dependency Injection<a class="headerlink" href="#onallo-feladat-2-dependency-injection" title="Permanent link">¶</a></h2>
-<p>Írjuk át a projektet úgy, hogy az előző laboron megismert Dependency Injection keretrendszereket használja!</p>
+<p>Írjuk át a projektet úgy, hogy az előző laboron megismert <code>Dependency Injection</code> keretrendszereket használja!</p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
 <p>Készíts egy <strong>képernyőképet</strong>, amelyen látszik a <strong>működő alkalmazás</strong> (emulátoron, készüléket tükrözve vagy képernyőfelvétellel),  a <strong>dependency injectionjöz tartozó releváns kódrészlet</strong>, valamint a <strong>neptun kódod a kódban valahol kommentként</strong>. </p>
@@ -2050,8 +2057,8 @@ Vegyük fel a <code>material3</code> könyvtár mintájára a <code>material3-wi
           </path>
         </svg>
       </span>
-      <span title="2025. november 10. 20:31:04">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. november 10. 20:31:04 CET"><span class="timeago" datetime="2025-11-10T20:31:04+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. november 10. 20:31:04 CET">2025-11-10</span>
+      <span title="2025. november 16. 14:36:32">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. november 16. 14:36:32 CET"><span class="timeago" datetime="2025-11-16T14:36:32+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. november 16. 14:36:32 CET">2025-11-16</span>
       </span>
     </span>
 

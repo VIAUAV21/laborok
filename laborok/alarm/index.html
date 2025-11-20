@@ -960,7 +960,7 @@ a UI építőelemei és a <code>drawable</code> erőforrások már megtalálhat�
 <p>Az <code>AlarmServiceState</code> lehetséges értékei írják le, hogy az időzítő épp várakozik, fut, pauzált vagy leállított. Az <code>AlarmState</code> ezt az aktuális állapotot tárolja, és mellé még egységbe zárja, hogy mennyi az időzítő célideje, és mennyi telt el eddig.</p>
 <h2 id="a-felhasznaloi-felulet-es-a-domenmodell-osszekotese">A felhasználói felület és a doménmodell összekötése<a class="headerlink" href="#a-felhasznaloi-felulet-es-a-domenmodell-osszekotese" title="Permanent link">¶</a></h2>
 <p>A felhasználói felületünk a template-ben már rendelkezésre áll, de a viewmodelleket még el kell készítenünk, hogy
-az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui.alarm</code> package-be hozzuk létre a ViewModelünket:</p>
+az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui.screen.alarm</code> package-be hozzuk létre a ViewModelünket:</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">AlarmViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">():</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
@@ -1044,7 +1044,7 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.window.Popup</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.hilt.navigation.compose.hiltViewModel</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.accompanist.permissions.ExperimentalPermissionsApi</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">com.maxkeppeker.sheets.core.models.base.rememberSheetState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.maxkeppeker.sheets.core.models.base.rememberUseCaseState</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.maxkeppeler.sheets.duration.DurationDialog</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.maxkeppeler.sheets.duration.models.DurationConfig</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.maxkeppeler.sheets.duration.models.DurationFormat</span>
@@ -1102,7 +1102,7 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <span class="w">                        </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MaterialTheme</span><span class="p">.</span><span class="na">colorScheme</span><span class="p">.</span><span class="na">surface</span><span class="p">,</span>
 <span class="w">                    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                        </span><span class="n">DurationDialog</span><span class="p">(</span>
-<span class="w">                            </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberSheetState</span><span class="p">(</span>
+<span class="w">                            </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rememberUseCaseState</span><span class="p">(</span>
 <span class="w">                                </span><span class="n">visible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">                                </span><span class="n">onCloseRequest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">isDialogShown</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">isDialogShown</span><span class="w"> </span><span class="p">}</span>
 <span class="w">                            </span><span class="p">),</span>
@@ -1800,8 +1800,8 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
           </path>
         </svg>
       </span>
-      <span title="2024. november 19. 11:40:43">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2024. november 19. 11:40:43 CET"><span class="timeago" datetime="2024-11-19T11:40:43+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2024. november 19. 11:40:43 CET">2024-11-19</span>
+      <span title="2025. november 20. 08:10:41">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. november 20. 08:10:41 CET"><span class="timeago" datetime="2025-11-20T08:10:41+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. november 20. 08:10:41 CET">2025-11-20</span>
       </span>
     </span>
 

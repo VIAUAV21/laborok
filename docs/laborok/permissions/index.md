@@ -44,18 +44,20 @@ Vegyük fel az alábbi függőségeket a `libs.versions.toml` fájlunkba, illetv
 
 ```kotlin
 [versions]
-agp = "8.8.2"
-kotlin = "2.1.10"
-coreKtx = "1.16.0"
+agp = "8.12.3"
+kotlin = "2.2.21"
+coreKtx = "1.17.0"
 junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.7"
-activityCompose = "1.10.1"
-composeBom = "2025.04.01"
-navigation = "2.8.9"
-coil = "2.5.0"
-accompanist = "0.36.0"
+junitVersion = "1.3.0"
+espressoCore = "3.7.0"
+lifecycleRuntimeKtx = "2.10.0"
+activityCompose = "1.12.0"
+composeBom = "2025.11.01"
+nav3Core = "1.0.0"
+kotlinSerialization = "2.2.21"
+kotlinxSerializationCore = "1.9.0"
+coil = "2.7.0"
+accompanist = "0.37.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -64,6 +66,7 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -72,16 +75,20 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
-androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
-androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigation" }
+androidx-compose-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core" }
+androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
 coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 accompanist-permission = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
+kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization"}
 ```
 
 ```kotlin
@@ -89,11 +96,26 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.compose.material.icons.core)
+    implementation(libs.androidx.compose.material.icons.extended)
+
+    //Navigation3
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.kotlinx.serialization.core)
+
+    //Coil
+    implementation(libs.coil)
+
+    //Accompanist
+    implementation(libs.accompanist.permission)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -101,28 +123,18 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
-    implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.coil)
-    implementation(libs.accompanist.permission)
 }
 ```
 
-Ezek mellett ellenőrizzük a compose verzióját. A labor készítésekor a következőek voltak érvényben:
+A projekt szintű build.gradle.kts fájlban is kapcsoljuk ki a megfelelő plugint:
 
 - _Modul_ szintű `build.gradle`:
 ```gradle
-android {
+plugins {
     ...
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.15"
-    }
+    alias(libs.plugins.jetbrains.kotlin.serialization) apply false
 }
 ```
-
-A modul szintű `build.gradle` fájlban álllítsuk át a `compileSdk` értékét **35**-re!
 
 Végül vegyük fel előre az alkalmazáshoz szükséges szöveges erőforrásokat:
 
@@ -167,43 +179,58 @@ data class Contact(
 
 ### Navigáció kialakítása
 
-Az előző laborhoz hasonlóan alakítsuk ki a projektben a navigációnál használt osztályokat! 
+Az előző laborokhoz hasonlóan alakítsuk ki a projektben a navigációnál használt osztályokat! 
 
 Hozzunk létre a gyökérkönyvtárban létre egy új package-et `navigation` néven, majd hozzuk létre benne az útvonalakat reprezentáló `Screen` osztályt:
 ```kotlin
-sealed class Screen(val route: String) {  
+import androidx.navigation3.runtime.NavKey
+
+sealed interface Screen : NavKey {  
 
 }
 ```
- Illetve hozzuk létre a navigációt végző `Composable` függvényt is a `NavGraph.kt` fájlban:
+ Illetve hozzuk létre a navigációt végző `Composable` függvényt is a `AppNavigation.kt` fájlban:
 ```kotlin
-@Composable
-fun NavGraph(
-    navController: NavHostController = rememberNavController(),
-) {
-    NavHost(
-        navController = navController,
-        startDestination = ""
-    ) {
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
 
-    }
+@Composable
+fun AppNavigation(
+    modifier: Modifier = Modifier) {
+
+    val backStack = rememberNavBackStack()
+
+    NavDisplay(
+        modifier = modifier,
+        backStack = backStack,
+        onBack = { backStack.removeLastOrNull() },
+        entryProvider = entryProvider {
+
+        }
+    )
 }
 ```
 
-A `NavGraph` Composable szerepe, hogy karban tartsa az útvonalakat, itt fogjuk a navigációs eseményeket feldolgozni.
-
-Végül frissítsük a `MainActivity` tartalmát úgy, hogy a `NavGraph` Composable-t használja:
+Végül frissítsük a `MainActivity` tartalmát úgy, hogy az `AppNavigation ` Composable-t használja:
 
 ```kotlin
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            ContactsTheme {
-                NavGraph()
-            }
+            MainActivityContent()
         }
+    }
+}
+
+@Preview
+@Composable
+private fun MainActivityContent() {
+    ContactsTheme {
+        AppNavigation(modifier = Modifier.safeDrawingPadding())
     }
 }
 ```
@@ -464,7 +491,7 @@ object PermissionsUtil {
 
 ### Lista felület és logika
 
-Hozzunk létre a gyökérkönyvtáron belül a `feature` package-et, mely az egyes oldalak `Composable` és `ViewModel` osztályait fogja tartalmazni külön packagenként, majd hozzuk létre ebben a `contactlist` package-t.
+Hozzunk létre a gyökérkönyvtáron belül a `ui.screen` package-et, mely az egyes oldalak `Composable` és `ViewModel` osztályait fogja tartalmazni külön packagenként, majd hozzuk létre ebben a `contactlist` package-t.
 
 Először foglalkozzunk az oldalhoz tartozó `ViewModel` osztállyal. Hozzuk létre a `ContactsListViewModel.kt` fájlt, majd másoljuk be az alábbi kódrészletet:
 
@@ -780,7 +807,7 @@ fun ContactListItem(
 }
 ```
 
-Ezt követően létrehozhatjuk a képernyőnkhöz tartozó elrendezést a `feature.contactlist` package-ben.
+Ezt követően létrehozhatjuk a képernyőnkhöz tartozó elrendezést a `ui.screen.contactlist` package-ben.
 Itt megfigyelhető a korábban említett `rememberMultiplePermissionsState` használata, illetve az engedélyek meglétének ellenőrzése.
 Az engedélyek elkérése egy AlertDialog segítségével történik.
 
@@ -910,7 +937,8 @@ fun ContactsScreen(
 Ezt követően frissíthetjük a `Screen` osztályunk az új útvonallal:
 
 ```kotlin
-data object Contacts: Screen(route = "contacts")
+@Serializable
+data object ContactsScreenDestination : Screen
 ```
 
 Illetve kiegészíthetjük a `NavGraph` osztályt is a listanézetünkkel:
@@ -918,24 +946,30 @@ Illetve kiegészíthetjük a `NavGraph` osztályt is a listanézetünkkel:
 ```kotlin
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun NavGraph(
-    navController: NavHostController = rememberNavController(),
+fun AppNavigation(
+    modifier: Modifier = Modifier
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = Screen.Contacts.route
-    ) {
-        composable(route = Screen.Contacts.route) {
-            ContactsScreen(
-                onListItemClick = {
-                    //TODO
-                },
-                onFabClick = {
-                    //TODO
-                }
-            )
+
+    val backStack = rememberNavBackStack(Screen.ContactsScreenDestination)
+
+    NavDisplay(
+        modifier = modifier,
+        backStack = backStack,
+        onBack = { backStack.removeLastOrNull() },
+        entryProvider = entryProvider {
+
+            entry<Screen.ContactsScreenDestination> {
+                ContactsScreen(
+                    onListItemClick = {
+                        //TODO: Navigate to detailed screen
+                    },
+                    onFabClick = {
+                        //TODO: Navigate to create screen
+                    }
+                )
+            }
         }
-    }
+    )
 }
 ```
 
@@ -1138,7 +1172,7 @@ fun ContactDataItem_Preview() {
 }
 ```
 
-A `feature.contact_add` package-ben hozzuk létre a hozzá tartozó ViewModel osztályt:
+A `ui.screen.contact_add` package-ben hozzuk létre a hozzá tartozó ViewModel osztályt:
 
 `AddNewContactViewModel.kt`:
 ```kotlin
@@ -1356,29 +1390,7 @@ sealed class UiEvent {
 ```
 -->
 
-Egészítsük ki a `Screen` osztályunkat az újabb útvonallal:
-
-```kotlin
-data object AddContact: Screen(route = "add_contact")
-```
-
-A `Navgraph`-ban kezeljük a FAB-unk érintését, és vegyük fel az új képernyőt:
-
-```kotlin
-onFabClick = {
-                    navController.navigate(Screen.AddContact.route)
-                }
-```
-
-```kotlin
-composable(route = Screen.AddContact.route) {
-            AddNewContactScreen(
-                onNavigateBack = {
-                    navController.popBackStack(route = Screen.Contacts.route, inclusive = false)
-                }
-            )
-        }
-```
+Valósítsuk meg a navigációt a megszokott módon, és kezeljük a FAB érintését!  
 
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amelyen látszik a **saját neveddel kitöltött hozzáadási képernyő** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az **ahhoz tartozó kódrészlet**. 
@@ -1667,38 +1679,7 @@ fun ContactDetailsScreen_Preview() {
 }
 ```
 
-Egészítsük ki a `Screen` osztályunkat az újabb útvonallal:
-
-```kotlin
-data object ContactDetails: Screen(route = "contact/{id}") {
-        fun passId(id: String) = "contact/$id"
-    }
-```
-
-A `Navgraph`-ban kezeljük a listaelemek érintését, és vegyük fel az új képernyőt:
-
-```kotlin
-onListItemClick = { id ->
-                    navController.navigate(Screen.ContactDetails.passId(id))
-                },
-```
-
-```kotlin
-composable(
-            route = Screen.ContactDetails.route,
-            arguments = listOf(
-                navArgument("id") {
-                    type = NavType.StringType
-                }
-            )
-        ) {
-            ContactDetailsScreen(
-                onNavigateBack = {
-                    navController.popBackStack(route = Screen.Contacts.route, inclusive = false)
-                }
-            )
-        }
-```
+Valósítsuk meg a navigációt a megszokott módon, és kezeljük a listaelemek érintését!  
 
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amelyen látszik a **saját neveddel kitöltött részletek képernyő** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az **ahhoz tartozó kódrészlet**.

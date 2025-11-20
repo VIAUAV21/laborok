@@ -82,7 +82,7 @@ Az `AlarmServiceState` lehetséges értékei írják le, hogy az időzítő épp
 ## A felhasználói felület és a doménmodell összekötése
 
 A felhasználói felületünk a template-ben már rendelkezésre áll, de a viewmodelleket még el kell készítenünk, hogy
-az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A `ui.alarm` package-be hozzuk létre a ViewModelünket:
+az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A `ui.screen.alarm` package-be hozzuk létre a ViewModelünket:
 
 ```kotlin
 @HiltViewModel
@@ -172,7 +172,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.maxkeppeker.sheets.core.models.base.rememberSheetState
+import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
 import com.maxkeppeler.sheets.duration.DurationDialog
 import com.maxkeppeler.sheets.duration.models.DurationConfig
 import com.maxkeppeler.sheets.duration.models.DurationFormat
@@ -230,7 +230,7 @@ fun AlarmScreen(
                         color = MaterialTheme.colorScheme.surface,
                     ) {
                         DurationDialog(
-                            state = rememberSheetState(
+                            state = rememberUseCaseState(
                                 visible = true,
                                 onCloseRequest = { isDialogShown = !isDialogShown }
                             ),

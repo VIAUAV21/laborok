@@ -695,6 +695,11 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
                             this@AlarmService,
                             RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM)
                         )
+                        setAudioAttributes(
+                            AudioAttributes.Builder()
+                                .setUsage(AudioAttributes.USAGE_ALARM)
+                                .build()
+                        )
                         setOnPreparedListener(this@AlarmService)
                         prepareAsync()
                     }

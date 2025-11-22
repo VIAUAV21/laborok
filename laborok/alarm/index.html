@@ -1526,6 +1526,11 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <span class="w">                            </span><span class="k">this</span><span class="nd">@AlarmService</span><span class="p">,</span>
 <span class="w">                            </span><span class="n">RingtoneManager</span><span class="p">.</span><span class="na">getDefaultUri</span><span class="p">(</span><span class="n">RingtoneManager</span><span class="p">.</span><span class="na">TYPE_ALARM</span><span class="p">)</span>
 <span class="w">                        </span><span class="p">)</span>
+<span class="w">                        </span><span class="n">setAudioAttributes</span><span class="p">(</span>
+<span class="w">                            </span><span class="n">AudioAttributes</span><span class="p">.</span><span class="na">Builder</span><span class="p">()</span>
+<span class="w">                                </span><span class="p">.</span><span class="na">setUsage</span><span class="p">(</span><span class="n">AudioAttributes</span><span class="p">.</span><span class="na">USAGE_ALARM</span><span class="p">)</span>
+<span class="w">                                </span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
+<span class="w">                        </span><span class="p">)</span>
 <span class="w">                        </span><span class="n">setOnPreparedListener</span><span class="p">(</span><span class="k">this</span><span class="nd">@AlarmService</span><span class="p">)</span>
 <span class="w">                        </span><span class="n">prepareAsync</span><span class="p">()</span>
 <span class="w">                    </span><span class="p">}</span>
@@ -1800,8 +1805,8 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
           </path>
         </svg>
       </span>
-      <span title="2025. november 20. 08:10:41">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. november 20. 08:10:41 CET"><span class="timeago" datetime="2025-11-20T08:10:41+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. november 20. 08:10:41 CET">2025-11-20</span>
+      <span title="2025. november 22. 11:14:59">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. november 22. 11:14:59 CET"><span class="timeago" datetime="2025-11-22T11:14:59+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. november 22. 11:14:59 CET">2025-11-22</span>
       </span>
     </span>
 

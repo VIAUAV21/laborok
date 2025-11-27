@@ -1434,10 +1434,9 @@ A `feature.contact_details` package-ben hozzuk létre a hozzá tartozó ViewMode
 `ContactDetailsViewModel.kt`:
 ```kotlin
 class ContactDetailsViewModel(
-    getContactDetails: GetContactDetailsUseCase,
+    private val getContactDetails: GetContactDetailsUseCase,
     private val makeCall: MakeACallUseCase,
-    private val sendSMS: SendSMSUseCase,
-    savedStateHandle: SavedStateHandle
+    private val sendSMS: SendSMSUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ContactDetailsState())
@@ -1454,8 +1453,7 @@ class ContactDetailsViewModel(
         }
     }
 
-    init {
-        val id = checkNotNull<String>(savedStateHandle["id"])
+    fun loadData(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _state.update { it.copy(isLoading = true) }
@@ -1477,12 +1475,10 @@ class ContactDetailsViewModel(
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val context = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as Application).baseContext
-                val savedStateHandle = createSavedStateHandle()
                 ContactDetailsViewModel(
                     getContactDetails = GetContactDetailsUseCase(context),
                     makeCall = MakeACallUseCase(context),
-                    sendSMS = SendSMSUseCase(context),
-                    savedStateHandle = savedStateHandle
+                    sendSMS = SendSMSUseCase(context)
                 )
             }
         }
@@ -1563,6 +1559,7 @@ Ezt követően a felületet is elkészíthetjük:
 @ExperimentalFoundationApi
 @Composable
 fun ContactDetailsScreen(
+    id: String,
     modifier: Modifier = Modifier,
     onNavigateBack: () -> Unit,
     viewModel: ContactDetailsViewModel = viewModel(factory = ContactDetailsViewModel.Factory)
@@ -1570,6 +1567,10 @@ fun ContactDetailsScreen(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
+
+    LaunchedEffect(key1 = id) {
+        viewModel.loadData(id)
+    }
 
     Scaffold(
         topBar = {
@@ -1592,7 +1593,7 @@ fun ContactDetailsScreen(
         }
     ) { padding ->
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
                 .padding(padding),
             contentAlignment = Alignment.Center
@@ -1675,7 +1676,7 @@ fun ContactDetailsScreen(
 @Preview(showBackground = true)
 @Composable
 fun ContactDetailsScreen_Preview() {
-    ContactDetailsScreen(onNavigateBack = { })
+    ContactDetailsScreen(onNavigateBack = { }, id = "")
 }
 ```
 

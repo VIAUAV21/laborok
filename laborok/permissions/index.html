@@ -2322,10 +2322,9 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 <p>A <code>feature.contact_details</code> package-ben hozzuk létre a hozzá tartozó ViewModel osztályt:</p>
 <p><code>ContactDetailsViewModel.kt</code>:
 </p><div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">ContactDetailsViewModel</span><span class="p">(</span>
-<span class="w">    </span><span class="n">getContactDetails</span><span class="p">:</span><span class="w"> </span><span class="n">GetContactDetailsUseCase</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">getContactDetails</span><span class="p">:</span><span class="w"> </span><span class="n">GetContactDetailsUseCase</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">makeCall</span><span class="p">:</span><span class="w"> </span><span class="n">MakeACallUseCase</span><span class="p">,</span>
-<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">sendSMS</span><span class="p">:</span><span class="w"> </span><span class="n">SendSMSUseCase</span><span class="p">,</span>
-<span class="w">    </span><span class="n">savedStateHandle</span><span class="p">:</span><span class="w"> </span><span class="n">SavedStateHandle</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">sendSMS</span><span class="p">:</span><span class="w"> </span><span class="n">SendSMSUseCase</span>
 <span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MutableStateFlow</span><span class="p">(</span><span class="n">ContactDetailsState</span><span class="p">())</span>
@@ -2342,8 +2341,7 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 
-<span class="w">    </span><span class="k">init</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">checkNotNull</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">(</span><span class="n">savedStateHandle</span><span class="o">[</span><span class="s">"id"</span><span class="o">]</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">loadData</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="na">IO</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">isLoading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
@@ -2365,12 +2363,10 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 <span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">Factory</span><span class="p">:</span><span class="w"> </span><span class="n">ViewModelProvider</span><span class="p">.</span><span class="na">Factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModelFactory</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="n">initializer</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="o">[</span><span class="n">ViewModelProvider</span><span class="p">.</span><span class="na">AndroidViewModelFactory</span><span class="p">.</span><span class="na">APPLICATION_KEY</span><span class="o">]</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">Application</span><span class="p">).</span><span class="na">baseContext</span>
-<span class="w">                </span><span class="kd">val</span><span class="w"> </span><span class="nv">savedStateHandle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createSavedStateHandle</span><span class="p">()</span>
 <span class="w">                </span><span class="n">ContactDetailsViewModel</span><span class="p">(</span>
 <span class="w">                    </span><span class="n">getContactDetails</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetContactDetailsUseCase</span><span class="p">(</span><span class="n">context</span><span class="p">),</span>
 <span class="w">                    </span><span class="n">makeCall</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MakeACallUseCase</span><span class="p">(</span><span class="n">context</span><span class="p">),</span>
-<span class="w">                    </span><span class="n">sendSMS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SendSMSUseCase</span><span class="p">(</span><span class="n">context</span><span class="p">),</span>
-<span class="w">                    </span><span class="n">savedStateHandle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">savedStateHandle</span>
+<span class="w">                    </span><span class="n">sendSMS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SendSMSUseCase</span><span class="p">(</span><span class="n">context</span><span class="p">)</span>
 <span class="w">                </span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">        </span><span class="p">}</span>
@@ -2445,6 +2441,7 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 <span class="nd">@ExperimentalFoundationApi</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">ContactDetailsScreen</span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
 <span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
 <span class="w">    </span><span class="n">onNavigateBack</span><span class="p">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
 <span class="w">    </span><span class="n">viewModel</span><span class="p">:</span><span class="w"> </span><span class="n">ContactDetailsViewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">viewModel</span><span class="p">(</span><span class="n">factory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContactDetailsViewModel</span><span class="p">.</span><span class="na">Factory</span><span class="p">)</span>
@@ -2452,6 +2449,10 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">state</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">viewModel</span><span class="p">.</span><span class="na">state</span><span class="p">.</span><span class="na">collectAsStateWithLifecycle</span><span class="p">()</span>
 
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">context</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LocalContext</span><span class="p">.</span><span class="na">current</span>
+
+<span class="w">    </span><span class="n">LaunchedEffect</span><span class="p">(</span><span class="n">key1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">viewModel</span><span class="p">.</span><span class="na">loadData</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
 
 <span class="w">    </span><span class="n">Scaffold</span><span class="p">(</span>
 <span class="w">        </span><span class="n">topBar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
@@ -2474,7 +2475,7 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 <span class="w">        </span><span class="p">}</span>
 <span class="w">    </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">padding</span><span class="w"> </span><span class="o">-&gt;</span>
 <span class="w">        </span><span class="n">Box</span><span class="p">(</span>
-<span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span>
+<span class="w">            </span><span class="n">modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modifier</span>
 <span class="w">                </span><span class="p">.</span><span class="na">fillMaxSize</span><span class="p">()</span>
 <span class="w">                </span><span class="p">.</span><span class="na">padding</span><span class="p">(</span><span class="n">padding</span><span class="p">),</span>
 <span class="w">            </span><span class="n">contentAlignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Alignment</span><span class="p">.</span><span class="na">Center</span>
@@ -2557,7 +2558,7 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
 <span class="nd">@Preview</span><span class="p">(</span><span class="n">showBackground</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">)</span>
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">ContactDetailsScreen_Preview</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">ContactDetailsScreen</span><span class="p">(</span><span class="n">onNavigateBack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">})</span>
+<span class="w">    </span><span class="n">ContactDetailsScreen</span><span class="p">(</span><span class="n">onNavigateBack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div><p></p>
 <p>Valósítsuk meg a navigációt a megszokott módon, és kezeljük a listaelemek érintését!  </p>
@@ -2575,8 +2576,8 @@ A `ui.util` package-ben hozzuk létre a `UiEvent` osztályt a felületi esemény
           </path>
         </svg>
       </span>
-      <span title="2025. november 20. 08:57:27">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. november 20. 08:57:27 CET"><span class="timeago" datetime="2025-11-20T08:57:27+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. november 20. 08:57:27 CET">2025-11-20</span>
+      <span title="2025. november 27. 16:33:58">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. november 27. 16:33:58 CET"><span class="timeago" datetime="2025-11-27T16:33:58+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. november 27. 16:33:58 CET">2025-11-27</span>
       </span>
     </span>
 

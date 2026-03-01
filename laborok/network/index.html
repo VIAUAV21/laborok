@@ -651,8 +651,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#a-retrofit-interfesz" class="md-nav__link">
-    A Retrofit interfész
+  <a href="#api-kulcs-es-a-retrofit-interfesz" class="md-nav__link">
+    API kulcs és a Retrofit interfész
   </a>
   
 </li>
@@ -900,8 +900,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#a-retrofit-interfesz" class="md-nav__link">
-    A Retrofit interfész
+  <a href="#api-kulcs-es-a-retrofit-interfesz" class="md-nav__link">
+    API kulcs és a Retrofit interfész
   </a>
   
 </li>
@@ -1148,12 +1148,65 @@ A Coil használatának előnyei:  </p>
 <p>A képet a megoldásban a repository-ba f1.png néven töltsd föl.</p>
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
-<h3 id="a-retrofit-interfesz">A Retrofit interfész<a class="headerlink" href="#a-retrofit-interfesz" title="Permanent link">¶</a></h3>
-<p>Az Unsplash API három végpontját fogjuk használni a képek, illetve egy adott kép lekérésére, valamint a keresés végrehajtására.
-Hozzuk létre a lenti interface-t a <code>data.remote.api</code> package-ben.</p>
+<h3 id="api-kulcs-es-a-retrofit-interfesz">API kulcs és a Retrofit interfész<a class="headerlink" href="#api-kulcs-es-a-retrofit-interfesz" title="Permanent link">¶</a></h3>
+<p>Az Unsplash API három végpontját fogjuk használni a képek, illetve egy adott kép lekérésére, valamint a keresés végrehajtására.</p>
+<p>Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/applications</a> oldalon regisztráció után egy új applikációt kell létrehozni, és azt megnyitva találhatjuk meg az API kulcsot, amit a projektbe fogunk integrálni.</p>
+<div class="admonition info">
+<p class="admonition-title">Secrets Gradle plugin</p>
+<p>Ha szimplán beégetjük a titkos kulcsot egy <code>String</code>-ként a forráskódba, akkor a kód egy verziókezelőbe való feltöltésekor kellemetlen helyzet állhat elő, hiszen publikus repository esetén bárki hozzáférhet. Ezt megelőzendő a kulcsot egy lokális fáljban tároljuk inkább el, ami nem kerül feltöltésre a verziókezelő tárhelyére. A kódban pedig erre csak hivatkozni fogunk. Ehhez használjuk fel a Secrets Gradle plugin-t.</p>
+</div>
+<p>Első körben vegyük fel a függőségeket a megfelelő fájlokban:</p>
+<p><code>libs.versions.toml</code>:
+</p><div class="highlight"><pre><span></span><code><span class="o">[</span><span class="n">versions</span><span class="o">]</span>
+<span class="p">...</span>
+<span class="n">secrets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"2.0.1"</span>
+
+<span class="o">[</span><span class="n">plugins</span><span class="o">]</span>
+<span class="p">...</span>
+<span class="n">secrets</span><span class="o">-</span><span class="n">gradle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"com.google.android.libraries.mapsplatform.secrets-gradle-plugin"</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="na">ref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"secrets"</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div><p></p>
+<p><code>build.gradle.kts (Project)</code>:
+</p><div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="n">alias</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">plugins</span><span class="p">.</span><span class="na">secrets</span><span class="p">.</span><span class="na">gradle</span><span class="p">)</span><span class="w"> </span><span class="n">apply</span><span class="w"> </span><span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div><p></p>
+<p><code>build.gradle.kts (Module)</code>:
+</p><div class="highlight"><pre><span></span><code><span class="n">plugins</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="n">alias</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">plugins</span><span class="p">.</span><span class="na">secrets</span><span class="p">.</span><span class="na">gradle</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><p></p>
+<p>Ugyanebben a fáljban engedélyezzük a buildConfig generálását is, valamint konfiguráljuk a secrets pugin-t, hogy az a <code>secrets.properties</code> fálj tartalmát olvassa:</p>
+<div class="highlight"><pre><span></span><code><span class="n">android</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="n">buildFeatures</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">...</span>
+<span class="w">        </span><span class="n">buildConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="w">    </span><span class="n">secrets</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">propertiesFileName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"secrets.properties"</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">BuildConfig osztály</p>
+<p>A BuildConfig egy automatikusan generált Java osztály, amit a Gradle hoz létre minden build folyamat során. Ezen keresztül érhetünk el bizonyos konstansokat a forráskódból, többek között <code>APPLICATION_ID</code>, <code>BUILD_TYPE</code>. Az implementáció megtalálható az <code>app-&gt;build-&gt;generated-&gt;source-&gt;buildConfig-&gt;debug</code> útvonalon az alkalmazásunk package-ében.</p>
+</div>
+<p>Ezt követően hozzuk is létre a local.properties fájl mellé a <code>secrets.properties</code> fájlt, melybe illesszük be a használni kívánt kulcs nevét és értékét a következő formában:</p>
+<div class="highlight"><pre><span></span><code><span class="n">UNSPLASH_API_KEY</span><span class="o">=</span><span class="s">"ide-jön-a-valódi-api-kulcs"</span>
+</code></pre></div>
+<p>Ezután már egy sikeres build folyamatot követően hivatkozhatunk a kulcsunkra a létrejött BuildConfig osztályon keresztül.</p>
+<div class="admonition danger">
+<p class="admonition-title">Kulcs visszafejtése APK-ból</p>
+<p>Fontos megjegyezni, hogy a Secrets Gradle plugin használatával csak azt akadályoztuk meg, hogy a titkos kulcsunk felkerüljön az általunk használt verziókezelőbe. Ettől még az alkalmazást tartalmazó APK-ban jelen lesz és könnyen visszafejthető (ellenőrizhetjük mi is az APK Analyzer segítségével).</p>
+</div>
+<p>Hozzuk létre a lenti interface-t a <code>data.remote.api</code> package-ben.</p>
 <p><code>UnsplashApi.kt</code>:
 </p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.remote.api</span>
 
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.BuildConfig</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.SearchResult</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhoto</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">retrofit2.Response</span>
@@ -1185,13 +1238,11 @@ Hozzuk létre a lenti interface-t a <code>data.remote.api</code> package-ben.</p
 <span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="n">Response</span><span class="o">&lt;</span><span class="n">SearchResult</span><span class="o">&gt;</span>
 
 <span class="w">    </span><span class="kd">companion</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="err">{</span>
-<span class="w">        </span><span class="kd">private</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">CLIENT_ID</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"ACCESS_KEY"</span>
+<span class="w">        </span><span class="kd">private</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">CLIENT_ID</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BuildConfig</span><span class="p">.</span><span class="na">UNSPLASH_API_KEY</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div><p></p>
-<p>A Retrofit annotációi segítségével egyszerűen tudjuk definiálni a kéréseinket.<br>
-Cseréljük le az itt szereplő <code>ACCESS_KEY</code> stringet az Unsplashen regisztráció után elérhető saját kulcsunkra.
-Az <a href="https://unsplash.com/oauth/applications">https://unsplash.com/oauth/applications</a> oldalon regisztráció után egy új applikációt kell létrehozni, és azt megnyitva találhatjuk meg a kulcsot.</p>
+<p>A Retrofit annotációi segítségével egyszerűen tudjuk definiálni a kéréseinket.  </p>
 <h3 id="pagingutil">PagingUtil<a class="headerlink" href="#pagingutil" title="Permanent link">¶</a></h3>
 <p>Hozzuk létre a <code>PagingUtil</code> osztályt az <code>util</code> package-ben a paging konfigurálására és placeholderek beállítására:</p>
 <p><code>PagingUtil.kt</code>:
@@ -2057,8 +2108,8 @@ Vegyük fel a <code>material3</code> könyvtár mintájára a <code>material3-wi
           </path>
         </svg>
       </span>
-      <span title="2025. november 16. 14:36:32">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. november 16. 14:36:32 CET"><span class="timeago" datetime="2025-11-16T14:36:32+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. november 16. 14:36:32 CET">2025-11-16</span>
+      <span title="2026. március 1. 12:02:27">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. március 1. 12:02:27 CET"><span class="timeago" datetime="2026-03-01T12:02:27+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. március 1. 12:02:27 CET">2026-03-01</span>
       </span>
     </span>
 

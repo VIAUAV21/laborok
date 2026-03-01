@@ -197,15 +197,83 @@ abstract class UnsplashDatabase : RoomDatabase() {
 
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
-### A Retrofit interfész
+### API kulcs és a Retrofit interfész
 
 Az Unsplash API három végpontját fogjuk használni a képek, illetve egy adott kép lekérésére, valamint a keresés végrehajtására.
+
+Az https://unsplash.com/oauth/applications oldalon regisztráció után egy új applikációt kell létrehozni, és azt megnyitva találhatjuk meg az API kulcsot, amit a projektbe fogunk integrálni.
+
+!!! info "Secrets Gradle plugin"
+
+    Ha szimplán beégetjük a titkos kulcsot egy `String`-ként a forráskódba, akkor a kód egy verziókezelőbe való feltöltésekor kellemetlen helyzet állhat elő, hiszen publikus repository esetén bárki hozzáférhet. Ezt megelőzendő a kulcsot egy lokális fáljban tároljuk inkább el, ami nem kerül feltöltésre a verziókezelő tárhelyére. A kódban pedig erre csak hivatkozni fogunk. Ehhez használjuk fel a Secrets Gradle plugin-t.
+
+Első körben vegyük fel a függőségeket a megfelelő fájlokban:
+
+`libs.versions.toml`:
+```kotlin
+[versions]
+...
+secrets = "2.0.1"
+
+[plugins]
+...
+secrets-gradle = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
+```
+
+`build.gradle.kts (Project)`:
+```kotlin
+plugins {
+    ...
+    alias(libs.plugins.secrets.gradle) apply false
+}
+```
+
+`build.gradle.kts (Module)`:
+```kotlin
+plugins {
+    ...
+    alias(libs.plugins.secrets.gradle)
+}
+```
+
+Ugyanebben a fáljban engedélyezzük a buildConfig generálását is, valamint konfiguráljuk a secrets pugin-t, hogy az a `secrets.properties` fálj tartalmát olvassa:
+
+```kotlin
+android {
+    ...
+    buildFeatures {
+        ...
+        buildConfig = true
+    }
+    ...
+    secrets {
+        propertiesFileName = "secrets.properties"
+    }
+}
+```
+
+!!! info "BuildConfig osztály"
+
+    A BuildConfig egy automatikusan generált Java osztály, amit a Gradle hoz létre minden build folyamat során. Ezen keresztül érhetünk el bizonyos konstansokat a forráskódból, többek között `APPLICATION_ID`, `BUILD_TYPE`. Az implementáció megtalálható az `app->build->generated->source->buildConfig->debug` útvonalon az alkalmazásunk package-ében.
+
+Ezt követően hozzuk is létre a local.properties fájl mellé a `secrets.properties` fájlt, melybe illesszük be a használni kívánt kulcs nevét és értékét a következő formában:
+
+```kotlin
+UNSPLASH_API_KEY="ide-jön-a-valódi-api-kulcs"
+```
+
+Ezután már egy sikeres build folyamatot követően hivatkozhatunk a kulcsunkra a létrejött BuildConfig osztályon keresztül.
+
+!!! danger "Kulcs visszafejtése APK-ból"
+    Fontos megjegyezni, hogy a Secrets Gradle plugin használatával csak azt akadályoztuk meg, hogy a titkos kulcsunk felkerüljön az általunk használt verziókezelőbe. Ettől még az alkalmazást tartalmazó APK-ban jelen lesz és könnyen visszafejthető (ellenőrizhetjük mi is az APK Analyzer segítségével).
+
 Hozzuk létre a lenti interface-t a `data.remote.api` package-ben.
 
 `UnsplashApi.kt`:
 ```kotlin
 package hu.bme.aut.android.network.data.remote.api
 
+import hu.bme.aut.android.network.BuildConfig
 import hu.bme.aut.android.network.data.model.SearchResult
 import hu.bme.aut.android.network.data.model.UnsplashPhoto
 import retrofit2.Response
@@ -237,14 +305,12 @@ interface UnsplashApi {
     ): Response<SearchResult>
 
     companion object {
-        private const val CLIENT_ID: String = "ACCESS_KEY"
+        private const val CLIENT_ID: String = BuildConfig.UNSPLASH_API_KEY
     }
 }
 ```
 
 A Retrofit annotációi segítségével egyszerűen tudjuk definiálni a kéréseinket.  
-Cseréljük le az itt szereplő `ACCESS_KEY` stringet az Unsplashen regisztráció után elérhető saját kulcsunkra.
-Az https://unsplash.com/oauth/applications oldalon regisztráció után egy új applikációt kell létrehozni, és azt megnyitva találhatjuk meg a kulcsot.
 
 ### PagingUtil
 

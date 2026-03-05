@@ -64,7 +64,7 @@ A *libs.version.toml* fájlba vegyük fel a következőket:
 ```groovy
 [versions]
 ...
-navigation = "2.8.8"
+navigation = "2.9.7"
 
 [libraries]
 ...

@@ -136,7 +136,9 @@ dependencies {
 A fenti függőségekhez 36-os SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű `build.gradle.kts` fájlunkban:
 
 ```gradle
-    compileSdk = 36
+    compileSdk {
+        version = release(36)
+    }
 ```
 
 
@@ -148,9 +150,9 @@ Vegyük fel a szükséges referenciákat a `libs.versions.toml` fájlba:
 
 ```gradle
 [versions]
-nav3Core = "1.0.0-alpha11"
-kotlinSerialization = "2.2.20"
-kotlinxSerializationCore = "1.9.0"
+nav3Core = "1.0.1"
+kotlinSerialization = "2.3.20"
+kotlinxSerializationCore = "1.10.0"
 ...
 
 [libraries]
@@ -211,6 +213,19 @@ Ezen belül készítsünk egy `NormalTextField` komponenst a következő tartalo
 
 ```kotlin
 package hu.bme.aut.android.composebasics.ui.common
+
+import androidx.compose.foundation.text.KeyboardActionScope
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ErrorOutline
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 
 @Composable
 fun NormalTextField(
@@ -330,6 +345,25 @@ A fentihez hasonlóan a `ui.common` package-be készítsünk egy újabb komponen
 ```kotlin
 package hu.bme.aut.android.composebasics.ui.common
 
+import androidx.compose.foundation.text.KeyboardActionScope
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ErrorOutline
+import androidx.compose.material.icons.rounded.Visibility
+import androidx.compose.material.icons.rounded.VisibilityOff
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
+
 @Composable
 fun PasswordTextField(
     modifier: Modifier = Modifier,
@@ -425,6 +459,37 @@ A képernyőknek és a hozzájuk kapcsolódó kódoknak hozzunk létre egy köz�
 
 ```kotlin
 package hu.bme.aut.android.composebasics.ui.screen.login
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Key
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.dp
+import hu.bme.aut.android.composebasics.R
+import hu.bme.aut.android.composebasics.ui.common.NormalTextField
+import hu.bme.aut.android.composebasics.ui.common.PasswordTextField
 
 @Composable
 fun LoginScreen(
@@ -546,6 +611,9 @@ Ehhez hozzunk létre egy `navigation` package-et, és ebbe kerüljön az alábbi
 ```kotlin
 package hu.bme.aut.android.composebasics.ui.navigation
 
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
+
 sealed interface Screen : NavKey {
     @Serializable
     data object LoginScreenDestination : Screen
@@ -565,6 +633,17 @@ Maga a főképernyő egy `screen.home` subpackage-be kerüljön. Először itt i
 
 ```kotlin
 package hu.bme.aut.android.composebasics.ui.screen.home.menu
+
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import androidx.navigation3.runtime.NavKey
+import hu.bme.aut.android.composebasics.R
+import hu.bme.aut.android.composebasics.ui.navigation.Screen
 
 enum class MenuItemUiModel(
     val text: @Composable () -> Unit,
@@ -592,6 +671,18 @@ A menüben szerepelnek profil és beállítás lehetőségek is, amelyekről kor
 
 ```kotlin
 package hu.bme.aut.android.composebasics.ui.screen.home.menu
+
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.dp
+import androidx.navigation3.runtime.NavKey
 
 @Composable
 fun Menu(
@@ -630,6 +721,39 @@ Most rátérhetünk a tényleges főképernyő létrehozására:
 ```kotlin
 package hu.bme.aut.android.composebasics.ui.screen.home
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Logout
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalResources
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.navigation3.runtime.NavKey
+import hu.bme.aut.android.composebasics.R
+import hu.bme.aut.android.composebasics.ui.screen.home.menu.Menu
+import hu.bme.aut.android.composebasics.ui.screen.home.menu.MenuItemUiModel
+import kotlinx.coroutines.launch
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -645,7 +769,7 @@ fun HomeScreen(
 
     val scope = rememberCoroutineScope()
 
-    val context = LocalContext.current
+    val resources = LocalResources.current
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -679,7 +803,7 @@ fun HomeScreen(
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 scope.launch {
-                    snackbarHostState.showSnackbar(message = context.getString(R.string.snackbar_message_this_is_a))
+                    snackbarHostState.showSnackbar(message = resources.getString(R.string.snackbar_message_this_is_a))
                 }
             }) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = null)
@@ -735,6 +859,19 @@ Most már csak össze kell kötnünk a meglévő képernyőket a navigációs sz
 
 ```kotlin
 package hu.bme.aut.android.composebasics.ui.navigation
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.ui.NavDisplay
+import hu.bme.aut.android.composebasics.ui.screen.home.HomeScreen
+import hu.bme.aut.android.composebasics.ui.screen.login.LoginScreen
 
 @Composable
 fun AppNavigation(modifier: Modifier = Modifier) {
@@ -798,6 +935,18 @@ Már csak a `MainActivity`-be kell bekötnünk a navigáció szerint feloldott f
 
 ```kotlin
 package hu.bme.aut.android.composebasics
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import hu.bme.aut.android.composebasics.ui.navigation.AppNavigation
+import hu.bme.aut.android.composebasics.ui.theme.ComposeBasicsTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

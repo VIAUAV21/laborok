@@ -78,15 +78,15 @@ A függőségeink a Version Catalogban (`libs.version.toml`):
 
 ```gradle
 [versions]
-agp = "8.12.3"
-kotlin = "2.2.20"
-coreKtx = "1.17.0"
+agp = "9.0.1"
+kotlin = "2.3.20"
+coreKtx = "1.18.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
-lifecycleRuntimeKtx = "2.9.4"
-activityCompose = "1.11.0"
-composeBom = "2025.10.00"
+lifecycleRuntimeKtx = "2.10.0"
+activityCompose = "1.13.0"
+composeBom = "2026.03.00"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

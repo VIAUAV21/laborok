@@ -48,14 +48,14 @@ Először frissítsük a verziószámokat a `libs.versions.toml` fájlban:
 ```toml
 [versions]
 agp = "8.12.3"
-coreKtx = "1.18.0"
+kotlin = "2.2.20"
+coreKtx = "1.17.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
-lifecycleRuntimeKtx = "2.10.0"
-activityCompose = "1.13.0"
-kotlin = "2.3.20"
-composeBom = "2026.03.01"
+lifecycleRuntimeKtx = "2.9.4"
+activityCompose = "1.11.0"
+composeBom = "2025.10.00"
 ```
 
 Utána vegyük fel a pluszban szükséges könyvtárakat és plugineket:
@@ -64,10 +64,10 @@ Utána vegyük fel a pluszban szükséges könyvtárakat és plugineket:
 [versions]
 ...
 kotlinxDatetime = "0.7.1"
-viewModel = "2.10.0"
-nav3Core = "1.0.1"
-kotlinSerialization = "2.3.20"
-kotlinxSerializationCore = "1.10.0"
+viewModel = "2.9.4"
+nav3Core = "1.0.0-alpha11"
+kotlinSerialization = "2.2.20"
+kotlinxSerializationCore = "1.9.0"
 
 [libraries]
 ...

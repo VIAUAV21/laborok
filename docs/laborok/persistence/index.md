@@ -85,7 +85,7 @@ Az első lépés, hogy a *Room*-ot mint függőséget vegyük fel a projektünkb
 [versions]
 ...
 ksp = "2.2.10-2.0.2"
-room = "2.8.3"
+room = "2.8.4"
 
 [libraries]
 ...
@@ -647,7 +647,9 @@ Most már kipróbálható az alkalmazás, és a létrehozott teendők tényleges
 
 ## Önálló feladat 1
 
-Valósítsd meg az összes tennivaló törlését, pl. az AppBaron elhelyezett gombbal! A laboron látott architektúrához hasonlóan rétegről-rétegre valósítsd meg a szükséges funkciókat.
+Ha az egyes todo listaelemek jobb oldalán lévő törlés gombra kattintunk, látható, hogy nem fog történni semmi. Ez azért van, mert még be kell kötnünk a labor során implementált műveletek közül a megfelelőt a gomb eseméynkezelőjébe. Tegyük ezt meg, hogy működjön az egyes elemek törlése az adatbázisból. Mi miatt lehetséges az, hogy a lista azonnal frissül a gombnyomás hatására?
+
+Ezenkívül valósítsd meg az összes tennivaló törlését, pl. az AppBaron elhelyezett gombbal! A laboron látott architektúrához hasonlóan rétegről-rétegre valósítsd meg a szükséges funkciókat.
 
 !!!example "BEADANDÓ (1 pont)" 
 	Készíts egy **képernyőképet**, amelyen látszik a **futó alkalmazásban a mindent töröl funkció**,

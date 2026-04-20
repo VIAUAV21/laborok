@@ -1153,7 +1153,7 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>IAuthRepository</code>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">android.app.Application</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.google.firebase.auth.FirebaseAuth</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.auth.FirebaseAuthService</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.auth.FirebaseAuthRepository</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.auth.IAuthRepository</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.todo.ITodoRepository</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.repository.todo.MemoryTodoRepository</span>
@@ -1166,7 +1166,7 @@ Nézzük át, hogyan tudtuk az általunk definiált <code>IAuthRepository</code>
 
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">()</span>
-<span class="w">        </span><span class="n">authRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FirebaseAuthService</span><span class="p">(</span><span class="n">FirebaseAuth</span><span class="p">.</span><span class="na">getInstance</span><span class="p">())</span>
+<span class="w">        </span><span class="n">authRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FirebaseAuthRepository</span><span class="p">(</span><span class="n">FirebaseAuth</span><span class="p">.</span><span class="na">getInstance</span><span class="p">())</span>
 <span class="w">        </span><span class="n">todoRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MemoryTodoRepository</span><span class="p">()</span>
 <span class="w">    </span><span class="p">}</span>
 
@@ -1505,8 +1505,8 @@ ugyanezen menüpont alatt lesznek elérhetők.</p>
           </path>
         </svg>
       </span>
-      <span title="2025. november 12. 15:24:48">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. november 12. 15:24:48 CET"><span class="timeago" datetime="2025-11-12T15:24:48+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. november 12. 15:24:48 CET">2025-11-12</span>
+      <span title="2026. április 20. 21:06:03">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. április 20. 21:06:03 CEST"><span class="timeago" datetime="2026-04-20T21:06:03+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. április 20. 21:06:03 CEST">2026-04-20</span>
       </span>
     </span>
 

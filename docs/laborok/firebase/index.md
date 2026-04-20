@@ -273,7 +273,7 @@ package hu.bme.aut.android.todo
 
 import android.app.Application
 import com.google.firebase.auth.FirebaseAuth
-import hu.bme.aut.android.todo.data.repository.auth.FirebaseAuthService
+import hu.bme.aut.android.todo.data.repository.auth.FirebaseAuthRepository
 import hu.bme.aut.android.todo.data.repository.auth.IAuthRepository
 import hu.bme.aut.android.todo.data.repository.todo.ITodoRepository
 import hu.bme.aut.android.todo.data.repository.todo.MemoryTodoRepository
@@ -286,7 +286,7 @@ class TodoApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        authRepository = FirebaseAuthService(FirebaseAuth.getInstance())
+        authRepository = FirebaseAuthRepository(FirebaseAuth.getInstance())
         todoRepository = MemoryTodoRepository()
     }
 

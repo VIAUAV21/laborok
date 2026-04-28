@@ -40,7 +40,7 @@ Először a `libs.versions.toml` fájlunkba vegyük fel az új függőségekhez 
 
 ```
 [versions]
-hilt = "2.57.2"
+hilt = "2.59.2"
 hilt-lifecycle-viewmodel-compose = "1.3.0"
 
 [libraries]
@@ -569,9 +569,9 @@ Először fel kell vennünk a teszteléshez használandó függőségeket a proj
 
 ```
 [versions]
-mockitoCore = "5.20.0"
+mockitoCore = "5.23.0"
 mockitoInline = "5.2.0"
-mockitoKotlin = "6.1.0"
+mockitoKotlin = "6.3.0"
 
 [libraries]
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
@@ -658,8 +658,8 @@ Először itt is a függőségek felvételével kezdünk, a `libs.versions.toml`
 
 ```
 [versions]
-hiltAndroidTesting = "2.57.2"
-hiltAndroidCompiler = "2.57.2"
+hiltAndroidTesting = "2.59.2"
+hiltAndroidCompiler = "2.59.2"
 
 [libraries]
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTesting" }

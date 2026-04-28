@@ -964,7 +964,7 @@
 <p>Többféle függőséginjektáló keretrendszer létezik Androidon, és az Android platformon kívül is, ezek némileg más elveken működnek. A Dagger a legjobb teljesítmény érdekében úgy működik, hogy nem futás közben oldja fel a függőségeket, hanem a fordítási folyamatba avatkozik bele, és már aközben feltérképezi a függőségi viszonyok jelölésére alkalmazott annotációkat. Ezért a projekt inicializálásának részeként szükséges felvennünk egy gradle plugint is a folyamatba.</p>
 <p>Először a <code>libs.versions.toml</code> fájlunkba vegyük fel az új függőségekhez kapcsolódó bejegyzéseket:</p>
 <div class="highlight"><pre><span></span><code>[versions]
-hilt = "2.57.2"
+hilt = "2.59.2"
 hilt-lifecycle-viewmodel-compose = "1.3.0"
 
 [libraries]
@@ -1419,9 +1419,9 @@ A <code>TodoDetailViewModel</code> hasonlóan változik:<p></p>
 <p>Az alkalmazásban nincsenek túl bonyolult üzleti logika részek, de a tesztelés technikáját jól meg tudjuk figyelni. Most a <code>RoomTodoRepository</code> osztályt fogjuk tesztelni. Konvenció szerint osztályokhoz készítünk tesztosztályokat, és a tesztosztályokban minden tesztelt metódus egy lehetséges lefutásához készítünk egy tesztmetódust. A tesztosztályokat a tesztelt osztályokkal azonos package-be tesszük, és nevükben a <code>Test</code> utótagot használjuk.</p>
 <p>Először fel kell vennünk a teszteléshez használandó függőségeket a projektbe! A tesztelés alapvető fontosságú feladat, ezért az Android Studio új projektnél a legfontosabb függőségeket beleteszi a projektvázba, így a kiinduló projektben is már benne vannak a legfontosabb függőségek. Fogunk viszont mockokat is használni, és ehhez még fel kell vennünk a népszerű Mockito könyvtárat. A lokális tesztekhez a <code>testImplementation</code> scope-ot kell használnunk. Vegyük fel az alábbi függőségeket, először a <code>libs.versions.toml</code> fájllal kezdve:</p>
 <div class="highlight"><pre><span></span><code>[versions]
-mockitoCore = "5.20.0"
+mockitoCore = "5.23.0"
 mockitoInline = "5.2.0"
-mockitoKotlin = "6.1.0"
+mockitoKotlin = "6.3.0"
 
 [libraries]
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
@@ -1492,8 +1492,8 @@ mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "
 <p>Az instrumentált teszteket az <code>androidTest</code> könyvtárban lehet létrehozni. Mivel ezek nagyobb léptékű tesztek is lehetnek, nem feltétlen tartoznak logikailag egy komponenshez. Amennyiben azonban odatartoznak, javasolt ezeket is azonos package-be tenni és a lokális tesztekéhez hasonló elnevezési konvenció szerint elnevezni.</p>
 <p>Először itt is a függőségek felvételével kezdünk, a <code>libs.versions.toml</code> fájllal. Az alapvető függőségek az instrumentált tesztekhez is bekerültek már a projektvázba, de mivel Hiltet használunk, a függőséginjektálásnak az instrumentált tesztekben is működniük kell:</p>
 <div class="highlight"><pre><span></span><code>[versions]
-hiltAndroidTesting = "2.57.2"
-hiltAndroidCompiler = "2.57.2"
+hiltAndroidTesting = "2.59.2"
+hiltAndroidCompiler = "2.59.2"
 
 [libraries]
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTesting" }
@@ -1594,8 +1594,8 @@ hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", ve
           </path>
         </svg>
       </span>
-      <span title="2025. november 10. 13:51:33">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. november 10. 13:51:33 CET"><span class="timeago" datetime="2025-11-10T13:51:33+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. november 10. 13:51:33 CET">2025-11-10</span>
+      <span title="2026. április 28. 09:06:46">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. április 28. 09:06:46 CEST"><span class="timeago" datetime="2026-04-28T09:06:46+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. április 28. 09:06:46 CEST">2026-04-28</span>
       </span>
     </span>
 

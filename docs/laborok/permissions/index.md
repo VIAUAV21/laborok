@@ -44,18 +44,18 @@ Vegyük fel az alábbi függőségeket a `libs.versions.toml` fájlunkba, illetv
 
 ```kotlin
 [versions]
-agp = "8.12.3"
-kotlin = "2.2.21"
-coreKtx = "1.17.0"
+agp = "9.0.1"
+kotlin = "2.3.21"
+coreKtx = "1.18.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.10.0"
-activityCompose = "1.12.0"
-composeBom = "2025.11.01"
-nav3Core = "1.0.0"
-kotlinSerialization = "2.2.21"
-kotlinxSerializationCore = "1.9.0"
+activityCompose = "1.13.0"
+composeBom = "2026.05.00"
+nav3Core = "1.1.1"
+kotlinSerialization = "2.3.21"
+kotlinxSerializationCore = "1.11.0"
 coil = "2.7.0"
 accompanist = "0.37.3"
 
@@ -128,11 +128,20 @@ dependencies {
 
 A projekt szintű build.gradle.kts fájlban is kapcsoljuk ki a megfelelő plugint:
 
-- _Modul_ szintű `build.gradle`:
+- _Projekt_ szintű `build.gradle`:
 ```gradle
 plugins {
     ...
     alias(libs.plugins.jetbrains.kotlin.serialization) apply false
+}
+```
+
+A modulszintűben pedig engedélyezzük:
+
+```gradle
+plugins {
+    ...
+    alias(libs.plugins.jetbrains.kotlin.serialization)
 }
 ```
 
@@ -1429,7 +1438,7 @@ Egészítsük ki a `ContactOperations` osztályunkat az alábbiakkal:
     }
 ```
     
-A `feature.contact_details` package-ben hozzuk létre a hozzá tartozó ViewModel osztályt:
+A `screen.contact_details` package-ben hozzuk létre a hozzá tartozó ViewModel osztályt:
 
 `ContactDetailsViewModel.kt`:
 ```kotlin

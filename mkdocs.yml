@@ -101,3 +101,6 @@ nav:
       - laborok/timetable/index.md
   - "Házi feladat":
       - hf/index.md
+  - "Demo laborok":
+    - demo/about/index.md
+    - demo/ide/index.md

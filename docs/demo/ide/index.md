@@ -1,6 +1,6 @@
 # Android Studio alapok és hasznos tippek
 
-A jegyzet célja, hogy bemutassa az Android Studio fejlesztőkörnyezetet, az alkalmazásfordítás folyamatát, az alkalmazás felügyeletét, valamint az emulátor és a fejlesztőkörnyezet funkcióit. Ismertetjük egy Hello World projekt létrehozásának módját és a debugoláshoz használható fontosabb eszközöket.
+A jegyzet célja, hogy bemutassa az Android Studio fejlesztőkörnyezetet, az alkalmazásfordítás folyamatát, az alkalmazás felügyeletét, valamint az emulátor és a fejlesztőkörnyezet funkcióit. Ismertetjük a fejlesztéshez és debugoláshoz használható fontosabb eszközöket, továbbá hasznos tippeket adunk a fejlesztés hatékonyabbá tételére.
 
 **A jegyzet az alábbi témákat érinti:**
 
@@ -103,6 +103,8 @@ Most, hogy tisztában vagyunk a projekt szerkezetével, a fordítás menetével 
 Android fejlesztésre a labor során a JetBrains IntelliJ alapjain nyugvó Android Studio-t fogjuk használni.
 
 ![](assets/studio.png)
+
+Az IDE feltérképezéséhez hozzunk létre egy kezdőprojektet a `New Project -> Empty Activity` opciókat választva. A következő oldalon látjuk, hogy meg kell adni a projekt nevét, csomagnevét, mentési helyét, minimum SDK-t és a build konfigurációs nyelvet. Jelenleg hagyjuk minden mező értékét az alapértelmezetten, a laborok során majd lesz lehetőségünk megismerni ezeknek a jelentőségét.
 
 ### Fő panelek
 

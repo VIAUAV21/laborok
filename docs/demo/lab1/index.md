@@ -427,3 +427,9 @@ A beadásban írd le milyen fájl(oka)t módosítottál és hogyan, esetleg mit 
 Nézz utána, hogyan tudod megváltoztatni az alapból beállított lila színt az alkalmazásban és változtasd meg olyanra, amilyen tetszik! Pl. mint ebben a laborleírásban a képeken. Mit kellett ehhez megváltoztatni?
 
 Hogyan reagál az app, ha az emulátorban átváltasz sötét témára? Most is jól néz ki a beállított színekkel? Ha nem, akkor mit kellene megváltoztatni?
+
+### 5. Egyedi app ikon
+
+Állíts be az appnak egyedi ikont! Ezt legkönnyebben a *Resource Manager* menüben tudod megtenni a **+** jelet és az **Image Asset** opciót választva. Fedezd fel a rendelkezésre álló lehetőségeket és állíts be neked tetsző ikont az apphoz!
+
+Mely fájl (vagy fájlok) módosult(ak) az ikon lecserélése által és a projekten belül hol?

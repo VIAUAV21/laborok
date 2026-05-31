@@ -411,6 +411,8 @@ A beadásban írd le röviden, milyen lépéseket végeztél el a funkció imple
 !!! info "Segítség"
     A dialógusablak bármilyen meglepő, szintén egy külön Activity lesz, melynek az `AndroidManifest.xml` fájlban a megfelelő helyen be kell állítanod, hogy dialógusablak formában jelenjen meg: `android:theme="@style/Theme.AppCompat.DayNight.Dialog"`
 
+    Nézz utána, hogyan tudsz egy Activity-t egyszerűen elindítani! (A laboron speciális módon egy eredményre vártunk az elindított Activity-ből, itt ez nem szükséges.)
+
 ### 3. TopBar bevezetése
 
 Furcsán hat egy kicsit, hogy bár szépen jobbra van igazítva, mégsem ez a megszokott módja Android alkalmazásokban egy app névjegy gomb megjelenítésének. Adj hozzá a főképernyőhöz egy TopBar-t, és a 'Névjegy' gombot cseréld le egy kis 'i' betűt tartalmazó gombra, melyre kattintva az történik, amit az előző feladatban beállítottál!

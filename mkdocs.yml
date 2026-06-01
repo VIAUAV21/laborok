@@ -104,4 +104,5 @@ nav:
   - "Demo laborok":
     - demo/about/index.md
     - demo/ide/index.md
-    - demo/lab1/index.md
+    - demo/lab01/index.md
+    - demo/lab02/index.md

@@ -33,8 +33,6 @@ A feladatok megoldása során ne felejtsd el követni a [feladat beadás folyama
 
 1. Hozz létre egy új ágat `megoldas` néven, és ezen az ágon dolgozz!
 
-1. A `neptun.txt` fájlba írd bele a Neptun kódodat! A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere!
-
 
 ### Markdown fájl megnyitása
 

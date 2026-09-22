@@ -19,9 +19,9 @@ Ezen a laboralkalmon belevágunk egy költségkezelő alkalmazás fejlesztéséb
 A labor végére lesz egy kezdetleges appunk, amelyben rögzíthetjük a kiadásainkat, és láthatjuk azoknak az összegét. Továbbá felsorolásszerűen megjelenítjük az egyes tételeket is a képernyőn. A következő laboron majd ezt fejlesztjük tovább.
 
 <div style="display: flex; align-items: center;">
-  <img src="./assets/s1.png" alt="Project kép" width="30%">
-  <img src="./assets/s2.png" alt="Android kép" width="30%">
-  <img src="./assets/s3.png" alt="Android kép" width="30%">
+  <img src="./assets/s1.png" alt="Project kép" width="90%">
+  <img src="./assets/s2.png" alt="Android kép" width="90%">
+  <img src="./assets/s3.png" alt="Android kép" width="90%">
 </div>
 
 ## A kezdeti koncepció
@@ -400,7 +400,7 @@ Ha most build-eljük és futtatjuk az alkalmazást az emulátoron, akkor működ
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
 
-### 'Névjegy' funkció
+## 'Névjegy' funkció
 
 Ahhoz, hogy teljes legyen az alkalmazásunk jelenlegi funkcionalitása, készítsük el a 'Névjegy' gomb eseménykezelőjét! A gomb megnyomásakor a harmadik képen látható dialógusablakot kell megjeleníteni, amely a fejlesztő NEPTUN kódját tartalmazza!
 

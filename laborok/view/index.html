@@ -8,6 +8,10 @@
       
       
       
+        <link rel="prev" href="../basics/">
+      
+      
+        <link rel="next" href="../calculator/">
       
       
       <link rel="icon" href="../../favicon.ico">
@@ -239,11 +243,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../laborok/basics/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../basics/" class="md-tabs__link">
           
   
   Laborok
@@ -470,23 +476,28 @@
       
   
   
+    
   
   
+  
     
     
     
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked="">
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -497,7 +508,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Laborok
@@ -511,7 +522,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../laborok/basics/" class="md-nav__link">
+      <a href="../basics/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -529,10 +540,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../laborok/view/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Labor02 - XML alapok, több Activity
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -541,6 +572,179 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tartalomjegyzék">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tartalomjegyzék
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#a-labor-celkituzese" class="md-nav__link">
+    <span class="md-ellipsis">
+      A labor célkitűzése
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-kezdeti-koncepcio" class="md-nav__link">
+    <span class="md-ellipsis">
+      A kezdeti koncepció
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-megvalositas" class="md-nav__link">
+    <span class="md-ellipsis">
+      A megvalósítás
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-projekt-letrehozasa" class="md-nav__link">
+    <span class="md-ellipsis">
+      A projekt létrehozása
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fokepernyo-feluletenek-kialakitasa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Főképernyő felületének kialakítása
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-ui-elemek-programozasa-viewbinding-bevezetese" class="md-nav__link">
+    <span class="md-ellipsis">
+      A UI elemek programozása, ViewBinding bevezetése
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="A UI elemek programozása, ViewBinding bevezetése">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lepesek-a-viewbinding-engedelyezesehez" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lépések a ViewBinding engedélyezéséhez
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiadasok-rogzitese" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kiadások rögzítése
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Kiadások rögzítése">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#navigacio-es-adataramlas-az-activity-k-kozott" class="md-nav__link">
+    <span class="md-ellipsis">
+      Navigáció és adatáramlás az Activity-k között
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#onallo-feladatok" class="md-nav__link">
+    <span class="md-ellipsis">
+      Önálló feladatok
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Önálló feladatok">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-mukodjon-a-megse-gomb" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Működjön a 'Mégse' gomb
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-mukodjon-a-nevjegy-gomb" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Működjön a 'Névjegy' gomb
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-topbar-bevezetese" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. TopBar bevezetése
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-alap-app-szin-lecserelese" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Alap app szín lecserélése
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-egyedi-app-ikon" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Egyedi app ikon
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -553,7 +757,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../laborok/calculator/" class="md-nav__link">
+      <a href="../calculator/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -574,7 +778,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../laborok/compose/" class="md-nav__link">
+      <a href="../compose/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -595,7 +799,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../laborok/todo/" class="md-nav__link">
+      <a href="../todo/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -616,7 +820,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../laborok/persistence/" class="md-nav__link">
+      <a href="../persistence/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -637,7 +841,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../laborok/firebase/" class="md-nav__link">
+      <a href="../firebase/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -658,7 +862,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../laborok/di/" class="md-nav__link">
+      <a href="../di/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -679,7 +883,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../laborok/network/" class="md-nav__link">
+      <a href="../network/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -700,7 +904,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../laborok/alarm/" class="md-nav__link">
+      <a href="../alarm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -721,7 +925,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../laborok/permissions/" class="md-nav__link">
+      <a href="../permissions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -742,7 +946,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../laborok/timetable/" class="md-nav__link">
+      <a href="../timetable/" class="md-nav__link">
         
   
   <span class="md-ellipsis">

@@ -1,4 +1,4 @@
-# Labor02 - XML alapok, több Activity
+# Labor02 - View alapok, több Activity
 
 A különböző bankok alkalmazásaiban lehetőségünk van havi bontásban megtekinteni az aktuális kiadásainkat, bevételeinket, illetve azoknak összegét. Sőt, a kiadásaink még kategóriákba is rendezhetőek, így viszonylag tiszta képet kapunk arról, mire is költöttük a pénzünket az elmúlt időszakban. Innentől fogva könnyen meghatározhatjuk azt is, mi az, amire túl sokat költünk, így több szempontból is hasznot húzhatunk az alkalamazásból. 
 
@@ -19,9 +19,9 @@ Ezen a laboralkalmon belevágunk egy költségkezelő alkalmazás fejlesztéséb
 A labor végére lesz egy kezdetleges appunk, amelyben rögzíthetjük a kiadásainkat, és láthatjuk azoknak az összegét. Továbbá felsorolásszerűen megjelenítjük az egyes tételeket is a képernyőn. A következő laboron majd ezt fejlesztjük tovább.
 
 <div style="display: flex; align-items: center;">
-  <img src="./assets/s1.png" alt="Project kép" width="90%">
-  <img src="./assets/s2.png" alt="Android kép" width="90%">
-  <img src="./assets/s3.png" alt="Android kép" width="90%">
+  <img src="./assets/s1.png" alt="Project kép" width="30%">
+  <img src="./assets/s2.png" alt="Android kép" width="30%">
+  <img src="./assets/s3.png" alt="Android kép" width="30%">
 </div>
 
 ## A kezdeti koncepció
@@ -391,26 +391,50 @@ Nézzük át ezt a kódot is részletesen a laborvezetővel, értelmezzük az eg
 
 Ha most build-eljük és futtatjuk az alkalmazást az emulátoron, akkor működni fog az elkészített funkció, vagyis az új kiadások felvehetők, az összeg növekszik, a lista pedig bővül a felvett elemekkel. Akad viszont még pár nem működő gomb, és a Névjegy megjelenítése is hiányzik.
 
-## Önálló feladatok
 
-Minden feladathoz készíts egy képernyőképet a releváns kódrészletről (f1.png, f2.png, stb...), és a repohoz tartozó README.md fájlba illeszd be őket, a feladatokhoz tartozó indoklást pedig alájuk írd le röviden, ha kéri a feladat.
+!!!example "BEADANDÓ (2 pont)" 
+	Készíts egy **képernyőképet**, amin látszódik **a `MainActivity` néhány bejegyzéssel** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), egy **ahhoz tartozó kódrészlet ,** valamint a **neptun kódod a kódban valahol kommentként**.
 
-### 1. Működjön a 'Mégse' gomb
+	A képet a megoldásban a repository-ba f1.png néven töltsd föl.
 
-Írd meg az `AddExpeseActivity`-n található 'Mégse' gomb eseménykezelőjét, amely annyit tesz, hogy adatok átadása nélkül visszajuttat a főképernyőre. Törekedj a minél egyszerűbb és ésszerűbb megoldásra! A beadásban indokold meg röviden, hogy miért célnak megfelelő az implementációd!
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
 
-### 2. Működjön a 'Névjegy' gomb
 
-Írd meg a 'Névjegy' gomb eseménykezelőjét! A gomb megnyomásakor a harmadik képen látható dialógusablak jelenjen meg, amely mindenképpen tartalmazza a NEPTUN kódodat! (Ne feledkezz meg a stringek helyéről a projektben!)
+### 'Névjegy' funkció
 
-A beadásban írd le röviden, milyen lépéseket végeztél el a funkció implementálásához!
+Ahhoz, hogy teljes legyen az alkalmazásunk jelenlegi funkcionalitása, készítsük el a 'Névjegy' gomb eseménykezelőjét! A gomb megnyomásakor a harmadik képen látható dialógusablakot kell megjeleníteni, amely a fejlesztő NEPTUN kódját tartalmazza!
 
 !!! info "Segítség"
     A dialógusablak bármilyen meglepő, szintén egy külön Activity lesz, melynek az `AndroidManifest.xml` fájlban a megfelelő helyen be kell állítanod, hogy dialógusablak formában jelenjen meg: `android:theme="@style/Theme.AppCompat.DayNight.Dialog"`
 
-    Nézz utána, hogyan tudsz egy Activity-t egyszerűen elindítani! (A laboron speciális módon egy eredményre vártunk az elindított Activity-ből, itt ez nem szükséges.)
+Itt könnyebb dolgunk lesz az Activity elindításánál, mivel a korábbiakkal ellentétben nem szeretnénk eredményt visszakapni.
 
-### 3. TopBar bevezetése
+!!!example "BEADANDÓ (1 pont)" 
+	Készíts egy **képernyőképet**, amin látszódik **a `dialógus ablak a neptun kódoddal** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), egy **ahhoz tartozó kódrészlet.**
+
+	A képet a megoldásban a repository-ba f2.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
+
+
+## Önálló feladatok
+
+A következő feladatok mindegyike 1 pontot ér, vagyis nem szükséges mindegyik teljesítése a maximális pontszámhoz. Ettől függetlenül gyakorlásnak mindenképpen ajánljuk ezek elkészítését.
+
+
+### 1. Működjön a 'Mégse' gomb
+
+Írd meg az `AddExpeseActivity`-n található 'Mégse' gomb eseménykezelőjét, amely annyit tesz, hogy adatok átadása nélkül visszajuttat a főképernyőre. Törekedj a minél egyszerűbb és ésszerűbb megoldásra! A kódban kommentben indokold meg röviden, hogy miért célnak megfelelő az implementációd!
+
+
+!!!example "BEADANDÓ (1 pont)" 
+	Készíts  a **mégse gombhoz tartozó kódrészlet, a magyarázat** valamint a **neptun kódod a kódban valahol kommentként**.
+
+	A képet a megoldásban a repository-ba f3.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
+
+### 2. TopBar bevezetése
 
 Furcsán hat egy kicsit, hogy bár szépen jobbra van igazítva, mégsem ez a megszokott módja Android alkalmazásokban egy app névjegy gomb megjelenítésének. Adj hozzá a főképernyőhöz egy TopBar-t, és a 'Névjegy' gombot cseréld le egy kis 'i' betűt tartalmazó gombra, melyre kattintva az történik, amit az előző feladatban beállítottál!
 
@@ -421,14 +445,36 @@ A beadásban írd le milyen fájl(oka)t módosítottál és hogyan, esetleg mit 
 !!! info "Segítség"
     A feladat megoldásához a [MaterialToolbar](https://developer.android.com/reference/com/google/android/material/appbar/MaterialToolbar) és az [ImageButton](https://developer.android.com/reference/android/widget/ImageButton) komponenseket használhatod például.
 
-### 4. Alap app szín lecserélése
+!!!example "BEADANDÓ (1 pont)" 
+	Készíts egy **képernyőképet**, amin látszódik **a `MainActivity` néhány bejegyzéssel** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), a **TopBar-hoz tartozó kódrészlet ,** valamint a **neptun kódod a kódban valahol kommentként**.
+
+	A képet a megoldásban a repository-ba f4.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
+
+### 3. Alap app szín lecserélése
 
 Nézz utána, hogyan tudod megváltoztatni az alapból beállított lila színt az alkalmazásban és változtasd meg olyanra, amilyen tetszik! Pl. mint ebben a laborleírásban a képeken. Mit kellett ehhez megváltoztatni?
 
 Hogyan reagál az app, ha az emulátorban átváltasz sötét témára? Most is jól néz ki a beállított színekkel? Ha nem, akkor mit kellene megváltoztatni?
 
-### 5. Egyedi app ikon
+!!!example "BEADANDÓ (1 pont)" 
+	Készíts egy **képernyőképet**, amin látszódik **a `MainActivity` a saját színvilágoddal** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), az **ahhoz tartozó kódrészlet ,** valamint a **neptun kódod a kódban valahol kommentként**.
+
+	A képet a megoldásban a repository-ba f5.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.
+
+### 4. Egyedi app ikon
 
 Állíts be az appnak egyedi ikont! Ezt legkönnyebben a *Resource Manager* menüben tudod megtenni a **+** jelet és az **Image Asset** opciót választva. Fedezd fel a rendelkezésre álló lehetőségeket és állíts be neked tetsző ikont az apphoz!
 
 Mely fájl (vagy fájlok) módosult(ak) az ikon lecserélése által és a projekten belül hol?
+
+
+!!!example "BEADANDÓ (1 pont)" 
+	Készíts egy **képernyőképet**, amin látszódik **az alkalmazás ikonja** (emulátoron, készüléket tükrözve vagy képernyőfelvétellel), **annak helye a projektben,** valamint a **neptun kódod a kódban valahol kommentként**.
+
+	A képet a megoldásban a repository-ba f6.png néven töltsd föl.
+
+	A képernyőkép szükséges feltétele a pontszám megszerzésének.

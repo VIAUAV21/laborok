@@ -1,0 +1,2155 @@
+<!DOCTYPE html><html lang="hu" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Ekler Péter, Gazdi László, Kövesdán Gábor, Pásztor Dániel, Pomázi Krisztián, Tóth Tibor">
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>Labor03 - Fragmentek és RecyclerView - BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../extra-material-theme.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="aut" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#labor03-fragmentek-es-recyclerview" class="md-skip">
+          Kihagyás
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Élőfej">
+    <a href="../.." title="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" class="md-header__button md-logo" aria-label="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" data-md-component="logo">
+      
+  <img src="../../logo-bme-aut.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Labor03 - Fragmentek és RecyclerView
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="aut" data-md-color-primary="red" data-md-color-accent="red" aria-label="Váltás sötét témára" type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Váltás sötét témára" for="__palette_1" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5"></path></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="indigo" aria-label="Váltás világos témára" type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Váltás világos témára" for="__palette_0" hidden="">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9z"></path></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Keresés" placeholder="Keresés" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Keresés">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Törlés" aria-label="Törlés" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Keresés inicializálása
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/viauav21/laborok" title="Főoldalra ugrás" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    viauav21/laborok
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Lapok" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  Tudnivalók
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../basics/" class="md-tabs__link">
+          
+  
+  Laborok
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../hf/" class="md-tabs__link">
+          
+  
+  Házi feladat
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigáció" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" class="md-nav__button md-logo" aria-label="BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok" data-md-component="logo">
+      
+  <img src="../../logo-bme-aut.png" alt="logo">
+
+    </a>
+    BMEVIAUAV21 - Androidalapú szoftverfejlesztés laborfeladatok
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/viauav21/laborok" title="Főoldalra ugrás" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    viauav21/laborok
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1">
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Tudnivalók
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Tudnivalók
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tárgy ismertető
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tudnivalok/github/GitHub/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Feladatok beadása (GitHub)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tudnivalok/github/GitHub-Actions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GitHub Actions ismertető
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tudnivalok/github/GitHub-credentials/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Egyetemi laborokban: GitHub belépés
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tudnivalok/github/contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hozzájárulás az anyaghoz
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Laborok
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Laborok
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Labor 01 - Alapok (HighLowGame)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../view/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Labor02 - View alapok, több Activity
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../calculator/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Labor03 - Számológép (Calculator)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../compose/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Labor04 - Felhasználói felületek készítése a Jetpack Compose segítségével (ComposeBasics)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../todo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Labor05 - Todo Alkalmazás
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../persistence/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Labor06 - Perzisztens adattárolás a Room könyvtárral
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../firebase/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Labor07 - Firebase
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../di/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Labor08 - Függőséginjektálás a Dagger és a Hilt segítségével, tesztelés (Todo)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Labor09 - Network és Paging (Unsplash)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../alarm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Labor10 - Időzítés és értesítések (Alarm)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../permissions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Labor11 - Futásidejű engedélyek (Contacts)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../timetable/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    LaborExtra - Órarend
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Házi feladat
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Házi feladat
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../hf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Házi feladat információk
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tartalomjegyzék">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tartalomjegyzék
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#a-labor-celkituzese" class="md-nav__link">
+    <span class="md-ellipsis">
+      A labor célkitűzése
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-kezdeti-koncepcio" class="md-nav__link">
+    <span class="md-ellipsis">
+      A kezdeti koncepció
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-megvalositas" class="md-nav__link">
+    <span class="md-ellipsis">
+      A megvalósítás
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-projekt-tovabbfejlesztese" class="md-nav__link">
+    <span class="md-ellipsis">
+      A projekt továbbfejlesztése
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#atteres-activity-krol-fragmentekre" class="md-nav__link">
+    <span class="md-ellipsis">
+      Áttérés Activity-kről Fragmentekre
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-fragmentek-letrehozasa" class="md-nav__link">
+    <span class="md-ellipsis">
+      A Fragmentek létrehozása
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="A Fragmentek létrehozása">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#expenselistfragment" class="md-nav__link">
+    <span class="md-ellipsis">
+      ExpenseListFragment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#addexpensefragment" class="md-nav__link">
+    <span class="md-ellipsis">
+      AddExpenseFragment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aboutfragment" class="md-nav__link">
+    <span class="md-ellipsis">
+      AboutFragment
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#navigacios-graf-letrehozasa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Navigációs gráf létrehozása
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-mainactivity-atalakitasa" class="md-nav__link">
+    <span class="md-ellipsis">
+      A MainActivity átalakítása
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-navigacio-hasznalata" class="md-nav__link">
+    <span class="md-ellipsis">
+      A navigáció használata
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-fragment-result-fogadasa" class="md-nav__link">
+    <span class="md-ellipsis">
+      A Fragment Result fogadása
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-navigacio-kiprobalasa" class="md-nav__link">
+    <span class="md-ellipsis">
+      A navigáció kipróbálása
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recyclerview" class="md-nav__link">
+    <span class="md-ellipsis">
+      RecyclerView
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiadasok-modellje-kotlinban" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kiadások modellje Kotlinban
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-szukseges-fuggoseg-felvetele" class="md-nav__link">
+    <span class="md-ellipsis">
+      A szükséges függőség felvétele
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-recyclerview-feluletenek-kialakitasa" class="md-nav__link">
+    <span class="md-ellipsis">
+      A RecyclerView felületének kialakítása
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="A RecyclerView felületének kialakítása">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-a-listaelem-layoutja" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. A listaelem layoutja
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-viewholder" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. ViewHolder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-az-adapter" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Az Adapter
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-recyclerview-inicializalasa" class="md-nav__link">
+    <span class="md-ellipsis">
+      A RecyclerView inicializálása
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-kiadas-mentesenek-atallitasa-a-recyclerview-ra" class="md-nav__link">
+    <span class="md-ellipsis">
+      A kiadás mentésének átállítása a RecyclerView-ra
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-recyclerview-mukodesenek-ellenorzese" class="md-nav__link">
+    <span class="md-ellipsis">
+      A RecyclerView működésének ellenőrzése
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#onallo-feladatok" class="md-nav__link">
+    <span class="md-ellipsis">
+      Önálló feladatok
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Önálló feladatok">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-kiadas-torlese-a-listabol" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Kiadás törlése a listából
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ures-lista-allapot" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Üres lista állapot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-a-nagyobb-kiadasok-kiemelese" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. A nagyobb kiadások kiemelése
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-kiadasok-rendezese-osszeg-szerint" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Kiadások rendezése összeg szerint
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-kiadas-reszleteinek-megjelenitese" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Kiadás részleteinek megjelenítése
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mit-erdemes-megjegyezni-ebbol-a-laborbol" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mit érdemes megjegyezni ebből a laborból?
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="labor03-fragmentek-es-recyclerview">Labor03 - Fragmentek és RecyclerView<a class="headerlink" href="#labor03-fragmentek-es-recyclerview" title="Permanent link">¶</a></h1>
+<p>A második labor végén már képesek voltunk kiadásokat rögzíteni, és a főképernyőn megjeleníteni azok összegét és listáját. Az alkalmazás felépítésében azonban minden képernyőhöz külön <code>Activity</code> tartozik, a kiadáslista pedig egy egyszerű <code>TextView</code> segítségével jelenik meg.</p>
+<p>Ez a megoldás kezdetnek nem rossz, de ahogy egyre több funkcióval bővítjük az alkalmazást, érdemes megváltoztatni a felépítést.</p>
+<p>Mi lenne, ha részletesebb listaelemeket vagy egyes elemekhez tartozó műveleteket is szeretnénk megjeleníteni? Illetve valóban szükségünk van minden egyes képernyőhöz egy külön <code>Activity</code>-re?</p>
+<h2 id="a-labor-celkituzese">A labor célkitűzése<a class="headerlink" href="#a-labor-celkituzese" title="Permanent link">¶</a></h2>
+<p>A labor során a következő koncepciókkal ismerkedünk meg:</p>
+<ul>
+<li>
+<p><code>Fragment</code>-ek használata az Activity-k helyett az egyes képernyők megvalósítására</p>
+</li>
+<li>
+<p><code>Jetpack Navigation</code> és a navigációs gráf használata</p>
+</li>
+<li>
+<p>Fragmentek és a Fragment view-életciklusa</p>
+</li>
+<li>
+<p>Fragmentek közötti kommunikáció a <code>Fragment Result API</code> segítségével</p>
+</li>
+<li>
+<p><code>RecyclerView</code>, <code>Adapter</code> és <code>ViewHolder</code> használata dinamikus listához</p>
+</li>
+<li>
+<p>Kotlin <code>data class</code> használata listaelemek reprezentálására</p>
+</li>
+</ul>
+<p>A labor végére ugyanazt az alapvető funkcionalitást kapjuk meg, mint a második laborban, azonban az alkalmazás képernyőit már Fragmentek kezelik, a korábbi <code>TextView</code> alapú kiadáslista helyett pedig egy valódi <code>RecyclerView</code> jeleníti meg a tételeket.</p>
+<h2 id="a-kezdeti-koncepcio">A kezdeti koncepció<a class="headerlink" href="#a-kezdeti-koncepcio" title="Permanent link">¶</a></h2>
+<p>A második labor végén az alkalmazásban három különálló képernyővel dolgoztunk:</p>
+<ul>
+<li>
+<p>a főképernyőn láthattuk az összes kiadás összegét és a korábban rögzített tételeket,</p>
+</li>
+<li>
+<p>az új kiadás rögzítésére egy külön <code>Activity</code> szolgált,</p>
+</li>
+<li>
+<p>a <code>Névjegy</code> funkció szintén külön <code>Activity</code>-ben kapott helyet.</p>
+</li>
+</ul>
+<p>A második laborban a képernyők közötti navigációt az <code>Activity</code>-k indításával oldottuk meg, a kiadás adatait pedig <code>Intent</code> extra mezők segítségével adtuk vissza az előző képernyőre.</p>
+<p>Most ezt a felépítést alakítjuk át.</p>
+<p>A célunk:</p>
+<ul>
+<li>
+<p>legyen egyetlen <code>MainActivity</code>, amely az alkalmazás képernyőinek helyet biztosít,</p>
+</li>
+<li>
+<p>a tényleges képernyőket <code>Fragment</code>-ek valósítsák meg,</p>
+</li>
+<li>
+<p>a képernyők közötti útvonalakat egy navigációs gráf írja le,</p>
+</li>
+<li>
+<p>az egyes kiadásokat önálló listaelemként jelenítsük meg,</p>
+</li>
+<li>
+<p>a kiadáslistát egy <code>RecyclerView</code> kezelje,</p>
+</li>
+<li>
+<p>egy új kiadás rögzítése után a lista automatikusan bővüljön.</p>
+</li>
+</ul>
+<p>Ezzel a változtatással maga az alkalmazás funkcionalitása nem lesz gyökeresen más, viszont a szerkezete sokkal alkalmasabb lesz későbbi bővítésekre.</p>
+<h2 id="a-megvalositas">A megvalósítás<a class="headerlink" href="#a-megvalositas" title="Permanent link">¶</a></h2>
+<p>A labor során két nagyobb lépésben haladunk:</p>
+<ol>
+<li>
+<p>Először eltávolítjuk a felesleges Activity-ket és beépítjük a Fragment-alapú navigációt. Ezen a ponton még a régi <code>TextView</code>-os kiadáslista marad.</p>
+</li>
+<li>
+<p>Ezután lecseréljük a kiadások listáját <code>RecyclerView</code>-ra, és elkészítjük hozzá a listaelem layoutját, az <code>Adapter</code>-t és a <code>ViewHolder</code>-t.</p>
+</li>
+</ol>
+<p>A következő ábra a végső felépítést szemlélteti.</p>
+<div class="highlight"><pre><span></span><code>MainActivity
+    ├── ExpenseListFragment
+    │       └── RecyclerView
+    ├── AddExpenseFragment
+    └── AboutFragment
+</code></pre></div>
+<h2 id="a-projekt-tovabbfejlesztese">A projekt továbbfejlesztése<a class="headerlink" href="#a-projekt-tovabbfejlesztese" title="Permanent link">¶</a></h2>
+<p>A második labor során elkészített BudgetTracker projektből indulunk ki.</p>
+<p>Ellenőrizzük, hogy a projektben továbbra is engedélyezve van a <code>ViewBinding</code>, majd egészítsük ki a projektet a navigációhoz szükséges függőségekkel.</p>
+<p>Nyissuk meg a <code>gradle/libs.versions.toml</code> fájlt, és a meglévő bejegyzések mellé vegyük fel a következőket:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[versions]</span>
+<span class="n">navigation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2.10.2"</span>
+
+<span class="k">[libraries]</span>
+<span class="n">androidx-navigation-fragment-ktx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"androidx.navigation"</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"navigation-fragment-ktx"</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="n">ref</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"navigation"</span><span class="w"> </span><span class="p">}</span>
+<span class="n">androidx-navigation-ui-ktx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"androidx.navigation"</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"navigation-ui-ktx"</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="n">ref</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"navigation"</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Az <code>app</code> modul <code>build.gradle.kts</code> fájljában adjuk hozzá a szükséges könyvtárakat:</p>
+<div class="highlight"><pre><span></span><code><span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">navigation</span><span class="p">.</span><span class="na">fragment</span><span class="p">.</span><span class="na">ktx</span><span class="p">)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">navigation</span><span class="p">.</span><span class="na">ui</span><span class="p">.</span><span class="na">ktx</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>A projekt szinkronizálása után kezdjük meg a képernyők átalakítását.</p>
+<h2 id="atteres-activity-krol-fragmentekre">Áttérés Activity-kről Fragmentekre<a class="headerlink" href="#atteres-activity-krol-fragmentekre" title="Permanent link">¶</a></h2>
+<p>A második labor végén minden képernyőhöz külön <code>Activity</code> tartozott. Most ezt a felépítést fogjuk átalakítani úgy, hogy az alkalmazásban egyetlen <code>Activity</code> maradjon, a különböző képernyőket pedig <code>Fragment</code>-ek valósítsák meg.</p>
+<p>Az átalakítást nem egy lépésben végezzük el. Először létrehozzuk az egyes Fragmenteket, és áthelyezzük beléjük a második labor képernyőit. Ezután alakítjuk ki a navigációt, végül pedig kipróbáljuk, hogy a RecyclerView bevezetése nélkül is minden működik-e.</p>
+<div class="admonition info">
+<p class="admonition-title">Mi a Fragment?</p>
+<p>A <code>Fragment</code> egy Activity-n belül megjelenő, önálló UI-komponens, amely saját életciklussal és saját layouttal rendelkezik. Ugyanazon Activity-n belül több különböző Fragmentet is megjeleníthetünk, és ezek között navigálhatunk.</p>
+</div>
+<h2 id="a-fragmentek-letrehozasa">A Fragmentek létrehozása<a class="headerlink" href="#a-fragmentek-letrehozasa" title="Permanent link">¶</a></h2>
+<p>Először hozzuk létre azokat a Fragmenteket, amelyek az alkalmazás képernyőit fogják helyettesíteni.</p>
+<h3 id="expenselistfragment">ExpenseListFragment<a class="headerlink" href="#expenselistfragment" title="Permanent link">¶</a></h3>
+<p>A gyökér package-en jobb klikk után válasszuk a <code>New -&gt; Fragment -&gt; Fragment (Blank)</code> lehetőséget, majd hozzuk létre <code>ExpenseListFragment</code> néven.</p>
+<p>Ehhez automatikusan létrejönnek az alábbi fájlok:</p>
+<div class="highlight"><pre><span></span><code>ExpenseListFragment.kt
+fragment_expense_list.xml
+</code></pre></div>
+<p>A <code>fragment_expense_list.xml</code> fájlba helyezzük át a korábbi laborból ismert főképernyő felületét. Egyelőre még semmit nem változtatunk a kiadáslista működésén, tehát a korábbi <code>TextView</code> marad a helyén.</p>
+<details class="info">
+<summary>A layout kódja</summary>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span>
+<span class="w">    </span><span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+<span class="w">    </span><span class="na">xmlns:app=</span><span class="s">"http://schemas.android.com/apk/res-auto"</span>
+<span class="w">    </span><span class="na">android:id=</span><span class="s">"@+id/main"</span>
+<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">    </span><span class="na">android:padding=</span><span class="s">"16dp"</span>
+<span class="w">    </span><span class="na">android:fitsSystemWindows=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;com.google.android.material.appbar.MaterialToolbar</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/topAppBar"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"?attr/actionBarSize"</span>
+<span class="w">        </span><span class="na">android:background=</span><span class="s">"?attr/colorPrimary"</span>
+<span class="w">        </span><span class="na">app:title=</span><span class="s">"BudgetTracker"</span>
+<span class="w">        </span><span class="na">app:titleTextColor=</span><span class="s">"@color/white"</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">"parent"</span><span class="nt">&gt;</span>
+
+<span class="w">        </span><span class="nt">&lt;ImageButton</span>
+<span class="w">            </span><span class="na">android:id=</span><span class="s">"@+id/btnInfo"</span>
+<span class="w">            </span><span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+<span class="w">            </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">            </span><span class="na">android:layout_gravity=</span><span class="s">"end"</span>
+<span class="w">            </span><span class="na">android:contentDescription=</span><span class="s">"@string/info"</span>
+<span class="w">            </span><span class="na">android:padding=</span><span class="s">"16dp"</span>
+<span class="w">            </span><span class="na">android:background=</span><span class="s">"?attr/selectableItemBackgroundBorderless"</span>
+<span class="w">            </span><span class="na">android:src=</span><span class="s">"@android:drawable/ic_dialog_info"</span>
+<span class="w">            </span><span class="na">app:tint=</span><span class="s">"@color/white"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;/com.google.android.material.appbar.MaterialToolbar&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;TextView</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/tvTotalLabel"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">"24dp"</span>
+<span class="w">        </span><span class="na">android:text=</span><span class="s">"@string/total_label"</span>
+<span class="w">        </span><span class="na">android:textSize=</span><span class="s">"18sp"</span>
+<span class="w">        </span><span class="na">android:textStyle=</span><span class="s">"bold"</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">"@id/topAppBar"</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;TextView</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/tvTotalSum"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">"8dp"</span>
+<span class="w">        </span><span class="na">android:text=</span><span class="s">"@string/base_total"</span>
+<span class="w">        </span><span class="na">android:textSize=</span><span class="s">"42sp"</span>
+<span class="w">        </span><span class="na">android:textStyle=</span><span class="s">"bold"</span>
+<span class="w">        </span><span class="na">android:textColor=</span><span class="s">"?attr/colorPrimary"</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">"@id/tvTotalLabel"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;Button</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/btnAddExpense"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"0dp"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">"16dp"</span>
+<span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">"16dp"</span>
+<span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">"16dp"</span>
+<span class="w">        </span><span class="na">android:text=</span><span class="s">"@string/add_expense"</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">"@id/tvTotalSum"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;TextView</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/tvExpensesTitle"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"0dp"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">"16dp"</span>
+<span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">"24dp"</span>
+<span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">"16dp"</span>
+<span class="w">        </span><span class="na">android:text=</span><span class="s">"@string/prev_expenses"</span>
+<span class="w">        </span><span class="na">android:textSize=</span><span class="s">"18sp"</span>
+<span class="w">        </span><span class="na">android:textStyle=</span><span class="s">"bold"</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">"@id/btnAddExpense"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;TextView</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/tvExpensesList"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"0dp"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"0dp"</span>
+<span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">"16dp"</span>
+<span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">"12dp"</span>
+<span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">"16dp"</span>
+<span class="w">        </span><span class="na">android:hint=</span><span class="s">"@string/expense_placeholder"</span>
+<span class="w">        </span><span class="na">android:text=</span><span class="s">""</span>
+<span class="w">        </span><span class="na">android:textSize=</span><span class="s">"16sp"</span>
+<span class="w">        </span><span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">"@id/tvExpensesTitle"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
+</code></pre></div>
+</details>
+<p>Most nézzük meg, hogyan néz ki egy Fragment Kotlin oldalon.</p>
+<div class="admonition info">
+<p class="admonition-title">A Fragment és a View életciklusa</p>
+<p>Activity esetén eddig főként az <code>onCreate()</code> metódussal dolgoztunk. Fragmenteknél fontos különbség, hogy maga a Fragment és a hozzá tartozó View-hierarchia nem feltétlenül ugyanaddig él. Emiatt a binding objektumot nem a Fragment teljes életciklusára, hanem annak View-életciklusára kötjük.</p>
+</div>
+<p>A <code>ExpenseListFragment</code> alapja:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">ExpenseListFragment</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Fragment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">_binding</span><span class="p">:</span><span class="w"> </span><span class="n">FragmentExpenseListBinding? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">binding</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_binding</span><span class="o">!!</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">totalSum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">expenses</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mutableListOf</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">()</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreateView</span><span class="p">(</span>
+<span class="w">        </span><span class="n">inflater</span><span class="p">:</span><span class="w"> </span><span class="n">LayoutInflater</span><span class="p">,</span>
+<span class="w">        </span><span class="n">container</span><span class="p">:</span><span class="w"> </span><span class="n">ViewGroup?,</span>
+<span class="w">        </span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?</span>
+<span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="n">View</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">_binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FragmentExpenseListBinding</span><span class="p">.</span><span class="na">inflate</span><span class="p">(</span><span class="n">inflater</span><span class="p">,</span><span class="w"> </span><span class="n">container</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">binding</span><span class="p">.</span><span class="na">root</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onViewCreated</span><span class="p">(</span><span class="n">view</span><span class="p">:</span><span class="w"> </span><span class="n">View</span><span class="p">,</span><span class="w"> </span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onViewCreated</span><span class="p">(</span><span class="n">view</span><span class="p">,</span><span class="w"> </span><span class="n">savedInstanceState</span><span class="p">)</span>
+
+<span class="w">        </span><span class="n">binding</span><span class="p">.</span><span class="na">btnAddExpense</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Hozzáadás Fragmentre navigáció kódjának a helye</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="n">binding</span><span class="p">.</span><span class="na">btnInfo</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Névjegy Fragmentre navigáció kódjának a helye</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="c1">// Result kezelésének (lista frissítése) helye</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onDestroyView</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onDestroyView</span><span class="p">()</span>
+<span class="w">        </span><span class="n">_binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Ebben a kódban három olyan metódust láthatunk, amelyekkel eddig még nem találkoztunk együtt:</p>
+<ul>
+<li>az <code>onCreateView()</code> feladata a Fragment View-jának létrehozása,</li>
+<li>az <code>onViewCreated()</code> akkor fut le, amikor a View már elkészült, így itt kezelhetjük az UI-elemeket,</li>
+<li>az <code>onDestroyView()</code> akkor fut le, amikor a Fragmenthez tartozó View megszűnik.</li>
+</ul>
+<p>A ViewBinding is ezekhez igazodik. Létrehozzuk az <code>onCreateView()</code> során, és elengedjük az <code>onDestroyView()</code> során.</p>
+<div class="admonition warning">
+<p class="admonition-title">Miért nem használunk egyszerű <code>lateinit</code> bindinget?</p>
+<p>A Fragment továbbra is létezhet akkor is, amikor a hozzá tartozó View már megszűnt. Ha a binding ekkor is a régi View-hierarchiára mutatna, feleslegesen tartanánk életben azt.
+Ezért a Fragment ViewBindingjét a View életciklusához igazítjuk:</p>
+<div class="highlight"><pre><span></span><code>onCreateView()
+    ↓
+View létrejön
+    ↓
+onViewCreated()
+    ↓
+a View használata
+    ↓
+onDestroyView()
+    ↓
+View megszűnik
+</code></pre></div>
+</div>
+<p>A <code>binding</code> getter miatt a View létrejötte után ugyanúgy használhatjuk a UI-elemeket, mint Activity esetén:</p>
+<div class="highlight"><pre><span></span><code><span class="n">binding</span><span class="p">.</span><span class="na">tvTotalSum</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"5000 Ft"</span>
+<span class="n">binding</span><span class="p">.</span><span class="na">btnAddExpense</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Most, hogy az <code>ExpenseListFragment</code> létrejött, térjünk át a másik két képernyőre.</p>
+<h3 id="addexpensefragment">AddExpenseFragment<a class="headerlink" href="#addexpensefragment" title="Permanent link">¶</a></h3>
+<p>Hozzunk létre egy új <code>Fragment (Blank)</code>-et <code>AddExpenseFragment</code> néven.</p>
+<p>A hozzá tartozó layout:</p>
+<div class="highlight"><pre><span></span><code>fragment_add_expense.xml
+</code></pre></div>
+<p>A layout változatlan maradhat a második laborhoz képest. Továbbra is szükségünk lesz a kiadás nevéhez és összegéhez egy-egy mezőre, valamint a <code>Mentés</code> és <code>Mégse</code> gombokra.</p>
+<details class="info">
+<summary>A layout kódja</summary>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span>
+<span class="w">    </span><span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+<span class="w">    </span><span class="na">xmlns:app=</span><span class="s">"http://schemas.android.com/apk/res-auto"</span>
+<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span>
+<span class="w">    </span><span class="na">android:padding=</span><span class="s">"16dp"</span>
+<span class="w">    </span><span class="na">android:fitsSystemWindows=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;com.google.android.material.textfield.TextInputEditText</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/etExpenseName"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">"16dp"</span>
+<span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">"24dp"</span>
+<span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">"16dp"</span>
+<span class="w">        </span><span class="na">android:hint=</span><span class="s">"@string/expense_name"</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">"parent"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;com.google.android.material.textfield.TextInputEditText</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/etExpenseAmount"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">"16dp"</span>
+<span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">"16dp"</span>
+<span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">"16dp"</span>
+<span class="w">        </span><span class="na">android:hint=</span><span class="s">"@string/sum"</span>
+<span class="w">        </span><span class="na">android:inputType=</span><span class="s">"number"</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">"@+id/etExpenseName"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;Button</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/btnSave"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">"16dp"</span>
+<span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">"32dp"</span>
+<span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">"16dp"</span>
+<span class="w">        </span><span class="na">android:text=</span><span class="s">"@string/save"</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">"@+id/etExpenseAmount"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;Button</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/btnCancel"</span>
+<span class="w">        </span><span class="na">style=</span><span class="s">"@style/Widget.Material3.Button.OutlinedButton"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_marginStart=</span><span class="s">"16dp"</span>
+<span class="w">        </span><span class="na">android:layout_marginTop=</span><span class="s">"16dp"</span>
+<span class="w">        </span><span class="na">android:layout_marginEnd=</span><span class="s">"16dp"</span>
+<span class="w">        </span><span class="na">android:text=</span><span class="s">"@string/cancel"</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">"@+id/btnSave"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
+</code></pre></div>
+</details>
+<p>A Fragment Kotlin kódja:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">AddExpenseFragment</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Fragment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">_binding</span><span class="p">:</span><span class="w"> </span><span class="n">FragmentAddExpenseBinding? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">binding</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_binding</span><span class="o">!!</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreateView</span><span class="p">(</span>
+<span class="w">        </span><span class="n">inflater</span><span class="p">:</span><span class="w"> </span><span class="n">LayoutInflater</span><span class="p">,</span>
+<span class="w">        </span><span class="n">container</span><span class="p">:</span><span class="w"> </span><span class="n">ViewGroup?,</span>
+<span class="w">        </span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?</span>
+<span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="n">View</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">_binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FragmentAddExpenseBinding</span><span class="p">.</span><span class="na">inflate</span><span class="p">(</span><span class="n">inflater</span><span class="p">,</span><span class="w"> </span><span class="n">container</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">binding</span><span class="p">.</span><span class="na">root</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onViewCreated</span><span class="p">(</span><span class="n">view</span><span class="p">:</span><span class="w"> </span><span class="n">View</span><span class="p">,</span><span class="w"> </span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onViewCreated</span><span class="p">(</span><span class="n">view</span><span class="p">,</span><span class="w"> </span><span class="n">savedInstanceState</span><span class="p">)</span>
+<span class="w">        </span><span class="n">binding</span><span class="p">.</span><span class="na">btnSave</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">binding</span><span class="p">.</span><span class="na">etExpenseName</span><span class="p">.</span><span class="na">text</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">amount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">binding</span><span class="p">.</span><span class="na">etExpenseAmount</span><span class="p">.</span><span class="na">text</span><span class="p">.</span><span class="na">toString</span><span class="p">()</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">()</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">amount</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">Toast</span><span class="p">.</span><span class="na">makeText</span><span class="p">(</span>
+<span class="w">                    </span><span class="n">requireContext</span><span class="p">(),</span>
+<span class="w">                    </span><span class="s">"Kérlek töltsd ki mindkét mezőt!"</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">Toast</span><span class="p">.</span><span class="na">LENGTH_SHORT</span>
+<span class="w">                </span><span class="p">).</span><span class="na">show</span><span class="p">()</span>
+<span class="w">                </span><span class="k">return</span><span class="nd">@setOnClickListener</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">parentFragmentManager</span><span class="p">.</span><span class="na">setFragmentResult</span><span class="p">(</span>
+<span class="w">                </span><span class="s">"expense_result"</span><span class="p">,</span>
+<span class="w">                </span><span class="n">Bundle</span><span class="p">().</span><span class="na">apply</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">putString</span><span class="p">(</span><span class="s">"EXPENSE_NAME"</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="p">)</span>
+<span class="w">                    </span><span class="n">putInt</span><span class="p">(</span><span class="s">"EXPENSE_AMOUNT"</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">.</span><span class="na">toInt</span><span class="p">())</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">)</span>
+<span class="w">            </span><span class="c1">// Visszalépés kódjának a helye</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">binding</span><span class="p">.</span><span class="na">btnCancel</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Visszalépés kódjának a helye</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onDestroyView</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onDestroyView</span><span class="p">()</span>
+<span class="w">        </span><span class="n">_binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Figyeljük meg, hogy itt már nem használunk <code>Intent</code> objektumot. Fragmentek esetén a korábbi <code>setResult()</code> és <code>finish()</code> helyett a <code>Fragment Result API</code> segítségével adjuk vissza az adatokat, a navigációt pedig majd később implementáljuk.</p>
+<div class="admonition tip">
+<p class="admonition-title">requireContext()</p>
+<p>Figyeljük meg azt is, hogy a Toast üzenethez a Fragmenten belül egy <code>requireContext()</code> hívással tudjuk biztosítani a megfelelő kontextust, nem úgy, mint az Activity esetében, ahol elég volt egy <code>this</code>-t átadni.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Bundle</p>
+<p>Itt már Intent helyett egy <code>Bundle</code> objektumba csomagoljuk az átadni kívánt adatokat, de a módszer szinte ugyanaz. </p>
+</div>
+<h3 id="aboutfragment">AboutFragment<a class="headerlink" href="#aboutfragment" title="Permanent link">¶</a></h3>
+<p>Végül hozzuk létre az <code>AboutFragment</code>-et is.</p>
+<p>A layoutban a második laborhoz hasonlóan jelenítsük meg a fejlesztő NEPTUN kódját.</p>
+<details class="info">
+<summary>A layout kódja</summary>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span>
+<span class="w">    </span><span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+<span class="w">    </span><span class="na">xmlns:app=</span><span class="s">"http://schemas.android.com/apk/res-auto"</span>
+<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">    </span><span class="na">android:padding=</span><span class="s">"32dp"</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;TextView</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/textView"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:text=</span><span class="s">"@string/made_by"</span>
+<span class="w">        </span><span class="na">android:textAlignment=</span><span class="s">"center"</span>
+<span class="w">        </span><span class="na">android:textSize=</span><span class="s">"18sp"</span>
+<span class="w">        </span><span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">"parent"</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
+</code></pre></div>
+</details>
+<p>A Fragment Kotlin kódja:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">AboutFragment</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">DialogFragment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">_binding</span><span class="p">:</span><span class="w"> </span><span class="n">FragmentAboutBinding? </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">binding</span><span class="w"> </span><span class="k">get</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">_binding</span><span class="o">!!</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreateView</span><span class="p">(</span>
+<span class="w">        </span><span class="n">inflater</span><span class="p">:</span><span class="w"> </span><span class="n">LayoutInflater</span><span class="p">,</span>
+<span class="w">        </span><span class="n">container</span><span class="p">:</span><span class="w"> </span><span class="n">ViewGroup?,</span>
+<span class="w">        </span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?</span>
+<span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="n">View</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">_binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FragmentAboutBinding</span><span class="p">.</span><span class="na">inflate</span><span class="p">(</span><span class="n">inflater</span><span class="p">,</span><span class="w"> </span><span class="n">container</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">binding</span><span class="p">.</span><span class="na">root</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onDestroyView</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onDestroyView</span><span class="p">()</span>
+<span class="w">        </span><span class="n">_binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Ezzel elkészült mindhárom Fragment. Még egyiket sem kötöttük be a valódi navigációs gráfba, ezért most következhet ennek a létrehozása.</p>
+<h2 id="navigacios-graf-letrehozasa">Navigációs gráf létrehozása<a class="headerlink" href="#navigacios-graf-letrehozasa" title="Permanent link">¶</a></h2>
+<p>Hozzunk létre egy új navigációs erőforrást a resources mappába az Android Studio Resource Manager segítségével <code>nav_graph.xml</code> néven.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="assets/resman.png" data-desc-position="bottom"><img alt="" src="assets/resman.png"></a></p>
+<p>Nyissuk meg a gráfot <code>Design</code> nézetben, és adjuk hozzá a már elkészített Fragmenteket. A kiinduló Fragment az <code>ExpenseListFragment</code> legyen.</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="assets/emptydesigner.png" data-desc-position="bottom"><img alt="" src="assets/emptydesigner.png"></a></p>
+<p>Ezután hozzuk létre a képen látható kapcsolatokat:</p>
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="assets/graph.png" data-desc-position="bottom"><img alt="" src="assets/graph.png"></a></p>
+<p>Az <code>AddExpenseFragment</code>-ből és az <code>AboutFragment</code>-ből nem feltétlenül kell külön visszafelé vezető kapcsolatot létrehozni a gráfban.</p>
+<div class="admonition info">
+<p class="admonition-title">Navigation Graph tartalma</p>
+<p>Menjünk át kód nézetbe, és nézzük meg hogyan vannak az egyes csomópontok és a köztük menő élek reprezentálva a kódban.</p>
+</div>
+<h2 id="a-mainactivity-atalakitasa">A MainActivity átalakítása<a class="headerlink" href="#a-mainactivity-atalakitasa" title="Permanent link">¶</a></h2>
+<p>Mivel a képernyőket most már Fragmentek valósítják meg, a <code>MainActivity</code>-nek nem kell többé a teljes főképernyő UI-ját tartalmaznia. Egyetlen feladata marad: helyet biztosítani annak a Fragmentnek, amelyet a navigációs rendszer éppen megjelenít.</p>
+<p>A <code>res/layout/activity_main.xml</code> fájlban ezért a korábbi UI helyett egy <code>FragmentContainerView</code> maradjon:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;androidx.constraintlayout.widget.ConstraintLayout</span>
+<span class="w">    </span><span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span>
+<span class="w">    </span><span class="na">xmlns:app=</span><span class="s">"http://schemas.android.com/apk/res-auto"</span>
+<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"match_parent"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;androidx.fragment.app.FragmentContainerView</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/nav_host_fragment"</span>
+<span class="w">        </span><span class="na">android:name=</span><span class="s">"androidx.navigation.fragment.NavHostFragment"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"0dp"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"0dp"</span>
+<span class="w">        </span><span class="na">app:defaultNavHost=</span><span class="s">"true"</span>
+<span class="w">        </span><span class="na">app:navGraph=</span><span class="s">"@navigation/nav_graph"</span>
+<span class="w">        </span><span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
+<span class="w">        </span><span class="na">app:layout_constraintTop_toTopOf=</span><span class="s">"parent"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">FragmentContainerView</p>
+<p>A <code>FragmentContainerView</code> egy olyan View, amelyben a navigációs rendszer által kiválasztott Fragment megjelenhet. Az <code>android:name</code> megadja, hogy milyen <code>NavHost</code> implementációt használunk, az <code>app:navGraph</code> pedig azt a navigációs gráfot jelöli, amely meghatározza, milyen Fragmentek között lehet navigálni.</p>
+</div>
+<p>A <code>MainActivity</code> Kotlin kódja ezután nagyon egyszerű lehet:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">MainActivity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">AppCompatActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">binding</span><span class="p">:</span><span class="w"> </span><span class="n">ActivityMainBinding</span>
+
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">super</span><span class="p">.</span><span class="na">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
+<span class="w">        </span><span class="n">binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ActivityMainBinding</span><span class="p">.</span><span class="na">inflate</span><span class="p">(</span><span class="n">layoutInflater</span><span class="p">)</span>
+<span class="w">        </span><span class="n">setContentView</span><span class="p">(</span><span class="n">binding</span><span class="p">.</span><span class="na">root</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>A korábbi képernyőkhöz tartozó eseménykezelők tehát eltűnnek a <code>MainActivity</code>-ből. Ezek most már az adott Fragmentekben találhatók.</p>
+<h2 id="a-navigacio-hasznalata">A navigáció használata<a class="headerlink" href="#a-navigacio-hasznalata" title="Permanent link">¶</a></h2>
+<p>A <code>NavController</code> objektum felelős a navigáció tényleges végrehajtásáért.</p>
+<p>Az <code>ExpenseListFragment</code>-ben például az <code>Új kiadás hozzáadása</code> gombbal:</p>
+<div class="highlight"><pre><span></span><code><span class="n">binding</span><span class="p">.</span><span class="na">btnAddExpense</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">findNavController</span><span class="p">().</span><span class="na">navigate</span><span class="p">(</span>
+<span class="w">        </span><span class="n">R</span><span class="p">.</span><span class="na">id</span><span class="p">.</span><span class="na">action_expenseListFragment_to_addExpenseFragment</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>A <code>Névjegy</code> gomb pedig:</p>
+<div class="highlight"><pre><span></span><code><span class="n">binding</span><span class="p">.</span><span class="na">btnInfo</span><span class="p">.</span><span class="na">setOnClickListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">findNavController</span><span class="p">().</span><span class="na">navigate</span><span class="p">(</span>
+<span class="w">        </span><span class="n">R</span><span class="p">.</span><span class="na">id</span><span class="p">.</span><span class="na">action_expenseListFragment_to_aboutFragment</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>A másik két Fragmentből a <code>popBackStack()</code> segítségével léphetünk vissza:</p>
+<div class="highlight"><pre><span></span><code><span class="n">findNavController</span><span class="p">().</span><span class="na">popBackStack</span><span class="p">()</span>
+</code></pre></div>
+<p>Ezeket helyettesítsük is be a kommentek helyére.</p>
+<p>Ezzel a második laborban megszokott:</p>
+<div class="highlight"><pre><span></span><code><span class="n">Intent</span><span class="p">(...)</span>
+<span class="n">startActivity</span><span class="p">(...)</span>
+</code></pre></div>
+<p>helyett most:</p>
+<div class="highlight"><pre><span></span><code><span class="n">findNavController</span><span class="p">().</span><span class="na">navigate</span><span class="p">(...)</span>
+</code></pre></div>
+<p>megoldást használunk.</p>
+<p>Az adatátadásnál pedig a korábbi:</p>
+<div class="highlight"><pre><span></span><code><span class="n">setResult</span><span class="p">(...)</span>
+<span class="n">finish</span><span class="p">()</span>
+</code></pre></div>
+<p>helyett:</p>
+<div class="highlight"><pre><span></span><code><span class="n">setFragmentResult</span><span class="p">(...)</span>
+<span class="n">findNavController</span><span class="p">().</span><span class="na">popBackStack</span><span class="p">()</span>
+</code></pre></div>
+<p>megoldást alkalmazzuk.</p>
+<h2 id="a-fragment-result-fogadasa">A Fragment Result fogadása<a class="headerlink" href="#a-fragment-result-fogadasa" title="Permanent link">¶</a></h2>
+<p>Már elkészítettük az <code>AddExpenseFragment</code>-et, amely a <code>Fragment Result API</code> segítségével visszaküldi az új kiadás adatait. A fogadó oldalt az <code>ExpenseListFragment</code>-ben kell megvalósítanunk.</p>
+<p>Az <code>onViewCreated()</code> metódusban regisztráljuk a listenert:</p>
+<div class="highlight"><pre><span></span><code><span class="n">parentFragmentManager</span><span class="p">.</span><span class="na">setFragmentResultListener</span><span class="p">(</span>
+<span class="w">    </span><span class="s">"expense_result"</span><span class="p">,</span>
+<span class="w">    </span><span class="n">viewLifecycleOwner</span>
+<span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">bundle</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bundle</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="s">"EXPENSE_NAME"</span><span class="p">)</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="k">return</span><span class="nd">@setFragmentResultListener</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">amount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bundle</span><span class="p">.</span><span class="na">getInt</span><span class="p">(</span><span class="s">"EXPENSE_AMOUNT"</span><span class="p">)</span>
+<span class="w">    </span><span class="n">totalSum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">amount</span>
+<span class="w">    </span><span class="n">binding</span><span class="p">.</span><span class="na">tvTotalSum</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"</span><span class="si">$</span><span class="n">totalSum</span><span class="s"> Ft"</span>
+<span class="w">    </span><span class="n">expenses</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"• </span><span class="si">$</span><span class="n">name</span><span class="s">: </span><span class="si">$</span><span class="n">amount</span><span class="s"> Ft"</span><span class="p">)</span>
+<span class="w">    </span><span class="n">binding</span><span class="p">.</span><span class="na">tvExpensesList</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expenses</span><span class="p">.</span><span class="na">joinToString</span><span class="p">(</span><span class="s">"\n"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Így az alkalmazás működése lényegében változatlan marad az előző laborhoz képest, csak az Activity-k közötti adatátadás helyett már Fragmentek kommunikálnak egymással.</p>
+<div class="admonition warning">
+<p class="admonition-title">Activity-k törlése</p>
+<p>Ezen a ponton törölhetjük a <code>MainActivity</code>-n kívül létező 2 másik Activity-t, hiszen már nem használjuk őket. Töröljük őket az <code>AndroidManifest.xml</code> fájlból is!</p>
+</div>
+<h2 id="a-navigacio-kiprobalasa">A navigáció kipróbálása<a class="headerlink" href="#a-navigacio-kiprobalasa" title="Permanent link">¶</a></h2>
+<p>Ezen a ponton álljunk meg, és futtassuk az alkalmazást.</p>
+<p>A RecyclerView-val még egyáltalán nem foglalkoztunk. A főképernyőn továbbra is a második laborból ismert <code>TextView</code> jeleníti meg a kiadásokat.</p>
+<p>Ellenőrizzük, hogy:</p>
+<ol>
+<li>az alkalmazás az <code>ExpenseListFragment</code>-tel indul,</li>
+<li>az <code>Új kiadás hozzáadása</code> gomb megnyitja az <code>AddExpenseFragment</code>-et,</li>
+<li>egy új kiadás elmenthető és mentéskor visszakerül a korábbi képernyőre,</li>
+<li>a teljes összeg frissül,</li>
+<li>a <code>Mégse</code> gomb is visszalép,</li>
+<li>a <code>Névjegy</code> gomb megnyitja az <code>AboutFragment</code>-et,</li>
+<li>az <code>AboutFragment</code>-ből vissza lehet lépni.</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Bug</p>
+<p>Ajjaj...amikor pl. a Mégse gombbal lépünk vissza a lista Fragmentre, akkor a TextView-k visszaállnak alapállapotra. Ez azért van, mert újra létrejön a Fragment view-ja, és bár a memóriában benne vannak az aktuális állapotok, ez nem tükröződik rajta vissza.</p>
+<p>Ezt orvosolhatjuk a megfelelő TextView-k értékeinek beállításával az <code>onViewCreated()</code> metódusban, de a valódi megoldás egy <code>ViewModel</code> használata lenne, amire majd egy későbbi laborban látunk példát.</p>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Mérföldkő</p>
+<p>Ha eddig minden működik, akkor egy teljesen működő Fragment-alapú alkalmazásunk van.
+A kiadások listája még ugyanúgy egy <code>TextView</code>, mint a második laborban, de már nincs szükség külön Activity-re minden képernyőhöz.
+Innen kezdve külön foglalkozhatunk azzal, hogyan alakítsuk át ezt a listát egy valódi <code>RecyclerView</code>-vá.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amin látszódik a <strong><code>nav_graph.xml</code> a három Fragmenttel</strong>, valamint a működő alkalmazásból a <strong>főképernyő → új kiadás → visszatérés</strong> navigáció valamelyik állapota.</p>
+<p>A képet a megoldásban a repository-ba <code>f1.png</code> néven töltsd föl.</p>
+<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
+</div>
+<h2 id="recyclerview">RecyclerView<a class="headerlink" href="#recyclerview" title="Permanent link">¶</a></h2>
+<p>Most, hogy a Fragmentes navigáció már működik, térjünk át a lista átalakítására.</p>
+<div class="admonition info">
+<p class="admonition-title">RecyclerView</p>
+<p>A <code>RecyclerView</code> nagyobb elemszámú adathalmazok hatékony megjelenítésére szolgáló komponens. Nem kell minden egyes listaelemhez külön View-t létrehoznunk és kézzel hozzáadnunk a layoutunkhoz. Ehelyett megadjuk, hogyan néz ki egyetlen listaelem, milyen adatokból áll a lista, és hogyan kell egy adatot megjeleníteni egy listaelemben.</p>
+</div>
+<p>A megvalósítást három fő részre bonthatjuk:</p>
+<ol>
+<li>
+<p>a listaelem layoutjának elkészítése,</p>
+</li>
+<li>
+<p>az <code>Adapter</code> és <code>ViewHolder</code> megvalósítása,</p>
+</li>
+<li>
+<p>a <code>RecyclerView</code> inicializálása és az adatok átadása.</p>
+</li>
+</ol>
+<p>De még ezek előtt kellene valami normális formátum, amiben a kiadásainkat reprezentálhatjuk a kódban.</p>
+<h2 id="kiadasok-modellje-kotlinban">Kiadások modellje Kotlinban<a class="headerlink" href="#kiadasok-modellje-kotlinban" title="Permanent link">¶</a></h2>
+<p>Eddig a kiadásokat egyszerű <code>String</code> értékekként tároltuk. A <code>RecyclerView</code> használata mellett praktikusabb, ha egy kiadásnak saját típusa van.</p>
+<p>Hozzunk létre egy <code>model</code> package-et, majd benne egy <code>Expense</code> nevű <code>data class</code>-t:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Expense</span><span class="p">(</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">amount</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Ezután a főképernyőn a korábbi <code>String</code> lista helyett használjuk ezt a típust:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">expenses</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mutableListOf</span><span class="o">&lt;</span><span class="n">Expense</span><span class="o">&gt;</span><span class="p">()</span>
+</code></pre></div>
+<p>A teljes összeg kiszámítása így ehhez hasonlóan fog majd kinézni:</p>
+<div class="highlight"><pre><span></span><code><span class="n">expenses</span><span class="p">.</span><span class="na">sumOf</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">amount</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Miért jobb ez a String-be fűzésnél?</p>
+<p>Egy <code>Expense</code> objektum külön mezőkben tárolja a kiadás nevét és összegét. Később könnyen bővíthetjük például dátummal, kategóriával vagy azonosítóval anélkül, hogy egyetlen Stringben kellene összefűznünk minden adatot.</p>
+</div>
+<h2 id="a-szukseges-fuggoseg-felvetele">A szükséges függőség felvétele<a class="headerlink" href="#a-szukseges-fuggoseg-felvetele" title="Permanent link">¶</a></h2>
+<p>Nyissuk meg a <code>gradle/libs.versions.toml</code> fájlt, és adjuk hozzá ezt:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[versions]</span>
+<span class="n">recyclerview</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"1.4.0"</span>
+
+<span class="k">[libraries]</span>
+<span class="n">androidx-recyclerview</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">group</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"androidx.recyclerview"</span><span class="p">,</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"recyclerview"</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="p">.</span><span class="n">ref</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s2">"recyclerview"</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Ezután az <code>app</code> modul <code>build.gradle.kts</code> fájljában is adjuk ezt hozzá:</p>
+<div class="highlight"><pre><span></span><code><span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="n">libs</span><span class="p">.</span><span class="na">androidx</span><span class="p">.</span><span class="na">recyclerview</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>A projekt szinkronizálása után neki is láthatunk a fejlesztésnek.</p>
+<h2 id="a-recyclerview-feluletenek-kialakitasa">A RecyclerView felületének kialakítása<a class="headerlink" href="#a-recyclerview-feluletenek-kialakitasa" title="Permanent link">¶</a></h2>
+<p>Az <code>ExpenseListFragment</code> layoutjában most lecseréljük a korábbi <code>tvExpensesList</code> <code>TextView</code>-t egy <code>RecyclerView</code> komponensre.</p>
+<p>A listaelemek függőleges megjelenítéséhez <code>LinearLayoutManager</code>-t fogunk használni.</p>
+<p>A korábbi <code>TextView</code> helyére kerüljön:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;androidx.recyclerview.widget.RecyclerView</span>
+<span class="w">    </span><span class="na">android:id=</span><span class="s">"@+id/expensesRecyclerView"</span>
+<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"0dp"</span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"0dp"</span>
+<span class="w">    </span><span class="na">android:padding=</span><span class="s">"12dp"</span>
+<span class="w">    </span><span class="na">app:layoutManager=</span><span class="s">"androidx.recyclerview.widget.LinearLayoutManager"</span>
+<span class="w">    </span><span class="na">app:layout_constraintTop_toBottomOf=</span><span class="s">"@id/tvExpensesTitle"</span>
+<span class="w">    </span><span class="na">app:layout_constraintBottom_toBottomOf=</span><span class="s">"parent"</span>
+<span class="w">    </span><span class="na">app:layout_constraintStart_toStartOf=</span><span class="s">"parent"</span>
+<span class="w">    </span><span class="na">app:layout_constraintEnd_toEndOf=</span><span class="s">"parent"</span><span class="w"> </span><span class="nt">/&gt;</span>
+</code></pre></div>
+<p>A <code>RecyclerView</code> már gondoskodik a lista görgethető megjelenítéséről. Nekünk az lesz a feladatunk, hogy megadjuk neki, hogyan nézzen ki egyetlen listaelem, és hogyan kapcsolódjon hozzá az adathalmaz. Ezt <strong>3 nagyobb lépésben</strong> fogjuk megtenni.</p>
+<h3 id="1-a-listaelem-layoutja">1. A listaelem layoutja<a class="headerlink" href="#1-a-listaelem-layoutja" title="Permanent link">¶</a></h3>
+<p>Hozzunk létre egy új fájlt:</p>
+<p><code>res/layout/view_expense_item.xml</code></p>
+<p>Ez írja le azt a View-hierarchiát, amelyből minden egyes kiadáselem felépül.</p>
+<p>A layout lehet egy egyszerű vízszintes <code>LinearLayout</code>, benne a kiadás neve és összege:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span>
+<span class="nt">&lt;LinearLayout</span><span class="w"> </span>
+<span class="w">    </span><span class="na">xmlns:android=</span><span class="s">"http://schemas.android.com/apk/res/android"</span><span class="w"> </span>
+<span class="w">    </span><span class="na">android:id=</span><span class="s">"@+id/expenseItem"</span><span class="w"> </span>
+<span class="w">    </span><span class="na">android:layout_width=</span><span class="s">"match_parent"</span><span class="w"> </span>
+<span class="w">    </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span><span class="w"> </span>
+<span class="w">    </span><span class="na">android:layout_margin=</span><span class="s">"6dp"</span><span class="w"> </span>
+<span class="w">    </span><span class="na">android:orientation=</span><span class="s">"horizontal"</span><span class="w"> </span>
+<span class="w">    </span><span class="na">android:gravity=</span><span class="s">"center_vertical"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;TextView</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/tvExpenseName"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"0dp"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_weight=</span><span class="s">"1"</span>
+<span class="w">        </span><span class="na">android:textSize=</span><span class="s">"18sp"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;TextView</span>
+<span class="w">        </span><span class="na">android:id=</span><span class="s">"@+id/tvExpenseAmount"</span>
+<span class="w">        </span><span class="na">android:layout_width=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+<span class="w">        </span><span class="na">android:textSize=</span><span class="s">"18sp"</span>
+<span class="w">        </span><span class="na">android:textStyle=</span><span class="s">"bold"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/LinearLayout&gt;</span>
+</code></pre></div>
+<h3 id="2-viewholder">2. ViewHolder<a class="headerlink" href="#2-viewholder" title="Permanent link">¶</a></h3>
+<p>A <code>RecyclerView</code> nem közvetlenül az XML layout elemeivel dolgozik, hanem egy <code>ViewHolder</code> objektumon keresztül jeleníti meg őket.</p>
+<p>A <code>ViewHolder</code> feladata, hogy tartalmazza az adott listaelem View-jaira mutató referenciákat. Ezt a kódban egy <code>inner class</code>-ként fogjuk megvalósítani egy adapter osztályon belül.</p>
+<p>Hozzunk létre egy <code>adapter</code> package-et, majd benne egy <code>ExpenseAdapter</code> osztályt.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">ExpenseAdapter</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">expenses</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Expense</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">RecyclerView</span><span class="p">.</span><span class="na">Adapter</span><span class="o">&lt;</span><span class="n">ExpenseAdapter</span><span class="p">.</span><span class="na">ViewHolder</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">inner</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">ViewHolder</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">binding</span><span class="p">:</span><span class="w"> </span><span class="n">ViewExpenseItemBinding</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">RecyclerView</span><span class="p">.</span><span class="na">ViewHolder</span><span class="p">(</span><span class="n">binding</span><span class="p">.</span><span class="na">expenseItem</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">fun</span><span class="w"> </span><span class="nf">bind</span><span class="p">(</span><span class="n">expense</span><span class="p">:</span><span class="w"> </span><span class="n">Expense</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">binding</span><span class="p">.</span><span class="na">tvExpenseName</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expense</span><span class="p">.</span><span class="na">name</span>
+<span class="w">            </span><span class="n">binding</span><span class="p">.</span><span class="na">tvExpenseAmount</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"</span><span class="si">${</span><span class="n">expense</span><span class="p">.</span><span class="na">amount</span><span class="si">}</span><span class="s"> Ft"</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>A <code>ViewBinding</code> miatt a listaelemhez automatikusan létrejön a <code>ViewExpenseItemBinding</code> osztály.</p>
+<p>A <code>bind()</code> metódus feladata tehát az, hogy egy adott <code>Expense</code> objektum adatait ráhelyezze a listaelem View-jaira.</p>
+<h3 id="3-az-adapter">3. Az Adapter<a class="headerlink" href="#3-az-adapter" title="Permanent link">¶</a></h3>
+<p>Az <code>Adapter</code> metódusai fogják összekötni az adathalmazt és a listaelemeket.</p>
+<p>Három fontos metódust kell megvalósítanunk:</p>
+<ul>
+<li>
+<p><code>onCreateViewHolder()</code> – létrehozza a listaelem View-ját,</p>
+</li>
+<li>
+<p><code>onBindViewHolder()</code> – az adott pozícióhoz tartozó adatot megjeleníti,</p>
+</li>
+<li>
+<p><code>getItemCount()</code> – megmondja, hány elem található az adathalmazban.</p>
+</li>
+</ul>
+<p>A teljes alapimplementáció:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">ExpenseAdapter</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">expenses</span><span class="p">:</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Expense</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">RecyclerView</span><span class="p">.</span><span class="na">Adapter</span><span class="o">&lt;</span><span class="n">ExpenseAdapter</span><span class="p">.</span><span class="na">ViewHolder</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">inner</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">ViewHolder</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">binding</span><span class="p">:</span><span class="w"> </span><span class="n">ViewExpenseItemBinding</span><span class="p">)</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">RecyclerView</span><span class="p">.</span><span class="na">ViewHolder</span><span class="p">(</span><span class="n">binding</span><span class="p">.</span><span class="na">expenseItem</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">fun</span><span class="w"> </span><span class="nf">bind</span><span class="p">(</span><span class="n">expense</span><span class="p">:</span><span class="w"> </span><span class="n">Expense</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">binding</span><span class="p">.</span><span class="na">tvExpenseName</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expense</span><span class="p">.</span><span class="na">name</span>
+<span class="w">            </span><span class="n">binding</span><span class="p">.</span><span class="na">tvExpenseAmount</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"</span><span class="si">${</span><span class="n">expense</span><span class="p">.</span><span class="na">amount</span><span class="si">}</span><span class="s"> Ft"</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreateViewHolder</span><span class="p">(</span><span class="n">parent</span><span class="p">:</span><span class="w"> </span><span class="n">ViewGroup</span><span class="p">,</span><span class="w"> </span><span class="n">viewType</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">):</span><span class="w"> </span><span class="n">ViewHolder</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">binding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ViewExpenseItemBinding</span><span class="p">.</span><span class="na">inflate</span><span class="p">(</span><span class="n">LayoutInflater</span><span class="p">.</span><span class="na">from</span><span class="p">(</span><span class="n">parent</span><span class="p">.</span><span class="na">context</span><span class="p">),</span><span class="w"> </span><span class="n">parent</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">ViewHolder</span><span class="p">(</span><span class="n">binding</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onBindViewHolder</span><span class="p">(</span><span class="n">holder</span><span class="p">:</span><span class="w"> </span><span class="n">ViewHolder</span><span class="p">,</span><span class="w"> </span><span class="n">position</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">holder</span><span class="p">.</span><span class="na">bind</span><span class="p">(</span><span class="n">expenses</span><span class="o">[</span><span class="n">position</span><span class="o">]</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">getItemCount</span><span class="p">():</span><span class="w"> </span><span class="kt">Int</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">expenses</span><span class="p">.</span><span class="na">size</span>
+<span class="p">}</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Mi történik görgetéskor?</p>
+<p>A <code>RecyclerView</code> nem minden egyes elemhez hoz létre új View-hierarchiát. A már létrehozott ViewHolder-eket újra felhasználja, és az <code>onBindViewHolder()</code> segítségével új adatot köt hozzájuk.</p>
+</div>
+<h2 id="a-recyclerview-inicializalasa">A RecyclerView inicializálása<a class="headerlink" href="#a-recyclerview-inicializalasa" title="Permanent link">¶</a></h2>
+<p>Az <code>ExpenseListFragment</code> <code>onViewCreated()</code> metódusában hozzuk létre az Adapter példányát, majd rendeljük hozzá a <code>RecyclerView</code>-hoz.</p>
+<div class="highlight"><pre><span></span><code><span class="kd">private</span><span class="w"> </span><span class="kd">lateinit</span><span class="w"> </span><span class="kd">var</span><span class="w"> </span><span class="nv">adapter</span><span class="p">:</span><span class="w"> </span><span class="n">ExpenseAdapter</span>
+
+<span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onViewCreated</span><span class="p">(</span><span class="n">view</span><span class="p">:</span><span class="w"> </span><span class="n">View</span><span class="p">,</span><span class="w"> </span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">super</span><span class="p">.</span><span class="na">onViewCreated</span><span class="p">(</span><span class="n">view</span><span class="p">,</span><span class="w"> </span><span class="n">savedInstanceState</span><span class="p">)</span>
+<span class="w">    </span><span class="n">adapter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ExpenseAdapter</span><span class="p">(</span><span class="n">expenses</span><span class="p">)</span>
+<span class="w">    </span><span class="n">binding</span><span class="p">.</span><span class="na">expensesRecyclerView</span><span class="p">.</span><span class="na">adapter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">adapter</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="a-kiadas-mentesenek-atallitasa-a-recyclerview-ra">A kiadás mentésének átállítása a RecyclerView-ra<a class="headerlink" href="#a-kiadas-mentesenek-atallitasa-a-recyclerview-ra" title="Permanent link">¶</a></h2>
+<p>A navigációs részben létrehozott <code>Fragment Result</code> listener most még Stringeket pakol a <code>TextView</code>-ba. Most írjuk ezt át úgy, hogy az <code>Expense</code> elemeket adja át a <code>RecyclerView</code>-nak.</p>
+<p>Az <code>ExpenseListFragment</code>-ben a result listener legyen:</p>
+<div class="highlight"><pre><span></span><code><span class="n">parentFragmentManager</span><span class="p">.</span><span class="na">setFragmentResultListener</span><span class="p">(</span><span class="s">"expense_result"</span><span class="p">,</span><span class="w"> </span><span class="n">viewLifecycleOwner</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">_</span><span class="p">,</span><span class="w"> </span><span class="n">bundle</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bundle</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="s">"EXPENSE_NAME"</span><span class="p">)</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="k">return</span><span class="nd">@setFragmentResultListener</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">amount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bundle</span><span class="p">.</span><span class="na">getInt</span><span class="p">(</span><span class="s">"EXPENSE_AMOUNT"</span><span class="p">)</span>
+<span class="w">    </span><span class="n">expenses</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">Expense</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">))</span>
+<span class="w">    </span><span class="n">adapter</span><span class="p">.</span><span class="na">notifyItemInserted</span><span class="p">(</span><span class="n">expenses</span><span class="p">.</span><span class="na">lastIndex</span><span class="p">)</span>
+<span class="w">    </span><span class="n">binding</span><span class="p">.</span><span class="na">tvTotalSum</span><span class="p">.</span><span class="na">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"</span><span class="si">${</span><span class="n">expenses</span><span class="p">.</span><span class="na">sumOf</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">amount</span><span class="w"> </span><span class="p">}</span><span class="si">}</span><span class="s"> Ft"</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>A <code>RecyclerView</code> nem figyeli automatikusan a mögötte lévő <code>MutableList</code> módosításait. Ha csak szimplán ezt írnánk:</p>
+<div class="highlight"><pre><span></span><code><span class="n">expenses</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">newExpense</span><span class="p">)</span>
+</code></pre></div>
+<p>attól a <code>RecyclerView</code> még nem feltétlenül tudná, hogy új elem jelent meg. Ezért értesíteni kell az Adaptert:</p>
+<div class="highlight"><pre><span></span><code><span class="n">adapter</span><span class="p">.</span><span class="na">notifyItemInserted</span><span class="p">(</span><span class="n">expenses</span><span class="p">.</span><span class="na">lastIndex</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Értesítések</p>
+<p>Mindig olyan értesítést használjunk, amely a lehető legpontosabban leírja, mi változott a listában. Például törlésnél <code>notifyItemRemoved()</code>, módosításnál <code>notifyItemChanged()</code> használható.</p>
+</div>
+<h2 id="a-recyclerview-mukodesenek-ellenorzese">A RecyclerView működésének ellenőrzése<a class="headerlink" href="#a-recyclerview-mukodesenek-ellenorzese" title="Permanent link">¶</a></h2>
+<p>Most ismét futtassuk le az alkalmazást.</p>
+<p>Vegyünk fel több kiadást, majd ellenőrizzük, hogy:</p>
+<ol>
+<li>minden kiadás külön listaelemként jelenik meg,</li>
+<li>több elem esetén a lista görgethető,</li>
+<li>új kiadás mentésekor a lista új elemmel bővül,</li>
+<li>a teljes összeg továbbra is megfelelően frissül.</li>
+</ol>
+<p>Ezek után pedig adjunk hozzá egy teljesen új <code>Fragment</code>-et, amit a semmiből építünk fel!</p>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (2 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amin látszódik az <strong><code>ExpenseListFragment</code> működő főképernyője legalább 3 kiadással</strong>, valamint az <strong><code>ExpenseListFragment</code> vagy <code>ExpenseAdapter</code> egy lényeges kódrészlete</strong>, és a <strong>Neptun kódod a kódban valahol kommentként</strong>.</p>
+<p>A képet a megoldásban a repository-ba <code>f2.png</code> néven töltsd föl.</p>
+<p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
+</div>
+<h2 id="onallo-feladatok">Önálló feladatok<a class="headerlink" href="#onallo-feladatok" title="Permanent link">¶</a></h2>
+<p>A következő feladatok mindegyike 1 pontot ér, vagyis nem szükséges mindegyik teljesítése a maximális pontszámhoz.</p>
+<h3 id="1-kiadas-torlese-a-listabol">1. Kiadás törlése a listából<a class="headerlink" href="#1-kiadas-torlese-a-listabol" title="Permanent link">¶</a></h3>
+<p>Egészítsd ki az egyes listaelemeket egy <code>Törlés</code> gombbal.</p>
+<p>A gomb megnyomásakor:</p>
+<ol>
+<li>
+<p>az Adapter jelezze vissza, hogy melyik elemhez tartozott a kattintás,</p>
+</li>
+<li>
+<p>a Fragmentben töröljük a megfelelő <code>Expense</code> objektumot a listából,</p>
+</li>
+<li>
+<p>az Adapter kapjon megfelelő értesítést a változásról.</p>
+</li>
+</ol>
+<p>A megoldáshoz használd például ezt a metódust:</p>
+<div class="highlight"><pre><span></span><code><span class="n">adapter</span><span class="p">.</span><span class="na">notifyItemRemoved</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amin látszódik egy kiadás törlése, a hozzá tartozó <code>Adapter</code>-beli eseménykezelés, valamint a <strong>Neptun kódod kommentként</strong>.</p>
+<p>A képet a megoldásban a repository-ba <code>f3.png</code> néven töltsd föl.</p>
+</div>
+<h3 id="2-ures-lista-allapot">2. Üres lista állapot<a class="headerlink" href="#2-ures-lista-allapot" title="Permanent link">¶</a></h3>
+<p>Jelenleg a <code>RecyclerView</code> akkor is megjelenik, amikor még egyetlen kiadásunk sincs.</p>
+<p>Egészítsd ki a főképernyőt egy üzenettel:</p>
+<blockquote>
+<p>Még nincsenek felvett kiadások.</p>
+</blockquote>
+<p>Ha a lista üres, jelenjen meg ez az üzenet, a <code>RecyclerView</code> pedig legyen elrejtve. Ha bekerül az első elem, már cseréld ezt le a listával. Figyelj arra, hogy a lista utolsó elemének törlése esetén is megjelenjen ez az üzenet.</p>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amin látszódik az üres lista állapot a képernyőn, egy ahhoz tartozó kódrészlet, valamint a <strong>Neptun kódod kommentként</strong>.</p>
+<p>A képet a megoldásban a repository-ba <code>f4.png</code> néven töltsd föl.</p>
+</div>
+<h3 id="3-a-nagyobb-kiadasok-kiemelese">3. A nagyobb kiadások kiemelése<a class="headerlink" href="#3-a-nagyobb-kiadasok-kiemelese" title="Permanent link">¶</a></h3>
+<p>Módosítsd a <code>RecyclerView</code> listaelemeit úgy, hogy a <strong>10000 Ft feletti kiadások</strong> vizuálisan eltérjenek a többitől.</p>
+<p>A megoldást az <code>Adapter</code> <code>bind()</code> vagy <code>onBindViewHolder()</code> részében valósítsd meg.</p>
+<p>A cél annak megfigyelése, hogy az Adapter nem csak adatokat írhat ki, hanem az adott adat alapján a View-k állapotát is beállíthatja.</p>
+<div class="admonition warning">
+<p class="admonition-title">ViewHolderek állapotkezelése</p>
+<p>Ügyelj arra, hogy egy újrahasznosított ViewHolder esetében az minden esetben állítsd vissza a normál állapotot! Ellenkező esetben egy korábban kiemelt listaelem megjelenése egy másik elemre is átszivároghat.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amin látszódnak a különböző megjelenésű elemek, egy ehhez a funkcióhoz tartozó kódrészlet, valamint a <strong>Neptun kódod kommentként</strong>.</p>
+<p>A képet a megoldásban a repository-ba <code>f5.png</code> néven töltsd föl.</p>
+</div>
+<h3 id="4-kiadasok-rendezese-osszeg-szerint">4. Kiadások rendezése összeg szerint<a class="headerlink" href="#4-kiadasok-rendezese-osszeg-szerint" title="Permanent link">¶</a></h3>
+<p>Adj egy új gombot vagy menüelemet a főképernyőhöz, amellyel a kiadások összeg szerint rendezhetők.</p>
+<p>Készíts két állapotot:</p>
+<ul>
+<li>növekvő sorrend,</li>
+<li>csökkenő sorrend.</li>
+</ul>
+<p>A feladat során érdemes felhasználni a Kotlin kollekciókezelő függvényeit, például:</p>
+<div class="highlight"><pre><span></span><code><span class="n">expenses</span><span class="p">.</span><span class="na">sortedBy</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">amount</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>vagy:</p>
+<div class="highlight"><pre><span></span><code><span class="n">expenses</span><span class="p">.</span><span class="na">sortedByDescending</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">amount</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
+<p>Figyelj arra is, hogy az Adapter által használt adathalmaz és a képernyőn látható sorrend összhangban maradjon.</p>
+<div class="admonition example">
+<p class="admonition-title">BEADANDÓ (1 pont)</p>
+<p>Készíts egy <strong>képernyőképet</strong>, amin látszódik a rendezett lista a főképernyőn, egy rendezéshez tartozó kódrészlet, valamint a <strong>Neptun kódod kommentként</strong>.</p>
+<p>A képet a megoldásban a repository-ba <code>f6.png</code> néven töltsd föl.</p>
+</div>
+<h3 id="5-kiadas-reszleteinek-megjelenitese">5. Kiadás részleteinek megjelenítése<a class="headerlink" href="#5-kiadas-reszleteinek-megjelenitese" title="Permanent link">¶</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Ez már egy kicsit összetettebb feladat</p>
+<p>Nem véletlenül hagytuk ezt a feladatot utoljára, mert a megoldásához már kicsit többet kell kutakodni, mint a többihez. Ettől függetlenül bátorítunk mindenkit arra, hogy megpróbálja megoldani ezt is, mert sokat lehet belőle tanulni, és fejleszti az önálló problémamegoldó készségeteket.</p>
+</div>
+<p>Tedd kattinthatóvá a <code>RecyclerView</code> egyes elemeit. </p>
+<div class="admonition info">
+<p class="admonition-title">Segítség</p>
+<p><a href="https://antonioleiva.com/recyclerview-listener/">https://antonioleiva.com/recyclerview-listener/</a></p>
+</div>
+<p>Kattintáskor navigáljunk egy új <code>ExpenseDetailFragment</code>-re, ahol jelenjen meg:</p>
+<ul>
+<li>a kiadás neve,</li>
+<li>a kiadás összege,</li>
+<li>egy vissza gomb,</li>
+<li>esetleg egy külön törlés gomb, aminek megnyomására törlődik az elem és visszalépünk a listára.</li>
+</ul>
+<p>A feladat során a navigációs gráfhoz új Fragmentet és új navigációs útvonalat kell felvenni.</p>
+<p>A kiadás adatainak átadására használhatsz Navigation argumentumot vagy <code>Bundle</code>-t.</p>
+<div class="admonition info">
+<p class="admonition-title">Segítség</p>
+<p><a href="https://developer.android.com/guide/navigation/use-graph/pass-data#bundle">https://developer.android.com/guide/navigation/use-graph/pass-data#bundle</a></p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Position</p>
+<p>Ennél a feladatnál érdemes megfigyelni, hogy a RecyclerView <code>position</code> értéke önmagában nem maga a kiadás. A pozíció alapján meg kell keresni az adott <code>Expense</code> objektumot, majd annak adataival kell navigálni.</p>
+</div>
+<h2 id="mit-erdemes-megjegyezni-ebbol-a-laborbol">Mit érdemes megjegyezni ebből a laborból?<a class="headerlink" href="#mit-erdemes-megjegyezni-ebbol-a-laborbol" title="Permanent link">¶</a></h2>
+<ul>
+<li>A <code>Fragment</code> egy Activity-n belüli UI-komponens, amely saját életciklussal rendelkezik.</li>
+<li>A <code>NavController</code> és a navigációs gráf segítségével a Fragmentek közötti útvonalak imperatívan és deklaratívan is kezelhetők.</li>
+<li>A Fragment ViewBinding-ja a View életciklusához kötött, ezért a bindinget az <code>onDestroyView()</code> során elengedjük.</li>
+<li>A <code>RecyclerView</code> az adatokat egy <code>Adapter</code> segítségével jeleníti meg, az egyes újrahasznosítható View-hierarchiákat pedig <code>ViewHolder</code>-ek kezelik.</li>
+<li>Ha a lista adatai megváltoznak, az Adaptert megfelelő <code>notify...()</code> hívással értesítenünk kell.</li>
+<li>A laborban elkészített megoldás már jó kiindulópont a következő fejlesztésekhez: valódi adattárolás, kategóriák, dátumok, szerkesztés, törlés, szűrés és rendezés is ráépíthető anélkül, hogy az alkalmazás teljes szerkezetét újra kellene gondolni.</li>
+</ul>
+  <hr>
+  <div class="md-source-file">
+    <span class="md-source-file__fact"> <span class="md-icon" title="Utolsó frissítés"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z">
+          </path>
+        </svg>
+      </span>
+      <span title="2026. szeptember 24. 15:35:23">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. szeptember 24. 15:35:23 CEST"><span class="timeago" datetime="2026-09-24T15:35:23+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. szeptember 24. 15:35:23 CEST">2026-09-24</span>
+      </span>
+    </span>
+
+    
+
+    <span class="md-source-file__fact">
+      <span class="md-icon" title="Szerzők">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z">
+          </path>
+        </svg>
+      </span>
+      <span>Szerzők</span>
+      <nav></nav>      
+    </span>
+  </div>
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden="">
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"></path></svg>
+  Vissza a tetejére
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © BME VIK AUT
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.instant", "navigation.top", "search.suggest", "content.code.copy"], "search": "../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "V\u00e1g\u00f3lapra m\u00e1solva", "clipboard.copy": "M\u00e1sol\u00e1s v\u00e1g\u00f3lapra", "search.result.more.one": "1 tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.more.other": "# tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.none": "Nincs tal\u00e1lat", "search.result.one": "1 egyez\u0151 dokumentum", "search.result.other": "# egyez\u0151 dokumentum", "search.result.placeholder": "Keres\u00e9shez \u00edrj ide valamit", "search.result.term.missing": "\u00dcres", "select.version": "Verzi\u00f3v\u00e1lt\u00e1s"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

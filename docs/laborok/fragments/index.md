@@ -22,9 +22,7 @@ A labor során a következő koncepciókkal ismerkedünk meg:
 
 *   Kotlin `data class` használata listaelemek reprezentálására
 
-A labor végére ugyanazt az alapvető funkcionalitást kapjuk meg, mint a második laborban, azonban az alkalmazás képernyőit már Fragmentek kezelik, a korábbi `TextView` alapú kiadáslista helyett pedig egy valódi `RecyclerView` jeleníti meg a tételeket. Ezen kívül egy új képernyővel is bővítjük az alkalmazást.
-
-<!-- KÉP HELYE: Az elkészült BudgetTracker főképernyője néhány kiadással, valamint az új kiadás hozzáadása, névjegy és kimutatás képernyő. Javasolt fájlnév: overview.png -->
+A labor végére ugyanazt az alapvető funkcionalitást kapjuk meg, mint a második laborban, azonban az alkalmazás képernyőit már Fragmentek kezelik, a korábbi `TextView` alapú kiadáslista helyett pedig egy valódi `RecyclerView` jeleníti meg a tételeket.
 
 ## A kezdeti koncepció
 

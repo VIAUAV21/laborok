@@ -8,6 +8,10 @@
       
       
       
+        <link rel="prev" href="../view/">
+      
+      
+        <link rel="next" href="../compose/">
       
       
       <link rel="icon" href="../../favicon.ico">
@@ -239,10 +243,12 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
+      <li class="md-tabs__item md-tabs__item--active">
         <a href="../basics/" class="md-tabs__link">
           
   
@@ -470,23 +476,28 @@
       
   
   
+    
   
   
+  
     
     
     
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked="">
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   <span class="md-ellipsis">
@@ -497,7 +508,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Laborok
@@ -550,18 +561,355 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../calculator/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Labor03 - Fragmentek és RecyclerView
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
-    Labor03 - Számológép (Calculator)
+    Labor03 - Fragmentek és RecyclerView
   </span>
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tartalomjegyzék">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tartalomjegyzék
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#a-labor-celkituzese" class="md-nav__link">
+    <span class="md-ellipsis">
+      A labor célkitűzése
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-kezdeti-koncepcio" class="md-nav__link">
+    <span class="md-ellipsis">
+      A kezdeti koncepció
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-megvalositas" class="md-nav__link">
+    <span class="md-ellipsis">
+      A megvalósítás
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-projekt-tovabbfejlesztese" class="md-nav__link">
+    <span class="md-ellipsis">
+      A projekt továbbfejlesztése
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#atteres-activity-krol-fragmentekre" class="md-nav__link">
+    <span class="md-ellipsis">
+      Áttérés Activity-kről Fragmentekre
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-fragmentek-letrehozasa" class="md-nav__link">
+    <span class="md-ellipsis">
+      A Fragmentek létrehozása
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="A Fragmentek létrehozása">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#expenselistfragment" class="md-nav__link">
+    <span class="md-ellipsis">
+      ExpenseListFragment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#addexpensefragment" class="md-nav__link">
+    <span class="md-ellipsis">
+      AddExpenseFragment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#aboutfragment" class="md-nav__link">
+    <span class="md-ellipsis">
+      AboutFragment
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#navigacios-graf-letrehozasa" class="md-nav__link">
+    <span class="md-ellipsis">
+      Navigációs gráf létrehozása
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-mainactivity-atalakitasa" class="md-nav__link">
+    <span class="md-ellipsis">
+      A MainActivity átalakítása
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-navigacio-hasznalata" class="md-nav__link">
+    <span class="md-ellipsis">
+      A navigáció használata
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-fragment-result-fogadasa" class="md-nav__link">
+    <span class="md-ellipsis">
+      A Fragment Result fogadása
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-navigacio-kiprobalasa" class="md-nav__link">
+    <span class="md-ellipsis">
+      A navigáció kipróbálása
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#recyclerview" class="md-nav__link">
+    <span class="md-ellipsis">
+      RecyclerView
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kiadasok-modellje-kotlinban" class="md-nav__link">
+    <span class="md-ellipsis">
+      Kiadások modellje Kotlinban
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-szukseges-fuggoseg-felvetele" class="md-nav__link">
+    <span class="md-ellipsis">
+      A szükséges függőség felvétele
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-recyclerview-feluletenek-kialakitasa" class="md-nav__link">
+    <span class="md-ellipsis">
+      A RecyclerView felületének kialakítása
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="A RecyclerView felületének kialakítása">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-a-listaelem-layoutja" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. A listaelem layoutja
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-viewholder" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. ViewHolder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-az-adapter" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Az Adapter
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-recyclerview-inicializalasa" class="md-nav__link">
+    <span class="md-ellipsis">
+      A RecyclerView inicializálása
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-kiadas-mentesenek-atallitasa-a-recyclerview-ra" class="md-nav__link">
+    <span class="md-ellipsis">
+      A kiadás mentésének átállítása a RecyclerView-ra
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-recyclerview-mukodesenek-ellenorzese" class="md-nav__link">
+    <span class="md-ellipsis">
+      A RecyclerView működésének ellenőrzése
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#onallo-feladatok" class="md-nav__link">
+    <span class="md-ellipsis">
+      Önálló feladatok
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Önálló feladatok">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-kiadas-torlese-a-listabol" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Kiadás törlése a listából
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-ures-lista-allapot" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Üres lista állapot
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-a-nagyobb-kiadasok-kiemelese" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. A nagyobb kiadások kiemelése
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-kiadasok-rendezese-osszeg-szerint" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Kiadások rendezése összeg szerint
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-kiadas-reszleteinek-megjelenitese" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Kiadás részleteinek megjelenítése
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mit-erdemes-megjegyezni-ebbol-a-laborbol" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mit érdemes megjegyezni ebből a laborból?
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 

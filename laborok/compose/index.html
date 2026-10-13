@@ -1348,15 +1348,16 @@
 <p>Az Android Studio a projekt létrehozásakor felveszi ugyan a <em>Compose</em>-t a függésegek közé, de némileg elavult verziókat használ. Frissítsük a modul szintű <code>build.gradle.kts</code> fájlban a függőségeket az alábbiakra, majd szinkronizáljuk is a projektet:</p>
 <p>A függőségeink a Version Catalogban (<code>libs.version.toml</code>):</p>
 <div class="highlight"><pre><span></span><code>[versions]
-agp = "9.0.1"
-kotlin = "2.3.20"
-coreKtx = "1.18.0"
+[versions]
+agp = "9.3.3"
+coreKtx = "1.19.1"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
-lifecycleRuntimeKtx = "2.10.0"
+lifecycleRuntimeKtx = "2.11.0"
 activityCompose = "1.13.0"
-composeBom = "2026.03.00"
+kotlin = "2.4.21"
+composeBom = "2026.09.00"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -1366,42 +1367,41 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-androidx-ui = { group = "androidx.compose.ui", name = "ui" }
-androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 </code></pre></div>
 <p>Illetve a modul szintű <code>build.gradle.kts</code> fájlban:</p>
 <div class="highlight"><pre><span></span><code>dependencies {
 
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
+    implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.junit)
+    debugImplementation(libs.androidx.compose.ui.test.manifest)
+    debugImplementation(libs.androidx.compose.ui.tooling)
 }
 </code></pre></div>
 <p>A fenti függőségekhez 36-os SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű <code>build.gradle.kts</code> fájlunkban:</p>
 <div class="highlight"><pre><span></span><code>    compileSdk {
-        version = release(36)
+        version = release(37)
     }
 </code></pre></div>
 <h2 id="fuggoseg-felvetele">Függőség felvétele<a class="headerlink" href="#fuggoseg-felvetele" title="Permanent link">¶</a></h2>
@@ -1453,19 +1453,6 @@ jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serializati
 <h3 id="normaltextfield">NormalTextField<a class="headerlink" href="#normaltextfield" title="Permanent link">¶</a></h3>
 <p>Ezen belül készítsünk egy <code>NormalTextField</code> komponenst a következő tartalommal:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.common</span>
-
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.text.KeyboardActionScope</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.text.KeyboardActions</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.text.KeyboardOptions</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.Icons</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.ErrorOutline</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Icon</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.OutlinedTextField</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.input.ImeAction</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.input.KeyboardType</span>
 
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">NormalTextField</span><span class="p">(</span>
@@ -1573,25 +1560,6 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <p>A fentihez hasonlóan a <code>ui.common</code> package-be készítsünk egy újabb komponenst <code>PasswordTextField</code> néven az alábbi tartalommal:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.common</span>
 
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.text.KeyboardActionScope</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.text.KeyboardActions</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.text.KeyboardOptions</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.Icons</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.ErrorOutline</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.rounded.Visibility</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.rounded.VisibilityOff</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Icon</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.IconButton</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.OutlinedTextField</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.input.ImeAction</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.input.KeyboardType</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.input.PasswordVisualTransformation</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.input.VisualTransformation</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.tooling.preview.Preview</span>
-
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">PasswordTextField</span><span class="p">(</span>
 <span class="w">    </span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">,</span>
@@ -1684,37 +1652,6 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <p>Most, hogy a képernyők minden fontos alkotórésze a rendelkezésünkre áll, elkezdhetjük maguknak a képernyőknek az elkészítését. Kezdjük a bejelentkező képernyővel!</p>
 <p>A képernyőknek és a hozzájuk kapcsolódó kódoknak hozzunk létre egy közös <code>hu.bme.aut.android.composebasics.ui.screen</code> package-et, majd ezen belül a bejelentkező képernyő a <code>login</code> package-be kerüljön! Készítsük el a képernyő kódját <code>LoginScreen</code> néven, majd adjuk meg a következő kódot:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.screen.login</span>
-
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.background</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Box</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Column</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Spacer</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxSize</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.height</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.width</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.text.KeyboardOptions</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.Icons</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.Key</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.Person</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Button</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Icon</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.MaterialTheme</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.TextFieldDefaults</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.getValue</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.mutableStateOf</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.remember</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.setValue</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Alignment</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.graphics.RectangleShape</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.res.stringResource</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.input.ImeAction</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.unit.dp</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.R</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.common.NormalTextField</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.common.PasswordTextField</span>
 
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">LoginScreen</span><span class="p">(</span>
@@ -1825,9 +1762,6 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <p>Ehhez hozzunk létre egy <code>navigation</code> package-et, és ebbe kerüljön az alábbi <code>Screen</code> <em>interface</em>. Ahhoz, hogy ne sztring összehasonlítás alapján navigáljunk, ebben az osztályban felvesszük az egyes képernyőink navigációs útvonalát "konstansként". <code>sealed interface</code>-t alkalmazunk a lehetséges képernyők leírására, mert csak előre megadott számú képernyőnk van, és a főképernyő argumentumot is kaphat. A <code>sealed interface</code> kicsit hasonlít az <code>enumhoz</code>, de támogatja ezt a fontos különbséget is. </p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.navigation</span>
 
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation3.runtime.NavKey</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.serialization.Serializable</span>
-
 <span class="kd">sealed</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="nc">Screen</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">NavKey</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nd">@Serializable</span>
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">object</span><span class="w"> </span><span class="nc">LoginScreenDestination</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Screen</span>
@@ -1845,17 +1779,6 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 </div>
 <p>Maga a főképernyő egy <code>screen.home</code> subpackage-be kerüljön. Először itt is egy segédosztályt hozunk létre a <code>menu</code> package-ben. Jelen esetben a menüpontokat fogjuk enumban modellezni. Minden menüpontra jellemző a neve, az ikonja, illetve egy azonosító, ahova navigál:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.screen.home.menu</span>
-
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.Icons</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.Person</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.Settings</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Icon</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.res.stringResource</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation3.runtime.NavKey</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.R</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.navigation.Screen</span>
 
 <span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">MenuItemUiModel</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">text</span><span class="p">:</span><span class="w"> </span><span class="nd">@Composable</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="kt">Unit</span><span class="p">,</span>
@@ -1880,18 +1803,6 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 </code></pre></div>
 <p>A menüben szerepelnek profil és beállítás lehetőségek is, amelyekről korábban nem volt szó. Ezek nem lesznek igazi kidolgozott képernyők, de példaképp szerepelnek itt, hogy bemutassuk, hogyan lehetne a főmenüből további oldalakra is elnavigálni. Látható, hogy itt a menüpontoknál meghivatkoztuk a korábban a <code>Screen</code> osztályban definiált képernyőket is. A leírt menüpontokból még fel kell építenünk a menüt is. Elvileg ezt megtehetnénk a teljes főképernyő részeként, de átláthatóbb struktúrát kapunk, ha ezt külön composable komponensbe szervezzük. Ahogyan általában véve a metódusoknál sem átlátható a túl hosszú, úgy a felületi komponenseinket is érdemes kisebb, jobban kezelhető egységekre osztani. Készítsünk tehát egy <code>Menu</code> komponenst:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.screen.home.menu</span>
-
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.height</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.padding</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.shape.RoundedCornerShape</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.DropdownMenu</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.DropdownMenuItem</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.HorizontalDivider</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.draw.clip</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.unit.dp</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation3.runtime.NavKey</span>
 
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">Menu</span><span class="p">(</span>
@@ -1925,39 +1836,6 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <p>Látjuk, hogy a menüelemek látrehozása is ciklussal történik, és a menüpontok igen könnyen bővíthetőek. A bejárásnál a menüpontok indexét is felhasználjuk, hogy a menüpontok után - az utolsó kivételével - elválasztót is generáljunk.</p>
 <p>Most rátérhetünk a tényleges főképernyő létrehozására:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.screen.home</span>
-
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Box</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxSize</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.padding</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.Icons</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.automirrored.filled.Logout</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.Add</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.icons.filled.MoreVert</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ExperimentalMaterial3Api</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.FloatingActionButton</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Icon</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.IconButton</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Scaffold</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.SnackbarHost</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.SnackbarHostState</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.TopAppBar</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.getValue</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.mutableStateOf</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.remember</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.rememberCoroutineScope</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.setValue</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Alignment</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.platform.LocalResources</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.res.stringResource</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.text.style.TextAlign</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation3.runtime.NavKey</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.R</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.screen.home.menu.Menu</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.screen.home.menu.MenuItemUiModel</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.launch</span>
 
 <span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="nd">@Composable</span>
@@ -2062,19 +1940,6 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <p>Most már csak össze kell kötnünk a meglévő képernyőket a navigációs szabályokkal. Ehhez egy navigációs gráfokat fogunk definiálni. Ezt a korábban létrehozott <code>navigation</code> package-be tegyük:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.navigation</span>
 
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Box</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxSize</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.Text</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.mutableStateListOf</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.remember</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Alignment</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation3.runtime.entryProvider</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation3.ui.NavDisplay</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.screen.home.HomeScreen</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.screen.login.LoginScreen</span>
-
 <span class="nd">@Composable</span>
 <span class="kd">fun</span><span class="w"> </span><span class="nf">AppNavigation</span><span class="p">(</span><span class="n">modifier</span><span class="p">:</span><span class="w"> </span><span class="n">Modifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Modifier</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">backStack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">remember</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">mutableStateListOf</span><span class="o">&lt;</span><span class="n">Screen</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Screen</span><span class="p">.</span><span class="na">LoginScreenDestination</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
@@ -2132,18 +1997,6 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <p>Figyeljük meg, hogy a bejelentkezés után a főképernyő hogyan kapja meg a felhasználónevet mint paramétert, illetve a <code>Home Screen</code>-en hogyan nyerjük azt ki . Láthatjuk azt is, hogy a főképernyőre érkezve a backstackről törlődik a bejelentkeztető képernyő útvonala. A navigációban a profil és beállítás oldalak nincsenek kidolgozva, ezért ide csak egy-egy <code>Box</code> elemet vettünk fel placeholder szöveggel.</p>
 <p>Már csak a <code>MainActivity</code>-be kell bekötnünk a navigáció szerint feloldott felület megjelenítését. Itt történik az alkalmazás témájának a megadása is:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics</span>
-
-<span class="k">import</span><span class="w"> </span><span class="nn">android.os.Bundle</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.ComponentActivity</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.compose.setContent</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.enableEdgeToEdge</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxSize</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.safeDrawingPadding</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.tooling.preview.Preview</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.navigation.AppNavigation</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.composebasics.ui.theme.ComposeBasicsTheme</span>
 
 <span class="kd">class</span><span class="w"> </span><span class="nc">MainActivity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ComponentActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span><span class="w"> </span><span class="n">Bundle?)</span><span class="w"> </span><span class="p">{</span>
@@ -2211,8 +2064,8 @@ Próbáld ki így az alkalmazást!</p>
           </path>
         </svg>
       </span>
-      <span title="2026. március 17. 16:01:30">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. március 17. 16:01:30 CET"><span class="timeago" datetime="2026-03-17T16:01:30+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. március 17. 16:01:30 CET">2026-03-17</span>
+      <span title="2026. október 13. 13:29:32">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. október 13. 13:29:32 CEST"><span class="timeago" datetime="2026-10-13T13:29:32+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. október 13. 13:29:32 CEST">2026-10-13</span>
       </span>
     </span>
 

@@ -55,14 +55,14 @@ Akinek nem sikerül ezt a pontszámot megszerezni, az a vizsgára vihet maximum 
 
 ## Beadás módja
 
-A házi feladat beadásának platformja a laborokhoz hasonlóan a Github Classroom. A meghívó a Moodle oldalon található.
+A házi feladat beadásának platformja a laborokhoz hasonlóan a Github. A meghívó a Moodle oldalon található.
 
 !!!danger "neptun.txt"
 	Az első és legfontosabb, hogy az eddigiekhez hasonlóan töltsd ki a neptun.txt fájlt, hogy a rendszer azonosítani tudjon.
 
 ### Specifikáció
 
-A specifikáció beadás határideje a **9. hét vége (2026. április 26. 23:59)**.
+A specifikáció beadás határideje a **9. hét vége (2026. november 8. 23:59)**.
 A specifikáció elkészítése közben a "**spec**" branchen dolgozz. Erre az ágra akárhány kommitot tehetsz.
 Sablont a README.md fájl tartalmaz, azt kell kiegészíteni, és feltölteni a repóba a megadott határidőig.
 A beadás akkor teljes, ha a "spec" branch-en megtalálható a README.md fájlban a specifikáció. A beadást egy pull request jelzi, amely pull requestet a laborvezetődhöz kell rendelned.
@@ -70,7 +70,7 @@ A specifikáció elkészítése előfeltétele a házi feladat elfogadásának.
 
 ### Házi feladat
 
-A házi feladat beadás határideje a **13. hét vége (2026. május 24. 23:59)**.
+A házi feladat beadás határideje a **13. hét vége (2026. december 6. 23:59)**.
 A házi feladat elkészítése közben a "**hf**" branchen dolgozz. Erre az ágra akárhány kommitot tehetsz. 
 A projektet mindenképpen ebbe a repository-ba hozd létre, a fejlesztést végig itt végezd.
 A beadás akkor teljes, ha a "hf" branch-en megtalálható a projekted teljes forráskódja. A beadást egy pull request jelzi, amely pull requestet a laborvezetődhöz kell rendelned.
@@ -87,7 +87,6 @@ A házi feladat pótlásához mindenképpen tartozik **pót házi feladat védé
 
 A házi feladatot a specifikáción túl dokumentálni is kell a README.md fájlba. (A specifikáció után.) Ebben röviden ismertetni kell az elkészült alkalmazás funkcionalitását és az érdekesebb megoldásokat.
 
-!!!tip "Androidalapú szoftverfejlesztés + Mobil- és webes szoftverek közös házi feladat"
-	Ha valaki mind a két tárgyat hallgatja a félévben, van lehetőség közös házi feladat írására, DE:
-	- Ezt mindenképpen egyeztetni kell mindkét laborvezetővel.
-	- Ugyanaz a házi csak úgy adható le mindkét tárgyon, ha a nehezebb követelményeket (vagyis az Androidalapú szoftverfejlesztését) felülteljesíti. Tehát az Androidalapú szoftverfejlesztés követelményei szerint nem 5, hanem 6-7 technológiát kell használni. Ennek mennyiségéről és a feladat komplexitásáról a laborvezetők döntenek.
+## Videó
+
+Az elkészült alkalmazás működéséről készíteni kell egy 1-2 perces videót, amiben a teljes funkcionalitás bemutatásra kerül. Ez készülhet képernyőfelvétellel akár emulátoron, akár fizikai készüléken, de narráció nem szükséges.

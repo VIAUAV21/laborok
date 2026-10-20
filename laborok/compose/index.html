@@ -1284,8 +1284,8 @@
 <p>Az alkalmazásban a tényleges bejelentkeztetési logika most nem kap helyet, pusztán a felhasználói felület létrehozásának módjára koncentrálunk.</p>
 <p>A megvalósítandó felhasználói felületet az alábbi képernyőképek szemléltetik:</p>
 <p float="left">
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/login.png" data-desc-position="bottom"><img src="./assets/login.png" width="320" align="middle"></a>
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/home.png" data-desc-position="bottom"><img src="./assets/home.png" width="320" align="middle"></a>
+
+
 </p>
 
 <h2 id="elokeszuletek">Előkészületek<a class="headerlink" href="#elokeszuletek" title="Permanent link">¶</a></h2>
@@ -2026,8 +2026,8 @@ paraméterezések esetén. Vizsgáljuk meg a hibajelzéssel ellátott megjelené
 <p>Ez viszont amennyire hasznos, annyi problémát is tud okozni, ha e miatt valami vezérlőnk becsúszik mondjuk a szoftveres billentyűzet alá, amit így nem tudunk elérni. Ennek kiküszöbölésére találták ki az <a href="https://developer.android.com/develop/ui/compose/layouts/insets">inseteket</a>. Ennek számos beállítása van, amellyel nem kell nekünk kézzel megtippelni, hogy például a <em>status bar</em> hány dp magas, különösen, hogy ezek az értékek futásidőben változhatnak (lásd szoftveres billentyűzet). A számos beállítás közül mi most a fent látható <code>safeDrawindPadding</code>-et használjuk, ami mint neve is mutatja, pont akkora <em>paddinget</em> állít mindenhova, hogy semmit se takarjon ki a rendszer UI. (Természetesen ez nem csak az <code>Activity</code>-ben, hanem minden <code>Screenen</code> és <code>Composable</code>-ön kölün is használható.)</p>
 <p>A funkció egyik jó demonstrációja, hogy a LoginScreen vezérlői, amik a teljes oldal közepére vannak helyezve, a szoftveres billentyűzet megjelenésekor nem takaródnak le, hanem a szabadon maradó hely közepére csúsznak.</p>
 <p></p><p align="center"> 
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/login.png" data-desc-position="bottom"><img src="./assets/login.png" width="160" align="middle"></a>
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/login2.png" data-desc-position="bottom"><img src="./assets/login2.png" width="160" align="middle"></a>
+
+
 </p><p></p>
 </div>
 <p>Próbáljuk ki az alkalmazást!</p>
@@ -2048,7 +2048,7 @@ Próbáld ki így az alkalmazást!</p>
 <h2 id="onallo-feladat-regisztracio-gomb">Önálló feladat - Regisztráció gomb<a class="headerlink" href="#onallo-feladat-regisztracio-gomb" title="Permanent link">¶</a></h2>
 <p>Adj hozzá a login oldal aljához egy teljes oldal szélességű gombot, ahol az új felhasználó a regisztráció oldalra navigálhatna. A gomb újrahasználható komponensként legyen megvalósítva. Az alábbi kép mutatja az elkészítendő felületet:</p>
 <p float="left">
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/login.png" data-desc-position="bottom"><img src="./assets/login.png" width="320" align="middle"></a>
+
 </p>
 
 <p>Segítség: a <code>Surface</code> és a <code>Text</code> composable functionök a segítségedre lehetnek a megoldásban.</p>

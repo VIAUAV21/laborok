@@ -1347,10 +1347,10 @@
 <h1 id="labor05-todo-alkalmazas">Labor05 - Todo Alkalmazás<a class="headerlink" href="#labor05-todo-alkalmazas" title="Permanent link">¶</a></h1>
 <p>A labor célja, hogy bemutassa, hogyan lehet egy egyszerű ToDo alkalmazást megvalósítani a Compose keretrendszerben.</p>
 <p float="left">
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/list.png" data-desc-position="bottom"><img src="./assets/list.png" width="320" align="middle"></a>
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/details.png" data-desc-position="bottom"><img src="./assets/details.png" width="320" align="middle"></a>
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/create.png" data-desc-position="bottom"><img src="./assets/create.png" width="320" align="middle"></a>
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="./assets/datepicker.png" data-desc-position="bottom"><img src="./assets/datepicker.png" width="320" align="middle"></a>
+
+
+
+
 </p>
 
 <h2 id="elokeszuletek">Előkészületek<a class="headerlink" href="#elokeszuletek" title="Permanent link">¶</a></h2>
@@ -1368,9 +1368,6 @@
 </li>
 <li>
 <p>Hozz létre egy új ágat <code>megoldas</code> néven, és ezen az ágon dolgozz.</p>
-</li>
-<li>
-<p>A <code>neptun.txt</code> fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.</p>
 </li>
 </ol>
 <h2 id="projekt-letrehozasa">Projekt létrehozása<a class="headerlink" href="#projekt-letrehozasa" title="Permanent link">¶</a></h2>
@@ -1390,24 +1387,24 @@
 <h3 id="verziok-frissitese">Verziók frissítése<a class="headerlink" href="#verziok-frissitese" title="Permanent link">¶</a></h3>
 <p>Először frissítsük a verziószámokat a <code>libs.versions.toml</code> fájlban:</p>
 <div class="highlight"><pre><span></span><code><span class="k">[versions]</span>
-<span class="n">agp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"9.0.1"</span>
-<span class="n">coreKtx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"1.18.0"</span>
+<span class="n">agp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"9.3.3"</span>
+<span class="n">coreKtx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"1.19.1"</span>
 <span class="n">junit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"4.13.2"</span>
 <span class="n">junitVersion</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"1.3.0"</span>
 <span class="n">espressoCore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"3.7.0"</span>
-<span class="n">lifecycleRuntimeKtx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2.10.0"</span>
+<span class="n">lifecycleRuntimeKtx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2.11.0"</span>
 <span class="n">activityCompose</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"1.13.0"</span>
-<span class="n">kotlin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2.3.20"</span>
-<span class="n">composeBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2026.03.01"</span>
+<span class="n">kotlin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2.4.21"</span>
+<span class="n">composeBom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2026.09.00"</span>
 </code></pre></div>
 <p>Utána vegyük fel a pluszban szükséges könyvtárakat és plugineket:</p>
 <div class="highlight"><pre><span></span><code><span class="k">[versions]</span>
 <span class="p">...</span>
-<span class="n">kotlinxDatetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"0.7.1"</span>
-<span class="n">viewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2.10.0"</span>
-<span class="n">nav3Core</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"1.0.1"</span>
-<span class="n">kotlinSerialization</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2.3.20"</span>
-<span class="n">kotlinxSerializationCore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"1.10.0"</span>
+<span class="n">kotlinxDatetime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"0.8.0"</span>
+<span class="n">viewModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2.11.0"</span>
+<span class="n">nav3Core</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"1.2.0"</span>
+<span class="n">kotlinSerialization</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"2.4.21"</span>
+<span class="n">kotlinxSerializationCore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"1.12.0"</span>
 
 <span class="k">[libraries]</span>
 <span class="p">...</span>
@@ -1456,8 +1453,8 @@ dependencies {
 <p class="admonition-title">Függőségek</p>
 <p>Az itt található kódban minden függőség szerepel, a labor során újat hozzáadni nem kell. Azonban az egyértelműség kedvéért a későbbiekben mindenhol feltüntetjük az adott területhez szükséges függőségeket.</p>
 </div>
-<p>A fenti függőségekhez 36-os SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű <code>build.gradle.kts</code> fájlunkban:</p>
-<div class="highlight"><pre><span></span><code>    compileSdk = 36
+<p>A fenti függőségekhez 37-os SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű <code>build.gradle.kts</code> fájlunkban:</p>
+<div class="highlight"><pre><span></span><code>    compileSdk = 37
 </code></pre></div>
 <h3 id="szoveges-eroforrasok-definialasa">Szöveges erőforrások definiálása<a class="headerlink" href="#szoveges-eroforrasok-definialasa" title="Permanent link">¶</a></h3>
 <p>A <code>strings.xml</code> fájl működését már ismerjük, töltsük fel ezt előre a később szükséges szöveges címkékkel, hogy később a lényeges elemekre tudjunk koncentrálni:</p>
@@ -1735,7 +1732,7 @@ kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime",
 </ul>
 <p>Az új oldalakra való navigáláshoz szükségünk van a navigációt vezérlő kontrollerre, melyet az <code>AppNavigation</code> <em>Composable</em> kezel, ezért ezeknél az eseményeknél az oldal olyan függvény callback objektumokat fog meghívni, melyeket a konstruktorán keresztül kap meg, így a <code>AppNavigation</code> könnyen tud értesülni róluk.</p>
 <p>Az adatok kezeléséhez tipikusan a <code>ViewModel</code> osztályt használjuk. A <code>ViewModel</code> segítségével biztosítjuk azt, hogy elkülönüljenek az alkalmazásunk megjelenítésért szolgáló kódjai az alkalmazás logikáját biztosító kódjaitól. Míg az előbbiek a felület megjelenéséért felelnek, a <code>ViewModel</code> tárolja és dolgozza fel a UI-nak szükséges adatokat.
-<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="assets/compose_viewmodel.png" data-desc-position="bottom"><img alt="" src="assets/compose_viewmodel.png"></a></p>
+</p>
 <details class="info">
 <summary>ViewModel</summary>
 <p>Vegyük fel a szükséges függőségeket:
@@ -3457,7 +3454,7 @@ Az <code>animateFloatAsState()</code> egy nagyon hasznos State objektumot tesz e
 </code></pre></div>
 Így a szög kiolvasása az <code>Icon</code> létrehozásakor történik, mely az <code>IconButton</code> callbackjében történik, melyben csak az <code>Icon</code> létrehozása történik, így kevesebb elemet kell létrehozni ennek a módosítására.<p></p>
 <p>A kiolvasás helyének módosítása mellett egy másik szempontra is érdemes figyelnünk a State objektumok használatánál: a Compose melyik fázisában történik a kiolvasás. Ennek megértésére nézzük át az alábbi ábrát:</p>
-<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="assets/phases-state-read-draw.svg" data-desc-position="bottom"><img alt="" src="assets/phases-state-read-draw.svg"></a></p>
+<p></p>
 <p>Az aktuális helyzetben a Composition rétegben olvassuk ki az értékét a szögnek, pedig valójában csak a kirajzoláskor kellene egy forgatási transzformációt használni. A Compose sok esetben két megoldást biztosít egy paraméter megadására: a közvetlen értékadás, illetve a callbacken keresztüli visszatérés. </p>
 <p>Jelenleg a közvetlen értékadást használjuk, mert akkor megadjuk a forgatás értékét, amikor létrehozzuk az adott <code>Modifier</code> objektumot. Ezt általában egyszerűbb, viszont cserébe korábban kiolvasásra kerül az érték, mint szükség lenne. A callbacken keresztüli visszatérés esetén a Compose garantálja, hogy csak abban a fázisban olvassa ki az adott értéket, amikor már mindenképp szükséges. Ezt forgatásnál is lehet használni a következő módon:
 </p><div class="highlight"><pre><span></span><code><span class="n">Icon</span><span class="p">(</span>
@@ -3545,8 +3542,8 @@ Az <code>animateFloatAsState()</code> egy nagyon hasznos State objektumot tesz e
           </path>
         </svg>
       </span>
-      <span title="2026. március 27. 11:21:24">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. március 27. 11:21:24 CET"><span class="timeago" datetime="2026-03-27T11:21:24+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. március 27. 11:21:24 CET">2026-03-27</span>
+      <span title="2026. október 20. 14:25:07">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. október 20. 14:25:07 CEST"><span class="timeago" datetime="2026-10-20T14:25:07+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. október 20. 14:25:07 CEST">2026-10-20</span>
       </span>
     </span>
 

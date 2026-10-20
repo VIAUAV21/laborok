@@ -24,8 +24,6 @@ A feladatok megoldása során ne felejtsd el követni a [feladat beadás folyama
 
 3. Hozz létre egy új ágat `megoldas` néven, és ezen az ágon dolgozz.
 
-4. A `neptun.txt` fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.
-
 ## Projekt létrehozása
 
 Ezután indítsuk el az Android Studio-t, majd:
@@ -47,15 +45,15 @@ Először frissítsük a verziószámokat a `libs.versions.toml` fájlban:
 
 ```toml
 [versions]
-agp = "9.0.1"
-coreKtx = "1.18.0"
+agp = "9.3.3"
+coreKtx = "1.19.1"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
-lifecycleRuntimeKtx = "2.10.0"
+lifecycleRuntimeKtx = "2.11.0"
 activityCompose = "1.13.0"
-kotlin = "2.3.20"
-composeBom = "2026.03.01"
+kotlin = "2.4.21"
+composeBom = "2026.09.00"
 ```
 
 Utána vegyük fel a pluszban szükséges könyvtárakat és plugineket:
@@ -63,11 +61,11 @@ Utána vegyük fel a pluszban szükséges könyvtárakat és plugineket:
 ```toml
 [versions]
 ...
-kotlinxDatetime = "0.7.1"
-viewModel = "2.10.0"
-nav3Core = "1.0.1"
-kotlinSerialization = "2.3.20"
-kotlinxSerializationCore = "1.10.0"
+kotlinxDatetime = "0.8.0"
+viewModel = "2.11.0"
+nav3Core = "1.2.0"
+kotlinSerialization = "2.4.21"
+kotlinxSerializationCore = "1.12.0"
 
 [libraries]
 ...
@@ -122,10 +120,10 @@ plugins {
 !!!danger "Függőségek"
 	Az itt található kódban minden függőség szerepel, a labor során újat hozzáadni nem kell. Azonban az egyértelműség kedvéért a későbbiekben mindenhol feltüntetjük az adott területhez szükséges függőségeket.
 
-A fenti függőségekhez 36-os SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű `build.gradle.kts` fájlunkban:
+A fenti függőségekhez 37-os SDK-val kell fordítanunk a projektet, ha a legenerált alkalmazásban korábbi lenne megadva, akkor frissítsük ezt is a modul szintű `build.gradle.kts` fájlunkban:
 
 ```gradle
-    compileSdk = 36
+    compileSdk = 37
 ```
 
 ### Szöveges erőforrások definiálása

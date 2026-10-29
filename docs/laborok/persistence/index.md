@@ -145,22 +145,6 @@ data class TodoEntity(
     val dueDate: LocalDate,
     val description: String
 )
-
-fun TodoEntity.asTodo(): Todo = Todo(
-    id = id,
-    title = title,
-    priority = priority,
-    dueDate = dueDate,
-    description = description
-)
-
-fun Todo.asTodoEntity(): TodoEntity = TodoEntity(
-    id = id,
-    title = title,
-    priority = priority,
-    dueDate = dueDate,
-    description = description
-)
 ```
 
 Látható, hogy a `TodoEntity` osztályunk nagyon hasonló a már korábban meglévő `Todo` osztályunkhoz néhány különbséggel:
@@ -168,7 +152,7 @@ Látható, hogy a `TodoEntity` osztályunk nagyon hasonló a már korábban megl
 - `@Entity` annotációval meg van jelölve, hogy az osztály egy entitás lesz, és a `todo_table` nevű táblában lesznek tárolva a példányai.
 - Az `id` nevű tagváltozója meg van jelölve a `@PrimaryKey` annotációval, ami azt jelenti, hogy az annak megfelelő oszlop lesz az elsődleges kulcs, és ennek értékeit beszúráskor fogja egyedi értékként generálni a környezet, vagyis nem kell nekünk gondoskodnunk róla, hogy minden új teendő új egyedi azonosítót kapjon.
 
-Az imént létrehozott `TodoEntity` osztály nagyon hasonló a *domain model*ünkhöz, azonban a `Room` specifikus részek miatt még sem teljesen azonosak. Készítsük el tehát a konverziós függvényeket a `data.converters` *package*-be:
+Az imént létrehozott `TodoEntity` osztály nagyon hasonló a *domain model*-ünkhöz, azonban a `Room` specifikus részek miatt még sem teljesen azonosak. Készítsük el tehát a konverziós függvényeket a `data.converters` *package*-be:
 
 ```kotlin
 package hu.bme.aut.android.todo.data.converters

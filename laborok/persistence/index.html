@@ -1237,29 +1237,13 @@ az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódo
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">dueDate</span><span class="p">:</span><span class="w"> </span><span class="n">LocalDate</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">description</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span>
 <span class="p">)</span>
-
-<span class="kd">fun</span><span class="w"> </span><span class="n">TodoEntity</span><span class="p">.</span><span class="nf">asTodo</span><span class="p">():</span><span class="w"> </span><span class="n">Todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Todo</span><span class="p">(</span>
-<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span>
-<span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">title</span><span class="p">,</span>
-<span class="w">    </span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">priority</span><span class="p">,</span>
-<span class="w">    </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dueDate</span><span class="p">,</span>
-<span class="w">    </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">description</span>
-<span class="p">)</span>
-
-<span class="kd">fun</span><span class="w"> </span><span class="n">Todo</span><span class="p">.</span><span class="nf">asTodoEntity</span><span class="p">():</span><span class="w"> </span><span class="n">TodoEntity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TodoEntity</span><span class="p">(</span>
-<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">,</span>
-<span class="w">    </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">title</span><span class="p">,</span>
-<span class="w">    </span><span class="n">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">priority</span><span class="p">,</span>
-<span class="w">    </span><span class="n">dueDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dueDate</span><span class="p">,</span>
-<span class="w">    </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">description</span>
-<span class="p">)</span>
 </code></pre></div>
 <p>Látható, hogy a <code>TodoEntity</code> osztályunk nagyon hasonló a már korábban meglévő <code>Todo</code> osztályunkhoz néhány különbséggel:</p>
 <ul>
 <li><code>@Entity</code> annotációval meg van jelölve, hogy az osztály egy entitás lesz, és a <code>todo_table</code> nevű táblában lesznek tárolva a példányai.</li>
 <li>Az <code>id</code> nevű tagváltozója meg van jelölve a <code>@PrimaryKey</code> annotációval, ami azt jelenti, hogy az annak megfelelő oszlop lesz az elsődleges kulcs, és ennek értékeit beszúráskor fogja egyedi értékként generálni a környezet, vagyis nem kell nekünk gondoskodnunk róla, hogy minden új teendő új egyedi azonosítót kapjon.</li>
 </ul>
-<p>Az imént létrehozott <code>TodoEntity</code> osztály nagyon hasonló a <em>domain model*ünkhöz, azonban a <code>Room</code> specifikus részek miatt még sem teljesen azonosak. Készítsük el tehát a konverziós függvényeket a <code>data.converters</code> *package</em>-be:</p>
+<p>Az imént létrehozott <code>TodoEntity</code> osztály nagyon hasonló a <em>domain model</em>-ünkhöz, azonban a <code>Room</code> specifikus részek miatt még sem teljesen azonosak. Készítsük el tehát a konverziós függvényeket a <code>data.converters</code> <em>package</em>-be:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.converters</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.data.entities.TodoEntity</span>
@@ -1713,8 +1697,8 @@ az <strong>ahhoz tartozó kódrészlet</strong>, valamint a <strong>neptun kódo
           </path>
         </svg>
       </span>
-      <span title="2026. október 29. 09:20:36">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. október 29. 09:20:36 CET"><span class="timeago" datetime="2026-10-29T09:20:36+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. október 29. 09:20:36 CET">2026-10-29</span>
+      <span title="2026. október 29. 17:35:41">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. október 29. 17:35:41 CET"><span class="timeago" datetime="2026-10-29T17:35:41+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. október 29. 17:35:41 CET">2026-10-29</span>
       </span>
     </span>
 

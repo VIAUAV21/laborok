@@ -31,9 +31,8 @@ A feladatok megoldása során ne felejtsd el követni a [feladat beadás folyama
 
 1. Hozz létre egy új ágat `megoldas` néven, és ezen az ágon dolgozz.
 
-1. A `neptun.txt` fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.
 
-A Room megismeréséhez ebben a laborban egy előre elkészített projektben fogunk dolgozni, ez megtalálható a repository-n belül. Indítsuk el az Android Studio-t, majd nyissuk meg a `ToDo` projektet.
+A Room megismeréséhez ebben a laborban egy előre elkészített projektben fogunk dolgozni, ez megtalálható a repository-n belül. Indítsuk el az Android Studio-t, majd nyissuk meg a `Todo` projektet.
 
 !!!danger "FILE PATH"
 	A projekt a repository-ban lévő `Todo` könyvtárba kerüljön, és beadásnál legyen is felpusholva! A kód nélkül nem tudunk maximális pontot adni a laborra!
@@ -84,8 +83,8 @@ Az első lépés, hogy a *Room*-ot mint függőséget vegyük fel a projektünkb
 ```kotlin
 [versions]
 ...
-ksp = "2.2.10-2.0.2"
-room = "2.8.4"
+ksp = "2.3.10"
+room = "2.8.5"
 
 [libraries]
 ...
@@ -168,7 +167,31 @@ Látható, hogy a `TodoEntity` osztályunk nagyon hasonló a már korábban megl
 
 - `@Entity` annotációval meg van jelölve, hogy az osztály egy entitás lesz, és a `todo_table` nevű táblában lesznek tárolva a példányai.
 - Az `id` nevű tagváltozója meg van jelölve a `@PrimaryKey` annotációval, ami azt jelenti, hogy az annak megfelelő oszlop lesz az elsődleges kulcs, és ennek értékeit beszúráskor fogja egyedi értékként generálni a környezet, vagyis nem kell nekünk gondoskodnunk róla, hogy minden új teendő új egyedi azonosítót kapjon.
-- Ezek mellett a szokásos konverziós függvényeinket helyetük még el itt: `Todo`-ról `TodoEntity`-re és vissza.
+
+Az imént létrehozott `TodoEntity` osztály nagyon hasonló a *domain model*ünkhöz, azonban a `Room` specifikus részek miatt még sem teljesen azonosak. Készítsük el tehát a konverziós függvényeket a `data.converters` *package*-be:
+
+```kotlin
+package hu.bme.aut.android.todo.data.converters
+
+import hu.bme.aut.android.todo.data.entities.TodoEntity
+import hu.bme.aut.android.todo.domain.model.Todo
+
+fun TodoEntity.asTodo(): Todo = Todo(
+    id = id,
+    title = title,
+    priority = priority,
+    dueDate = dueDate,
+    description = description
+)
+
+fun Todo.asTodoEntity(): TodoEntity = TodoEntity(
+    id = id,
+    title = title,
+    priority = priority,
+    dueDate = dueDate,
+    description = description
+)
+```
 
 A következő lépés, hogy az entitáshoz kapcsolódó alapműveleteket is támogassuk a *Room* könyvtár segítségével. Ezt egy *DAO (Data Access Object)* komponenssel fogjuk megvalósítani. A *DAO* egy - szintén nem csak Android alatt alkalmazott - tervezési minta, amelynek a lényege, hogy az egy entitáshoz kapcsolódó összes adatbázisműveleteket egy komponensbe gyűjtjük össze. Ez egyrészt jól áttekinthető, illetve ha az adatbázist le szeretnénk cserélni más technológiára, akkor elvileg elegendő lenne a DAO komponens módosítása, bár ilyen jellegű módosításra manapság általában nincs szükség.
 
@@ -211,58 +234,62 @@ Egy `@Dao` annotációval ellátott *interface* a *Room* kódgenerátora számá
 
 Figyeljük meg, hogy az Android Studio a `@Query` annotáció paramétereként átadott *SQLite* scriptre is nyújt kódkiegészítést, hiba jelzést!
 
-Ezután egy *repository* komponenst készítünk. Ez némileg úgy tűnik, mintha nem adna hozzá túl sokat a *DAO*-hoz, azonban fontos célja, hogy a felsőbb rétegeket függetlenítse a *Room*-tól, hogy ne közvetlen attól függjenek. Tulajdonképpen a kiinduló projektben már létezik egy ilyen komponens, de ezt át kell alakítanunk, mert a korábbi
-verzió még nem használt független domain- és adatbázismodelleket.
+Ezután egy *repository* komponenst készítünk. Ez némileg úgy tűnik, mintha nem adna hozzá túl sokat a *DAO*-hoz, azonban fontos célja, hogy a felsőbb rétegeket függetlenítse a *Room*-tól, hogy ne közvetlen attól függjenek. 
 
-Az `ITodoRepository` interfészt cseréljük le az alábbira:
-
-```kotlin
-package hu.bme.aut.android.todo.data.repository
-
-import hu.bme.aut.android.todo.data.entities.TodoEntity
-import kotlinx.coroutines.flow.Flow
-
-interface ITodoRepository {
-    fun getAllTodos(): Flow<List<TodoEntity>>
-
-    fun getTodoById(id: Int): Flow<TodoEntity>
-
-    suspend fun insertTodo(todo: TodoEntity)
-
-    suspend fun updateTodo(todo: TodoEntity)
-
-    suspend fun deleteTodo(id: Int)
-}
-```
-
-Majd pedig ennek *Room*-os implementációját is készítsük el:
+Készítsük el a korábbi `ITodoRepository` *interface* alapján a `Room` specifikus *repository*-t:
 
 ```kotlin
 package hu.bme.aut.android.todo.data.repository
 
+import hu.bme.aut.android.todo.data.converters.asTodo
+import hu.bme.aut.android.todo.data.converters.asTodoEntity
 import hu.bme.aut.android.todo.data.dao.TodoDao
-import hu.bme.aut.android.todo.data.entities.TodoEntity
+import hu.bme.aut.android.todo.domain.model.Todo
+import hu.bme.aut.android.todo.domain.repository.ITodoRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class RoomTodoRepository(private val dao: TodoDao) : ITodoRepository {
 
-    override fun getAllTodos(): Flow<List<TodoEntity>> = dao.getAllTodos()
+    override fun getAllTodos(): Flow<List<Todo>> = dao.getAllTodos().map { it.map {it.asTodo()} }
 
-    override fun getTodoById(id: Int): Flow<TodoEntity> = dao.getTodoById(id)
+    override fun getTodoById(id: Int): Flow<Todo> = dao.getTodoById(id).map { it.asTodo() }
 
-    override suspend fun insertTodo(todo: TodoEntity) { dao.insertTodo(todo) }
+    override suspend fun insertTodo(todo: Todo) { dao.insertTodo(todo.asTodoEntity()) }
 
-    override suspend fun updateTodo(todo: TodoEntity) { dao.updateTodo(todo) }
+    override suspend fun updateTodo(todo: Todo) { dao.updateTodo(todo.asTodoEntity()) }
 
     override suspend fun deleteTodo(id: Int) { dao.deleteTodo(id) }
 }
 ```
 
-A korábbi implementációt, a `MemoryTodoRepository` osztályt most töröljük ki, erre nem lesz már szükség.
+Láthatjuk, hogy a `getAllTodos`,a `getTodoById` és a `deleteTodo` függvények deklarációja eltér a *domain* réteg beli *interface*-től. A törlést mostantól `id` alapján végezzük, a másik két függvénynél pedig a választ már egy `Flow`-ba ágyazzuk. Ezért nem szükséges a `suspend` kulcsszó sem.
 
-A `ui.screen` *package*-ekben most a viewmodelek is eltörtek, mert egyrészt a *repository* másik *package*-be került, másrészt a korábbi repository implementációt töröltük. Ezt nem tudjuk könnyen kijavítani, mert az új repository a konstruktorában a DAO komponenst várja, azt viszont nem konstruktorhívással hozzuk létre, hanem a *Room* gyártja majd le, ezért ehhez még kell némi kódot írnunk. Másrészt pedig nem is kívánatos, hogy a *viewmodel* közvetlen a *repository*-t hívja, hiszen ahogy fentebb indokoltuk, nem előnyös, ha a felhasználói felület komponensek közvetlen az adatbáziskezelési réteggel is függnek egymástól. Ezért majd a doménmodellhez kapcsolódó üzletilogika-komponenseket fogunk bevezetni. De előbb fejezzük be az adatbáziskezelési réteg implementációját!
+A `Todo` és a `TodoEntity` osztályok közötti konverziót szintén itt végezzük el.
 
-Még három feladatunk van az adatbáziskezelő réteg kialakításában. Az első, hogy a letárolni kívánt Java-típusok és az SQLite beépített típusai közt nem teljes az egyezés. Ezt konverterekkel kell áthidalnunk. Készítsünk egy `data.converters` package-et, és ebbe először a dátumokkal kapcsolatos konverterek implementációját:
+Változtassuk meg ennek mintájára tehát az *interface*-t is:
+
+```kotlin
+package hu.bme.aut.android.todo.domain.repository
+
+import hu.bme.aut.android.todo.domain.model.Todo
+import kotlinx.coroutines.flow.Flow
+
+interface ITodoRepository {
+    suspend fun insertTodo(todo: Todo)
+    fun getTodoById(id: Int): Flow<Todo>
+    fun getAllTodos(): Flow<List<Todo>>
+    suspend fun updateTodo(updatedTodo: Todo)
+    suspend fun deleteTodo(id: Int)
+}
+```
+
+
+A korábbi implementációt, a `MemoryTodoRepository` osztályt már ki is törölhetjük, mert erre nem lesz már szükség.
+
+A `ui.screen` *package*-ekben most a viewmodelek is eltörtek, mert a korábbi repository implementációt töröltük. Ezt nem tudjuk könnyen kijavítani, mert az új repository a konstruktorában a DAO komponenst várja, azt viszont nem konstruktorhívással hozzuk létre, hanem a *Room* gyártja majd le, ezért ehhez még kell némi kódot írnunk. 
+
+Még három feladatunk van az adatbáziskezelő réteg kialakításában. Az első, hogy a letárolni kívánt Java-típusok és az SQLite beépített típusai közt nem teljes az egyezés. Ezt konverterekkel kell áthidalnunk. A `data.converters` *package*-be most a dátumokkal kapcsolatos konvertereket implementáljuk:
 
 ```kotlin
 package hu.bme.aut.android.todo.data.converters
@@ -327,7 +354,7 @@ abstract class TodoDatabase : RoomDatabase() {
 
 Figyeljük meg az annotációkat! Itt meg vannak hivatkozva a használni kívánt entitások és konverterek, illetve az adatbázisséma egy verziószámot is kap. Ez azért hasznos, mert ahogy fejlődik az alkalmazás, az adatbázis sémája is változhat, fejlődhet. Ilyen esetekben arra is lehetőséget ad a Room, hogy migrációkat biztosítsunk a régebbi adatbázissémákról történő frissítésre. Ha telepítve van az alkalmazás régi verziója, amely már mentett el adatokat az eszközre, és frissítjük az alkalmazást, akkor a következő indulás után a Room megvizsgálja, hogy történt-e változás az adatbázis verziójában, és szükség esetén futtatja a migrációkat.
 
-Az utolsó lépés az adatbáziskezelés implementációjához, hogy az alkalmazás indulásakor inicializáljuk az adatbázist. Ehhez egy `Application` osztállyal kell kiegészítenünk az alkalmazásunkat. Az `Application` osztály a teljes alkalmazás életciklus-eseményeit tudja kezelni, illetve arra is alkalmas, hogy itt globális adatokat mentsünk el, amelyeket majd az alkalmazás tetszőleges komponenseiből elérhetővé akarunk tenni. Ezt az alkalmazás "root package"-ébe, a `MainActivity` mellé tegyük:
+Az utolsó lépés az adatbáziskezelés implementációjához, hogy az alkalmazás indulásakor inicializáljuk az adatbázist. Ehhez egy `Application` osztállyal kell kiegészítenünk az alkalmazásunkat. Az `Application` osztály a teljes alkalmazás életciklus-eseményeit tudja kezelni, illetve arra is alkalmas, hogy itt globális adatokat mentsünk el, amelyeket majd az alkalmazás tetszőleges komponenseiből elérhetővé akarunk tenni. Ezt az alkalmazás "*root package*"-ébe, a `MainActivity` mellé tegyük:
 
 ```kotlin
 package hu.bme.aut.android.todo
@@ -335,8 +362,8 @@ package hu.bme.aut.android.todo
 import android.app.Application
 import androidx.room.Room
 import hu.bme.aut.android.todo.data.TodoDatabase
-import hu.bme.aut.android.todo.data.repository.ITodoRepository
 import hu.bme.aut.android.todo.data.repository.RoomTodoRepository
+import hu.bme.aut.android.todo.domain.repository.ITodoRepository
 
 class TodoApplication : Application() {
 
@@ -359,7 +386,7 @@ class TodoApplication : Application() {
 }
 ```
 
-Látható, hogy az alkalmazás indulásakor létrehozzuk az adatbázist és a `RoomTodoRepository`-t, majd ezeket az osztály companion objectjébe el is mentjük. Hogy az `Application` osztály tényleg az elvásárunk szerint működjünk, még meg is kell hivatkozni a `Manifest.xml` fájl `application` elemében. Cseréljük az `application` elem nyitó tagjét az alábbira:
+Látható, hogy az alkalmazás indulásakor létrehozzuk az adatbázist és a `RoomTodoRepository`-t, majd ezeket az osztály *companion object*jébe el is mentjük. Hogy az `Application` osztály tényleg az elvásárunk szerint működjünk, még meg is kell hivatkozni a `Manifest.xml` fájl `application` elemében. Cseréljük az `application` elem nyitó tagjét az alábbira:
 
 ```xml
     <application
@@ -392,36 +419,32 @@ Most készítsük el a `domain.usecases` package-et. Ebbe kerülnek az egyes üz
 ```kotlin
 package hu.bme.aut.android.todo.domain.usecases
 
-import hu.bme.aut.android.todo.data.entities.asTodoEntity
-import hu.bme.aut.android.todo.data.repository.ITodoRepository
 import hu.bme.aut.android.todo.domain.model.Todo
+import hu.bme.aut.android.todo.domain.repository.ITodoRepository
 
 class SaveTodoUseCase(private val repository: ITodoRepository) {
 
     suspend operator fun invoke(todo: Todo) {
-        repository.insertTodo(todo.asTodoEntity())
+        repository.insertTodo(todo)
     }
-
 }
 ```
 
-Ennek a kódrészletnek a szerepe, hogy - akárcsak a domainmodell - leválasztja az üzleti logikát az adatrétegről. Jelen esetben az üzleti logikánk igen egyszerű, és ezért ezek a műveletek tulajdonképpen csak meghívják az adatréteget a repository komponenseken keresztül, illetve konvertálják a domainmodelleket entitásokká. Egy összetettebb alkalmazásban ez nem feltétlen van így, és ez a réteg akár bonyolultabb is lehet, több adatműveletből álló nagyobb léptékű, összetettebb műveleteket valósíthat meg.
+Ennek a kódrészletnek a szerepe, hogy - akárcsak a domainmodell - leválasztja az üzleti logikát az adatrétegről. Jelen esetben az üzleti logikánk igen egyszerű, és ezért ezek a műveletek tulajdonképpen csak meghívják az adatréteget a repository komponenseken keresztül. Egy összetettebb alkalmazásban ez nem feltétlen van így, és ez a réteg akár bonyolultabb is lehet, több adatműveletből álló nagyobb léptékű, összetettebb műveleteket valósíthat meg.
 
 A fentihez hasonló készítsük el a módosítás use case osztályát:
 
 ```kotlin
 package hu.bme.aut.android.todo.domain.usecases
 
-import hu.bme.aut.android.todo.data.entities.asTodoEntity
-import hu.bme.aut.android.todo.data.repository.ITodoRepository
 import hu.bme.aut.android.todo.domain.model.Todo
+import hu.bme.aut.android.todo.domain.repository.ITodoRepository
 
 class UpdateTodoUseCase(private val repository: ITodoRepository) {
 
     suspend operator fun invoke(todo: Todo) {
-        repository.updateTodo(todo.asTodoEntity())
+        repository.updateTodo(todo)
     }
-
 }
 ```
 
@@ -431,22 +454,19 @@ Majd a lekérdezést:
 ```kotlin
 package hu.bme.aut.android.todo.domain.usecases
 
-import hu.bme.aut.android.todo.data.entities.asTodo
-import hu.bme.aut.android.todo.data.repository.ITodoRepository
 import hu.bme.aut.android.todo.domain.model.Todo
-import kotlinx.coroutines.flow.first
-import java.io.IOException
+import hu.bme.aut.android.todo.domain.repository.ITodoRepository
+import kotlinx.coroutines.flow.Flow
 
 class LoadTodoUseCase(private val repository: ITodoRepository) {
 
-    suspend operator fun invoke(id: Int): Result<Todo> {
+    suspend operator fun invoke(id: Int): Result<Flow<Todo>> {
         return try {
-            Result.success(repository.getTodoById(id).first().asTodo())
-        } catch (e: IOException) {
+            Result.success(repository.getTodoById(id))
+        } catch (e: Exception) {
             Result.failure(e)
         }
     }
-
 }
 ```
 
@@ -455,14 +475,13 @@ A törlést:
 ```kotlin
 package hu.bme.aut.android.todo.domain.usecases
 
-import hu.bme.aut.android.todo.data.repository.ITodoRepository
+import hu.bme.aut.android.todo.domain.repository.ITodoRepository
 
 class DeleteTodoUseCase(private val repository: ITodoRepository) {
 
     suspend operator fun invoke(id: Int) {
         repository.deleteTodo(id)
     }
-
 }
 ```
 
@@ -471,19 +490,17 @@ class DeleteTodoUseCase(private val repository: ITodoRepository) {
 ```kotlin
 package hu.bme.aut.android.todo.domain.usecases
 
-import hu.bme.aut.android.todo.data.entities.asTodo
-import hu.bme.aut.android.todo.data.repository.ITodoRepository
 import hu.bme.aut.android.todo.domain.model.Todo
-import kotlinx.coroutines.flow.first
-import java.io.IOException
+import hu.bme.aut.android.todo.domain.repository.ITodoRepository
+import kotlinx.coroutines.flow.Flow
 
 class LoadTodosUseCase(private val repository: ITodoRepository) {
 
-    suspend operator fun invoke(): Result<List<Todo>> {
+    suspend operator fun invoke(): Result<Flow<List<Todo>>> {
         return try {
-            val todos = repository.getAllTodos().first()
-            Result.success(todos.map { it.asTodo() })
-        } catch (e: IOException) {
+            val todos = repository.getAllTodos()
+            Result.success(todos)
+        } catch (e: Exception) {
             Result.failure(e)
         }
     }
@@ -496,7 +513,7 @@ Végül ezeket összefogjuk egy osztály tagváltozóiban:
 ```kotlin
 package hu.bme.aut.android.todo.domain.usecases
 
-import hu.bme.aut.android.todo.data.repository.ITodoRepository
+import hu.bme.aut.android.todo.domain.repository.ITodoRepository
 
 class AllTodoUseCases(repository: ITodoRepository) {
     val loadTodos = LoadTodosUseCase(repository)
@@ -520,6 +537,15 @@ class TodoCreateViewModel(
 Majd ennek megfelelően módosítsuk a mentést és az inicializálást is:
 
 ```kotlin
+    fun onEvent(event: TodoCreateScreenEvent) {
+            ...
+
+            TodoCreateScreenEvent.SaveTodo -> {
+                onSave()
+            }
+        }
+    }
+
 private fun onSave() {
     viewModelScope.launch {
         try {
@@ -547,7 +573,7 @@ Folytassuk a részletező nézettel, itt is hasonlóak lesznek a változások:
 
 ```kotlin
 class TodoDetailViewModel(
-	private val todoOperations: AllTodoUseCases
+    private val loadTodoOperation: LoadTodoUseCase
 ) : ViewModel() {
         ...
 }
@@ -560,10 +586,11 @@ fun loadTodo(todoId: Int) {
     viewModelScope.launch {
         try {
             _state.value = TodoDetailState.Loading
-            val todo = todoOperations.loadTodo(todoId)
-            _state.value = TodoDetailState.Result(
-                todo.getOrThrow().asTodoUi()
-            )
+            loadTodoOperation(todoId).getOrThrow().collectLatest {
+                _state.value = TodoDetailState.Result(
+                    it.asTodoUi()
+                )
+            }
         } catch (e: Exception) {
             _state.value = TodoDetailState.Error(e)
         }
@@ -575,7 +602,7 @@ companion object {
         val todoOperations = AllTodoUseCases(TodoApplication.repository)
         initializer {
             TodoDetailViewModel(
-                todoOperations
+                loadTodoOperation = LoadTodoUseCase(TodoApplication.repository)
             )
         }
     }
@@ -599,10 +626,13 @@ private fun loadTodos() {
     viewModelScope.launch {
         try {
             _state.value = TodoListState.Loading
-            val todos = todoOperations.loadTodos().getOrThrow().map { it.asTodoUi() }
-            _state.value = TodoListState.Result(
-                todoList = todos
-            )
+            todoOperations.loadTodos().getOrThrow().collectLatest { todoList ->
+                _state.value = TodoListState.Result(
+                        todoList.map { todoItem ->
+                        todoItem.asTodoUi()
+                    }
+                )
+            }
         } catch (e: Exception) {
             _state.value = TodoListState.Error(e)
         }
@@ -616,7 +646,6 @@ private fun deleteTodo(todo: TodoUi) {
             _uiEvent.send(TodoListScreenUiEvent.DeleteSuccess)
         } catch (e: Exception) {
             _uiEvent.send(TodoListScreenUiEvent.DeleteFailure(e.toUiText()))
-
         }
     }
 }
@@ -626,10 +655,17 @@ companion object {
         initializer {
             val todoOperations = AllTodoUseCases(TodoApplication.repository)
             TodoListViewModel(
-                todoOperations
+            todoOperations
             )
         }
     }
+}
+```
+Mivel a *use-case*-eink már `Flow`-t adnak vissza, és a *viewModel*-jeink is folyamatosan *collect*-elik a `Flow`-t, amivel frissítik az állapotukat, már felesleges az *ON_RESUME* életciklus feliratkozás a `TodoListScreen`-ben. Elég a `TodoListViewModel` *init* blokkjában egyszer meghívni a betöltést:
+
+```kotlin
+init {
+    loadTodos()
 }
 ```
 
@@ -643,7 +679,6 @@ Most már kipróbálható az alkalmazás, és a létrehozott teendők tényleges
 	A képet a megoldásban a repository-ba f3.png néven töltsd föl.
 
 	A képernyőkép szükséges feltétele a pontszám megszerzésének.
-
 
 ## Önálló feladat 1
 

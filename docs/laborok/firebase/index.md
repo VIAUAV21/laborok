@@ -43,8 +43,6 @@ A feladatok megoldása során ne felejtsd el követni a [feladat beadás folyama
 
 1. Hozz létre egy új ágat `megoldas` néven, és ezen az ágon dolgozz.
 
-1. A `neptun.txt` fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.
-
 A Firebase funkcióinak megismeréséhez ebben a laborban egy előre elkészített projektbe fogjuk integrálni a különböző szolgáltatásokat. Ez megtalálható a repository-n belül. Indítsuk el az Android Studio-t, majd nyissuk meg a `ToDo` projektet.
 
 !!!danger "FILE PATH"
@@ -63,7 +61,7 @@ Első lépésként létre kell hozni egy Firebase projektet a Firebase admin fel
 - A projekt neve legyen *BMETodoNEPTUN_KOD*, ahol a `NEPTUN_KOD` helyére a saját Neptun kódunkat helyettesítsük!
 - A Gemini
 - Az analitikát most még nem szükséges konfigurálni.
-- 
+
 !!!danger "projekt név"
 	A Neptun kódra azért van szükség, mert ugyanazon laborgép kulcsával ugyanolyan nevű projektet nem hozhatunk létre többször, és több laborcsoport lévén ebből probléma adódhatna. Ugyanerre lesz majd szükség a package név esetén is.
 
@@ -110,11 +108,11 @@ Ezt követően egy dialog nyílik meg, ahol ha megfelelőek az accountok, a más
 !!!info ""
 	A háttérben valójában annyi történik, hogy az alkalmazásunk package neve és az aláíró kulcs *SHA-1 hash-e* alapján hozzáadódik egy Android alkalmazás a Firebase console-on lévő projektünkhöz, és az ahhoz tartozó konfigurációs (`google-services.json`) fájl letöltődik a projektünk könyvtárába az alapértelmezett (`app`) modul alá.
 
-Ezt a lépéssorozatot manuálisan is végrehajthatjuk a Firebase console-on az *Add Firebase to your Android app*-et választva. A debug kulcs *SHA-1* lenyomata ilyenkor a jobb oldalon található Gradle fülön generálható. A fenti sorban kattintsunk az *Execute Gradle Task* menüpontra, majd a felugró ablakban Írjuk be a *gradle signingReport*-ot, és nyomjunk egy entert. Ezek utánaz alsó *Run* ablakban megtalálható az *SHA-1* kulcs.
+    Ezt a lépéssorozatot manuálisan is végrehajthatjuk a Firebase console-on az *Add Firebase to your Android app*-et választva. A debug kulcs *SHA-1* lenyomata ilyenkor a jobb oldalon található Gradle fülön generálható. A fenti sorban kattintsunk az *Execute Gradle Task* menüpontra, majd a felugró ablakban Írjuk be a *gradle signingReport*-ot, és nyomjunk egy entert. Ezek utánaz alsó *Run* ablakban megtalálható az *SHA-1* kulcs.
 
-<p align="center">
-<img src="./assets/android_studio_signingreport.png">
-</p>
+    <p align="center">
+    <img src="./assets/android_studio_signingreport.png">
+    </p>
 
 Következő lépésben szintén az *Assistant*-ban az *Authenticate using a custom authentication system* alatt válasszuk az *Add the Firebase Authentication SDK to your app* elemet, itt látható is, hogy milyen módosítások történnek a projekt és modul szintű `build.gradle.kts` fájlokban.
 
@@ -127,18 +125,25 @@ Sajnos a Firebase plugin nincs rendszeresen frissítve, és így előfordul, hog
 
 Ellenőrizzük a projekt szintű `build.gradle.kts` fájlban a szerepel-e a `google-services`
 
-```gradle
+```kts
 plugins {
     alias(libs.plugins.google.gms.google.services) apply false
 	...
 }
 ```
+Ellenőrizzük a projemodul szintű `build.gradle.kts` fájlban a szerepel-e a `google-services`
+
+```kts
+plugins {
+    alias(libs.plugins.google.gms.google.services)
+	...
+}
 
 Illetve, hogy a `libs.versions.toml` fájlban megfelelő-e a verzió:
 
 ```toml
 [versions]
-googleGmsGoogleServices = "4.4.4"
+googleGmsGoogleServices = "4.5.0"
 ...
 
 [plugins]
@@ -152,7 +157,7 @@ Vegyük fel a Firebase BoM-ot a `libs.versions.toml` fájlba:
 
 ```toml
 [versions]
-firebaseBom = "34.5.0"
+firebaseBom = "35.1.0"
 
 [libraries]
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
@@ -160,7 +165,7 @@ firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.r
 
 Majd a modul szintű `build.gradle.kts` fájlba is:
 
-```gradle
+```kts
 dependencies {
     implementation(platform(libs.firebase.bom))
 }
@@ -178,7 +183,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 
 `build.gradle.kts`:
 
-```gradle
+```kts
 dependencies {
 	implementation(libs.firebase.auth)
 }
@@ -192,14 +197,15 @@ Ahhoz, hogy az e-mail alapú regisztráció és authentikáció megfelelően mű
 <img src="./assets/firebase_console_auth_method.png">
 </p>
 
-Készítsük el a megfelelő `Repository` osztályt. Hozzunk létre a `data.auth` package-en belül a `FirebaseAuthRepository` osztályt! Valósítsuk meg az `IAuthRepository` *interface* egyes metódusait! Ehhez szükségünk lesz egy `FirebaseAuth` objektumra, melyet külső forrásból fogunk megkapni:
+Készítsük el a megfelelő `Repository` osztályt. Hozzunk létre a `data.repository.auth` package-en belül a `FirebaseAuthRepository` osztályt! Valósítsuk meg az `IAuthRepository` *interface* egyes metódusait! Ehhez szükségünk lesz egy `FirebaseAuth` objektumra, melyet külső forrásból fogunk megkapni:
 
 ```kotlin
 package hu.bme.aut.android.todo.data.repository.auth
-  
+
 import com.google.firebase.auth.FirebaseAuth  
 import com.google.firebase.auth.UserProfileChangeRequest  
-import hu.bme.aut.android.todo.domain.model.User  
+import hu.bme.aut.android.todo.domain.model.User
+import hu.bme.aut.android.todo.domain.repository.IAuthRepository
 import kotlinx.coroutines.channels.awaitClose  
 import kotlinx.coroutines.flow.Flow  
 import kotlinx.coroutines.flow.callbackFlow  
@@ -253,18 +259,21 @@ Sokszor a biztosított API közvetlenül megfeleltethető az általunk definiál
 
 Ha szerencsénk van, akkor a felhasznált API beépítetten támogatni fogja a Kotlin különböző funkcionalitásait, mint például a Kotlinos típusok, contract-ok és coroutine-ok. Sokszor viszont Java alapú könyvtárakat kapunk, amiket nekünk kell adaptálni Kotlin környezetre. Erre egy jó példa a `currentUser` mező. Ez a `callbackFlow` metódust használja, melynek segítségével a callback jellegű API-t tudjuk átalakítani `Flow` jellegű eredménnyé. A blokkon belül egy listenert regisztrálunk be, mellyel meg tudjuk figyelni, ha változás történik az aktuális felhasználók körében. Ekkor a `trySend()` metódussal tudjuk a Flow-ra feliratkozó felé elküldeni az új felhasználó adatait. Érdemes arra is figyelni, hogy ez a listener csak a feliratkozás után kezd el értékeket kiküldeni. Annak érdekében, hogy a UI egyből megkapja az aktuális értéket, a feliratkozás előtt kiküldjük az aktuális felhasználó adatait is.
 
-A többi utasításnál a Firebase egy `Task` típusú eredmény objektummal tér vissza. A Java világában erre fel tudunk iratkozni, és az eredményét egy Callback-ben le tudjuk kezelni. Szerencsére azonban a Firebase általános könytvárában megtalálható egy Kotlin kiegészítő metódus, mellyel a `Task` bevárható coroutine kontextusban az `await()` kulcsszóval. A teljesség kedvéért nézzük meg az alábbi példát, hogyan lehet egy Callback jellegű API-t átalakítani `suspend` fajtájú függvénnyé:
+A többi utasításnál a Firebase egy `Task` típusú eredmény objektummal tér vissza. A Java világában erre fel tudunk iratkozni, és az eredményét egy Callback-ben le tudjuk kezelni. Szerencsére azonban a Firebase általános könytvárában megtalálható egy Kotlin kiegészítő metódus, mellyel a `Task` bevárható coroutine kontextusban az `await()` kulcsszóval. 
 
-```kotlin
-override suspend fun authenticate(email: String, password: String) = suspendCoroutine { continuation ->
-	firebaseAuth
-		.signInWithEmailAndPassword(email, password)
-		.addOnSuccessListener { continuation.resume(Unit) }
-		.addOnFailureListener { continuation.resumeWithException(it) }
-}
-```
+!!!info "suspend"
+    A teljesség kedvéért nézzük meg az alábbi példát, hogyan lehet egy Callback jellegű API-t átalakítani `suspend` fajtájú függvénnyé:
 
-A `suspendCoroutine` metódus le fogja futtatni a benne megadott blokkot, majd addig várakoztatja a coroutine-t, ameddig a blokkban megkapott `Continuation` objektumon keresztül nem jelezzük a hívás végeredményét. Ezzel a függvénnyel könnyedén át tudjuk alakítani a `Callback` jellegű működéseket `suspend` alapúra. Arra azonban figyeljünk, hogy minden esetben meghívódjon a `Continuation` valamelyik `resume` metódusa, ellenkező esetben ugyanis befagy az adott coroutine, sose fog tudni továbblépni. Hasonlóan hasznos függvény a `suspendCancellableCoroutine`, mellyel azokat az eseteket is le tudjuk kezelni, ha a coroutine-t a folyamat közben törlik.
+    ```kotlin
+    override suspend fun authenticate(email: String, password: String) = suspendCoroutine { continuation ->
+    	firebaseAuth
+    		.signInWithEmailAndPassword(email, password)
+    		.addOnSuccessListener { continuation.resume(Unit) }
+    		.addOnFailureListener { continuation.resumeWithException(it) }
+    }
+    ```
+
+    A `suspendCoroutine` metódus le fogja futtatni a benne megadott blokkot, majd addig várakoztatja a coroutine-t, ameddig a blokkban megkapott `Continuation` objektumon keresztül nem jelezzük a hívás végeredményét. Ezzel a függvénnyel könnyedén át tudjuk alakítani a `Callback` jellegű működéseket `suspend` alapúra. Arra azonban figyeljünk, hogy minden esetben meghívódjon a `Continuation` valamelyik `resume` metódusa, ellenkező esetben ugyanis befagy az adott coroutine, sose fog tudni továbblépni. Hasonlóan hasznos függvény a `suspendCancellableCoroutine`, mellyel azokat az eseteket is le tudjuk kezelni, ha a coroutine-t a folyamat közben törlik.
 
 Állítsuk át az alkalmazásunkat, hogy ezt az új `FirebaseAuthRepository`-t használja! Ehhez módosítsuk a `TodoApplication` osztályunkat:
 
@@ -274,9 +283,9 @@ package hu.bme.aut.android.todo
 import android.app.Application
 import com.google.firebase.auth.FirebaseAuth
 import hu.bme.aut.android.todo.data.repository.auth.FirebaseAuthRepository
-import hu.bme.aut.android.todo.data.repository.auth.IAuthRepository
-import hu.bme.aut.android.todo.data.repository.todo.ITodoRepository
 import hu.bme.aut.android.todo.data.repository.todo.MemoryTodoRepository
+import hu.bme.aut.android.todo.domain.repository.IAuthRepository
+import hu.bme.aut.android.todo.domain.repository.ITodoRepository
 
 class TodoApplication : Application() {
     companion object {
@@ -287,9 +296,8 @@ class TodoApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         authRepository = FirebaseAuthRepository(FirebaseAuth.getInstance())
-        todoRepository = MemoryTodoRepository()
+        todoRepository = MemoryTodoRepository
     }
-
 }
 ```
 
@@ -320,7 +328,7 @@ Adjuk hozzá a projekthez a *Cloud Firestore* támogatást:
 
 Modul szintű `build.gradle.kts`:
 
-```gradle
+```kts
 dependencies {
     implementation(libs.firebase.firestore)
 }
@@ -337,24 +345,16 @@ Kapcsoljuk be a *Cloud Firestore*-t a *Firebase console*-on is . Az adatbázist 
 
 Locationnek válasszunk egy hozzánk közel eső opciót.
 
-Hozzuk létre a `data` package-en belül a `firebase` package-et. Ebben két osztályt fogunk definiálni: a Firestore-ban tárolt adatobjektum osztály modelljét, illetve a kommunikációt megvalósító service kódját.
+Hozzuk létre a `data` package-en belül a `model` package-et. Itt fogjuk definiálni a Firestore-ban tárolt adatobjektum  modelljét.
 
 Hozzuk először létre az adatot reprezentáló osztályt `FirebaseTodo` néven:
 
 ```kotlin
-package hu.bme.aut.android.todo.data.firebase.model
+package hu.bme.aut.android.todo.data.model
 
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
 import hu.bme.aut.android.todo.domain.model.Priority
-import hu.bme.aut.android.todo.domain.model.Todo
-import kotlinx.datetime.*
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
-import java.util.Date
-import kotlin.time.ExperimentalTime
-import kotlin.time.toJavaInstant
 
 data class FirebaseTodo(
     @DocumentId val id: String = "",
@@ -363,6 +363,24 @@ data class FirebaseTodo(
     val dueDate: Timestamp = Timestamp.now(),
     val description: String = ""
 )
+```
+
+Majd a szokásos konverter függvényeket is a domain modellhez a `data.converters` *package*-ben:
+
+```kotlin
+package hu.bme.aut.android.todo.converters
+
+import com.google.firebase.Timestamp
+import hu.bme.aut.android.todo.data.model.FirebaseTodo
+import hu.bme.aut.android.todo.domain.model.Todo
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atStartOfDayIn
+import kotlinx.datetime.toKotlinLocalDateTime
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import kotlin.time.ExperimentalTime
+import kotlin.time.toJavaInstant
 
 fun FirebaseTodo.asTodo() = Todo(
     id = id,
@@ -385,22 +403,23 @@ fun Todo.asFirebaseTodo() = FirebaseTodo(
 )
 ```
 
-Ebben a fájlban definiáltuk a két átalakító függvényt is, mellyel a Firebase és az alkalmazás többi részében használt Todo osztály között tudunk átalakítani. Az egyedüli bonyolult rész a Firebase által használt `Timestamp` osztály használata az időpont eltárolására, erre most részletesen nem térünk ki.
+Az egyedüli bonyolult rész a Firebase által használt `Timestamp` osztály használata az időpont eltárolására, erre most részletesen nem térünk ki.
 
-Hozzuk létre a feladatok tárolását végző `FirebaseTodoRepository` osztályt is ebben a package-ben:
+A modell után hozzuk létre a feladatok tárolását végző `FirebaseTodoRepository` osztályt is a memória megvalósítás mellé (`data.repository.todo):
 
 ```kotlin
 package hu.bme.aut.android.todo.data.repository.todo
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.snapshots
-import hu.bme.aut.android.todo.data.firebase.model.FirebaseTodo
-import hu.bme.aut.android.todo.data.firebase.model.asFirebaseTodo
-import hu.bme.aut.android.todo.data.repository.auth.IAuthRepository
+import hu.bme.aut.android.todo.data.model.FirebaseTodo
 import hu.bme.aut.android.todo.domain.model.Todo
 import com.google.firebase.firestore.toObject
 import com.google.firebase.firestore.toObjects
-import hu.bme.aut.android.todo.data.firebase.model.asTodo
+import hu.bme.aut.android.todo.converters.asFirebaseTodo
+import hu.bme.aut.android.todo.converters.asTodo
+import hu.bme.aut.android.todo.domain.repository.IAuthRepository
+import hu.bme.aut.android.todo.domain.repository.ITodoRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
@@ -411,7 +430,7 @@ class FirebaseTodoRepository(
 ) : ITodoRepository {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override suspend fun getAllTodos(): Flow<List<Todo>> =
+    override fun getAllTodos(): Flow<List<Todo>> =
         authRepository.currentUser.flatMapLatest { user ->
             if (user == null) flow { emit(emptyList()) }
             else currentCollection(user.id)
@@ -425,7 +444,7 @@ class FirebaseTodoRepository(
                 }
         }
 
-    override suspend fun getTodoById(id: String): Flow<Todo?> =
+    override fun getTodoById(id: String): Flow<Todo?> =
         flow {
             emit(
                 authRepository.currentUserId?.let {
@@ -472,9 +491,9 @@ import android.app.Application
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import hu.bme.aut.android.todo.data.repository.auth.FirebaseAuthRepository
-import hu.bme.aut.android.todo.data.repository.auth.IAuthRepository
 import hu.bme.aut.android.todo.data.repository.todo.FirebaseTodoRepository
-import hu.bme.aut.android.todo.data.repository.todo.ITodoRepository
+import hu.bme.aut.android.todo.domain.repository.IAuthRepository
+import hu.bme.aut.android.todo.domain.repository.ITodoRepository
 
 class TodoApplication : Application() {
     companion object {
@@ -487,9 +506,7 @@ class TodoApplication : Application() {
         authRepository = FirebaseAuthRepository(FirebaseAuth.getInstance())
         todoRepository = FirebaseTodoRepository(FirebaseFirestore.getInstance(), authRepository)
     }
-
 }
-
 ```
 
 Próbáljuk ki az alkalmazásunkat! Ellenőrizzük, hogy tényleg létrejönnek az adatbázisban is a feladatok.
@@ -517,7 +534,7 @@ firebase-messaging = { group = "com.google.firebase", name="firebase-messaging" 
 
 `build.gradle.kts`:
 
-```gradle
+```kts
 dependencies {
     implementation(libs.firebase.messaging)
 }
@@ -569,7 +586,7 @@ firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "
 
 Ezekkel a módosításokkal többek között egy Gradle plugint adtunk hozzá a projektünkhöz, amit a projekt szintű `build.gradle` fájl elején be kell kapcsolnunk a már meglévők után:
  
-```gradle
+```kts
 plugins {
 	alias(libs.plugins.firebase.crashlytics) apply false
 }
@@ -577,7 +594,7 @@ plugins {
 
 Majd a modul szintű `build.gradle.kts` fájlban: 
 
-```gradle
+```kts
 plugins {
 	alias(libs.plugins.firebase.crashlytics)
 }
@@ -585,7 +602,7 @@ plugins {
 
 Végül pedig szükségünk van két egyszerű Gradle függőségre is, amit a meglévő Firebase függőségek mellé helyezhetünk, a modul szintű `build.gradle.kts` fájlban:
 
-```gradle
+```kts
 dependencies {
     implementation(libs.firebase.crashlytics.ktx)
     implementation(libs.firebase.analytics.ktx)

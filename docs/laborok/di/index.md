@@ -40,8 +40,8 @@ Először a `libs.versions.toml` fájlunkba vegyük fel az új függőségekhez 
 
 ```
 [versions]
-hilt = "2.59.2"
-hilt-lifecycle-viewmodel-compose = "1.3.0"
+hilt = "2.60.1"
+hilt-lifecycle-viewmodel-compose = "1.4.0"
 
 [libraries]
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
@@ -163,16 +163,18 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 import hu.bme.aut.android.todo.data.dao.TodoDao
 import hu.bme.aut.android.todo.data.repository.RoomTodoRepository
-import jakarta.inject.Inject
+import hu.bme.aut.android.todo.domain.repository.ITodoRepository
+import javax.inject.Inject
 
 @HiltAndroidApp
 class TodoApplication : Application() {
 
     @Inject
     lateinit var dao: TodoDao
-
+    
     companion object {
-        lateinit var repository: RoomTodoRepository
+
+        lateinit var repository: ITodoRepository
     }
 
     override fun onCreate() {
@@ -203,8 +205,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import hu.bme.aut.android.todo.data.repository.ITodoRepository
 import hu.bme.aut.android.todo.data.repository.RoomTodoRepository
+import hu.bme.aut.android.todo.domain.repository.ITodoRepository
 import jakarta.inject.Singleton
 
 @Module
@@ -263,7 +265,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import hu.bme.aut.android.todo.data.repository.ITodoRepository
+import hu.bme.aut.android.todo.domain.repository.ITodoRepository
 import hu.bme.aut.android.todo.domain.usecases.AllTodoUseCases
 import hu.bme.aut.android.todo.domain.usecases.LoadTodosUseCase
 import jakarta.inject.Singleton
@@ -293,6 +295,12 @@ Láthatjuk, hogy jelenleg csak az `AllTodoUseCases` és `LoadTodosUseCase` oszt�
 Az `AllTodoUseCases` osztályt ennek megfelelően így alakítsuk át:
 
 ```kotlin
+package hu.bme.aut.android.todo.domain.usecases
+
+import hu.bme.aut.android.todo.domain.repository.ITodoRepository
+import hu.bme.aut.android.todo.domain.usecases.todo.LoadTodoUseCase
+import hu.bme.aut.android.todo.domain.usecases.todo.SaveTodoUseCase
+
 class AllTodoUseCases(
     val repository: ITodoRepository,
     val loadTodos: LoadTodosUseCase
@@ -346,6 +354,7 @@ class TodoListViewModel @Inject constructor(
             is TodoListScreenEvent.DeleteTodo -> {
                 deleteTodo(event.todo)
             }
+
         }
     }
 
@@ -370,6 +379,7 @@ class TodoListViewModel @Inject constructor(
                 _uiEvent.send(TodoListScreenUiEvent.DeleteSuccess)
             } catch (e: Exception) {
                 _uiEvent.send(TodoListScreenUiEvent.DeleteFailure(e.toUiText()))
+
             }
         }
     }
@@ -378,36 +388,148 @@ class TodoListViewModel @Inject constructor(
 A `TodoDetailViewModel` hasonlóan változik:
 
 ```kotlin
-package hu.bme.aut.android.todo.ui.screen.todo_detail
+package hu.bme.aut.android.todo.ui.screen.todo.todo_detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import hu.bme.aut.android.todo.domain.usecases.AllTodoUseCases
+import hu.bme.aut.android.todo.ui.model.asTodo
 import hu.bme.aut.android.todo.ui.model.asTodoUi
+import hu.bme.aut.android.todo.ui.model.toUiText
+import hu.bme.aut.android.todo.ui.screen.todo_detail.TodoDetailScreenEvent
+import hu.bme.aut.android.todo.ui.util.UiEvent
 import jakarta.inject.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class TodoDetailViewModel @Inject constructor(
     private val todoOperations: AllTodoUseCases
-) : ViewModel() {
+) :
+    ViewModel() {
 
-    private val _state = MutableStateFlow<TodoDetailState>(TodoDetailState.Loading)
+    private val _state = MutableStateFlow<TodoDetailScreenState>(TodoDetailScreenState())
     val state = _state.asStateFlow()
 
-    fun loadTodo(todoId: Int) {
+
+    private val _uiEvent = Channel<UiEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
+
+    fun onEvent(event: TodoDetailScreenEvent) {
+        when (event) {
+            is TodoDetailScreenEvent.LoadTodo -> {
+                loadTodo(event.id)
+            }
+
+            is TodoDetailScreenEvent.StartTodoEditing -> {
+                _state.update {
+                    it.copy(
+                        isEditing = true
+                    )
+                }
+            }
+
+            is TodoDetailScreenEvent.StopTodoEditing -> {
+                _state.update {
+                    it.copy(
+                        isEditing = false
+                    )
+                }
+            }
+
+            is TodoDetailScreenEvent.TitleChanged -> {
+                val newValue = event.newTitle
+                _state.update {
+                    it.copy(
+                        todo = it.todo?.copy(title = newValue)
+                    )
+                }
+            }
+
+            is TodoDetailScreenEvent.DescriptionChanged -> {
+                val newValue = event.newDescription
+                _state.update {
+                    it.copy(
+                        todo = it.todo?.copy(description = newValue)
+                    )
+                }
+            }
+
+            is TodoDetailScreenEvent.PrioritySelected -> {
+                val newValue = event.priority
+                _state.update {
+                    it.copy(
+                        todo = it.todo?.copy(priority = newValue)
+                    )
+                }
+            }
+
+            is TodoDetailScreenEvent.DateSelected -> {
+                val newValue = event.date.toString()
+                _state.update {
+                    it.copy(
+                        todo = it.todo?.copy(dueDate = newValue)
+                    )
+                }
+            }
+
+            is TodoDetailScreenEvent.DeleteTodo -> {
+                onDelete()
+            }
+
+            is TodoDetailScreenEvent.UpdateTodo -> {
+                onUpdate()
+                _state.update {
+                    it.copy(isEditing = false)
+                }
+            }
+        }
+    }
+
+    private fun loadTodo(todoId: Int) {
         viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
             try {
-                _state.value = TodoDetailState.Loading
-                todoOperations.loadTodo(todoId).getOrThrow().collectLatest {
-                    _state.value = TodoDetailState.Result(it.asTodoUi())
+                todoOperations.loadTodo(todoId).getOrThrow().collectLatest { todo ->
+                    _state.update { it.copy(isLoading = false, todo = todo?.asTodoUi()) }
                 }
             } catch (e: Exception) {
-                _state.value = TodoDetailState.Error(e)
+                _state.update { it.copy(isLoading = false, error = e) }
+                _uiEvent.send(UiEvent.Failure(e.toUiText()))
+            }
+        }
+    }
+
+    private fun onUpdate() {
+        viewModelScope.launch {
+            try {
+                CoroutineScope(coroutineContext).launch(Dispatchers.IO) {
+                    todoOperations.updateTodo(state.value.todo!!.asTodo())
+                }
+                _uiEvent.send(UiEvent.Success)
+            } catch (e: Exception) {
+                _uiEvent.send(UiEvent.Failure(e.toUiText()))
+            }
+        }
+    }
+
+    private fun onDelete() {
+        viewModelScope.launch {
+            try {
+                CoroutineScope(coroutineContext).launch(Dispatchers.IO) {
+                    todoOperations.deleteTodo(state.value.todo!!.id)
+                }
+                _uiEvent.send(UiEvent.Success)
+            } catch (e: Exception) {
+                _uiEvent.send(UiEvent.Failure(e.toUiText()))
             }
         }
     }
@@ -423,6 +545,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import hu.bme.aut.android.todo.domain.usecases.AllTodoUseCases
+import hu.bme.aut.android.todo.ui.model.TodoUi
 import hu.bme.aut.android.todo.ui.model.asTodo
 import hu.bme.aut.android.todo.ui.model.toUiText
 import jakarta.inject.Inject
@@ -486,7 +609,7 @@ class TodoCreateViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         todo = it.todo.copy(
-                            id = (Math.random()*Int.MAX_VALUE).toInt(),
+                            id = (Math.random() * Int.MAX_VALUE).toInt(),
                             title = it.todo.title.trim(),
                             description = it.todo.description.trim()
                         )
@@ -502,12 +625,16 @@ class TodoCreateViewModel @Inject constructor(
             try {
                 todoOperations.saveTodo(state.value.todo.asTodo())
                 _uiEvent.send(TodoCreateScreenUiEvent.Success)
+                _state.update {
+                    it.copy(
+                        todo = TodoUi()
+                    )
+                }
             } catch (e: Exception) {
                 _uiEvent.send(TodoCreateScreenUiEvent.Failure(e.toUiText()))
             }
         }
     }
-
 }
 ```
 
@@ -569,9 +696,9 @@ Először fel kell vennünk a teszteléshez használandó függőségeket a proj
 
 ```
 [versions]
-mockitoCore = "5.23.0"
+mockitoCore = "5.24.0"
 mockitoInline = "5.2.0"
-mockitoKotlin = "6.3.0"
+mockitoKotlin = "6.4.0"
 
 [libraries]
 mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
@@ -595,6 +722,7 @@ Most hozzuk létre a `data.repository` package-et a `test` könyvtárban is, miv
 ```kotlin
 package hu.bme.aut.android.todo.data.repository
 
+import hu.bme.aut.android.todo.data.converters.asTodo
 import hu.bme.aut.android.todo.data.dao.TodoDao
 import hu.bme.aut.android.todo.data.entities.TodoEntity
 import hu.bme.aut.android.todo.domain.model.Priority
@@ -629,7 +757,7 @@ class RoomTodoRepositoryTest {
         val roomTodoRepository = RoomTodoRepository(mockDao)
         val result = roomTodoRepository.getAllTodos()
         runBlocking {
-            Assert.assertTrue(result.first().contains(sampleTodo))
+            Assert.assertTrue(result.first().contains(sampleTodo.asTodo))
             verify(mockDao, times(1)).getAllTodos()
         }
     }
@@ -658,8 +786,8 @@ Először itt is a függőségek felvételével kezdünk, a `libs.versions.toml`
 
 ```
 [versions]
-hiltAndroidTesting = "2.59.2"
-hiltAndroidCompiler = "2.59.2"
+hiltAndroidTesting = "2.60.1"
+hiltAndroidCompiler = "2.60.1"
 
 [libraries]
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hiltAndroidTesting" }

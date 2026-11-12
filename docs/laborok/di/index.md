@@ -298,8 +298,6 @@ Az `AllTodoUseCases` osztályt ennek megfelelően így alakítsuk át:
 package hu.bme.aut.android.todo.domain.usecases
 
 import hu.bme.aut.android.todo.domain.repository.ITodoRepository
-import hu.bme.aut.android.todo.domain.usecases.todo.LoadTodoUseCase
-import hu.bme.aut.android.todo.domain.usecases.todo.SaveTodoUseCase
 
 class AllTodoUseCases(
     val repository: ITodoRepository,
@@ -400,8 +398,6 @@ import hu.bme.aut.android.todo.ui.model.toUiText
 import hu.bme.aut.android.todo.ui.screen.todo_detail.TodoDetailScreenEvent
 import hu.bme.aut.android.todo.ui.util.UiEvent
 import jakarta.inject.Inject
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.channels.Channel
@@ -511,9 +507,7 @@ class TodoDetailViewModel @Inject constructor(
     private fun onUpdate() {
         viewModelScope.launch {
             try {
-                CoroutineScope(coroutineContext).launch(Dispatchers.IO) {
-                    todoOperations.updateTodo(state.value.todo!!.asTodo())
-                }
+                todoOperations.updateTodo(state.value.todo!!.asTodo())
                 _uiEvent.send(UiEvent.Success)
             } catch (e: Exception) {
                 _uiEvent.send(UiEvent.Failure(e.toUiText()))
@@ -524,9 +518,7 @@ class TodoDetailViewModel @Inject constructor(
     private fun onDelete() {
         viewModelScope.launch {
             try {
-                CoroutineScope(coroutineContext).launch(Dispatchers.IO) {
-                    todoOperations.deleteTodo(state.value.todo!!.id)
-                }
+                todoOperations.deleteTodo(state.value.todo!!.id)
                 _uiEvent.send(UiEvent.Success)
             } catch (e: Exception) {
                 _uiEvent.send(UiEvent.Failure(e.toUiText()))
@@ -609,7 +601,6 @@ class TodoCreateViewModel @Inject constructor(
                 _state.update {
                     it.copy(
                         todo = it.todo.copy(
-                            id = (Math.random() * Int.MAX_VALUE).toInt(),
                             title = it.todo.title.trim(),
                             description = it.todo.description.trim()
                         )

@@ -1408,8 +1408,6 @@ a <code>data.di</code> package-be:</p>
 <div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.usecases</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.repository.ITodoRepository</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.usecases.todo.LoadTodoUseCase</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.domain.usecases.todo.SaveTodoUseCase</span>
 
 <span class="kd">class</span><span class="w"> </span><span class="nc">AllTodoUseCases</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">ITodoRepository</span><span class="p">,</span>
@@ -1504,8 +1502,6 @@ A <code>TodoDetailViewModel</code> hasonlóan változik:<p></p>
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.screen.todo_detail.TodoDetailScreenEvent</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.todo.ui.util.UiEvent</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">jakarta.inject.Inject</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.CoroutineScope</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.Dispatchers</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.MutableStateFlow</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.asStateFlow</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.channels.Channel</span>
@@ -1615,9 +1611,7 @@ A <code>TodoDetailViewModel</code> hasonlóan változik:<p></p>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onUpdate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">CoroutineScope</span><span class="p">(</span><span class="n">coroutineContext</span><span class="p">).</span><span class="na">launch</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="na">IO</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">updateTodo</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">todo</span><span class="o">!!</span><span class="p">.</span><span class="na">asTodo</span><span class="p">())</span>
-<span class="w">                </span><span class="p">}</span>
+<span class="w">                </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">updateTodo</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">todo</span><span class="o">!!</span><span class="p">.</span><span class="na">asTodo</span><span class="p">())</span>
 <span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Success</span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Failure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
@@ -1628,9 +1622,7 @@ A <code>TodoDetailViewModel</code> hasonlóan változik:<p></p>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onDelete</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">viewModelScope</span><span class="p">.</span><span class="na">launch</span><span class="w"> </span><span class="p">{</span>
 <span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                </span><span class="n">CoroutineScope</span><span class="p">(</span><span class="n">coroutineContext</span><span class="p">).</span><span class="na">launch</span><span class="p">(</span><span class="n">Dispatchers</span><span class="p">.</span><span class="na">IO</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">                    </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">deleteTodo</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">todo</span><span class="o">!!</span><span class="p">.</span><span class="na">id</span><span class="p">)</span>
-<span class="w">                </span><span class="p">}</span>
+<span class="w">                </span><span class="n">todoOperations</span><span class="p">.</span><span class="na">deleteTodo</span><span class="p">(</span><span class="n">state</span><span class="p">.</span><span class="na">value</span><span class="p">.</span><span class="na">todo</span><span class="o">!!</span><span class="p">.</span><span class="na">id</span><span class="p">)</span>
 <span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Success</span><span class="p">)</span>
 <span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">:</span><span class="w"> </span><span class="n">Exception</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                </span><span class="n">_uiEvent</span><span class="p">.</span><span class="na">send</span><span class="p">(</span><span class="n">UiEvent</span><span class="p">.</span><span class="na">Failure</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toUiText</span><span class="p">()))</span>
@@ -1710,7 +1702,6 @@ A <code>TodoDetailViewModel</code> hasonlóan változik:<p></p>
 <span class="w">                </span><span class="n">_state</span><span class="p">.</span><span class="na">update</span><span class="w"> </span><span class="p">{</span>
 <span class="w">                    </span><span class="nb">it</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
 <span class="w">                        </span><span class="n">todo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span>
-<span class="w">                            </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="na">random</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kt">Int</span><span class="p">.</span><span class="na">MAX_VALUE</span><span class="p">).</span><span class="na">toInt</span><span class="p">(),</span>
 <span class="w">                            </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">title</span><span class="p">.</span><span class="na">trim</span><span class="p">(),</span>
 <span class="w">                            </span><span class="n">description</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">todo</span><span class="p">.</span><span class="na">description</span><span class="p">.</span><span class="na">trim</span><span class="p">()</span>
 <span class="w">                        </span><span class="p">)</span>
@@ -1956,8 +1947,8 @@ hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", ve
           </path>
         </svg>
       </span>
-      <span title="2026. november 12. 11:24:03">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. november 12. 11:24:03 CET"><span class="timeago" datetime="2026-11-12T11:24:03+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. november 12. 11:24:03 CET">2026-11-12</span>
+      <span title="2026. november 12. 12:54:03">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. november 12. 12:54:03 CET"><span class="timeago" datetime="2026-11-12T12:54:03+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. november 12. 12:54:03 CET">2026-11-12</span>
       </span>
     </span>
 

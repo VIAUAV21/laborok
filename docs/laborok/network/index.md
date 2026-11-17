@@ -27,7 +27,6 @@ A feladatok megoldása során ne felejtsd el követni a [feladat beadás folyama
 
 3. Hozz létre egy új ágat `megoldas` néven, és ezen az ágon dolgozz.
 
-4. A `neptun.txt` fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.
 
 Indítsuk el az Android Studio-t, majd nyissuk meg a repository-ban lévő projektet.
 
@@ -85,7 +84,7 @@ A `data.model` package-be hozzuk létre az alábbi két fájlt, melyek az API ha
 
 `UnsplashPhoto.kt`:
 ```kotlin
-package hu.bme.aut.android.network.data.model
+package hu.bme.aut.android.unsplash.data.model
 
 import androidx.room.Embedded
 import androidx.room.Entity
@@ -132,7 +131,7 @@ A `Moshi` automatikusan megoldja majd az egyes tagváltozók szerializálását,
 
 `SearchResult.kt`:
 ```kotlin
-package hu.bme.aut.android.network.data.model
+package hu.bme.aut.android.unsplash.data.model
 
 import com.squareup.moshi.Json
 
@@ -145,13 +144,13 @@ Hozzuk létre az első DAO-t a `data.local.dao` package-ben:
 
 `UnsplashPhotoDao.kt`:
 ```kotlin
-package hu.bme.aut.android.network.data.local.dao
+package hu.bme.aut.android.unsplash.data.local.dao
 
 import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import hu.bme.aut.android.network.data.model.UnsplashPhoto
+import hu.bme.aut.android.unsplash.data.model.UnsplashPhoto
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -177,12 +176,12 @@ Majd a `data.local.database` package-ben hozzuk létre az adatbázist:
 
 `UnsplashDatabase.kt`:
 ```kotlin
-package hu.bme.aut.android.network.data.local.database
+package hu.bme.aut.android.unsplash.data.local.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import hu.bme.aut.android.network.data.local.dao.UnsplashPhotoDao
-import hu.bme.aut.android.network.data.model.UnsplashPhoto
+import hu.bme.aut.android.unsplash.data.local.dao.UnsplashPhotoDao
+import hu.bme.aut.android.unsplash.data.model.UnsplashPhoto
 
 @Database(entities = [UnsplashPhoto::class], version = 1)
 abstract class UnsplashDatabase : RoomDatabase() {
@@ -271,11 +270,11 @@ Hozzuk létre a lenti interface-t a `data.remote.api` package-ben.
 
 `UnsplashApi.kt`:
 ```kotlin
-package hu.bme.aut.android.network.data.remote.api
+package hu.bme.aut.android.unsplash.data.remote.api
 
-import hu.bme.aut.android.network.BuildConfig
-import hu.bme.aut.android.network.data.model.SearchResult
-import hu.bme.aut.android.network.data.model.UnsplashPhoto
+import hu.bme.aut.android.unsplash.BuildConfig
+import hu.bme.aut.android.unsplash.data.model.SearchResult
+import hu.bme.aut.android.unsplash.data.model.UnsplashPhoto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -318,7 +317,7 @@ Hozzuk létre a `PagingUtil` osztályt az `util` package-ben a paging konfigurá
 
 `PagingUtil.kt`:
 ```kotlin
-package hu.bme.aut.android.network.util
+package hu.bme.aut.android.unsplash.util
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -383,14 +382,14 @@ Hozzuk létre az alábbi osztályt a `data.paging` package-ben:
 
 `SearchPagingSource.kt`:
 ```kotlin
-package hu.bme.aut.android.network.data.paging
+package hu.bme.aut.android.unsplash.data.paging
 
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import hu.bme.aut.android.network.data.model.UnsplashPhoto
-import hu.bme.aut.android.network.data.remote.api.UnsplashApi
-import hu.bme.aut.android.network.util.PagingUtil.INITIAL_PAGE_SIZE
+import hu.bme.aut.android.unsplash.data.model.UnsplashPhoto
+import hu.bme.aut.android.unsplash.data.remote.api.UnsplashApi
+import hu.bme.aut.android.unsplash.util.PagingUtil.INITIAL_PAGE_SIZE
 
 class SearchPagingSource(
     private val api: UnsplashApi,
@@ -449,7 +448,7 @@ Hozzuk létre az alábbi osztályt a `data.model` package-ben:
 
 `UnsplashPhotoRemoteKeys.kt`:
 ```kotlin
-package hu.bme.aut.android.network.data.model
+package hu.bme.aut.android.unsplash.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -468,13 +467,13 @@ Hozzuk létre az alábbi osztályt a `data.local.dao` package-ben:
 
 `UnsplashPhotoRemoteKeysDao.kt`:
 ```kotlin
-package hu.bme.aut.android.network.data.local.dao
+package hu.bme.aut.android.unsplash.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import hu.bme.aut.android.network.data.model.UnsplashPhotoRemoteKeys
+import hu.bme.aut.android.unsplash.data.model.UnsplashPhotoRemoteKeys
 
 @Dao
 interface UnsplashPhotoRemoteKeysDao {
@@ -494,15 +493,6 @@ Ezeket az osztályokat az adatbázisunkba is vegyük fel. Ne felejtsük el az ad
 
 `UnsplashDatabase.kt`:
 ```kotlin
-package hu.bme.aut.android.network.data.local.database
-
-import androidx.room.Database
-import androidx.room.RoomDatabase
-import hu.bme.aut.android.network.data.local.dao.UnsplashPhotoDao
-import hu.bme.aut.android.network.data.local.dao.UnsplashPhotoRemoteKeysDao
-import hu.bme.aut.android.network.data.model.UnsplashPhoto
-import hu.bme.aut.android.network.data.model.UnsplashPhotoRemoteKeys
-
 @Database(entities = [UnsplashPhoto::class, UnsplashPhotoRemoteKeys::class], version = 2)
 abstract class UnsplashDatabase : RoomDatabase() {
     abstract val photosDao: UnsplashPhotoDao
@@ -526,7 +516,7 @@ Hozzuk létre az alábbi osztályt a `data.paging` package-ben:
 
 `UnsplashRemoteMediator.kt`:
 ```kotlin
-package hu.bme.aut.android.network.data.paging
+package hu.bme.aut.android.unsplash.data.paging
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
@@ -534,11 +524,11 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import coil3.network.HttpException
-import hu.bme.aut.android.network.data.local.database.UnsplashDatabase
-import hu.bme.aut.android.network.data.model.UnsplashPhoto
-import hu.bme.aut.android.network.data.model.UnsplashPhotoRemoteKeys
-import hu.bme.aut.android.network.data.remote.api.UnsplashApi
-import hu.bme.aut.android.network.util.PagingUtil.INITIAL_PAGE
+import hu.bme.aut.android.unsplash.data.local.database.UnsplashDatabase
+import hu.bme.aut.android.unsplash.data.model.UnsplashPhoto
+import hu.bme.aut.android.unsplash.data.model.UnsplashPhotoRemoteKeys
+import hu.bme.aut.android.unsplash.data.remote.api.UnsplashApi
+import hu.bme.aut.android.unsplash.util.PagingUtil.INITIAL_PAGE
 import java.io.IOException
 import java.io.InvalidObjectException
 
@@ -641,18 +631,18 @@ A `data.repository` package-be vegyük fel a lenti `DataSource` osztályt, melye
 
 `UnsplashPhotoDataSource.kt`:
 ```kotlin
-package hu.bme.aut.android.network.data.repository
+package hu.bme.aut.android.unsplash.data.repository
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import hu.bme.aut.android.network.data.local.database.UnsplashDatabase
-import hu.bme.aut.android.network.data.model.UnsplashPhoto
-import hu.bme.aut.android.network.data.paging.SearchPagingSource
-import hu.bme.aut.android.network.data.paging.UnsplashRemoteMediator
-import hu.bme.aut.android.network.data.remote.api.UnsplashApi
-import hu.bme.aut.android.network.util.PagingUtil.INITIAL_PAGE_SIZE
+import hu.bme.aut.android.unsplash.data.local.database.UnsplashDatabase
+import hu.bme.aut.android.unsplash.data.model.UnsplashPhoto
+import hu.bme.aut.android.unsplash.data.paging.SearchPagingSource
+import hu.bme.aut.android.unsplash.data.paging.UnsplashRemoteMediator
+import hu.bme.aut.android.unsplash.data.remote.api.UnsplashApi
+import hu.bme.aut.android.unsplash.util.PagingUtil.INITIAL_PAGE_SIZE
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -702,20 +692,21 @@ Végül hozzuk létre a saját Application osztályunkat a gyökér package-ben:
 
 `UnsplashApplication.kt`:
 ```kotlin	
-package hu.bme.aut.android.network
+package hu.bme.aut.android.unsplash
 
 import android.app.Application
 import androidx.paging.ExperimentalPagingApi
 import androidx.room.Room
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import hu.bme.aut.android.network.data.local.database.UnsplashDatabase
-import hu.bme.aut.android.network.data.remote.api.UnsplashApi
-import hu.bme.aut.android.network.data.repository.UnsplashPhotoDataSource
+import hu.bme.aut.android.unsplash.data.local.database.UnsplashDatabase
+import hu.bme.aut.android.unsplash.data.remote.api.UnsplashApi
+import hu.bme.aut.android.unsplash.data.repository.UnsplashPhotoDataSource
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
+import kotlin.jvm.java
 
 @ExperimentalPagingApi
 class UnsplashApplication : Application() {

@@ -11,7 +11,7 @@ Alább részletesen bemutatjuk a beadás menetét. Itt egy rövid összefoglaló
 
 1. A munkádat Moodle-ben található GitHub Classroom meghívó linken keresztül létrehozott GitHub repository-ban kell elkészítsd.
 
-1. A megoldáshoz készíts egy külön ágat, ne a _master_-en dolgozz. Erre az ágra akárhány kommitot tehetsz. Mindenképpen pushold a megoldást.
+1. A megoldáshoz készíts egy külön ágat, ne a _main_-en dolgozz. Erre az ágra akárhány kommitot tehetsz. Mindenképpen pushold a megoldást.
 
 1. A beadást egy pull request jelzi, amely pull request-et a laborvezetődhöz kell rendelned.
 
@@ -130,7 +130,7 @@ Alább részletesen bemutatjuk a beadás menetét. Itt egy rövid összefoglaló
 
     ![GitHub create pull request](./assets/github-create-pull-request-1.png)
 
-    A _pull request_-et a fenti menüben is létrehozhatod. Fontos, hogy a megfelelő brancheket válaszd ki: `master`-be megy a `megoldas` ág.
+    A _pull request_-et a fenti menüben is létrehozhatod. Fontos, hogy a megfelelő brancheket válaszd ki: `main`-be megy a `megoldas` ág.
 
     ![GitHub create pull request](./assets/github-create-pull-request-2.png)
 

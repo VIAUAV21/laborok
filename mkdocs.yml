@@ -77,7 +77,7 @@ plugins:
       locale: hu
   - git-committers:
       repository: VIAUAV21/laborok
-      branch: master
+      branch: main
 
 nav:
   - "Tudnivalók":

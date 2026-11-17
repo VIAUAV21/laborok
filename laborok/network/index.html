@@ -1245,9 +1245,6 @@
 <li>
 <p>Hozz létre egy új ágat <code>megoldas</code> néven, és ezen az ágon dolgozz.</p>
 </li>
-<li>
-<p>A <code>neptun.txt</code> fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.</p>
-</li>
 </ol>
 <p>Indítsuk el az Android Studio-t, majd nyissuk meg a repository-ban lévő projektet.</p>
 <h2 id="meglevo-projekt-attekintese">Meglévő projekt áttekintése<a class="headerlink" href="#meglevo-projekt-attekintese" title="Permanent link">¶</a></h2>
@@ -1295,7 +1292,7 @@ A Coil használatának előnyei:  </p>
 <h3 id="modellek-es-adatbazis">Modellek és adatbázis<a class="headerlink" href="#modellek-es-adatbazis" title="Permanent link">¶</a></h3>
 <p>A <code>data.model</code> package-be hozzuk létre az alábbi két fájlt, melyek az API használatához szükségesek:</p>
 <p><code>UnsplashPhoto.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.model</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Embedded</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Entity</span>
@@ -1338,7 +1335,7 @@ A Coil használatának előnyei:  </p>
 <p>Az <code>@Embedded</code> annotációval megjelölt mezők osztályainak mezői közvetlenül hivatkozhatók az SQL lekérdezésekben.  </p>
 <p>A <code>Moshi</code> automatikusan megoldja majd az egyes tagváltozók szerializálását, kivéve ott, ahol eltér a név. Ezt a <code>Json</code> annotációval jelezhetjük.</p>
 <p><code>SearchResult.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.model</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">com.squareup.moshi.Json</span>
 
@@ -1348,13 +1345,13 @@ A Coil használatának előnyei:  </p>
 </code></pre></div><p></p>
 <p>Hozzuk létre az első DAO-t a <code>data.local.dao</code> package-ben:</p>
 <p><code>UnsplashPhotoDao.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.dao</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.local.dao</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.PagingSource</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Dao</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Insert</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Query</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhoto</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.model.UnsplashPhoto</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.Flow</span>
 
 <span class="nd">@Dao</span>
@@ -1377,12 +1374,12 @@ A Coil használatának előnyei:  </p>
 </code></pre></div><p></p>
 <p>Majd a <code>data.local.database</code> package-ben hozzuk létre az adatbázist:</p>
 <p><code>UnsplashDatabase.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.database</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.local.database</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Database</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.RoomDatabase</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.dao.UnsplashPhotoDao</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhoto</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.local.dao.UnsplashPhotoDao</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.model.UnsplashPhoto</span>
 
 <span class="nd">@Database</span><span class="p">(</span><span class="n">entities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">UnsplashPhoto</span><span class="o">::</span><span class="n">class</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="p">)</span>
 <span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">UnsplashDatabase</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">RoomDatabase</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -1451,11 +1448,11 @@ A Coil használatának előnyei:  </p>
 </div>
 <p>Hozzuk létre a lenti interface-t a <code>data.remote.api</code> package-ben.</p>
 <p><code>UnsplashApi.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.remote.api</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.remote.api</span>
 
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.BuildConfig</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.SearchResult</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhoto</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.BuildConfig</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.model.SearchResult</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.model.UnsplashPhoto</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">retrofit2.Response</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">retrofit2.http.GET</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">retrofit2.http.Path</span>
@@ -1493,7 +1490,7 @@ A Coil használatának előnyei:  </p>
 <h3 id="pagingutil">PagingUtil<a class="headerlink" href="#pagingutil" title="Permanent link">¶</a></h3>
 <p>Hozzuk létre a <code>PagingUtil</code> osztályt az <code>util</code> package-ben a paging konfigurálására és placeholderek beállítására:</p>
 <p><code>PagingUtil.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.util</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.util</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">android.os.Parcel</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">android.os.Parcelable</span>
@@ -1553,14 +1550,14 @@ A Coil használatának előnyei:  </p>
 <p>Ezután határozzunk meg egy PagingSource implementációt, hogy az adatforrás azonosítható legyen. A PagingSource API osztálya tartalmazza a load() metódust, amelyet felül kell írni, hogy jelentse, hogyan lehet lapozott adatokat visszanyerni a megfelelő adatforrásból.</p>
 <p>Hozzuk létre az alábbi osztályt a <code>data.paging</code> package-ben:</p>
 <p><code>SearchPagingSource.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.paging</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.paging</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">android.util.Log</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.PagingSource</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.PagingState</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhoto</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.remote.api.UnsplashApi</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.util.PagingUtil.INITIAL_PAGE_SIZE</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.model.UnsplashPhoto</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.remote.api.UnsplashApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.util.PagingUtil.INITIAL_PAGE_SIZE</span>
 
 <span class="kd">class</span><span class="w"> </span><span class="nc">SearchPagingSource</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">api</span><span class="p">:</span><span class="w"> </span><span class="n">UnsplashApi</span><span class="p">,</span>
@@ -1606,7 +1603,7 @@ A Coil használatának előnyei:  </p>
 <p>Amikor a távoli kulcsok nem közvetlenül kapcsolódnak a listaelemekhez, célszerű őket külön táblázatban tárolni a helyi adatbázisban. Definiálni kell egy Room entitást, amely egy távoli kulcsokból álló táblázatot reprezentál.</p>
 <p>Hozzuk létre az alábbi osztályt a <code>data.model</code> package-ben:</p>
 <p><code>UnsplashPhotoRemoteKeys.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.model</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Entity</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.PrimaryKey</span>
@@ -1621,13 +1618,13 @@ A Coil használatának előnyei:  </p>
 <p>Emellett definiálni kell egy DAO-t a RemoteKey entitásra.</p>
 <p>Hozzuk létre az alábbi osztályt a <code>data.local.dao</code> package-ben:</p>
 <p><code>UnsplashPhotoRemoteKeysDao.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.dao</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.local.dao</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Dao</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Insert</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.OnConflictStrategy</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Query</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhotoRemoteKeys</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.model.UnsplashPhotoRemoteKeys</span>
 
 <span class="nd">@Dao</span>
 <span class="kd">interface</span><span class="w"> </span><span class="nc">UnsplashPhotoRemoteKeysDao</span><span class="w"> </span><span class="p">{</span>
@@ -1644,16 +1641,7 @@ A Coil használatának előnyei:  </p>
 </code></pre></div><p></p>
 <p>Ezeket az osztályokat az adatbázisunkba is vegyük fel. Ne felejtsük el az adatbázis verziószámát növelni!</p>
 <p><code>UnsplashDatabase.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.database</span>
-
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Database</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.RoomDatabase</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.dao.UnsplashPhotoDao</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.dao.UnsplashPhotoRemoteKeysDao</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhoto</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhotoRemoteKeys</span>
-
-<span class="nd">@Database</span><span class="p">(</span><span class="n">entities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">UnsplashPhoto</span><span class="o">::</span><span class="n">class</span><span class="p">,</span><span class="w"> </span><span class="n">UnsplashPhotoRemoteKeys</span><span class="o">::</span><span class="n">class</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
+</p><div class="highlight"><pre><span></span><code><span class="nd">@Database</span><span class="p">(</span><span class="n">entities</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">UnsplashPhoto</span><span class="o">::</span><span class="n">class</span><span class="p">,</span><span class="w"> </span><span class="n">UnsplashPhotoRemoteKeys</span><span class="o">::</span><span class="n">class</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">2</span><span class="p">)</span>
 <span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">UnsplashDatabase</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">RoomDatabase</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">photosDao</span><span class="p">:</span><span class="w"> </span><span class="n">UnsplashPhotoDao</span>
 <span class="w">    </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">remoteKeysDao</span><span class="p">:</span><span class="w"> </span><span class="n">UnsplashPhotoRemoteKeysDao</span>
@@ -1667,7 +1655,7 @@ A Coil használatának előnyei:  </p>
 <p>Így a <code>RemoteMediator</code> biztosítja, hogy az alkalmazás azokat az adatokat töltse be, amelyeket a felhasználók a megfelelő sorrendben szeretnének látni.</p>
 <p>Hozzuk létre az alábbi osztályt a <code>data.paging</code> package-ben:</p>
 <p><code>UnsplashRemoteMediator.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.paging</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.paging</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.ExperimentalPagingApi</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.LoadType</span>
@@ -1675,11 +1663,11 @@ A Coil használatának előnyei:  </p>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.RemoteMediator</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.withTransaction</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">coil3.network.HttpException</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.database.UnsplashDatabase</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhoto</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhotoRemoteKeys</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.remote.api.UnsplashApi</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.util.PagingUtil.INITIAL_PAGE</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.local.database.UnsplashDatabase</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.model.UnsplashPhoto</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.model.UnsplashPhotoRemoteKeys</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.remote.api.UnsplashApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.util.PagingUtil.INITIAL_PAGE</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">java.io.IOException</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">java.io.InvalidObjectException</span>
 
@@ -1778,18 +1766,18 @@ A Coil használatának előnyei:  </p>
 </ul>
 <p>A <code>data.repository</code> package-be vegyük fel a lenti <code>DataSource</code> osztályt, melyen keresztül a ViewModel eléri a kéréseinket:</p>
 <p><code>UnsplashPhotoDataSource.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.repository</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.repository</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.ExperimentalPagingApi</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.Pager</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.PagingConfig</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.PagingData</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.database.UnsplashDatabase</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.model.UnsplashPhoto</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.paging.SearchPagingSource</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.paging.UnsplashRemoteMediator</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.remote.api.UnsplashApi</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.util.PagingUtil.INITIAL_PAGE_SIZE</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.local.database.UnsplashDatabase</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.model.UnsplashPhoto</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.paging.SearchPagingSource</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.paging.UnsplashRemoteMediator</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.remote.api.UnsplashApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.util.PagingUtil.INITIAL_PAGE_SIZE</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.Flow</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.first</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.flow</span>
@@ -1835,20 +1823,21 @@ A Coil használatának előnyei:  </p>
 <p>Itt láthatjuk a <code>Pager</code> osztály használatát a lapozott adatok folyamának beállításához.</p>
 <p>Végül hozzuk létre a saját Application osztályunkat a gyökér package-ben:</p>
 <p><code>UnsplashApplication.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">android.app.Application</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.ExperimentalPagingApi</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.room.Room</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.squareup.moshi.Moshi</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.local.database.UnsplashDatabase</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.remote.api.UnsplashApi</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.data.repository.UnsplashPhotoDataSource</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.local.database.UnsplashDatabase</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.remote.api.UnsplashApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.data.repository.UnsplashPhotoDataSource</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">okhttp3.OkHttpClient</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">retrofit2.Retrofit</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">retrofit2.converter.moshi.MoshiConverterFactory</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">java.util.concurrent.TimeUnit</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlin.jvm.java</span>
 
 <span class="nd">@ExperimentalPagingApi</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">UnsplashApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -2354,8 +2343,8 @@ Vegyük fel a <code>material3</code> könyvtár mintájára a <code>material3-wi
           </path>
         </svg>
       </span>
-      <span title="2026. március 1. 12:02:27">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. március 1. 12:02:27 CET"><span class="timeago" datetime="2026-03-01T12:02:27+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. március 1. 12:02:27 CET">2026-03-01</span>
+      <span title="2026. november 17. 14:09:21">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. november 17. 14:09:21 CET"><span class="timeago" datetime="2026-11-17T14:09:21+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. november 17. 14:09:21 CET">2026-11-17</span>
       </span>
     </span>
 
@@ -2369,7 +2358,9 @@ Vegyük fel a <code>material3</code> könyvtár mintájára a <code>material3-wi
         </svg>
       </span>
       <span>Szerzők</span>
-      <nav><a href="https://github.com/balazs003" target="_blank" rel="noopener noreferrer" class="md-author" title="@balazs003">
+      <nav><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
+          <img src="https://avatars.githubusercontent.com/u/23335752?v=4?size=72" alt="@gazdilaci">
+        </a><a href="https://github.com/balazs003" target="_blank" rel="noopener noreferrer" class="md-author" title="@balazs003">
           <img src="https://avatars.githubusercontent.com/u/144109760?v=4?size=72" alt="@balazs003">
         </a><a href="https://github.com/danim1130" target="_blank" rel="noopener noreferrer" class="md-author" title="@danim1130">
           <img src="https://avatars.githubusercontent.com/u/8405234?v=4?size=72" alt="@danim1130">
@@ -2377,8 +2368,6 @@ Vegyük fel a <code>material3</code> könyvtár mintájára a <code>material3-wi
           <img src="https://avatars.githubusercontent.com/u/19864447?v=4?size=72" alt="@web-flow">
         </a><a href="https://github.com/kpomazi" target="_blank" rel="noopener noreferrer" class="md-author" title="@kpomazi">
           <img src="https://avatars.githubusercontent.com/u/22079595?v=4?size=72" alt="@kpomazi">
-        </a><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
-          <img src="https://avatars.githubusercontent.com/u/23335752?v=4?size=72" alt="@gazdilaci">
         </a></nav>      
     </span>
   </div>

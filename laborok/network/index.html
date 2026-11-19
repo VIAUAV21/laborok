@@ -1890,9 +1890,9 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <p><code>WindowSize.kt</code>:
 </p><div class="highlight"><pre><span></span><code><span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">WindowSize</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">Compact</span><span class="p">,</span><span class="w"> </span><span class="n">Medium</span><span class="p">,</span><span class="w"> </span><span class="n">Expanded</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div><p></p>
-<p>Ezt követően hozzuk létre a maradék két elrendezésünket a <code>feature.photos_feed.screensbysize</code> package-ben:</p>
+<p>Ezt követően hozzuk létre a maradék két elrendezésünket a <code>ui.screen.photos_feed.screensbysize</code> package-ben:</p>
 <p><code>PhotosFeed_Compact.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.feature.photos_feed.screensbysize</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.ui.screen.photos_feed.screensbysize</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Box</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxSize</span>
@@ -1908,9 +1908,9 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Alignment</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.compose.LazyPagingItems</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.ui.common.PhotoItem</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.ui.common.SearchTopAppBar</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.ui.model.UnsplashPhotoUiModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.ui.common.PhotoItem</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.ui.common.SearchTopAppBar</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.ui.model.UnsplashPhotoUiModel</span>
 
 <span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@ExperimentalMaterialApi</span>
@@ -1963,7 +1963,7 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="p">}</span>
 </code></pre></div><p></p>
 <p><code>PhotosFeed_Expanded.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.feature.photos_feed.screensbysize</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.ui.screen.photos_feed.screensbysize</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.background</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Arrangement</span>
@@ -2007,10 +2007,10 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="k">import</span><span class="w"> </span><span class="nn">coil3.compose.AsyncImage</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">coil3.request.ImageRequest</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">coil3.request.crossfade</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.R</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.ui.common.PhotoItem</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.ui.common.SearchTopAppBar</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.ui.model.UnsplashPhotoUiModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.R</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.ui.common.PhotoItem</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.ui.common.SearchTopAppBar</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.ui.model.UnsplashPhotoUiModel</span>
 
 <span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@ExperimentalMaterialApi</span>
@@ -2129,7 +2129,7 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 </code></pre></div><p></p>
 <p>Frissítsük a PhotosFeedScreen-ünket, hogy használja a fenti Composable-öket:</p>
 <p><code>PhotosFeedScreen.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.feature.photos_feed</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.ui.screen.photos_feed</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Box</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.fillMaxSize</span>
@@ -2144,10 +2144,10 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.viewmodel.compose.viewModel</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.ExperimentalPagingApi</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.compose.collectAsLazyPagingItems</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.feature.photos_feed.screensbysize.PhotosFeedScreen_Compact</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.feature.photos_feed.screensbysize.PhotosFeedScreen_Expanded</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.feature.photos_feed.screensbysize.PhotosFeedScreen_Medium</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.util.WindowSize</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.ui.screen.photos_feed.screensbysize.PhotosFeedScreen_Compact</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.ui.screen.photos_feed.screensbysize.PhotosFeedScreen_Expanded</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.ui.screen.photos_feed.screensbysize.PhotosFeedScreen_Medium</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.util.WindowSize</span>
 
 <span class="nd">@ExperimentalMaterial3Api</span>
 <span class="nd">@ExperimentalMaterialApi</span>
@@ -2215,7 +2215,7 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 </code></pre></div><p></p>
 <p>Frissítsük az AppNavigation-t, hogy megkapjon egy WindowSize típusú objektumot és átadja a PhotosFeedScreen-nek:
 <code>AppNavigation.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.navigation</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.ui.navigation</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material.ExperimentalMaterialApi</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.material3.ExperimentalMaterial3Api</span>
@@ -2225,9 +2225,9 @@ Ezzel elsőként a <code>util</code> package-ben hozzunk létre egy osztályt a 
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation3.runtime.rememberNavBackStack</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.navigation3.ui.NavDisplay</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.ExperimentalPagingApi</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.feature.loaded_photo.LoadedPhotoScreen</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.feature.photos_feed.PhotosFeedScreen</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.util.WindowSize</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.ui.screen.loaded_photo.LoadedPhotoScreen</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.ui.screen.photos_feed.PhotosFeedScreen</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.util.WindowSize</span>
 
 <span class="nd">@OptIn</span><span class="p">(</span><span class="n">ExperimentalMaterial3Api</span><span class="o">::</span><span class="n">class</span><span class="p">,</span><span class="w"> </span><span class="n">ExperimentalMaterialApi</span><span class="o">::</span><span class="n">class</span><span class="p">,</span>
 <span class="w">    </span><span class="n">ExperimentalPagingApi</span><span class="o">::</span><span class="kd">class</span>
@@ -2272,7 +2272,7 @@ Vegyük fel a <code>material3</code> könyvtár mintájára a <code>material3-wi
 <p>Láthatjuk, hogy a dokumentációból kiemelt kódsor használatával megkerüljük a könyvtárnak és verziójának a libs.version.toml fájlban való definiálását, és az Android Studio sárga aláhúzással figyelmeztet is, hogy ehelyett kövessük az ajánlott módszert a könyvtár hozzáadásához. Szerencsére egy kattintásra, automatikusan átalakítja nekünk ezt a megfelelő módon, figyeljük meg a változásokat!</p>
 <p>Majd az Activity-t is állítsuk be a különböző képernyőméretek használatára:</p>
 <p><code>MainActivity.kt</code>:
-</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network</span>
+</p><div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash</span>
 
 <span class="k">import</span><span class="w"> </span><span class="nn">android.os.Bundle</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.ComponentActivity</span>
@@ -2286,9 +2286,9 @@ Vegyük fel a <code>material3</code> könyvtár mintájára a <code>material3-wi
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.runtime.Composable</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.ui.Modifier</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.paging.ExperimentalPagingApi</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.navigation.AppNavigation</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.ui.theme.UnsplashTheme</span>
-<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.network.util.WindowSize</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.ui.navigation.AppNavigation</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.ui.theme.UnsplashTheme</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.unsplash.util.WindowSize</span>
 
 
 <span class="kd">class</span><span class="w"> </span><span class="nc">MainActivity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ComponentActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -2343,8 +2343,8 @@ Vegyük fel a <code>material3</code> könyvtár mintájára a <code>material3-wi
           </path>
         </svg>
       </span>
-      <span title="2026. november 17. 14:09:21">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. november 17. 14:09:21 CET"><span class="timeago" datetime="2026-11-17T14:09:21+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. november 17. 14:09:21 CET">2026-11-17</span>
+      <span title="2026. november 19. 10:23:07">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. november 19. 10:23:07 CET"><span class="timeago" datetime="2026-11-19T10:23:07+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. november 19. 10:23:07 CET">2026-11-19</span>
       </span>
     </span>
 

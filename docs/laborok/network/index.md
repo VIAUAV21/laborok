@@ -766,11 +766,11 @@ Ezzel elsőként a `util` package-ben hozzunk létre egy osztályt a kategóriá
 enum class WindowSize { Compact, Medium, Expanded }
 ```
 
-Ezt követően hozzuk létre a maradék két elrendezésünket a `feature.photos_feed.screensbysize` package-ben:
+Ezt követően hozzuk létre a maradék két elrendezésünket a `ui.screen.photos_feed.screensbysize` package-ben:
 
 `PhotosFeed_Compact.kt`:
 ```kotlin
-package hu.bme.aut.android.network.feature.photos_feed.screensbysize
+package hu.bme.aut.android.unsplash.ui.screen.photos_feed.screensbysize
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -786,9 +786,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.paging.compose.LazyPagingItems
-import hu.bme.aut.android.network.ui.common.PhotoItem
-import hu.bme.aut.android.network.ui.common.SearchTopAppBar
-import hu.bme.aut.android.network.ui.model.UnsplashPhotoUiModel
+import hu.bme.aut.android.unsplash.ui.common.PhotoItem
+import hu.bme.aut.android.unsplash.ui.common.SearchTopAppBar
+import hu.bme.aut.android.unsplash.ui.model.UnsplashPhotoUiModel
 
 @ExperimentalMaterial3Api
 @ExperimentalMaterialApi
@@ -843,7 +843,7 @@ fun PhotosFeedScreen_Compact(
 
 `PhotosFeed_Expanded.kt`:
 ```kotlin
-package hu.bme.aut.android.network.feature.photos_feed.screensbysize
+package hu.bme.aut.android.unsplash.ui.screen.photos_feed.screensbysize
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -887,10 +887,10 @@ import androidx.paging.compose.LazyPagingItems
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.request.crossfade
-import hu.bme.aut.android.network.R
-import hu.bme.aut.android.network.ui.common.PhotoItem
-import hu.bme.aut.android.network.ui.common.SearchTopAppBar
-import hu.bme.aut.android.network.ui.model.UnsplashPhotoUiModel
+import hu.bme.aut.android.unsplash.R
+import hu.bme.aut.android.unsplash.ui.common.PhotoItem
+import hu.bme.aut.android.unsplash.ui.common.SearchTopAppBar
+import hu.bme.aut.android.unsplash.ui.model.UnsplashPhotoUiModel
 
 @ExperimentalMaterial3Api
 @ExperimentalMaterialApi
@@ -1012,7 +1012,7 @@ Frissítsük a PhotosFeedScreen-ünket, hogy használja a fenti Composable-öket
 
 `PhotosFeedScreen.kt`:
 ```kotlin
-package hu.bme.aut.android.network.feature.photos_feed
+package hu.bme.aut.android.unsplash.ui.screen.photos_feed
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -1027,10 +1027,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.compose.collectAsLazyPagingItems
-import hu.bme.aut.android.network.feature.photos_feed.screensbysize.PhotosFeedScreen_Compact
-import hu.bme.aut.android.network.feature.photos_feed.screensbysize.PhotosFeedScreen_Expanded
-import hu.bme.aut.android.network.feature.photos_feed.screensbysize.PhotosFeedScreen_Medium
-import hu.bme.aut.android.network.util.WindowSize
+import hu.bme.aut.android.unsplash.ui.screen.photos_feed.screensbysize.PhotosFeedScreen_Compact
+import hu.bme.aut.android.unsplash.ui.screen.photos_feed.screensbysize.PhotosFeedScreen_Expanded
+import hu.bme.aut.android.unsplash.ui.screen.photos_feed.screensbysize.PhotosFeedScreen_Medium
+import hu.bme.aut.android.unsplash.util.WindowSize
 
 @ExperimentalMaterial3Api
 @ExperimentalMaterialApi
@@ -1100,7 +1100,7 @@ fun PhotosFeedScreen(
 Frissítsük az AppNavigation-t, hogy megkapjon egy WindowSize típusú objektumot és átadja a PhotosFeedScreen-nek:
 `AppNavigation.kt`:
 ```kotlin
-package hu.bme.aut.android.network.navigation
+package hu.bme.aut.android.unsplash.ui.navigation
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -1110,9 +1110,9 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import androidx.paging.ExperimentalPagingApi
-import hu.bme.aut.android.network.feature.loaded_photo.LoadedPhotoScreen
-import hu.bme.aut.android.network.feature.photos_feed.PhotosFeedScreen
-import hu.bme.aut.android.network.util.WindowSize
+import hu.bme.aut.android.unsplash.ui.screen.loaded_photo.LoadedPhotoScreen
+import hu.bme.aut.android.unsplash.ui.screen.photos_feed.PhotosFeedScreen
+import hu.bme.aut.android.unsplash.util.WindowSize
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class,
     ExperimentalPagingApi::class
@@ -1163,7 +1163,7 @@ Majd az Activity-t is állítsuk be a különböző képernyőméretek használa
 
 `MainActivity.kt`:
 ```kotlin
-package hu.bme.aut.android.network
+package hu.bme.aut.android.unsplash
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -1177,9 +1177,9 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.paging.ExperimentalPagingApi
-import hu.bme.aut.android.network.navigation.AppNavigation
-import hu.bme.aut.android.network.ui.theme.UnsplashTheme
-import hu.bme.aut.android.network.util.WindowSize
+import hu.bme.aut.android.unsplash.ui.navigation.AppNavigation
+import hu.bme.aut.android.unsplash.ui.theme.UnsplashTheme
+import hu.bme.aut.android.unsplash.util.WindowSize
 
 
 class MainActivity : ComponentActivity() {

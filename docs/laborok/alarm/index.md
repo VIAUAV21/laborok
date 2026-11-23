@@ -19,14 +19,13 @@ A feladatok megoldása során ne felejtsd el követni a [feladat beadás folyama
 
 1. Moodle-ben keresd meg a laborhoz tartozó meghívó URL-jét és annak segítségével hozd létre a saját repository-dat.
 
-2. Várd meg, míg elkészül a repository, majd checkout-old ki.
+1. Várd meg, míg elkészül a repository, majd checkout-old ki.
 
     !!! tip ""
         Egyetemi laborokban, ha a checkout során nem kér a rendszer felhasználónevet és jelszót, és nem sikerül a checkout, akkor valószínűleg a gépen korábban megjegyzett felhasználónévvel próbálkozott a rendszer. Először töröld ki a mentett belépési adatokat (lásd [itt](../../tudnivalok/github/GitHub-credentials.md)), és próbáld újra.
 
-3. Hozz létre egy új ágat `megoldas` néven, és ezen az ágon dolgozz.
+1. Hozz létre egy új ágat `megoldas` néven, és ezen az ágon dolgozz.
 
-4. A `neptun.txt` fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.
 
 ## A projekt megnyitása
 
@@ -34,11 +33,16 @@ Nyissuk meg a template-ben levő projektet, és a laborvezetővel tekintsük át
 a UI építőelemei és a `drawable` erőforrások már megtalálhatók. Ezekhez fogjuk elkészíteni az időzítő
 üzleti logikáját, amit összekötünk az előkészített felhasználói felülettel. Tekintsük át a függőségeket is.
 
-## A doménmodellek elkészítése
+## A domain modellek elkészítése
 
 Először néhány olyan osztályt készítünk, amelyekkel az alkalmazás aktuális állapota, illetve az állapotváltozást előidéző események reprezentálhatók. Ehhez készítsünk egy `util` package-et. Ebbe hozzuk létre az alábbi osztályt:
 
 ```kotlin
+package hu.bme.aut.android.alarm.util
+
+import android.content.Context
+import kotlin.time.Duration
+
 sealed class AlarmEvent {
     data class SetAlarmDuration(val duration: Duration): AlarmEvent()
     data class SetAlarm(val context: Context): AlarmEvent()
@@ -53,6 +57,11 @@ Az osztály tartalma könnyen megérthető, az egyes felhasználói interakciók
 Most hozzuk létre az alábbi osztályokat egy fájlban:
 
 ```kotlin
+package hu.bme.aut.android.alarm.util
+
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlin.time.Duration
+
 enum class AlarmServiceState {
     IDLE, SET, PAUSE, CANCELED
 }
@@ -79,12 +88,24 @@ data class AlarmState(
 
 Az `AlarmServiceState` lehetséges értékei írják le, hogy az időzítő épp várakozik, fut, pauzált vagy leállított. Az `AlarmState` ezt az aktuális állapotot tárolja, és mellé még egységbe zárja, hogy mennyi az időzítő célideje, és mennyi telt el eddig.
 
-## A felhasználói felület és a doménmodell összekötése
+## A felhasználói felület és a domain modell összekötése
 
 A felhasználói felületünk a template-ben már rendelkezésre áll, de a viewmodelleket még el kell készítenünk, hogy
-az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A `ui.screen.alarm` package-be hozzuk létre a ViewModelünket:
+az imént létrehozott domain modellel a UI-t össze tudjuk kapcsolni. A `ui.screen.alarm` package-be hozzuk létre a ViewModelünket:
 
 ```kotlin
+package hu.bme.aut.android.alarm.ui.screen.alarm
+
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import hu.bme.aut.android.alarm.util.AlarmEvent
+import hu.bme.aut.android.alarm.util.AlarmServiceState
+import hu.bme.aut.android.alarm.util.AlarmState
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import javax.inject.Inject
+import kotlin.time.Duration
+
 @HiltViewModel
 class AlarmViewModel @Inject constructor(): ViewModel() {
 
@@ -145,6 +166,8 @@ Látható, hogy a ViewModel kezeli az eseményeket, és az alkalmazás állapot�
 Most ugyanebbe a package-ben hozzuk létre a teljes képernyőt is:
 
 ```kotlin
+package hu.bme.aut.android.alarm.ui.screen.alarm
+
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -288,6 +311,11 @@ fun AlarmScreen(
 Még létre kell hoznunk az `AlarmApplication` osztályt pusztán a Hilt inicializálásához:
 
 ```kotlin
+package hu.bme.aut.android.alarm
+
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
 @HiltAndroidApp
 class AlarmApplication : Application()
 ```
@@ -313,11 +341,28 @@ Bár még az alkalmazáslogikánk nem működik ténylegesen, vegyük fel ide a 
 <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 ```
 
-Android 14 (API level 34) óta az előtérben futó service-ek típusát is szükséges megadni a Manifestben az engedélynél/Service komponensnél, illetve a Service indításakor. Lásd: https://developer.android.com/develop/background-work/services/fg-service-types   
+Android 14 (API level 34) óta az előtérben futó service-ek típusát is szükséges megadni a Manifestben az engedélynél/Service komponensnél, illetve a Service indításakor. 
+
+Lásd: https://developer.android.com/develop/background-work/services/fg-service-types   
 
 Még a `MainActivity` elkészítése maradt hátra az alapvető feladatok közül. Ebben elkérjük az engedélyeket, és megjelenítjük a létrehozott képernyőt:
 
 ```kotlin
+package hu.bme.aut.android.alarm
+
+import android.Manifest
+import android.os.Build
+import android.os.Bundle
+import android.util.Log
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.ExperimentalAnimationApi
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import dagger.hilt.android.AndroidEntryPoint
+import hu.bme.aut.android.alarm.ui.screen.alarm.AlarmScreen
+import hu.bme.aut.android.alarm.ui.theme.AlarmTheme
+
 @ExperimentalPermissionsApi
 @ExperimentalAnimationApi
 @AndroidEntryPoint
@@ -352,8 +397,6 @@ class MainActivity : ComponentActivity() {
 }
 ```
 
-Ha a `POST_NOTIFICATIONS` konstansot nem találja a fordító, akkor az `import android.Manifest` sort vegyük fel a fájl elejére.
-
 Most már indítható az alkalmazás, és megjelenik a felhasználói felület, de még nem működik érdemi módon, hiszen a az üzleti logikát végző `Service` nincs kész.
 
 !!!example "BEADANDÓ (1 pont)" 
@@ -370,6 +413,10 @@ A `Service` komponensünk a fentiek alapján időzítést és értesítéseket i
 Az időzítést kiszervezzük egy segédosztályba, hogy a `Service` kódja átláthatóbb maradjon. Először egy `AlarmItem` osztályt készítünk, ez egy időzítendő eseményt jelöl, tulajdonképpen csak az időzítés idejét tartalmazza. Ezt egy új, `scheduler` nevű package-be tegyük:
 
 ```kotlin
+package hu.bme.aut.android.alarm.scheduler
+
+import java.time.LocalDateTime
+
 data class AlarmItem(
     val time: LocalDateTime
 )
@@ -378,6 +425,14 @@ data class AlarmItem(
 Szintén ebbe a package-be készítünk egy `AlarmReceiver` nevű `BroadcastReceivert`, ezt fogjuk beregisztrálni majd az időzítés leteltére, és az Android időzítő rendszere az idő leteltekor ennek fog értesítést küldeni. Ebben egy `Intent` segítségével a `Service` komponenst fogjuk meghívni, de mivel ez még nincs kész, így a kód jelenleg nem fordul le, majd a `Service` elkészültekor válik az egész működőképessé. Ezt az osztályt is a `scheduler` package-be tegyük:
 
 ```kotlin
+package hu.bme.aut.android.alarm.scheduler
+
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import hu.bme.aut.android.alarm.service.AlarmService
+import kotlin.jvm.java
+
 class AlarmReceiver: BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -398,6 +453,16 @@ Mivel a `BroadcastReceiver` is egy fő komponenstípus Androidon, ezért ezt a M
 És végül egy `AlarmScheduler` osztályt készítünk:
 
 ```kotlin
+package hu.bme.aut.android.alarm.scheduler
+
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import dagger.hilt.android.qualifiers.ApplicationContext
+import java.time.ZoneId
+import javax.inject.Inject
+
 class AlarmScheduler @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
@@ -440,6 +505,15 @@ Ebben az osztályban a rendszertől kérünk referenciát az `AlarmManagerre`, a
 Az értesítések küldését is kiszervezzük, hogy a `Service` osztályunk egyszerűbb legyen. Először is a `notification` package-et hozzuk létre, és ebben készítsük el a `NotificationHelper` osztályt:
 
 ```kotlin
+package hu.bme.aut.android.alarm.notification
+
+import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
+import androidx.core.app.NotificationCompat
+import javax.inject.Inject
+
 class NotificationHelper @Inject constructor(
     val notificationManager: NotificationManager,
     val notificationBuilder: NotificationCompat.Builder
@@ -511,6 +585,22 @@ Tekintsük át, hogyan épül fel ez az osztály!
 Látható, hogy a `NotificationManager` és a `NotificationBuilder` a `NotificationHelper` függőségei, amelyeket a konstruktoron keresztül kap meg a Dagger/Hilt segítségével. Viszont ehhez még konfiguráció szükséges, hogy ezek a komponensek valóban létrejöjjenek. Hozzuk létre a `notification.di` package-et, majd ebben az alábbi modult:
 
 ```kotlin
+package hu.bme.aut.android.alarm.notification.di
+
+import android.app.NotificationManager
+import android.content.Context
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.core.app.NotificationCompat
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ServiceComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.ServiceScoped
+import hu.bme.aut.android.alarm.R
+import hu.bme.aut.android.alarm.notification.NotificationHelper
+import hu.bme.aut.android.alarm.notification.NotificationHelper.Companion.NOTIFICATION_CHANNEL_ID
+
 @ExperimentalAnimationApi
 @Module
 @InstallIn(ServiceComponent::class)
@@ -559,9 +649,13 @@ object NotificationModule {
 Hozzunk létre egy `service` package-et, majd ebbe készítsük el az `AlarmService` osztályt:
 
 ```kotlin
+package hu.bme.aut.android.alarm.service
+
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.media.RingtoneManager
 import android.os.Build
@@ -866,7 +960,7 @@ class AlarmService : Service(), MediaPlayer.OnPreparedListener {
     override fun onPrepared(mediaPlayer: MediaPlayer) {
         mediaPlayer.start()
     }
-}
+}   
 ```
 
 Tekintsük át, hogyan is működik a fenti `Service`! Egy Android `Service` két módon működhet. Lehet "Started Service", ez azt jelenti, hogy indulás után a háttérben (Background Service) teszi a dolgát, amíg az alkalmazás valamilyen komponense látható, vagy akár akkor is működik, amikor az alkalmazás nem látható (Foreground Service), viszont ilyenkor egy értesítést kötelező megjelenítenie, hogy a felhasználó számára ne maradhasson észrevétlen (biztonsági okokból). Az `AlarmService` az alkalmazásunkban egy Foreground Service-ként működik, hogy az időzítő akkor se álljon le, ha az alkalmazás felülete már nincs előtérben. A `Service` másik lehetséges működési módja a "Bound Service". Ez azt jelenti, hogy más komponensek kapcsolódhatnak hozzá, és feladatokat végeztethetnek vele. Addig működik ilyen módon, amíg legalább egy kapcsolódó komponens van. Egy `Service` lehetne egyszerre "Started Service" és "Bound Service" is, de most utóbbi funkcionalitásra nincs szükség az alkalmazásban, mert "Started Service"-ként képes az állapotot frissíteni, aminek változása utána a felhasználói felületen is megjelenik.
@@ -893,6 +987,20 @@ Mivel a `Service` is egy fő komponenstípus Androidon, ezért ezt a Manifest f�
 Most már összeköthetők a `ViewModel` és a `Service` is az `AlarmViewModel` megfelelő kiegészítésével:
 
 ```kotlin
+package hu.bme.aut.android.alarm.ui.screen.alarm
+
+import android.content.Intent
+import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import hu.bme.aut.android.alarm.service.AlarmService
+import hu.bme.aut.android.alarm.util.AlarmEvent
+import hu.bme.aut.android.alarm.util.AlarmServiceState
+import hu.bme.aut.android.alarm.util.AlarmState
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import javax.inject.Inject
+import kotlin.time.Duration
+
 @HiltViewModel
 class AlarmViewModel @Inject constructor(): ViewModel() {
 

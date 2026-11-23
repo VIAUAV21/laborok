@@ -799,18 +799,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#a-domenmodellek-elkeszitese" class="md-nav__link">
+  <a href="#a-domain-modellek-elkeszitese" class="md-nav__link">
     <span class="md-ellipsis">
-      A doménmodellek elkészítése
+      A domain modellek elkészítése
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#a-felhasznaloi-felulet-es-a-domenmodell-osszekotese" class="md-nav__link">
+  <a href="#a-felhasznaloi-felulet-es-a-domain-modell-osszekotese" class="md-nav__link">
     <span class="md-ellipsis">
-      A felhasználói felület és a doménmodell összekötése
+      A felhasználói felület és a domain modell összekötése
     </span>
   </a>
   
@@ -1045,18 +1045,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#a-domenmodellek-elkeszitese" class="md-nav__link">
+  <a href="#a-domain-modellek-elkeszitese" class="md-nav__link">
     <span class="md-ellipsis">
-      A doménmodellek elkészítése
+      A domain modellek elkészítése
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#a-felhasznaloi-felulet-es-a-domenmodell-osszekotese" class="md-nav__link">
+  <a href="#a-felhasznaloi-felulet-es-a-domain-modell-osszekotese" class="md-nav__link">
     <span class="md-ellipsis">
-      A felhasználói felület és a doménmodell összekötése
+      A felhasználói felület és a domain modell összekötése
     </span>
   </a>
   
@@ -1141,17 +1141,19 @@
 <li>
 <p>Hozz létre egy új ágat <code>megoldas</code> néven, és ezen az ágon dolgozz.</p>
 </li>
-<li>
-<p>A <code>neptun.txt</code> fájlba írd bele a Neptun kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun kód 6 karaktere.</p>
-</li>
 </ol>
 <h2 id="a-projekt-megnyitasa">A projekt megnyitása<a class="headerlink" href="#a-projekt-megnyitasa" title="Permanent link">¶</a></h2>
 <p>Nyissuk meg a template-ben levő projektet, és a laborvezetővel tekintsük át a tartalmát. A projektben
 a UI építőelemei és a <code>drawable</code> erőforrások már megtalálhatók. Ezekhez fogjuk elkészíteni az időzítő
 üzleti logikáját, amit összekötünk az előkészített felhasználói felülettel. Tekintsük át a függőségeket is.</p>
-<h2 id="a-domenmodellek-elkeszitese">A doménmodellek elkészítése<a class="headerlink" href="#a-domenmodellek-elkeszitese" title="Permanent link">¶</a></h2>
+<h2 id="a-domain-modellek-elkeszitese">A domain modellek elkészítése<a class="headerlink" href="#a-domain-modellek-elkeszitese" title="Permanent link">¶</a></h2>
 <p>Először néhány olyan osztályt készítünk, amelyekkel az alkalmazás aktuális állapota, illetve az állapotváltozást előidéző események reprezentálhatók. Ehhez készítsünk egy <code>util</code> package-et. Ebbe hozzuk létre az alábbi osztályt:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">AlarmEvent</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.util</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.content.Context</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlin.time.Duration</span>
+
+<span class="kd">sealed</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">AlarmEvent</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">SetAlarmDuration</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">duration</span><span class="p">:</span><span class="w"> </span><span class="n">Duration</span><span class="p">):</span><span class="w"> </span><span class="n">AlarmEvent</span><span class="p">()</span>
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">SetAlarm</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">context</span><span class="p">:</span><span class="w"> </span><span class="n">Context</span><span class="p">):</span><span class="w"> </span><span class="n">AlarmEvent</span><span class="p">()</span>
 <span class="w">    </span><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">PauseAlarm</span><span class="p">(</span><span class="kd">val</span><span class="w"> </span><span class="nv">context</span><span class="p">:</span><span class="w"> </span><span class="n">Context</span><span class="p">):</span><span class="w"> </span><span class="n">AlarmEvent</span><span class="p">()</span>
@@ -1161,7 +1163,12 @@ a UI építőelemei és a <code>drawable</code> erőforrások már megtalálhat�
 </code></pre></div>
 <p>Az osztály tartalma könnyen megérthető, az egyes felhasználói interakciókat mint lehetséges eseményeket jelképezi.</p>
 <p>Most hozzuk létre az alábbi osztályokat egy fájlban:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">AlarmServiceState</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.util</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.MutableStateFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlin.time.Duration</span>
+
+<span class="kd">enum</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">AlarmServiceState</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">IDLE</span><span class="p">,</span><span class="w"> </span><span class="n">SET</span><span class="p">,</span><span class="w"> </span><span class="n">PAUSE</span><span class="p">,</span><span class="w"> </span><span class="n">CANCELED</span>
 <span class="p">}</span>
 
@@ -1185,10 +1192,22 @@ a UI építőelemei és a <code>drawable</code> erőforrások már megtalálhat�
 <span class="p">}</span>
 </code></pre></div>
 <p>Az <code>AlarmServiceState</code> lehetséges értékei írják le, hogy az időzítő épp várakozik, fut, pauzált vagy leállított. Az <code>AlarmState</code> ezt az aktuális állapotot tárolja, és mellé még egységbe zárja, hogy mennyi az időzítő célideje, és mennyi telt el eddig.</p>
-<h2 id="a-felhasznaloi-felulet-es-a-domenmodell-osszekotese">A felhasználói felület és a doménmodell összekötése<a class="headerlink" href="#a-felhasznaloi-felulet-es-a-domenmodell-osszekotese" title="Permanent link">¶</a></h2>
+<h2 id="a-felhasznaloi-felulet-es-a-domain-modell-osszekotese">A felhasználói felület és a domain modell összekötése<a class="headerlink" href="#a-felhasznaloi-felulet-es-a-domain-modell-osszekotese" title="Permanent link">¶</a></h2>
 <p>A felhasználói felületünk a template-ben már rendelkezésre áll, de a viewmodelleket még el kell készítenünk, hogy
-az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui.screen.alarm</code> package-be hozzuk létre a ViewModelünket:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
+az imént létrehozott domain modellel a UI-t össze tudjuk kapcsolni. A <code>ui.screen.alarm</code> package-be hozzuk létre a ViewModelünket:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.ui.screen.alarm</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.ViewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.android.lifecycle.HiltViewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.util.AlarmEvent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.util.AlarmServiceState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.util.AlarmState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.asStateFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.update</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">javax.inject.Inject</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlin.time.Duration</span>
+
+<span class="nd">@HiltViewModel</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">AlarmViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">():</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AlarmState</span><span class="p">.</span><span class="na">state</span>
@@ -1244,7 +1263,9 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 </code></pre></div>
 <p>Látható, hogy a ViewModel kezeli az eseményeket, és az alkalmazás állapotát ennek megfelelően frissíti, azonban a háttérben futó, tényleges időzítést végző <code>AlarmService</code> még nincs kész, így annak hívásai ide nincsenek bekötve.</p>
 <p>Most ugyanebbe a package-ben hozzuk létre a teljes képernyőt is:</p>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.animation.ExperimentalAnimationApi</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.ui.screen.alarm</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.animation.ExperimentalAnimationApi</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.background</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Arrangement</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.foundation.layout.Box</span>
@@ -1384,7 +1405,12 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <span class="p">}</span>
 </code></pre></div>
 <p>Még létre kell hoznunk az <code>AlarmApplication</code> osztályt pusztán a Hilt inicializálásához:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@HiltAndroidApp</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.app.Application</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.android.HiltAndroidApp</span>
+
+<span class="nd">@HiltAndroidApp</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">AlarmApplication</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span><span class="p">()</span>
 </code></pre></div>
 <p>És az osztályt regisztráljuk is be a Manifest fájlban:</p>
@@ -1402,9 +1428,25 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">"android.permission.SCHEDULE_EXACT_ALARM"</span><span class="w"> </span><span class="nt">/&gt;</span>
 <span class="nt">&lt;uses-permission</span><span class="w"> </span><span class="na">android:name=</span><span class="s">"android.permission.USE_EXACT_ALARM"</span><span class="w"> </span><span class="nt">/&gt;</span>
 </code></pre></div>
-<p>Android 14 (API level 34) óta az előtérben futó service-ek típusát is szükséges megadni a Manifestben az engedélynél/Service komponensnél, illetve a Service indításakor. Lásd: <a href="https://developer.android.com/develop/background-work/services/fg-service-types">https://developer.android.com/develop/background-work/services/fg-service-types</a>   </p>
+<p>Android 14 (API level 34) óta az előtérben futó service-ek típusát is szükséges megadni a Manifestben az engedélynél/Service komponensnél, illetve a Service indításakor. </p>
+<p>Lásd: <a href="https://developer.android.com/develop/background-work/services/fg-service-types">https://developer.android.com/develop/background-work/services/fg-service-types</a>   </p>
 <p>Még a <code>MainActivity</code> elkészítése maradt hátra az alapvető feladatok közül. Ebben elkérjük az engedélyeket, és megjelenítjük a létrehozott képernyőt:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalPermissionsApi</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.Manifest</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.os.Build</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.os.Bundle</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.util.Log</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.ComponentActivity</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.compose.setContent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.activity.result.contract.ActivityResultContracts</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.animation.ExperimentalAnimationApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.google.accompanist.permissions.ExperimentalPermissionsApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.android.AndroidEntryPoint</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.ui.screen.alarm.AlarmScreen</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.ui.theme.AlarmTheme</span>
+
+<span class="nd">@ExperimentalPermissionsApi</span>
 <span class="nd">@ExperimentalAnimationApi</span>
 <span class="nd">@AndroidEntryPoint</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">MainActivity</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ComponentActivity</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -1437,7 +1479,6 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <span class="w">    </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Ha a <code>POST_NOTIFICATIONS</code> konstansot nem találja a fordító, akkor az <code>import android.Manifest</code> sort vegyük fel a fájl elejére.</p>
 <p>Most már indítható az alkalmazás, és megjelenik a felhasználói felület, de még nem működik érdemi módon, hiszen a az üzleti logikát végző <code>Service</code> nincs kész.</p>
 <div class="admonition example">
 <p class="admonition-title">BEADANDÓ (1 pont)</p>
@@ -1448,12 +1489,24 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <h2 id="az-idozites-elkeszitese">Az időzítés elkészítése<a class="headerlink" href="#az-idozites-elkeszitese" title="Permanent link">¶</a></h2>
 <p>A <code>Service</code> komponensünk a fentiek alapján időzítést és értesítéseket is fog használni, ezért először ezekhez készítünk némi segédlogikát, hogy a <code>Service</code> utána könnyebben elkészíthető legyen. </p>
 <p>Az időzítést kiszervezzük egy segédosztályba, hogy a <code>Service</code> kódja átláthatóbb maradjon. Először egy <code>AlarmItem</code> osztályt készítünk, ez egy időzítendő eseményt jelöl, tulajdonképpen csak az időzítés idejét tartalmazza. Ezt egy új, <code>scheduler</code> nevű package-be tegyük:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">AlarmItem</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.scheduler</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">java.time.LocalDateTime</span>
+
+<span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">AlarmItem</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">time</span><span class="p">:</span><span class="w"> </span><span class="n">LocalDateTime</span>
 <span class="p">)</span>
 </code></pre></div>
 <p>Szintén ebbe a package-be készítünk egy <code>AlarmReceiver</code> nevű <code>BroadcastReceivert</code>, ezt fogjuk beregisztrálni majd az időzítés leteltére, és az Android időzítő rendszere az idő leteltekor ennek fog értesítést küldeni. Ebben egy <code>Intent</code> segítségével a <code>Service</code> komponenst fogjuk meghívni, de mivel ez még nincs kész, így a kód jelenleg nem fordul le, majd a <code>Service</code> elkészültekor válik az egész működőképessé. Ezt az osztályt is a <code>scheduler</code> package-be tegyük:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">AlarmReceiver</span><span class="p">:</span><span class="w"> </span><span class="n">BroadcastReceiver</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.scheduler</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.content.BroadcastReceiver</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.content.Context</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.content.Intent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.service.AlarmService</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlin.jvm.java</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">AlarmReceiver</span><span class="p">:</span><span class="w"> </span><span class="n">BroadcastReceiver</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onReceive</span><span class="p">(</span><span class="n">context</span><span class="p">:</span><span class="w"> </span><span class="n">Context?,</span><span class="w"> </span><span class="n">intent</span><span class="p">:</span><span class="w"> </span><span class="n">Intent?)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">Intent</span><span class="p">(</span><span class="n">context</span><span class="p">,</span><span class="w"> </span><span class="n">AlarmService</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">).</span><span class="na">apply</span><span class="w"> </span><span class="p">{</span>
@@ -1467,7 +1520,17 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <div class="highlight"><pre><span></span><code><span class="nt">&lt;receiver</span><span class="w"> </span><span class="na">android:name=</span><span class="s">".scheduler.AlarmReceiver"</span><span class="w"> </span><span class="nt">/&gt;</span>
 </code></pre></div>
 <p>És végül egy <code>AlarmScheduler</code> osztályt készítünk:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">AlarmScheduler</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.scheduler</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.app.AlarmManager</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.app.PendingIntent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.content.Context</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.content.Intent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.android.qualifiers.ApplicationContext</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">java.time.ZoneId</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">javax.inject.Inject</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">AlarmScheduler</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
 <span class="w">    </span><span class="nd">@ApplicationContext</span><span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">context</span><span class="p">:</span><span class="w"> </span><span class="n">Context</span><span class="p">,</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">alarmManager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">context</span><span class="p">.</span><span class="na">getSystemService</span><span class="p">(</span><span class="n">AlarmManager</span><span class="o">::</span><span class="n">class</span><span class="p">.</span><span class="na">java</span><span class="p">)</span>
@@ -1504,7 +1567,16 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <p>Ebben az osztályban a rendszertől kérünk referenciát az <code>AlarmManagerre</code>, amelynek segítségével a rendszerben levő időzítő szolgáltatások elérhetőek. Az osztály két metódust definiál, az egyikkel eseményt időzíthetünk, a másikkal pedig meglévő időzítést törölhetünk.</p>
 <h2 id="az-ertesitesek-kuldese">Az értesítések küldése<a class="headerlink" href="#az-ertesitesek-kuldese" title="Permanent link">¶</a></h2>
 <p>Az értesítések küldését is kiszervezzük, hogy a <code>Service</code> osztályunk egyszerűbb legyen. Először is a <code>notification</code> package-et hozzuk létre, és ebben készítsük el a <code>NotificationHelper</code> osztályt:</p>
-<div class="highlight"><pre><span></span><code><span class="kd">class</span><span class="w"> </span><span class="nc">NotificationHelper</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.notification</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.annotation.SuppressLint</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.app.NotificationChannel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.app.NotificationManager</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.os.Build</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.core.app.NotificationCompat</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">javax.inject.Inject</span>
+
+<span class="kd">class</span><span class="w"> </span><span class="nc">NotificationHelper</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">(</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">notificationManager</span><span class="p">:</span><span class="w"> </span><span class="n">NotificationManager</span><span class="p">,</span>
 <span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">notificationBuilder</span><span class="p">:</span><span class="w"> </span><span class="n">NotificationCompat</span><span class="p">.</span><span class="na">Builder</span>
 <span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1574,7 +1646,23 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <p>A képernyőkép szükséges feltétele a pontszám megszerzésének.</p>
 </div>
 <p>Látható, hogy a <code>NotificationManager</code> és a <code>NotificationBuilder</code> a <code>NotificationHelper</code> függőségei, amelyeket a konstruktoron keresztül kap meg a Dagger/Hilt segítségével. Viszont ehhez még konfiguráció szükséges, hogy ezek a komponensek valóban létrejöjjenek. Hozzuk létre a <code>notification.di</code> package-et, majd ebben az alábbi modult:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@ExperimentalAnimationApi</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.notification.di</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.app.NotificationManager</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.content.Context</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.compose.animation.ExperimentalAnimationApi</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.core.app.NotificationCompat</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.Module</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.Provides</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.InstallIn</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.android.components.ServiceComponent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.android.qualifiers.ApplicationContext</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.android.scopes.ServiceScoped</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.R</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.notification.NotificationHelper</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.notification.NotificationHelper.Companion.NOTIFICATION_CHANNEL_ID</span>
+
+<span class="nd">@ExperimentalAnimationApi</span>
 <span class="nd">@Module</span>
 <span class="nd">@InstallIn</span><span class="p">(</span><span class="n">ServiceComponent</span><span class="o">::</span><span class="n">class</span><span class="p">)</span>
 <span class="kd">object</span><span class="w"> </span><span class="nc">NotificationModule</span><span class="w"> </span><span class="p">{</span>
@@ -1617,9 +1705,13 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 </div>
 <h2 id="a-service-elkeszitese">A Service elkészítése<a class="headerlink" href="#a-service-elkeszitese" title="Permanent link">¶</a></h2>
 <p>Hozzunk létre egy <code>service</code> package-et, majd ebbe készítsük el az <code>AlarmService</code> osztályt:</p>
-<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nn">android.app.PendingIntent</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.service</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.app.PendingIntent</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">android.app.Service</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">android.content.Intent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">android.media.AudioAttributes</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">android.media.MediaPlayer</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">android.media.RingtoneManager</span>
 <span class="k">import</span><span class="w"> </span><span class="nn">android.os.Build</span>
@@ -1924,7 +2016,7 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <span class="w">    </span><span class="kd">override</span><span class="w"> </span><span class="kd">fun</span><span class="w"> </span><span class="nf">onPrepared</span><span class="p">(</span><span class="n">mediaPlayer</span><span class="p">:</span><span class="w"> </span><span class="n">MediaPlayer</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="n">mediaPlayer</span><span class="p">.</span><span class="na">start</span><span class="p">()</span>
 <span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w">   </span>
 </code></pre></div>
 <p>Tekintsük át, hogyan is működik a fenti <code>Service</code>! Egy Android <code>Service</code> két módon működhet. Lehet "Started Service", ez azt jelenti, hogy indulás után a háttérben (Background Service) teszi a dolgát, amíg az alkalmazás valamilyen komponense látható, vagy akár akkor is működik, amikor az alkalmazás nem látható (Foreground Service), viszont ilyenkor egy értesítést kötelező megjelenítenie, hogy a felhasználó számára ne maradhasson észrevétlen (biztonsági okokból). Az <code>AlarmService</code> az alkalmazásunkban egy Foreground Service-ként működik, hogy az időzítő akkor se álljon le, ha az alkalmazás felülete már nincs előtérben. A <code>Service</code> másik lehetséges működési módja a "Bound Service". Ez azt jelenti, hogy más komponensek kapcsolódhatnak hozzá, és feladatokat végeztethetnek vele. Addig működik ilyen módon, amíg legalább egy kapcsolódó komponens van. Egy <code>Service</code> lehetne egyszerre "Started Service" és "Bound Service" is, de most utóbbi funkcionalitásra nincs szükség az alkalmazásban, mert "Started Service"-ként képes az állapotot frissíteni, aminek változása utána a felhasználói felületen is megjelenik.</p>
 <p>Nézzük át előbb az <code>AlarmService</code> segédmetódusait:</p>
@@ -1943,7 +2035,21 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
 <span class="w">    </span><span class="na">android:foregroundServiceType=</span><span class="s">"specialUse"</span><span class="w"> </span><span class="nt">/&gt;</span>
 </code></pre></div>
 <p>Most már összeköthetők a <code>ViewModel</code> és a <code>Service</code> is az <code>AlarmViewModel</code> megfelelő kiegészítésével:</p>
-<div class="highlight"><pre><span></span><code><span class="nd">@HiltViewModel</span>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.ui.screen.alarm</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">android.content.Intent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">androidx.lifecycle.ViewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">dagger.hilt.android.lifecycle.HiltViewModel</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.service.AlarmService</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.util.AlarmEvent</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.util.AlarmServiceState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">hu.bme.aut.android.alarm.util.AlarmState</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.asStateFlow</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlinx.coroutines.flow.update</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">javax.inject.Inject</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">kotlin.time.Duration</span>
+
+<span class="nd">@HiltViewModel</span>
 <span class="kd">class</span><span class="w"> </span><span class="nc">AlarmViewModel</span><span class="w"> </span><span class="nd">@Inject</span><span class="w"> </span><span class="k">constructor</span><span class="p">():</span><span class="w"> </span><span class="n">ViewModel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 
 <span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">_state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AlarmState</span><span class="p">.</span><span class="na">state</span>
@@ -2031,8 +2137,8 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
           </path>
         </svg>
       </span>
-      <span title="2025. november 22. 11:14:59">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2025. november 22. 11:14:59 CET"><span class="timeago" datetime="2025-11-22T11:14:59+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2025. november 22. 11:14:59 CET">2025-11-22</span>
+      <span title="2026. november 23. 19:40:21">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. november 23. 19:40:21 CET"><span class="timeago" datetime="2026-11-23T19:40:21+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. november 23. 19:40:21 CET">2026-11-23</span>
       </span>
     </span>
 
@@ -2046,7 +2152,9 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
         </svg>
       </span>
       <span>Szerzők</span>
-      <nav><a href="https://github.com/balazs003" target="_blank" rel="noopener noreferrer" class="md-author" title="@balazs003">
+      <nav><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
+          <img src="https://avatars.githubusercontent.com/u/23335752?v=4?size=72" alt="@gazdilaci">
+        </a><a href="https://github.com/balazs003" target="_blank" rel="noopener noreferrer" class="md-author" title="@balazs003">
           <img src="https://avatars.githubusercontent.com/u/144109760?v=4?size=72" alt="@balazs003">
         </a><a href="https://github.com/kpomazi" target="_blank" rel="noopener noreferrer" class="md-author" title="@kpomazi">
           <img src="https://avatars.githubusercontent.com/u/22079595?v=4?size=72" alt="@kpomazi">
@@ -2054,8 +2162,6 @@ az imént létrehozott doménmodellel a UI-t össze tudjuk kapcsolni. A <code>ui
           <img src="https://avatars.githubusercontent.com/u/19864447?v=4?size=72" alt="@web-flow">
         </a><a href="https://github.com/gaborbsd" target="_blank" rel="noopener noreferrer" class="md-author" title="@gaborbsd">
           <img src="https://avatars.githubusercontent.com/u/5345619?v=4?size=72" alt="@gaborbsd">
-        </a><a href="https://github.com/gazdilaci" target="_blank" rel="noopener noreferrer" class="md-author" title="@gazdilaci">
-          <img src="https://avatars.githubusercontent.com/u/23335752?v=4?size=72" alt="@gazdilaci">
         </a></nav>      
     </span>
   </div>
